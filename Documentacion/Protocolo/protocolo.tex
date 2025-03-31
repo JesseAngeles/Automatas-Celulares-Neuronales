@@ -1,0 +1,160 @@
+\documentclass[12pt,twoside]{article}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage[a4paper]{geometry}
+\usepackage{graphicx}      % Para incluir imágenes
+\usepackage{amsmath}       % Para el manejo de matemáticas
+\usepackage{amssymb}
+\usepackage{url}
+\usepackage{array}         % Para ajustar el texto en la celda
+\usepackage[table]{xcolor}
+\usepackage{hyperref}      % Para enlaces y referencias
+\usepackage{booktabs}
+% Título y autor
+\title{Simulación de sistemas complejos mediante autómatas celulares neuronales para la generación, persistencia, recuperación y propagación de información en espacios discretos bidimensionales}
+\author{Erick Jesse Angeles López}
+\date{}
+
+% Comando para palabras clave
+\newcommand{\keywords}[1]{%
+	\begin{center}
+		\textbf{Palabras clave:} #1
+	\end{center}
+}
+
+\renewcommand{\baselinestretch}{1}
+\setcounter{page}{1}
+\setlength{\textheight}{21.6cm}
+\setlength{\textwidth}{14cm}
+\setlength{\oddsidemargin}{1cm}
+\setlength{\evensidemargin}{1cm}
+\pagestyle{myheadings}
+\thispagestyle{empty}
+
+\begin{document}
+	
+	\maketitle
+	
+	\begin{abstract} 
+		Este trabajo terminal tiene como objetivo desarrollar un modelo de autómatas celulares neuronales (ACN) para simular sistemas complejos en espacios discretos. La idea es reemplazar las reglas fijas de los autómatas tradicionales por redes neuronales, lo que permite que el sistema se adapte dinámicamente y mejore la generación, persistencia, recuperación y propagación de información.
+	\end{abstract}
+	
+	\keywords{Autómatas celulares neuronales, Sistemas complejos, Simulación, Inteligencia Artificial}
+	
+	\section{Introducción}
+	
+	El concepto de autómata celular (AC) constituye un modelo matemático fundamental para el estudio de sistemas dinámicos complejos. Estos modelos se desarrollan en un espacio de celdas conectadas, en donde cada celda representa un estado discreto que se actualiza en pasos constantes según las celdas vecinas. Adicionalmente, se requiere de una función de transición que defina la evolución simultánea de las celdas \cite{wolframCA}. De esta forma, patrones globales emergen de interacciones locales.
+	
+	Entre los ejemplos clásicos se encuentra el \emph{Juego de la Vida} de John Conway o los 256 autómatas celulares elementales estudiados por Stephen Wolfram. Estas herramientas han sido aplicadas en contextos variados como la simulación de incendios, la modelización de distribuciones poblacionales y el análisis de ciclos climáticos \cite{darg}. Sin embargo, uno de los principales desafíos de estos modelos radica en la rigidez de sus reglas de transición, las cuales tiene que ser predefinidas y no pueden adaptarse a condiciones imprevistas o cambios en el entorno de simulación \cite{pre}.
+	
+	El presente proyecto propone superar estas limitaciones mediante la integración de redes neuronales en la definición de las reglas de transición, dando origen a lo que denominamos \emph{autómatas celulares neuronales} (ACN). En este enfoque, las reglas de actualización dejan de ser fijas y adquieren la capacidad de aprender y adaptarse a partir de datos, lo que permite al sistema ajustarse de manera dinámica a comportamientos complejos y a entornos variables \cite{redesNeuronales}. Esta aproximación no solo amplía el campo de aplicación de los autómatas celulares, sino que también abre nuevas oportunidades para modelar y simular fenómenos de forma más realista \cite{distill}.
+	
+	\section{Objetivo}
+	
+	Desarrollar un sistema de simulación basado en autómatas celulares neuronales en dos dimensiones, para analizar cómo se generan, mantienen, recuperan y propagan patrones de información en entornos complejos y dinámicos.
+	
+	\subsection{Objetivos Específicos}
+	
+	\begin{itemize}
+		\item Diseñar e implementar un simulador de espacios discretos bidimensionales que sirva de plataforma para estudiar autómatas celulares.
+		\item Integrar redes neuronales en el simulador para definir de forma dinámica las reglas de transición.
+		\item Entrenar y evaluar el desempeño de los ACN usando técnicas que permitan generar patrones complejos y resistentes a perturbaciones.
+		\item Analizar y comparar diferentes comportamientos emergentes según la configuración de la red neuronal, identificando condiciones que favorezcan la generación, persistencia y recuperación de información.
+	\end{itemize}
+	
+	\section{Justificación}
+	
+	La simulación de sistemas complejos ha sido abordada mediante autómatas celulares debido a su simplicidad y capacidad para generar comportamientos emergentes. Sin embargo, el diseño de dichos autómatas requiere establecer reglas de transición fijas que pueden limitar la precisión y la adaptabilidad de los modelos antes escenarios que requieran dinamismo. Es fortuito conocer el problema que resuelven algunos de los autómatas celulares mas conocidos, sin embargo, bajo la definición matemática es posible definir una infinidad de autómatas celulares sin objetivo aparente. Con el fin de superar estas restricciones y producir autómatas celulares cuyo objetivo sea conocido, se propone la integración de redes neuronales en la definición de las reglas de transición.
+	
+	La principal innovación de este enfoque reside en reemplazar las funciones de actualización estáticas por modelos  ajustables. Mediante técnicas de aprendizaje automático, la función de transición puede entrenarse con datos representativos, permitiendo que el sistema se adapte de manera autónoma a los cambios en el entorno \cite{distill}. 
+	
+	Esto permite que la función de transición se ajuste continuamente a partir de la retroalimentación proveniente del sistema, facilitando la simulación de comportamientos autoorganizados. Ademas, al aprender de datos reales o simulados, el modelo puede reproducir con mayor precisión patrones complejos observados en fenómenos naturales, sociales y tecnológicos. 
+	
+	Esta propuesta tiene aplicaciones en áreas como:
+	\begin{itemize}
+		\item \textbf{Biología y Medicina:} Para modelar procesos de regeneración de tejidos, desarrollo embrionario y autoorganización celular.
+		\item \textbf{Sistemas Distribuidos y Redes de Información:} Para simular la propagación y recuperación de datos en entornos con alta variabilidad.
+		\item \textbf{Ingeniería de Materiales y Optimización:} En el estudio del crecimiento y autoorganización en procesos de fabricación y diseño de nuevos materiales.
+	\end{itemize}
+	
+	Además, este proyecto permitirá profundizar en técnicas de simulación, modelado matemático y redes neuronales, integrando conocimientos de ciencias de la computación y matemáticas. 
+	
+	La experiencia adquirida en el desarrollo e implementación de estos modelos abrirá puertas a futuras investigaciones y proyectos en el campo de la inteligencia artificial. Asimismo, la creación de un entorno de código abierto contribuirá al avance del estado del arte y facilitará que otros investigadores puedan extender y aplicar estos conceptos.
+	
+	\section{Productos o Resultados Esperados}
+	
+	Como resultado de este trabajo terminal se espera obtener:
+	\begin{itemize}
+		\item \textbf{Aplicaciones de simulación desarrolladas en Wolfram Mathematica y Python:}  
+		Se crearán herramientas interactivas que permitan visualizar y analizar la evolución de los autómatas celulares neuronales en espacios bidimensionales. Estas aplicaciones contarán con interfaces gráficas, módulos de simulación y ejemplos prácticos, junto con el código fuente documentado para facilitar su replicación y extensión.
+		\item \textbf{Documentación Técnica del Sistema:}  
+		Se elaborará una documentación completa que incluya:
+		\begin{itemize}
+			\item La arquitectura general y el diseño del sistema.
+			\item Detalles de la implementación de los autómatas y la integración de las redes neuronales.
+			\item Procedimientos de entrenamiento, métodos de validación y métricas de desempeño.
+			\item Guías de instalación, uso y mantenimiento de las aplicaciones.
+		\end{itemize}
+		\item \textbf{Artículo Académico:}  
+		Se redactará un artículo en el que se describa la implementación de los autómatas celulares neuronales, abarcando:
+		\begin{itemize}
+			\item La metodología de integración de redes neuronales en la función de transición.
+			\item Algoritmos, arquitecturas y técnicas de entrenamiento utilizadas.
+			\item Un análisis comparativo con métodos tradicionales, destacando las mejoras en adaptabilidad, robustez y eficiencia.
+			\item Resultados experimentales, visualizaciones y discusión sobre la capacidad del modelo para reproducir patrones complejos.
+		\end{itemize}
+	\end{itemize}
+	
+	\section{Metodología}
+	
+	Para desarrollar este proyecto se seguirá un enfoque iterativo e incremental, que permite avanzar paso a paso y ajustar el modelo según se vayan obteniendo resultados. La metodología se divide en las siguientes fases:
+	
+	\begin{enumerate}
+		\item \textbf{Planificación y Revisión Bibliográfica:} \\
+		Definir el protocolo de investigación, revisar la literatura sobre autómatas celulares y redes neuronales, y estudiar investigaciones previas que hayan integrado ambos enfoques.
+		
+		\item \textbf{Diseño del Modelo:} \\
+		Establecer la estructura del espacio discreto bidimensional y definir la arquitectura del autómata. Diseñar la red neuronal que se utilizará para actualizar las reglas de transición, y definir parámetros clave como el vecindario, número de estados y número de iteraciones.
+		
+		\item \textbf{Implementación:} \\
+		Desarrollar el simulador e integrar la red neuronal en el modelo del autómata y desarrollar módulos para la visualización y el análisis de resultados.
+		
+		\item \textbf{Entrenamiento y Validación:} \\
+		Entrenar y comparar los resultados de diferentes automatas celulares neuronales. Realizar experimentos para evaluar la capacidad del modelo de generar, mantener y recuperar información.
+		
+		\item \textbf{Documentación y Difusión:} \\
+		Elaborar la documentación técnica y el manual de usuario del sistema, preparar el reporte final.. Además, se compartirá el código como proyecto de código abierto para facilitar futuras investigaciones.
+	\end{enumerate}
+	
+	\section{Cronograma}
+	
+	\resizebox{\linewidth}{!}{%
+		\begin{tabular}{p{5cm}*{11}{>{\centering\arraybackslash}p{1cm}}}
+			\toprule
+			\textbf{Actividad} & \textbf{AGO} & \textbf{SEP} & \textbf{OCT} & \textbf{NOV} & \textbf{DIC} & \textbf{ENE} & \textbf{FEB} & \textbf{MAR} & \textbf{ABR} & \textbf{MAY} & \textbf{JUN} \\
+			\midrule
+			\multicolumn{12}{l}{\textbf{Fase 1: Planificación y Revisión Bibliográfica}} \\
+			Definir el protocolo y objetivos  & \cellcolor{blue!30} & \cellcolor{blue!30} &  &  &  &  &  &  &  &  &  \\
+			Revisión del estado del arte       & \cellcolor{blue!30} & \cellcolor{blue!30} & \cellcolor{blue!30} &  &  &  &  &  &  &  &  \\
+			Definir metodología y marco teórico  &  & \cellcolor{blue!30} & \cellcolor{blue!30} &  &  &  &  &  &  &  &  \\
+			\midrule
+			\multicolumn{12}{l}{\textbf{Fase 2: Diseño y Desarrollo del Simulador}} \\
+			Diseño de la arquitectura del simulador &  &  & \cellcolor{blue!30} & \cellcolor{blue!30} &  &  &  &  &  &  &  \\
+			Desarrollo del simulador  &  &  &  & \cellcolor{blue!30} & \cellcolor{blue!30} &  &  &  &  &  &  \\
+			Integración de autómatas celulares   &  &  &  &  & \cellcolor{blue!30} & \cellcolor{blue!30} &  &  &  &  &  \\
+			\midrule
+			\multicolumn{12}{l}{\textbf{Fase 3: Entrenamiento y Validación de redes}} \\
+			Entrenamiento y ajuste de la red  &  &  &  &  &  & \cellcolor{blue!30} & \cellcolor{blue!30} &  &  &  &  \\
+			Experimentación y análisis de resultados  &  &  &  &  &  & \cellcolor{blue!30}  & \cellcolor{blue!30} & \cellcolor{blue!30} & \cellcolor{blue!30} &  &  \\
+			Comparación de múltiples modelos  &  &  &  &  &  & \cellcolor{blue!30} & \cellcolor{blue!30} & \cellcolor{blue!30} & \cellcolor{blue!30} &  &  \\
+			\midrule
+			\multicolumn{12}{l}{\textbf{Fase 4: Documentación y Difusión}} \\
+			Elaboración de la documentación técnica  &  &  &  &  &  &  &  &  & \cellcolor{blue!30} & \cellcolor{blue!30} &  \\
+			Redacción del artículo académico y presentación final  &  &  &  &  &  &  &  &  &  & \cellcolor{blue!30} & \cellcolor{blue!30} \\
+			\bottomrule
+		\end{tabular}
+	}
+	\addcontentsline{toc}{section}{Referencias}
+	\bibliographystyle{IEEEtran}
+	\bibliography{referencias}
+	
+\end{document}
