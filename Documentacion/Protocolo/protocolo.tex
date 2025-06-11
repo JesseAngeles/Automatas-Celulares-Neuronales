@@ -9,6 +9,7 @@
 \usepackage{graphicx}
 \usepackage{titlesec}
 \usepackage{multicol}
+\usepackage{float}
 
 \titleformat{\section}
 {\normalfont\fontsize{12pt}{14pt}\bfseries} % Fuente normal, tamaño 12pt, interlineado 14pt, en negrita
@@ -48,6 +49,7 @@
 	
 	El presente proyecto de investigación propone superar las limitaciones de los autómatas celulares mediante la integración de redes neuronales en la definición de las reglas de transición, dando origen a los \textit{autómatas celulares neuronales}. En este enfoque, las reglas de actualización dejan de ser fijas y adquieren la capacidad de aprender y adaptarse a partir de los datos, lo que permite que el sistema se ajuste de forma dinámica ante comportamientos complejos y entornos variables \cite{redesNeuronales, distill}. Esta aproximación no solo busca ampliar el campo de aplicación de los autómatas celulares, sino que también busca abrir nuevas oportunidades para modelar y simular fenómenos de formas realistas.  \\
 	
+	Para este trabajo, se busca explorar el comportamiento de autómatas celulares neuronales  en un espacio euclidiano bidimensional, discreto y finito, utilizando un conjunto cerrado de estados y kernels definidos, con el fin de analizar su dinámica, estabilidad, capacidad de generación de patrones y posibles aplicaciones. 
 
 	\section{Objetivo}
 	
@@ -77,15 +79,22 @@
 	
 	Como resultado de este trabajo terminal se espera obtener:
 	\begin{itemize}
-		\item \textbf{Aplicaciones de simulación desarrolladas en Wolfram Mathematica y Python:}  
-		Se crearán herramientas interactivas que permitan visualizar y analizar la evolución de los autómatas celulares neuronales en espacios bidimensionales. Estas aplicaciones contarán con interfaces gráficas, módulos de simulación y ejemplos prácticos, junto con el código fuente documentado para facilitar su replicación y extensión.
+		\item \textbf{Aplicación de simulación desarrollada en Wolfram Mathematica y Python:}  
+		Se creará una herramienta interactiva que permita visualizar y analizar la evolución de los autómatas celulares neuronales en espacios bidimensionales. Esta aplicación contará con interfaz gráfica, módulos de simulación y ejemplos prácticos, junto con el código fuente documentado para facilitar su replicación y extensión.
+		
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=0.9\textwidth]{img/arquitectura.png}
+			\caption{Esquema de un autómata celular neuronal}
+			\label{fig:arquitectura}
+		\end{figure}
+		
 		\item \textbf{Documentación Técnica del Sistema:}  
 		Se elaborará una documentación completa que incluya:
 		\begin{itemize}
-			\item La arquitectura general y el diseño del sistema.
 			\item Detalles de la implementación de los autómatas y la integración de las redes neuronales.
 			\item Procedimientos de entrenamiento, métodos de validación y métricas de desempeño.
-			\item Guías de instalación, uso y mantenimiento de las aplicaciones.
+			\item Guías de instalación y uso de las aplicaciones.
 		\end{itemize}
 		\item \textbf{Artículo Académico:}  
 		Se redactará un artículo en el que se describa la implementación de los autómatas celulares neuronales, abarcando:
@@ -171,7 +180,7 @@
 \begin{tabular}{@{} p{0.45\textwidth} p{0.45\textwidth} @{}}
 	\textit{Erick Jesse Angeles López}.- Alumno de la Carrera de Ingeniería en Inteligencia Artificial en la Escuela Superior de Cómputo, Boleta 2022630398, Tel. 5526641710, Email: eangelesl1700@alumno.ipn.mx
 	&
-	\textit{Genaro Juárez Martínez}.- Licenciado en Matemáticas Aplicadas y Computación egresado de la FES Acatlán, UNAM en 1998. Obtuvo el grado de Maestro en Ciencias de la Computación, asi como el de Doctorado en Ciencias de la computación en el CINVESTAV-IPN en 2001 y 2006 respectivamente. Actualmente se encuentra trabajando como profesor en la ESCOM del IPN. Áreas de interés: ciencias de la computación, computación no-convencional, vida artificial, robótica, sistemas complejos. Tel. 57296000 - Ext. 52067, Email: gjuarezm@ipn.mx
+	\textit{Genaro Juárez Martínez}.- Licenciado en Matemáticas Aplicadas y Computación egresado de la FES Acatlán, UNAM en 1998. Obtuvo el grado de Maestro en Ciencias de la Computación, asi como el de Doctorado en Ciencias de la computación en el CINVESTAV-IPN en 2001 y 2006 respectivamente. Actualmente se encuentra trabajando como profesor en la ESCOM del IPN. Áreas de interés: ciencias de la computación, computación no-convencional, vida artificial, robótica, sistemas complejos. Tel. 57296000 - Ext. 52067, Email: studentsresponsables@gmail.com
 	
 	 \\ & \\ & \\
 	 & \\ & \\
