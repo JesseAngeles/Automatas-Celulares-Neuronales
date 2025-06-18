@@ -2,7 +2,7 @@
 \usepackage[margin=2.54cm]{geometry}
 \usepackage[spanish]{babel}
 \newcommand\authormark[1]{\textsuperscript{#1}}
-\usepackage[colorlinks=true,bookmarks=false,citecolor=black,urlcolor=black]{hyperref} 
+\usepackage[colorlinks=true,bookmarks=true,linkcolor=black,citecolor=black,urlcolor=black]{hyperref}
 \usepackage{times} 
 \usepackage[table]{xcolor}
 \usepackage{booktabs}
@@ -23,7 +23,7 @@
 	
 	\begin{center}
 		\fontsize{14}{16}\selectfont\bfseries
-		\textit{Trabajo Terminal No. \_\_\_\_-\_\_\_}
+		\textit{Trabajo Terminal No. 2026-A114}
 	\end{center}
 	
 	\begin{center}
@@ -128,20 +128,25 @@
 	
 	\section{Metodología}
 	
-	El presente proyecto se divide en dos etapas esenciales, el desarrollo del simulador que permita entrenar y visualizar la evolución de los autómatas celulares, y la experimentación de diferentes configuraciones y modelos. Para esto, se planean las siguientes etapas de desarrollo:
+	El presente proyecto se desarrolla bajo una metodología cualitativa organizada en cuatro fases esenciales que cubren desde la planificación hasta la difusión: 
 	
 	\begin{enumerate}
 		\item \textbf{Planificación y Revisión Bibliográfica:} \\
-		Revisión bibliográfica de autómatas celulares, redes neuronales e investigaciones previas que hayan integrado diferentes enfoques.
+		Revisión de la literatura de autómatas celulares, redes neuronales e investigaciones previas que hayan integrado ambos enfoques.
 		
-		\item \textbf{Diseño e implementación de autómatas celulares:} \\
-		Desarrollo lógico del espacio que permita la configuración de vecindario, estados, iteraciones, condiciones de frontera y prediseño de la red neuronal para actualizar las reglas de transición.
+		\item \textbf{Diseño e implementación del simulador} \\
+		Diseñar la arquitectura del simulador que contiene:
+		\begin{itemize}
+			\item Configuración del espacio discreto (vecindario, estados, condiciones de frontera).
+			\item Prediseño de la red neuronal para la función de transición.
+			\item Desarrollo del motor de autómatas y del módulo de entrenamiento.
+		\end{itemize}
 		
 		\item \textbf{Entrenamiento y Validación:} \\
 		Entrenar y comparar los resultados de diferentes autómatas celulares neuronales. Realizar experimentos para evaluar la capacidad del modelo de generar, mantener y recuperar información.
 		
 		\item \textbf{Documentación y Difusión:} \\
-		Elaborar la documentación técnica y el manual de usuario del sistema. Además, se compartirá el código como proyecto de código abierto para facilitar futuras investigaciones.
+		Elaborar la documentación técnica del sistema y al articulo académico. Además, se compartirá el código como proyecto de código abierto para facilitar futuras investigaciones.
 	\end{enumerate}
 	
 	\section{Cronograma}
@@ -153,32 +158,32 @@
 			\midrule
 			\multicolumn{11}{l}{\textbf{Fase 1: Planificación y Revisión Bibliográfica}} \\
 			
-			Revisión del estado del arte       & \cellcolor{gray!30} & \cellcolor{gray!30} & \cellcolor{gray!30} &  &  &  &  &  &  &   \\
+			Estado del arte       & \cellcolor{gray!30} & \cellcolor{gray!30} & \cellcolor{gray!30} &  &  &  &  &  &  &   \\
 			
-			Definir de marco teórico y metodológico &  & \cellcolor{gray!30} & \cellcolor{gray!30} &  &  &  &  &  &  &   \\
-			
-			\midrule
-			
-			\multicolumn{11}{l}{\textbf{Fase 2: Diseño y Desarrollo del Simulador}} \\
-			Diseño de la arquitectura del simulador &  &  & \cellcolor{gray!30} & \cellcolor{gray!30} &  &  &  &  &  &   \\
-			
-			Desarrollo del simulador  &  &  &  & \cellcolor{gray!30} & \cellcolor{gray!30} &  &  &  &  &   \\
-			
-			Desarrollo del modulo de entrenamiento   &  &  &  &  & \cellcolor{gray!30} & \cellcolor{gray!30} &  &  &  &   \\
+			Marco teórico y metodológico &  & \cellcolor{gray!30} & \cellcolor{gray!30} &  &  &  &  &  &  &   \\
 			
 			\midrule
 			
-			\multicolumn{11}{l}{\textbf{Fase 3: Entrenamiento y Validación de redes}} \\
-			Entrenamiento y ajuste de la red  &  &  &  &  &  & \cellcolor{gray!30} & \cellcolor{gray!30} & \cellcolor{gray!30} &   &   \\
+			\multicolumn{11}{l}{\textbf{Fase 2: Diseño e implementación del simulador}} \\
+			Arquitectura del simulador &  &  & \cellcolor{gray!30} & \cellcolor{gray!30} &  &  &  &  &  &   \\
 			
-			Experimentación y análisis de resultados  &  &  &  &  &  & \cellcolor{gray!30}  & \cellcolor{gray!30} & \cellcolor{gray!30} & \cellcolor{gray!30} &   \\
+			Módulos de simulación  &  &  &  & \cellcolor{gray!30} & \cellcolor{gray!30} &  &  &  &  &   \\
 			
-			Análisis de resultados  &  &  &  &  &  & \cellcolor{gray!30} & \cellcolor{gray!30} & \cellcolor{gray!30} & \cellcolor{gray!30} &   \\
+			Módulos entrenamiento   &  &  &  &  & \cellcolor{gray!30} & \cellcolor{gray!30} &  &  &  &   \\
+			
+			\midrule
+			
+			\multicolumn{11}{l}{\textbf{Fase 3: Entrenamiento y Validación}} \\
+			Entrenamiento y ajuste   &  &  &  &  &  & \cellcolor{gray!30} & \cellcolor{gray!30} & \cellcolor{gray!30} &   &   \\
+			
+			Experimentación y análisis  &  &  &  &  &  & \cellcolor{gray!30}  & \cellcolor{gray!30} & \cellcolor{gray!30} & \cellcolor{gray!30} &   \\
+			
+			Análisis de resultados (global) &  &  &  &  &  & \cellcolor{gray!30} & \cellcolor{gray!30} & \cellcolor{gray!30} & \cellcolor{gray!30} &   \\
 			
 			\midrule
 			
 			\multicolumn{11}{l}{\textbf{Fase 4: Documentación y Difusión}} \\
-			Elaboración de la documentación técnica  &  &  &  &  &  &  &  & \cellcolor{gray!30}  & \cellcolor{gray!30} & \cellcolor{gray!30}  \\
+			Documentación técnica  &  &  &  &  &  &  &  & \cellcolor{gray!30}  & \cellcolor{gray!30} & \cellcolor{gray!30}  \\
 			
 			Artículo académico  &  &  &  &  &  &  &  & \cellcolor{gray!30}  & \cellcolor{gray!30}  & \cellcolor{gray!30}  \\
 			
