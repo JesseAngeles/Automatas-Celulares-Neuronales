@@ -1,0 +1,28 @@
+\documentclass[12pt]{report} % Usamos 'report' para tesis largas
+
+% Preambulo
+\input{Componentes/Preambulo.tex}
+
+\title{Título de la Tesis}
+\author{Erick Jesse Angeles López}
+\date{\today}
+
+\begin{document}
+	
+	% Portada principal
+	\input{Componentes/Header.tex}
+	\input{Componentes/Titulo.tex}
+	% Índice
+	\tableofcontents
+	\clearpage
+	
+	\input{MarcoTeorico/MarcoTeorico.tex}
+	\input{EstadoDelArte/EstadoDelArte}
+	
+	% Referencias generales
+	\clearpage
+	\addcontentsline{toc}{chapter}{Referencias}
+	\bibliographystyle{IEEEtran}
+	\bibliography{EstadoDelArte/referencias.bib}
+	
+\end{document}

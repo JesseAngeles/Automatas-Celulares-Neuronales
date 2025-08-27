@@ -2,6 +2,14 @@
 
 Mordvintsev et al. en \cite{mordvintsevNCA} diseñaron un NCA que permite a una célula crecer para formar un patrón, persistir en el tiempo, regenerarse e incluso rotar. Para esto diseñaron un modelo que depende de un CA continuo con un vector de estados de 16 dimensiones integrando gradientes espaciales mediante filtros de Sobel. 
 
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.6\linewidth]{img/morfogenesis.png}
+	\caption{Evolución del \textit{emoji} de una lagartija a partir de una única célula activa después de 219 pasos evolutivos \cite{mordvintsevNCA}.}
+	\label{fig:morfogenesis}
+\end{figure}
+
+
 El NCA diseñado tiene las siguientes características (las cuales fueron retomadas por múltiples autores que tomaron a \cite{mordvintsevNCA} como referencia):
  \begin{itemize}
  	\item El vector de cada célula (cada valor en un rango de $[0,1]$)  incluye los canales RGB y un canal $\alpha$ que funciona como umbral para definir si una célula está viva o muerta (establece el resto de valores del vector a $0$ si $\alpha \leq 0.1$). 

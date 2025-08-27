@@ -2,7 +2,14 @@
 
 Niklasson et al. \cite{niklassonMNCA} y Mordvintsev et al. \cite{niklassonMNCA2} \cite{mordvintsevUNCA} introducen el concepto de \textit{Self-Organising Textures}, cuyo objetivo es reproducir la apariencia global de una textura de referencia sin generar copias exactas. Para ello, entrenan un NCA con la misma arquitectura neuronal propuesta en \cite{mordvintsevNCA}, de modo que pueda capturar y generar patrones característicos como tableros de ajedrez, líneas o mosaicos. Aunque este enfoque tiene un carácter demostrativo, constituye una evidencia importante de que los NCA pueden aprender y generalizar comportamientos visuales locales en lugar de memorizar imágenes específicas.
 
-Sobre esta base, Niklasson et al. proponen \textit{Mesh Neural Cellular Automata} (\textbf{MeshNCA}) \cite{meshNCA}, un método diseñado para generar texturas dinámicas en superficies tridimensionales. A diferencia de los experimentos en cuadrículas bidimensionales, MeshNCA extiende el mecanismo de autoorganización a mallas arbitrarias, incluso cuando estas se encuentran en movimiento. El modelo mantiene coherencia espacial en distintos escenarios, muestra robustez frente a perturbaciones externas y permite controlar propiedades como densidad, dirección y rotación de los patrones emergentes. Además, varios MeshNCA pueden injertarse de manera conjunta, produciendo transiciones suaves entre texturas sin discontinuidades.
+Sobre esta base, Niklasson et al. proponen \textit{Mesh Neural Cellular Automata} (MeshNCA) \cite{meshNCA}, un método diseñado para generar texturas dinámicas en superficies tridimensionales. A diferencia de los experimentos en cuadrículas bidimensionales, MeshNCA extiende el mecanismo de autoorganización a mallas arbitrarias, incluso cuando estas se encuentran en movimiento. El modelo mantiene coherencia espacial en distintos escenarios, muestra robustez frente a perturbaciones externas y permite controlar propiedades como densidad, dirección y rotación de los patrones emergentes. Además, varios MeshNCA pueden injertarse de manera conjunta, produciendo transiciones suaves entre texturas sin discontinuidades.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.75\linewidth]{img/mesh.png}
+	\caption{El entrenamiento se realiza sobre un poliedro simétrico y el NCA puede ser extrapolado a cualquier objeto tridimensional \cite{mordvintsevNCA}.}
+	\label{fig:mesh}
+\end{figure}
 
 Sin embargo, este enfoque presenta un reto de escalabilidad. El número de células involucradas suele encontrarse en el rango de $10^4 \sim 10^5$, lo que limita la resolución alcanzable a entre $64 \times 64$ y $256 \times 256$ píxeles. Como el tiempo de entrenamiento escala de forma cuadrática con respecto al número de celdas, el aumento de resolución conlleva un cuello de botella en la propagación de información a lo largo de la malla.
 
