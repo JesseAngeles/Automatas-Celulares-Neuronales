@@ -3,8 +3,11 @@
 
 \usepackage[a4paper]{geometry} % Tamaño del papel
 \usepackage{graphicx}               % Para incluir imágenes
+\usepackage{subcaption}
 \usepackage{amsmath}                % Para el manejo de matemáticas
-\usepackage{url}
+\usepackage{amsthm}
+\usepackage{multirow}					% Combinar columnas
+\usepackage{url}					% Dar formato a urls				
 \usepackage{array}					% Para ajustar el texto en la celda
 \usepackage{xcolor}
 \usepackage{float}
@@ -20,3 +23,5 @@
 \fancyhead[LE,RO]{\small\leftmark}    % Muestra el capítulo en lugar de la sección
 \fancyhead[RE,LO]{\small\thepage}      % Número de página
 \setlength{\headheight}{13.6pt}
+
+\setcounter{secnumdepth}{3}
