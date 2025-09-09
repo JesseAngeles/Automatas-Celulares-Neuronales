@@ -1,0 +1,342 @@
+\section{Autómatas celulares}
+
+Un autómata celular (CA, \textit{Cellular Automata}), concebido por John von Neumann \cite{vonNeumann1948}, es una colección de células que pueden adquirir un estado y que se agrupan en una red. El CA evoluciona en pasos de tiempo, donde cada célula cambia su estado en función de los estados de su vecindad.  Durante la evolución, el CA cambia de una configuración a otra. Tradicionalmente, se considera una red regular de células, un conjunto finito de estados y evoluciones en pasos discretos de tiempo.
+
+\begin{definition} \label{CA}
+	Un autómata  celular es una 4-tupla ($\mathcal{L}, \mathcal{S}, \mathcal{N}, \mathcal{R}$) donde:
+	
+	\begin{itemize}
+		\item $\mathcal{L} \subseteq \mathbb{Z}^D$ es el espacio celular $D$-dimensional. Un conjunto de células se colocan en el espacio $\mathcal{L}$ para formar una red.
+		
+		\item $\mathcal{S}$ es un conjunto de estados. Cada célula solo puede adquirir un valor de un conjunto finito de diferentes valores:
+		\[
+		\sigma_{\vec{i}}(t) \in \mathcal{S} \equiv \{ 0, 1,2, \dots, k - 1 \},\; \forall \vec{i} \in \mathcal{L}
+		\]
+		Donde $\vec{i} \in \mathcal{L}$ es una célula en el espacio celular, $\sigma_{\vec{i}} (t)$ es el estado de la i-ésima célula en el tiempo $t$ y $\mathcal{S}$ es un anillo conmutativo finito\footnote{Un anillo conmutativo finito es un conjunto finito dotado de dos operaciones internas —suma y multiplicación— donde la suma forma un grupo abeliano, la multiplicación es asociativa y conmutativa, y ambas operaciones están relacionadas por las leyes distributivas.}, generalmente definido por los enteros modulo $k$ ($\mathbb{Z}_k$).
+		
+		\item $\mathcal{N} = (\vec{v}_1, \vec{v}_2, \dots, \vec{v}_m )$ es el conjunto de vectores de desplazamiento que definen la vecindad de una célula en $\mathcal{L}$. Asi, los vecinos de las células ubicadas en $\vec{i} \in \mathcal{L}$ se encuentran en las posiciones $\vec{i} + \vec{v}_j, \forall j \in \{ 1,2, \dots, m \}$ 
+		
+		\item $\mathcal{R} : \mathcal{S}^m \to \mathcal{S}$ es la regla local del autómata:
+		\[
+		\sigma_{\vec{i}}(t + 1) = \mathcal{R} ( \{ \sigma_{\vec{i} + \vec{v}_j}\}_{j = 1}^m  )
+		\]
+		donde $\mathcal{R}$ es la función de transición local que asigna el nuevo estado de una célula a partir de los estados de sus $m$ vecinos.
+		
+	\end{itemize}
+\end{definition}
+
+\subsection{Vecindad}
+
+La vecindad de una célula está estrechamente relacionada con la dimensionalidad del CA. John von Neumann propone una vecindad para $\mathbb{Z}^2$ de cinco células formada por ella misma y las cuatro células ortogonales más cercanas como se observa en la figura \ref{fig:N_neumann}. Esta vecindad es expandida por Moore añadiendo los cuatro vecinos diagonales más cercanos, dando una vecindad de nueve elementos. Esta vecindad, representada por la figura \ref{fig:N_moore}, fue utilizada por John Conway en el ``Juego de la Vida'' (GoL, \textit{Game of Life}).
+
+La figura \ref{fig:N_wolfram} representa una vecindad de radio uno en un espacio unidimensional, es decir, todas aquellas células a una distancia menor o igual a uno, incluyéndose a su misma.. Fue utilizada por Stephen Wolfram para definir los Autómatas Celulares Elementales (ECA).
+
+\begin{figure}[htbp]
+	\centering
+	\begin{subfigure}[b]{0.30\textwidth}
+		\includegraphics[width=\textwidth]{img/nNeumann.png}
+		\caption{Vecindad de Neumann}
+		\label{fig:N_neumann}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.30\textwidth}
+		\includegraphics[width=\textwidth]{img/nMoore.png}
+		\caption{Vecindad de Moore}
+		\label{fig:N_moore}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.40\textwidth}
+		\includegraphics[width=\textwidth]{img/nWolfram.png}
+		\caption{Vecindad radio uno}
+		\label{fig:N_wolfram}
+	\end{subfigure}
+	\caption{Las vecindades \ref{fig:N_neumann} y \ref{fig:N_moore} son para CA bidimensionales, la vecindad \ref{fig:N_wolfram} es para CA unidimensionales. La célula negra representa la célula actual y, junto con las grises, conforma su vecindad.}
+	\label{fig:vecindades_regulares}
+\end{figure}
+
+Las vecindades no se limitan a una cuadrícula regular; también pueden adoptar otras formas, como las vecindades hexagonales o triangulares ilustradas en las figuras \ref{fig:N_hexagonal} y \ref{fig:N_triangular}.  Ademas, existen vecindades con comportamiento dinámico, como la vecindad de Margolus mostrada en la figura \ref{fig:N_margolus}, cuya configuración alterna entre dos disposiciones en cada paso evolutivo.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{subfigure}[b]{0.30\textwidth}
+		\includegraphics[width=\textwidth]{img/nHexagonal.png}
+		\caption{Vecindad hexagonal}
+		\label{fig:N_hexagonal}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.30\textwidth}
+		\includegraphics[width=\textwidth]{img/nTriangular.png}
+		\caption{Vecindad triangular}
+		\label{fig:N_triangular}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.30\textwidth}
+		\includegraphics[width=\textwidth]{img/nMargolus.png}
+		\caption{Vecindad de Margolus}
+		\label{fig:N_margolus}
+	\end{subfigure}
+	\caption{Vecindades para CA bidimensionales. En \ref{fig:N_hexagonal} y \ref{fig:N_triangular}, la célula negra es la célula actual y las grises conforman su vecindad.  En \ref{fig:N_margolus}, la célula negra es la célula actual, mientras que las células verdes y moradas representan las vecindades activas en tiempos pares e impares, respectivamente.}
+	\label{fig:vecindades_irregulares}
+\end{figure}
+
+\subsection{Estados}
+
+Cada célula adquiere un único estado $s$ en cada paso de tiempo, donde $s$ pertenece a un conjunto de estados $s \in \mathcal{S}$. El CA de John von Neumann contempla 29 estados, aunque algunos autores han propuesto variantes reducidas a cuatro estados, conservando su capacidad de autoreproducirse. 
+
+Por otro lado, GoL se compone de dos estados que denominó ``vivas'' y ``muertas''.  De igual forma Stephen Wolfram utiliza dos estados en ECA.
+
+Idealmente, el espacio celular $\mathcal{L}$ es infinito, lo que permitiría infinitas combinaciones de estados. Sin embargo, esto es inviable computacionalmente, por lo que, al igual que el CA de John von Neumann, se requiere establecer una restricción de finitud. 
+
+\begin{definition}
+	Sea $\mathcal{R}$ la regla local de un CA. Un estado $\sigma_q \in \mathcal{S}$ es inactivo si $\mathcal{R}(\sigma_q, \sigma_q, \dots, \sigma_q) = \sigma_q$.
+\end{definition}
+
+Es decir, si una célula y todos sus vecinos están en estado inactivo, la célula permanece inactiva tras aplicar $\mathcal{R}$. Cabe notar que todos los vecinos deben de estar en dicho estado, por lo que, si alguno cambia, podría reactivarse.
+
+\begin{definition}
+	Sea $\sigma_q \in \mathcal{S}$ un estado inactivo, $\sigma_p \neq \sigma_q \in \mathcal{S}$ un estado no inactivo y sea $\mathcal{L}$ un espacio celular infinito. Se considera que un CA tiene configuración finita si solo un número finito de celdas están en estados activos $\sigma_p$.
+\end{definition}
+
+Si la configuración inicial es finita,  entonces, la evolución en el siguiente paso de tiempo, también sera finita (ver tabla \ref{tab:CA_finito}).
+
+\begin{table}
+	\centering
+	\begin{tabular}{c | c c c c c c c c c c c} 
+		$t$ & \multicolumn{11}{c}{ $\vec{\sigma}(t)$  } \\ \hline \hline
+		0 & && & \dots & $q$ & $p$ & $q$ & \dots & && \\ \hline
+		1 & & & \dots & $q$ & $p$ & $p$&  $p$ & $q$ & \dots & & \\ \hline
+		2  & & \dots & $q$  & $p$ & $p$ & $p$&  $p$ &  $p$& $q$ & \dots &  \\ \hline
+		3 & \dots & $q$  & $p$ & $p$ & $p$&  $p$&$p$ &$p$& $p$ & $q$ & \dots \\
+	\end{tabular}
+	\caption{Evolución temporal de un CA unidmensional con una configuración inicial finita. Donde $p$ representa estados activos y $q$ estados inactivos. Los conjuntos $\vec{\sigma} (t)$ y $\vec{\sigma} (t + 1)$ son finitos.}
+	\label{tab:CA_finito}
+\end{table}
+
+Sea $\mathcal{C} =  \mathcal{S}^\mathcal{L}$ el conjunto de todas las configuraciones. Definimos $\mathcal{C}_F \subset \mathcal{C}$ como el subconjunto de todas las configuraciones finitas. Esta restricción es necesaria para hacer computacionalmente viable la simulación de la evolución de un CA.
+
+Finalmente, resulta necesario definir un estado estable el cual servirá mas adelante para establecer una clasificación. 
+
+\begin{definition}
+	Dado un CA y un estado $s \in \mathcal{S}$, se dice que $s$ es un estado estable si $\mathcal{R}(s, s, \dots, s) = s$.
+\end{definition}
+
+Esto es, un estado estable $s$ que evoluciona siempre en si mismo, por lo que $\sigma(t) = \sigma(t + 1)$. 
+
+\subsection{Condiciones de frontera}
+
+Idealmente, los CA pueden evolucionar en espacios infinitos; sin embargo,  para su simulación computacional es necesario establecer límites. Estos limites, llamados condiciones de frontera, restringen el espacio celular $\mathcal{L}$.
+
+\begin{definition}
+	Un CA es finito si el espacio celular $\mathcal{L} \subseteq \mathbb{Z}^D$ es finito; en caso contrario, se denomina infinito. 
+\end{definition}
+
+En un CA finito se consideran principalmente dos tipos de condiciones de frontera: abierta y periódica.
+
+\begin{itemize}
+	\item \textbf{Condición de frontera abierta}: Se les asigna un estado fijo a todos aquellos vecinos faltantes en las células de la frontera. 
+	
+	\item \textbf{Condición de frontera periódica}: Los vecinos faltantes de las células en la frontera son otras células en la frontera. La figura \ref{fig:B_periodica} muestra cómo se conectan las células de la frontera en un espacio unidimensional.
+\end{itemize}
+
+\begin{figure}[htbp]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{img/bAbierta.png}
+		\caption{Condición de frontera abierta}
+		\label{fig:B_abierta}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{img/bPeriodica.png}
+		\caption{Condición de frontera periódica}
+		\label{fig:B_periodica}
+	\end{subfigure}
+	\caption{Condiciones de frontera de un CA unidimensional con dos vecinos. La figura \ref{fig:B_abierta} asigna un estado no inactivo al vecino faltante. La figura \ref{fig:B_periodica} entabla relación de vecindad entre las células en la frontera formando un anillo.}
+	\label{fig:fronteras}
+\end{figure}
+
+Las condiciones de frontera periódica relacionan a los CA finitos y los CA infinitos con configuraciones periódicas.
+
+\begin{definition}
+	Una configuración $\vec{\sigma} \in \mathcal{C}$ de un CA $D$-dimensional se dice periódica si es invariante ante un conjunto de traslaciones linealmente independientes en $D$ direcciones. Es decir:
+	\[
+	\vec{\sigma} = T_i^{n_i} (\vec{\sigma}), \; \forall i \in \{ 1,2, \dots, D \}
+	\]
+	donde  $T_i^{n_i}$ denota un desplazamiento de $n_i$ posiciones en la dimensión $i$.
+\end{definition}
+
+Definimos entonces a $\mathcal{C}_P \subset \mathcal{C}$ como el conjunto de todas las configuraciones periódicas de un CA. Estas configuraciones preservan la condición de frontera periódica en cada traslación. 
+
+La frontera reflectiva asigna a los vecinos faltantes el mismo estado de la célula en la frontera (figura \ref{fig:B_reflectiva}). En este caso, las células de la frontera son vecinas de sí mismas. La frontera reflexiva, en cambio, imita el estado de los vecinos mas próximos de la célula en el borde (figura \ref{fig:B_reflexiva}), generando una doble relación de vecindad en los extremos del CA.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{img/bReflectiva.png}
+		\caption{Condición de frontera reflectiva}
+		\label{fig:B_reflectiva}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{img/bReflexiva.png}
+		\caption{Condición de frontera reflexiva}
+		\label{fig:B_reflexiva}
+	\end{subfigure}
+	\caption{Condiciones de frontera de un CA unidimensional con dos vecinos. La figura \ref{fig:B_reflectiva} muestra que las células en la frontera son vecinas de si misma, mientras que la figura \ref{fig:B_reflexiva} muestra que las células vecinas de las células de la frontera pueden ser múltiples vecinos.}
+	\label{fig:fronteras_adicionales}
+\end{figure}
+
+\subsection{Regla local}
+
+Sea $\mathcal{S}$ el conjunto de estados y $m = |\mathcal{N}|$ el numero de vecinos. La función de transición o regla local se define como 
+\[
+\mathcal{R}: \mathcal{S}^m \to \mathcal{S}
+\] 
+donde $\mathcal{R}$ asigna un nuevo estado a cada célula en función de los estados de sus $m$ vecinos (incluyéndose a sí misma si aplica).
+
+Para CA unidimensionales, dado un rango arbitrario $r$, la regla de un CA unidimensional puede ser escrita como:
+\[
+\sigma_{i}(t + 1) = \mathcal{R}(\sigma_{i-r}(t), \dots, \sigma_{i}(t), \dots, \sigma_{i+r} (t)), \; \mathcal{R}:  S^{2r + 1} \to S
+\]
+
+Donde el rango $r$ especifica el tamaño de la vecindad para cada célula y cada una de ellas puede adquirir un valor $k$. Por esto, $\mathcal{R}$ puede ser definido especificando el valor asignado para cada una de las $k^{2r + 1}$ posibles $(2r+1)$-tuplas dada una vecindad.
+
+Un ejemplo de regla local es GoL. En este caso, el conjunto de estados es binario $\mathcal{S} = \{ 0, 1 \}$, donde $0$ representa células muertas y $1$ representa células vivas. La regla de transición se define como:
+\[
+\mathcal{R}: \{ 0, 1 \}^9 \to \{ 0, 1\}
+\]
+ya que la vecindad de Moore en 2D involucra 8 vecinos mas la propia célula, es decir, $m = 9$. GoL sigue las siguientes tres reglas:
+
+\begin{itemize}
+	\item \textbf{Nacimiento}: Una célula muerta en el tiempo $t$ nace en el tiempo $t + 1$ si tiene exactamente tres vecinos vivos en el tiempo $t$.
+	
+	\item \textbf{Muerte}: Una célula viva en el tiempo $t$ muere en $t + 1$ por:
+	\begin{itemize}
+		\item sobrepoblación si hay más de tres vecinos vivos en $t$.
+		\item soledad si hay menos de tres vecinos vivos en $t$.
+	\end{itemize}
+	
+	\item \textbf{Supervivencia}: Una célula viva en el tiempo $t$ se mantiene viva en $t + 1$ si tiene exactamente tres vecinos vivos en $t$.	 
+\end{itemize}
+
+Se puede usar la notación \textit{Birth/survival} la cual es un dupla de listas que almacenan el numero de vecinos vivos que tiene que haber en la vecindad para nacer y para sobrevivir respectivamente. La configuración para el juego de la vida ``tradicional'' es $B3/S23$, es decir, se requieren 3 células vivas para nacer y se requieren 2 o 3 células vivas para sobrevivir. 
+
+Una regla es semi-totalistica si la transición depende de la suma de los valores en la vecindad, pero distingue entre diferentes posiciones, como el centro y los bordes. GoL es un ejemplo de regla semi-totalistica porque cuenta el numero de vecinos vivos, pero trata de forma distinta el estado de la célula central.
+
+En cambio, una regla es totalistica si la transición depende unicamente de la suma de los estados en todos los vecinos, sin distinguir posiciones. Por ejemplo, para un CA unidimensional con $|\mathcal{S}| = 3$ estados y radio $r = 1$, solo hay $(|\mathcal{S}|-1) |\mathcal{N}|+1 = (2-1) \cdot 3 + 1 = 4$ posibles valores de suma.
+
+Ahora, considerando un $k = 2$ (es decir, $\sigma_i \in \{0, 1\}$), un rango $r$ ($|\mathcal{N}| = 3$) y considerando la regla $\mathcal{R}: \{0,1\}^3 \rightarrow \{0,1\}$ que se define como:
+\[
+\phi(\sigma_{i-1}(t), \sigma_{i}(t), \sigma_{i+1}(t))
+\]
+
+La dinámica esta dada por las  posibles configuraciones que las tres células adyacentes pueden adquirir en el tiempo $t$. Estos son el total de patrones que podemos encontrar con tres células. Cada que encontremos un patrón podemos asignarle un nuevo estado a $\sigma_i(t + 1)$ ($\{ 0, 1 \}$). Esto se traduce a que podemos encontrar $k^{|\mathcal{N}|} = 2^3 = 8$ patrones posibles, y dado que cada patrón puede asignar uno de los $k$ estados, el numero total de reglas es $k^{k^{|\mathcal{N}|}} = 2^8 = 256$, como se muestra en la tabla \ref{tab:ECA_evolucion}.
+
+\begin{table}
+	\centering
+	\begin{tabular}{c c c c c c c c} 
+		111 & 110 & 101 & 100 & 011 & 010 & 001 & 000 \\
+		$\downarrow$ & $\downarrow$ & $\downarrow$ & $\downarrow$ & $\downarrow$ & $\downarrow$ & $\downarrow$ & $\downarrow$ \\
+		$\{ 0, 1 \}$ & $\{ 0, 1 \}$ & $\{ 0, 1 \}$ & $\{ 0, 1 \}$ & $\{ 0, 1 \}$ & $\{ 0, 1 \}$ & $\{ 0, 1 \}$ & $\{ 0, 1 \}$ 
+	\end{tabular}
+	\caption{Cada posible combinación de tres células puede adquirir uno de dos valores. Cuando la célula evaluado encaja en este patrón su valor cambia al establecido. Este conjunto de 256 forman parte del ECA.}
+	\label{tab:ECA_evolucion}
+\end{table}
+
+Esta reglas se pueden representar de forma tabular y también como un numero decimal. La tabla \ref{tab:ECA_rules} muestra la asociación entre la forma tabular y la regla decimal.
+
+Nótese que la regla decimal solo aplica cuando las condiciones son las mismas, es decir, cuando el numero de vecinos $|\mathcal{N}|$ y estados $|\mathcal{S}|$ son el mismo, a cada regla se le puede asociar un numero entero único, pero dos reglas con vecinos y estados diferentes pueden compartir regla. Por ejemplo, considerando la regla $10$ con $|\mathcal{N}| = 2$ y $|\mathcal{S}| = 2$ es $1010$, la cual es completamente cuando $|\mathcal{N}| = 3: 000000101$.
+
+\begin{table}
+	\centering
+	\begin{tabular}{c | c c c c c c c c | c} 
+		\textbf{Binario} &111 & 110 & 101 & 100 & 011 & 010 & 001 & 000 & \multirow{3}{*}{\textbf{regla}} \\ 
+		\textbf{Decimal} & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0 & \\ 
+		\textbf{Valor} & $2^7$ & $2^6$ & $2^5$ & $2^4$ & $2^3$ & $2^2$ & $2^1$ & $2^0$ & \\ \hline
+		& 0 &  0 &  0 &  0 &  0 &  0 &  0 &  0 & 0 \\
+		& 0 &  0 &  0 &  0 &  0 &  0 &  0 &  1 & 1 \\
+		& \multicolumn{8}{c|}{\vdots} & \vdots \\ 
+		& 0 &  0 &  0 &  1 &  1 &  1 &  1 &  0 & 30 \\
+		& \multicolumn{8}{c|}{\vdots} & \vdots \\ 
+		& 0 &  1 &  1 &  0 &  1 &  1 &  1 &  0 & 110 \\
+		& \multicolumn{8}{c|}{\vdots} & \vdots \\ 
+		& 1 &  1 &  1 &  1 &  1 &  1 &  1 &  1 & 255 
+	\end{tabular}
+	\caption{Los valores binarios representan las posibles configuraciones de estados que pueden aparecer en el espacio, cada uno asociado a un valor decimal y el valor es la potencia asociada a esa combinación. Para convertir la regla tabular en la decimal solo es necesario convertir el numero binario.} 
+	\label{tab:ECA_rules}
+\end{table}
+
+\begin{definition}
+	Sea $\mathcal{R}: \mathcal{S}^m \to \mathcal{S}$ la regla local de CA. La tupla $(s_1, s_2, \dots, s_m) \in \mathcal{S}^m$ es un un termino mínimo de la regla (RMT, \textit{Rule Min Term}) de la regla $\mathcal{R}$. Sea $\mathcal{S} = \{ 0, 1, \dots, k - 1 \}$, entonces el RMT es $r = s_1 \cdots k^{m - 1} + s_2 \cdots k^{m - 2} + \dots + s_{m-1} \cdot k + s_m$. La salida de la regla se denota como $\mathcal{R}(r)$.
+\end{definition}
+
+Cada transición de la regla esta dada por un RMT junto con su salida. Por ejemplo, en ECA ($k = 2$, $m = 3$), cada transición es $(x,y,z, \mathcal{R}(x,y,z))$. Esta transición se considera activa si  $\mathcal{R}(x,y,z) \neq y$ e inactiva en el caso contrario.
+
+Hasta ahora, hemos considerado CA uniformes, donde todas las células comparten la misma regla local $\mathcal{R}$. Sin embargo, también existen CA no uniformes o híbridos, en los que cada célula puede seguir una regla distinta, es decir, un vector de reglas.   
+
+\begin{definition}
+	Un vector de reglas de un CA no uniforme sobre un espacio $\mathcal{L}$ es $\mathcal{R} = \left\langle \mathcal{R}_0, \mathcal{R}, \dots, \mathcal{R}_n-1 \right\rangle$ donde $\mathcal{R}_i$ es la regla usada por la célula $i \in \mathcal{L}$.
+\end{definition}
+
+Por ejemplo, si consideramos un CA no uniforme con 5 células cuyo vector de reglas es $\mathcal{R} = \left\langle 90,150,90,5,150 \right\rangle$ implica que el primer y el tercer elemento aplican la regla 90, el segundo y el quinto la regla 150 y el cuarto la regla 5. 
+
+\subsection{Clasificación}
+
+Stephen Wolfram, al estudiar ECA, descubre que existen comportamientos compartidos por ciertas reglas y que dicho comportamiento es inherente de la configuración inicial del espacio celular. Es por esto que define las siguientes clases de comportamiento, ilustradas en la figura \ref{fig:clasificacion}:
+
+\begin{enumerate}[label= \Roman*]
+	\item CA que evolucionan a un estado uniforme. 
+	\item CA que evolucionan a estados cíclicos aislados.
+	\item CA que evolucionan en comportamientos caóticos.
+	\item CA que evolucionan en estados complejos aislados.
+\end{enumerate}
+
+\begin{figure}[htbp]
+	\centering
+	\begin{subfigure}[b]{0.40\textwidth}
+		\includegraphics[width=\textwidth]{img/c1.png}
+		\caption{Clase I: Regla 160}
+		\label{fig:c1}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.40\textwidth}
+		\includegraphics[width=\textwidth]{img/c2.png}
+		\caption{Clase II: Regla 4}
+		\label{fig:c2}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.40\textwidth}
+		\includegraphics[width=\textwidth]{img/c3.png}
+		\caption{Clase III: Regla 30}
+		\label{fig:c3}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.40\textwidth}
+		\includegraphics[width=\textwidth]{img/c4.png}
+		\caption{Clase IV: Regla 110}
+		\label{fig:c4}
+	\end{subfigure}
+	\caption{Clasificación de Wolfram. las figuras \ref{fig:c1}, \ref{fig:c2}, \ref{fig:c3} y \ref{fig:c4} evolucionan 25 pasos una configuración inicial aleatoria con frontera cíclica.}
+	\label{fig:clasificacion}
+\end{figure}
+
+Sin embargo, aunque esta clasificación funciona para ECA existen reglas bajo diferentes configuraciones que pueden pertenecer a múltiples clases o, en el peor de los casos, no pertenecen a ninguna de ellas \cite{gen_Life_campoPromedio}. 
+
+Es por esto que en \cite{CAclassification} proponen una nueva clasificación siguiendo ciertas limitaciones, entre las cuales están:
+\begin{itemize}
+	\item Esta clasificación es para CA finitos. 
+	\item Cada clase es un subconjunto de la clase siguiente.
+\end{itemize}
+
+\begin{definition}
+	Un CA es de clase I si existe un estado estable $s \in \mathcal{S}$ tal que todas las configuraciones finitas evolucionan a una configuración homogénea de $s$.
+\end{definition}
+
+Es decir, dada cualquier configuración inicial en un CA finito, todas las células adquieren el estado $s$ tras cierto numero de pasos evolutivos. Esto se aplica para todas las finitas configuraciones iniciales.
+
+\begin{definition}
+	Un CA es de clase II si existe un estado estable $s \in \mathcal{S}$ tal que se repite a $n$ pasos evolutivos.
+\end{definition}
+
+Esto implica que la evolución se repite cada $n$ numero de pasos ($\sigma(t) = \sigma(t + n)$). Resulta evidente que la clase I esta contenida en la case II haciendo que $n = 1$, lo que implica un periodo de uno.
+
+Una clasificación es $s$-finita si solo difiere del estado estable en una región finita.
+
+\begin{definition}
+	Un CA es de clase III si existe un estado estable $s \in \mathcal{S}$ tal que para cualquier par de configuraciones $s$-finitas $C_1$ y $C_2$, es decidible si $C_1$ evoluciona a $C_2$.
+\end{definition}
+
+Es decir, si podemos determinar en tiempo finito si el CA evoluciona de $C_1$ a $C_2$, entonces pertenece a clase III. En caso contrario, pertenece a clase IV, la cual contiene a todos los CA \cite{CAclassification}.
+
+\clearpage
