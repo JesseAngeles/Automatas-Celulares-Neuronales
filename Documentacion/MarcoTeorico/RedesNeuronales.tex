@@ -1,80 +1,206 @@
 \section{Redes neuronales}
 
-Las redes neuronales artificiales (ANN, \textit{Artificial Neural Network}) es un modelo inspirado del pensamiento humano. Es una colección de neuronas interconectadas que comparten información. 	
+Las redes neuronales artificiales (ANN, \textit{Artificial Neural Network}) es un modelo inspirado del pensamiento humano, mas específicamente, en como un conjunto de neuronas interconectadas comparten información. 	
 
-Las ANN son una conjunto de neuronas interconectadas que realizan cálculos y transmiten información para realizar una inferencia. Esan inspiradas en el modelo natural y como es que las neuronas se conectan y transmiten información para obtener cierto calculo. 
+Las ANN son una conjunto de neuronas artificiales interconectadas que realizan cálculos y transmiten información para realizar una operación. Su inspiración es el cerebro. 
 
-\subsection{Modelo natural}
+\subsection{Neurona biológica}
 
 Las neuronas son células especializadas del sistema nervioso cuyo objetivo es recibir, procesar y transmitir información por medio de señales químicas y eléctricas. 
 
-Cada neurona se compone (principalmente) de tres partes: 
+Cada neurona se compone (principalmente) de tres elementos como se muestra en la figura \ref{fig:neurona}: 
 \begin{itemize}
 	\item Las dendritas que reciben señales provenientes de otras neuronas.
-	\item El cuerpo, que integra las señales proveniente de las dendritas y produce una nueva señal eléctrica.
+	\item El núcleo o cuerpo, que integra las señales proveniente de las dendritas y produce una nueva señal eléctrica.
 	\item El axón, el cual conduce la señal producida por el cuerpo hacia otras neuronas haciendo sinapsis, es decir, transmite la señal de una célula a otra.
 \end{itemize}
 
-Las redes neuronales naturales son un sistema de neuronas que permite el procesamiento cerebral de la información, son altamente complejas, no lineales y procesamiento el paralelo. 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\linewidth]{img/neurona.png}
+	\caption{Representación de una neurona \cite{img_neurona}. Se encuentra señaladas las dendritas, el núcleo y el axón, encargado de recibir, procesar y transmitir la información respectivamente.}
+	\label{fig:neurona}
+\end{figure}
 
-\subsection{Modelo artificial} 
+Las redes neuronales naturales son un sistema de neuronas que permite el procesamiento cerebral de la información, son altamente complejas, no lineales y con procesamiento en paralelo. 
 
-Por otro lado, las redes neuronales artificiales, se inspiran en como las neuronas biologicas que contienen unidades conectadas entre si para transmitir señales. Cada neurona se conecta al resto a traves de enalces. Donde el valor de de salida de la neurona anterior es multiplicado por un valor de peso o relevancia. Son sistemas que aprenden y se forman a si mismos, en lugar de ser programados.
+\subsection{Neurona artificial} 
 
-\subsection{Neurona artificial}
-
-Sera la unidad de procesamiento de información. la cual sigue la misma estructura que la neurona biológica, con algunas restricciones:
-
-Cada neurona recibe un conjunto de datos de entradas que equivalen a las dentritas, sin embargo, no toda la información que se le proporciona es improtante, es por esto que es necesario que se le asigne un peso que determine su relevancia para la neurona. El cuerpo se sustituye por dos funciones, una función de agrupación o de generalización del resultado, generalmente la sumatoria de las entradas por sus respectivos pesos sinapticos y una función de activación que determina si la neurona se ``activa'' y en que grado lo hace. Finalmente, la salida, que muestra el resultado de todo el proceso ya mencionado, este puede ser la entrada a otra red neuronal.
-
-Una neurona se conforma de los siguiente elementos:
+La neurona artificial se considera como una unidad de procesamiento de información. Sigue la misma estructura del modelo biológico con algunas consideraciones adicionales:
 
 \begin{itemize}
-	\item  $X = \{ x_1, x_2, \dots, x_n \} \in \mathbb{R}$ conjunto de datos que recibe la neurona (pueden ser datos o salidas de otras neuronas)
-	
-	\item $W = \{ w_1, w_2, \dots, w_n \} \in \mathbb{R}$ conjunto de pesos sinapticos que indican la importancia de cada entrada.
-	
-	\item $b \in \mathbb{R}$ es un sesgo que desplaza la función de activación y controla el umbral.
-
-	\item $f(X,W,b)$ es una función de agregación, usualmente determinada por ser una combinación lineal:
-	\[
-		z = f(X,W,b) = \sum_{i = 1}^{n} w_i z_i + b
-	\]
-	
-	\item $\phi(z)$ transforma $z$ en una salida activada.	
+	\item Las dendritas equivalen al conjunto de datos de entrada. Sin embargo, no toda la información tiene la misma relevancia, para esto se le asigna a cada entrada un peso sinaptico.
+	\item El cuerpo de se sustituye por dos funciones: (1) Una función de agregación que combina todos los datos de entrada (generalmente es una combinación lineal entre las entradas y los pesos sinapticos) y (2) una función de activación que determina si la neurona esta activa y en que grado. 
 \end{itemize}
+
+\begin{definition}
+	Una neurona artificial es una función $f: \mathbb{R}^n \to \mathbb{R}$ dada por:
+	\[
+		f(x) = \phi (\omega (X, W, b))
+	\]
+	donde:
+	\begin{itemize}
+		\item $X = \{x_1, x_2, \dots, x_n\} \in \mathbb{R}$ es el conjunto de datos que recibe cada neurona.
+		
+		\item $W = \{ w_1, w_2, \dots, w_n \} \in \mathbb{R}$ es el conjunto de pesos sinapticos que indican la importancia de cada entrada.
+		
+		\item $b$ o $w_0 \in \mathbb{R}$ es un sesgo que desplaza la función de activación y controla el umbral de aceptación.
+		
+		\item $\omega(X,W,b)$ es una función de agregación $\omega: \mathbb{R}^n \to \mathbb{R}$ que combina las entradas. Usualmente se define como una combinación lineal:
+		 \[
+		 \omega(X,W,b) = \sum_{i = 1}^{n} w_i x_i + b
+		 \]
+		 
+		 \item $\phi(\omega(X,W,b))$ es la función de activación $\phi: \mathbb{R} \to \mathbb{R}$ que transforma $\omega(X,W,b)$ en una salida activada.
+		 
+	\end{itemize}
+	
+\end{definition}
+
+La cual se suele representar con la figura \ref{fig:neurona_artificial}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\linewidth]{img/neurona_artificial.png}
+	\caption{Representación grafica de una neurona artificial. Contiene las entradas ($x_1, x_2, \dots, x_n$), los pesos ($w_1, w_2, \dots, w_n$), el sesgo ($w_0$ o $b$), función de agregación ($\Sigma$), función de activación ($f$) y su salida.}
+	\label{fig:neurona_artificial}
+\end{figure}
+
 
 \subsubsection{Función de activación}
 
-La función de activación es la que determina el valor de salida de cada neurona. Este valor, normalmente, se asigna entre un umbral para que limiten el comportamiento de la red neuronal. En la tabla \ref{table:fun_activacion} se muestran cuatro de las funciones de activación mas comunes con su respectiva grafica.
+La función de activación es la que determina el valor de salida de cada neurona. Este valor, normalmente, se asigna entre un umbral para que limiten el comportamiento de la red neuronal. A continuación se muestran algunas de las funciones de activación mas comunes con su respectiva grafica.
 
-\begin{table}[H]
-	\centering
-	\begin{tabular}{|p{0.15\textwidth}|p{0.25\textwidth}|p{0.4\textwidth}|}
-		\hline
-		\textbf{Función} & \textbf{Formula} & \textbf{Figura} \\
-		\hline
-		Binaria & $ \phi(z) = \begin{cases}
-			0 & z < 0 \\ 1 & z \geq 0 
-		\end{cases}$  &
-		 \includegraphics[width=\linewidth]{img/binary.png} \\ \hline
-		
-		Lineal & $\phi(z) = z $ & 
-		\includegraphics[width=\linewidth]{img/lineal.png} \\ \hline
-		
-		Sigmoide & $\phi(z) = \frac{1}{1 + e^{-z}}$ & 
-		\includegraphics[width=\linewidth]{img/sigmoid.png}  \\ \hline
-		
-		Tangente & $\phi(z) = \tanh(z) $ & 
-		\includegraphics[width=\linewidth]{img/tanh.png} \\ \hline
-		
-		ReLU & $\phi(z) = \max(0, z)$ & 
-		\includegraphics[width=\linewidth]{img/relu.png} \\ \hline
+\begin{itemize}
+	\item \textbf{Lineal}: Utilizada para regresión lineal, la salida equivale a la función de agregación pero limita la capacidad de aprender patrones complejos.
+	\[\phi(z) = z\]
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.5\linewidth]{img/lineal.png}
+		\caption{Función de activación lineal.}
+		\label{fig:lineal}
+	\end{figure}
 	
-	\end{tabular}
-	\caption{Funciones de activación. Lista de 5 de las funciones de activación mas conocidas. La función binaria no suele ser usada para sistemas complejos dado que no es una función continua. Las funciones Sigmoide, $\tanh$ y ReLU son las mas utilizadas en redes neuronales.}
+	\item \textbf{Escalón (binaria)}: Utilizada cuando se conoce el umbral de activación y usada para clasificación binaria.
+	\[
+	 \phi(z) = \begin{cases}
+		0 & z < 0 \\ 1 & z \geq 0 
+	\end{cases}
+	\]
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.5\linewidth]{img/binary.png}
+		\caption{Función de activación escalón.}
+		\label{fig:binary}
+	\end{figure}
 	
-	\label{table:fun_activacion}
-\end{table}
+	\item \textbf{Sigmoide (Logística)}: La salida esta en un rango entre $[0, 1]$, lo que permite tratarlo como una probabilidad.
+	\[
+		\phi(z) = \frac{1}{1 + e^{-z}}
+	\]
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.5\linewidth]{img/sigmoid.png}
+		\caption{Función de activación sigmoide.}
+		\label{fig:sigmoid}
+	\end{figure}
+	
+	\item \textbf{Tangente hiperbólica}: proporciona salidas en el rango $[-1, 1]$.
+	\[
+		\phi(z) = \tanh(z) = \frac{e^x - e^{-x}}{e^x  + e^{-x}}
+	\]
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.5\linewidth]{img/tanh.png}
+		\caption{Función de activación tangente hiperbólica.}
+		\label{fig:tanh}
+	\end{figure}
+	
+	\item \textbf{ReLU (\textit{Rectified Lineal Unit})}: Función recientemente utilizada por su rápida convergencia en el entrenamiento. 
+	\[
+		\phi(z) = \max(0, z)
+	\]
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.5\linewidth]{img/relu.png}
+		\caption{Función de activación ReLU.}
+		\label{fig:relu}
+	\end{figure}
+\end{itemize}
+
+
 
 \subsection{Redes neuronales}
+
+Una neurona unicamente puede realizar una operación, para aumentar la capacidad de entender patrones mas complejos es necesario añadir múltiples neuronas interconectadas, lo que se conoce como red neuronal artificial.
+
+Las neuronas interconectadas permiten transmitir y propagar información, tradicionalmente se estructuran en un modelo multicapa (ver figura \ref{fig:ann_multicapa}) la cual incluye:
+
+\begin{itemize}
+	\item Capa de entrada: Es la primera capa de procesamiento cuya principal tarea es recibir los datos.
+	\item Capa o capas ocultas: Es un conjunto de múltiples capas y son el componente con mayor relevancia a la hora de procesamiento.
+	\item Capa de salida: Esta ultima capa se encarga de darle formato a los resultados para mostrarlos. 
+\end{itemize}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.6\linewidth]{img/ANN_multicapa.png}
+	\caption{Representación del perceptrón multicapa totalmente conectado no recurrente con una sola capa oculta.}
+	\label{fig:ann_multicapa}
+\end{figure}
+
+\subsection{Aprendizaje en redes neuronales}
+
+Con las condiciones ideales, se dan los pesos de cada neurona y el sistema es capaz de hacer su trabajo sin problemas pero es necesario de un ``entrenamiento'' que permita a la ANN modificar los pesos de cada neurona. A continuación se define la función de perdida, optimización y entrenamiento que permite definir los pesos sinapticos de cada neurona, entrenar al sistema para que realize su tarea especifica y medir el nivel de error.
+
+\subsubsection{Función de perdida}
+
+La función de perdida se usa para medir el rendimiento del modelo. Calcula la desviación de la predicción realizada por el modelo respecto a la clase que corresponde. Optimizar un modelo es entonces ajustar los parámetros para disminuir la función de perdida, es decir, que entre mejor sea la tasa de predicciones correctas menor es la función de perdida.
+
+Es una medida que nos permite conocer la exactitud del modelo y que tan lejos se encuentra de la solución optima.
+
+La función de perdida no representa unicamente una distancia escalar entre valor obtenido y el valor esperado, sino que puede funcionar como parámetro para una función de optimización, por ejemplo gradiente descendiente utiliza el gradiente de la función de perdida'', es decir, la derivada de una función con múltiples variables.
+
+Es importante que la función de perdida sea diferenciable. Usando el gradiente de la función de perdida es posible conocer la dirección hacia la cual debe moverse para disminuir la perdida.
+
+Las funciones de perdida se pueden utilizar para regresión y para clasificación. La primera mide el error en valores continuos, usado para estimar valores contables como el precio, tamaño, tiempo. La segunda mide el errores en valores discretos, como la clasificación o la categoría.
+
+Diferentes funciones de perdida priorizan diferentes tipos de error, la elección de la función de perdida dependerá de la tarea que se desea realizar. A continuación se muestran algunas funciones de perdida.
+
+\paragraph{Regresión}
+
+Sirve para problemas de regresión lineal y regresión polinómica. Su salida son valores continuos que determinan la relación entre una o varias variables independientes. La función no solo determina si la salida es incorrecta, sino que ademas devuelve el grado en que diverge del resultado objetivo.
+
+A continuación se listan algunas funciones de perdidas comúnmente 
+utilizadas donde $n$ el numero de pruebas realizadas, $y_i$ es el valor y $\hat{y}_i$ es el valor obtenido:
+
+\begin{itemize}
+	\item \textbf{MSE (\textit{Mean Squared Error})}. El error cuadrático medio o también conocido como ``L2 loss'' la cual se define como:
+	\[
+		MSNE = \frac{1}{n} \sum_{i = 1}^{n} (y_i - \hat{y}_i)^2
+	\]
+	
+	Elevar al error al cuadrado indica que siempre sera positivo, por lo tanto, esta función solo devuelve la magnitud y no la dirección. Elevar al cuadrado también asigna mayor prioridad a los errores mas grandes.Esta función es útil cuando el resultado esperado se asume que tiene una distribución Gaussiana.
+	
+	\item \textbf{MSLE \textit{Mean Squared Logarithmic Error}}:El error logarítmico cuadrado medio se usa cuando existe un amplio rango de valores. Se define como:
+	\[
+		MSLE = \frac{1}{n} \sum_{i = 1}^{n} (\log(1 + \hat{y}_i) - \log(1 + y_i))^2
+	\]
+	
+	Grandes penalizaciones a problemas grandes puede ser contraproducente, MSLE evita esto.
+	
+	\item 
+	
+\end{itemize}
+
+\paragraph{Clasificación}
+
+
+
+\subsubsection{Optimización}
+
+\subsubsection{Entrenamiento}
+
+\subsection{Redes neuronales}
+
+\subsection{Arquitecturas}
+  
