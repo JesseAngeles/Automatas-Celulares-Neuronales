@@ -2,15 +2,15 @@
 
 Las redes neuronales artificiales (ANN, \textit{Artificial Neural Network}) es un modelo inspirado del pensamiento humano, mas específicamente, en como un conjunto de neuronas interconectadas comparten información. 	
 
-Las ANN son una conjunto de neuronas artificiales interconectadas que realizan cálculos y transmiten información para realizar una operación. Su inspiración es el cerebro. 
+Las ANN son una conjunto de neuronas artificiales interconectadas que realizan cálculos y transmiten información para realizar una operación, imitando el comportamiento del cerebro.
 
 \subsection{Neurona biológica}
 
 Las neuronas son células especializadas del sistema nervioso cuyo objetivo es recibir, procesar y transmitir información por medio de señales químicas y eléctricas. 
 
-Cada neurona se compone (principalmente) de tres elementos como se muestra en la figura \ref{fig:neurona}: 
+Cada neurona se compone (principalmente) de tres elementos (como se muestra en la figura \ref{fig:neurona}): 
 \begin{itemize}
-	\item Las dendritas que reciben señales provenientes de otras neuronas.
+	\item Las dendritas, que reciben señales provenientes de otras neuronas.
 	\item El núcleo o cuerpo, que integra las señales proveniente de las dendritas y produce una nueva señal eléctrica.
 	\item El axón, el cual conduce la señal producida por el cuerpo hacia otras neuronas haciendo sinapsis, es decir, transmite la señal de una célula a otra.
 \end{itemize}
@@ -32,6 +32,14 @@ La neurona artificial se considera como una unidad de procesamiento de informaci
 	\item Las dendritas equivalen al conjunto de datos de entrada. Sin embargo, no toda la información tiene la misma relevancia, para esto se le asigna a cada entrada un peso sinaptico.
 	\item El cuerpo de se sustituye por dos funciones: (1) Una función de agregación que combina todos los datos de entrada (generalmente es una combinación lineal entre las entradas y los pesos sinapticos) y (2) una función de activación que determina si la neurona esta activa y en que grado. 
 \end{itemize}
+
+La cual se suele representar como en la figura \ref{fig:neurona_artificial}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\linewidth]{img/neurona_artificial.png}
+	\caption{Representación grafica de una neurona artificial. Contiene las entradas ($x_1, x_2, \dots, x_n$), los pesos ($w_1, w_2, \dots, w_n$), el sesgo ($w_0$ o $b$), función de agregación ($\Sigma$), función de activación ($f$) y su salida.}
+	\label{fig:neurona_artificial}
+\end{figure}
 
 \begin{definition}
 	Una neurona artificial es una función $f: \mathbb{R}^n \to \mathbb{R}$ dada por:
@@ -56,15 +64,6 @@ La neurona artificial se considera como una unidad de procesamiento de informaci
 	\end{itemize}
 	
 \end{definition}
-
-La cual se suele representar con la figura \ref{fig:neurona_artificial}.
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.6\linewidth]{img/neurona_artificial.png}
-	\caption{Representación grafica de una neurona artificial. Contiene las entradas ($x_1, x_2, \dots, x_n$), los pesos ($w_1, w_2, \dots, w_n$), el sesgo ($w_0$ o $b$), función de agregación ($\Sigma$), función de activación ($f$) y su salida.}
-	\label{fig:neurona_artificial}
-\end{figure}
-
 
 \subsubsection{Función de activación}
 
@@ -128,12 +127,27 @@ La función de activación es la que determina el valor de salida de cada neuron
 \end{itemize}
 
 
-
 \subsection{Redes neuronales}
 
-Una neurona unicamente puede realizar una operación, para aumentar la capacidad de entender patrones mas complejos es necesario añadir múltiples neuronas interconectadas, lo que se conoce como red neuronal artificial.
+Una neurona unicamente puede realizar una operación. Para aumentar la capacidad de entender patrones mas complejos es necesario añadir múltiples neuronas interconectadas, lo que se conoce como red neuronal artificial. Una ANN puede definirse como un grafo dirigido.
 
-Las neuronas interconectadas permiten transmitir y propagar información, tradicionalmente se estructuran en un modelo multicapa (ver figura \ref{fig:ann_multicapa}) la cual incluye:
+\begin{definition}
+	Una red neuronal artificial es un grafo dirigido $G = (V, E)$ donde cada nodo $v \in V$ representa una neurona y cada arista $(u , v) \in E$ transporta la salida $y_u$ desde $u$ hasta $v$ ponderada por el peso $w_{uv}$. 
+	
+	Existe un conjunto de nodos de entrada $X \subseteq V$que reciben los datos iniciales y un conjunto de nodos de salida $T \subseteq V$ cuya activación final representa la salida de la red.
+\end{definition}
+
+La red en su conjunto implementa una función parametrizada 
+\[F_\theta: \mathbb{R}^n \to \mathbb{R}^m\] 
+donde $n$ es el numero de datos de entrada, $m$ el numero de datos de salida y $\theta$ el conjunto de parámetros entrenables.
+
+Por lo que podemos concluir con la siguiente definición.
+
+\begin{definition}
+	Una red neuronal es una función $F_\theta: \mathbb{R}^n \to \mathbb{R}^m$ donde $\theta = \{ w_{uv}, b_v : (u, v) \in E, v \in V \}$ es el conjunto de parámetros entrenables.
+\end{definition}
+
+Un modelo tradicionalmente utilizado es el perceptrón multicapa (ver figura \ref{fig:ann_multicapa}) que se caracteriza por tener las siguientes tres capas:
 
 \begin{itemize}
 	\item Capa de entrada: Es la primera capa de procesamiento cuya principal tarea es recibir los datos.
@@ -150,57 +164,40 @@ Las neuronas interconectadas permiten transmitir y propagar información, tradic
 
 \subsection{Aprendizaje en redes neuronales}
 
-Con las condiciones ideales, se dan los pesos de cada neurona y el sistema es capaz de hacer su trabajo sin problemas pero es necesario de un ``entrenamiento'' que permita a la ANN modificar los pesos de cada neurona. A continuación se define la función de perdida, optimización y entrenamiento que permite definir los pesos sinapticos de cada neurona, entrenar al sistema para que realize su tarea especifica y medir el nivel de error.
+Dada una ANN con los parametros entrenables totalmente configurados, es capaz de realizar su clasificación o predicción de manera correcta. Sin embargo, resulta imposible configurar estos pesos manualmente, por l oque requiere de un ``entrenamiento'' que ayude a definir los pesos sinápticos. A continuación se define la función de perdida, optimización y entrenamiento, elementos necesarios para obtener esa configuración especifica.
 
 \subsubsection{Función de perdida}
 
-La función de perdida se usa para medir el rendimiento del modelo. Calcula la desviación de la predicción realizada por el modelo respecto a la clase que corresponde. Optimizar un modelo es entonces ajustar los parámetros para disminuir la función de perdida, es decir, que entre mejor sea la tasa de predicciones correctas menor es la función de perdida.
+La función de perdida se usa pera medir el rendimiento del modelo. Calcula la desviación que existe entre el valor predicho y el valor esperado. Esta función puede ser un escalar o un vector que permite aproximar la tasa de error para llegar a una solución optima. 
 
-Es una medida que nos permite conocer la exactitud del modelo y que tan lejos se encuentra de la solución optima.
+\begin{definition}
+	Sea $F_\theta$ una ANN  y $ \mathcal{D} = \{ (x^{(i)}, y^{(i)}) \}_{i = 1}^n $ 	un conjunto de datos de entrenamiento donde $x^{(i)}$ es la entrada y $y^{(i)}$ es la salida esperada, una función de perdida es un mapeo 
+	\[
+		\mathcal{L}: \mathbb{R}^m \times \mathbb{R}^m \to \mathbb{R}_{\geq 0}
+	\]
+	tal que mide la discrepancia entre la predicción del modelo y la salida real:
+	\[
+		\mathcal{L} (F_\theta (x^{(i)}, y^{(i)}))
+	\]
+	
+\end{definition}
 
-La función de perdida no representa unicamente una distancia escalar entre valor obtenido y el valor esperado, sino que puede funcionar como parámetro para una función de optimización, por ejemplo gradiente descendiente utiliza el gradiente de la función de perdida'', es decir, la derivada de una función con múltiples variables.
-
-Es importante que la función de perdida sea diferenciable. Usando el gradiente de la función de perdida es posible conocer la dirección hacia la cual debe moverse para disminuir la perdida.
+Es importante que la función de perdida sea diferenciable. El gradiente de la función de perdida permite conocer la dirección hacia la cual debe moverse para disminuir la perdida.
 
 Las funciones de perdida se pueden utilizar para regresión y para clasificación. La primera mide el error en valores continuos, usado para estimar valores contables como el precio, tamaño, tiempo. La segunda mide el errores en valores discretos, como la clasificación o la categoría.
 
 Diferentes funciones de perdida priorizan diferentes tipos de error, la elección de la función de perdida dependerá de la tarea que se desea realizar. A continuación se muestran algunas funciones de perdida.
 
-\paragraph{Regresión}
-
-Sirve para problemas de regresión lineal y regresión polinómica. Su salida son valores continuos que determinan la relación entre una o varias variables independientes. La función no solo determina si la salida es incorrecta, sino que ademas devuelve el grado en que diverge del resultado objetivo.
-
-A continuación se listan algunas funciones de perdidas comúnmente 
-utilizadas donde $n$ el numero de pruebas realizadas, $y_i$ es el valor y $\hat{y}_i$ es el valor obtenido:
-
-\begin{itemize}
-	\item \textbf{MSE (\textit{Mean Squared Error})}. El error cuadrático medio o también conocido como ``L2 loss'' la cual se define como:
+\begin{definition}
+	Sea $F_\theta$ una ANN y $\mathcal{L}$ un conjunto de datos de entrenamiento, la función de costo es el promedio de las perdidas:
 	\[
-		MSNE = \frac{1}{n} \sum_{i = 1}^{n} (y_i - \hat{y}_i)^2
+		J(\theta) = \frac{1}{n} \sum_{i = 1}^{n} \mathcal{L}(F_\theta(x^{(i)}), y^{(i)})
 	\]
-	
-	Elevar al error al cuadrado indica que siempre sera positivo, por lo tanto, esta función solo devuelve la magnitud y no la dirección. Elevar al cuadrado también asigna mayor prioridad a los errores mas grandes.Esta función es útil cuando el resultado esperado se asume que tiene una distribución Gaussiana.
-	
-	\item \textbf{MSLE \textit{Mean Squared Logarithmic Error}}:El error logarítmico cuadrado medio se usa cuando existe un amplio rango de valores. Se define como:
-	\[
-		MSLE = \frac{1}{n} \sum_{i = 1}^{n} (\log(1 + \hat{y}_i) - \log(1 + y_i))^2
-	\]
-	
-	Grandes penalizaciones a problemas grandes puede ser contraproducente, MSLE evita esto.
-	
-	\item 
-	
-\end{itemize}
-
-\paragraph{Clasificación}
-
-
+\end{definition}
 
 \subsubsection{Optimización}
 
 \subsubsection{Entrenamiento}
-
-\subsection{Redes neuronales}
 
 \subsection{Arquitecturas}
   
