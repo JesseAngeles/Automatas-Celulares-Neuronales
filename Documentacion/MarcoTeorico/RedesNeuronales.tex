@@ -37,7 +37,7 @@ La cual se suele representar como en la figura \ref{fig:neurona_artificial}.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.6\linewidth]{img/neurona_artificial.png}
-	\caption{Representación grafica de una neurona artificial. Contiene las entradas ($x_1, x_2, \dots, x_n$), los pesos ($w_1, w_2, \dots, w_n$), el sesgo ($w_0$ o $b$), función de agregación ($\Sigma$), función de activación ($f$) y su salida.}
+	\caption{Representación grafica de una neurona artificial. Contiene las entradas ($x_1, x_2, \dots, x_n$), los pesos sinápticos ($w_1, w_2, \dots, w_n$), el sesgo ($w_0$ o $b$), función de agregación ($\Sigma$), función de activación ($f$) y la salida.}
 	\label{fig:neurona_artificial}
 \end{figure}
 
@@ -65,67 +65,7 @@ La cual se suele representar como en la figura \ref{fig:neurona_artificial}.
 	
 \end{definition}
 
-\subsubsection{Función de activación}
-
-La función de activación es la que determina el valor de salida de cada neurona. Este valor, normalmente, se asigna entre un umbral para que limiten el comportamiento de la red neuronal. A continuación se muestran algunas de las funciones de activación mas comunes con su respectiva grafica.
-
-\begin{itemize}
-	\item \textbf{Lineal}: Utilizada para regresión lineal, la salida equivale a la función de agregación pero limita la capacidad de aprender patrones complejos.
-	\[\phi(z) = z\]
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.5\linewidth]{img/lineal.png}
-		\caption{Función de activación lineal.}
-		\label{fig:lineal}
-	\end{figure}
-	
-	\item \textbf{Escalón (binaria)}: Utilizada cuando se conoce el umbral de activación y usada para clasificación binaria.
-	\[
-	 \phi(z) = \begin{cases}
-		0 & z < 0 \\ 1 & z \geq 0 
-	\end{cases}
-	\]
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.5\linewidth]{img/binary.png}
-		\caption{Función de activación escalón.}
-		\label{fig:binary}
-	\end{figure}
-	
-	\item \textbf{Sigmoide (Logística)}: La salida esta en un rango entre $[0, 1]$, lo que permite tratarlo como una probabilidad.
-	\[
-		\phi(z) = \frac{1}{1 + e^{-z}}
-	\]
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.5\linewidth]{img/sigmoid.png}
-		\caption{Función de activación sigmoide.}
-		\label{fig:sigmoid}
-	\end{figure}
-	
-	\item \textbf{Tangente hiperbólica}: proporciona salidas en el rango $[-1, 1]$.
-	\[
-		\phi(z) = \tanh(z) = \frac{e^x - e^{-x}}{e^x  + e^{-x}}
-	\]
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.5\linewidth]{img/tanh.png}
-		\caption{Función de activación tangente hiperbólica.}
-		\label{fig:tanh}
-	\end{figure}
-	
-	\item \textbf{ReLU (\textit{Rectified Lineal Unit})}: Función recientemente utilizada por su rápida convergencia en el entrenamiento. 
-	\[
-		\phi(z) = \max(0, z)
-	\]
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.5\linewidth]{img/relu.png}
-		\caption{Función de activación ReLU.}
-		\label{fig:relu}
-	\end{figure}
-\end{itemize}
-
+La función de activación es la que determina el valor de salida de cada neurona. Este valor, normalmente, se asigna entre un umbral para que limiten el comportamiento de la red neuronal. 
 
 \subsection{Redes neuronales}
 
@@ -147,24 +87,10 @@ Por lo que podemos concluir con la siguiente definición.
 	Una red neuronal es una función $F_\theta: \mathbb{R}^n \to \mathbb{R}^m$ donde $\theta = \{ w_{uv}, b_v : (u, v) \in E, v \in V \}$ es el conjunto de parámetros entrenables.
 \end{definition}
 
-Un modelo tradicionalmente utilizado es el perceptrón multicapa (ver figura \ref{fig:ann_multicapa}) que se caracteriza por tener las siguientes tres capas:
-
-\begin{itemize}
-	\item Capa de entrada: Es la primera capa de procesamiento cuya principal tarea es recibir los datos.
-	\item Capa o capas ocultas: Es un conjunto de múltiples capas y son el componente con mayor relevancia a la hora de procesamiento.
-	\item Capa de salida: Esta ultima capa se encarga de darle formato a los resultados para mostrarlos. 
-\end{itemize}
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.6\linewidth]{img/ANN_multicapa.png}
-	\caption{Representación del perceptrón multicapa totalmente conectado no recurrente con una sola capa oculta.}
-	\label{fig:ann_multicapa}
-\end{figure}
 
 \subsection{Aprendizaje en redes neuronales}
 
-Dada una ANN con los parametros entrenables totalmente configurados, es capaz de realizar su clasificación o predicción de manera correcta. Sin embargo, resulta imposible configurar estos pesos manualmente, por l oque requiere de un ``entrenamiento'' que ayude a definir los pesos sinápticos. A continuación se define la función de perdida, optimización y entrenamiento, elementos necesarios para obtener esa configuración especifica.
+Dada una ANN con los parametros entrenables totalmente configurados, es capaz de realizar su clasificación o predicción de manera correcta. Sin embargo, resulta imposible configurar estos pesos manualmente, por lo que requiere de un ``entrenamiento'' que ayude a definir los pesos sinápticos. A continuación se define la función de perdida, optimización y entrenamiento, elementos necesarios para obtener esa configuración especifica.
 
 \subsubsection{Función de perdida}
 
@@ -197,7 +123,45 @@ Diferentes funciones de perdida priorizan diferentes tipos de error, la elecció
 
 \subsubsection{Optimización}
 
+El entrenamiento de una red consiste en ajustar los parámetros entrenables $\theta$ para minimizar la función de perdida. La optimización resulta en resolver el problema de minimización dado por:
+\[
+	\theta^* = \arg \min_{\theta} J(\theta)
+\]
+
+Esto se puede conseguir mediante diferentes técnicas, siendo el descenso del gradiente la mas común. Este método actualiza los parámetros en la dirección opuesta al gradiente de la función de perdida:
+\[
+	\theta^{t + 1} = \theta^{(t)} - \eta  \nabla_\theta \mathcal{L}(\theta^{(t)})
+\]
+donde $\eta >0$ es la tasa de aprendizaje. Una tasa de aprendizaje alta puede divergir en la solución, mientras que una tasa baja puede tener una convergencia lenta. 
+
 \subsubsection{Entrenamiento}
 
-\subsection{Arquitecturas}
+Finalmente, el entrenamiento consiste en ajustar todos los parámetros $\theta = \{ W^{(l)}, b^{(l)}\}$ para minimizar la función de costos $J(\theta)$ en un conjunto de datos de entrenamiento. Este proceso se compone de las siguientes etapas:
+
+\begin{enumerate}
+	\item Se inicializan los parámetros, generalmente de forma aleatoria: $\theta_0 \sim \mathcal{D}_{init}$
+	
+	\item Se hace la propagación hacia adelante o \textit{forward pass}, es decir, para cada entrada $x^{(i)}$ se evaluá $\hat{y}^{(i)} = F_\theta(x^{(i)})$ 
+	
+	\item Se calcula la pérdida: $\mathcal{L}^{(i)} = \mathcal{L}(\hat{y}^{(i)}, y^{(i)})$
+	
+	\item Se calculan los gradientes propagando la información hacia atrás o \textit{backpropagation} utilizando la regla de la cadena:
+	\[
+		\nabla_\theta J(\theta) = \frac{1}{N} \sum_{i = 1}^{N} \nabla_\theta \mathcal{L} (F_ \theta(x^{(i)}, y ^{(i)}))
+	\]
+	
+	Se actualizan los parámetros mediante la función de optimización: $\theta^{t + 1} = \theta^{(t)} - \eta  \nabla_\theta \mathcal{L}(\theta^{(t)})$
+	
+	\item Se repite este proceso sobre un \textit{dataset} hasta la convergencia de la solución o hasta alcanzar un criterio de parada.
+\end{enumerate}
+
+En resumen, el entrenamiento de la red neuronal es un proceso iterativo de optimización que consiste en:
+\begin{enumerate}
+	\item Propagar los datos de entrada por la red.
+	\item Comparar la salida con el valor real usando una función de perdida.
+	\item Propagar el error hacia atrás para obtener gradientes.
+	\item Actualizar los parámetros con un algoritmo de optimización.
+	\item Repetir hasta que el modelo aproxime adecuadamente la función deseada.
+\end{enumerate}
   
+  Una de las arquitecturas de rede neuronales son los modelos convolucionales (CNN, \textit{Convolutional Neural Network})
