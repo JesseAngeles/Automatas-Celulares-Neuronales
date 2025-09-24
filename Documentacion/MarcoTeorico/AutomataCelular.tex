@@ -1,8 +1,8 @@
 \section{Autómatas celulares}
 
-Un autómata celular (CA, \textit{Cellular Automata}), concebido por John von Neumann \cite{vonNeumann1948}, es una colección de células que pueden adquirir un estado y que se agrupan en una red. El CA evoluciona en pasos de tiempo, donde cada célula cambia su estado en función de los estados de su vecindad.  Durante la evolución, el CA cambia de una configuración a otra. Tradicionalmente, se considera una red regular de células, un conjunto finito de estados y evoluciones en pasos discretos de tiempo.
+Un autómata celular (CA, \textit{Cellular Automata}), concebido por John von Neumann \cite{vonNeumann1948}, es una colección de células que pueden adquirir un estado y que se agrupan en una red. El CA evoluciona en pasos de tiempo, donde cada célula cambia su estado en función de los estados de su vecindad.  Durante la evolución, el CA cambia de una configuración a otra \cite{weissteinCA, wolfram1982, ca_fsancho}. Tradicionalmente, se considera una red regular de células, un conjunto finito de estados y evoluciones en pasos discretos de tiempo.
 
-\begin{definition} \label{CA}
+\begin{definition}
 	Un autómata  celular es una 4-tupla ($\mathcal{L}, \mathcal{S}, \mathcal{N}, \mathcal{R}$) donde:
 	
 	\begin{itemize}
@@ -25,11 +25,14 @@ Un autómata celular (CA, \textit{Cellular Automata}), concebido por John von Ne
 	\end{itemize}
 \end{definition}
 
+Esta formulación sigue de manera general a \cite{ca_phd, sayama_cellularautomata, ca_discrete_universe}.
+
+
 \subsection{Vecindad}
 
-La vecindad de una célula está estrechamente relacionada con la dimensionalidad del CA. John von Neumann propone una vecindad para $\mathbb{Z}^2$ de cinco células formada por ella misma y las cuatro células ortogonales más cercanas como se observa en la figura \ref{fig:N_neumann}. Esta vecindad es expandida por Moore añadiendo los cuatro vecinos diagonales más cercanos, dando una vecindad de nueve elementos. Esta vecindad, representada por la figura \ref{fig:N_moore}, fue utilizada por John Conway en el ``Juego de la Vida'' (GoL, \textit{Game of Life}).
+La vecindad de una célula está estrechamente relacionada con la dimensionalidad del CA. John von Neumann propone una vecindad para $\mathbb{Z}^2$ de cinco células formada por ella misma y las cuatro células ortogonales más cercanas \cite{ca_theory_self_reproduction} como se observa en la figura \ref{fig:N_neumann}. Esta vecindad es expandida por Moore añadiendo los cuatro vecinos diagonales más cercanos, dando una vecindad de nueve elementos \cite{moore}. Esta vecindad, representada por la figura \ref{fig:N_moore}, fue utilizada por John Conway en el ``Juego de la Vida'' (GoL, \textit{Game of Life}) \cite{life}.
 
-La figura \ref{fig:N_wolfram} representa una vecindad de radio uno en un espacio unidimensional, es decir, todas aquellas células a una distancia menor o igual a uno, incluyéndose a su misma.. Fue utilizada por Stephen Wolfram para definir los Autómatas Celulares Elementales (ECA).
+La figura \ref{fig:N_wolfram} representa una vecindad de radio uno en un espacio unidimensional, es decir, todas aquellas células a una distancia menor o igual a uno, incluyéndose a su misma. Fue utilizada por Stephen Wolfram para definir los Autómatas Celulares Elementales (ECA) \cite{nks}.
 
 \begin{figure}[htbp]
 	\centering
@@ -52,7 +55,7 @@ La figura \ref{fig:N_wolfram} representa una vecindad de radio uno en un espacio
 	\label{fig:vecindades_regulares}
 \end{figure}
 
-Las vecindades no se limitan a una cuadrícula regular; también pueden adoptar otras formas, como las vecindades hexagonales o triangulares ilustradas en las figuras \ref{fig:N_hexagonal} y \ref{fig:N_triangular}.  Ademas, existen vecindades con comportamiento dinámico, como la vecindad de Margolus mostrada en la figura \ref{fig:N_margolus}, cuya configuración alterna entre dos disposiciones en cada paso evolutivo.
+Las vecindades no se limitan a una cuadrícula regular; también pueden adoptar otras formas, como las vecindades hexagonales o triangulares ilustradas en las figuras \ref{fig:N_hexagonal} y \ref{fig:N_triangular}.  Ademas, existen vecindades con comportamiento dinámico, como la vecindad de Margolus mostrada en la figura \ref{fig:N_margolus}, cuya configuración alterna entre dos disposiciones en cada paso evolutivo \cite{margolus}.
 
 \begin{figure}[htbp]
 	\centering
@@ -77,17 +80,19 @@ Las vecindades no se limitan a una cuadrícula regular; también pueden adoptar 
 
 \subsection{Estados}
 
-Cada célula adquiere un único estado $s$ en cada paso de tiempo, donde $s$ pertenece a un conjunto de estados $s \in \mathcal{S}$. El CA de John von Neumann contempla 29 estados, aunque algunos autores han propuesto variantes reducidas a cuatro estados, conservando su capacidad de autoreproducirse. 
+Cada célula adquiere un único estado $s$ en cada paso de tiempo, donde $s$ pertenece a un conjunto de estados $s \in \mathcal{S}$. El CA de John von Neumann contempla 29 estados, aunque algunos autores han propuesto variantes reducidas a cuatro estados, conservando su capacidad de autoreproducirse \cite{ca_phd}. 
 
-Por otro lado, GoL se compone de dos estados que denominó ``vivas'' y ``muertas''.  De igual forma Stephen Wolfram utiliza dos estados en ECA.
+Por otro lado, GoL se compone de dos estados que denominó ``vivas'' y ``muertas'' \cite{life}.  De igual forma Stephen Wolfram utiliza dos estados en ECA \cite{nks}.
 
-Idealmente, el espacio celular $\mathcal{L}$ es infinito, lo que permitiría infinitas combinaciones de estados. Sin embargo, esto es inviable computacionalmente, por lo que, al igual que el CA de John von Neumann, se requiere establecer una restricción de finitud. 
+Idealmente, el espacio celular $\mathcal{L}$ es infinito, lo que permitiría infinitas combinaciones de estados. Sin embargo, esto es inviable computacionalmente, por lo que, al igual que el CA de John von Neumann, se requiere establecer una restricción de finitud como lo marca \cite{ca_phd}. 
 
 \begin{definition}
 	Sea $\mathcal{R}$ la regla local de un CA. Un estado $\sigma_q \in \mathcal{S}$ es inactivo si $\mathcal{R}(\sigma_q, \sigma_q, \dots, \sigma_q) = \sigma_q$.
 \end{definition}
 
-Es decir, si una célula y todos sus vecinos están en estado inactivo, la célula permanece inactiva tras aplicar $\mathcal{R}$. Cabe notar que todos los vecinos deben de estar en dicho estado, por lo que, si alguno cambia, podría reactivarse.
+Es decir, si una célula y todos sus vecinos están en estado inactivo, la célula permanece inactiva tras aplicar $\mathcal{R}$. Cabe notar que todos los vecinos deben de estar en dicho estado, por lo que, si alguno cambia, podría reactivarse. 
+
+Para trabajar computacionalmente, \cite{ca_phd} define las configuraciones finitas de la siguiente manera:
 
 \begin{definition}
 	Sea $\sigma_q \in \mathcal{S}$ un estado inactivo, $\sigma_p \neq \sigma_q \in \mathcal{S}$ un estado no inactivo y sea $\mathcal{L}$ un espacio celular infinito. Se considera que un CA tiene configuración finita si solo un número finito de celdas están en estados activos $\sigma_p$.

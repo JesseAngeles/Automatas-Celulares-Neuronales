@@ -1,8 +1,8 @@
 \section{Modelado de sistemas complejos}
 
-Las colonias de hormigas, el mercado bursátil, el clima, el sistema nervioso, las células y los organismos vivos son algunos ejemplos de sistemas complejos (CS, \textit{Complex Systems}). Estos se caracterizan por tener un conjunto de elementos que interactúan entre con el fin de alcanzar un objetivo \cite{cs_def_1, cs_def_2}. 
+Las colonias de hormigas, el mercado bursátil, el clima, el sistema nervioso, las células y los organismos vivos son algunos ejemplos de sistemas complejos (CS, \textit{Complex Systems}). Estos se caracterizan por tener un conjunto de elementos que interactúan entre si con el fin de alcanzar un objetivo \cite{cs_def_1, cs_def_2}. 
 
-Los CS tienen dos implicaciones fundamentales: (1) Existe una influencia mutua entre sus elementos, donde el cambio afecta inevitablemente al resto de elementos, y (2) un conjunto de elementos reunidos que no persigue un objetivo no es considerado un sistema \cite{cs_def_2}.
+Los CS tienen dos implicaciones fundamentales: (1) Existe una influencia mutua entre sus elementos, donde el cambio afecta inevitablemente al resto de elementos, y (2) persiguen un objetivo \cite{cs_def_2}.
 
 \begin{definition}
 	Un sistema complejo es una entidad compuesta de partes interconectadas, de tal forma que el comportamiento colectivo es mas que la suma de sus componentes individuales.
@@ -18,34 +18,43 @@ Los CS se caracterizan principalmente por:
 	
 	\item \textbf{Orden espontaneo}: Existe un orden emergente resultado de las interacciones locales no coordinadas el cual no puede ser descrito mediante sus interacciones locales \cite{cs_def_3}.
 	
-	\textbf{Aparición (\textit{emergence})}: Entidades, patrones, comportamientos y propiedades emergen de la interacción de entidades mas pequeñas, las cuales no existen estos atributos \cite{cs_def_3}.
+	\textbf{Aparición (\textit{emergence})}: Entidades, patrones, comportamientos y propiedades emergen de la interacción de entidades mas pequeñas, las cuales no exhiben estos atributos \cite{cs_def_3}.
 	
 	\textbf{Elementos múltiples}: Compuesto de múltiples elementos relativamente idénticos con interacciones locales \cite{cs_def_2}. 
 \end{itemize}
 
+Resulta evidente que predecir el comportamiento de estos sistemas es una tarea complicada. Una aproximación es el uso de modelos científicos y matemáticos, los cuales se construyen para desarrollar procesos de inferencia sobre aspectos observados en la vida real. El modelo de inferencia se realiza para entender el sistema real observado.
 
+EL proceso, de manera simplificada, se compone de tres fases, como se observa en la figura \ref{fig:cs_cientifico}:
 
-Los modelos científicos se construyen para desarrollar procesos de inferencia sobre ciertos aspectos de sistemas reales previamente observados. Estos modelos de inferencia busca mejorar el entendimiento de los sistemas reales observados.
+\begin{itemize}
+	\item Se abstrae el sistema real a un modelo, el cual puede trascender a otros sistemas reales. Por ejemplo, para calcular la caída libre se reduce la complejidad ignorando factores como el color o la forma.
+	
+	\item El modelo realiza un proceso de inferencia que busca averiguar las implicaciones derivadas de las premisas definidas en el modelo.
+	
+	\item Los resultados se utilizan para analizar, interpretar y aplicar a un sistema real. Esta aplicación no requiere ser practica, es una relación entre las inferencias obtenidas con el modelo y el sistema real.
+\end{itemize}
 
-El proceso consiste de abstraer el sistema real a un modelo, realizar una inferencia para obtener un resultado para analizar, interpretar y aplicar a un sistema real.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\linewidth]{img/CS_cientifico.png}
+	\caption{Representación grafica del modelado científico. Este proceso busca relacionar eventos del mundo real utilizando un modelo que realiza una inferencia.}
+	\label{fig:cs_cientifico}
+\end{figure}
 
-Un ejemplo es la caída libre, la reducción de la complejidad permite facilitar el proceso del calculo, ignorando factores como el color y la forma de los objetos. 
+Sin embargo, estos modelos suelen suelen carecer de las herramientas necesarias que les permiten deducir las implicaciones lógicas necesarias. Es aquí donde la computación permite agilizar este proceso realizando simulaciones computacionales. 
 
-El valor del modelo puede transcender a otros sistemas reales cuya esencia queda capturada por la misma abstracción. Por ejemplo, la caída libre de un teléfono puede ser representada con el mismo modelo de la caída libre de una manzana.
+Las computadoras permite explorar y analizar modelos formales para resolver modelos matemáticos. Pero al final, un modelo computacional puede ser definido mediante un modelo matemático. 
 
-Una vez diseñado un modelo se lleva un proceso de inferencia deductiva para averiguar las implicaciones lógicas que se derivan de las premisas que definen el modelo.
+Los resultados que se obtienen al ejecutar la simulación computacional se derivan de aplicar reglas algorítmicas, por lo que se requiere expandir el proceso de abstracción y diseñar un modelo formal que sera ejecutado por la computadora, como se muestra en la figura \ref{fig:cs_computacional}.
 
-La aplicación no necesariamente se refiere a un sentido practico estricto. La etapa de aplicación representa el retorno al sistema real desde el ámbito abstracto en el que reside el modelo. Esta ultima etapa consiste en relacionar las inferencias obtenidas usando el modelo con el sistema real.  
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\linewidth]{img/CS_computacional.png}
+	\caption{}
+	\label{fig:cs_computacional}
+\end{figure}
 
-Las computadoras permite realizar simulaciones computacionales. 
+Se requiere de un experto en el sistema real que pueda abstraer el problema y un modelador que formalice dicha abstracción para pasársela a una computadora que infiera los resultados, mismos que utilizara nuevamente el experto en el sistema real para entablar la relación con el sistema real \cite{modelado}.
 
-Definir el modelo matemático supone una desventaja importante pues se carecen de todas las herramientas con las que deducir las implicaciones lógicas que de el derivan.
-
-Los ordenadores nos permiten explorar y analizar modelos formales que no podemos resolver matemáticamente. Un modelo computacional puede ser definido como un modelo matemático. 
-
-
-Los resultados obtenidos al ejecutar la simulación computacional se derivan por deducción de aplicar las reglas algorítmicas que definen el modelo a conjunto de condiciones iniciales con las que el modelo se ha parametrizado.
-
-Esto requiere expandir el proceso de abstracción intermedia.
-
- 
+Para modelar sistemas complejos existen múltiples herramientas, una de ellas son los autómatas celulares \cite{CS_CA}, los cuales siguen la caracterización de los sistemas complejos: elementos idénticos con interacciones locales y pueden generan orden espontaneo, comportamientos emergentes e incluso retroalimentados. 
