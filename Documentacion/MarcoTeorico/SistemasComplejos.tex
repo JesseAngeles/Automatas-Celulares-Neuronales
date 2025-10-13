@@ -8,7 +8,7 @@ Los CS tienen dos implicaciones fundamentales: (1) Existe una influencia mutua e
 	Un sistema complejo es una entidad compuesta de partes interconectadas, de tal forma que el comportamiento colectivo es mas que la suma de sus componentes individuales.
 \end{definition}
 
-Para entender el comportamiento de un sistema es necesario conocer los elementos y sus interacciones. Es decir, se requiere conocer los estados: valores instantáneos de todos los elementos, y sus transiciones: cambios dinámicos en los estados.
+Para entender el comportamiento de un sistema es necesario conocer los elementos y sus interacciones. Es decir, se requiere conocer los estados, valores instantáneos de todos los elementos; y sus transiciones, cambios dinámicos en los estados.
 
 Los CS se caracterizan principalmente por:
 \begin{itemize}
@@ -44,17 +44,17 @@ EL proceso, de manera simplificada, se compone de tres fases, como se observa en
 
 Sin embargo, estos modelos suelen suelen carecer de las herramientas necesarias que les permiten deducir las implicaciones lógicas necesarias. Es aquí donde la computación permite agilizar este proceso realizando simulaciones computacionales. 
 
-Las computadoras permite explorar y analizar modelos formales para resolver modelos matemáticos. Pero al final, un modelo computacional puede ser definido mediante un modelo matemático. 
+Las computadoras permite explorar y analizar modelos formales para resolver modelos matemáticos. Ademas, dado que un modelo computacional puede ser definido mediante un modelo matemático, el rol de la computación es simplificar este proceso. 
 
 Los resultados que se obtienen al ejecutar la simulación computacional se derivan de aplicar reglas algorítmicas, por lo que se requiere expandir el proceso de abstracción y diseñar un modelo formal que sera ejecutado por la computadora, como se muestra en la figura \ref{fig:cs_computacional}.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.6\linewidth]{img/CS_computacional.png}
-	\caption{}
+	\caption{Representación grafica del modelado computacional. Relaciona eventos del mundo real utilizando un modelo computacional que ayuda a agilizar el proceso de inferencia.}
 	\label{fig:cs_computacional}
 \end{figure}
 
-Se requiere de un experto en el sistema real que pueda abstraer el problema y un modelador que formalice dicha abstracción para pasársela a una computadora que infiera los resultados, mismos que utilizara nuevamente el experto en el sistema real para entablar la relación con el sistema real \cite{modelado}.
+Se requiere de un experto en el sistema real que pueda abstraer el problema y un modelador que formalice dicha abstracción para ejecutarla en una computadora que infiera los resultados, mismos que utilizara nuevamente el experto en el sistema real para entablar la relación con el sistema real \cite{modelado}.
 
-Para modelar sistemas complejos existen múltiples herramientas, una de ellas son los autómatas celulares \cite{CS_CA}, los cuales siguen la caracterización de los sistemas complejos: elementos idénticos con interacciones locales y pueden generan orden espontaneo, comportamientos emergentes e incluso retroalimentados. 
+Para modelar sistemas complejos existen múltiples herramientas, una de ellas son los autómatas celulares \cite{CS_CA}, los cuales siguen la caracterización de los sistemas complejos: elementos idénticos con interacciones locales que pueden generan orden espontaneo, comportamientos emergentes e incluso retroalimentados. 
