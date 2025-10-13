@@ -52,7 +52,7 @@ Pero antes de definir la red neuronal, es necesario conocer los fundamentos y la
 
 \subsection{Neurona biológica}
 
-Las neuronas son células especializadas del sistema nervioso cuyo objetivo es recibir, procesar y transmitir información por medio de señales químicas y eléctricas. 
+Las neuronas son células especializadas del sistema nervioso cuyo objetivo es recibir, procesar y transmitir información por medio de señales químicas y eléctricas \cite{neurona_1, neurona_2}. 
 
 Cada neurona se compone (principalmente) de tres elementos (como se muestra en la figura \ref{fig:neurona}): 
 \begin{itemize}
@@ -72,7 +72,7 @@ Las redes neuronales naturales son un sistema de neuronas que permite el procesa
 
 \subsection{Neurona artificial} 
 
-La neurona artificial se considera como una unidad de procesamiento de información. Sigue la misma estructura del modelo biológico con algunas consideraciones adicionales:
+La neurona artificial se considera como una unidad de procesamiento de información \cite{neurona_1}. Sigue la misma estructura del modelo biológico con algunas consideraciones adicionales como lo marcan \cite{neurona_1, neurona_artificial_1, neurona_artificial_2}:
 
 \begin{itemize}
 	\item Las dendritas equivalen al conjunto de datos de entrada. Sin embargo, no toda la información tiene la misma relevancia, para esto se le asigna a cada entrada un peso sinaptico.
@@ -111,11 +111,11 @@ La cual se suele representar como en la figura \ref{fig:neurona_artificial}.
 	
 \end{definition}
 
-La función de activación es la que determina el valor de salida de cada neurona. Este valor, normalmente, se asigna entre un umbral para que limiten el comportamiento de la red neuronal. 
+La función de activación es la que determina el valor de salida de cada neurona. Este valor, normalmente, se asigna entre un umbral para que limiten el comportamiento de la red neuronal \cite{funcion_activacion_1}.
 
 \subsection{Redes neuronales}
 
-Una neurona unicamente puede realizar una operación. Para aumentar la capacidad de entender patrones mas complejos es necesario añadir múltiples neuronas interconectadas, lo que se conoce como red neuronal artificial. Una ANN puede definirse como un grafo dirigido.
+Una neurona unicamente puede realizar una operación. Para aumentar la capacidad de entender patrones mas complejos es necesario añadir múltiples neuronas interconectadas, lo que se conoce como red neuronal artificial \cite{ann_1}. Una ANN puede definirse como un grafo dirigido \cite{ann_2}:
 
 \begin{definition}
 	Una red neuronal artificial es un grafo dirigido $G = (V, E)$ donde cada nodo $v \in V$ representa una neurona y cada arista $(u , v) \in E$ transporta la salida $y_u$ desde $u$ hasta $v$ ponderada por el peso $w_{uv}$. 
@@ -127,7 +127,7 @@ La red en su conjunto implementa una función parametrizada
 \[F_\theta: \mathbb{R}^n \to \mathbb{R}^m\] 
 donde $n$ es el numero de datos de entrada, $m$ el numero de datos de salida y $\theta$ el conjunto de parámetros entrenables.
 
-Por lo que podemos concluir con la siguiente definición.
+Por lo que podemos concluir con la definición de \cite{ann_3}.
 
 \begin{definition}
 	Una red neuronal es una función $F_\theta: \mathbb{R}^n \to \mathbb{R}^m$ donde $\theta = \{ w_{uv}, b_v : (u, v) \in E, v \in V \}$ es el conjunto de parámetros entrenables.
