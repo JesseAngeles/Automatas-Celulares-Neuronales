@@ -1,0 +1,91 @@
+\section{Fundamentos y contexto de las tecnologías}
+
+Un lenguaje de programación es una herramienta que permite el desarrollo de software y programas para computadora. Son empleados para diseñar programas encargados de definir el comportamiento físico y lógico de una computadora \cite{uapaLenguajes}.
+
+Debido a que la elección del entorno y lenguaje de programación resulta crítica para el éxito de cualquier proyecto, es importante considerar las metas y alcances del proyecto, puesto que no todos los lenguajes son óptimos para resolver ciertos tipos de problemas \cite{clickpandaEntorno}.
+
+Entre los factores clave para la elección de un lenguaje de programación se encuentra la escalabilidad y el rendimiento, el costo de mantenimiento, la compatibilidad y el sistema de herramientas, entre otras \cite{clickpandaEntorno}.
+
+Es por esto que, como lenguaje de programación se decidió utilizar C++/CUDA, para el núcleo de simulación y cálculos pesados en paralelo; y Python, para la interfaz, visualización, control de simulación y diseño de redes neuronales. 
+
+A continuación se presentan las definiciones pertinentes de los lenguaje de programación, frameworks y librerías utilizadas para el desarrollo de la aplicación móvil.
+
+\subsection{C++}
+
+\subsection{CUDA}
+
+\subsection{Python}
+
+De acuerdo con la página oficial de la documentación de Pyhton \cite{pythonTutorial}, es un lenguaje de programación potente y fácil de aprender. Tiene estructuras de datos de alto nivel, sintaxis simple y elegante, un tipado dinámico, naturaleza interpretada, etc. 
+
+Además de ser gratuito, se puede integrar bien en todos los equipos y sistemas. En adición a esto, \cite{awsPython}, señala que en los beneficios que Python incluye se encuentran los siguientes:
+
+\begin{itemize}
+	\item Fácil lectura y comprensión de los programas.
+	\item Mayor productividad al escribir un programa con menos líneas de código que en comparación con muchos otros lenguajes de programación.
+	\item Se puede usar fácilmente con otros lenguajes de programación.
+	\item Soporte rápido de la comunidad.
+	\item Se puede trasladar a través de diferentes sistemas operativos de computadora.
+\end{itemize}
+
+En adición a lo anterior, cuenta con una amplia colección de librerías y frameworks diseñados para tareas que resultaron muy convenientes en el desarrollo de la aplicación móvil. Se detallan tanto librerías como frameworks a continuación.
+
+
+\begin{itemize}
+	
+	\item \textbf{Os:}
+	es una librería que provee funcionalidades dependientes del sistema operativo como abrir un archivo, manipular rutas, leer archivos, crear archivos temporales, etc. \cite{pythonOS}.
+	
+	\item\textbf{NumPY} es una librería de Python especializada en el cálculo numérico y el análisis de datos. Es ideal para el manejo de grandes volúmenes de datos \cite{alfaro_numpy}.
+	
+	Puede hacer operaciones hasta 50 veces mas rápido que las listas normales usando una objeto llamado arreglo que permite representaciones colecciones de datos en varias dimensiones \cite{alfaro_numpy}.
+	
+	\item \textbf{CuPy} es una biblioteca de matrices de código abierto para la computación acelerada por GPU con Python. Utiliza bibliotecas del CUDA Toolkit para hacer un uso completo de la arquitectura GPU. Es compatible con NumPy y permite definir núcleos CUDA personalizados \cite{cupy}. 
+	
+	\item\textbf{PyTorch} es una biblioteca de tensores optimizada para el aprendizaje profundo utilizando GPU y CPU \cite{pytorch_1}. Se emplea para crear redes neuronales, combinando la biblioteca de ML de Torch con una API de alto nivel basada en Python. 
+	
+	Es uno de los marcos de ML destinados a comunidades académicas y de investigación por su flexibilidad y fácil uso, además de admitir una amplia variedad de estructuras de redes neuronales \cite{pytorch_2}.
+	
+	\item \textbf{PyQt5 / PySide6} son herramientas que permiten usar Python como un lenguaje alternativo de desarrollo de aplicaciones a C++ en todas las plataformas soportadas \cite{qt_1}. PyQt5 también puede integrarse en aplicaciones basadas en C++ para permitir a los usuarios de dichas aplicaciones configurar o mejorar la funcionalidad de las mismas, mientras que PySide6 ofrece compatibilidad oficial con las bibliotecas Qt desarrolladas por The Qt Company \cite{qt_2}.
+	
+	\item \textbf{h5py} es una librería que proporciona una interfaz entre Python y el formato de almacenamiento de datos jerárquico HDF5 (Hierarchical Data Format). Este formato permite manejar grandes volúmenes de datos de manera eficiente, organizándolos en estructuras tipo árbol con grupos y conjuntos de datos. Con h5py es posible almacenar, leer y modificar datos numéricos de gran tamaño directamente desde Python, lo cual resulta especialmente útil en simulaciones científicas que generan grandes matrices multidimensionales \cite{h5py}.
+	
+	\item \textbf{pybind11} es una biblioteca de C++ diseñada para exponer tipos y funciones de C++ en Python y viceversa, facilitando la creación de extensiones de Python basadas en código C++ \cite{pybind11}. Puede generar enlaces entre ambos lenguajes de manera compacta, eficiente y con un código más simple, posibilitando así integrar cálculos de alto rendimiento escritos en C++ dentro de entornos Python.
+	
+	\item\textbf{Pandas} es una librería especializada en el manejo y análisis de estructuras de datos. Entre sus principales características, \cite{alfaro_pandas} menciona:
+	
+	\begin{itemize}
+		\item Define nuevas estructuras de datos basadas en los arrays de la librería NumPy.
+		\item Permite leer y escribir fácilmente ficheros en formato CSV, Excel y bases de datos SQL.
+		\item Permite acceder a los datos mediante índices o nombres para filas y columnas.
+		\item Ofrece métodos para reordenar, dividir y combinar conjuntos de datos.
+	\end{itemize}
+	
+	\item\textbf{Matplotlib} De acuerdo con \cite{alferez_matplotlib}, Matplotlib es una librería de Pyhton especializada en la creación de gráficos en dos dimensiones.
+	
+	Además, mencionan que permite crear y personalizar los gráficos más comunes, entre los que se encuentran:
+	
+	\begin{itemize}
+		\item Diagramas de barras.
+		\item Histograma.
+		\item Diagramas de sectores.
+		\item Diagramas de caja y bigotes.
+	\end{itemize}
+	
+	\item\textbf{Scikit-learn} es una librería que cuenta con algoritmos de clasificación, regresión, clustering, y reducción de dimensionalidad, etc. Es compatible con otras librerías de Python \cite{mds_scikitlearn}.
+	
+	Entre sus principales características \cite{itop_scikitlearn}, destaca las siguientes:
+	
+	\begin{itemize}
+		\item Clustering.
+		\item Ensemble methods.
+		\item Validación cruzada.
+		\item Varios conjuntos de datos o datasets de prueba.
+		\item Reducción de la dimensionalidad.
+		\item Optimización o ajuste de hiperparámetros.
+		\item Feature selection.
+	\end{itemize}
+	
+\end{itemize}
+
+
