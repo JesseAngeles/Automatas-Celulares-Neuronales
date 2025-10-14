@@ -8,17 +8,22 @@ Pero para entender el modelo de ANN es necesario tener los fundamentos de inteli
 
 \subsection{Inteligencia artificial y aprendizaje supervisado}
 
-Definida por primera vez por John McCarthy en 1955 como \textit{la ciencia e ingeniería de hacer maquinas inteligentes} \cite{ai_def_1}. La inteligencia artificial es un campo de las ciencias computacionales que busca diseñar computadoras y máquinas que puedan razonar y aprender para desarrollar tareas que, comúnmente, requeriría de inteligencia humana \cite{ai_def_1}. Como señalan Herrera y Muñoz en su articulo, la IA puede entenderse como la ciencia que, mediante modelos computacionales, pretende construir entes casi humanos con competencia lingüística y cognitiva comparable a la humana \cite{ai_def_2}.
+La inteligencia artificial (AI, \textit{Artificial Intelligence}) fue definida por primera vez por John McCarthy en 1955 como \textit{la ciencia e ingeniería de hacer maquinas inteligentes} \cite{ai_def_1}. Siguiendo a \cite{ai_def_1, ai_def_2, ai_def_3}, se propone la siguiente definición:
 
-Una de las ramas de la inteligencia artificial es el aprendizaje automático el cual se centra en desarrollar sistemas con la capacidad de aprender en función de los datos de entrada. Para que una computadora pueda hacer reconocimiento de patrones y predicción de datos es necesario que sea entrenada con datos de referencia \cite{ml_def_1}.
+\begin{definition}
+	La Inteligencia Artificial es la ciencia que utiliza modelos computacionales para crea sistemas capaces de realizar tareas que, si fueran hechas por humanos, requerirían inteligencia.
+\end{definition}
 
-Actualmente, de acuerdo con Google \cite{GoogleCloud2025}, el mundo todos los días crea más datos que nunca en la historia. Es por esto que resulta indispensable poseer una herramienta que permita el manejo de cantidades gigantescas de datos y que permita aumentar lo que los humanos pueden hacer con las computadoras. 
 
-Oracle \cite{Oracle2025} define al aprendizaje automático como un subapartado de la Inteligencia Artificial que se centra en desarrollar sistemas que aprenden, o mejoran el rendimiento, en función de los datos que consumen. También señala, el aprendizaje automático funciona optimizando modelos a través de algoritmos entrenados en conjuntos de datos para obtener resultados esperados. La calidad de los datos de entrenamiento es crucial: a mayor calidad, mayor precisión del modelo \cite{GoogleCloud2025}.
+Una de las ramas de la AI es el aprendizaje automático (ML, \textit{Machine Learning}), el cual se centra en desarrollar sistemas con la capacidad de aprender en función de los datos \cite{ml_def_1}. Esto permite reconocer patrones y realizar predicciones a partir de grandes cantidades de datos \cite{GoogleCloud2025}.
 
-Se trata de sistemas que imitan la inteligencia humana, en el caso del aprendizaje automatico, se centra en entrenar computadoras y máquinas para imitar el modo en que aprendemos los humanos, realizar tareas de manera automática y mejorar su precisión a través de la exposición a más datos y la experiencia adquirida \cite{IBM2025}
+Por lo que, con base en \cite{Oracle2025, IBM2025} podemos definir al aprendizaje ML como:
 
-Funciona trabajando a través del entrenamiento de algoritmos en conjuntos de datos para conseguir un resultado esperado. Es el proceso de optimizar el modelo para que pueda predecir la respuesta correcta. A mayor calidad en los datos de entrenamiento, mayor precisión se tendrá en el modelo \cite{GoogleCloud2025}.
+\begin{definition}
+	El aprendizaje automático es la disciplina que permite a las computadoras mejorar su desempeño en una tarea mediante la experiencia datos, sin necesidad de instrucciones explícitas.
+\end{definition}
+
+ML funciona trabajando a través del entrenamiento de algoritmos en conjuntos de datos para conseguir un resultado esperado. Es el proceso de optimizar el modelo para que pueda predecir la respuesta correcta. A mayor calidad en los datos de entrenamiento, mayor precisión se tendrá en el modelo \cite{GoogleCloud2025}.
 
 El entrenamiento se refiere al proceso de enseñarle a un modelo de inteligencia artificial a realizar una o varias tareas mediante la exposición a grandes cantidades de datos \cite{training}. Este proceso facilita a los humanos el proceso de análisis de grandes volúmenes de datos, especialmente en la era actual donde se generan más datos que nunca en la historia \cite{oracle_ia}.
 
@@ -29,7 +34,7 @@ Dentro del aprendizaje automático se definen tres métodos en como una computad
 	
 	\item El aprendizaje no supervisado, a diferencia del aprendizaje supervisado, no necesita de un conjunto de datos etiquetados generados por el ser humano. Este tipo de aprendizaje puede descubrir patrones y estadísticas sin ninguna orientación o instrucción explícita \cite{GoogleCloud}. 
 	
-	\item El aprendizaje por refuerzo RL (Por sus siglas en inglés) busca imitar la forma de aprendizaje humana de prueba y error. Este tipo de aprendizaje permite a las máquinas aprender a tomar decisiones y mejorar sus resultados con base en los errores cometidos \cite{AWS}.
+	\item El aprendizaje por refuerzo busca imitar la forma de aprendizaje humana de prueba y error. Este tipo de aprendizaje permite a las máquinas aprender a tomar decisiones y mejorar sus resultados con base en los errores cometidos \cite{AWS}.
 	
 \end{itemize}
 
@@ -44,11 +49,9 @@ IBM \cite{IBM2025} menciona algunos los algoritmos más comunes de aprendizaje a
 	\item \textbf{Bosques aleatorios:} Combina los resultados de varios árboles de decisión y predice un valor o clasificación.
 \end{enumerate}
 
-A pesar de tener ciertas desventajas \cite{Adobe2025}, tales como: requerir una gran cantidad de datos para funcionar eficientemente, posibles sesgos, posibles imprecisiones, costo económico elevado de realizar el modelo.
-
 Las redes neuronales presentan ventajas que pueden llegar a agilizar y optimizar recursos de las organizaciones que lo implementan \cite{Adobe2025}: mejora la productividad, reduce el error humano, mejora la disponibilidad de servicios, reducir tareas repetitivas, descubrir patrones ocultos a simple vista, entre otros.
 
-Pero antes de definir la red neuronal, es necesario conocer los fundamentos y la inspiración biológica que llevaron al desarrollo de esta tecnología.
+Para comprender como las redes neuronales logran estas capacidades, es necesario explorar primero los fundamentos que inspiraron el desarrollo. En particular, su diseño es una abstracción de las neuronas biológicas, cuya estructura y funcionamiento ofrecen una analogía al procesamiento de información.
 
 \subsection{Neurona biológica}
 
@@ -115,7 +118,7 @@ La función de activación es la que determina el valor de salida de cada neuron
 
 \subsection{Redes neuronales}
 
-Una neurona unicamente puede realizar una operación. Para aumentar la capacidad de entender patrones mas complejos es necesario añadir múltiples neuronas interconectadas, lo que se conoce como red neuronal artificial \cite{ann_1}. Una ANN puede definirse como un grafo dirigido \cite{ann_2}:
+Una neurona unicamente puede realizar una operación. Para aumentar la capacidad de entender patrones mas complejos es necesario añadir múltiples neuronas interconectadas, lo que se conoce como red neuronal artificial (ANN, \textit{Artificial Neural Network}) \cite{ann_1}. Una ANN puede definirse como un grafo dirigido \cite{ann_2}:
 
 \begin{definition}
 	Una red neuronal artificial es un grafo dirigido $G = (V, E)$ donde cada nodo $v \in V$ representa una neurona y cada arista $(u , v) \in E$ transporta la salida $y_u$ desde $u$ hasta $v$ ponderada por el peso $w_{uv}$. 
@@ -127,7 +130,7 @@ La red en su conjunto implementa una función parametrizada
 \[F_\theta: \mathbb{R}^n \to \mathbb{R}^m\] 
 donde $n$ es el numero de datos de entrada, $m$ el numero de datos de salida y $\theta$ el conjunto de parámetros entrenables.
 
-Por lo que podemos concluir con la definición de \cite{ann_3}.
+Por lo que podemos concluir con la definición de \cite{ann_3}, la cual dice que
 
 \begin{definition}
 	Una red neuronal es una función $F_\theta: \mathbb{R}^n \to \mathbb{R}^m$ donde $\theta = \{ w_{uv}, b_v : (u, v) \in E, v \in V \}$ es el conjunto de parámetros entrenables.
@@ -140,7 +143,7 @@ Dada una ANN con los parametros entrenables totalmente configurados, es capaz de
 
 \subsubsection{Función de perdida}
 
-La función de perdida se usa pera medir el rendimiento del modelo. Calcula la desviación que existe entre el valor predicho y el valor esperado. Esta función puede ser un escalar o un vector que permite aproximar la tasa de error para llegar a una solución optima. 
+La función de perdida se usa pera medir el rendimiento del modelo. Calcula la desviación que existe entre el valor predicho y el valor esperado. Esta función puede ser un escalar o un vector que permite aproximar la tasa de error para llegar a una solución optima \cite{funcion_perdida_1}. 
 
 \begin{definition}
 	Sea $F_\theta$ una ANN  y $ \mathcal{D} = \{ (x^{(i)}, y^{(i)}) \}_{i = 1}^n $ 	un conjunto de datos de entrenamiento donde $x^{(i)}$ es la entrada y $y^{(i)}$ es la salida esperada, una función de perdida es un mapeo 
@@ -158,7 +161,7 @@ Es importante que la función de perdida sea diferenciable. El gradiente de la f
 
 Las funciones de perdida se pueden utilizar para regresión y para clasificación. La primera mide el error en valores continuos, usado para estimar valores contables como el precio, tamaño, tiempo. La segunda mide el errores en valores discretos, como la clasificación o la categoría.
 
-Diferentes funciones de perdida priorizan diferentes tipos de error, la elección de la función de perdida dependerá de la tarea que se desea realizar. A continuación se muestran algunas funciones de perdida.
+Diferentes funciones de perdida priorizan diferentes tipos de error, la elección de la función de perdida dependerá de la tarea que se desea realizar. Ademas, la función de perdida unicamente se limita a una muestra, para una población de muestras, se utiliza la función de costo, la cual se define a continuación \cite{funcion_perdida_1, funcion_perdida_2}.
 
 \begin{definition}
 	Sea $F_\theta$ una ANN y $\mathcal{L}$ un conjunto de datos de entrenamiento, la función de costo es el promedio de las perdidas:
@@ -178,7 +181,7 @@ Esto se puede conseguir mediante diferentes técnicas, siendo el descenso del gr
 \[
 	\theta^{t + 1} = \theta^{(t)} - \eta  \nabla_\theta \mathcal{L}(\theta^{(t)})
 \]
-donde $\eta >0$ es la tasa de aprendizaje. Una tasa de aprendizaje alta puede divergir en la solución, mientras que una tasa baja puede tener una convergencia lenta. 
+donde $\eta >0$ es la tasa de aprendizaje. Una tasa de aprendizaje alta puede divergir en la solución, mientras que una tasa baja puede tener una convergencia lenta \cite{ann_3}. 
 
 \subsubsection{Entrenamiento}
 
@@ -198,7 +201,7 @@ Finalmente, el entrenamiento consiste en ajustar todos los parámetros $\theta =
 	
 	Se actualizan los parámetros mediante la función de optimización: $\theta^{t + 1} = \theta^{(t)} - \eta  \nabla_\theta \mathcal{L}(\theta^{(t)})$
 	
-	\item Se repite este proceso sobre un \textit{dataset} hasta la convergencia de la solución o hasta alcanzar un criterio de parada.
+	\item Se repite este proceso sobre un \textit{dataset} hasta la convergencia de la solución o hasta alcanzar un criterio de parada \cite{ann_3}.
 \end{enumerate}
 
 En resumen, el entrenamiento de la red neuronal es un proceso iterativo de optimización que consiste en:
@@ -209,5 +212,7 @@ En resumen, el entrenamiento de la red neuronal es un proceso iterativo de optim
 	\item Actualizar los parámetros con un algoritmo de optimización.
 	\item Repetir hasta que el modelo aproxime adecuadamente la función deseada.
 \end{enumerate}
-  
-  Una de las arquitecturas de rede neuronales son los modelos convolucionales (CNN, \textit{Convolutional Neural Network})
+ 
+Una vez comprendidas las redes neuronales, podemos retomar la definición de un autómata celular neuronal: una arquitectura que surge de la integración entre los CA y las ANN.
+ 
+  \clearpage
