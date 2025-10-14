@@ -1,4 +1,12 @@
-\section{Fundamentos y contexto de las tecnologías}
+\section{Contextualización de la tecnología}
+
+El desarrollo de un simulador de sistemas complejos mediante autómatas celulares neuronales implica la integración de múltiples tecnologías, seleccionadas estratégicamente para satisfacer los requerimientos funcionales y técnicos del proyecto. Entre estos se incluye el diseño de una interfaz grafica de usuario intuitiva, la simulación de CA bidimensionales con diferentes estados, vecindades y funciones de transición, la personalización de condiciones iniciales y el entrenamiento de sistemas para la replicación de comportamientos brindados por el usuario.
+
+La elección de estas tecnologías responde a criterios de compatibilidad, escalabilidad, facilidad de implementación y disposición de herramientas especificas para el procesamiento de datos e inteligencia artificial. 
+
+Con el fin de proporcionar una visión clara y compresiva de las bases técnicas del proyecto, en este capitulo se presentan tanto el área de estudio , elementos clave para orientar el desarrollo del simulador y validarlo, así como los fundamentos y el contexto de las tecnologías utilizadas, así como los entornos de trabajo que hacen posible este trabajo. 
+
+\subsection{Fundamentos y contexto de las tecnologías}
 
 Un lenguaje de programación es una herramienta que permite el desarrollo de software y programas para computadora. Son empleados para diseñar programas encargados de definir el comportamiento físico y lógico de una computadora \cite{uapaLenguajes}.
 
@@ -10,11 +18,25 @@ Es por esto que, como lenguaje de programación se decidió utilizar C++/CUDA, p
 
 A continuación se presentan las definiciones pertinentes de los lenguaje de programación, frameworks y librerías utilizadas para el desarrollo de la aplicación móvil.
 
-\subsection{C++}
+\subsubsection{C++}
 
-\subsection{CUDA}
+C++ es un lenguaje de programación compilado y multiparadigma desarrollado como una extensión de C \cite{c_1}. Se considera un lenguaje de bajo nivel ya que permite manipular directamente la memoria, lo que lo convierte en un lenguaje muy poderoso. Es orientado a objetos, permite la creación de clases y objetos y es ampliamente utilizado para aplicaciones que requieren un alto rendimiento.
 
-\subsection{Python}
+Es utilizado en motores de videojuegos, software de sistemas, aplicaciones en tiempo real, simulaciones científicas y calculo numérico \cite{c_2}. para esta investigación, se utilizaran las siguiente bibliotecas de C++:
+
+\begin{itemize}
+	\item \textbf{Eigen:} biblioteca para álgebra lineal y manipulación eficiente de matrices y vectores \cite{eigen}.
+	\item \textbf{tiny-dnn:} librería para redes neuronales ligeras, permitiendo definir la función de transición de los autómatas celulares neuronales \cite{tiny_dnn}.
+	\item \textbf{pybind11:} facilita la integración de código C++ con Python, permitiendo exponer funciones y clases para análisis y visualización \cite{pybind}.
+	\item \textbf{HDF5 C++ API:} para almacenar y leer grandes volúmenes de datos de simulación de manera eficiente \cite{hdf5}.
+\end{itemize}
+
+\subsubsection{CUDA}
+
+CUDA es una plataforma de computación paralela y un modelo de programación desarrollado por NVIDIA que permite utilizar la GPU para cálculos de propósito general. Se emplea para acelerar operaciones matemáticas y simulaciones que requieren gran cantidad de procesamiento paralelo, como el entrenamiento de redes neuronales \cite{cuda}.
+
+
+\subsubsection{Python}
 
 De acuerdo con la página oficial de la documentación de Pyhton \cite{pythonTutorial}, es un lenguaje de programación potente y fácil de aprender. Tiene estructuras de datos de alto nivel, sintaxis simple y elegante, un tipado dinámico, naturaleza interpretada, etc. 
 
@@ -87,5 +109,36 @@ En adición a lo anterior, cuenta con una amplia colección de librerías y fram
 	\end{itemize}
 	
 \end{itemize}
+
+\subsection{Entornos de trabajo}
+
+El desarrollo del presente proyecto requiere de un entorno colaborativo, flexible y bien estructurado que facilite tanto la construcción como la validación de los distintos componentes del sistema. Para ello, se han seleccionado diversas plataformas que permiten organizar tareas, escribir y probar código, almacenar datos, así como documentar y presentar avances de manera clara y profesional.
+
+\subsubsection{Plataformas de desarrollo}
+
+Con el fin de cubrir las distintas etapas del proyecto, desde la implementación hasta la comunicación de resultados, se utilizaron múltiples herramientas que favorecen la eficiencia y el trabajo en equipo. Las siguientes plataformas han sido clave para mantener un flujo de trabajo continuo y bien coordinado.
+
+\begin{itemize}	
+	\item\textbf{Visual Studio Code} Comúnmente conocido como VSCode, es un editor de código gratuito, de código abierto y compatible con múltiples sistemas operativos. Fue creado por Microsoft, empresa con amplia trayectoria en el desarrollo de entornos integrados (IDE), lo que se refleja en la eficiencia y funcionalidad que ofrece esta herramienta, muy valorada por la comunidad de desarrolladores \cite{cimas2024vscode}.
+	
+	Aunque su nombre puede sugerir una relación directa con Visual Studio, en realidad VSCode es una aplicación independiente, construida desde cero con tecnologías diferentes. Mientras Visual Studio se orienta principalmente a tecnologías propias de Microsoft, VSCode destaca por su flexibilidad y capacidad de adaptarse a prácticamente cualquier lenguaje de programación \cite{garcia2024vscode}.
+	
+	\item\textbf{Github} Es una plataforma basada en la nube donde puedes almacenar, compartir, trabajar y versionar junto con otros usuarios para escribir código \cite{github2025about}. En adición a lo anterior, también permite realizar lo siguiente:
+	
+	\begin{itemize}
+		\item Presentar o compartir el trabajo.
+		\item Seguir y administrar los cambios en el código a lo largo del tiempo.
+		\item Dejar que otros usuarios revisen el código y realicen sugerencias para mejorarlo.
+		\item Colaborar en un proyecto compartido, sin preocuparse de que los cambios afectarán al trabajo de los colaboradores antes de que esté listo para integrarlos.
+	\end{itemize}
+	
+	El versionamiento, una de las características fundamentales de GitHub, es posible gracias al software de código abierto Git, en el que se basa GitHub \cite{github2025about}.
+	
+	\item\textbf{Canva}	Lanzada en 2013, Canva es una herramienta de diseño y publicación online que tiene como misión poner el poder del diseño al alcance de todo el mundo, para que cualquier persona pueda diseñar lo que quiera y publicar donde quiera \cite{canva2025about}.
+	
+	\item\textbf{TexStudio}	TeXstudio es un entorno de escritura integrado para la creación de documentos LaTeX. Cuenta con numerosas características como resaltado de sintaxis, visor integrado, comprobación de referencias y varios asistentes. TeXstudio es de código abierto y está disponible para todos los principales sistemas operativos \cite{texstudio}.
+	
+\end{itemize}
+
 
 
