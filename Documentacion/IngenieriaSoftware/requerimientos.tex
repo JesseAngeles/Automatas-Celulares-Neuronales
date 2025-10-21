@@ -1,18 +1,17 @@
-\section{Ingeniería de software de investigación}
+\section{Reglas de negocio y requerimientos del sistema}
 
-Software es un programa de computo y documentación asociada, la ingeniería de software es una disciplina de la ingeniería que se interesa en todos los aspectos de la producción del software en todas sus etapas. Este proceso incluye cuatro actividades fundamentales las cuales son:
+\subsection{Reglas de negocio}
 
-\begin{itemize}
-	\item \textbf{Especificación del software}: Incluye la toma de requerimientos, definición el alcance y limitaciones y especificación de casos de uso.  
-	
-	\item \textbf{Desarrollo de software}: Diseño y programación del software.
-	
-	\item \textbf{Validación de software}: Se verifica que el software cumpla con los requerimientos establecidos.
-	
-	\item \textbf{Evolución del software}: Cambios en el software que refleje los cambios o añadidos en los requerimientos.
-\end{itemize}
-
-Existen múltiples tipos de aplicaciones de ingeniería de software, como aplicaciones independientes, sistemas embebidos, de entretenimiento y muy particularmente para este caso, sistemas de modelado y simulación. Estos son utilizados para modelar situaciones físicas u objetos que interactúen de forma dinámica. Estos sistemas suelen ser computacionalmente intensivos y requiere un alto desempeño de procesos en paralelo \cite{ingenieria_1}.
+\begin{enumerate}[label*=RN\arabic*]
+	\item El estado de una celda en el tiempo $t + 1$ depende unicamente de su estado actual y de los estados de sus vecinos.
+	\item Para iniciar la simulación es necesario que el conjunto de estados, la topología de la vecindad, la condición de frontera y la función de transición hayan sido definidas. 
+	\item Cuando la simulación esta en curso no se puede cambiar el conjunto de estados, la topología de la vecindad ni la función de transición.
+	\item El usuario puede manipular el estado de una célula y la condición de frontera en tiempo de ejecución.
+	\item Los datos importados deben de cumplir con el formato definido por el sistema para garantizar su correcta interpretación.
+	\item Los datos exportados deben conservar el mismo formato que los datos importados.
+	\item El usuario puede pausar, detener, reanudar o retroceder la simulación sin perdida de información. 
+	\item Solo se permite una simulación activa por sesión.
+\end{enumerate}
 
 \subsection{Requerimientos funcionales}
 
@@ -40,7 +39,9 @@ Los requerimientos no funcionales especifican las condiciones de calidad, desemp
 	\item La interfaz del sistema debe tener mensajes claros y funcionalidades bien definidas.
 \end{enumerate}
 
-\subsection{Requerimientos de hardware y software}
+\subsection{Requerimientos de sistema}
+
+\subsubsection{Recomendado}
 
 Los siguientes requerimientos describen el entorno principal y recomendado de ejecución, en el cual el sistema garantiza un rendimiento óptimo y estabilidad durante los procesos de simulación:
 
@@ -51,6 +52,8 @@ Los siguientes requerimientos describen el entorno principal y recomendado de ej
 	\item \textbf{Entorno de escritorio:} GNOME 48.
 	\item \textbf{Sistema de ventaneo:} Wayland.
 \end{itemize}
+
+\subsubsection{Mínimo}
 
 De igual forma, se definen los requerimientos mínimos necesarios para la ejecución del simulador, considerando que el rendimiento y la velocidad de procesamiento estarán limitados por las capacidades del hardware disponible y el entrenamiento puede ser inviable:
 
