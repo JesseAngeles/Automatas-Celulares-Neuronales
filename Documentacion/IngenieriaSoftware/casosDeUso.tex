@@ -1,0 +1,1074 @@
+\subsection{Casos de uso}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/uml_ucd.png}
+	\caption{Diagrama de casos de uso}
+	\label{fig:uml_ucd}
+\end{figure}
+
+\subsection{Diccionario}
+
+\subsubsection{Entradas}
+\begin{itemize}	
+	% Configuración
+	\item Definición de la configuración del CA.
+	\begin{itemize}
+		\item \NewBTN{vecindad}{Vecindad}
+		\item \NewBTN{vecindades}{Configuración de la vecindades}
+		\item \NewBTN{guardar_vecindad}{Guardar vecindad}
+		\item \NewBTN{cancelar_vecindad}{Cancelar cambio de vecindad}
+		
+		\item \NewBTN{frontera}{Condición de frontera}
+		
+		\item \NewBTN{cambiar_estados}{Cambiar estados}
+		\item \NewBTN{rechazar_estados}{Rechazar estados}
+		\item \NewBTN{aceptar_estados}{Aceptar estados}
+		\item \NewBTN{cancelar_estados}{Cancelar estados}
+		
+		\item \NewBTN{aplicar_regla}{Aplicar regla}
+		
+		\item \NewBTN{color}{Color}
+		\item \NewBTN{celula}{Célula}
+	\end{itemize}
+	
+	% Simular
+	\item Simulación.
+	\begin{itemize}
+		\item \NewBTN{simular}{Simular}
+		\item \NewBTN{pausa}{Pausa}
+		
+		\item \NewBTN{acelerar}{Acelerar}
+		\item \NewBTN{frenar}{Frenar}
+		\item \NewBTN{paso}{Paso}
+		
+		\item \NewBTN{retroceder}{Retroceder}
+		
+		\item \NewBTN{reiniciar}{Reiniciar}
+	\end{itemize}
+	
+	
+	% Importar
+	\item Importación y exportación.
+	\begin{itemize}
+		\item \NewBTN{importar}{Importar}
+		\item \NewBTN{exportar}{Exportar}
+	\end{itemize}
+	
+	% Campos de texto
+	\item Campos de texto.
+	\begin{itemize}
+		\item \NewIN{tamaño_vecindad}{Tamaño de la vecindad}
+		\item \NewIN{regla}{Regla}
+		\item \NewIN{estados}{Estados}		
+	\end{itemize}
+\end{itemize}
+
+\subsubsection{Mensajes}
+\begin{itemize}
+	\item \NewMSG{msg_vecindad}{Vecindad generada}
+	\item \NewMSG{msg_vecindad_incompatibilidad}{Vecindad generada con incompatibilidad}
+	
+	\item \NewMSG{incompatibilidad_estados}{Incompatibilidad de estados}
+	
+	\item \NewMSG{reglas}{Regla generada}
+	
+	\item \NewMSG{importacion_requerida}{Importación requerida}
+	\item \NewMSG{limite_evolucion}{Limite de evolución alcanzado}
+	
+	\item \NewMSG{importacion_exitosa}{Importación exitosa}
+	\item \NewMSG{formato_invalido}{Formato invalido}
+\end{itemize}
+
+\subsubsection{Interfaces graficas}
+\begin{itemize}
+	\item \NewUI{simulacion_ui}{Simulación}: Elemento que contiene la cuadricula del espacio celular y muestra la evolución del CA donde cada célula actúa como un botón \BTN{celula}.
+	\item \NewUI{control_ui}{Control}: Elemento que contiene el control sobre la simulación del espacio celular.
+	\item \NewUI{vecindad_ui}{Vecindad}: Ventana emergente que contiene un espacio celular donde cada célula actúa como un botón \BTN{celula}. Muestra la célula central y permite al usuario seleccionar aquellas células que quiere que formen parte de la vecindad.
+	\item \NewUI{configuracion_ui}{Configuración}: Elemento que permite realizar la configuración de la condición de frontera, los estados y la función de transición.
+\end{itemize}
+
+
+\subsection{Especificaciones de casos de uso}
+
+
+\subsubsection{Definir vecindad}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{| p{0.2\textwidth} | p{0.7\textwidth} |}
+			\hline 
+			\textbf{Actor} & Usuario \\ \hline
+			\textbf{Descripción} & Se define el conjunto de posiciones relativas de cada célula que forman parte de la vecindad.  \\ \hline
+			\textbf{Tipo} & Primario \\ \hline
+			\textbf{Entradas} &
+			\begin{itemize}[noitemsep, nosep]
+				\item Desde mouse \BTN{vecindad}
+				\item Desde mouse \BTN{celula}
+				\item Desde mouse \BTN{guardar_vecindad}
+				\item Desde mouse \BTN{cancelar_vecindad}
+			\end{itemize}
+			\\ \hline
+			\textbf{Salidas} & 
+			\begin{itemize}[noitemsep, nosep]
+				\item Mensaje \MSG{msg_vecindad}.
+				\item Mensaje \MSG{msg_vecindad_incompatibilidad}
+			\end{itemize} \\ \hline
+			\textbf{Precondición} & Ninguna
+			\\ \hline
+			\textbf{Postcondición} &  Ninguna \\ \hline
+			\textbf{Errores} & 
+			\begin{itemize}[noitemsep, nosep]
+				\item Simulando: Se intenta cambiar la vecindad mientras esta una simulación en proceso.
+				\item Cancelar: Se cancela el cambio de vecindad.
+				\item Incompatibilidad: La regla es incompatible con la nueva vecindad seleccionada.
+			\end{itemize}\\ \hline
+			
+		\end{tabular}
+	\end{center}
+\end{table}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo básico}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			\begin{enumerate}[noitemsep, nosep]
+				\item Presiona el botón \BTN{vecindad} en \UI{configuracion_ui}.
+				\item[3. ] Selecciona los elementos que forman parte de la vecindad presionando los botones \BTN{celula}.
+				\item[4. ] Presiona el botón \BTN{guardar_vecindad}.
+			\end{enumerate} 
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[2.] Abre la interfaz \UI{vecindad_ui}. 
+				\item[5.] Actualiza la vecindad.
+				\item[6.] Muestra el mensaje \MSG{msg_vecindad}.
+			\end{enumerate} \\
+			\hline
+		\end{tabular} 
+	\end{center}
+\end{table}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo alterno 1: Simulando}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			\begin{enumerate}[noitemsep, nosep]
+				\item[1.1.] Presiona el botón \BTN{vecindad} en \UI{configuracion_ui} mientras la simulación esta activa.
+				\item[4.1.] Selecciona los elementos que forman parte de la vecindad presionando los botones \BTN{celula}.
+				\item[5.1.] Presiona el botón \BTN{guardar_vecindad}.
+			\end{enumerate}
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[2.1.] Detiene la simulación.
+				\item[3.1.] Abre la interfaz \UI{vecindad_ui}.
+				\item[6.1.] Actualiza la vecindad.
+				\item[7.1.] Muestra el mensaje \MSG{msg_vecindad}.
+			\end{enumerate} \\
+			\hline
+		\end{tabular} 
+	\end{center}
+\end{table}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo alterno 2: Cancelar}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			\begin{enumerate}[noitemsep, nosep]
+				\item[4.2.] Presiona el botón de \BTN{cancelar_vecindad}. 
+			\end{enumerate}
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[5.2.] No se actualiza la vecindad. 
+			\end{enumerate} \\
+			\hline
+		\end{tabular} 
+	\end{center}
+\end{table}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo alterno 3: Incompatibilidad}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			\begin{enumerate}[noitemsep, nosep]
+				\item[3.3.] Selecciona los elementos que forman parte de la vecindad presionando los botones \BTN{celula} pero el nuevo tamaño es diferentes al anterior. 
+				\item[4.3.] Presiona el botón \BTN{guardar_vecindad}.
+			\end{enumerate}
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[5.3.] Actualiza la vecindad.
+				\item[6.3.] Muestra el mensaje \MSG{msg_vecindad_incompatibilidad}.
+				\item[7.3.] Muestra el mensaje \MSG{msg_vecindad}.
+			\end{enumerate} \\
+			\hline
+		\end{tabular} 
+	\end{center}
+\end{table}
+
+
+\subsubsection{Definir condición de frontera}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{| p{0.2\textwidth} | p{0.7\textwidth} |}
+			\hline 
+			\textbf{Actor} & Usuario\\ \hline
+			\textbf{Descripción} & Se selecciona entre diferentes opciones de condiciones de frontera. \\ \hline
+			\textbf{Tipo} & Primario \\ \hline
+			\textbf{Entradas} &
+			\begin{itemize}[noitemsep, nosep]
+				\item Desde mouse \BTN{frontera}
+			\end{itemize}
+			\\ \hline
+			\textbf{Salidas} & Ninguna
+			\\ \hline
+			\textbf{Precondición} & Ninguna
+			\\ \hline
+			\textbf{Postcondición} & Ninguna \\ \hline
+			\textbf{Errores} &Ninguno \\ \hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo básico}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			\begin{enumerate}[noitemsep, nosep]
+				\item Presiona el botón \BTN{frontera} desde \UI{configuracion_ui}.
+			\end{enumerate} 
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[2.] Actualiza la condición de frontera a la siguiente configuración.  
+			\end{enumerate} \\
+			\hline
+		\end{tabular} \\
+	\end{center}
+\end{table}
+
+\subsubsection{Definir estados}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{| p{0.2\textwidth} | p{0.7\textwidth} |}
+			\hline 
+			\textbf{Actor} & Usuario\\ \hline
+			\textbf{Descripción} & Se define el tamaño del conjunto de estados. \\ \hline
+			\textbf{Tipo} & Primario \\ \hline
+			\textbf{Entradas} &
+			\begin{itemize}[noitemsep, nosep]
+				\item Desde teclado \IN{estados} 
+				\item Desde mouse \BTN{cambiar_estados}
+			\end{itemize}
+			\\ \hline
+			\textbf{Salidas} & Ninguna  \\ \hline
+			\textbf{Precondición} & Ninguna  
+			\\ \hline
+			\textbf{Postcondición} & Ninguna   \\ \hline
+			\textbf{Errores} & 
+			\begin{itemize}[noitemsep, nosep]
+				\item Simulando: El usuario intenta cambiar los estados mientras esta en ejecución.
+				\item Incompatibilidad: El numero de estados es menor y hay estados inexistentes en el espacio celular.
+			\end{itemize}\\ \hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo básico}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			\begin{enumerate}[noitemsep, nosep]
+				\item Ingresa el numero de estados en el campo \IN{estados} desde \UI{configuracion_ui}.
+				\item Presiona el botón \BTN{cambiar_estados}.
+			\end{enumerate} 
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[3.] Cambia el conjunto de estados.  
+			\end{enumerate} \\
+			\hline
+		\end{tabular} \\
+	\end{center}
+\end{table}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo alterno 1: Simulando}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			\begin{enumerate}[noitemsep, nosep]
+				\item[2.1.] Presiona el botón \BTN{cambiar_estados} mientras la simulación esta en ejecución. 
+			\end{enumerate}
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[3.1.] Detiene la simulación.
+				\item[4.1.] Cambia el conjunto de estados.
+			\end{enumerate} \\
+			\hline
+		\end{tabular} 
+	\end{center}
+\end{table}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo alterno 2: Incompatibilidad (Aceptar)}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			\begin{enumerate}[noitemsep, nosep]
+				\item[1.2.] Ingresa el numero de estados en el campo \IN{estados} desde \UI{configuracion_ui} menor al actual.
+				\item[2.2.] Presiona el botón \BTN{cambiar_estados}.
+				\item[4.2.] Presiona el botón \BTN{aceptar_estados}.
+			\end{enumerate}
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[3.2.] Muestra el mensaje \MSG{incompatibilidad_estados}.
+				\item[5.2.] Cambia el conjunto de estados.
+				\item[6.2.] Establece a ``0'' todos los estados inexistentes.
+			\end{enumerate} \\
+			\hline
+		\end{tabular} 
+	\end{center}
+\end{table}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo alterno 2.1: Incompatibilidad (Rechazar)}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			\begin{enumerate}[noitemsep, nosep]
+				\item[1.2.] Ingresa el numero de estados en el campo \IN{estados} desde \UI{configuracion_ui} menor al actual.
+				\item[2.2.] Presiona el botón \BTN{cambiar_estados}.
+				\item[4.2.] Presiona el botón \BTN{rechazar_estados}.
+			\end{enumerate}
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[3.2.] Muestra el mensaje \MSG{incompatibilidad_estados}.
+				\item[5.2.] No hace ningún cambio.
+			\end{enumerate} \\
+			\hline
+		\end{tabular} 
+	\end{center}
+\end{table}
+
+\subsubsection{Definir función de transición}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{| p{0.2\textwidth} | p{0.7\textwidth} |}
+			\hline 
+			\textbf{Actor} & Usuario\\ \hline
+			\textbf{Descripción} & Se configura la regla que define el comportamiento del CA. \\ \hline
+			\textbf{Tipo} & Primario \\ \hline
+			\textbf{Entradas} &
+			\begin{itemize}[noitemsep, nosep]
+				\item Desde teclado \IN{regla}
+				\item Desde mouse \BTN{aplicar_regla}
+			\end{itemize}
+			\\ \hline
+			\textbf{Salidas} & Ninguna  \\ \hline
+			\textbf{Precondición} & Ninguna 
+			\\ \hline
+			\textbf{Postcondición} &  Ninguna  \\ \hline
+			\textbf{Errores} & 
+			\begin{itemize}[noitemsep, nosep]
+				\item Simulando: El cambio de regla se intenta aplicar cuando la simulación esta en ejecución.
+				\item Fuera de rango: La regla establecida esta fuera del rango. 
+			\end{itemize}\\ \hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo básico}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			\begin{enumerate}[noitemsep, nosep]
+				\item Ingresa la regla en el campo \IN{regla} desde \UI{configuracion_ui}.
+				\item Presiona el botón \BTN{aplicar_regla}.
+			\end{enumerate} 
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[3.] Actualiza la regla.
+				\item[4.] Muestra el mensaje \MSG{reglas}. 
+			\end{enumerate} \\
+			\hline
+		\end{tabular} \\
+		
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo alterno 1: Simulando}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			\begin{enumerate}[noitemsep, nosep]
+				\item[2.1.] Presiona el botón \BTN{aplicar_regla} mientras la simulación esta activa.
+			\end{enumerate} 
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[3.1.] Pausa la simulación.
+				\item[4.1.] Actualiza la regla.
+				\item[5.1.] Muestra el mensaje \MSG{reglas}. 
+			\end{enumerate} \\
+			\hline
+		\end{tabular} 
+	\end{center}
+\end{table} 
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.2\textwidth}|p{0.7\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo alterno 2: Fuera de rango}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[3.3.] La regla no es compatible, se ajusta a la configuración del CA.
+				\item[4.3.] Actualiza la regla.
+				\item[5.3.] Muestra el mensaje \MSG{reglas}. 
+			\end{enumerate} \\
+			\hline
+		\end{tabular} 
+	\end{center}
+\end{table}
+
+
+\subsubsection{Establecer colores}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{| p{0.2\textwidth} | p{0.7\textwidth} |}
+			\hline 
+			\textbf{Actor} & Usuario\\ \hline
+			\textbf{Descripción} & Se define un color asociado a cada estado.  \\ \hline
+			\textbf{Tipo} & Secundario \\ \hline
+			\textbf{Entradas} &
+			\begin{itemize}[noitemsep, nosep]
+				\item Desde mouse \BTN{color}
+			\end{itemize}
+			\\ \hline
+			\textbf{Salidas} & Ninguna  \\ \hline
+			\textbf{Precondición} & Ninguna  \\ \hline
+			\textbf{Postcondición} &  Ninguna  \\ \hline
+			\textbf{Errores} & Ninguno \\ \hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo básico}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			\begin{enumerate}[noitemsep, nosep]
+				\item Selecciona un estado en \UI{configuracion_ui}.
+				\item Presiona el botón de \BTN{color}.
+				\item[4. ] Selecciona un color.
+			\end{enumerate} 
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[3.] Abre un panel de colores. 
+				\item[5.] Asigna ese color a ese estado.
+				\item[6.] Cambia el color de todos las celular con en ese estado en el espacio celular.
+			\end{enumerate} \\
+			\hline
+		\end{tabular} \\
+	\end{center}
+\end{table}
+
+
+
+
+
+\subsubsection{Iniciar simulación}
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{| p{0.2\textwidth} | p{0.7\textwidth} |}
+			\hline 
+			\textbf{Actor} & Usuario\\ \hline
+			\textbf{Descripción} & El sistema inicia la evolución en pasos de tiempo constante. \\ \hline
+			\textbf{Tipo} & Primario \\ \hline
+			\textbf{Entradas} &
+			\begin{itemize}[noitemsep, nosep]
+				\item Desde mouse \BTN{simular}
+			\end{itemize}
+			\\ \hline
+			\textbf{Salidas} & Ninguna  \\ \hline
+			\textbf{Precondición} & Ninguna
+			\\ \hline
+			\textbf{Postcondición} & Pausar simulación \\ \hline
+			\textbf{Errores}  & Ninguno  \\ \hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo básico}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			\begin{enumerate}[noitemsep, nosep]
+				\item Presiona el botón \BTN{simular} desde \UI{control_ui}.
+			\end{enumerate} 
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[2.] Inicia la simulación. Cada paso evolutivo se realiza a una velocidad constante. 
+				\item Inhabilita el botón \BTN{simular}.
+				\item Habilita el botón \BTN{pausa}.
+			\end{enumerate} \\
+			\hline
+		\end{tabular} \\
+	\end{center}
+\end{table}
+
+\subsubsection{Pausar simulación}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{| p{0.2\textwidth} | p{0.7\textwidth} |}
+			\hline 
+			\textbf{Actor} & Usuario\\ \hline
+			\textbf{Descripción} & Se detiene la simulación.  \\ \hline
+			\textbf{Tipo} & Primario \\ \hline
+			\textbf{Entradas} &
+			\begin{itemize}[noitemsep, nosep]
+				\item Desde mouse \BTN{pausa}.
+			\end{itemize}
+			\\ \hline
+			\textbf{Salidas} & Ninguna \\ \hline
+			\textbf{Precondición} &  Ninguna
+			\\ \hline
+			\textbf{Postcondición} & Iniciar simulación.   \\ \hline
+			\textbf{Errores} & Ninguno \\ \hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo básico}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			\begin{enumerate}[noitemsep, nosep]
+				\item Presiona el botón \BTN{pausa} desde \UI{control_ui}.
+			\end{enumerate} 
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[2.] Detiene la simulación. 
+				\item[3.] Inhabilita el botón \BTN{pausa}.
+				\item[4.] Habilita el botón \BTN{simular}. 
+			\end{enumerate} \\
+			\hline
+		\end{tabular} \\
+	\end{center}
+\end{table}
+
+
+\subsubsection{Establecer velocidad}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{| p{0.2\textwidth} | p{0.7\textwidth} |}
+			\hline 
+			\textbf{Actor} & Usuario\\ \hline
+			\textbf{Descripción} & Se configura la velocidad de actualización del CA cuando se inicia la simulación.  \\ \hline
+			\textbf{Tipo} & Secundario \\ \hline
+			\textbf{Entradas} &
+			\begin{itemize}[noitemsep, nosep]
+				\item Desde mouse \BTN{acelerar}
+				\item Desde mouse \BTN{frenar}
+			\end{itemize}
+			\\ \hline
+			\textbf{Salidas} & Ninguna \\ \hline
+			\textbf{Precondición} & Iniciar simulación
+			\\ \hline
+			\textbf{Postcondición} & Ninguna  \\ \hline
+			\textbf{Errores} & 
+			\begin{itemize}[noitemsep, nosep]
+				\item Velocidad limite: Se intenta disminuir  o aumentar la velocidad cuando ya esta en su velocidad mínima  o máxima posible respectivamente.
+			\end{itemize}\\ \hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo básico (Acelerar)}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline 
+			\begin{enumerate}[noitemsep, nosep]
+				\item Presiona \BTN{acelerar} desde \UI{control_ui}.
+			\end{enumerate} 
+			& 
+			\begin{enumerate}[noitemsep, nosep] 
+				\item[2.] Aumenta la velocidad de la simulación.
+			\end{enumerate} \\
+			\hline
+		\end{tabular} \\
+	\end{center}
+\end{table}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo básico (Frenar)}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			\begin{enumerate}[noitemsep, nosep]
+				\item Presiona \BTN{frenar} desde \UI{control_ui}.
+			\end{enumerate} 
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[2.] Disminuye la velocidad de la simulación.
+			\end{enumerate} \\
+			\hline
+		\end{tabular} \\
+	\end{center}
+\end{table}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo alterno 1: Velocidad limite}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			\begin{enumerate}[noitemsep, nosep]
+				\item[1.1.] Presiona \BTN{acelerar} o \BTN{frenar} desde \UI{control_ui} cuando esta en la velocidad limite máxima o mínima respectivamente. 
+			\end{enumerate}
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[2.1.] No realiza ningún cambio, mantiene la velocidad actual. 
+			\end{enumerate} \\
+			\hline
+		\end{tabular} \\
+	\end{center}
+\end{table}
+
+\subsubsection{Simular un paso}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{| p{0.2\textwidth} | p{0.7\textwidth} |}
+			\hline 
+			\textbf{Actor} & Usuario\\ \hline
+			\textbf{Descripción} & Se realiza la simulación del CA pero unicamente en un paso. \\ \hline
+			\textbf{Tipo} & Primario \\ \hline
+			\textbf{Entradas} &
+			\begin{itemize}[noitemsep, nosep]
+				\item Desde mouse \BTN{paso}
+			\end{itemize}
+			\\ \hline
+			\textbf{Salidas} & Ninguna \\ \hline
+			\textbf{Precondición} & Ninguna
+			\\ \hline
+			\textbf{Postcondición} & Ninguna \\ \hline
+			\textbf{Errores} & 
+			\begin{itemize}[noitemsep, nosep]
+				\item Velocidad máxima: Se intenta dar un paso cuando la simulación esta activa en la velocidad máxima.
+			\end{itemize}\\ \hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo básico}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			\begin{enumerate}[noitemsep, nosep]
+				\item Presiona el botón \BTN{paso} desde \UI{control_ui}.
+			\end{enumerate} 
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[2.] La simulación avanza un paso.
+			\end{enumerate} \\
+			\hline
+		\end{tabular} \\
+	\end{center}
+\end{table}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.2\textwidth}|p{0.7\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo alterno 1: Velocidad máxima}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[2.1.] No realiza ningún cambio y mantiene la velocidad actual. 
+			\end{enumerate} \\
+			\hline
+		\end{tabular} 
+	\end{center}
+\end{table}
+
+
+\subsubsection{Retroceder un paso}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{| p{0.2\textwidth} | p{0.7\textwidth} |}
+			\hline 
+			\textbf{Actor} & Usuario\\ \hline
+			\textbf{Descripción} & Cuando se importa una evolución, se retrocede la simulación para visualizar evoluciones pasadas.  \\ \hline
+			\textbf{Tipo} & Secundario \\ \hline
+			\textbf{Entradas} &
+			\begin{itemize}[noitemsep, nosep]
+				\item Desde mouse \BTN{retroceder}
+			\end{itemize}
+			\\ \hline
+			\textbf{Salidas} & 
+			\begin{itemize}[noitemsep, nosep]
+				\item Mensaje \MSG{importacion_requerida}
+			\end{itemize} \\ \hline
+			\textbf{Precondición} & Importar evolución
+			\\ \hline
+			\textbf{Postcondición} & Ninguna  \\ \hline
+			\textbf{Errores} & 
+			\begin{itemize}[noitemsep, nosep]
+				\item Falta importación: El usuario intenta retroceder la simulación cuando no ha importado ningún archivo.
+				\item Configuración inicial: EL usuario intenta retroceder la simulación de la configuración inicial.
+			\end{itemize}\\ \hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo básico}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			\begin{enumerate}[noitemsep, nosep]
+				\item Presiona el botón \BTN{retroceder} desde \UI{control_ui}.
+			\end{enumerate} 
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[2.] La simulación retrocede un paso. 
+			\end{enumerate} \\
+			\hline
+		\end{tabular} \\
+	\end{center}
+\end{table}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.2\textwidth}|p{0.7\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo alterno 1: Falta importación}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[2.1.] No se ha importado la evolución. Bloquea el botón y muestra el mensaje \MSG{importacion_requerida}.
+			\end{enumerate} \\
+			\hline
+		\end{tabular} 
+	\end{center}
+\end{table}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo alterno 2: Configuración inicial}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			\begin{enumerate}[noitemsep, nosep]
+				\item[3.2.] Presiona el botón \BTN{retroceder} desde \UI{control_ui} estando en la configuración inicial del archivo (No hay mas configuraciones antes).  
+			\end{enumerate}
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[4.2.] No realiza ningún cambio y muestra el mensaje \MSG{limite_evolucion}.
+			\end{enumerate} \\
+			\hline
+		\end{tabular} 
+	\end{center}
+\end{table}
+
+\subsubsection{Reiniciar simulación}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{| p{0.2\textwidth} | p{0.7\textwidth} |}
+			\hline 
+			\textbf{Actor} & Usuario\\ \hline
+			\textbf{Descripción} & Se reinicia la simulación a la ultima cuadricula que fue modificada mientras la simulación estaba en pausa. \\ \hline
+			\textbf{Tipo} & Primario \\ \hline
+			\textbf{Entradas} &
+			\begin{itemize}[noitemsep, nosep]
+				\item Desde mouse \BTN{reiniciar}.
+			\end{itemize}
+			\\ \hline
+			\textbf{Salidas} & Ninguna \\ \hline
+			\textbf{Precondición} & Ninguna
+			\\ \hline
+			\textbf{Postcondición} & Ninguna  \\ \hline
+			\textbf{Errores} & Ninguno \\ \hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo básico}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			\begin{enumerate}[noitemsep, nosep]
+				\item Presiona el botón \BTN{reiniciar} desde \UI{control_ui}.
+			\end{enumerate} 
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[2.] Regresa la configuración de la cuadricula a la ultima versión modifica mientras estaba en pausa. 
+			\end{enumerate} \\
+			\hline
+		\end{tabular} \\
+	\end{center}
+\end{table}
+
+
+\subsubsection{Cambiar estado de una célula}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{| p{0.2\textwidth} | p{0.7\textwidth} |}
+			\hline 
+			\textbf{Actor} & Usuario\\ \hline
+			\textbf{Descripción} & Se cambia manualmente la configuración del espacio celular, seleccionando el estado de cada célula.  \\ \hline
+			\textbf{Tipo} & Primario \\ \hline
+			\textbf{Entradas} &
+			\begin{itemize}[noitemsep, nosep]
+				\item Desde mouse \BTN{celula}
+			\end{itemize}
+			\\ \hline
+			\textbf{Salidas} & Ninguna
+			\\ \hline
+			\textbf{Precondición} & Ninguna
+			\\ \hline
+			\textbf{Postcondición} & Ninguna \\ \hline
+			\textbf{Errores} & Ninguno
+			\\ \hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo básico (Siguiente estado)}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			\begin{enumerate}[noitemsep, nosep]
+				\item Presiona una célula \BTN{celula} desde \UI{simulacion_ui}.
+			\end{enumerate} 
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[2.] La célula cambia al estado siguiente estado. 
+			\end{enumerate} \\
+			\hline
+		\end{tabular} \\
+	\end{center}
+\end{table}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo básico (Selección de estado)}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			\begin{enumerate}[noitemsep, nosep]
+				\item Selecciona un estado desde \UI{configuracion_ui}.
+				\item Presiona una célula \BTN{celula} desde \UI{simulacion_ui}.
+			\end{enumerate} 
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[3.] La célula cambia al estado presionado en \UI{configuracion_ui}.
+			\end{enumerate} \\
+			\hline
+		\end{tabular} \\
+	\end{center}
+\end{table}
+
+\subsubsection{Importar evolución}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{| p{0.2\textwidth} | p{0.7\textwidth} |}
+			\hline 
+			\textbf{Actor} & Usuario\\ \hline
+			\textbf{Descripción} & Importa un archivo que contiene el histórico de la evolución de un CA particular.  \\ \hline
+			\textbf{Tipo} & Primario \\ \hline
+			\textbf{Entradas} &
+			\begin{itemize}[noitemsep, nosep]
+				\item Desde mouse \BTN{importar}
+			\end{itemize}
+			\\ \hline
+			\textbf{Salidas} & 
+			\begin{itemize}[noitemsep, nosep]
+				\item Mensaje \MSG{importacion_exitosa}
+				\item Mensaje \MSG{formato_invalido}
+			\end{itemize} \\ \hline
+			\textbf{Precondición} & Ninguna
+			\\ \hline
+			\textbf{Postcondición} & Ninguna  \\ \hline
+			\textbf{Errores} & 
+			\begin{itemize}[noitemsep, nosep]
+				\item Formato invalido: El formato del archivo es incompatible o la información que contiene esta corrompida.
+			\end{itemize}\\ \hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo básico}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			\begin{enumerate}[noitemsep, nosep]
+				\item Presiona el botón \BTN{importar} desde \UI{configuracion_ui}. 
+				\item[3.] Selecciona el archivo ``.ca'' que contiene la evolución.
+			\end{enumerate} 
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[2.] Abre el explorador de archivos. 
+				\item[4.] Carga la evolución del CA y muestra el mensaje \MSG{importacion_exitosa}.
+			\end{enumerate} \\
+			\hline
+		\end{tabular} \\
+	\end{center}
+\end{table}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo alterno 1: Formato invalido}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			\begin{enumerate}[noitemsep, nosep]
+				\item[3.1.] Selecciona un archivo invalido.  
+			\end{enumerate} 
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[4.1.]  No realiza ningún cambio y muestra el mensaje \MSG{formato_invalido}.
+			\end{enumerate} \\
+			\hline
+		\end{tabular} 
+	\end{center}
+\end{table}
+
+\subsubsection{Exportar evolución}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{| p{0.2\textwidth} | p{0.7\textwidth} |}
+			\hline 
+			\textbf{Actor} & Usuario\\ \hline
+			\textbf{Descripción} & Se guarda el historial evolutivo obtenido desde el ultimo cambio realiza mientras la simulación estaba en pausa.  \\ \hline
+			\textbf{Tipo} & Primario \\ \hline
+			\textbf{Entradas} &
+			\begin{itemize}[noitemsep, nosep]
+				\item Desde mouse \BTN{exportar}
+			\end{itemize}
+			\\ \hline
+			\textbf{Salidas} & Ninguna \\ \hline
+			\textbf{Precondición} & Ninguna
+			\\ \hline
+			\textbf{Postcondición} & Ninguna \\ \hline
+			\textbf{Errores} & 
+			\begin{itemize}[noitemsep, nosep]
+				\item Cancelación
+			\end{itemize}			\\ \hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo básico}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			\begin{enumerate}[noitemsep, nosep]
+				\item Presiona el botón \BTN{exportar} desde \UI{configuracion_ui}.
+				\item[4.] Selecciona la ruta y el nombre del archivo.
+			\end{enumerate} 
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[2.] Guarda la configuración y el historial evolutivo.
+				\item[3.] Abre el explorador de archivos.  
+				\item[5.] Guarda el archivo creado en la ruta especificada.
+			\end{enumerate} \\
+			\hline
+		\end{tabular} \\
+	\end{center}
+\end{table}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo alterno 1: Cancelación}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			\begin{enumerate}[noitemsep, nosep]
+				\item[4.1.] Presiona el botón de cancelar. 
+			\end{enumerate}
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[5.1.] No guarda el archivo y no realiza cambios. 
+			\end{enumerate} \\
+			\hline
+		\end{tabular} 
+	\end{center}
+\end{table}
+
