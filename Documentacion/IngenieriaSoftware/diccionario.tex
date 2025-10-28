@@ -1,0 +1,80 @@
+\section{Diccionario}
+
+\subsection{Entradas}
+\begin{itemize}	
+	% Configuración
+	\item Definición de la configuración del CA.
+	\begin{itemize}
+		\item \NewBTN{vecindad}{Vecindad}
+		\item \NewBTN{vecindades}{Configuración de la vecindades}
+		\item \NewBTN{guardar_vecindad}{Guardar vecindad}
+		\item \NewBTN{cancelar_vecindad}{Cancelar cambio de vecindad}
+		
+		\item \NewBTN{frontera}{Condición de frontera}
+		
+		\item \NewBTN{cambiar_estados}{Cambiar estados}
+		\item \NewBTN{rechazar_estados}{Rechazar estados}
+		\item \NewBTN{aceptar_estados}{Aceptar estados}
+		\item \NewBTN{cancelar_estados}{Cancelar estados}
+		
+		\item \NewBTN{aplicar_regla}{Aplicar regla}
+		
+		\item \NewBTN{color}{Color}
+		\item \NewBTN{celula}{Célula}
+	\end{itemize}
+	
+	% Simular
+	\item Simulación.
+	\begin{itemize}
+		\item \NewBTN{simular}{Simular}
+		\item \NewBTN{pausa}{Pausa}
+		
+		\item \NewBTN{acelerar}{Acelerar}
+		\item \NewBTN{frenar}{Frenar}
+		\item \NewBTN{paso}{Paso}
+		
+		\item \NewBTN{retroceder}{Retroceder}
+		
+		\item \NewBTN{reiniciar}{Reiniciar}
+	\end{itemize}
+	
+	
+	% Importar
+	\item Importación y exportación.
+	\begin{itemize}
+		\item \NewBTN{importar}{Importar}
+		\item \NewBTN{exportar}{Exportar}
+	\end{itemize}
+	
+	% Campos de texto
+	\item Campos de texto.
+	\begin{itemize}
+		\item \NewIN{tamaño_vecindad}{Tamaño de la vecindad}
+		\item \NewIN{regla}{Regla}
+		\item \NewIN{estados}{Estados}		
+	\end{itemize}
+\end{itemize}
+
+\subsection{Mensajes}
+\begin{itemize}
+	\item \NewMSG{msg_vecindad}{Vecindad generada}
+	\item \NewMSG{msg_vecindad_incompatibilidad}{Vecindad generada con incompatibilidad}
+	
+	\item \NewMSG{incompatibilidad_estados}{Incompatibilidad de estados}
+	
+	\item \NewMSG{reglas}{Regla generada}
+	
+	\item \NewMSG{importacion_requerida}{Importación requerida}
+	\item \NewMSG{limite_evolucion}{Limite de evolución alcanzado}
+	
+	\item \NewMSG{importacion_exitosa}{Importación exitosa}
+	\item \NewMSG{formato_invalido}{Formato invalido}
+\end{itemize}
+
+\subsection{Interfaces graficas}
+\begin{itemize}
+	\item \NewUI{simulacion_ui}{Simulación}: Elemento que contiene la cuadricula del espacio celular y muestra la evolución del CA donde cada célula actúa como un botón \BTN{celula}.
+	\item \NewUI{control_ui}{Control}: Elemento que contiene el control sobre la simulación del espacio celular.
+	\item \NewUI{vecindad_ui}{Vecindad}: Ventana emergente que contiene un espacio celular donde cada célula actúa como un botón \BTN{celula}. Muestra la célula central y permite al usuario seleccionar aquellas células que quiere que formen parte de la vecindad.
+	\item \NewUI{configuracion_ui}{Configuración}: Elemento que permite realizar la configuración de la condición de frontera, los estados y la función de transición.
+\end{itemize}

@@ -10,8 +10,11 @@
 \usepackage{url}					% Dar formato a urls				
 \usepackage{array}					% Para ajustar el texto en la celda
 \usepackage{xcolor}
+\usepackage[table]{xcolor}
 \usepackage{float}
+\usepackage{booktabs}
 \usepackage{comment} 
+\usepackage{hyperref}
 \usepackage{enumitem}
 \usepackage{amssymb}		% Simbolos matematicos
 \usepackage{fancyhdr}  % Para encabezados personalizados
@@ -26,3 +29,58 @@
 \setlength{\headheight}{13.6pt}
 
 \setcounter{secnumdepth}{4}
+
+%%% Botones - BTN - Buttons
+\newcounter{BTNcounter}
+\newcommand{\NewBTN}[2]{%
+	\refstepcounter{BTNcounter}%
+	\expandafter\gdef\csname BTNtext@#1\endcsname{#2}%
+	\hypertarget{#1}{}%  Define el destino del enlace
+\label{#1}%
+	\textcolor{black}{BTN\theBTNcounter~\csname BTNtext@#1\endcsname}%
+}
+\newcommand{\BTN}[1]{\hyperlink{#1}{\textcolor{black}{BTN\ref{#1}~\csname BTNtext@#1\endcsname}}}
+
+%%% Inputs - IN 
+\newcounter{INcounter}
+\newcommand{\NewIN}[2]{%
+	\refstepcounter{INcounter}%
+	\expandafter\gdef\csname INtext@#1\endcsname{#2}%
+	\hypertarget{#1}{}%  Define el destino del enlace
+\label{#1}%
+	\textcolor{black}{IN\theINcounter~\csname INtext@#1\endcsname}%
+}
+\newcommand{\IN}[1]{\hyperlink{#1}{\textcolor{black}{IN\ref{#1}~\csname INtext@#1\endcsname}}}
+
+%%% Outputs - OUT 
+\newcounter{OUTcounter}
+\newcommand{\NewOUT}[2]{%
+	\refstepcounter{OUTcounter}%
+	\expandafter\gdef\csname OUTtext@#1\endcsname{#2}%
+	\hypertarget{#1}{}%  Define el destino del enlace
+\label{#1}%
+	\textcolor{black}{OUT\theOUTcounter~\csname OUTtext@#1\endcsname}%
+}
+\newcommand{\OUT}[1]{\hyperlink{#1}{\textcolor{black}{OUT\ref{#1}~\csname OUTtext@#1\endcsname}}}
+
+%%% Messages - MSG
+\newcounter{MSGcounter}
+\newcommand{\NewMSG}[2]{%
+	\refstepcounter{MSGcounter}%
+	\expandafter\gdef\csname MSGtext@#1\endcsname{#2}%
+	\hypertarget{#1}{}%  Define el destino del enlace
+	\label{#1}%
+	\textcolor{black}{MSG\theMSGcounter~\csname MSGtext@#1\endcsname}%
+}
+\newcommand{\MSG}[1]{\hyperlink{#1}{\textcolor{black}{MSG\ref{#1}~\csname MSGtext@#1\endcsname}}}
+
+%%% User Interface - UI
+\newcounter{UIcounter}
+\newcommand{\NewUI}[2]{%
+	\refstepcounter{UIcounter}%
+	\expandafter\gdef\csname UItext@#1\endcsname{#2}%
+	\hypertarget{#1}{}%  Define el destino del enlace
+\label{#1}%
+	\textcolor{black}{UI\theUIcounter~\csname UItext@#1\endcsname}%
+}
+\newcommand{\UI}[1]{\hyperlink{#1}{\textcolor{black}{UI\ref{#1}~\csname UItext@#1\endcsname}}}
