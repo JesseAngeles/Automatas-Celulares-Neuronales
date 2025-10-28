@@ -1,0 +1,21 @@
+\section{Arquitectura}
+
+La arquitectura del sistema se basa en el patrón de diseño \textbf{Modelo Vista Controlador (MVC)}, el cual resulta adecuado para aplicaciones que combinan lógica de negocio, manipulación de datos y una interfaz gráfica interactiva \cite{mvc}. Este patrón favorece la separación de responsabilidades, la mantenibilidad y la extensibilidad del sistema. 
+
+\begin{itemize}
+	\item \textbf{Modelo:} Gestiona los datos y la lógica principal del autómata celular, incluyendo la definición de estados, reglas, vecindad y condiciones de frontera.
+	\item \textbf{Vista:} Se encarga de la presentación visual de la información y la interacción con el usuario mediante la interfaz gráfica.
+	\item \textbf{Controlador:} Actúa como intermediario entre el modelo y la vista, gestionando los eventos de usuario y actualizando el modelo o la interfaz según corresponda.
+\end{itemize}
+
+\subsection{Vista}
+
+La vista está implementada en \textit{Python} utilizando el framework \textbf{PyQt5}. Esta capa proporciona la interfaz gráfica principal del simulador, permitiendo visualizar el espacio celular, modificar parámetros y controlar la ejecución de la simulación (inicio, pausa, reinicio, etc.). Además, se incluyen componentes dinámicos que permiten la selección de colores, la configuración de reglas y la representación visual del estado del sistema en tiempo real.
+
+\subsection{Modelo}
+
+El modelo encapsula la lógica del autómata celular. Esta capa está implementada en \textit{C++} con el fin de optimizar el rendimiento en las operaciones de actualización de celdas y el procesamiento paralelo. El modelo gestiona la estructura del espacio celular, los estados, la topología de la vecindad, las condiciones de frontera y la regla de transición, garantizando un funcionamiento eficiente y escalable.
+
+\subsection{Controlador}
+
+El \textbf{controlador} coordina la comunicación entre la vista y el modelo. Implementado en Python, este componente recibe los eventos generados por la interfaz (por ejemplo, el cambio de número de estados o la selección de una regla), actualiza el modelo y refleja los resultados en la interfaz gráfica. Además, sincroniza los procesos de simulación y representación visual, permitiendo la ejecución paralela y una interacción fluida entre el usuario y la lógica del sistema.
