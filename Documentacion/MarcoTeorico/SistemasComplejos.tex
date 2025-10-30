@@ -1,24 +1,24 @@
 \section{Modelado de sistemas complejos}
 
-Las colonias de hormigas, el mercado bursátil, el clima, el sistema nervioso, las células y los organismos vivos son algunos ejemplos de sistemas complejos (CS, \textit{Complex Systems}). Estos se caracterizan por tener un conjunto de elementos que interactúan entre si con el fin de alcanzar un objetivo \cite{cs_def_1, cs_def_2}. 
+Las colonias de hormigas, el mercado bursátil, el clima, el sistema nervioso, las células y los organismos vivos son algunos ejemplos de sistemas complejos (CS, \textit{Complex Systems}). Estos se caracterizan por tener un conjunto de elementos que interactúan entre sí con el fin de alcanzar un objetivo \cite{cs_def_1, cs_def_2}. 
 
 Los CS tienen dos implicaciones fundamentales: (1) Existe una influencia mutua entre sus elementos, donde el cambio afecta inevitablemente al resto de elementos, y (2) persiguen un objetivo \cite{cs_def_2}.
 
 \begin{definition}
-	Un sistema complejo es una entidad compuesta de partes interconectadas, de tal forma que el comportamiento colectivo es mas que la suma de sus componentes individuales.
+	Un sistema complejo es una entidad compuesta de partes interconectadas, de tal forma que el comportamiento colectivo es más que la suma de sus componentes individuales.
 \end{definition}
 
 Para entender el comportamiento de un sistema es necesario conocer los elementos y sus interacciones. Es decir, se requiere conocer los estados, valores instantáneos de todos los elementos; y sus transiciones, cambios dinámicos en los estados.
 
 Los CS se caracterizan principalmente por:
 \begin{itemize}
-	\item \textbf{No linealidad}: No cumple el principio de superposición, es decir, el resultado no puede expresarse como la suma de las respuestas individuales a cada estimulo por separado. Resulta difícil predecir su evolución dinámica futura \cite{cs_def_2, cs_def_3}.
+	\item \textbf{No linealidad}: No cumple el principio de superposición, es decir, el resultado no puede expresarse como la suma de las respuestas individuales a cada estímulo por separado. Resulta difícil predecir su evolución dinámica futura \cite{cs_def_2, cs_def_3}.
 	
 	\item \textbf{Retroalimentación}: Las salidas pasadas influyen en las siguientes salidas. Este comportamiento hace alusión a la memoria del sistema \cite{cs_def_3}. 
 	
-	\item \textbf{Orden espontaneo}: Existe un orden emergente resultado de las interacciones locales no coordinadas el cual no puede ser descrito mediante sus interacciones locales \cite{cs_def_3}.
+	\item \textbf{Orden espontáneo}: Existe un orden emergente resultado de las interacciones locales no coordinadas, el cual no puede ser descrito mediante sus interacciones locales \cite{cs_def_3}.
 	
-	\textbf{Aparición (\textit{emergence})}: Entidades, patrones, comportamientos y propiedades emergen de la interacción de entidades mas pequeñas, las cuales no exhiben estos atributos \cite{cs_def_3}.
+	\textbf{Aparición (\textit{emergence})}: Entidades, patrones, comportamientos y propiedades emergen de la interacción de entidades más pequeñas, las cuales no exhiben estos atributos \cite{cs_def_3}.
 	
 	\textbf{Elementos múltiples}: Compuesto de múltiples elementos relativamente idénticos con interacciones locales \cite{cs_def_2}. 
 \end{itemize}
@@ -32,31 +32,31 @@ El proceso, de manera simplificada, se compone de tres fases, como se observa en
 	
 	\item El modelo realiza un proceso de inferencia que busca averiguar las implicaciones derivadas de las premisas.
 	
-	\item Los resultados se utilizan para analizar, interpretar y aplicar a un sistema real. Esta aplicación no requiere ser practica, es una relación entre las inferencias obtenidas con el modelo y el sistema real.
+	\item Los resultados se utilizan para analizar, interpretar y aplicar a un sistema real. Esta aplicación no requiere ser práctica, es una relación entre las inferencias obtenidas con el modelo y el sistema real.
 \end{itemize}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.6\linewidth]{img/CS_cientifico.png}
-	\caption{Representación grafica del modelado científico. Este proceso busca relacionar eventos del mundo real utilizando un modelo que realiza una inferencia.}
+	\caption{Representación gráfica del modelado científico. Este proceso busca relacionar eventos del mundo real utilizando un modelo que realiza una inferencia.}
 	\label{fig:cs_cientifico}
 \end{figure}
 
-Sin embargo, estos modelos suelen suelen carecer de las herramientas necesarias que les permiten deducir las implicaciones lógicas necesarias. Es aquí donde la computación permite agilizar este proceso realizando simulaciones computacionales. 
+Sin embargo, estos modelos suelen carecer de las herramientas necesarias que les permiten deducir las implicaciones lógicas necesarias. Es aquí donde la computación permite agilizar este proceso realizando simulaciones computacionales. 
 
-Las computadoras permite explorar y analizar modelos formales para resolver modelos matemáticos. Ademas, dado que un modelo computacional puede ser definido mediante un modelo matemático, el rol de la computación es simplificar este proceso. 
+Las computadoras permiten explorar y analizar modelos formales para resolver modelos matemáticos. Además, dado que un modelo computacional puede ser definido mediante un modelo matemático, el rol de la computación es simplificar este proceso. 
 
-Los resultados que se obtienen al ejecutar la simulación computacional se derivan de aplicar reglas algorítmicas, por lo que se requiere expandir el proceso de abstracción y diseñar un modelo formal que sera ejecutado por la computadora, como se muestra en la figura \ref{fig:cs_computacional}.
+Los resultados que se obtienen al ejecutar la simulación computacional se derivan de aplicar reglas algorítmicas, por lo que se requiere expandir el proceso de abstracción y diseñar un modelo formal que será ejecutado por la computadora, como se muestra en la figura \ref{fig:cs_computacional}.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.6\linewidth]{img/CS_computacional.png}
-	\caption{Representación grafica del modelado computacional. Relaciona eventos del mundo real utilizando un modelo computacional que ayuda a agilizar el proceso de inferencia.}
+	\caption{Representación gráfica del modelado computacional. Relaciona eventos del mundo real utilizando un modelo computacional que ayuda a agilizar el proceso de inferencia.}
 	\label{fig:cs_computacional}
 \end{figure}
 
-Se requiere de un experto en el sistema real que pueda abstraer el problema y un modelador que formalice dicha abstracción para ejecutarla en una computadora que infiera los resultados, mismos que utilizara nuevamente el experto en el sistema real para entablar la relación con el sistema real \cite{modelado}.
+Se requiere de un experto en el sistema real que pueda abstraer el problema y un modelador que formalice dicha abstracción para ejecutarla en una computadora que infiera los resultados, mismos que utilizará nuevamente el experto en el sistema real para entablar la relación con el sistema real \cite{modelado}.
 
-Para modelar sistemas complejos existen múltiples herramientas, una de ellas son los autómatas celulares \cite{CS_CA}, los cuales siguen la caracterización de los sistemas complejos: elementos idénticos con interacciones locales que pueden generan orden espontaneo, comportamientos emergentes e incluso retroalimentados. 
+Para modelar sistemas complejos existen múltiples herramientas; una de ellas son los autómatas celulares \cite{CS_CA}, los cuales siguen la caracterización de los sistemas complejos: elementos idénticos con interacciones locales que pueden generar orden espontáneo, comportamientos emergentes e incluso retroalimentados. 
 
 \clearpage
