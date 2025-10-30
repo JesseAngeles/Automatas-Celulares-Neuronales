@@ -1,13 +1,13 @@
 \section{Reglas de negocio}
 
 \begin{enumerate}[label*=RN\arabic*]
-	\item El estado de una celda en el tiempo $t + 1$ depende unicamente de su estado actual y de los estados de sus vecinos.
+	\item El estado de una celda en el tiempo $t + 1$ depende únicamente de su estado actual y de los estados de sus vecinos.
 	\item Para iniciar la simulación es necesario que el conjunto de estados, la topología de la vecindad, la condición de frontera y la función de transición hayan sido definidas. 
-	\item Cuando la simulación esta en curso no se puede cambiar el conjunto de estados, la topología de la vecindad ni la función de transición.
+	\item Cuando la simulación está en curso, no se puede cambiar el conjunto de estados, la topología de la vecindad ni la función de transición.
 	\item El usuario puede manipular el estado de una célula y la condición de frontera en tiempo de ejecución.
-	\item Los datos importados deben de cumplir con el formato definido por el sistema para garantizar su correcta interpretación.
+	\item Los datos importados deben cumplir con el formato definido por el sistema para garantizar su correcta interpretación.
 	\item Los datos exportados deben conservar el mismo formato que los datos importados.
-	\item El usuario puede pausar, detener, reanudar o retroceder la simulación sin perdida de información. 
+	\item El usuario puede pausar, detener, reanudar o retroceder la simulación sin pérdida de información. 
 	\item Solo se permite una simulación activa por sesión.
 \end{enumerate}
 
@@ -15,7 +15,7 @@
 
 \subsection{Requerimientos funcionales}
 
-Los requerimientos funcionales describen las capacidades que el sistema debe de ofrecer al usuario para cumplir con los objetivos establecidos.
+Los requerimientos funcionales describen las capacidades que el sistema debe ofrecer al usuario para cumplir con los objetivos establecidos.
 
 \begin{enumerate}[label=RF\arabic*.]
 	\item El sistema debe mostrar una cuadrícula regular y finita que represente el espacio celular.
@@ -30,7 +30,7 @@ Los requerimientos funcionales describen las capacidades que el sistema debe de 
 
 \subsection{Requerimientos no funcionales}
 
-Los requerimientos no funcionales especifican las condiciones de calidad, desempeño y compatibilidad bajo las cuales el sistema debe de operar.
+Los requerimientos no funcionales especifican las condiciones de calidad, desempeño y compatibilidad bajo las cuales el sistema debe operar.
 
 \begin{enumerate}[label=RNF\arabic*.]
 	\item El sistema debe poder ejecutarse en Fedora 42 sin requerir modificaciones en el código fuente.

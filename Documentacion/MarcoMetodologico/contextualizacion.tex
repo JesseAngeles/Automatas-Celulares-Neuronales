@@ -1,10 +1,10 @@
 \section{Contextualización de la tecnología}
 
-El desarrollo de un simulador de sistemas complejos mediante autómatas celulares neuronales implica la integración de múltiples tecnologías, seleccionadas estratégicamente para satisfacer los requerimientos funcionales y técnicos del proyecto. Entre estos se incluye el diseño de una interfaz grafica de usuario intuitiva, la simulación de CA bidimensionales con diferentes estados, vecindades y funciones de transición, la personalización de condiciones iniciales y el entrenamiento de sistemas para la replicación de comportamientos brindados por el usuario.
+El desarrollo de un simulador de sistemas complejos mediante autómatas celulares neuronales implica la integración de múltiples tecnologías, seleccionadas estratégicamente para satisfacer los requerimientos funcionales y técnicos del proyecto. Entre estos se incluye el diseño de una interfaz gráfica de usuario intuitiva, la simulación de CA bidimensionales con diferentes estados, vecindades y funciones de transición, la personalización de condiciones iniciales y el entrenamiento de sistemas para la replicación de comportamientos brindados por el usuario.
 
-La elección de estas tecnologías responde a criterios de compatibilidad, escalabilidad, facilidad de implementación y disposición de herramientas especificas para el procesamiento de datos e inteligencia artificial. 
+La elección de estas tecnologías responde a criterios de compatibilidad, escalabilidad, facilidad de implementación y disposición de herramientas específicas para el procesamiento de datos e inteligencia artificial. 
 
-Con el fin de proporcionar una visión clara y compresiva de las bases técnicas del proyecto, en este capitulo se presentan tanto el área de estudio , elementos clave para orientar el desarrollo del simulador y validarlo, así como los fundamentos y el contexto de las tecnologías utilizadas, así como los entornos de trabajo que hacen posible este trabajo. 
+Con el fin de proporcionar una visión clara y comprensiva de las bases técnicas del proyecto, en este capítulo se presentan tanto el área de estudio, elementos clave para orientar el desarrollo del simulador y validarlo, como los fundamentos y el contexto de las tecnologías utilizadas, así como los entornos de trabajo que hacen posible este trabajo. 
 
 \subsection{Fundamentos y contexto de las tecnologías}
 
@@ -12,17 +12,17 @@ Un lenguaje de programación es una herramienta que permite el desarrollo de sof
 
 Debido a que la elección del entorno y lenguaje de programación resulta crítica para el éxito de cualquier proyecto, es importante considerar las metas y alcances del proyecto, puesto que no todos los lenguajes son óptimos para resolver ciertos tipos de problemas \cite{clickpandaEntorno}.
 
-Entre los factores clave para la elección de un lenguaje de programación se encuentra la escalabilidad y el rendimiento, el costo de mantenimiento, la compatibilidad y el sistema de herramientas, entre otras \cite{clickpandaEntorno}.
+Entre los factores clave para la elección de un lenguaje de programación se encuentran la escalabilidad y el rendimiento, el costo de mantenimiento, la compatibilidad y el sistema de herramientas, entre otros \cite{clickpandaEntorno}.
 
-Es por esto que, como lenguaje de programación se decidió utilizar C++/CUDA, para el núcleo de simulación y cálculos pesados en paralelo; y Python, para la interfaz, visualización, control de simulación y diseño de redes neuronales. 
+Es por esto que, como lenguajes de programación se decidió utilizar C++/CUDA, para el núcleo de simulación y cálculos pesados en paralelo; y Python, para la interfaz, visualización, control de simulación y diseño de redes neuronales. 
 
 A continuación se presentan las definiciones pertinentes de los lenguaje de programación, frameworks y librerías utilizadas para el desarrollo de la aplicación móvil.
 
 \subsubsection{C++}
 
-C++ es un lenguaje de programación compilado y multiparadigma desarrollado como una extensión de C \cite{c_1}. Se considera un lenguaje de bajo nivel ya que permite manipular directamente la memoria, lo que lo convierte en un lenguaje muy poderoso. Es orientado a objetos, permite la creación de clases y objetos y es ampliamente utilizado para aplicaciones que requieren un alto rendimiento.
+C++ es un lenguaje de programación compilado y multiparadigma desarrollado como una extensión de C \cite{c_1}. Se considera un lenguaje de bajo nivel, ya que permite manipular directamente la memoria, lo que lo convierte en un lenguaje muy poderoso. Es orientado a objetos, permite la creación de clases y objetos y es ampliamente utilizado para aplicaciones que requieren un alto rendimiento.
 
-Es utilizado en motores de videojuegos, software de sistemas, aplicaciones en tiempo real, simulaciones científicas y calculo numérico \cite{c_2}. para esta investigación, se utilizaran las siguiente bibliotecas de C++:
+Es utilizado en motores de videojuegos, software de sistemas, aplicaciones en tiempo real, simulaciones científicas y cálculo numérico \cite{c_2}. Para esta investigación, se utilizarán las siguientes bibliotecas de C++:
 
 \begin{itemize}
 	\item \textbf{Eigen:} biblioteca para álgebra lineal y manipulación eficiente de matrices y vectores \cite{eigen}.
@@ -38,9 +38,9 @@ CUDA es una plataforma de computación paralela y un modelo de programación des
 
 \subsubsection{Python}
 
-De acuerdo con la página oficial de la documentación de Pyhton \cite{pythonTutorial}, es un lenguaje de programación potente y fácil de aprender. Tiene estructuras de datos de alto nivel, sintaxis simple y elegante, un tipado dinámico, naturaleza interpretada, etc. 
+De acuerdo con la página oficial de la documentación de Python \cite{pythonTutorial}, es un lenguaje de programación potente y fácil de aprender. Tiene estructuras de datos de alto nivel, sintaxis simple y elegante, un tipado dinámico, naturaleza interpretada, etc. 
 
-Además de ser gratuito, se puede integrar bien en todos los equipos y sistemas. En adición a esto, \cite{awsPython}, señala que en los beneficios que Python incluye se encuentran los siguientes:
+Además de ser gratuito, se puede integrar bien en todos los equipos y sistemas. En adición a esto, \cite{awsPython} señala que en los beneficios que Python incluye se encuentran los siguientes:
 
 \begin{itemize}
 	\item Fácil lectura y comprensión de los programas.
@@ -58,9 +58,9 @@ En adición a lo anterior, cuenta con una amplia colección de librerías y fram
 	\item \textbf{Os:}
 	es una librería que provee funcionalidades dependientes del sistema operativo como abrir un archivo, manipular rutas, leer archivos, crear archivos temporales, etc. \cite{pythonOS}.
 	
-	\item\textbf{NumPY} es una librería de Python especializada en el cálculo numérico y el análisis de datos. Es ideal para el manejo de grandes volúmenes de datos \cite{alfaro_numpy}.
+	\item\textbf{NumPy} es una librería de Python especializada en el cálculo numérico y el análisis de datos. Es ideal para el manejo de grandes volúmenes de datos \cite{alfaro_numpy}.
 	
-	Puede hacer operaciones hasta 50 veces mas rápido que las listas normales usando una objeto llamado arreglo que permite representaciones colecciones de datos en varias dimensiones \cite{alfaro_numpy}.
+	Puede hacer operaciones hasta 50 veces más rápido que las listas normales usando un objeto llamado arreglo que permite representar colecciones de datos en varias dimensiones \cite{alfaro_numpy}.
 	
 	\item \textbf{CuPy} es una biblioteca de matrices de código abierto para la computación acelerada por GPU con Python. Utiliza bibliotecas del CUDA Toolkit para hacer un uso completo de la arquitectura GPU. Es compatible con NumPy y permite definir núcleos CUDA personalizados \cite{cupy}. 
 	
@@ -83,7 +83,7 @@ En adición a lo anterior, cuenta con una amplia colección de librerías y fram
 		\item Ofrece métodos para reordenar, dividir y combinar conjuntos de datos.
 	\end{itemize}
 	
-	\item\textbf{Matplotlib} De acuerdo con \cite{alferez_matplotlib}, Matplotlib es una librería de Pyhton especializada en la creación de gráficos en dos dimensiones.
+	\item\textbf{Matplotlib} De acuerdo con \cite{alferez_matplotlib}, Matplotlib es una librería de Python especializada en la creación de gráficos en dos dimensiones.
 	
 	Además, mencionan que permite crear y personalizar los gráficos más comunes, entre los que se encuentran:
 	
@@ -94,9 +94,9 @@ En adición a lo anterior, cuenta con una amplia colección de librerías y fram
 		\item Diagramas de caja y bigotes.
 	\end{itemize}
 	
-	\item\textbf{Scikit-learn} es una librería que cuenta con algoritmos de clasificación, regresión, clustering, y reducción de dimensionalidad, etc. Es compatible con otras librerías de Python \cite{mds_scikitlearn}.
+	\item\textbf{Scikit-learn} es una librería que cuenta con algoritmos de clasificación, regresión, clustering y reducción de dimensionalidad, etc. Es compatible con otras librerías de Python \cite{mds_scikitlearn}.
 	
-	Entre sus principales características \cite{itop_scikitlearn}, destaca las siguientes:
+	Entre sus principales características, \cite{itop_scikitlearn} destacan las siguientes:
 	
 	\begin{itemize}
 		\item Clustering.

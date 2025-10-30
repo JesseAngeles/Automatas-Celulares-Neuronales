@@ -1,31 +1,31 @@
 \section{Autómatas celulares neuronales}
 
-En los últimos años, los autómatas celulares neuronales (NCA, \textit{Neural Cellular Automaton}) surgieron como una extensión de los CA clasicos, con las capacidades de aprendizaje y generalización propias de las ANN. Esta integración permite que la regla de transición, tradicionalmente fija, sea parametrizable y entrenable mediante técnicas de aprendizaje supervisado.
+En los últimos años, los autómatas celulares neuronales (NCA, \textit{Neural Cellular Automaton}) surgieron como una extensión de los CA clásicos, con las capacidades de aprendizaje y generalización propias de las ANN. Esta integración permite que la regla de transición, tradicionalmente fija, sea parametrizable y entrenable mediante técnicas de aprendizaje supervisado.
 
-Los primeros enfoques imitaban el comportamiento de un CA utilizando una ANN convolucional \cite{gilpinNCA} y fueron popularizados por Mordvintsev et.al. \cite{mordvintsevNCA}, quienes entrenaron un modelo que aprende dinámicas locales a partir de ejemplos. Como resultado, las interacciones locales simples cumplen un objetivo en especifico, mostrando propiedades de crecimiento, regeneración, autoorganización y morfogénesis.
+Los primeros enfoques imitaban el comportamiento de un CA utilizando una ANN convolucional \cite{gilpinNCA} y fueron popularizados por Mordvintsev et al. \cite{mordvintsevNCA}, quienes entrenaron un modelo que aprende dinámicas locales a partir de ejemplos. Como resultado, las interacciones locales simples cumplen un objetivo en específico, mostrando propiedades de crecimiento, regeneración, autoorganización y morfogénesis.
 
-Los NCA son entonces un CA pero cuya función de transición esta definida como una ANN. Retomando la definición previas, podemos decir que:
+Los NCA son entonces un CA, pero cuya función de transición está definida como una ANN. Retomando las definiciones previas, podemos decir que:
 
 \begin{definition}
-	Un autómata celular es un autómata celular neuronal si la regla local $\mathcal{R}$ esta dada como:
+	Un autómata celular es un autómata celular neuronal si la regla local $\mathcal{R}$ está dada como:
 	\[
 		\mathcal{R} = F_\theta: \mathbb{R}^{|\mathcal{N}|} \to \mathbb{R}^1
 	\]
 	donde:
 	\begin{itemize}
-		\item $F_\theta$ es una red neuronal parametrizada por $\theta$
+		\item $F_\theta$ es una red neuronal parametrizada por $\theta$.
 		\item $ \theta = \{ w_{uv}, b_v : (u, v) \in E, v \in V \}$ es el conjunto de parámetros entrenables.
-		\item $\mathbb{R}^{|\mathcal{N}|}$ corresponde al espacio de entrada definido por la vecindad $\mathcal{N}$
+		\item $\mathbb{R}^{|\mathcal{N}|}$ corresponde al espacio de entrada definido por la vecindad $\mathcal{N}$.
 		\item $\mathbb{R}^1$ define el valor de salida que representa el nuevo estado de la célula central.
 	\end{itemize}
 \end{definition}
 
-La figura \ref{fig:nca} muestra la relación existente entre CA y ANN. En el paso $N$ se tiene una configuración bidimensional con vecindad de Neumann, el estado de cada elemento dentro de la vecindad funciona como valor de entrada para la red neuronal entrenada y devuelve un único resultado, que corresponde a la salida de la célula central, es decir, a la cual se le esta aplicando.
+La figura \ref{fig:nca} muestra la relación existente entre CA y ANN. En el paso $N$ se tiene una configuración bidimensional con vecindad de Neumann; el estado de cada elemento dentro de la vecindad funciona como valor de entrada para la red neuronal entrenada y devuelve un único resultado, que corresponde a la salida de la célula central, es decir, a la cual se le está aplicando.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{img/NCA.png}
-	\caption{Representación grafica de la red neuronal.}
+	\caption{Representación gráfica de la red neuronal.}
 	\label{fig:nca}
 \end{figure}
 
@@ -39,7 +39,7 @@ A diferencia de los autómatas clásicos, donde las reglas son explícitas y def
 \]
 Durante el entrenamiento, se emplean técnicas de retropropagación a través del tiempo y optimización por gradiente descendente. Esto permite que la red aprenda comportamientos dinámicos complejos, tales como el crecimiento morfológico, la regeneración parcial o la adaptación frente a perturbaciones.
 
-Como se muestra en el siguiente capitulo, los NCA han demostrado ser capaces de generar patrones autoorganizados y adaptativos sin necesidad de una programación explícita de reglas. Algunos ejemplos incluyen:
+Como se muestra en el siguiente capítulo, los NCA han demostrado ser capaces de generar patrones autoorganizados y adaptativos sin necesidad de una programación explícita de reglas. Algunos ejemplos incluyen:
 \begin{itemize}
 	\item \textbf{Morfogénesis:} crecimiento de formas y estructuras similares a organismos biológicos.
 	\item \textbf{Regeneración:} capacidad de reconstruir regiones dañadas o eliminadas de la configuración.

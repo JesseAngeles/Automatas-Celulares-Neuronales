@@ -1,6 +1,6 @@
 \section{Morfogénesis}
 
-Mordvintsev et al. en \cite{mordvintsevNCA} diseñaron un NCA que permite a una célula crecer para formar un patrón, persistir en el tiempo, regenerarse e incluso rotar. Para esto diseñaron un modelo que depende de un CA continuo con un vector de estados de 16 dimensiones integrando gradientes espaciales mediante filtros de Sobel. 
+Mordvintsev et al. en \cite{mordvintsevNCA} diseñaron un NCA que permite a una célula crecer para formar un patrón, persistir en el tiempo, regenerarse e incluso rotar. Para esto diseñaron un modelo que depende de un CA continuo con un vector de estados de 16 dimensiones, integrando gradientes espaciales mediante filtros de Sobel. 
 
 \begin{figure}[htbp]
 	\centering
@@ -12,9 +12,9 @@ Mordvintsev et al. en \cite{mordvintsevNCA} diseñaron un NCA que permite a una 
 
 El NCA diseñado tiene las siguientes características (las cuales fueron retomadas por múltiples autores que tomaron a \cite{mordvintsevNCA} como referencia):
  \begin{itemize}
- 	\item El vector de cada célula (cada valor en un rango de $[0,1]$)  incluye los canales RGB y un canal $\alpha$ que funciona como umbral para definir si una célula está viva o muerta (establece el resto de valores del vector a $0$ si $\alpha \leq 0.1$). 
+ 	\item El vector de cada célula (cada valor en un rango de $[0,1]$) incluye los canales RGB y un canal $\alpha$ que funciona como umbral para definir si una célula está viva o muerta (establece el resto de valores del vector a $0$ si $\alpha \leq 0.1$). 
  	
- 	\item Considerando las dimensiones $(\text{largo}, \text{ancho}, 16)$ y un kernel de $3 \times 3$ se calcula el gradiente en ambas direcciones ($x$ y $y$) con un filtro Sobel para producir el nuevo vector que alimentará a la red neuronal:
+ 	\item Considerando las dimensiones $(\text{largo}, \text{ancho}, 16)$ y un kernel de $3 \times 3$, se calcula el gradiente en ambas direcciones ($x$ y $y$) con un filtro Sobel para producir el nuevo vector que alimentará a la red neuronal:
  	\[ 
  	16 (\text{estado propio}) + 16 (\text{gradiente en } x) + 16 (\text{gradiente en } y) = 48 
  	\]
@@ -26,11 +26,11 @@ El NCA diseñado tiene las siguientes características (las cuales fueron retoma
 
 Eyvind Niklasson et al. \cite{NiklassonNCA} compararon el rendimiento del modelo en \cite{mordvintsevNCA} con actualización síncrona y asíncrona. Donde, tras haber realizado pruebas con diferentes tamaños de paso, concluyeron que la función de pérdida crece exponencialmente cuando la actualización es síncrona. Sin embargo, esto ocurre únicamente cuando el tamaño de paso es mayor a uno.
 
-Una hipótesis de este comportamiento es que al tener células que se actualizan en diferentes periodos de tiempo, cada célula puede conocer parte del contexto de su vecindad. Esto no se logra únicamente conociendo los valores actuales de cada vecino.
+Una hipótesis de este comportamiento es que, al tener células que se actualizan en diferentes periodos de tiempo, cada célula puede conocer parte del contexto de su vecindad. Esto no se logra únicamente conociendo los valores actuales de cada vecino.
 
 Se realizaron los siguientes experimentos en \cite{mordvintsevNCA}:
 \begin{enumerate}
-	\item Crecer una única célula activa para formar una figura dada mediante \textit{backpropagation}. Cuando él CA alcanza la figura objetivo, al seguir aplicando las reglas de evolución, puede crecer de manera infinita, persistir en la figura, matar a todas las células o generar patrones caóticos o repetitivos.
+	\item Crecer una única célula activa para formar una figura dada mediante \textit{backpropagation}. Cuando el CA alcanza la figura objetivo, al seguir aplicando las reglas de evolución, puede crecer de manera infinita, persistir en la figura, matar a todas las células o generar patrones caóticos o repetitivos.
 	
 	\item Convertir las figuras objetivo en atractores usando \textit{sample pool}. Se entrenó mediante múltiples condiciones iniciales, obtenidas a partir de entrenamientos fallidos, para llegar al objetivo desde diferentes configuraciones. 
 	
@@ -50,11 +50,11 @@ Se realizaron los siguientes experimentos en \cite{mordvintsevNCA}:
 
 \subsection{NCA Isotrópicos}
 
-En \cite{IsoNCA} \cite{IsoNCA2} \cite{SteerableNCA}, Mordvintsev et al. proponen una nueva configuración que no tenga una dirección preferida, la cual nombraron Autómatas Celulares Neuronales Isotrópicos (IsoNCA, \textit{Isotropic Neural Cellular Automata}).
+En \cite{IsoNCA}, \cite{IsoNCA2} y \cite{SteerableNCA}, Mordvintsev et al. proponen una nueva configuración que no tenga una dirección preferida, la cual nombraron Autómatas Celulares Neuronales Isotrópicos (IsoNCA, \textit{Isotropic Neural Cellular Automata}).
 
-Para volver esta regla isotrópica es necesario que no dependa de la dirección (no distinguir ``arriba'' de ``izquierda''). Esto permite crear rotaciones o simetrías sin que el sistema se descontrole.
+Para volver esta regla isotrópica, es necesario que no dependa de la dirección (no distinguir ``arriba'' de ``izquierda''). Esto permite crear rotaciones o simetrías sin que el sistema se descontrole.
 
-Se sustituyen las funciones de los filtros de Sobel en \cite{mordvintsevNCA} por un único filtro Laplaciano:
+Se sustituyen las funciones de los filtros de Sobel en \cite{mordvintsevNCA} por un único filtro laplaciano:
 \[
 K_{lap} = \begin{bmatrix}
 	1 & 2 & 1 \\
@@ -67,17 +67,17 @@ el cual se concatena al vector de cada célula y alimenta a una ANN de $9408$ pa
 A continuación, se describen los resultados obtenidos con dos diferentes enfoques:
 
 \begin{enumerate}
-	\item Estrategia de \textit{seed} (semilla) estructurada: Es necesario de (al menos) tres células con valores diferentes no colineales para definir la orientación y la posición. Modificar la posición de estos puntos implica una evolución acorde a la posición de los mismos.
+	\item Estrategia de \textit{seed} (semilla) estructurada: Es necesario (al menos) tres células con valores diferentes no colineales para definir la orientación y la posición. Modificar la posición de estos puntos implica una evolución acorde a la posición de los mismos.
 
-	\item Estrategia de una única \textit{seed}: Se modifica la función de pérdida para que sea invariante ante rotaciones y reflejos. Para evitar comparar la figura resultante con todas las rotaciones posibles, se mapean ambas figuras a coordenadas polares y, para cada posible ángulo de rotación, se calcula la diferencia. Para disminuir la complejidad computacional, se aplica la transformada rápida de Fourier y haciendo uso del teorema de la convolución:
+	\item Estrategia de una única \textit{seed}: Se modifica la función de pérdida para que sea invariante ante rotaciones y reflejos. Para evitar comparar la figura resultante con todas las rotaciones posibles, se mapean ambas figuras a coordenadas polares y, para cada posible ángulo de rotación, se calcula la diferencia. Para disminuir la complejidad computacional, se aplica la transformada rápida de Fourier y se hace uso del teorema de la convolución:
 	\[
 	s * t = \mathcal{F}^{-1} (\mathcal{F}(S) \cdot \mathcal{F}(T)) 
 	\]
 	se obtienen todas las diferencias únicamente como una multiplicación de transformadas.
 	
-	Para evitar que se creen patrones simétricos mezclados (Figuras con cabeza-cabeza o cola-cola) se añade un nuevo canal llamado \textit{binary auxiliar channel} que asigna valores de $-0.5$ y $0.5$ a la parte superior e inferior de la imagen.
+	Para evitar que se creen patrones simétricos mezclados (figuras con cabeza-cabeza o cola-cola), se añade un nuevo canal llamado \textit{binary auxiliar channel} que asigna valores de $-0.5$ y $0.5$ a la parte superior e inferior de la imagen.
 	
-	Con estas nuevas configuraciones se puede obtener el mismo resultado que en \cite{mordvintsevNCA} pero sin la dependencia de una dirección explícita y con una ANN con menos parámetros.
+	Con estas nuevas configuraciones se puede obtener el mismo resultado que en \cite{mordvintsevNCA}, pero sin la dependencia de una dirección explícita y con una ANN con menos parámetros.
 \end{enumerate}
 
 
@@ -91,40 +91,40 @@ Estos son los cambios de \textit{MNIST CA} respecto al modelo original \cite{mor
 \begin{itemize}
 	\item Vector de la célula: Originalmente se usaban los canales RGB, ahora se usan 10 canales que funcionan como distribución de probabilidad de cada posible número. Durante la evaluación se utiliza el mayor de ellos.
 	
-	\item Célula viva o muerta: en \cite{mordvintsevNCA} se define mediante el canal $\alpha$, pero las células muertas siguen siendo visibles para el resto. En \cite{MNIST}  únicamente interactúan las células vivas.
+	\item Célula viva o muerta: En \cite{mordvintsevNCA} se define mediante el canal $\alpha$, pero las células muertas siguen siendo visibles para el resto. En \cite{MNIST}  únicamente interactúan las células vivas.
 	
 	\item Topología: Todas las células son una única componente conexa.
 \end{itemize}
 
 Con el nuevo modelo, Mordvintsev et al. pudieron realizar clasificaciones con una precisión del $95.3\%$ con una función de pérdida $L_2$ y ruido añadido. Este experimento demostró que los NCA no solo pueden generar patrones y autorregenerarse, sino también realizar tareas de clasificación distribuidas sin una capa de decisión global.
 
-Aunque los modelos \textit{Growing CA} y \textit{MNIST CA} son robustos frente a diferentes tipos de perturbaciones, su comportamiento se puede ver afectado por: estados individuales de las células, parámetros del modelo y el campo perceptivo (la manera en como las células perciben su vecindad).
+Aunque los modelos \textit{Growing CA} y \textit{MNIST CA} son robustos frente a diferentes tipos de perturbaciones, su comportamiento se puede ver afectado por: estados individuales de las células, parámetros del modelo y el campo perceptivo (la manera en cómo las células perciben su vecindad).
 
-Es por esto que Randazzo, et al. \cite{randazzoNCA} buscan enfrentar estrategias adversarias en el mismo espacio celular para estudiar la reprogramación de los CA mediante dos experimentos:
+Es por esto que Randazzo et al. \cite{randazzoNCA} buscan enfrentar estrategias adversarias en el mismo espacio celular para estudiar la reprogramación de los CA mediante dos experimentos:
 \begin{enumerate}
 	\item Inyección de adversarios: Se entrena un nuevo modelo de CA, que se coloca en el entorno que ejecuta uno de los modelos originales, para secuestrar el comportamiento del colectivo.
 	
 	\item Perturbación de estados: A un modelo ya entrenado, se le aplican perturbaciones a todas las células del sistema de forma simultánea.
 \end{enumerate}
 
-Para la inyección de adversarios se utilizan dos modelos: el modelo original \textit{MNIST CA} con probabilidad de $90\%$ y un nuevo modelo que clasifica a todos los números como ``ocho'' ($10\%$).  Se ``inyectan'' múltiples células invasoras en figuras ya clasificadas las cuales muestran un comportamiento dominante: clasificando a todos los elementos como ``ocho''. Además, una vez retiradas las células invasoras, el sistema es capaz de recuperarse la mayoría de las veces.
+Para la inyección de adversarios se utilizan dos modelos: el modelo original \textit{MNIST CA} con probabilidad de $90\%$ y un nuevo modelo que clasifica a todos los números como ``ocho'' ($10\%$).  Se ``inyectan'' múltiples células invasoras en figuras ya clasificadas, las cuales muestran un comportamiento dominante: clasificando a todos los elementos como ``ocho''. Además, una vez retiradas las células invasoras, el sistema es capaz de recuperarse la mayoría de las veces.
 
-Sin embargo, al aplicar el mismo procedimiento para \textit{Growing CA} los resultados no tuvieron el mismo rendimiento. Probaron modificar la morfología de la imagen de una lagartija sin cola y con otro color, pero ninguna estrategia fue capaz de invadir por completo el modelo original. 
+Sin embargo, al aplicar el mismo procedimiento para \textit{Growing CA}, los resultados no tuvieron el mismo rendimiento. Probaron modificar la morfología de la imagen de una lagartija sin cola y con otro color, pero ninguna estrategia fue capaz de invadir por completo el modelo original. 
 
-Una hipótesis es que \textit{MNIST CA} no necesita reconfigurar todo su valor para generar algo distinto a lo que ya generaba antes, pues el estado de la mutación es un estado ya considerado en el modelo original. Por otro lado, al cambiar el color y la forma en \textit{Growing CA} se están explorando configuraciones nunca antes vistas por el modelo original.
+Una hipótesis es que \textit{MNIST CA} no necesita reconfigurar todo su valor para generar algo distinto a lo que ya generaba antes, pues el estado de la mutación es un estado ya considerado en el modelo original. Por otro lado, al cambiar el color y la forma en \textit{Growing CA}, se están explorando configuraciones nunca antes vistas por el modelo original.
 
 Para el segundo experimento (perturbación de estados), se sigue la línea de modificar el color y la forma de la imagen de una lagartija. Se aplica una perturbación global de estados cada paso de tiempo con el objetivo de identificar la perturbación específica que resulte en un patrón estable.
 
-En cada paso evolutivo se multiplica el vector de cada célula por una matriz simétrica $A$ de $16 \times 16$ \cite{mordvintsevNCA}. Para definir los valores de la matriz se inicia con una matriz simétrica $I$ y, a diferencia de \textit{Growing CA}, la configuración inicial se establece como la figura objetivo del modelo original.
+En cada paso evolutivo se multiplica el vector de cada célula por una matriz simétrica $A$ de $16 \times 16$ \cite{mordvintsevNCA}. Para definir los valores de la matriz, se inicia con una matriz simétrica $I$ y, a diferencia de \textit{Growing CA}, la configuración inicial se establece como la figura objetivo del modelo original.
 
-Esta configuración permite crecer un sistema con perturbaciones, alterar su forma y color una vez crecido y modificar el impacto y el número de perturbaciones posibles. Al manejar matrices simétricas se puede representar como 
+Esta configuración permite crecer un sistema con perturbaciones, alterar su forma y color una vez crecido y modificar el impacto y el número de perturbaciones posibles. Al manejar matrices simétricas, se puede representar como 
 \[A = Q \Lambda Q^T\] 
 donde: 
 \begin{itemize}
 	\item $\Lambda$ es la matriz diagonal de los valores propios.
 	\item $Q$ es la matriz unitaria de los vectores propios.
 \end{itemize} 
-Si $\Lambda = I \to A = I$ por lo que no existe perturbación (multiplicación por  matriz identidad). Bajo esta premisa, se propone la siguiente fórmula:
+Si $\Lambda = I \to A = I$ por lo que no existe perturbación (multiplicación por matriz identidad). Bajo esta premisa, se propone la siguiente fórmula:
 \[ A_k = Q(kD + I)Q^T\]
 donde:
 \begin{itemize}
@@ -133,12 +133,12 @@ donde:
 	\item $D$ es la dirección de la perturbación $\Lambda - I$ en el espacio de valores propios. 
 \end{itemize}
 
-Si $k = 0$ no existe perturbación en el sistema:
+Si $k = 0$, no existe perturbación en el sistema:
 \begin{gather*}
 	A_k = Q(0D + I)Q^T \\
 	A_k = Q I Q^T
 \end{gather*}
-Si $k = 1$ se conserva la perturbación original:
+Si $k = 1$, se conserva la perturbación original:
 \begin{gather*}
 	A_k = Q(1D + I)Q^T \\
 	A_k = Q(\Lambda - I + I)Q^T \\
@@ -146,11 +146,11 @@ Si $k = 1$ se conserva la perturbación original:
 \end{gather*}
 Mostrando que se puede escalar el tamaño de la perturbación, incluso con perturbaciones inversas con $k = -1$.
 
-Si consideramos dos perturbaciones cuyos vectores propios son similares: $A_k = Q(k_AD_A + I)Q^T$ y $B_k = Q(k_B D_B + I)Q^T$ podemos combinarlos como:
+Si consideramos dos perturbaciones cuyos vectores propios son similares: $A_k = Q(k_AD_A + I)Q^T$ y $B_k = Q(k_B D_B + I)Q^T$, podemos combinarlos como:
 \[ comb(A_k, B_k) = Q (k_A D_A + k_B D_B + I) Q^T = k_A A + k_B B + (1 - k_A - k_B) I \]
 Esta nueva combinación permite configurar múltiples perturbaciones, las cuales se vuelven más sensibles conforme aumentan los $k$.
 
-Estos experimentos muestran como los NCA pueden ser vulnerables a diferentes estrategias y como las mutaciones ``exactas'' pueden modificar la estructura de todo el sistema, mostrando un comportamiento similar a lo que ocurre en teoría de juegos evolutivos.
+Estos experimentos muestran cómo los NCA pueden ser vulnerables a diferentes estrategias y cómo las mutaciones ``exactas'' pueden modificar la estructura de todo el sistema, mostrando un comportamiento similar a lo que ocurre en teoría de juegos evolutivos.
 
 Todas estas representaciones han tenido un lugar en un espacio bidimensional (2D). A continuación se presentan algunas propuestas en espacios tridimensionales (3D). 
 
@@ -158,13 +158,13 @@ Todas estas representaciones han tenido un lugar en un espacio bidimensional (2D
 
 Zhang et al. \cite{GCA} proponen un modelo generativo tridimensional denominado \textit{Generative Cellular Automata} (GCA), que extiende el paradigma de los CA hacia la generación progresiva de formas 3D. A diferencia de enfoques que intentan reconstruir directamente la forma completa, GCA formula el proceso como una cadena de Markov, donde cada paso corresponde a una transición local sobre una rejilla tridimensional. 
 
-El modelo se entrena para que estas reglas locales, al repetirse, converjan hacia formas específicas. Para ello, se representa la forma como puntos de superficie en una rejilla 3D y se emplea una Red Convolucional Dispersa (\textit{Sparse CNN}) que opera únicamente sobre las regiones activas.
+El modelo se entrena para que estas reglas locales, al repetirse, converjan hacia formas específicas. Para ello, se representa la forma como puntos de superficie en una rejilla 3D y se emplea una red convolucional dispersa (\textit{Sparse CNN}) que opera únicamente sobre las regiones activas.
 
 Durante el entrenamiento, se utilizan secuencias ligeramente distintas a las cadenas de muestreo reales, pero que convergen hacia las formas del conjunto de datos. Esto permite que el modelo aprenda reglas de transición robustas, capaces de generar formas diversas desde configuraciones parciales. A través de una sola inferencia, el sistema puede muestrear instancias variadas de la distribución aprendida, logrando resultados competitivos en tareas de completado y generación de formas 3D.
 
 Este enfoque representa una contribución relevante al campo de la morfogénesis computacional, al demostrar que las reglas locales autoorganizadas pueden escalar hacia dominios 3D complejos mediante arquitecturas neuronales adaptadas.
 
-En \cite{GCA} demuestran que la autoorganización local escala a generación 3D, por otro lado, Shyam Sudhakaran et al. \cite{NCA3D} expanden el trabajo de \cite{mordvintsevNCA} a tres dimensiones utilizando como espacio celular el juego de Minecraft\footnote{Permite crear estructuras estáticas (como árboles) y estructuras dinámicas (como máquinas voladoras)}. El NCA entrenado puede construir estructuras de hasta 3584 bloques con 50 bloques únicos conservando propiedades regenerativas de su contraparte en 2D.
+En \cite{GCA} demuestran que la autoorganización local escala a generación 3D; por otro lado, Shyam Sudhakaran et al. \cite{NCA3D} expanden el trabajo de \cite{mordvintsevNCA} a tres dimensiones utilizando como espacio celular el juego de Minecraft\footnote{Permite crear estructuras estáticas (como árboles) y estructuras dinámicas (como máquinas voladoras)}. El NCA entrenado puede construir estructuras de hasta 3584 bloques con 50 bloques únicos, conservando propiedades regenerativas de su contraparte en 2D.
 
 Una entidad en Minecraft se representa como una red 3D donde cada elemento es un vector que almacena (1) el tipo de bloque (incrustado en un vector \textit{one-hot}), (2) su estatus (replicando el comportamiento del canal $\alpha$ de \cite{mordvintsevNCA}) y (3) estados ocultos.
 
@@ -172,13 +172,13 @@ Se utilizan convoluciones para permitir la generación y manipulación de estruc
 
 Se utiliza una actualización estocástica y un umbral de activación similar a \cite{mordvintsevNCA}. Finalmente, todos los modelos se inicializan con una distribución normal estándar, con media cero y desviación estándar en el rango de $0.0001$ a $0.1$, lo que proporciona un punto de partida estable para el entrenamiento y la evolución del sistema. Este sistema hereda las propiedades regenerativas de su versión 2D.
 
-Finalmente, Horibe et al. \cite{horibe} lleva las propiedades regenerativas al mundo físico. Se implementa el enfoque regenerativo en robots blandos mediante NCA. Cada robot está definido por un arreglo de volúmenes de reposo para cada vóxel\footnote{Unidad básica de un espacio tridimensional, similar a un píxel en imágenes 2D, pero con volumen}, que se activan mediante una señal global sinusoidal, provocando expansión y contracción volumétrica. Esta dinámica permite simular locomoción a través de ciclos de actuación, evaluando el desplazamiento del centro de masa como métrica de fitness. Los robots blandos se componen de distintos tipos de vóxeles: músculos en fase y contra-fase, huesos rígidos y flexibles, cada uno con un rol en la locomoción.
+Finalmente, Horibe et al. \cite{horibe} lleva las propiedades regenerativas al mundo físico. Se implementa el enfoque regenerativo en robots blandos mediante NCA. Cada robot está definido por un arreglo de volúmenes de reposo para cada vóxel\footnote{Unidad básica de un espacio tridimensional, similar a un píxel en imágenes 2D, pero con volumen}, que se activan mediante una señal global sinusoidal, provocando expansión y contracción volumétrica. Esta dinámica permite simular locomoción a través de ciclos de actuación, evaluando el desplazamiento del centro de masa como métrica de fitness. Los robots blandos se componen de distintos tipos de vóxeles: músculos en fase y contrafase, huesos rígidos y flexibles, cada uno con un rol en la locomoción.
 
 El modelo entrenado demuestra que los robots blandos pueden recuperar parcialmente su morfología original tras sufrir daño, y restaurar su capacidad de movimiento sin intervención externa. Este comportamiento emerge de la dinámica autoorganizada del NCA, que codifica implícitamente la forma objetivo y su capacidad de reparación.
 
-Para evaluar la capacidad de locomoción y regeneración de los robots blandos generados mediante NCA, se emplea el simulador físico Voxelyze. Los experimentos se realizan en configuraciones 2D y 3D, utilizando rejillas de $7 \times 7$ y $9 \times 9 \times 9$ vóxeles respectivamente, con condiciones de frontera tipo Dirichlet que limitan el crecimiento morfológico a regiones internas ($5 \times 5$ en 2D y $7 \times 7 \times 7$ en 3D).
+Para evaluar la capacidad de locomoción y regeneración de los robots blandos generados mediante NCA, se emplea el simulador físico Voxelyze. Los experimentos se realizan en configuraciones 2D y 3D, utilizando rejillas de $7 \times 7$ y $9 \times 9 \times 9$ vóxeles, respectivamente, con condiciones de frontera tipo Dirichlet que limitan el crecimiento morfológico a regiones internas ($5 \times 5$ en 2D y $7 \times 7 \times 7$ en 3D).
 
-Este entorno permite validar la capacidad autoorganizada de los NCA para generar morfologías funcionales y resilientes. Ademas, proporciona una base cuantitativa para comparar la eficiencia locomotora antes y después de procesos de regeneración. La estructura voxelizada facilita la integración de reglas locales y codificación distribuida, alineándose con marcos bioinspirados de morfogénesis computacional.
+Este entorno permite validar la capacidad autoorganizada de los NCA para generar morfologías funcionales y resilientes. Además, proporciona una base cuantitativa para comparar la eficiencia locomotora antes y después de procesos de regeneración. La estructura voxelizada facilita la integración de reglas locales y codificación distribuida, alineándose con marcos bioinspirados de morfogénesis computacional.
 
 En conjunto, estos trabajos evidencian cómo los NCA pueden extender sus principios regenerativos y de autoorganización a dominios tridimensionales cada vez más complejos. Mientras GCA establece un marco generativo para formas 3D a partir de reglas locales aprendidas, los experimentos en Minecraft muestran que dichas propiedades pueden preservarse incluso en entornos con alta variabilidad estructural. Finalmente, la aplicación en robots blandos confirma el potencial bioinspirado de los NCA: no solo permiten generar morfologías funcionales, sino que además dotan a los sistemas físicos de resiliencia ante daños, abriendo camino hacia formas de robótica autoreparable.
 
