@@ -11,7 +11,6 @@ from PyQt5.QtWidgets import (
     QLineEdit,
     QDialog,
     QColorDialog,
-    QGraphicsScene,
     QGraphicsView
 )
 from PyQt5.QtCore import Qt, QRectF
@@ -27,7 +26,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("2D Cellular Automaton simulator")
-        self.setGeometry(200,0,1280,1080)
+        self.setGeometry(200,0,1280,1000)
 
         ################################################
         #   VARIABLES
@@ -49,8 +48,8 @@ class MainWindow(QMainWindow):
         ca_frame = QFrame()
         ca_frame.setFrameShape(QFrame.Box)
         ca_frame.setStyleSheet("background-color: #999;")
-        ca_frame.setMinimumHeight(875)
-        ca_frame.setMinimumWidth(875)
+        ca_frame.setMinimumHeight(850)
+        ca_frame.setMinimumWidth(850)
         
         controls_frame = QFrame()
         controls_frame.setFrameShape(QFrame.Box)
