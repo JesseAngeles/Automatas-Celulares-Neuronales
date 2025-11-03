@@ -10,11 +10,17 @@ from PyQt5.QtWidgets import (
     QHBoxLayout,
     QLineEdit,
     QDialog,
-    QColorDialog
+    QColorDialog,
+    QGraphicsScene,
+    QGraphicsView
 )
+from PyQt5.QtCore import Qt, QRectF
+from PyQt5.QtGui import QPainter
 
 from gui.NeighbourWindow import NeighbourWindow
 from gui.Dialog import Dialog
+from gui.CellItem import CellItem
+from gui.Scene import Scene
 from model.CAConfig import CAConfig
 
 class MainWindow(QMainWindow):
@@ -72,6 +78,37 @@ class MainWindow(QMainWindow):
         self.rule_input = QLineEdit()
         self.rule_input.setPlaceholderText("Rule number: ")
         self.rule_input.setText("1")
+
+        ################################################
+        #   CA
+        ################################################
+
+        layout = QVBoxLayout(ca_frame)
+        layout.setContentsMargins(0,0,0,0)
+
+        self.scene = Scene()
+        self.view = QGraphicsView(self.scene)
+        self.view.setRenderHint(QPainter.Antialiasing, False)        
+        self.view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.view.setAlignment(Qt.AlignTop | Qt.AlignLeft)
+
+        layout.addWidget(self.view)
+
+        self.cells = []
+        for i in range(self.config.grid_size):
+            row = []
+            for j in range(self.config.grid_size):
+                cell = CellItem(i, j, self.config.cell_size)
+                self.scene.addItem(cell)
+                row.append(cell)
+            self.cells.append(row)
+
+        scene_width = self.config.grid_size * self.config.cell_size
+        scene_height = self.config.grid_size * self.config.cell_size
+        
+        self.scene.setSceneRect(QRectF(0, 0, scene_width, scene_height))
+        self.view.setFixedSize(scene_width + 2, scene_height + 2)
 
         ################################################
         #   BOTONES
@@ -164,6 +201,7 @@ class MainWindow(QMainWindow):
         file_menu.addAction(import_button)
         file_menu.addAction(export_button)
 
+    # Button events
 
     def start_button_clicked(self, s):
         print("start", s)
@@ -185,7 +223,8 @@ class MainWindow(QMainWindow):
 
     def neighbour_button_clicked(self, s):
         print("Neighbour", s)
-        self.neighbour_window = NeighbourWindow(parent=self)
+        self.neighbour_window = NeighbourWindow(parent=self, config=self.config)
+        self.neighbour_window.saved.connect(self.handle_neighbour_data)  # ← conectar señal
         self.hide()
         self.neighbour_window.show()
 
@@ -244,6 +283,14 @@ class MainWindow(QMainWindow):
     def export_button_clicked(self, s):
         print("export", s)
 
+    def cell_clicked(self, x, y):
+        print(f"Celda clickeada en ({x}, {y})")
+
+    # Signal events
+    def handle_neighbour_data(self, active_cells):
+        print(self.config.neighbourhood)
+        self.config.neighbourhood = active_cells
+        print(self.config.neighbourhood)
 
 app = QApplication([])
 window = MainWindow()
