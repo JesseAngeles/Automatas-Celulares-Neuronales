@@ -9,7 +9,8 @@ from gui.Scene import Scene
 from gui.CellItem import CellItem
 from model.CAConfig import CAConfig
 
-import random
+from utils.colors import random_colors
+
 
 class NeighbourWindow(QWidget):
     saved = pyqtSignal(object)
@@ -24,7 +25,8 @@ class NeighbourWindow(QWidget):
         self.neighbourhoods_size = len(config.neighbourhood)
 
         # Generar colores (el 0 siempre es blanco)
-        self.colors = [QColor(255, 255, 255)] + self.RandomColors(self.neighbourhoods_size)
+        self.colors = [QColor(255, 255, 255)] + random_colors(self.neighbourhoods_size)
+        print(len(self.colors))
         self.center_color = QColor(200, 175, 100)
 
         left_panel = QVBoxLayout()
@@ -127,7 +129,7 @@ class NeighbourWindow(QWidget):
     ################################################
     def add_button_clicked(self, s):
         print("add", s)
-        color = self.RandomColors(1)[0]
+        color = random_colors(1)[0]
 
         for row in self.cells:
             for cell in row:
@@ -165,10 +167,6 @@ class NeighbourWindow(QWidget):
         if self.parent:
             self.parent.show()
         self.close()
-
-    def RandomColors(self, number):
-        return [QColor(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
-                for _ in range(number)]
 
     def color_button_clicked(self):
         button = self.sender()
