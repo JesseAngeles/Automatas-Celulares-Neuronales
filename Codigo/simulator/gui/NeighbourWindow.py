@@ -26,7 +26,6 @@ class NeighbourWindow(QWidget):
 
         # Generar colores (el 0 siempre es blanco)
         self.colors = [QColor(255, 255, 255)] + random_colors(self.neighbourhoods_size)
-        print(len(self.colors))
         self.center_color = QColor(200, 175, 100)
 
         left_panel = QVBoxLayout()
@@ -128,7 +127,6 @@ class NeighbourWindow(QWidget):
     #   ACCIONES DE BOTONES
     ################################################
     def add_button_clicked(self, s):
-        print("add", s)
         color = random_colors(1)[0]
 
         for row in self.cells:

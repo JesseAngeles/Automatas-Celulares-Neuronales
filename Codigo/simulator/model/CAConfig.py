@@ -19,3 +19,5 @@ class CAConfig:
         self.cell_size = cell_size
         self.grid_neighbour_size = grid_neighbour_size
         self.cell_neighbour_size = cell_neighbour_size
+
+        self.evolution: list

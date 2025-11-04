@@ -27,11 +27,20 @@ class CellItem(QGraphicsRectItem):
         color = self.colors[self.state]
         self.setBrush(QBrush(color))
 
+    def reset_states(self, colors):
+        """Reestablece el numero de estados de cada celula"""
+        self.states = list(range(len(colors)))
+        self.num_states = len(self.states)
+        self.colors = colors
+
+        if self.state >= len(self.states):
+            self.set_state(0)
+
     def set_state(self, state):
         """Cambia el estado al dado"""
         if state < self.num_states:
             self.state = state
-            self.setBrush(QBrush(self.colors[self.state]))
+            self.setBrush(QBrush(self.colors[state]))
 
     def change_color(self, color, state):
         self.colors[state] = color

@@ -119,6 +119,7 @@ public:
             }
             std::cout << "} -> " << val << "\n";
         }
+        std::cout << "\nRule number: " << rule_number;
         std::cout << "\nTotal rules: " << total_rules << "\n";
     }
 
@@ -151,7 +152,7 @@ public:
         // Obtener tamaños de vecindades e invertir
         std::vector<int> sizes;
         for (auto &neighbourhood : neighbourhoods)
-            sizes.push_back(neighbourhood.size() + 1);
+            sizes.push_back((states -1) * neighbourhood.size() + 1);
         std::reverse(sizes.begin(), sizes.end());
 
         // Generar todas las combinaciones
@@ -179,7 +180,6 @@ public:
         this->rule.clear();
         for (size_t i = 0; i < combinations.size() && i < digits.size(); ++i)
             this->rule[combinations[i]] = digits[i];
-        std::cout << "length: " << rule.size() << "\n";
     }
 
     void setNeighbourhood(std::vector<std::vector<std::vector<int>>> neighbourhoods)

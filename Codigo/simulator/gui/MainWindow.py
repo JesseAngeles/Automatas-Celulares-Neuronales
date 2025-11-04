@@ -13,7 +13,7 @@ from PyQt5.QtWidgets import (
     QColorDialog,
     QGraphicsView
 )
-from PyQt5.QtCore import Qt, QRectF
+from PyQt5.QtCore import Qt, QRectF, QTimer
 from PyQt5.QtGui import QPainter, QColor
 
 from gui.NeighbourWindow import NeighbourWindow
@@ -39,11 +39,20 @@ class MainWindow(QMainWindow):
         # Clases
         self.config = CAConfig(num_states=2)
         self.ca_simulator = CASimulator(self.config)
+        
+        self.config.evolution = [self.ca_simulator.get_grid()]
+        self.steps = 0
 
         # Window
         self.last_button_clicked = None
         self.max_states = 21
         self.colors = [QColor(255,255,255)] + random_colors(self.config.num_states - 1)
+        
+        self.is_running = False
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.evolve_space)
+        self.speed = 125 
+        self.timer.setInterval(self.speed)
 
         ################################################
         #   PANELES
@@ -83,11 +92,11 @@ class MainWindow(QMainWindow):
 
         self.state_input = QLineEdit()
         self.state_input.setPlaceholderText("Number of states: ")
-        self.state_input.setText("2")
+        self.state_input.setText(str(self.config.num_states))
         
         self.rule_input = QLineEdit()
         self.rule_input.setPlaceholderText("Rule number: ")
-        self.rule_input.setText("1")
+        self.rule_input.setText(str(self.config.rule))
 
         ################################################
         #   CA
@@ -217,29 +226,55 @@ class MainWindow(QMainWindow):
     # Button events
 
     def start_button_clicked(self, s):
-        print("start", s)
+        grid_states = [[cell.state for cell in row] for row in self.cells]
+        self.ca_simulator.set_grid(grid=grid_states)
+
+        if self.is_running:
+            self.timer.stop()
+        else:
+            self.config.evolution = [grid_states]
+            self.timer.start()
+
+        self.is_running = 1 - self.is_running
 
     def step_button_clicked(self, s):
-        print("step", s)
-        self.ca_simulator.print_grid()
-        self.ca_simulator.step()
-        self.ca_simulator.print_grid()
-        self.ca_simulator.print_info()
-
+        grid_states = [[cell.state for cell in row] for row in self.cells]
+        self.ca_simulator.set_grid(grid=grid_states)
+        self.evolve_space()
+    
     def back_step_button_clicked(self, s):
-        print(" back step", s)
-
+        if len(self.config.evolution) > 1:
+            self.config.evolution.pop()
+            grid_states = self.config.evolution[-1]
+            self.ca_simulator.set_grid(grid_states)
+            for i, row in enumerate(self.ca_simulator.get_grid()):
+                for j, state in enumerate(row):
+                    self.cells[i][j].set_state(state)
+        
     def reset_button_clicked(self, s):
-        print("reset", s)
+        # Detener la animacion
+        self.is_running = False
+        self.timer.stop()
+
+        if self.ca_simulator.get_grid() == self.config.evolution[-1]:
+            self.ca_simulator.set_grid([[0 for _ in range(self.config.grid_size)] for _ in range(self.config.grid_size)])
+        else:
+            self.ca_simulator.set_grid(self.config.evolution[0])
+            self.config.evolution = [self.config.evolution[0]]
+
+        for i, row in enumerate(self.ca_simulator.get_grid()):
+            for j, state in enumerate(row):
+                self.cells[i][j].set_state(state)
 
     def speed_up_button_clicked(self, s):
-        print("speed up", s)
+        self.speed = int(self.speed / 1.2)
+        self.timer.setInterval(self.speed)
 
     def slow_down_button_clicked(self, s):
-        print("slow down", s)
+        self.speed = int(self.speed * 1.2)
+        self.timer.setInterval(self.speed)
 
     def neighbour_button_clicked(self, s):
-        print("Neighbour", s)
         self.neighbour_window = NeighbourWindow(parent=self, config=self.config)
         self.neighbour_window.saved.connect(self.handle_neighbour_data)  # ← conectar señal
         self.hide()
@@ -249,22 +284,23 @@ class MainWindow(QMainWindow):
         print("Frontier", s)
 
     def states_button_clicked(self, s):
-        print("State", s)
         try:
             new_total_states = int(self.state_input.text())
         except ValueError:
-            print("Ingrese un número válido")
             return
+
+        if new_total_states > self.max_states:
+            new_total_states = self.max_states
+            self.state_input.setText(str(new_total_states))
 
         if new_total_states < self.config.num_states:
             self.state_dialog = Dialog("The states are fewer, want to change?", parent=self)
             result = self.state_dialog.exec_()
             if result != QDialog.Accepted:
-                print("Canceled")
                 self.state_input.setText(str(self.config.num_states))
                 return
             else:
-                self.colors = self.colors[::new_total_states]
+                self.colors = self.colors[:new_total_states]
         else:
             self.colors.extend(random_colors(new_total_states - len(self.colors)))
 
@@ -287,11 +323,21 @@ class MainWindow(QMainWindow):
             self.states_layout.addWidget(new_btn)
             self.state_buttons.append(new_btn)
 
+        # Añadir color a todas las celulas
+        for row in self.cells:
+            for cell in row:
+                cell.reset_states(self.colors)
+
     def rule_button_clicked(self, s):
-        print("Rule", s)
+        try:
+            new_rule = int(self.rule_input.text())
+        except ValueError:
+            return
+
+        self.config.rule = new_rule
+        self.ca_simulator.set_rule(self.config.rule)
 
     def color_button_clicked(self, s):
-        print("color", s)
         button = self.sender()
         index = self.state_buttons.index(button)
         # Se presiono el mismo boton dos veces
@@ -313,14 +359,18 @@ class MainWindow(QMainWindow):
     def export_button_clicked(self, s):
         print("export", s)
 
-    def cell_clicked(self, x, y):
-        print(f"Celda clickeada en ({x}, {y})")
-
     # Signal events
     def handle_neighbour_data(self, active_cells):
-        print(self.config.neighbourhood)
         self.config.neighbourhood = active_cells
-        print(self.config.neighbourhood)
+        self.ca_simulator.set_neighbourhood(self.config.neighbourhood)
+
+    # fucntions
+    def evolve_space(self):
+        self.ca_simulator.step()
+        self.config.evolution.append(self.ca_simulator.get_grid())
+        for i, row in enumerate(self.ca_simulator.get_grid()):
+            for j, state in enumerate(row):
+                self.cells[i][j].set_state(state)
 
 app = QApplication([])
 window = MainWindow()
