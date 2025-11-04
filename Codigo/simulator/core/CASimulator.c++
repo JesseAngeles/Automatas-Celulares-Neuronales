@@ -235,5 +235,7 @@ PYBIND11_MODULE(CASimulatorCore, m)
         .def("setRule", &CASimulator::setRule)
         .def("setStates", &CASimulator::setStates)
         .def("setNeighbourhood", &CASimulator::setNeighbourhood)
-        .def("printInfo", &CASimulator::printInfo);
+        .def("printInfo", &CASimulator::printInfo)
+        .def("printGrid", &CASimulator::printGrid)
+        .def("printNeighbourhood", &CASimulator::printNeighbourhood);
 }

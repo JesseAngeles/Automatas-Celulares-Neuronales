@@ -14,13 +14,17 @@ from PyQt5.QtWidgets import (
     QGraphicsView
 )
 from PyQt5.QtCore import Qt, QRectF
-from PyQt5.QtGui import QPainter
+from PyQt5.QtGui import QPainter, QColor
 
 from gui.NeighbourWindow import NeighbourWindow
 from gui.Dialog import Dialog
 from gui.CellItem import CellItem
 from gui.Scene import Scene
+
 from model.CAConfig import CAConfig
+from model.CASimulator import CASimulator
+
+from utils.colors import random_colors
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -32,7 +36,14 @@ class MainWindow(QMainWindow):
         #   VARIABLES
         ################################################
 
+        # Clases
         self.config = CAConfig(num_states=2)
+        self.ca_simulator = CASimulator(self.config)
+
+        # Window
+        self.last_button_clicked = None
+        self.max_states = 21
+        self.colors = [QColor(255,255,255)] + random_colors(self.config.num_states - 1)
 
         ################################################
         #   PANELES
@@ -98,7 +109,7 @@ class MainWindow(QMainWindow):
         for i in range(self.config.grid_size):
             row = []
             for j in range(self.config.grid_size):
-                cell = CellItem(i, j, self.config.cell_size)
+                cell = CellItem(x = i, y = j, size = self.config.cell_size, states=list(range(0, self.config.num_states)), colors= self.colors)
                 self.scene.addItem(cell)
                 row.append(cell)
             self.cells.append(row)
@@ -143,10 +154,13 @@ class MainWindow(QMainWindow):
         states_button.clicked.connect(self.states_button_clicked)
 
         self.state_buttons = []
-        for i in range(self.config.num_states):
-            self.state_buttons.append(QPushButton(f"State {i}"))
-            self.state_buttons[i].clicked.connect(self.color_button_clicked)
-        
+        for i, color in enumerate(self.colors):
+            button = QPushButton(f"State {i}")
+            button.setStyleSheet(f"background-color: {color.name()}")
+            button.clicked.connect(self.color_button_clicked)
+            self.state_buttons.append(button)
+
+
         rule_button = QPushButton("Rule")
         rule_button.clicked.connect(self.rule_button_clicked)
 
@@ -207,6 +221,10 @@ class MainWindow(QMainWindow):
 
     def step_button_clicked(self, s):
         print("step", s)
+        self.ca_simulator.print_grid()
+        self.ca_simulator.step()
+        self.ca_simulator.print_grid()
+        self.ca_simulator.print_info()
 
     def back_step_button_clicked(self, s):
         print(" back step", s)
@@ -238,29 +256,33 @@ class MainWindow(QMainWindow):
             print("Ingrese un número válido")
             return
 
-        if new_total_states >= self.config.num_states:
-            self.config.num_states = new_total_states
-        else:
+        if new_total_states < self.config.num_states:
             self.state_dialog = Dialog("The states are fewer, want to change?", parent=self)
             result = self.state_dialog.exec_()
-            if result == QDialog.Accepted:
-                self.config.num_states = new_total_states
-            else:
+            if result != QDialog.Accepted:
                 print("Canceled")
+                self.state_input.setText(str(self.config.num_states))
                 return
+            else:
+                self.colors = self.colors[::new_total_states]
+        else:
+            self.colors.extend(random_colors(new_total_states - len(self.colors)))
 
-        # --- Actualizar botones ---
-        # Primero eliminamos los botones antiguos del layout
+        self.config.num_states = min(new_total_states, self.max_states)
+        self.state_input.setText(str(self.config.num_states))
+        self.ca_simulator.set_states(self.config.num_states)
+
+
+        # Eliminar los botones antiguos
         for btn in self.state_buttons:
             self.states_layout.removeWidget(btn)
-            btn.setParent(None)  # elimina referencia visual
+            btn.setParent(None)
 
-        # Limpiar la lista de botones
+        # Crear los nuevos botones
         self.state_buttons = []
-
-        # Crear los nuevos botones según el nuevo número de estados
-        for i in range(self.config.num_states):
+        for i, color in enumerate(self.colors):
             new_btn = QPushButton(f"State {i}")
+            new_btn.setStyleSheet(f"background-color: {color.name()}")
             new_btn.clicked.connect(self.color_button_clicked)
             self.states_layout.addWidget(new_btn)
             self.state_buttons.append(new_btn)
@@ -271,10 +293,19 @@ class MainWindow(QMainWindow):
     def color_button_clicked(self, s):
         print("color", s)
         button = self.sender()
+        index = self.state_buttons.index(button)
+        # Se presiono el mismo boton dos veces
+        if self.last_button_clicked == index:
+            color = QColorDialog.getColor()
+            if color.isValid():
+                button.setStyleSheet(f"background-color: {color.name()};")
 
-        color = QColorDialog.getColor()
-        if color.isValid():
-            button.setStyleSheet(f"background-color: {color.name()};")
+            for row in self.cells:
+                for cell in row:
+                    cell.change_color(color, index)
+        
+        self.last_button_clicked = index
+        self.scene.state = index
 
     def import_button_clicked(self, s):
         print("import", s)
