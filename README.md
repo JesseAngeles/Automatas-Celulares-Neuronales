@@ -10,6 +10,15 @@ cmake ..
 make
 ```
 
+**Ejecución en fedora (recomendado)**
+```
+cd core
+mdir build
+cd build
+cmake ..
+make
+```
+
 **Ejecución en Windows**
 
 Activar el entorno virtual: 

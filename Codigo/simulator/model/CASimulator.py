@@ -4,8 +4,10 @@ import sys
 core_path = os.path.join(os.path.dirname(__file__), "..", "core", "build")
 sys.path.append(core_path)
 
-mingw_path = r'C:\mingw64\mingw64\bin'  # ajusta si tu MinGW está en otro sitio
-os.add_dll_directory(mingw_path)
+
+if os.name == "nt":  # 'nt' = Windows, 'posix' = Linux/Mac
+    mingw_path = r'C:\mingw64\mingw64\bin'
+    os.add_dll_directory(mingw_path)
 
 import CASimulatorCore 
 from model.CAConfig import CAConfig
