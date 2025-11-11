@@ -3,60 +3,47 @@
 \subsection{Entradas}
 \begin{itemize}	
 	% Configuración
-	\item Simulación del CA
+	\item Controles de simulación:
 	\begin{itemize}
-		\item \NewBTN{aumentar_velocidad}{Aumentar velocidad}
-		\item \NewBTN{disminuir_velocidad}{Disminuir velocidad}
-		\item \NewBTN{paso_atras}{Retroceder la simulación un paso}
-		\item \NewBTN{paso_adelante}{Simular un paso}
 		\item \NewBTN{iniciar_simulacion}{Iniciar simulación}
 		\item \NewBTN{pausar_simulacion}{Pausar simulación}
+		\item \NewBTN{aumentar_velocidad}{Aumentar velocidad}
+		\item \NewBTN{disminuir_velocidad}{Disminuir velocidad}
+		\item \NewBTN{paso_adelante}{Simular un paso}
+		\item \NewBTN{paso_atras}{Retroceder la simulación un paso}
 		\item \NewBTN{reiniciar_simulacion}{Reiniciar simulación}
 	\end{itemize}
 
-	\item Definición de la configuración del CA.
+	\item Configuración del autómata celular:
 	\begin{itemize}
 		\item \NewBTN{def_vecindad}{Definir vecindad}
+		\item \NewBTN{vecindad_añadir}{Añadir vecindad}
+		\item \NewBTN{estado}{Estado}		
 		\item \NewBTN{def_frontera}{Cambiar frontera}
 		\item \NewBTN{def_estados}{Definir estados}
 		\item \NewBTN{def_regla}{Definir regla}
-		\item \NewBTN{estado}{Estado}		
+		\item \NewIN{estados}{Estados}		
+		\item \NewIN{regla}{Regla}
 	\end{itemize}
 	
-	\item Definición de vecindad
+	\item Interacción con el espacio celular:
 	\begin{itemize}
-		\item \NewBTN{vecindad_añadir}{Añadir vecindad}
 		\item \NewBTN{vecindad_guardar}{Guardar cambio de vecindad}
 		\item \NewBTN{vecindad_cancelar}{Cancelar cambio de vecindad}
 	\end{itemize}
 	
-	% Campos de texto
-	\item Campos de texto.
-	\begin{itemize}
-		\item \NewIN{estados}{Estados}		
-		\item \NewIN{regla}{Regla}
-	\end{itemize}
 \end{itemize}
 
 \subsection{Mensajes}
 \begin{itemize}
-	\item \NewMSG{msg_vecindad}{Vecindad generada}
 	\item \NewMSG{msg_vecindad_incompatibilidad}{Vecindad generada con incompatibilidad}
-	
 	\item \NewMSG{incompatibilidad_estados}{Incompatibilidad de estados}
-	
-	\item \NewMSG{reglas}{Regla generada}
-	
-	\item \NewMSG{importacion_requerida}{Importación requerida}
-	
-	\item \NewMSG{importacion_exitosa}{Importación exitosa}
-	\item \NewMSG{formato_invalido}{Formato invalido}
 \end{itemize}
 
 \subsection{Interfaces gráficas}
 \begin{itemize}
-	\item \NewUI{simulacion_ui}{Simulación}: Elemento que contiene la cuadrícula del espacio celular y muestra la evolución del autómata celular.
 	\item \NewUI{control_ui}{Control}: Elemento que contiene el control sobre la simulación del espacio celular.
 	\item \NewUI{configuracion_ui}{Configuración}: Elemento que permite realizar la configuración de la condición de frontera, los estados y la función de transición.
-	\item \NewUI{vecindad_ui}{Vecindad}: Ventana emergente que contiene un espacio celular donde cada célula actúa como un botón \BTN{celula}. Muestra la célula central y permite al usuario seleccionar aquellas células que quiere que formen parte de la vecindad.
+	\item \NewUI{vecindad_ui}{Vecindad}: Ventana emergente que contiene un espacio celular donde cada célula actúa. Muestra la célula central y permite al usuario seleccionar aquellas células que quiere que formen parte de la vecindad.
+	\item \NewUI{simulacion_ui}{Simulación}: Elemento que contiene la cuadrícula del espacio celular y muestra la evolución del autómata celular.
 \end{itemize}

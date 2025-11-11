@@ -2,23 +2,23 @@
 
 \subsection{Controles de simulación}
 
-Los siguientes casos de uso permiten al usuario controlar la evolución del autómata celular.
+Los siguientes casos de uso permiten al usuario controlar la evolución del autómata celular. Esto implica evolucionar la sistema hacia adelante, hacia atrás y definiendo velocidades.
 
-\subsubsection{Iniciar simulación}
+\subsubsection{UC01 Iniciar simulación}
 
 \begin{table}[H]
 \begin{center}
 	\begin{tabular}{| p{0.2\textwidth} | p{0.7\textwidth} |}
 		\hline 
-			\textbf{Actor} & Usuario\\ \hline
+			\textbf{Actor} & Usuario \\ \hline
 			\textbf{Descripción} & El sistema inicia la evolución en pasos de tiempo constante. \\ \hline
 			\textbf{Tipo} & Primario \\ \hline
 			\textbf{Entradas} &
 			\begin{itemize}[noitemsep, nosep]
-			\item Desde mouse \BTN{iniciar_simulacion}
+			\item Desde mouse \BTN{iniciar_simulacion}.
 				\end{itemize}
 			\\ \hline
-			\textbf{Salidas} & Ninguna.  \\ \hline
+			\textbf{Salidas} & Ninguna  \\ \hline
 			\textbf{Precondición} & \begin{itemize}[noitemsep, nosep]
 				\item Simulación detenida.
 				\item Botón \BTN{iniciar_simulacion} habilitado.
@@ -27,8 +27,9 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 			\textbf{Postcondición} & \begin{itemize}[noitemsep, nosep]
 				\item Simulación en ejecución.
 				\item Botón \BTN{iniciar_simulacion} deshabilitado.
+				\item Botón \BTN{pausar_simulacion} habilitado.
 			\end{itemize} \\ \hline
-			\textbf{Errores}  & Ninguno.  \\ \hline
+			\textbf{Errores}  & Ninguno  \\ \hline
 			\end{tabular}
 		\end{center}
 	\end{table}
@@ -46,21 +47,21 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 			& 
 			\begin{enumerate}[noitemsep, nosep]
 			\item[2.] Inicia la simulación. Cada paso evolutivo se realiza a una velocidad constante. 
-				\item Inhabilita el botón \BTN{iniciar_simulacion}.
-				\item Habilita el botón \BTN{pausar_simulacion}.
+				\item[3.] Deshabilita el botón \BTN{iniciar_simulacion}.
+				\item[4.] Habilita el botón \BTN{pausar_simulacion}.
 				\end{enumerate} \\
 			\hline
 			\end{tabular} \\
 		\end{center}
 	\end{table}
 
-\subsubsection{Pausar simulación}
+\subsubsection{UC02 Pausar simulación}
 
 \begin{table}[H]
 \begin{center}
 	\begin{tabular}{| p{0.2\textwidth} | p{0.7\textwidth} |}
 		\hline 
-			\textbf{Actor} & Usuario\\ \hline
+			\textbf{Actor} & Usuario \\ \hline
 			\textbf{Descripción} & Se detiene la simulación.  \\ \hline
 			\textbf{Tipo} & Secundario \\ \hline
 			\textbf{Entradas} &
@@ -68,7 +69,7 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 			\item Desde mouse \BTN{pausar_simulacion}.
 				\end{itemize}
 			\\ \hline
-			\textbf{Salidas} & Ninguna. \\ \hline
+			\textbf{Salidas} & Ninguna \\ \hline
 			\textbf{Precondición} &  \begin{itemize}[noitemsep, nosep]
 				\item Simulación en ejecución.
 				\item Botón \BTN{pausar_simulacion} habilitado.
@@ -76,8 +77,9 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 			\textbf{Postcondición} & \begin{itemize}[noitemsep, nosep]
 				\item Simulación detenida.
 				\item Botón \BTN{pausar_simulacion} deshabilitado.
+				\item Botón \BTN{iniciar_simulacion} habilitado.
 			\end{itemize}  \\ \hline
-			\textbf{Errores} & Ninguno. \\ \hline
+			\textbf{Errores} & Ninguno \\ \hline
 			\end{tabular}
 			\end{center}
 				\end{table}
@@ -95,7 +97,7 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 			& 
 			\begin{enumerate}[noitemsep, nosep]
 				\item[2.] Detiene la simulación. 
-			\item[3.] Inhabilita el botón \BTN{pausar_simulacion}.
+			\item[3.] Deshabilita el botón \BTN{pausar_simulacion}.
 			\item[4.] Habilita el botón \BTN{iniciar_simulacion}. 
 			\end{enumerate} \\
 				\hline
@@ -103,22 +105,24 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 			\end{center}
 		\end{table}
 	
-\subsubsection{Aumentar velocidad}
+\subsubsection{UC03 Aumentar velocidad}
 
 \begin{table}[H]
 	\begin{center}
 		\begin{tabular}{| p{0.2\textwidth} | p{0.7\textwidth} |}
 			\hline 
-			\textbf{Actor} & Usuario\\ \hline
+			\textbf{Actor} & Usuario \\ \hline
 			\textbf{Descripción} & Se aumenta la velocidad de actualización del autómata celular. \\ \hline
-			\textbf{Tipo} & Primario. \\ \hline
+			\textbf{Tipo} & Secundario \\ \hline
 			\textbf{Entradas} &
 			\begin{itemize}[noitemsep, nosep]
-				\item Desde mouse \BTN{aumentar_velocidad}
+				\item Desde mouse \BTN{aumentar_velocidad}.
 			\end{itemize}
 			\\ \hline
 			\textbf{Salidas} & Ninguna \\ \hline
-			\textbf{Precondición} & Ninguna.
+			\textbf{Precondición} & \begin{itemize}[noitemsep, nosep]
+				\item La simulación esta inicializada.
+			\end{itemize}
 			\\ \hline
 			\textbf{Postcondición} & \begin{itemize}[noitemsep, nosep]
 				\item Aumenta la velocidad de simulación.
@@ -170,23 +174,24 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 \end{table}
 
 
-\subsubsection{Reducir velocidad}
+\subsubsection{UC04 Reducir velocidad}
 
 \begin{table}[H]
 	\begin{center}
 		\begin{tabular}{| p{0.2\textwidth} | p{0.7\textwidth} |}
 			\hline 
-			\textbf{Actor} & Usuario\\ \hline
+			\textbf{Actor} & Usuario \\ \hline
 			\textbf{Descripción} & Se disminuye la velocidad de actualización del autómata celular. \\ \hline
-			\textbf{Tipo} & Primario. \\ \hline
+			\textbf{Tipo} & Secundario \\ \hline
 			\textbf{Entradas} &
 			\begin{itemize}[noitemsep, nosep]
-				\item Desde mouse \BTN{disminuir_velocidad}
+				\item Desde mouse \BTN{disminuir_velocidad}.
 			\end{itemize}
 			\\ \hline
 			\textbf{Salidas} & Ninguna \\ \hline
-			\textbf{Precondición} & Ninguna.
-			\\ \hline
+			\textbf{Precondición} & \begin{itemize}[noitemsep, nosep]
+				\item La simulación esta inicializada.
+			\end{itemize}			\\ \hline
 			\textbf{Postcondición} & \begin{itemize}[noitemsep, nosep]
 				\item Disminuye la velocidad de simulación.
 			\end{itemize}  \\ \hline
@@ -236,21 +241,21 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 	\end{center}
 \end{table}
 
-\subsubsection{Simular un paso}
+\subsubsection{UC05 Simular un paso}
 
 \begin{table}[H]
 \begin{center}
 \begin{tabular}{| p{0.2\textwidth} | p{0.7\textwidth} |}
 	\hline 
-		\textbf{Actor} & Usuario\\ \hline
+		\textbf{Actor} & Usuario \\ \hline
 			\textbf{Descripción} & Se realiza la simulación del CA, pero únicamente en un paso. \\ \hline
 			\textbf{Tipo} & Primario \\ \hline
 			\textbf{Entradas} &
 			\begin{itemize}[noitemsep, nosep]
-			\item Desde mouse \BTN{paso_adelante}
+			\item Desde mouse \BTN{paso_adelante}.
 			\end{itemize}
 				\\ \hline
-			\textbf{Salidas} & Ninguna. \\ \hline
+			\textbf{Salidas} & Ninguna \\ \hline
 			\textbf{Precondición} & Ninguna.
 			\\ \hline
 			\textbf{Postcondición} & \begin{itemize}[noitemsep, nosep]
@@ -291,7 +296,7 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 			\textbf{Actor} & \textbf{Sistema} \\
 			\hline
 			\begin{enumerate}[noitemsep, nosep]
-			\item[1.1.] Presiona el botón \BTN{paso_adelante} desde \UI{control_ui} cuando la velocidad esta en la velocidad máxima.
+			\item[1.1.] Presiona el botón \BTN{paso_adelante} desde \UI{control_ui} cuando la simulación esta activa y la velocidad esta en la velocidad máxima.
 			\end{enumerate} 
 				& 
 			\begin{enumerate}[noitemsep, nosep]
@@ -302,30 +307,34 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 			\end{center}
 		\end{table}
 	
-\subsubsection{Retroceder un paso}
+\subsubsection{UC06 Retroceder un paso}
 
 
 \begin{table}[H]
 	\begin{center}
 		\begin{tabular}{| p{0.2\textwidth} | p{0.7\textwidth} |}
 			\hline 
-			\textbf{Actor} & Usuario\\ \hline
-			\textbf{Descripción} & La simulación adquiere el estado anterior al actual.  \\ \hline
-			\textbf{Tipo} & Primario. \\ \hline
+			\textbf{Actor} & Usuario \\ \hline
+			\textbf{Descripción} & El sistema restaura el estado anterior de la simulación. \\ \hline
+			\textbf{Tipo} & Primario \\ \hline
 			\textbf{Entradas} &
 			\begin{itemize}[noitemsep, nosep]
-				\item Desde mouse \BTN{paso_atras}
+				\item Desde mouse \BTN{paso_atras}.
 			\end{itemize}
 			\\ \hline
-			\textbf{Salidas} & Ninguna. \\ \hline
-			\textbf{Precondición} & Ninguna.
+			\textbf{Salidas} & Ninguna \\ \hline
+			\textbf{Precondición} & \begin{itemize}[noitemsep, nosep]
+				\item Existe un estado previo.
+			\end{itemize}
 			\\ \hline
 			\textbf{Postcondición} & \begin{itemize}[noitemsep, nosep]
-				\item El sistema adquiere la evolución pasada.
+				\item La simulación se pausa.
+				\item El sistema restaura la evolución pasada.
 			\end{itemize}  \\ \hline
 			\textbf{Errores} & 
 			\begin{itemize}[noitemsep, nosep]
-				\item Configuración inicial: EL usuario intenta retroceder la simulación de la configuración inicial.
+				\item Configuración inicial: El usuario intenta retroceder la simulación de la configuración inicial.
+				\item Simulación activa: El usuario intenta retroceder la simulación mientras esta se encuentra activa.
 			\end{itemize}\\ \hline
 		\end{tabular}
 	\end{center}
@@ -369,15 +378,35 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 	\end{center}
 \end{table}
 
-\subsubsection{Reiniciar simulación}
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo alterno 2: Simulación activa}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			\begin{enumerate}[noitemsep, nosep]
+				\item[2.1.] Presiona el botón \BTN{paso_atras} desde \UI{control_ui} mientras la simulación esta activa.  
+			\end{enumerate}
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[2.2.] La simulación se pausa.
+				\item[2.3.] La simulación retrocede un paso.
+			\end{enumerate} \\
+			\hline
+		\end{tabular} 
+	\end{center}
+\end{table}
+
+\subsubsection{UC07 Reiniciar simulación}
 
 \begin{table}[H]
 	\begin{center}
 		\begin{tabular}{| p{0.2\textwidth} | p{0.7\textwidth} |}
 			\hline 
-			\textbf{Actor} & Usuario\\ \hline
-			\textbf{Descripción} & Se reinicia la simulación a la última cuadrícula que fue modificada mientras la simulación estaba en pausa. \\ \hline
-			\textbf{Tipo} & Primario \\ \hline
+			\textbf{Actor} & Usuario \\ \hline
+			\textbf{Descripción} & Restablece la simulación a su estado inicial (todas las celdas vacías o configuración guardada). \\ \hline
+			\textbf{Tipo} & Secundario \\ \hline
 			\textbf{Entradas} &
 			\begin{itemize}[noitemsep, nosep]
 				\item Desde mouse \BTN{reiniciar_simulacion}.
@@ -387,12 +416,11 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 			\textbf{Precondición} & Ninguna
 			\\ \hline
 			\textbf{Postcondición} & \begin{itemize}[noitemsep, nosep]
-				\item El sistema adquiere la configuración inicial.
-				\item El sistema adquiere la configuración nula.
+				\item El sistema adquiere la configuración inicial o nula.
 			\end{itemize}  \\ \hline
 			\textbf{Errores} & 
 			\begin{itemize}[noitemsep, nosep]
-				\item Configuración inicia: El usuario intenta reiniciar la simulación de la configuración inicial.
+				\item Configuración inicial: El usuario intenta reiniciar la simulación de la configuración inicial.
 			\end{itemize}\\ \hline
 		\end{tabular}
 	\end{center}
@@ -439,9 +467,9 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 
 \subsection{Configuración del autómata celular}
 
-Estos casos de uso definen las características del autómata celular, como el numero de estados, vecindad y la función de transición.
+Estos casos de uso definen las características generales del autómata celular, como el numero de estados, vecindad y la función de transición.
 
-\subsubsection{Definir vecindad}
+\subsubsection{UC08 Definir vecindad}
 
 \begin{table}[H]
 \begin{center}
@@ -452,20 +480,21 @@ Estos casos de uso definen las características del autómata celular, como el n
 			\textbf{Tipo} & Primario \\ \hline
 			\textbf{Entradas} &
 			\begin{itemize}[noitemsep, nosep]
-			\item Desde mouse \BTN{def_vecindad}
-			\item Desde mouse \BTN{vecindad_guardar}
-			\item Desde mouse \BTN{vecindad_cancelar}
+			\item Desde mouse \BTN{def_vecindad}.
+			\item Desde mouse \BTN{vecindad_guardar}.
+			\item Desde mouse \BTN{vecindad_cancelar}.
 			\end{itemize}
 			\\ \hline
 			\textbf{Salidas} & 
 			\begin{itemize}[noitemsep, nosep]
-			\item Mensaje \MSG{msg_vecindad}.
 			\item Mensaje \MSG{msg_vecindad_incompatibilidad}
 		\end{itemize} \\ \hline
-		\textbf{Precondición} & Ninguna
+		\textbf{Precondición} &  \begin{itemize}[noitemsep, nosep]
+			\item Simulación en pausa.
+		\end{itemize}
 		\\ \hline
 		\textbf{Postcondición} &  \begin{itemize}[noitemsep, nosep]
-			\item Vecindad definida.
+			\item Vecindad guardada en el sistema.
 		\end{itemize} \\ \hline
 		\textbf{Errores} & 
 	\begin{itemize}[noitemsep, nosep]
@@ -550,9 +579,9 @@ Estos casos de uso definen las características del autómata celular, como el n
 \textbf{Actor} & \textbf{Sistema} \\
 \hline
 \begin{enumerate}[noitemsep, nosep]
-\item[3.3.] Selecciona los elementos que forman parte de la vecindad presionando los botones \BTN{celula} pero el nuevo tamaño es diferente al anterior. 
+\item[3.3.] Selecciona los elementos que forman parte de la vecindad seleccionando las células.
 \item[3.4.] Presiona el botón \BTN{vecindad_guardar} en \UI{vecindad_ui}.
-\item[3.6.] Acepta el cambio
+\item[3.6.] Acepta el cambio.
 \end{enumerate}
 & 
 \begin{enumerate}[noitemsep, nosep]
@@ -568,25 +597,25 @@ Estos casos de uso definen las características del autómata celular, como el n
 	\begin{center}
 		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
 			\hline
-			\multicolumn{2}{|c|}{\textbf{Flujo alterno 3: Incompatibilidad (Rechazar)}} \\ \hline
+			\multicolumn{2}{|c|}{\textbf{Flujo alterno 4: Incompatibilidad (Rechazar)}} \\ \hline
 			\textbf{Actor} & \textbf{Sistema} \\
 			\hline
 			\begin{enumerate}[noitemsep, nosep]
-				\item[3.3.] Selecciona los elementos que forman parte de la vecindad presionando los botones \BTN{celula} pero el nuevo tamaño es diferente al anterior. 
-				\item[3.4.] Presiona el botón \BTN{vecindad_guardar}.
-				\item[3.6.] Rechaza el cambio
+				\item[4.3.] Selecciona los elementos que forman parte de la vecindad seleccionando las células.
+				\item[4.4.] Presiona el botón \BTN{vecindad_guardar}.
+				\item[4.6.] Rechaza el cambio.
 			\end{enumerate}
 			& 
 			\begin{enumerate}[noitemsep, nosep]
-				\item[3.5.] Muestra el mensaje \MSG{msg_vecindad_incompatibilidad}.
-				\item[3.7.] No actualiza la vecindad.
+				\item[4.5.] Muestra el mensaje \MSG{msg_vecindad_incompatibilidad}.
+				\item[4.7.] No actualiza la vecindad.
 			\end{enumerate} \\
 			\hline
 		\end{tabular} 
 	\end{center}
 \end{table}
 
-\subsubsection{Agregar estado}
+\subsubsection{UC09 Agregar estado}
 
 \begin{table}[H]
 	\begin{center}
@@ -597,19 +626,16 @@ Estos casos de uso definen las características del autómata celular, como el n
 			\textbf{Tipo} & Secundario \\ \hline
 			\textbf{Entradas} &
 			\begin{itemize}[noitemsep, nosep]
-				\item Desde mouse \BTN{def_vecindad}
 				\item Desde mouse \BTN{vecindad_añadir}
 			\end{itemize}
 			\\ \hline
-			\textbf{Salidas} & 
-			\begin{itemize}[noitemsep, nosep]
-				\item Mensaje \MSG{msg_vecindad}.
-				\item Mensaje \MSG{msg_vecindad_incompatibilidad}
+			\textbf{Salidas} & Ninguna \\ \hline
+			\textbf{Precondición} & \begin{itemize}[noitemsep, nosep]
+				\item Estar en la interfaz \UI{vecindad_ui}
 			\end{itemize} \\ \hline
-			\textbf{Precondición} & Ninguna
-			\\ \hline
 			\textbf{Postcondición} &  \begin{itemize}[noitemsep, nosep]
-				\item Nueva vecindad.
+				\item Se añade la nueva vecindad semitotalistica.
+				\item La interfaz refleja el nuevo elemento agredo.
 			\end{itemize} \\ \hline
 			\textbf{Errores} & Ninguno. \\ \hline
 			
@@ -625,42 +651,41 @@ Estos casos de uso definen las características del autómata celular, como el n
 			\textbf{Actor} & \textbf{Sistema} \\
 			\hline
 			\begin{enumerate}[noitemsep, nosep]
-				\item Presiona el botón \BTN{def_vecindad} en \UI{configuracion_ui}.
-				\item[3. ] Presiona el botón \BTN{vecindad_añadir} en \UI{vecindad_ui}
+				\item[1. ] Presiona el botón \BTN{vecindad_añadir} en \UI{vecindad_ui}
 			\end{enumerate} 
 			& 
-			\begin{enumerate}[noitemsep, nosep]
-				\item[2.] Abre la interfaz \UI{vecindad_ui}. 
-				\item[4.] Añade una nueva vecindad semitotalistica.
+			\begin{enumerate}[noitemsep, nosep] 
+				\item[2.] Añade una nueva vecindad semitotalistica.
+				\item[3.] Añade un botón \BTN{estado}.
 			\end{enumerate} \\
 			\hline
 		\end{tabular} 
 	\end{center}
 \end{table}
 
-\subsubsection{Definir condición de frontera}
+\subsubsection{UC10 Definir condición de frontera}
 
 \begin{table}[H]
 	\begin{center}
 		\begin{tabular}{| p{0.2\textwidth} | p{0.7\textwidth} |}
 			\hline 
-			\textbf{Actor} & Usuario\\ \hline
+			\textbf{Actor} & Usuario \\ \hline
 			\textbf{Descripción} & Se selecciona entre diferentes opciones de condiciones de frontera. \\ \hline
-			\textbf{Tipo} & Primario \\ \hline
+			\textbf{Tipo} & Secundario \\ \hline
 			\textbf{Entradas} &
 			\begin{itemize}[noitemsep, nosep]
-				\item Desde mouse \BTN{def_frontera}
+				\item Desde mouse \BTN{def_frontera}.
 			\end{itemize}
 			\\ \hline
 			\textbf{Salidas} & Ninguna
 			\\ \hline
 			\textbf{Precondición} & 
-			\begin{itemize}[noitemsep, nosep]
-				\item Cambio de condición de frontera.
-			\end{itemize}
+			Ninguna
 			\\ \hline
-			\textbf{Postcondición} & Ninguna \\ \hline
-			\textbf{Errores} &Ninguno \\ \hline
+			\textbf{Postcondición} & \begin{itemize}[noitemsep, nosep]
+				\item Se actualiza la condición de frontera.
+			\end{itemize} \\ \hline
+			\textbf{Errores} & Ninguno \\ \hline
 		\end{tabular}
 	\end{center}
 \end{table}
@@ -673,7 +698,7 @@ Estos casos de uso definen las características del autómata celular, como el n
 			\textbf{Actor} & \textbf{Sistema} \\
 			\hline
 			\begin{enumerate}[noitemsep, nosep]
-				\item Presiona el botón \BTN{frontera} desde \UI{configuracion_ui}.
+				\item Presiona el botón \BTN{def_frontera} desde \UI{configuracion_ui}.
 			\end{enumerate} 
 			& 
 			\begin{enumerate}[noitemsep, nosep]
@@ -684,7 +709,7 @@ Estos casos de uso definen las características del autómata celular, como el n
 	\end{center}
 \end{table}
 
-\subsubsection{Definir numero de estados}
+\subsubsection{UC11 Definir numero de estados}
 
 \begin{table}[H]
 	\begin{center}
@@ -695,18 +720,26 @@ Estos casos de uso definen las características del autómata celular, como el n
 			\textbf{Tipo} & Primario \\ \hline
 			\textbf{Entradas} &
 			\begin{itemize}[noitemsep, nosep]
-				\item Desde teclado \IN{estados} 
-				\item Desde mouse \BTN{cambiar_estados}
+				\item Desde teclado \IN{estados}.
+				\item Desde mouse \BTN{def_estados}.
 			\end{itemize}
 			\\ \hline
-			\textbf{Salidas} & Ninguna  \\ \hline
-			\textbf{Precondición} & Ninguna  
+			\textbf{Salidas} & \begin{itemize}[noitemsep, nosep]
+				\item Mensaje \MSG{incompatibilidad_estados}.
+			\end{itemize}  \\ \hline
+			\textbf{Precondición} & \begin{itemize}[noitemsep, nosep]
+				\item El sistema debe estar detenido.
+				\item El valor ingresado debe de ser un numero entero valido.
+			\end{itemize}  
 			\\ \hline
-			\textbf{Postcondición} & Ninguna   \\ \hline
+			\textbf{Postcondición} &  \begin{itemize}[noitemsep, nosep]
+				\item Se actualizan los estados. 
+			\end{itemize}  \\ \hline
 			\textbf{Errores} & 
 			\begin{itemize}[noitemsep, nosep]
 				\item Simulando: El usuario intenta cambiar los estados mientras está en ejecución.
 				\item Incompatibilidad: El número de estados es menor y hay estados inexistentes en el espacio celular.
+				\item Invalido: El numero de estados es invalido.
 			\end{itemize}\\ \hline
 		\end{tabular}
 	\end{center}
@@ -720,12 +753,13 @@ Estos casos de uso definen las características del autómata celular, como el n
 			\textbf{Actor} & \textbf{Sistema} \\
 			\hline
 			\begin{enumerate}[noitemsep, nosep]
-				\item Ingresa el número de estados en el campo \IN{estados} desde \UI{configuracion_ui}.
-				\item Presiona el botón \BTN{cambiar_estados}.
+				\item Ingresa el número de estados en el campo \IN{estados} en \UI{configuracion_ui} mayor al actual.
+				\item Presiona el botón \BTN{def_estados} en \UI{configuracion_ui}.
 			\end{enumerate} 
 			& 
 			\begin{enumerate}[noitemsep, nosep]
 				\item[3.] Cambia el conjunto de estados.  
+				\item[4.] Añade los botones \BTN{estado} necesarios a \UI{configuracion_ui}.  
 			\end{enumerate} \\
 			\hline
 		\end{tabular} \\
@@ -740,12 +774,13 @@ Estos casos de uso definen las características del autómata celular, como el n
 			\textbf{Actor} & \textbf{Sistema} \\
 			\hline
 			\begin{enumerate}[noitemsep, nosep]
-				\item[2.1.] Presiona el botón \BTN{cambiar_estados} mientras la simulación está en ejecución. 
+				\item[1.2.] Presiona el botón \BTN{def_estados} en \UI{configuracion_ui} mientras la simulación está en ejecución. 
 			\end{enumerate}
 			& 
 			\begin{enumerate}[noitemsep, nosep]
-				\item[3.1.] Detiene la simulación.
-				\item[4.1.] Cambia el conjunto de estados.
+				\item[1.3.] Detiene la simulación.
+				\item[1.4.] Cambia el conjunto de estados.
+				\item[1.5.] Añade los botones \BTN{estado} necesarios a \UI{configuracion_ui}.  
 			\end{enumerate} \\
 			\hline
 		\end{tabular} 
@@ -760,15 +795,16 @@ Estos casos de uso definen las características del autómata celular, como el n
 			\textbf{Actor} & \textbf{Sistema} \\
 			\hline
 			\begin{enumerate}[noitemsep, nosep]
-				\item[1.2.] Ingresa el número de estados en el campo \IN{estados} desde \UI{configuracion_ui}, menor al actual.
-				\item[2.2.] Presiona el botón \BTN{cambiar_estados}.
-				\item[4.2.] Presiona el botón \BTN{aceptar_estados}.
+				\item[2.1.] Ingresa el número de estados en el campo \IN{estados} desde \UI{configuracion_ui}, menor al actual.
+				\item[2.2.] Presiona el botón \BTN{def_estados} en \UI{configuracion_ui}.
+				\item[2.4.] Acepta el cambio.
 			\end{enumerate}
 			& 
 			\begin{enumerate}[noitemsep, nosep]
-				\item[3.2.] Muestra el mensaje \MSG{incompatibilidad_estados}.
-				\item[5.2.] Cambia el conjunto de estados.
-				\item[6.2.] Establece a ``0'' todos los estados inexistentes.
+				\item[2.3.] Muestra el mensaje \MSG{incompatibilidad_estados}.
+				\item[2.5.] Cambia el conjunto de estados.
+				\item[2.6.] Establece a 0 todos los estados inexistentes de las células.
+				\item[2.7.] Elimina los botones \BTN{estado} necesarios a \UI{configuracion_ui}. 
 			\end{enumerate} \\
 			\hline
 		\end{tabular} 
@@ -779,26 +815,46 @@ Estos casos de uso definen las características del autómata celular, como el n
 	\begin{center}
 		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
 			\hline
-			\multicolumn{2}{|c|}{\textbf{Flujo alterno 2.1: Incompatibilidad (Rechazar)}} \\ \hline
+			\multicolumn{2}{|c|}{\textbf{Flujo alterno 3: Incompatibilidad (Rechazar)}} \\ \hline
 			\textbf{Actor} & \textbf{Sistema} \\
 			\hline
 			\begin{enumerate}[noitemsep, nosep]
-				\item[1.2.] Ingresa el número de estados en el campo \IN{estados} desde \UI{configuracion_ui} menor al actual.
-				\item[2.2.] Presiona el botón \BTN{cambiar_estados}.
-				\item[4.2.] Presiona el botón \BTN{rechazar_estados}.
+				\item[3.1.] Ingresa el número de estados en el campo \IN{estados} desde \UI{configuracion_ui}, menor al actual.
+				\item[3.2.] Presiona el botón \BTN{def_estados} en \UI{configuracion_ui}.
+				\item[3.4.] Rechaza el cambio.
 			\end{enumerate}
 			& 
 			\begin{enumerate}[noitemsep, nosep]
-				\item[3.2.] Muestra el mensaje \MSG{incompatibilidad_estados}.
-				\item[5.2.] No hace ningún cambio.
+				\item[3.3.] Muestra el mensaje \MSG{incompatibilidad_estados}.
+				\item[3.5.] No hace ningún cambio.
 			\end{enumerate} \\
 			\hline
 		\end{tabular} 
 	\end{center}
 \end{table}
 
-\subsubsection{Definir función de transición}
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Flujo alterno 4: Invalido}} \\ \hline
+			\textbf{Actor} & \textbf{Sistema} \\
+			\hline
+			\begin{enumerate}[noitemsep, nosep]
+				\item[4.1] Ingresa el número de estados en el campo \IN{estados} en \UI{configuracion_ui} menor a 1.
+				\item[4.2] Presiona el botón \BTN{def_estados} en \UI{configuracion_ui}.
+			\end{enumerate} 
+			& 
+			\begin{enumerate}[noitemsep, nosep]
+				\item[4.3.] cambia el valor de \IN{estados} por 1.
+				\item[4.4.] Muestra el mensaje \MSG{incompatibilidad_estados}.
+			\end{enumerate} \\
+			\hline
+		\end{tabular} \\
+	\end{center}
+\end{table}
 
+\subsubsection{UC12 Definir función de transición}
 
 \begin{table}[H]
 	\begin{center}
@@ -809,14 +865,19 @@ Estos casos de uso definen las características del autómata celular, como el n
 			\textbf{Tipo} & Primario \\ \hline
 			\textbf{Entradas} &
 			\begin{itemize}[noitemsep, nosep]
-				\item Desde teclado \IN{regla}
-				\item Desde mouse \BTN{aplicar_regla}
+				\item Desde teclado \IN{regla}.
+				\item Desde mouse \BTN{def_regla}.
 			\end{itemize}
 			\\ \hline
 			\textbf{Salidas} & Ninguna  \\ \hline
-			\textbf{Precondición} & Ninguna 
+			\textbf{Precondición} & \begin{itemize}[noitemsep, nosep]
+				\item El sistema se encuentra detenido.
+				\item La regla esta dentro del rango permitido.
+			\end{itemize} 
 			\\ \hline
-			\textbf{Postcondición} &  Ninguna  \\ \hline
+			\textbf{Postcondición} &  \begin{itemize}[noitemsep, nosep]
+				\item Se guarda la nueva regla de transición.
+			\end{itemize}   \\ \hline
 			\textbf{Errores} & 
 			\begin{itemize}[noitemsep, nosep]
 				\item Simulando: El cambio de regla se intenta aplicar cuando la simulación está en ejecución.
@@ -834,30 +895,32 @@ Estos casos de uso definen las características del autómata celular, como el n
 			\textbf{Actor} & \textbf{Sistema} \\
 			\hline
 			\begin{enumerate}[noitemsep, nosep]
-				\item Ingresa la regla en el campo \IN{regla} desde \UI{configuracion_ui}.
-				\item Presiona el botón \BTN{aplicar_regla}.
+				\item Ingresa la regla en el campo \IN{regla} en \UI{configuracion_ui}.
+				\item Presiona el botón \BTN{def_regla}.
 			\end{enumerate} 
 			& 
 			\begin{enumerate}[noitemsep, nosep]
 				\item[3.] Actualiza la regla.
-				\item[4.] Muestra el mensaje \MSG{reglas}. 
 			\end{enumerate} \\
 			\hline
-		\end{tabular} \\
-		
+		\end{tabular} 
+			\end{center}
+	\end{table}
+
+\begin{table}[H]
+\begin{center}
 		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
 			\hline
 			\multicolumn{2}{|c|}{\textbf{Flujo alterno 1: Simulando}} \\ \hline
 			\textbf{Actor} & \textbf{Sistema} \\
 			\hline
 			\begin{enumerate}[noitemsep, nosep]
-				\item[2.1.] Presiona el botón \BTN{aplicar_regla} mientras la simulación está activa.
+				\item[1.2.] Presiona el botón \BTN{def_regla} mientras la simulación está activa.
 			\end{enumerate} 
 			& 
 			\begin{enumerate}[noitemsep, nosep]
-				\item[3.1.] Pausa la simulación.
-				\item[4.1.] Actualiza la regla.
-				\item[5.1.] Muestra el mensaje \MSG{reglas}. 
+				\item[1.3.] Pausa la simulación.
+				\item[1.4.] Actualiza la regla.
 			\end{enumerate} \\
 			\hline
 		\end{tabular} 
@@ -866,44 +929,50 @@ Estos casos de uso definen las características del autómata celular, como el n
 
 \begin{table}[H]
 	\begin{center}
-		\begin{tabular}{|p{0.2\textwidth}|p{0.7\textwidth}|}
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
 			\hline
 			\multicolumn{2}{|c|}{\textbf{Flujo alterno 2: Fuera de rango}} \\ \hline
 			\textbf{Actor} & \textbf{Sistema} \\
 			\hline
+			\begin{enumerate}[noitemsep, nosep]
+				\item[2.1.] Ingresa la regla fuera del rango de reglas en el campo \IN{regla} en \UI{configuracion_ui}.
+				\item[2.2.] Presiona el botón \BTN{def_regla} mientras la simulación está activa.
+			\end{enumerate} 
 			& 
 			\begin{enumerate}[noitemsep, nosep]
-				\item[3.3.] La regla no es compatible, se ajusta a la configuración del CA.
-				\item[4.3.] Actualiza la regla.
-				\item[5.3.] Muestra el mensaje \MSG{reglas}. 
+				\item[2.3.] La regla no es compatible, se ajusta a la configuración del CA.
+				\item[2.4.] Actualiza la regla.
 			\end{enumerate} \\
 			\hline
 		\end{tabular} 
 	\end{center}
 \end{table}
 
-
 \subsection{Interacción con el espacio celular}
 
-El usuario puede interactuar con el espacio celular para cambiar valores, colores o vecindades.
+El usuario puede interactuar con el espacio celular para cambiar valores, colores o vecindades. Los siguientes casos de uso están diseñado para mejorar la visibilidad del espacio celular, tanto en \UI{control_ui} como en \UI{vecindad_ui}.
 
-\subsubsection{Seleccionar color}
+\subsubsection{UC13 Seleccionar color}
 
 \begin{table}[H]
 \begin{center}
 	\begin{tabular}{| p{0.2\textwidth} | p{0.7\textwidth} |}
 		\hline 
-			\textbf{Actor} & Usuario\\ \hline
-			\textbf{Descripción} & Se define un color asociado a cada estado.  \\ \hline
+			\textbf{Actor} & Usuario \\ \hline
+			\textbf{Descripción} & Se selecciona un estado para cambiar el estado de las células en el espacio celular. \\ \hline
 			\textbf{Tipo} & Secundario \\ \hline
 			\textbf{Entradas} &
 			\begin{itemize}[noitemsep, nosep]
-			\item Desde mouse \BTN{color}
+			\item Desde mouse \BTN{estado}.
 				\end{itemize}
 			\\ \hline
 			\textbf{Salidas} & Ninguna  \\ \hline
-			\textbf{Precondición} & Ninguna  \\ \hline
-			\textbf{Postcondición} &  Ninguna  \\ \hline
+			\textbf{Precondición} & \begin{itemize}[noitemsep, nosep]
+				\item Debe de haber botones de \BTN{estado}.
+			\end{itemize} \\ \hline
+			\textbf{Postcondición} &  \begin{itemize}[noitemsep, nosep]
+				\item Se guarda el identificador del último \BTN{estado} seleccionado.
+			\end{itemize}  \\ \hline
 			\textbf{Errores} & Ninguno \\ \hline
 			\end{tabular}
 			\end{center}
@@ -917,38 +986,39 @@ El usuario puede interactuar con el espacio celular para cambiar valores, colore
 	\textbf{Actor} & \textbf{Sistema} \\
 		\hline
 			\begin{enumerate}[noitemsep, nosep]
-			\item Selecciona un estado en \UI{configuracion_ui}.
-			\item Presiona el botón de \BTN{color}.
-			\item[4. ] Selecciona un color.
+			\item Presiona un botón de \BTN{estado} en \UI{configuracion_ui}.
 			\end{enumerate} 
 				& 
 			\begin{enumerate}[noitemsep, nosep]
-			\item[3.] Abre un panel de colores. 
-			\item[5.] Asigna ese color a ese estado.
-				\item[6.] Cambia el color de todas las células con ese estado en el espacio celular.
+			\item[2.] Guarda el estado del ultimo \BTN{estado} seleccionado.
 			\end{enumerate} \\
 			\hline
 		\end{tabular} \\
 	\end{center}
 \end{table}
 
-\subsubsection{Cambiar color de estado}
+\subsubsection{UC14 Cambiar color de estado}
 
 \begin{table}[H]
 \begin{center}
 	\begin{tabular}{| p{0.2\textwidth} | p{0.7\textwidth} |}
 		\hline 
-			\textbf{Actor} & Usuario\\ \hline
+			\textbf{Actor} & Usuario \\ \hline
 			\textbf{Descripción} & Se define un color asociado a cada estado.  \\ \hline
 			\textbf{Tipo} & Secundario \\ \hline
 			\textbf{Entradas} &
 			\begin{itemize}[noitemsep, nosep]
-			\item Desde mouse \BTN{color}
+			\item Desde mouse \BTN{estado}.
 				\end{itemize}
 			\\ \hline
 			\textbf{Salidas} & Ninguna  \\ \hline
 			\textbf{Precondición} & Ninguna  \\ \hline
-			\textbf{Postcondición} &  Ninguna  \\ \hline
+			\textbf{Postcondición} &  
+			\begin{itemize}[noitemsep, nosep]
+				\item Se le asigna un color al estado seleccionado.
+				\item Todas las células con ese estado actualizan su color en el espacio celular.
+				\item La configuración de color queda almacenada.
+			\end{itemize}  \\ \hline
 			\textbf{Errores} & Ninguno \\ \hline
 			\end{tabular}
 			\end{center}
@@ -962,22 +1032,21 @@ El usuario puede interactuar con el espacio celular para cambiar valores, colore
 	\textbf{Actor} & \textbf{Sistema} \\
 		\hline
 			\begin{enumerate}[noitemsep, nosep]
-			\item Selecciona un estado en \UI{configuracion_ui}.
-			\item Presiona el botón de \BTN{color}.
-			\item[4. ] Selecciona un color.
+			\item Presiona dos veces un \BTN{estado} en \UI{configuracion_ui}.
+			\item[2. ] Selecciona un color.
 			\end{enumerate} 
 				& 
 			\begin{enumerate}[noitemsep, nosep]
 			\item[3.] Abre un panel de colores. 
-			\item[5.] Asigna ese color a ese estado.
-				\item[6.] Cambia el color de todas las células con ese estado en el espacio celular.
+			\item[4.] Asigna ese color a ese estado.
+				\item[5.] Cambia el color de todas las células con ese estado en el espacio celular.
 			\end{enumerate} \\
 			\hline
 		\end{tabular} \\
 	\end{center}
 \end{table}
 
-\subsubsection{Cambiar estado de una célula}
+\subsubsection{UC15 Cambiar estado de una célula}
 
 \begin{table}[H]
 	\begin{center}
@@ -985,18 +1054,21 @@ El usuario puede interactuar con el espacio celular para cambiar valores, colore
 			\hline 
 			\textbf{Actor} & Usuario\\ \hline
 			\textbf{Descripción} & Se cambia manualmente la configuración del espacio celular, seleccionando el estado de cada célula.  \\ \hline
-			\textbf{Tipo} & Primario \\ \hline
-			\textbf{Entradas} &
-			\begin{itemize}[noitemsep, nosep]
-				\item Desde mouse \BTN{celula}
-			\end{itemize}
+			\textbf{Tipo} & Secundario \\ \hline
+			\textbf{Entradas} & Ninguna
 			\\ \hline
 			\textbf{Salidas} & Ninguna
 			\\ \hline
-			\textbf{Precondición} & Ninguna
+			\textbf{Precondición} & \begin{enumerate}[noitemsep, nosep]
+				\item Haber seleccionado un color de un \BTN{estado}.
+			\end{enumerate} 
 			\\ \hline
-			\textbf{Postcondición} & Ninguna \\ \hline
-			\textbf{Errores} & Ninguno
+			\textbf{Postcondición} & \begin{enumerate}[noitemsep, nosep]
+				\item La célula cambia de estado.
+			\end{enumerate}  \\ \hline
+			\textbf{Errores} & \begin{enumerate}[noitemsep, nosep]
+				\item Sin estado: No se ha seleccionado un estado.
+			\end{enumerate} 
 			\\ \hline
 		\end{tabular}
 	\end{center}
@@ -1006,15 +1078,15 @@ El usuario puede interactuar con el espacio celular para cambiar valores, colore
 	\begin{center}
 		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
 			\hline
-			\multicolumn{2}{|c|}{\textbf{Flujo básico (Siguiente estado)}} \\ \hline
+			\multicolumn{2}{|c|}{\textbf{Flujo básico}} \\ \hline
 			\textbf{Actor} & \textbf{Sistema} \\
 			\hline
 			\begin{enumerate}[noitemsep, nosep]
-				\item Presiona una célula \BTN{celula} desde \UI{simulacion_ui}.
+				\item Selecciona una célula desde \UI{simulacion_ui}.
 			\end{enumerate} 
 			& 
 			\begin{enumerate}[noitemsep, nosep]
-				\item[2.] La célula cambia al estado siguiente. 
+				\item[2.] La célula se le asigna el estado seleccionado.
 			\end{enumerate} \\
 			\hline
 		\end{tabular} \\
@@ -1025,16 +1097,15 @@ El usuario puede interactuar con el espacio celular para cambiar valores, colore
 	\begin{center}
 		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
 			\hline
-			\multicolumn{2}{|c|}{\textbf{Flujo básico (Selección de estado)}} \\ \hline
+			\multicolumn{2}{|c|}{\textbf{Flujo alterno 1: Sin estado}} \\ \hline
 			\textbf{Actor} & \textbf{Sistema} \\
 			\hline
 			\begin{enumerate}[noitemsep, nosep]
-				\item Selecciona un estado desde \UI{configuracion_ui}.
-				\item Presiona una célula \BTN{celula} desde \UI{simulacion_ui}.
+				\item[1.1] Selecciona una célula desde \UI{simulacion_ui} sin haber seleccionado un \BTN{estado}.
 			\end{enumerate} 
 			& 
 			\begin{enumerate}[noitemsep, nosep]
-				\item[3.] La célula cambia al estado presionado en \UI{configuracion_ui}.
+				\item[1.2.] La célula cambia al estado siguiente. 
 			\end{enumerate} \\
 			\hline
 		\end{tabular} \\

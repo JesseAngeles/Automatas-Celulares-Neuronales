@@ -449,6 +449,27 @@ Es decir, si podemos determinar en tiempo finito si el CA evoluciona de $C_1$ a 
 Todos los autómatas celulares pertenecen a la clase IV.	
 \end{definition}
 
-Otra clasificación considera extensiones o modificaciones en la definición que alteran el comportamiento del CA. Entre ellas se encuentran los autómatas celulares sobre grafos \cite{neuripsGCA}, con funciones de transición estocásticas \cite{gacsPCA}, no homogéneos \cite{hartmanIHCA}, o definidos en configuraciones con estados, espacio y tiempo continuos \cite{beckerCCA}. Particularmente relevantes para esta investigación son los autómatas celulares neuronales, que emplean una red neuronal como función de transición. Pero antes de definirlos, es necesario comprender qué son las redes neuronales.
+Otra clasificación considera extensiones o modificaciones en la definición que alteran el comportamiento del autómata celular. A continuación, se describen algunas de estas extensiones para el modelado de sistemas complejos. 
+
+\begin{itemize}
+	
+	\item \textbf{Autómatas celulares en grafos}: Amplían la idea de la estructura de red clásica al permitir que las vecindades no sean iguales: cada célula puede tener un número diferente de vecinos. Esta flexibilidad los hace adecuados para modelar fenómenos sobre grafos, como redes sociales o flujos en infraestructura. Sin embargo, diseñar manualmente las reglas de transición en estos entornos es una tarea compleja, lo que ha motivado propuestas como los autómatas celulares neuronales en grafos, que permiten aprender dichas reglas automáticamente \cite{neuripsGCA}.
+	
+	\item \textbf{Autómatas celulares probabilísticos}: Estos extienden el modelo clásico al incorporar reglas de transición estocásticas. En vez de una evolución que sigue un camino fijo, los estados futuros dependen de probabilidades que se ven afectadas por el entorno. Esto ayuda a entender la incertidumbre, el ruido y los comportamientos que surgen de manera inesperada. Son especialmente útiles para simular dinámicas como propagación de epidemias o sistemas sociales, donde los mecanismos de transición no siempre están completamente definidos \cite{gacsPCA}.
+	
+	\item \textbf{Autómatas celulares no homogéneos}: Permiten que diferentes células tengan diferentes funciones de transición. Para esto, se utilizan dos planos llamados ``plano de datos'', el cual contiene la evolución del sistema; y ``plano de control'', el cual define las reglas de transición para cada célula. Esto permite estudiar el comportamiento y la interacción entre diferentes reglas que comparten espacio \cite{hartmanIHCA}.
+	
+	\item \textbf{Autómatas celulares continuos}: Son autómatas celulares que pueden ser continuos en los estados, en el tiempo y en el espacio \cite{nks}:
+	
+	\begin{itemize}
+		\item Los estados continuos adquieren valores reales y no solo enteros.
+		
+		\item El tiempo continuo se define mediante una función que determina el intervalo de espera para actualizar la célula en función de su estado actual.
+		
+		\item El espacio continuo se obtiene al asignar diferentes pesos a las células dentro de la vecindad \cite{beckerCCA}.
+	\end{itemize}
+\end{itemize}
+
+Aunque estas variantes han ampliado el uso de los autómatas celulares, un problema que se repite es definir correctamente las reglas de transición para lograr un fenómeno específico. Este desafío ha llevado a la creación de autómatas celulares neuronales. En estos, la función de transición no se define de manera clara, sino que se aprende a través de una red neuronal artificial. Pero antes de definirlos, es necesario comprender qué son las redes neuronales.
 
 \clearpage
