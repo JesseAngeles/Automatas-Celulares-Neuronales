@@ -289,8 +289,6 @@ Ya que la vecindad de Moore en 2D involucra 8 vecinos más la propia célula, es
 	
 \end{itemize}
 
-Se puede usar la notación \textit{Birth/survival} la cual es una dupla de listas que almacenan el número de vecinos vivos que tiene que haber en la vecindad para nacer y para sobrevivir, respectivamente. La configuración para el juego de la vida ``tradicional'' es $B3/S23$, es decir, se requieren 3 células vivas para nacer y se requieren 2 o 3 células vivas para sobrevivir \cite{life}. 
-
 Una regla es semitotalística si la transición depende de la suma de los valores en la vecindad, pero distingue entre diferentes posiciones, como el centro y los bordes. El juego de la vida es un ejemplo de regla semitotalística porque cuenta el número de vecinos vivos, pero trata de forma distinta el estado de la célula central \cite{semi_totalistic}.
 
 En cambio, una regla es totalística si la transición depende únicamente de la suma de los estados en todos los vecinos, sin distinguir posiciones \cite{totalistic}. Por ejemplo, para un autómata celular unidimensional con $|\mathcal{S}| = 3$ estados y radio $r = 1$, solo hay $(|\mathcal{S}|-1) |\mathcal{N}|+1 = (2-1) \cdot 3 + 1 = 4$ posibles valores de suma.
@@ -363,20 +361,202 @@ Nótese que la regla decimal solo aplica cuando las condiciones son las mismas. 
 	
 \end{table}
 
+\section{Ejemplos}
+
+\subsection{John Von Neumann}
+
+\subsection{El juego de la vida}
+
+El juego de la vida es un autómata celular desarrollado por el matemático John Horton Conway en 1970. Considera una cuadrícula con células vivas y muertas, las cuales pueden morir, renacer o sobrevivir según la cantidad de vecinos que tuvieran \cite{life2}. Siguiendo la definición formal de autómata celular, el juego de la vida se caracteriza por: 
+
+\begin{itemize}
+	
+	\item \textbf{Espacio celular}: Tiene un espacio celular bidimensional con una cuadrícula regular idealmente infinita. 
+	
+	\item \textbf{Estados}: Considera los estados de $\{muerto, vivo \}$ que suelen representarse como $\{ 0, 1 \}$.
+	
+	\item \textbf{Vecindad}: Tiene una vecindad de Moore semitotalística. Diferencia la célula actual de los bordes.
+	
+	\item \textbf{Función de transición}: El siguiente estado se define bajo las siguientes cuatro condiciones:
+	
+	\begin{itemize}
+		
+		\item Si una célula está viva y tiene dos o tres vecinos vivos, entonces se mantiene viva.
+		
+		\item Si una célula está viva y tiene más de tres vecinos vivos, muere por sobrepoblación.
+		
+		\item Si una célula es viva y tiene menos de dos vecinos vivos, muere por soledad.
+		
+		\item Si una célula está muerta y tiene tres vecinos vivos, entonces renace.
+		
+	\end{itemize}
+	
+\end{itemize}
+
+La función de transición en el juego de la vida puede ser modificada y cambiar el número de elementos vivos que requiere en su vecindad para cada caso. En \cite{life} podemos encontrar exploraciones con diferentes funciones de transición y diferentes espacios.
+
+Se puede usar la notación \textit{Birth/survival} la cual es una dupla de listas que almacenan el número de vecinos vivos que tiene que haber en la vecindad para nacer y para sobrevivir, respectivamente. La configuración para el juego de la vida ``tradicional'' es $B3/S23$, es decir, se requieren 3 células vivas para nacer y se requieren 2 o 3 células vivas para sobrevivir \cite{life}. 
+
+Dentro del espacio celular, se pueden encontrar tres patrones:
+
+\begin{itemize}
+	
+	\item \textbf{Naturaleza muerta}: Son estructuras estáticas que no cambian con el tiempo. 
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}[b]{0.18\textwidth}
+			\includegraphics[width=\textwidth]{img/sl_block.png}
+			\caption{\textit{Block}}
+			\label{fig:block}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.18\textwidth}
+			\includegraphics[width=\textwidth]{img/sl_beehive.png}
+			\caption{\textit{Beehive}}
+			\label{fig:beehive}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.18\textwidth}
+			\includegraphics[width=\textwidth]{img/sl_loaf.png}
+			\caption{\textit{Loaf}}
+			\label{fig:loaf}
+		\end{subfigure}
+		\caption{Configuraciones comunes de naturaleza muerta.}
+		\label{fig:still_life}
+	\end{figure}
+
+	\item \textbf{Osciladores}: Estructuras que tienen un periodo de repetición, pero mantienen su posición.
+
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}[b]{0.18\textwidth}
+			\includegraphics[width=\textwidth]{img/o_blinker_1.png}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.18\textwidth}
+			\includegraphics[width=\textwidth]{img/o_blinker_2.png}
+		\end{subfigure}
+		\caption{\textit{Blinker}}
+		\label{fig:blinker}
+	\end{figure}
+	
+	\begin{figure}[htbp]
+		\centering
+		\begin{subfigure}[b]{0.18\textwidth}
+			\includegraphics[width=\textwidth]{img/o_toad_1.png}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.18\textwidth}
+			\includegraphics[width=\textwidth]{img/o_toad_2.png}
+		\end{subfigure}
+		\caption{\textit{Toad}}
+		\label{fig:toad}
+	\end{figure}
+
+	\item \textbf{Naves espaciales}: Son osciladores cuya configuración se mueve en 
+	\begin{figure}[H]
+		
+		\centering
+		\begin{subfigure}[b]{0.18\textwidth}
+			\includegraphics[width=\textwidth]{img/glider_1.png}
+			\label{fig:g1}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.18\textwidth}
+			\includegraphics[width=\textwidth]{img/glider_2.png}
+			\label{fig:g2}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.18\textwidth}
+			\includegraphics[width=\textwidth]{img/glider_3.png}
+			\label{fig:g3}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.18\textwidth}
+			\includegraphics[width=\textwidth]{img/glider_4.png}
+			\label{fig:g4}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.18\textwidth}
+			\includegraphics[width=\textwidth]{img/glider_5.png}
+			\label{fig:g5}
+		\end{subfigure}
+		
+		\caption{\textit{Glider}}
+		\label{fig:glider}
+	\end{figure}
+	
+\end{itemize}
+
+Además, Paul Rendell \cite{turing_gol} diseñó una configuración inicial en el espacio celular que es Turing completo, es decir, que su configuración tiene la capacidad de realizar cualquier cálculo computable y simular máquinas de Turing.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.85\textwidth]{img/gol_turing.png}
+	\caption{Maquina de Turing completa \cite{turing_gol}.}
+\end{figure} 
+
+Considerando que la regla es semitotalística, dividimos la vecindad en dos conjuntos y obtenemos el número posible de estados que puede adquirir cada una:
+
+\begin{table}[H]
+	
+	\centering
+	
+	\begin{tabular}{c|c|c}
+		
+		\hline 
+		
+		\textbf{Vecindad} & \textbf{Estados} & \textbf{Total} \\ \hline
+		
+		Frontera & $\{ 0,1,2,3,4,5,6,7,8 \}$ & 9 \\ 
+		
+		Centro & $\{ 0, 1 \}$ & 2 \\ 
+		
+	\end{tabular}
+	
+\end{table}
+
+Por lo que podemos definir un vector de 18 que represente la función de transición, tal como se muestra en la tabla \ref{tab:life}.
+
+\begin{table}[H]
+	
+	\centering
+	
+	\begin{tabular}{c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c}
+		
+		\hline 
+		
+		Frontera & 8& 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0 & 8 &7  & 6 & 5 & 4 & 3 & 2 &1  &0 \\ 
+		
+		Centro & 1& 1& 1& 1& 1& 1& 1& 1& 1& 0& 0&0&0&0&0&0&0&0 \\ \hline 
+		
+		$B3/S23$ & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\ \hline 
+		
+	\end{tabular}
+	
+	\caption{Representación binaria de la regla $B3/S23$.}
+	
+	\label{tab:life}
+	
+\end{table}
+
+Podemos decir entonces que el tamaño del vector que define a una regla semitotalista se puede calcular mediante la ecuación \ref{eq:semitotalistica}. Por lo que, para la configuración del juego de la vida, el tamaño de su vector de regla es de 18 y existen $|\mathcal{S}|^{18} =2^{18} = 262144$ reglas.
+
+\begin{equation}
+	\prod_{i = 0}^{n} (|\mathcal{S}| - 1) (|n|)+1, \quad \forall n \in \mathcal{N}
+	\label{eq:semitotalistica}
+\end{equation}
+
+\subsection{Autómata celular elemental}
+
+El automata celular desarrollado por Wolfram, es mejor conocico como automata celular elemental. Ya que se define con lo requerimientos minimos para ser Turing Completa \cite{wolfram2002}. Esta se caracteriza por l
+
+\subsection{Hormiga de Langton}
+
 \section{Clasificación}
 
-Stephen Wolfram, al estudiar los autómatas celulares elementales, descubre que existen comportamientos compartidos por ciertas reglas y que dicho comportamiento es inherente a la configuración inicial del espacio celular. Es por esto que define las siguientes clases de comportamiento, ilustradas en la figura \ref{fig:clasificacion}:
+Los automatas celulares elementales fueron utilizados por diferentes autores por representar la maxima simplicidad y minima configuración que un automata puede adquirir y que tenga un buen rango de comportamientos. Multiples autores han intentando definir una clasificación, a continuación se muestran algunas clasificaciones propuestas por diferentes autores. 
 
-\begin{enumerate}[label= \Roman*]
-	
+Stephen Wolfram, realiza una clasificación basada en el comportamiento que exiben las ciertas reglas y que es inherente a la configuración inicial. Es por esto que define las siguientes clases de comportamiento, ilustradas en la figura \ref{fig:clasificacion}:
+
+\begin{enumerate}[label=W\Roman*]
 	\item Evolucionan a un estado uniforme. 
-	
 	\item Evolucionan a estados cíclicos aislados.
-	
 	\item Evolucionan en comportamientos caóticos.
-	
 	\item Evolucionan en estados complejos aislados.
-	
 \end{enumerate}
 
 \begin{figure}[htbp]
@@ -405,49 +585,69 @@ Stephen Wolfram, al estudiar los autómatas celulares elementales, descubre que 
 	
 	\label{fig:clasificacion}
 	
+
 \end{figure}
 
-Sin embargo, aunque esta clasificación funciona para los autómatas celulares elementales, existen reglas bajo diferentes configuraciones que pueden pertenecer a múltiples clases o, en el peor de los casos, no pertenecen a ninguna de ellas \cite{gen_Life_campoPromedio}. 
+En la tabla \ref{tab:class_wolfram} se muestra la relación de reglas del autómata celular elemental. 
 
-Es por esto que en \cite{CAclassification} proponen una nueva clasificación siguiendo ciertas limitaciones, entre las cuales están:
+\begin{table}
+	\centering
+	\begin{tabular}{c|c|p{0.5\textwidth}}
+		Tipo & Total & Reglas \\ \hline
+		Clase I & 8 & 0, 8, 32, 40, 128, 136, 160, 168 \\ 
+		Clase II & 65 & 1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 19, 23,
+		24, 25, 26, 27, 28, 29, 33, 34, 35, 36, 37, 38, 42,
+		43, 44, 46, 50, 51, 56, 57, 58, 62, 72, 73, 74, 76,
+		77, 78, 94, 104, 108, 130, 132, 134, 138, 140, 142,
+		152, 154, 156, 162, 164, 170, 172, 178, 184, 200,
+		204, 232. \\ 
+		Clase III & 11 & 18, 22, 30, 45, 60, 90, 105, 122, 126, 146, 150. \\ 
+		Clase IV & 4 &  41, 54, 106, 110.
+	\end{tabular}
+	\caption{Relación de reglas del autómata celular elemental con la clasificación de Wolfram.}
+	\label{tab:class_wolfram}
+\end{table}
+
+Esta es la clasificación de Genaro \cite{genClass}.
+
+Sin embargo existen reglas bajo diferentes configuraciones que pueden pertenecer a múltiples clases o, en el peor de los casos, no pertenecen a ninguna de ellas \cite{gen_Life_campoPromedio}. 
+
+Li y Packard ofrecen otra clasificación que considera seis clases para categorizar el comportamiento dinámico de los autómatas celulares neuronales:
+\begin{enumerate}[label*=LP\Roman*]
+	\item La regla evoluciona a un estado homogéneo donde todas las células adquieren el mismo valor.
+	\item Evoluciona hasta una configuración estática no necesariamente homogénea.
+	\item Reglas con un periodo igual a dos.
+	\item Reglas con un periodo de $L$.
+	\item Evolucionan a estructuras caóticas
+	\item Conduce a estructuras largas y estructuras complejas.
+\end{enumerate}
+
+Por otro lado, Culick y Yu \cite{culick-yu,CAclass2, CAclassification} proponen una clasificación de que sigue las siguientes limitaciones: 
 
 \begin{itemize}
-	
-	\item Esta clasificación es para autómatas celulares finitos. 
-	
+	\item Esta clasificación es para autómatas celulares no totalisticos. 
 	\item Cada clase es un subconjunto de la siguiente clase.
-	
 \end{itemize}
 
-\begin{definition}
+\begin{enumerate}[label*=CY \Roman*]
+	\item Un autómata celular es de clase I si existe un estado estable $s \in \mathcal{S}$ tal que todas las configuraciones finitas evolucionan a una configuración homogénea de $s$.
 	
-	Un autómata celular es de clase I si existe un estado estable $s \in \mathcal{S}$ tal que todas las configuraciones finitas evolucionan a una configuración homogénea de $s$.
+	Es decir, dada cualquier configuración inicial en un autómata celular finito, todas las células adquieren el estado $s$ tras cierto número de pasos evolutivos. Esto se aplica a todas las finitas configuraciones iniciales.
 	
-\end{definition}
-
-Es decir, dada cualquier configuración inicial en un autómata celular finito, todas las células adquieren el estado $s$ tras cierto número de pasos evolutivos. Esto se aplica a todas las finitas configuraciones iniciales.
-
-\begin{definition}
+	\item Un autómata celular es de clase II si existe un estado estable $s \in \mathcal{S}$ tal que se repite a $n$ pasos evolutivos.
 	
-	Un autómata celular es de clase II si existe un estado estable $s \in \mathcal{S}$ tal que se repite a $n$ pasos evolutivos.
+	Esto implica que la evolución se repite cada $n$ número de pasos ($\sigma(t) = \sigma(t + n)$). Resulta evidente que la clase I está contenida en la clase II, haciendo que $n = 1$, lo que implica un periodo de uno.
 	
-\end{definition}
-
-Esto implica que la evolución se repite cada $n$ número de pasos ($\sigma(t) = \sigma(t + n)$). Resulta evidente que la clase I está contenida en la clase II, haciendo que $n = 1$, lo que implica un periodo de uno.
-
-Una clasificación es $s$-finita si solo difiere del estado estable en una región finita.
-
-\begin{definition}
+	Una clasificación es $s$-finita si solo difiere del estado estable en una región finita.
 	
-	Un autómata celular es de clase III si existe un estado estable $s \in \mathcal{S}$ tal que para cualquier par de configuraciones $s$-finitas $C_1$ y $C_2$, es decidible si $C_1$ evoluciona a $C_2$.
+	\item Un autómata celular es de clase III si existe un estado estable $s \in \mathcal{S}$ tal que para cualquier par de configuraciones $s$-finitas $C_1$ y $C_2$, es decidible si $C_1$ evoluciona a $C_2$.
 	
-\end{definition}
+	Es decir, si podemos determinar en tiempo finito si el CA evoluciona de $C_1$ a $C_2$, entonces pertenece a clase III. En caso contrario, pertenece a la clase IV, la cual contiene a todos los autómatas celulares \cite{CAclassification}.
+	
+	\item Todos los autómatas celulares pertenecen a la clase IV.	
+\end{enumerate}
 
-Es decir, si podemos determinar en tiempo finito si el CA evoluciona de $C_1$ a $C_2$, entonces pertenece a clase III. En caso contrario, pertenece a la clase IV, la cual contiene a todos los autómatas celulares \cite{CAclassification}.
-
-\begin{definition}
-Todos los autómatas celulares pertenecen a la clase IV.	
-\end{definition}
+\section{Extensiones y cambios de la definición}
 
 Otra clasificación considera extensiones o modificaciones en la definición que alteran el comportamiento del autómata celular. A continuación, se describen algunas de estas extensiones para el modelado de sistemas complejos. 
 
