@@ -365,262 +365,459 @@ Nótese que la regla decimal solo aplica cuando las condiciones son las mismas. 
 
 \subsection{John Von Neumann}
 
-\subsection{El juego de la vida}
+El matemático y físico John von Neumann (1903-1957) fue uno de los pioneros en el estudio de los autómatas celulares, especialmente en lo que atañe a la reproducción automática y la universalidad computacional. En su obra póstuma, \textit{Theory of Self-Reproducing Automata}, presentó un modelo de autómata celular bidimensional diseñado para construir máquinas autorreplicantes. 
 
-El juego de la vida es un autómata celular desarrollado por el matemático John Horton Conway en 1970. Considera una cuadrícula con células vivas y muertas, las cuales pueden morir, renacer o sobrevivir según la cantidad de vecinos que tuvieran \cite{life2}. Siguiendo la definición formal de autómata celular, el juego de la vida se caracteriza por: 
+A continuación se presentan los principales elementos de su autómata celular, adaptados al formato de definición formal de este tipo de autómata:
 
 \begin{itemize}
 	
-	\item \textbf{Espacio celular}: Tiene un espacio celular bidimensional con una cuadrícula regular idealmente infinita. 
+	\item \textbf{Espacio celular:} Von Neumann definió un espacio bidimensional como una cuadrícula regular de celdas, idealmente infinita.
 	
-	\item \textbf{Estados}: Considera los estados de $\{muerto, vivo \}$ que suelen representarse como $\{ 0, 1 \}$.
 	
-	\item \textbf{Vecindad}: Tiene una vecindad de Moore semitotalística. Diferencia la célula actual de los bordes.
 	
-	\item \textbf{Función de transición}: El siguiente estado se define bajo las siguientes cuatro condiciones:
+	\item \textbf{Estados:} En su versión original, cada célula podía adoptar uno de 29 estados posibles que permiten distinguir células en reposo, células en transmisión de “señal”, células constructoras, etc. 
+	
+	
+	
+	\item \textbf{Vecindad:} Utiliza la vecindad que más tarde se denominaría ``Vecindad de von Neumann'': la célula central más sus cuatro vecinos ortogonales \cite{vonNeumannNeighborhood}.
+	
+	
+	
+	\item \textbf{Función de transición:} Todas las células actualizan su estado de forma síncrona, de acuerdo con una regla común que depende del estado actual de la propia célula y de los estados de sus vecinos. En el modelo de von Neumann, esta regla está diseñada de modo que permita que ciertas configuraciones de células funcionen como un constructor universal capaz de autorreplicarse.
+	
+\end{itemize}
+
+El objetivo era mostrar de manera formal que se puede crear un autómata celular que se reproduzca sin fin y que, además, pueda hacer construcción universal (ser un constructor universal) dentro de ese sistema celular \cite{vonNeumann1966, cellularAutomatonHistory}. 
+
+\subsection{El juego de la vida}
+
+El juego de la vida es un autómata celular propuesto por el matemático John Horton Conway en 1970. Consiste en una cuadrícula de celdas que pueden estar en uno de dos estados posibles: vivas o muertas. A lo largo del tiempo, las celdas evolucionan de acuerdo con un conjunto de reglas locales que determinan su supervivencia, muerte o nacimiento, en función del número de vecinos vivos que posean \cite{life2}.
+
+Siguiendo la definición formal de un autómata celular, el \textit{Juego de la Vida} se caracteriza por los siguientes elementos:
+
+\begin{itemize}
+	
+	
+	
+	\item \textbf{Espacio celular}: Se define sobre una cuadrícula bidimensional regular, teóricamente infinita. 
+	
+	
+	
+	\item \textbf{Estados}: Cada célula puede encontrarse en uno de los estados $\{ \text{muerto}, \text{vivo} \}$, representados comúnmente como $\{0, 1\}$.
+	
+	
+	
+	\item \textbf{Vecindad}: Se utiliza una vecindad de Moore semitotalística, la cual incluye las ocho celdas adyacentes a la célula central.
+	
+	
+	
+	\item \textbf{Función de transición}: El estado futuro de cada célula depende de su estado actual y del número de vecinos vivos, siguiendo las reglas:
+	
+	
 	
 	\begin{itemize}
 		
-		\item Si una célula está viva y tiene dos o tres vecinos vivos, entonces se mantiene viva.
+		\item Una célula viva sobrevive si tiene dos o tres vecinos vivos.  
 		
-		\item Si una célula está viva y tiene más de tres vecinos vivos, muere por sobrepoblación.
+		\item Una célula viva con más de tres vecinos vivos muere por sobrepoblación.  
 		
-		\item Si una célula es viva y tiene menos de dos vecinos vivos, muere por soledad.
+		\item Una célula viva con menos de dos vecinos vivos muere por soledad.  
 		
-		\item Si una célula está muerta y tiene tres vecinos vivos, entonces renace.
+		\item Una célula muerta con exactamente tres vecinos vivos renace.  
 		
 	\end{itemize}
 	
+	
+	
 \end{itemize}
 
-La función de transición en el juego de la vida puede ser modificada y cambiar el número de elementos vivos que requiere en su vecindad para cada caso. En \cite{life} podemos encontrar exploraciones con diferentes funciones de transición y diferentes espacios.
+Estas reglas pueden modificarse para crear variantes del autómata, cambiando las condiciones de nacimiento o supervivencia. En \cite{life} se analizan distintas funciones de transición y configuraciones espaciales.
 
-Se puede usar la notación \textit{Birth/survival} la cual es una dupla de listas que almacenan el número de vecinos vivos que tiene que haber en la vecindad para nacer y para sobrevivir, respectivamente. La configuración para el juego de la vida ``tradicional'' es $B3/S23$, es decir, se requieren 3 células vivas para nacer y se requieren 2 o 3 células vivas para sobrevivir \cite{life}. 
+Una notación común para describir este tipo de reglas es la notación \textit{Birth/Survival}, que especifica los números de vecinos vivos requeridos para cada caso. El juego de la vida tradicional corresponde a la configuración $B3/S23$: una célula muerta nace con tres vecinos vivos, y una viva sobrevive si tiene dos o tres vecinos vivos \cite{life}.
 
-Dentro del espacio celular, se pueden encontrar tres patrones:
+Dentro de este sistema emergen patrones característicos, que se agrupan en tres categorías principales:
 
 \begin{itemize}
 	
-	\item \textbf{Naturaleza muerta}: Son estructuras estáticas que no cambian con el tiempo. 
+	
+	
+	\item \textbf{Naturaleza muerta}: Estructuras estáticas que permanecen invariantes en el tiempo.  
+	
+	
 	
 	\begin{figure}[H]
+		
 		\centering
+		
 		\begin{subfigure}[b]{0.18\textwidth}
+			
 			\includegraphics[width=\textwidth]{img/sl_block.png}
+			
 			\caption{\textit{Block}}
+			
 			\label{fig:block}
+			
 		\end{subfigure}
 		\begin{subfigure}[b]{0.18\textwidth}
+			
 			\includegraphics[width=\textwidth]{img/sl_beehive.png}
+			
 			\caption{\textit{Beehive}}
+			
 			\label{fig:beehive}
+			
 		\end{subfigure}
 		\begin{subfigure}[b]{0.18\textwidth}
+			
 			\includegraphics[width=\textwidth]{img/sl_loaf.png}
+			
 			\caption{\textit{Loaf}}
+			
 			\label{fig:loaf}
+			
 		\end{subfigure}
-		\caption{Configuraciones comunes de naturaleza muerta.}
+		
+		\caption{Ejemplos de configuraciones de naturaleza muerta.}
+		
 		\label{fig:still_life}
+		
 	\end{figure}
-
-	\item \textbf{Osciladores}: Estructuras que tienen un periodo de repetición, pero mantienen su posición.
-
+	
+	
+	
+	\item \textbf{Osciladores}: Patrones que repiten su configuración después de un número finito de iteraciones, manteniendo su posición en la cuadrícula.
+	
+	
+	
 	\begin{figure}[H]
+		
 		\centering
+		
 		\begin{subfigure}[b]{0.18\textwidth}
+			
 			\includegraphics[width=\textwidth]{img/o_blinker_1.png}
+			
 		\end{subfigure}
 		\begin{subfigure}[b]{0.18\textwidth}
+			
 			\includegraphics[width=\textwidth]{img/o_blinker_2.png}
+			
 		\end{subfigure}
-		\caption{\textit{Blinker}}
+		
+		\caption{\textit{Blinker}.}
+		
 		\label{fig:blinker}
+		
 	\end{figure}
+	
+	
 	
 	\begin{figure}[htbp]
+		
 		\centering
+		
 		\begin{subfigure}[b]{0.18\textwidth}
+			
 			\includegraphics[width=\textwidth]{img/o_toad_1.png}
+			
 		\end{subfigure}
 		\begin{subfigure}[b]{0.18\textwidth}
+			
 			\includegraphics[width=\textwidth]{img/o_toad_2.png}
+			
 		\end{subfigure}
-		\caption{\textit{Toad}}
+		
+		\caption{\textit{Toad}.}
+		
 		\label{fig:toad}
+		
 	\end{figure}
-
-	\item \textbf{Naves espaciales}: Son osciladores cuya configuración se mueve en 
+	
+	
+	
+	\item \textbf{Naves espaciales}: Son osciladores que, además de repetir su patrón, se desplazan por el espacio celular.  
+	
+	
+	
 	\begin{figure}[H]
 		
 		\centering
+		
 		\begin{subfigure}[b]{0.18\textwidth}
+			
 			\includegraphics[width=\textwidth]{img/glider_1.png}
-			\label{fig:g1}
+			
 		\end{subfigure}
 		\begin{subfigure}[b]{0.18\textwidth}
+			
 			\includegraphics[width=\textwidth]{img/glider_2.png}
-			\label{fig:g2}
+			
 		\end{subfigure}
 		\begin{subfigure}[b]{0.18\textwidth}
+			
 			\includegraphics[width=\textwidth]{img/glider_3.png}
-			\label{fig:g3}
+			
 		\end{subfigure}
 		\begin{subfigure}[b]{0.18\textwidth}
+			
 			\includegraphics[width=\textwidth]{img/glider_4.png}
-			\label{fig:g4}
+			
 		\end{subfigure}
 		\begin{subfigure}[b]{0.18\textwidth}
+			
 			\includegraphics[width=\textwidth]{img/glider_5.png}
-			\label{fig:g5}
+			
 		\end{subfigure}
 		
-		\caption{\textit{Glider}}
+		\caption{\textit{Glider}.}
+		
 		\label{fig:glider}
+		
 	\end{figure}
 	
 \end{itemize}
 
-Además, Paul Rendell \cite{turing_gol} diseñó una configuración inicial en el espacio celular que es Turing completo, es decir, que su configuración tiene la capacidad de realizar cualquier cálculo computable y simular máquinas de Turing.
+Paul Rendell \cite{turing_gol} demostró que, a partir de una configuración inicial apropiada, el \textit{Juego de la Vida} es Turing completo, es decir, tiene la capacidad de realizar cualquier cálculo computable mediante la simulación de una máquina de Turing.
 
 \begin{figure}[H]
-	\centering
-	\includegraphics[width=0.85\textwidth]{img/gol_turing.png}
-	\caption{Maquina de Turing completa \cite{turing_gol}.}
-\end{figure} 
-
-Considerando que la regla es semitotalística, dividimos la vecindad en dos conjuntos y obtenemos el número posible de estados que puede adquirir cada una:
-
-\begin{table}[H]
 	
 	\centering
+	
+	\includegraphics[width=0.85\textwidth]{img/gol_turing.png}
+	
+	\caption{Máquina de Turing implementada en el \textit{Juego de la Vida} \cite{turing_gol}.}
+	
+\end{figure}
+
+Debido a su naturaleza semitotalística, la vecindad puede dividirse en dos conjuntos, y con ello determinar el número de posibles estados que puede adoptar cada uno:
+
+\begin{table}[H] 
+	
+	\centering 
 	
 	\begin{tabular}{c|c|c}
 		
-		\hline 
-		
-		\textbf{Vecindad} & \textbf{Estados} & \textbf{Total} \\ \hline
+		\hline \textbf{Vecindad} & \textbf{Estados} & \textbf{Total} \\ \hline 
 		
 		Frontera & $\{ 0,1,2,3,4,5,6,7,8 \}$ & 9 \\ 
 		
-		Centro & $\{ 0, 1 \}$ & 2 \\ 
+		Centro & $\{ 0, 1 \}$ & 2 
 		
-	\end{tabular}
+		\\ 
+		
+	\end{tabular} 
 	
 \end{table}
 
-Por lo que podemos definir un vector de 18 que represente la función de transición, tal como se muestra en la tabla \ref{tab:life}.
+Así, puede definirse un vector de 18 elementos que representa la función de transición, como se muestra en la tabla \ref{tab:life}.
 
-\begin{table}[H]
+\begin{table}[H] 
 	
-	\centering
+	\centering 
 	
-	\begin{tabular}{c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c}
+	\begin{tabular}{c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c} 
 		
 		\hline 
 		
-		Frontera & 8& 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0 & 8 &7  & 6 & 5 & 4 & 3 & 2 &1  &0 \\ 
+		Frontera & 8& 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0 & 8 &7 & 6 & 5 & 4 & 3 & 2 &1 &0 \\ 
 		
 		Centro & 1& 1& 1& 1& 1& 1& 1& 1& 1& 0& 0&0&0&0&0&0&0&0 \\ \hline 
 		
-		$B3/S23$ & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\ \hline 
+		$B3/S23$ & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 
+		
+		\\ \hline 
 		
 	\end{tabular}
 	
-	\caption{Representación binaria de la regla $B3/S23$.}
+	\caption{Representación binaria de la regla $B3/S23$.} 
 	
-	\label{tab:life}
+	\label{tab:life} 
 	
 \end{table}
 
-Podemos decir entonces que el tamaño del vector que define a una regla semitotalista se puede calcular mediante la ecuación \ref{eq:semitotalistica}. Por lo que, para la configuración del juego de la vida, el tamaño de su vector de regla es de 18 y existen $|\mathcal{S}|^{18} =2^{18} = 262144$ reglas.
+De manera general, el tamaño del vector que define una regla semitotalística puede calcularse mediante la ecuación \ref{eq:semitotalistica}. En este caso, dicho vector tiene tamaño 18, por lo que existen $|\mathcal{S}|^{18} = 2^{18} = 262,144$ posibles reglas.
 
 \begin{equation}
-	\prod_{i = 0}^{n} (|\mathcal{S}| - 1) (|n|)+1, \quad \forall n \in \mathcal{N}
+	\prod_{i = 0}^{n} (|\mathcal{S}| - 1)(|n|) + 1, \quad \forall n \in \mathcal{N}
 	\label{eq:semitotalistica}
 \end{equation}
 
 \subsection{Autómata celular elemental}
 
-La definición propuesta por Stephen Wolfram disminuye la dimensión del espacio celular y por ende, la vecindad. Siguiendo la definición de autómata celular.
+Stephen Wolfram propuso una versión más simple de los autómatas celulares, llamada autómata celular elemental. En esta versión, se disminuye la dimensionalidad del espacio celular y, por lo tanto, se reduce el tamaño de la vecindad. A continuación se detallan sus características según la definición formal de autómata celular:
 
 \begin{itemize}
-	\item \textbf{Espacio celular}: Unicamente se distribuye en una dimensión.
 	
-	\item \textbf{Estados}: Considera los estados $\{ 0, 1 \}$.
+	\item \textbf{Espacio celular}: Está formado por una cadena unidimensional de celdas dispuestas linealmente.
 	
-	\item \textbf{Vecindad}: Las vecindades se definen mediante un radio que define el numero células vecinas que se encuentren dentro de ese radio formaran parte de esa vecindad. El autómata celular elemental tiene un radio de uno, es decir, la célula central y un vecino en cada dirección.
 	
-	\item \textbf{Función de transición}: Wolfram no especifica una única regla de transición sino que muestra por primera vez todo el conjunto de funciones de transición.
+	
+	\item \textbf{Estados}: Cada célula puede encontrarse en uno de dos estados posibles, $\{0, 1\}$.
+	
+	
+	
+	\item \textbf{Vecindad}: Se define mediante un radio $r$ que determina cuántas celdas adyacentes influyen en la evolución de cada célula. En el caso del autómata celular elemental, el radio es $r = 1$, por lo que la vecindad está compuesta por la célula central y un vecino a cada lado.
+	
+	
+	
+	\item \textbf{Función de transición}: Wolfram no propuso una única regla de evolución, sino el conjunto completo de funciones de transición posibles bajo estas condiciones.
+	
+	
+	
 \end{itemize}
 
-Wolfram propone definir la regla como un numero entero y es cuando se introducen las 256 reglas de los autómatas celulares elementales. Adicionalmente se propuso, una clasificación de cuatro clases que se detalla mas en la siguiente sección.
+Dado que cada célula considera tres posiciones (la propia y sus dos vecinas) y cada una puede tener dos posibles estados, existen $2^3 = 8$ combinaciones de vecindad. Por tanto, el número total de reglas posibles es $2^{8} = 256$.
 
-A continuación se muestran 
+Wolfram asignó a cada una de estas funciones un número entero entre 0 y 255, conocido como número de regla, que identifica de forma unívoca el comportamiento del autómata. Además, propuso una clasificación de las reglas en cuatro categorías, según los patrones que emergen durante su evolución temporal (estas clases se detallan en la siguiente sección).
+
+A continuación, se presentan tres reglas representativas por su relevancia teórica y sus propiedades computacionales.
 
 \begin{itemize}
-	\item \textbf{Regla 30}: Esta regle pertenece a la categoria de comportamiento caotico y genero tres dilemas. Es una regla simple que tiene un comportamiento muy caótico y propone tres dilemas que ayuden a enter si es que existe u patrón o si existe una forma de conocer el ptrón que existe dentro de la evolución de esta regloa. Iniciando en una configuración de una célula activa ¿La columna central permanence siempre no periodica? ¿Existe la misma proporción entre ambos estados? y ¿Existe una forma de computar el $n$-esimo estado de celula inicial en tiempo $O(n)$? La evolución se meustra en las figuras \ref{fig:regla_30}.
+	
+	\item \textbf{Regla 30}: La Regla 30 pertenece a la clase de comportamiento caótico. A partir de una configuración inicial simple, genera patrones altamente complejos y aparentemente aleatorios \cite{rule30}.
+	
+	
+	
+	Esta regla plantea tres interrogantes fundamentales sobre la naturaleza del caos y la computabilidad:
+	
+	
+	
+	\begin{enumerate}
+		
+		\item ¿La columna central permanece no periódica a lo largo del tiempo?
+		
+		
+		
+		\item ¿Existe equilibrio estadístico entre los estados vivos y muertos?
+		
+		
+		
+		\item ¿Es posible calcular el estado de la célula central en el paso $n$ en tiempo $O(n)$?
+		
+	\end{enumerate}
+	
+	
 	
 	\begin{figure}[H]
+		
 		\centering
+		
 		\begin{subfigure}[b]{0.75\textwidth}
+			
 			\includegraphics[width=\textwidth]{img/r30a.png}
+			
 			\caption{50 evoluciones.}
+			
 			\label{fig:30_1}
+			
 		\end{subfigure}
+		
 		\begin{subfigure}[b]{0.75\textwidth}
+			
 			\includegraphics[width=\textwidth]{img/r30b.png}
+			
 			\caption{350 evoluciones.}
+			
 			\label{fig:30_2}
+			
 		\end{subfigure}
+		
 		\begin{subfigure}[b]{0.75\textwidth}
+			
 			\includegraphics[width=\textwidth]{img/r30.png}
+			
 			\caption{Función de transición}
+			
 			\label{fig:30_rule}
+			
 		\end{subfigure}
+		
 		\caption{Evolución de la regla 30}
+		
 		\label{fig:regla_30}
+		
 	\end{figure}
 	
-	\item \textbf{Regla 110}: 
+	
+	
+	\item \textbf{Regla 110}: La Regla 110 exhibe un comportamiento mixto: combina regiones periódicas y caóticas que interactúan entre sí de manera compleja. A partir de una única célula activa, genera estructuras móviles y patrones que pueden coexistir en el tiempo \cite{rule110}.
+	
+	
+	
+	Lo más notable de esta regla es su universalidad computacional. Wolfram y Matthew Cook demostraron que la Regla 110 es Turing completa, es decir, capaz de simular cualquier máquina de Turing y, por tanto, realizar cualquier cómputo posible en un sistema discreto determinista \cite{rule110}.
+	
+	
 	
 	\begin{figure}[H]
+		
 		\centering
+		
 		\begin{subfigure}[b]{0.75\textwidth}
+			
 			\includegraphics[width=\textwidth]{img/r110a.png}
+			
 			\caption{500 evoluciones.}
+			
 			\label{fig:110_1}
+			
 		\end{subfigure}
+		
 		\begin{subfigure}[b]{0.75\textwidth}
+			
 			\includegraphics[width=\textwidth]{img/r110.png}
+			
 			\caption{Función de transición}
+			
 			\label{fig:110_rule}
+			
 		\end{subfigure}
+		
 		\caption{Evolución de la regla 110}
+		
 		\label{fig:regla_110}
+		
 	\end{figure}
 	
-	\item \textbf{Regla 90}:
 	
-	Esta regla se caracteriza por crear fractales. 
+	
+	\item \textbf{Regla 90}: La Regla 90 se distingue por generar estructuras fractales. Iniciando desde una única célula activa, produce el conocido triángulo de Sierpinski, un patrón autosimilar que aparece en múltiples sistemas naturales y matemáticos \cite{rule90}.
+	
+	
 	
 	\begin{figure}[H]
+		
 		\centering
+		
 		\begin{subfigure}[b]{0.75\textwidth}
+			
 			\includegraphics[width=\textwidth]{img/r90a.png}
+			
 			\caption{1025 evoluciones.}
+			
 			\label{fig:90_1}
+			
 		\end{subfigure}
+		
 		\begin{subfigure}[b]{0.75\textwidth}
+			
 			\includegraphics[width=\textwidth]{img/r90.png}
+			
 			\caption{Función de transición}
+			
 			\label{fig:90_rule}
+			
 		\end{subfigure}
+		
 		\caption{Evolución de la regla 90}
+		
 		\label{fig:regla_90}
+		
 	\end{figure}
+	
+	
 	
 \end{itemize}
+
 
 \section{Clasificación}
 

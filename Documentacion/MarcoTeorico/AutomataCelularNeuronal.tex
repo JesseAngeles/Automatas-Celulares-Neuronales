@@ -56,6 +56,8 @@ A diferencia de los autómatas clásicos, donde las reglas son explícitas y def
 
 Durante el entrenamiento, se emplean técnicas de retropropagación a través del tiempo y optimización por gradiente descendente. Esto permite que la red aprenda comportamientos dinámicos complejos, tales como el crecimiento morfológico, la regeneración parcial o la adaptación frente a perturbaciones.
 
+Como las redes neuronales generan valores reales, se puede medir la tasa de error entre la predicción que hacen y el comportamiento real del sistema al usar la regla que han aprendido. Esta métrica de error se propone como base para el desarrollo del presente trabajo. Sin embargo, también se puede comparar la pérdida con otros elementos cercanos, ya que dos células pueden tener muchos vecinos en común, lo que podría explicar el error que se observa en la predicción.
+
 Como se muestra a continuación, esta herramienta ha demostrado ser capaz de generar patrones autoorganizados y adaptativos sin necesidad de una programación explícita de reglas. Algunos ejemplos incluyen:
 
 \begin{itemize}
@@ -69,6 +71,16 @@ Como se muestra a continuación, esta herramienta ha demostrado ser capaz de gen
 \end{itemize}
 
 Esta mezcla de comportamiento que aparece por sí mismo y la habilidad de aprender hace que los autómatas celulares neuronales sean una herramienta muy útil para estudiar sistemas que se organizan solos y que se adaptan.
+
+Los autómatas celulares neuronales surgen de la necesidad de definir funciones de transición más precisas que permitan mejorar la simulación de sistemas complejos, como por ejemplo la propagación del fuego. 
+
+Consideremos un autómata celular bidimensional con tres posibles estados: $\{ materia \; viva, fuego, materia\; quemada \}$, una vecindad de Moore y una función de transición que especifique, por ejemplo, que si una célula en estado de materia viva se encuentra adyacente a una célula en estado de fuego, entonces se quema; y que si una célula en estado de fuego está rodeada principalmente de materia quemada, entonces se apaga.
+
+Sin embargo, esta formulación que se basa en reglas claras es una simplificación excesiva que reduce la capacidad del modelo para imitar comportamientos que se ven en sistemas reales. Para superar esta limitación, los \textit{autómatas celulares neuronales} incorporan mecanismos de aprendizaje automático que permiten definir la función de transición de manera adaptativa. 
+
+En este enfoque, el autómata aprende a partir de ejemplos. Por ejemplo, secuencias de video que muestran la propagación del fuego, donde cada estado puede representarse mediante un color y cada célula corresponde a un píxel o conjunto de píxeles. De esta manera, la red neuronal subyacente aprende una función de transición capaz de imitar la dinámica del sistema complejo, ajustando sus parámetros a partir de los datos observados.
+
+Adicionalmente, los autómatas celulares tradicionales suelen operar con configuraciones reducidas, es decir, con pocos estados, vecindades mínimas y reglas básicas, ya que el espacio de configuraciones crece exponencialmente al incrementar cualquiera de estos factores. Esta limitación dificulta modelar sistemas complejos presentes en la naturaleza, los cuales suelen involucrar múltiples variables e interacciones de alta dimensionalidad.
 
 \section{Estado del arte, aplicaciones y lineas actuales de investigación}
 

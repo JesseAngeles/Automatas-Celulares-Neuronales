@@ -12,15 +12,24 @@
 	% Portada principal
 	\input{Componentes/Header.tex}
 	\input{Componentes/Titulo.tex}
+	\thispagestyle{empty}
+	
+	\clearpage
+
+	\pagenumbering{roman}
+	\setcounter{page}{1}
 	% Índice
 	\tableofcontents
 	\clearpage
 	
-	%\input{Introduccion/Introduccion}
+	\pagenumbering{arabic}
+	\setcounter{page}{1}
+	
+	\input{Introduccion/Introduccion}
 	\input{MarcoTeorico/MarcoTeorico}
-	%\input{MarcoMetodologico/MarcoMetodologico}
-	%\input{IngenieriaSoftware/IngenieriaSoftware}
-	%\input{DiseñoSoftware/DiseñoSoftware}
+	\input{MarcoMetodologico/MarcoMetodologico}
+	\input{IngenieriaSoftware/IngenieriaSoftware}
+	\input{DiseñoSoftware/DiseñoSoftware}
 	
 	% Referencias generales
 	\clearpage

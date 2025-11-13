@@ -2,6 +2,8 @@
 
 Las redes neuronales artificiales son un modelo de inteligencia artificial inspirado en el pensamiento humano, más específicamente, en cómo un conjunto de neuronas interconectadas comparten información. 	
 
+El desarrollo de las redes neuronales tiene sus orígenes en los modelos propuestos por McCulloch y Pitts en 1943, quienes establecieron las bases del perceptrón. Posteriormente, en 1957 Rosenblatt formalizó su implementación computacional. Sin embargo, el campo experimentó un periodo de estancamiento tras las críticas de Minsky y Papert en 1969, recuperando impulso en los años ochenta gracias al surgimiento de la retropropagación y de las redes recurrentes \cite{ann_extra}.
+
 Las redes neuronales artificiales son un conjunto de neuronas artificiales interconectadas que realizan cálculos y transmiten información para realizar una operación, imitando el comportamiento del cerebro.
 
 Pero para entender este modelo, es necesario tener los fundamentos de inteligencia artificial y la clasificación de aprendizaje supervisado.
@@ -108,10 +110,7 @@ La neurona artificial se considera como una unidad de procesamiento de informaci
 	
 	\item Las dendritas equivalen al conjunto de datos de entrada. Sin embargo, no toda la información tiene la misma relevancia; para esto se le asigna a cada entrada un peso sináptico.
 	
-	
-	
 	\item El cuerpo se sustituye por dos funciones: (1) Una función de agregación que combina todos los datos de entrada (generalmente es una combinación lineal entre las entradas y los pesos sinápticos) y (2) una función de activación que determina si la neurona está activa y en qué grado. 
-	
 \end{itemize}
 
 La cual se suele representar como en la figura \ref{fig:neurona_artificial}.
@@ -131,7 +130,7 @@ La cual se suele representar como en la figura \ref{fig:neurona_artificial}.
 \begin{definition}
 	
 	Una neurona artificial es una función $f: \mathbb{R}^n \to \mathbb{R}$ dada por:
-	
+
 	\[
 	f(x) = \phi (\omega (X, W, b))
 	\]
@@ -161,14 +160,12 @@ La cual se suele representar como en la figura \ref{fig:neurona_artificial}.
 		
 		
 		\item $\phi(\omega(X,W,b))$ es la función de activación $\phi: \mathbb{R} \to \mathbb{R}$ que transforma $\omega(X,W,b)$ en una salida activada.
-		
-		
-		
+
 	\end{itemize}
-	
-	
-	
+
 \end{definition}
+
+Además de la combinación lineal, la función de agregación puede adoptar otras formas, como el máximo, el mínimo o incluso combinaciones lógicas (AND, OR) en redes con entradas binarias. No obstante, la suma ponderada continúa siendo la más utilizada en aplicaciones prácticas \cite{ann_extra}.
 
 La función de activación es la que determina el valor de salida de cada neurona. Este valor, normalmente, se asigna entre un umbral para que limiten el comportamiento de la red neuronal \cite{funcion_activacion_1}.
 
@@ -177,10 +174,7 @@ La función de activación es la que determina el valor de salida de cada neuron
 Una neurona únicamente puede realizar una operación. Para aumentar la capacidad de entender patrones más complejos, es necesario añadir múltiples neuronas interconectadas, lo que se conoce como red neuronal artificial \cite{ann_1}. Esta puede definirse como un grafo dirigido \cite{ann_2}.
 
 \begin{definition}
-	
 	Una red neuronal artificial es un grafo dirigido $G = (V, E)$ donde cada nodo $v \in V$ representa una neurona y cada arista $(u, v) \in E$ transporta la salida $y_u$ desde $u$ hasta $v$ ponderada por el peso $w_{uv}$. 
-	
-	
 	
 	Existe un conjunto de nodos de entrada $X \subseteq V$ que reciben los datos iniciales y un conjunto de nodos de salida $T \subseteq V$ cuya activación final representa la salida de la red.
 	
@@ -200,9 +194,146 @@ Por lo que podemos concluir con la definición de \cite{ann_3}, la cual dice que
 	
 \end{definition}
 
+\subsection{Funciones de activación}
+
+En esta sección se presentan las funciones de activación más comunes utilizadas en redes neuronales. Para cada función se muestra su definición matemática, una breve descripción de su comportamiento práctico y una figura ilustrativa.
+
+\subsubsection{Binary step (escalón binario)}
+
+La función escalón binario se define por partes:
+
+\[
+f(x) =
+\begin{cases}
+	
+	1 & \text{si } x \ge 0,\\[4pt]
+	
+	0 & \text{si } x < 0.
+	
+\end{cases}
+\]
+
+Produce salidas discretas (0/1) y fue utilizada en perceptrones tempranos como función de decisión. No es diferenciable en el punto de umbral y su derivada es nula en casi todas partes, por lo que no es adecuada para entrenamiento mediante gradiente (backpropagation). Aun así, se usa conceptualmente para tomar decisiones discretas o como capa de postprocesado/umbral en modelos ya entrenados.
+
+\begin{figure}[H]
+	
+	\centering
+	
+	\includegraphics[width=0.5\textwidth]{img/binary.png}
+	
+	\caption{Función de activación escalón binario.}
+	
+	\label{fig:binary}
+	
+\end{figure}
+
+\subsubsection{Lineal}
+
+La función lineal (o identidad) se define como:
+
+\[
+f(x) = ax + b \quad \lor \quad f(x)=x.
+\]
+
+Produce una salida proporcional a la entrada y mantiene la linealidad en la red. Se utiliza principalmente en la capa de salida para tareas de regresión donde se requiere predecir valores continuos. No es adecuada para capas ocultas cuando se desea que la red aprenda transformaciones no lineales.
+
+\begin{figure}[H]
+	
+	\centering
+	
+	\includegraphics[width=0.5\textwidth]{img/lineal.png}
+	
+	\caption{Función de activación lineal.}
+	
+	\label{fig:linear}
+	
+\end{figure}
+
+\subsubsection{Sigmoide}
+
+La función sigmoide logística se define como:
+
+\[
+\sigma(x) = \frac{1}{1 + e^{-x}}.
+\]
+
+Tiene la propiedad de:
+
+\[
+\sigma'(x) = \sigma(x)\,(1 - \sigma(x)).
+\]
+
+Comprime la entrada en el intervalo $(0,1)$, por lo que es apropiada para modelar probabilidades y se ha usado históricamente en la salida de clasificadores binarios. Sufre saturación cuando los valores son muy grandes, lo que provoca gradientes muy pequeños (esto se llama el problema del gradiente desvanecido) y una salida que no está centrada (es positiva). Por eso, en las capas ocultas modernas, a menudo se reemplaza por ReLU o tanh.
+
+\begin{figure}[H]
+	
+	\centering
+	
+	\includegraphics[width=0.5\textwidth]{img/sigmoid.png}
+	
+	\caption{Función de activación sigmoide.}
+	
+	\label{fig:sigmoid}
+	
+\end{figure}
+
+\subsubsection{tanh (hiperbólica)}
+
+La tangente hiperbólica se define como:
+
+\[
+\tanh(x) = \frac{e^{x} - e^{-x}}{e^{x} + e^{-x}}.
+\]
+
+Su rango es $(-1, 1)$ y su derivada puede expresarse en función de sí misma.  
+
+Es una versión centrada en cero de la sigmoide, lo que facilita el aprendizaje (gradientes con medias cercanas a cero). Se usa en capas ocultas cuando se necesita una salida limitada y centrada. Era una opción común en problemas secuenciales y en redes neuronales tradicionales antes de que se popularizaran arquitecturas y funciones de activación más modernas.
+
+\begin{figure}[H]
+	
+	\centering
+	
+	\includegraphics[width=0.5\textwidth]{img/tanh.png}
+	
+	\caption{Función de activación \texttt{tanh}.}
+	
+	\label{fig:tanh}
+	
+\end{figure}
+
+\subsubsection{ReLU (Rectified Linear Unit)}
+
+La función ReLU se define por partes:
+
+\[
+f(x) = \max(0, x).
+\]
+
+Activa linealmente las entradas positivas y pone a cero las negativas. Es simple y computacionalmente eficiente, favorece la esparcidad de activaciones y reduce en la práctica el problema del gradiente desvanecido en redes profundas. Muy utilizada en capas ocultas de arquitecturas modernas. Tiene la desventaja de poder provocar neuronas ``muertas'' (gradiente cero para entradas negativas).
+
+\begin{figure}[H]
+	
+	\centering
+	
+	\includegraphics[width=0.5\textwidth]{img/relu.png}
+	
+	\caption{Función de activación ReLU.}
+	
+	\label{fig:relu}
+	
+\end{figure}
+
 \subsection{Aprendizaje en redes neuronales}
 
 Dada una red neuronal artificial con los parámetros entrenables totalmente configurados, es capaz de realizar su clasificación o predicción de manera correcta. Sin embargo, resulta imposible configurar estos pesos manualmente, por lo que requiere de un ``entrenamiento'' que ayude a definir los pesos sinápticos. A continuación se define la función de pérdida, optimización y entrenamiento, elementos necesarios para obtener esa configuración específica.
+
+En los primeros modelos la actualización de los pesos se realizaba a partir del error cuadrático del valor de activación. La regla de actualización se expresaba como:
+
+\[
+	\Delta w_j = - \alpha(c- a)x_j
+\]
+
+Donde $a$ representa la activación y $\alpha$ la tasa de aprendizaje. Este método permitió superar la no diferenciabilidad de la función escalón en los perceptrones originales \cite{ann_extra}.
 
 \subsubsection{Función de pérdida}
 
@@ -258,7 +389,11 @@ Esto se puede conseguir mediante diferentes técnicas, siendo el descenso del gr
 
 donde $\eta >0$ es la tasa de aprendizaje. Una tasa de aprendizaje alta puede divergir en la solución, mientras que una tasa baja puede tener una convergencia lenta \cite{ann_3}. 
 
+En la práctica, es común iniciar el entrenamiento con una tasa de aprendizaje relativamente alta y luego reducirla gradualmente a medida que el modelo converge. También se suele incorporar un término de \textit{momentum }para acelerar la convergencia y reducir oscilaciones \cite{ann_extra}
+
 \subsubsection{Entrenamiento}
+
+Antes del entrenamiento, las variables de entrada deben normalizarse para ajustarse al rango de activación de la red (por ejemplo, $[0,1]$ o $[-1,1]$). Este paso evita que una variable con valores grandes domine la función de agregación y mejora la estabilidad del entrenamiento. Es importante que la normalización preserve la distribución original de los datos y la proporción entre atributos \cite{ann_extra}.
 
 Finalmente, el entrenamiento consiste en ajustar todos los parámetros $\theta = \{ W^{(l)}, b^{(l)}\}$ para minimizar la función de costos $J(\theta)$ en un conjunto de datos de entrenamiento. Este proceso se compone de las siguientes etapas:
 
@@ -280,7 +415,20 @@ Finalmente, el entrenamiento consiste en ajustar todos los parámetros $\theta =
 
 	\item Se repite este proceso sobre un \textit{dataset} hasta la convergencia de la solución o hasta alcanzar un criterio de parada \cite{ann_3}.
 	
+	Una vez entrenada la red, puede evaluarse la importancia relativa de las entradas mediante un análisis de sensibilidad. Este procedimiento consiste en:
+	
+	\begin{enumerate}
+		\item Calcular el valor medio de cada entrada.
+		\item Evaluar la salida de la red con todos los valores medios.
+		\item Modificar una entrada a la vez (aumentándola o disminuyéndola) y medir el cambio en la salida.
+		\item Repetir el proceso para cada variable de entrada.
+	\end{enumerate}
+	
+	De esta manera, se identifica qué variables influyen más en el resultado, lo cual aporta interpretabilidad al modelo \cite{ann_extra}.
+	
 \end{enumerate}
+
+La elección de la topología de la red, en particular el número de neuronas ocultas, suele determinarse empíricamente. Una regla práctica consiste en comenzar con un número de neuronas ocultas similar al número de entradas y ajustar a partir del rendimiento obtenido. Otras heurísticas recomiendan iniciar con el doble de nodos de entrada y reducir gradualmente si se detecta sobreajuste \cite{ann_extra}.
 
 En resumen, el entrenamiento de la red neuronal es un proceso iterativo de optimización que consiste en:
 
@@ -298,6 +446,60 @@ En resumen, el entrenamiento de la red neuronal es un proceso iterativo de optim
 	
 \end{enumerate}
 
+\section{Tipos de redes neuronales}
+
+Las redes neuronales pueden clasificarse atendiendo a diferentes criterios, ya sea por el número de capas, el tipo de conexiones, el grado de conectividad o la arquitectura general. En este trabajo se han seleccionado dos tipos principales, de manera enunciativa, mas no limitativa, que son especialmente relevantes para su eventual implementación en un autómata celular neuronal: las redes neuronales convolucionales y las recurrentes. La razón de esta elección es la siguiente:
+
+Por un lado, las evoluciones de un autómata celular ocurren de forma secuencial en el tiempo, es decir, las entradas y salidas de la red corresponden a estados del espacio celular y, en algunos casos, las reglas pueden tener una relación temporal o reversible. De ahí que las redes recurrentes resulten particularmente apropiadas.
+
+Por otro lado, como se explicará más adelante, se ha demostrado que los autómatas celulares y las redes neuronales convolucionales tienen algunas similitudes, especialmente porque el \textit{kernel} de la red convolucional es similar a la vecindad del autómata celular.
+
+A continuación se desarrollan ambas arquitecturas de manera formal.
+
+\subsection{Redes neuronales convolucionales}
+
+Las redes neuronales convolucionales constituyen una clase de redes profundas cuya estructura está diseñada para explotar la topología de los datos que tienen forma de rejilla. Por ejemplo, imágenes en dos dimensiones.
+
+Una red neuronal convolucional consta de una capa de entrada, varias capas ocultas (que pueden incluir capas de convolución, normalización, \textit{pooling}, activación, etc.) y una capa de salida.
+
+Se asume un volumen de entrada con dimensiones $(H \times W \times C)$, es decir, altura $H$, anchura $W$ y $C$ canales (por ejemplo, RGB en imágenes). La red maneja este volumen usando filtros deslizantes. Aunque normalmente no se describen en términos de estados discretos de autómatas, se puede entender que cada neurona de una capa representa un estado continuo real (por ejemplo, una activación $a \in \mathbb{R}$).
+
+El elemento clave es su operación de convolución: un filtro (o \textit{kernel}) de tamaño $k \times k$ se desliza sobre la entrada, compartiendo pesos y produciendo mapas de activación. Se puede ver como una vecindad local de la neurona que influye en su valor de activación que se aplica en cada capa de convolución:
+
+\[
+Y = f(X * K + b)
+\]
+
+Donde $X$ es el volumen de entrada, $K$ es el filtro (o filtros) de convolución, $b$ es el sesgo y $f$ es una función de activación. A continuación pueden seguir operaciones de \textit{pooling} y capas totalmente conectadas para producir la salida final \cite{cnn}.
+
+Se aplica principalmente en clasificación de imágenes, segmentación, reconocimiento de video y procesamiento de audio. En el contexto de los autómatas celulares, se puede ver que el filtro de la red neuronal convolucional es similar a la vecindad del autómata. Esto permite entenderlo como una operación de actualización local que se repite en un espacio organizado, igual que en un autómata celular.
+
+\subsection{Redes neuronales recurrentes}
+
+Las redes neuronales recurrentes son un tipo de redes que tienen conexiones que vuelven sobre sí mismas. Esto permite que la información de momentos anteriores afecte el procesamiento que se está realizando en el presente.
+
+Una red neuronal recurrente trabaja con una serie de entradas $(x_1, x_2, \dots, x_T)$ y genera una serie de salidas $(y_1, y_2, \dots, y_T)$. En cada momento, la red tiene un estado oculto $h_t$ que se actualiza de la siguiente manera:
+
+\begin{gather*}
+	h_t = f(W_{xh} x_t + W_{hh} h_{t-1} + b_h), \\
+	y_t = g(W_{hy} h_t + b_y),
+\end{gather*}
+
+Donde $W_{xh}$, $W_{hh}$ y $W_{hy}$ son matrices de pesos, $b_h$ y $b_y$ son sesgos, y $f$, $g$ son funciones de activación.
+
+La red funciona en una secuencia de tiempo, donde cada momento puede verse como una "capa virtual" o una repetición del autómata. En cada instante $t$, el estado oculto $h_t$ muestra la "memoria" o el contexto acumulado hasta ese momento.
+
+La vecindad temporal está dada por la conexión de la unidad de tiempo $t$ con la anterior $t-1$ (y en variantes bidireccionales, también con $t+1$). Es decir, la salida de un paso se inserta como parte de la entrada del siguiente paso.
+
+Como se mostró más arriba, la actualización recursiva del estado oculto actúa como la función de transición temporal de la red. La red integra información histórica para producir la salida en cada paso de tiempo.
+
+Estas redes se utilizan frecuentemente en el procesamiento de lenguaje natural, reconocimiento de voz, series temporales, traducción automática y otras tareas en las que el orden temporal de los datos es esencial \cite{rnn}.
+
+Dado que un autómata celular evoluciona en pasos discretos de tiempo y cada uno puede depender del estado previo del sistema, las redes neuronales recurrentes aportan un modelo natural para capturar dependencias temporales entre estados sucesivos del autómata. Esto resulta especialmente útil si la regla del autómata celular tiene memoria o se desea que aprenda dinámicas espacio-temporales.
+
+
 Una vez comprendidas las redes neuronales, podemos retomar la definición de un autómata celular neuronal: una arquitectura que surge de la integración entre los autómatas celulares y las redes neuronales artificiales.
+
+
 
 \clearpage
