@@ -542,9 +542,85 @@ Podemos decir entonces que el tamaño del vector que define a una regla semitota
 
 \subsection{Autómata celular elemental}
 
-El automata celular desarrollado por Wolfram, es mejor conocico como automata celular elemental. Ya que se define con lo requerimientos minimos para ser Turing Completa \cite{wolfram2002}. Esta se caracteriza por l
+La definición propuesta por Stephen Wolfram disminuye la dimensión del espacio celular y por ende, la vecindad. Siguiendo la definición de autómata celular.
 
-\subsection{Hormiga de Langton}
+\begin{itemize}
+	\item \textbf{Espacio celular}: Unicamente se distribuye en una dimensión.
+	
+	\item \textbf{Estados}: Considera los estados $\{ 0, 1 \}$.
+	
+	\item \textbf{Vecindad}: Las vecindades se definen mediante un radio que define el numero células vecinas que se encuentren dentro de ese radio formaran parte de esa vecindad. El autómata celular elemental tiene un radio de uno, es decir, la célula central y un vecino en cada dirección.
+	
+	\item \textbf{Función de transición}: Wolfram no especifica una única regla de transición sino que muestra por primera vez todo el conjunto de funciones de transición.
+\end{itemize}
+
+Wolfram propone definir la regla como un numero entero y es cuando se introducen las 256 reglas de los autómatas celulares elementales. Adicionalmente se propuso, una clasificación de cuatro clases que se detalla mas en la siguiente sección.
+
+A continuación se muestran 
+
+\begin{itemize}
+	\item \textbf{Regla 30}: Esta regle pertenece a la categoria de comportamiento caotico y genero tres dilemas. Es una regla simple que tiene un comportamiento muy caótico y propone tres dilemas que ayuden a enter si es que existe u patrón o si existe una forma de conocer el ptrón que existe dentro de la evolución de esta regloa. Iniciando en una configuración de una célula activa ¿La columna central permanence siempre no periodica? ¿Existe la misma proporción entre ambos estados? y ¿Existe una forma de computar el $n$-esimo estado de celula inicial en tiempo $O(n)$? La evolución se meustra en las figuras \ref{fig:regla_30}.
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}[b]{0.75\textwidth}
+			\includegraphics[width=\textwidth]{img/r30a.png}
+			\caption{50 evoluciones.}
+			\label{fig:30_1}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.75\textwidth}
+			\includegraphics[width=\textwidth]{img/r30b.png}
+			\caption{350 evoluciones.}
+			\label{fig:30_2}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.75\textwidth}
+			\includegraphics[width=\textwidth]{img/r30.png}
+			\caption{Función de transición}
+			\label{fig:30_rule}
+		\end{subfigure}
+		\caption{Evolución de la regla 30}
+		\label{fig:regla_30}
+	\end{figure}
+	
+	\item \textbf{Regla 110}: 
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}[b]{0.75\textwidth}
+			\includegraphics[width=\textwidth]{img/r110a.png}
+			\caption{500 evoluciones.}
+			\label{fig:110_1}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.75\textwidth}
+			\includegraphics[width=\textwidth]{img/r110.png}
+			\caption{Función de transición}
+			\label{fig:110_rule}
+		\end{subfigure}
+		\caption{Evolución de la regla 110}
+		\label{fig:regla_110}
+	\end{figure}
+	
+	\item \textbf{Regla 90}:
+	
+	Esta regla se caracteriza por crear fractales. 
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}[b]{0.75\textwidth}
+			\includegraphics[width=\textwidth]{img/r90a.png}
+			\caption{1025 evoluciones.}
+			\label{fig:90_1}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.75\textwidth}
+			\includegraphics[width=\textwidth]{img/r90.png}
+			\caption{Función de transición}
+			\label{fig:90_rule}
+		\end{subfigure}
+		\caption{Evolución de la regla 90}
+		\label{fig:regla_90}
+	\end{figure}
+	
+\end{itemize}
 
 \section{Clasificación}
 
