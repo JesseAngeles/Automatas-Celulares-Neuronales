@@ -1,0 +1,49 @@
+\documentclass[11pt,aspectratio=169]{beamer}
+
+% Tema personalizado
+\usepackage{./theme/ipn-escom-theme}
+
+% Idioma
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{enumitem}
+
+% TikZ para gráficos de autómatas celulares
+\usepackage{tikz}
+
+% Multimedia (por si quieres secuencias animadas)
+\usepackage{multimedia}
+\usepackage{animate}
+
+\title[Autómatas Celulares Neuronales]{
+	Simulación de Sistemas Complejos mediante\\
+	Autómatas Celulares Neuronales
+}
+\subtitle[]{Trabajo terminal }
+\author{Erick Jesse Angeles López}
+\institute[IPN · ESCOM]{
+	Instituto Politécnico Nacional\\
+	Escuela Superior de Cómputo
+}
+\date{20 de noviembre de 2025}
+
+\newcommand{\SectionsMenu}{
+	{Introducción},
+	{Objetivos},
+	{Justificación},
+	{Metodología},
+	{Análisis},
+	{Tecnologías},
+	{Arquitectura},
+	{Conclusiones}
+}
+
+\usetikzlibrary{shadows}
+\tikzstyle{cajaobjetivo} = [
+fill=ipnblue,
+text=white,
+rounded corners,
+inner sep=10pt,
+drop shadow
+]
