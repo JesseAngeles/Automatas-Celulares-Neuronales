@@ -1,5 +1,40 @@
 \section{Introducción}
 
+\begin{frame}{Sistema}
+	\begin{center}
+		\begin{tikzpicture}
+			\node[cajaobjetivo, text width=0.85\textwidth]
+			{
+				\begin{definition}
+					Un sistema es la abstracción matemática de un proceso presente en la naturaleza que tiene sus propias reglas lógicas \cite{sistema_1}.
+				\end{definition}
+			
+			};
+		\end{tikzpicture}
+	\end{center}
+\end{frame}
+
+\begin{frame}{Sistemas complejos}
+		\begin{center}
+		\begin{tikzpicture}
+			\node[cajaobjetivo, text width=0.85\textwidth]
+			{
+					\begin{definition}
+					De acuerdo con \cite{cs_def_1, cs_def_2, cs_def_3, complejo}, un sistema complejo se caracteriza por: \\
+					\begin{itemize}
+						\item Están compuestos de muchos elementos.
+						\item Son dinámicos.
+						\item Son sensibles a las condiciones iniciales.
+						\item El comportamiento colectivo es mas que la suma de sus componentes individuales.
+					\end{itemize}
+				\end{definition}
+				
+			};
+		\end{tikzpicture}
+	\end{center}
+	
+\end{frame}
+
 \begin{frame}{Autómata celular}
 	\begin{center}
 		\begin{tikzpicture}
@@ -7,7 +42,7 @@
 			{
 				\begin{definition}
 					
-					Un autómata celular es una 4-tupla ($\mathcal{L}, \mathcal{S}, \mathcal{N}, \mathcal{R}$) donde: \\
+					Siguiendo a \cite{ca_phd, sayama_cellularautomata, ca_discrete_universe}, un autómata celular es una 4-tupla ($\mathcal{L}, \mathcal{S}, \mathcal{N}, \mathcal{R}$) donde: \\
 					
 					\begin{itemize}
 						
@@ -28,17 +63,183 @@
 	\end{center}
 \end{frame}
 
-\begin{frame}{Sistema complejo}
+\begin{frame}{Juego de la vida}
 	\begin{center}
-		\begin{tikzpicture}
-			\node[cajaobjetivo, text width=0.85\textwidth]
-			{
-				\begin{definition}
-					
-					Un sistema complejo es una entidad compuesta de partes interconectadas, de tal forma que el comportamiento colectivo es más que la suma de sus componentes individuales.
-					
-				\end{definition}
-			};
-		\end{tikzpicture}
+		\begin{enumerate}
+			\item Espacio: bidimensional
+			\item Estados: Vivo y muerto
+			\item Vecindad: Moore
+			\item Función de transición: 
+			\begin{itemize}
+				\item Si la célula está viva y tiene 2 o 3 vecinos vivos, permanece viva.
+				\item Si la célula está muerta y tiene 3 vecinos vivos, revive.
+				\item En cualquier otro caso, la célula muere \cite{life2}.
+			\end{itemize}
+		\end{enumerate}
 	\end{center}
+	
+\end{frame}
+
+\begin{frame}{Juego de la vida}
+	\begin{figure}
+		\centering
+		% Primera fila
+		\begin{subfigure}[b]{0.22\textwidth}
+			\includegraphics[width=\textwidth]{images/acorn1.png}
+		\end{subfigure}
+		\hspace{0.5em}
+		$\Rightarrow$
+		\hspace{0.5em}
+		\begin{subfigure}[b]{0.22\textwidth}
+			\includegraphics[width=\textwidth]{images/acorn20.png}
+		\end{subfigure}
+		
+		% Segunda fila
+		\begin{subfigure}[b]{0.22\textwidth}
+			\includegraphics[width=\textwidth]{images/ncorn1.png}
+		\end{subfigure}
+		\hspace{1.15em}
+		\hspace{1.15em}
+		\begin{subfigure}[b]{0.22\textwidth}
+			\includegraphics[width=\textwidth]{images/ncorn20.png}
+		\end{subfigure}
+		
+		\caption{Evolución de distintos patrones en el Juego de la Vida.}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Condición de frontera}
+	\begin{center}
+		\begin{itemize}
+			\item Espacio finito.
+			\item Condiciones de frontera:
+			\begin{figure}
+				\centering
+				% Primera fila
+				\begin{subfigure}[b]{0.4\textwidth}
+					\includegraphics[width=\textwidth]{images/bAbierta.png}
+					\caption{Frontera abierta}
+				\end{subfigure}
+				\begin{subfigure}[b]{0.4\textwidth}
+					\includegraphics[width=\textwidth]{images/bPeriodica.png}
+					\caption{Frontera periódica}
+				\end{subfigure}
+			\end{figure}
+			
+			\begin{figure}
+				\centering
+				% Primera fila
+				\begin{subfigure}[b]{0.25\textwidth}
+					\includegraphics[width=\textwidth]{images/anillo.png}
+					\caption{Frontera periódica unidimensional \cite{anillo}}
+				\end{subfigure}
+				\begin{subfigure}[b]{0.25\textwidth}
+					\includegraphics[width=\textwidth]{images/torus.png}
+					\caption{Frontera periódica bidimensional}
+				\end{subfigure}
+			\end{figure}
+			
+		\end{itemize}
+	\end{center}
+	
+\end{frame}
+
+\begin{frame}{Función de transición}
+	\begin{center}
+		La regla mapea $\mathcal{S}^m \to \mathcal{S}$ y puede ser:
+		\begin{itemize}
+			\item Regla totalística
+			\item Regla semitotalísticas
+			\item Regla arbitraria
+		\end{itemize}
+	\end{center}
+		
+\end{frame}
+	
+
+\begin{frame}{Autómata celular elemental}
+	\begin{table}
+		
+		\centering
+		
+		\begin{tabular}{c c c c c c c c} 
+			
+			111 & 110 & 101 & 100 & 011 & 010 & 001 & 000 \\
+			
+			$\downarrow$ & $\downarrow$ & $\downarrow$ & $\downarrow$ & $\downarrow$ & $\downarrow$ & $\downarrow$ & $\downarrow$ \\
+			
+			$\{ 0, 1 \}$ & $\{ 0, 1 \}$ & $\{ 0, 1 \}$ & $\{ 0, 1 \}$ & $\{ 0, 1 \}$ & $\{ 0, 1 \}$ & $\{ 0, 1 \}$ & $\{ 0, 1 \}$ 
+			
+		\end{tabular}
+		
+		\caption{Cada posible combinación de tres células puede adquirir uno de dos valores}
+	\end{table}
+\end{frame}
+
+\begin{frame}{Representación tabular y decimal}
+	
+	
+	\begin{table}
+		
+		\centering
+		
+		\begin{tabular}{c | c c c c c c c c | c} 
+			
+			\textbf{Binario} &111 & 110 & 101 & 100 & 011 & 010 & 001 & 000 & \multirow{3}{*}{\textbf{regla}} \\ 
+			
+			\textbf{Decimal} & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0 & \\ 
+			
+			\textbf{Valor} & $2^7$ & $2^6$ & $2^5$ & $2^4$ & $2^3$ & $2^2$ & $2^1$ & $2^0$ & \\ \hline
+			
+			& 0 &  0 &  0 &  0 &  0 &  0 &  0 &  0 & 0 \\
+			
+			& 0 &  0 &  0 &  0 &  0 &  0 &  0 &  1 & 1 \\
+			
+			& \multicolumn{8}{c|}{\vdots} & \vdots \\ 
+			
+			& 0 &  0 &  0 &  1 &  1 &  1 &  1 &  0 & 30 \\
+			
+			& \multicolumn{8}{c|}{\vdots} & \vdots \\ 
+			
+			& 0 &  1 &  1 &  0 &  1 &  1 &  1 &  0 & 110 \\
+			
+			& \multicolumn{8}{c|}{\vdots} & \vdots \\ 
+			
+			& 1 &  1 &  1 &  1 &  1 &  1 &  1 &  1 & 255 
+			
+		\end{tabular}
+		
+		\caption{Para convertir la regla tabular en la decimal, solo es necesario convertir el número binario.} 		
+	\end{table}
+\end{frame}
+
+\begin{frame}{Representación tabular y decimal}
+	\centering
+	La regla 10 en dos configuraciones diferentes: \\ 
+	\vspace{1cm}
+	
+	\begin{tabular}{l c l}
+		\hline
+		Configuración & & Representación binaria \\
+		\hline
+		$\lvert\mathcal{N}\rvert=2,\ \lvert\mathcal{S}\rvert=2$ & $\Rightarrow$ & \texttt{1010} \\
+		$\lvert\mathcal{N}\rvert=3,\ \lvert\mathcal{S}\rvert=2$ & $\Rightarrow$ & \texttt{000000101} \\
+		\hline
+	\end{tabular}
+\end{frame}
+
+\begin{frame}{Ejemplo: Propagación del fuego}
+	\begin{center}
+		\begin{enumerate}
+			\item Espacio: bidimensional
+			\item Estados: Materia viva, materia quemándose y materia quemada
+			\item Vecindad: Moore
+			\item Función de transición: 
+			\begin{itemize}
+				\item Si la materia viva tiene un vecino quemándose, entonces se quema.
+				\item Si la materia se está quemando, pasa a materia quemada.Si la materia se está quemando, pasa a materia quemada.
+			\end{itemize}
+		\end{enumerate}
+	\end{center}
+	
 \end{frame}
