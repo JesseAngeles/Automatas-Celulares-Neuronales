@@ -237,9 +237,60 @@
 			\item Función de transición: 
 			\begin{itemize}
 				\item Si la materia viva tiene un vecino quemándose, entonces se quema.
-				\item Si la materia se está quemando, pasa a materia quemada.Si la materia se está quemando, pasa a materia quemada.
+				\item Si la materia se está quemando, pasa a materia quemada. Si la materia se está quemando, pasa a materia quemada.
 			\end{itemize}
 		\end{enumerate}
 	\end{center}
 	
 \end{frame}
+
+\begin{frame}{Redes neuronales}
+	\begin{center}
+		\begin{tikzpicture}
+			\node[cajaobjetivo, text width=0.85\textwidth]
+			{
+				\begin{definition}
+					
+					Una red neuronal es una función $F_\theta: \mathbb{R}^n \to \mathbb{R}^m$ donde $\theta = \{ w_{uv}, b_v : (u, v) \in E, v \in V \}$ es el conjunto de parámetros entrenables.
+					
+				\end{definition}
+			};
+		\end{tikzpicture}
+	\end{center}
+
+\end{frame}
+
+\begin{frame}{Autómata celular neuronal}
+	\begin{center}
+		\begin{tikzpicture}
+			\node[cajaobjetivo, text width=0.85\textwidth]
+			{
+				\begin{definition}
+					
+					Un autómata celular es neuronal si la regla local $\mathcal{R}$ está dada como:
+					
+					\[
+					\mathcal{R} = F_\theta: \mathbb{R}^{|\mathcal{N}|} \to \mathbb{R}^1
+					\]
+					
+					donde:
+					
+					\begin{itemize}
+						
+						\item $F_\theta$ es una red neuronal parametrizada por $\theta$.
+						
+						\item $ \theta = \{ w_{uv}, b_v : (u, v) \in E, v \in V \}$ es el conjunto de parámetros entrenables.
+						
+						\item $\mathbb{R}^{|\mathcal{N}|}$ corresponde al espacio de entrada definido por la vecindad $\mathcal{N}$.
+						
+						\item $\mathbb{R}^1$ define el valor de salida que representa el nuevo estado de la célula central.
+						
+					\end{itemize}
+					
+				\end{definition}
+			};
+		\end{tikzpicture}
+	\end{center}
+	
+\end{frame}
+
