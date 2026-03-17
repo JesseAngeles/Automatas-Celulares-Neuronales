@@ -1,7 +1,13 @@
 *.aux
-*.log
-*.out
-*.gz
-*.toc
 *.bbl
 *.blg
+*.dvi
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.gz
+*.vscode
+*build
+*__pycache__
+*venv

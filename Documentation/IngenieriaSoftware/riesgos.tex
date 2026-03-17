@@ -1,0 +1,267 @@
+\section{Análisis de riesgos}
+
+El análisis de riesgos se realiza tomando en cuenta el tiempo estimado de desarrollo de aproximadamente 6 meses, los recursos disponibles para el desarrollo tecnológico y las habilidades técnicas para el diseño de simuladores de autómatas celulares, cómputo paralelo, redes neuronales y programación orientada a eventos. 
+
+\subsection{Identificación de riesgos}
+
+\subsubsection{Riesgos técnicos}
+
+\begin{enumerate}[label*=RT\arabic*]
+	\item Incompatibilidad entre diferentes lenguajes de programación: los módulos desarrollados en Python, C++ y CUDA generan errores de integración al intercambiar información y sincronizar procesos.
+	
+	\item Indisponibilidad de hardware: La tarjeta gráfica no tiene el rendimiento suficiente.
+	
+	\item Incompatibilidad entre tecnologías: El sistema operativo, los lenguajes de programación y los elementos de hardware no son compatibles para el desarrollo y ejecución.
+	
+	\item Dependencias de librerías: La instalación y configuración de diferentes librerías varía según el sistema operativo.
+	
+	\item Mala visualización: El renderizado de los componentes gráficos es incorrecto o está mal optimizado.
+\end{enumerate}
+
+\subsubsection{Riesgos operativos}
+\begin{enumerate}[label*=RO\arabic*]
+	\item Documentación deficiente: La documentación no permite mantener ni ampliar el proyecto a futuro.
+	
+	\item Problemas personales: Falta de motivación o problemas de salud física o mental se presentan durante el desarrollo.
+	
+	\item Curva de aprendizaje elevada: Se encuentra una curva de aprendizaje elevada y se carece de experiencias con la tecnología a utilizar.
+\end{enumerate}
+\subsubsection{Riesgos de requerimientos}
+\begin{enumerate}[label*=RR\arabic*]
+	\item Requerimientos ambiguos: La definición incompleta o ambigua de los requerimientos puede provocar cambios en etapas avanzadas del desarrollo.
+\end{enumerate}
+
+\subsubsection{Riesgos de estimación}
+\begin{enumerate}[label*=RE\arabic*]
+	\item Subestimación del tiempo de desarrollo: La complejidad de enlazar diferentes tecnologías puede extender los plazos planeados.
+\end{enumerate}
+
+\subsubsection{Riesgos de alcance}
+\begin{enumerate}[label*=RA\arabic*]
+	\item Limitación del alcance funcional: Las restricciones de tiempo pueden dar pie a limitar el número de funcionalidades requeridas.
+
+	\item Carga de trabajo imprevista: El poder de cómputo resulta insuficiente, por lo que se reduce la complejidad de las simulaciones.
+\end{enumerate}
+
+\subsection{Probabilidad e impacto}
+
+Siguiendo la tabla \ref{table:matriz_riesgos}, a continuación se enlistan los niveles de riesgo para cada riesgo identificado.
+
+\begin{table}[H]
+	\centering
+	\renewcommand{\arraystretch}{1.2}
+	\setlength{\tabcolsep}{4pt}
+	\begin{tabular}{|p{0.13\textwidth}|p{0.12\textwidth}|p{0.12\textwidth}|p{0.12\textwidth}|p{0.12\textwidth}|p{0.12\textwidth}|p{0.12\textwidth}|}
+		\cline{3-7}
+		\multicolumn{2}{p{0.12\textwidth}}{} & \multicolumn{5}{|c|}{\textbf{Probabilidad}} \\ \cline{3-7}
+		\multicolumn{2}{p{0.12\textwidth}|}{} & Nada probable $10\%$ & Levemente probable $30\%$ & Poco probable $50\%$ & Probable $70\%$ & Muy probable $90\%$ \\ \cline{1-7}
+		\multirow{5}{*}{\textbf{Severidad}} 
+		& Nula & \cellcolor{green!30}Bajo & \cellcolor{green!30}Bajo & \cellcolor{green!30}Bajo & \cellcolor{yellow!40}Medio & \cellcolor{yellow!40}Medio \\ \cline{2-7}
+		& Menor & \cellcolor{green!30}Bajo & \cellcolor{green!30}Bajo & \cellcolor{yellow!40}Medio & \cellcolor{yellow!40}Medio & \cellcolor{yellow!40}Medio \\ \cline{2-7}
+		& Moderado & \cellcolor{yellow!40}Medio & \cellcolor{yellow!40}Medio & \cellcolor{yellow!40}Medio & \cellcolor{red!40}Alto & \cellcolor{red!40}Alto \\ \cline{2-7}
+		& Crítico & \cellcolor{yellow!40}Medio & \cellcolor{yellow!40}Medio & \cellcolor{red!40}Alto & \cellcolor{red!40}Alto & \cellcolor{black!80}\textcolor{white}{Muy alto} \\ \cline{2-7}
+		& Fatal & \cellcolor{yellow!40}Medio & \cellcolor{red!40}Alto & \cellcolor{red!40}Alto & \cellcolor{black!80}\textcolor{white}{Muy alto} & \cellcolor{black!80}\textcolor{white}{Muy alto} \\ \cline{1-7}
+	\end{tabular}
+	\caption{Matriz de riesgos \cite{matriz_riesgos}}
+	\label{table:matriz_riesgos}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\renewcommand{\arraystretch}{1.2}
+	\setlength{\tabcolsep}{4pt}
+	\begin{tabular}{|p{0.42\textwidth}|p{0.18\textwidth}|p{0.17\textwidth}|p{0.15\textwidth}|}
+		\hline
+		\textbf{Riesgo técnico} & \textbf{Probabilidad} & \textbf{Impacto} & \textbf{Nivel de riesgo} \\ \hline
+		Incompatibilidad entre diferentes lenguajes de programación & Poco probable & Crítico & Alto \\ \hline
+		Indisponibilidad de hardware & Levemente probable & Moderado & Medio \\ \hline
+		Incompatibilidad entre tecnologías & Probable & Fatal & Muy alto \\ \hline
+		Dependencias de librerías & Levemente probable & Menor & Bajo\\ \hline
+		Mala visualización & Poco probable & Menor & Medio \\ \hline
+	\end{tabular}
+	\caption{Nivel de riesgos técnicos}
+	\label{table:riesgos_tecnicos}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\renewcommand{\arraystretch}{1.2}
+	\setlength{\tabcolsep}{4pt}
+	\begin{tabular}{|p{0.42\textwidth}|p{0.18\textwidth}|p{0.17\textwidth}|p{0.15\textwidth}|}
+		\hline
+		\textbf{Riesgo operativo} & \textbf{Probabilidad} & \textbf{Impacto} & \textbf{Nivel de riesgo} \\ \hline
+		Documentación deficiente & Probable & Moderado & Alto \\ \hline
+		Problemas personales & Poco probable & Crítico & Alto \\ \hline
+		Curva de aprendizaje elevada & Muy probable & Moderado & Alto \\ \hline
+	\end{tabular}
+	\caption{Nivel de riesgos operativos}
+	\label{table:riesgos_operativos}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\renewcommand{\arraystretch}{1.2}
+	\setlength{\tabcolsep}{4pt}
+	\begin{tabular}{|p{0.42\textwidth}|p{0.18\textwidth}|p{0.17\textwidth}|p{0.15\textwidth}|}
+		\hline
+		\textbf{Riesgo de requerimientos} & \textbf{Probabilidad} & \textbf{Impacto} & \textbf{Nivel de riesgo} \\ \hline
+		Requerimientos ambiguos & Levemente probable & Menor & Bajo \\ \hline
+	\end{tabular}
+	\caption{Nivel de riesgos de requerimientos}
+	\label{table:riesgos_requerimientos}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\renewcommand{\arraystretch}{1.2}
+	\setlength{\tabcolsep}{4pt}
+	\begin{tabular}{|p{0.42\textwidth}|p{0.18\textwidth}|p{0.17\textwidth}|p{0.15\textwidth}|}
+		\hline
+		\textbf{Riesgo de estimación} & \textbf{Probabilidad} & \textbf{Impacto} & \textbf{Nivel de riesgo} \\ \hline
+		 Subestimación del tiempo de desarrollo & Probable & Fatal & Muy alto \\ \hline
+	\end{tabular}
+	\caption{Nivel de riesgos de estimación}
+	\label{table:riesgos_estimacion}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\renewcommand{\arraystretch}{1.2}
+	\setlength{\tabcolsep}{4pt}
+	\begin{tabular}{|p{0.42\textwidth}|p{0.18\textwidth}|p{0.17\textwidth}|p{0.15\textwidth}|}
+		\hline
+		\textbf{Riesgo de alcance} & \textbf{Probabilidad} & \textbf{Impacto} & \textbf{Nivel de riesgo} \\ \hline 
+		 Limitación del alcance funcional & Poco probable & Moderado & Medio \\ \hline
+		 Carga de trabajo imprevista & Probable & Crítico & Alto \\ \hline
+	\end{tabular}
+	\caption{Nivel de riesgos de alcance}
+	\label{table:riesgos_alcance}
+\end{table}
+
+\subsection{Plan de mitigación}
+
+\begin{table}[H]
+	\centering
+	\renewcommand{\arraystretch}{1.2}
+	\setlength{\tabcolsep}{4pt}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.6\textwidth}|}
+		\hline
+		\multicolumn{2}{|c|}{\textbf{Riesgos técnicos}} \\ \hline
+		Incompatibilidad entre diferentes lenguajes & Verificar la documentación de compatibilidad entre los lenguajes de programación y realizar pruebas de transferencia de datos y sincronización previas al desarrollo. \\ \hline
+		Indisponibilidad de hardware & Asegurar la disponibilidad de equipos de respaldo o entornos virtuales alternativos para continuar el desarrollo en caso de fallos de hardware. \\ \hline
+		Incompatibilidad entre tecnologías & Realizar pruebas de compatibilidad del hardware y software en diferentes sistemas operativos y versiones antes de la integración. \\ \hline
+		Dependencias de librerías & Documentar y verificar las versiones de librerías utilizadas, además de considerar alternativas equivalentes que garanticen continuidad en caso de incompatibilidad. \\ \hline
+		Mala visualización & Realizar pruebas de usabilidad y ajustar la interfaz de acuerdo con las resoluciones de pantalla y dispositivos objetivo. \\ \hline
+	\end{tabular}
+	\caption{Plan de mitigación de riesgos técnicos}
+	\label{table:mitigacion_tecnico}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\renewcommand{\arraystretch}{1.2}
+	\setlength{\tabcolsep}{4pt}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.6\textwidth}|}
+		\hline
+		\multicolumn{2}{|c|}{\textbf{Riesgos operativos}} \\ \hline
+		Documentación deficiente & Establecer un estándar de documentación y realizar revisiones periódicas del avance para garantizar la calidad y completitud de los registros técnicos. \\ \hline
+		Problemas personales & Definir roles de respaldo o distribuir responsabilidades para minimizar el impacto de ausencias o contratiempos personales. \\ \hline
+		Curva de aprendizaje elevada & Programar capacitaciones iniciales y establecer un periodo de adaptación con apoyo técnico y materiales de referencia. \\ \hline
+	\end{tabular}
+	\caption{Plan de mitigación de riesgos operativos}
+	\label{table:mitigacion_operativo}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\renewcommand{\arraystretch}{1.2}
+	\setlength{\tabcolsep}{4pt}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.6\textwidth}|}
+		\hline
+		\multicolumn{2}{|c|}{\textbf{Riesgos de requerimientos}} \\ \hline
+		Requerimientos ambiguos & Realizar reuniones periódicas con los usuarios o stakeholders para aclarar requerimientos y validar el entendimiento del equipo de desarrollo. \\ \hline
+	\end{tabular}
+	\caption{Plan de mitigación de riesgos de requerimientos}
+	\label{table:mitigacion_requerimiento}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\renewcommand{\arraystretch}{1.2}
+	\setlength{\tabcolsep}{4pt}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.6\textwidth}|}
+		\hline
+		\multicolumn{2}{|c|}{\textbf{Riesgos de estimación}} \\ \hline
+		Subestimación del tiempo de desarrollo & Dividir el proyecto en fases pequeñas y manejables, aplicando seguimiento semanal y reajuste de cronograma según los resultados obtenidos. \\ \hline
+	\end{tabular}
+	\caption{Plan de mitigación de riesgos de estimación}
+	\label{table:mitigacion_estimacion}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\renewcommand{\arraystretch}{1.2}
+	\setlength{\tabcolsep}{4pt}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.6\textwidth}|}
+		\hline
+		\multicolumn{2}{|c|}{\textbf{Riesgos de alcance}} \\ \hline
+		Limitación del alcance funcional & Definir claramente los objetivos y alcances desde el inicio, con aprobación formal de los responsables del proyecto antes de iniciar nuevas funcionalidades. \\ \hline
+		Carga de trabajo imprevista & Implementar revisiones periódicas del plan de trabajo y ajustar el alcance en función de los recursos disponibles y los resultados obtenidos. \\ \hline
+	\end{tabular}
+	\caption{Plan de mitigación de riesgos de alcance}
+	\label{table:mitigacion_alcance}
+\end{table}
+
+\subsection{Plan de contingencia}
+
+A continuación se describen los planes de contingencia para los riesgos de nivel fatal:
+\begin{itemize}
+	\item[RT3] Incompatibilidad entre tecnologías.
+	\item[RE1] Subestimación del tiempo de desarrollo. 
+\end{itemize}
+
+\begin{table}[H]
+	\centering
+	\renewcommand{\arraystretch}{1.2}
+	\setlength{\tabcolsep}{4pt}
+	\begin{tabular}{r|p{0.6\textwidth}}
+		\hline
+		\textbf{Nombre del riesgo} & \textbf{Incompatibilidad entre tecnologías} \\ \hline
+		\textbf{Probabilidad} & Probable \\ \hline
+		\textbf{Impacto} & Fatal \\ \hline
+		\textbf{Plan de evasión} & 
+		Realizar pruebas de integración tempranas entre las distintas tecnologías implicadas. 
+		Documentar las versiones, dependencias y configuraciones utilizadas para garantizar compatibilidad.
+		Establecer un entorno de desarrollo unificado que minimice diferencias entre plataformas. \\ \hline
+		\textbf{Mitigación} & 
+		Sustituir o actualizar los componentes que generen incompatibilidad. 
+		Implementar adaptadores o módulos intermedios que permitan la interoperabilidad entre sistemas. 
+		Reasignar recursos técnicos para resolver los conflictos de integración y evitar retrasos prolongados. \\ 
+	\end{tabular}
+	\caption{Plan de contingencia para incompatibilidad entre tecnologías}
+	\label{table:contingencia_incompatibilidad}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\renewcommand{\arraystretch}{1.2}
+	\setlength{\tabcolsep}{4pt}
+	\begin{tabular}{r|p{0.6\textwidth}}
+		\hline
+		\textbf{Nombre del riesgo} & \textbf{Subestimación del tiempo de desarrollo} \\ \hline
+		\textbf{Probabilidad} & Probable \\ \hline
+		\textbf{Impacto} & Fatal \\ \hline
+		\textbf{Plan de evasión} & 
+		Realizar estimaciones realistas basadas en experiencias previas y tareas medibles. 
+		Incluir márgenes de tiempo de reserva en el cronograma para absorber imprevistos. 
+		Efectuar reuniones de seguimiento semanales para detectar desviaciones tempranas. \\ \hline
+		\textbf{Mitigación} & 
+		Reasignar recursos o personal adicional para recuperar el tiempo perdido. 
+		Reducir temporalmente el alcance funcional o posponer características no críticas. 
+		Reajustar el cronograma de entregas y comunicar los cambios al equipo y partes interesadas. \\ 
+	\end{tabular}
+	\caption{Plan de contingencia para subestimación del tiempo de desarrollo}
+	\label{table:contingencia_subestimacion}
+\end{table}
+
+

@@ -1,0 +1,18 @@
+\section{Procedimiento}
+
+El desarrollo metodológico de la investigación se llevará a cabo en diversas fases secuenciales. Estas abarcan desde el diseño e implementación del simulador hasta la evaluación del modelo de autómatas celulares neuronales. Cada fase está orientada a cumplir los objetivos planteados y a generar datos cuantitativos que permitan analizar el comportamiento de los sistemas simulados.
+
+\begin{itemize}
+	
+	\item \textbf{Diseño, desarrollo e implementación del simulador}: Se construye una herramienta computacional capaz de simular autómatas celulares bidimensionales. Aunque el fin último es estudiar los autómatas celulares neuronales, este simulador debe poder aceptar configuraciones clásicas. Esto debido a que, para las siguientes fases, es necesario conocer el comportamiento de configuraciones conocidas.
+	
+	\item \textbf{Diseño, desarrollo e integración del módulo red neuronal artificial}: Se implementa un módulo adicional que permite entrenar una red neuronal artificial para aprender el comportamiento de autómatas celulares existentes. La salida de este módulo es la función de transición aprendida. Además, este módulo se integra dentro del simulador principal para permitir la experimentación directa.
+		
+	\item \textbf{Imitación de patrones conocidos}: Se diseñan y ejecutan experimentos para evaluar la capacidad del modelo neuronal de imitar el comportamiento de autómatas celulares clásicos, como el juego de la vida. Se busca, además, medir la precisión del aprendizaje y la estabilidad de las configuraciones generadas. 
+		
+	\item \textbf{Simulación de otros sistemas complejos:} Una vez validado el funcionamiento del modelo neuronal, se aplican las mismas técnicas a simulaciones que representen otros sistemas complejos. Se busca probar diferentes configuraciones iniciales y parámetros para analizar la capacidad de generalizar la aparición de nuevos patrones.
+	
+\end{itemize}
+
+Cada una de estas etapas genera resultados que ayudan a mejorar el proceso de desarrollo. Esto permite ajustar tanto la estructura de la red neuronal como las condiciones del simulador.
+
