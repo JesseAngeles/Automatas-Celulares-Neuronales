@@ -19,6 +19,7 @@ class ControlPane(QWidget):
         self.play_button = QPushButton("play")
         self.backstep_button = QPushButton("backstep")
         self.erase_button = QPushButton("Erase")
+        self.random_button = QPushButton("Random")
 
         # Definir el layout
         layout = QVBoxLayout()
@@ -30,6 +31,7 @@ class ControlPane(QWidget):
         layout.addWidget(self.play_button)
         layout.addWidget(self.backstep_button)
         layout.addWidget(self.erase_button)
+        layout.addWidget(self.random_button)
 
         # Definir layout
         self.setLayout(layout)
@@ -49,3 +51,4 @@ class ControlPane(QWidget):
         self.play_button.clicked.connect(controller.on_play_button)
         self.backstep_button.clicked.connect(controller.on_backstep_button)
         self.erase_button.clicked.connect(controller.on_erase_button)
+        self.random_button.clicked.connect(controller.on_random_button)

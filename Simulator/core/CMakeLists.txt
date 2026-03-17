@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(core LANGUAGES CXX CUDA)
+project(CA LANGUAGES CXX CUDA)
 
 set(CMAKE_CUDA_ARCHITECTURES native)
 set(CMAKE_CXX_STANDARD 17)
@@ -20,12 +20,12 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 # Buscamos archivos .cpp y .cu
 file(GLOB_RECURSE SOURCES
-    "./life.cu"
+    "./ca.cu"
     "bindings/python_module.cpp"
 )
 
 # Creamos el módulo de python
-pybind11_add_module(core ${SOURCES})
+pybind11_add_module(CA ${SOURCES})
 
 # Enlazar librerias de CUDA
-target_link_libraries(core PRIVATE CUDA::cudart)
+target_link_libraries(CA PRIVATE CUDA::cudart)

@@ -2,20 +2,26 @@
 
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtGui import QPainter, QColor, QMouseEvent
+from PyQt5.QtCore import pyqtSignal
 
 class SimulationWidget(QWidget):
-    def __init__(self, grid_size: int =  50):
+    cell_toggled = pyqtSignal(int, int, int)    
+
+    def __init__(self, grid_size: int =  100):
         super().__init__()
 
         self.grid_size = grid_size
-        self.cell_size = self.width() // grid_size
-
-        self.grid = [[0 for _ in range(grid_size)] for _ in range(grid_size)]
+        self.grid = [[0] * grid_size for _ in range(grid_size)]
+        self.setMinimumSize(200, 200)
 
         self.setMinimumSize(
             grid_size * self.cell_size,
             grid_size * self.cell_size
         )
+
+    @property
+    def cell_size(self):
+        return min(self.width(), self.height()) // self.grid_size
 
     def paintEvent(self, _):
         painter = QPainter(self)
@@ -38,7 +44,9 @@ class SimulationWidget(QWidget):
         x = event.pos().x() // self.cell_size
         y = event.pos().y() // self.cell_size
         if 0 <= x < self.grid_size and 0 <= y < self.grid_size:
-            self.grid[y][x] = 1 - self.grid[y][x]
+            new_val = 1 - self.grid[y][x]
+            self.grid[y][x] = new_val
+            self.cell_toggled.emit(x, y, new_val)
             self.update()
 
     def update_grid(self, grid):

@@ -15,7 +15,7 @@ class MainWindow(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Cellular Automata Simulator")
-        self.setFixedSize(QSize(1200, 900))
+        self.setFixedSize(QSize(1800, 900))
 
         # create config
         self.config = SimulationConfig()
@@ -58,6 +58,4 @@ class MainWindow(QMainWindow):
         self.control_pane.update_play_button(running)
     
     def handle_reset(self):
-        empty_grid = [[0] * self.simulation.grid_size for _ in range(self.simulation.grid_size)]
-        self.simulation.update_grid(empty_grid)
-        self.handle_play()
+        self.controller.on_erase_button()
