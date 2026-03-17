@@ -28,6 +28,9 @@ class cellularAutomaton:
     def step(self):
         self.ca.step()
 
+    def run(self, steps: int):
+        return self.ca.run(steps)
+
     def print(self):
         self.ca.print()
 

@@ -1,8 +1,12 @@
 # controllers.SimulationController
 
-from PyQt5.QtCore import QTimer
-from models.cellularAutomaton import cellularAutomaton
 import random
+from PyQt5.QtCore import QTimer
+from collections import deque
+
+from models.cellularAutomaton import cellularAutomaton
+
+PREFETCH_SIZE = 10
 
 class SimulationController:
     def __init__(self, simulation_widget, config):
@@ -26,35 +30,41 @@ class SimulationController:
         self.timer.setInterval(self.interval)
 
         # Evolution records
-        self.evolution: list = []
+        self.past_record: list = []
+        self.future_record:deque = deque([])         
 
         # Event click
         self.simulation_widget.cell_toggled.connect(self.on_cell_toggled)
 
+    def _clear_history(self):
+        self.past_record.clear()
+        self.future_record.clear()
+
+    def _prefetch(self):
+        if len(self.future_record) < PREFETCH_SIZE:
+            self.future_record.extend(self.automaton.run(PREFETCH_SIZE))
+
     # Mouse events
     def on_cell_toggled(self, x, y, new_val):
+        self.automaton.setSpace(self.simulation_widget.grid)
+        self._clear_history()
         self.automaton.setCell(x, y, new_val)
-        self.evolution.clear()
+        current = self.automaton.getSpace()
+        self.simulation_widget.update_grid(current)
+
+    # Slider events
+    def on_speed_change(self, new_speed):
+        self.interval = 1000 - new_speed
+        self.timer.setInterval(self.interval) 
 
     # Buttons events
-    def on_increase_speed_button(self):
-        self.interval = max(10, self.interval - 50)
-        self.timer.setInterval(self.interval)
-
-    def on_decrease_speed_button(self):
-        self.interval += 50
-        self.timer.setInterval(self.interval)
-
     def on_step_button(self):
-        # Python to C++
-        self.evolution.append(self.automaton.getSpace().copy())
+        # Se añade al actual al pasado
+        self.past_record.append(self.simulation_widget.grid.copy())
+        self._prefetch()
 
-        # ejecutar regla
-        self.automaton.step()
+        self.simulation_widget.update_grid(self.future_record.popleft().copy())
 
-        # C++ to Python
-        self.simulation_widget.update_grid(self.automaton.getSpace())
-    
     def on_play_button(self):
         if self.is_running:
             self.timer.stop()
@@ -64,31 +74,29 @@ class SimulationController:
             self.is_running = True
 
     def on_backstep_button(self):
-        print(self.evolution)
-        if self.evolution:
-            new_grid = self.evolution.pop()
-            self.simulation_widget.update_grid(new_grid)    
-            self.automaton.setSpace(new_grid)
+        if not self.past_record:
+            return
+        # El frame mostrado va al future
+
+        self.future_record.appendleft(self.simulation_widget.grid.copy())
+        self.simulation_widget.update_grid(self.past_record.pop())
 
     def on_erase_button(self):
         new_grid = [[0] * self.simulation_widget.grid_size for _ in range(self.simulation_widget.grid_size)]
-    
-        self.simulation_widget.update_grid(new_grid)
+        self._clear_history()                    # ← 
         self.automaton.setSpace(new_grid)
-
+        self.simulation_widget.update_grid(new_grid)
         if self.is_running:
             self.on_play_button()
 
     def on_random_button(self):
         states = self.automaton.getStates()
-
         new_grid = [
             [random.randint(0, states - 1) for _ in range(self.simulation_widget.grid_size)]
             for _ in range(self.simulation_widget.grid_size)
         ]
-
-        self.simulation_widget.update_grid(new_grid)
+        self._clear_history()                    # ←
         self.automaton.setSpace(new_grid)
-
+        self.simulation_widget.update_grid(new_grid)
         if self.is_running:
             self.on_play_button()

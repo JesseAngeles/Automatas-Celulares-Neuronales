@@ -2,14 +2,38 @@
 
 #include "ca.h"
 
+// Constant memory
+__constant__ int c_neighbourhood[128]; // Hasta 64 vecinos
+__constant__ int c_rule[4096];
+
 __global__ void CA_GPU(
-    int *A,
-    int *B,
+    const int *__restrict__ A,
+    int *__restrict__ B,
     int width,
     int height,
     int states,
-    int *neighbourhood, int n_size,
-    int *rule, int r_size);
+    int n_size)
+{
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    int idy = blockIdx.y * blockDim.y + threadIdx.y;
+
+    if (idx >= width || idy >= height)
+        return;
+
+    int total = 0;
+    int p = 1;
+
+    for (int i = n_size - 1; i >= 0; i--)
+    {
+        int nx = (idx + c_neighbourhood[i * 2] + width) % width;
+        int ny = (idy + c_neighbourhood[i * 2 + 1] + height) % height;
+
+        total += A[ny * width + nx] * p;
+        p *= states;
+    }
+
+    B[idy * width + idx] = c_rule[total];
+}
 
 CA::CA(
     int in_width,
@@ -25,6 +49,7 @@ CA::CA(
       r_size(in_r_size)
 {
     size = width * height * sizeof(int);
+
     threads = dim3(16, 16);
     blocks = dim3((width + threads.x - 1) / threads.x,
                   (height + threads.y - 1) / threads.y);
@@ -40,18 +65,16 @@ CA::CA(
 
     cudaMalloc(&A_d, size);
     cudaMalloc(&B_d, size);
-    cudaMalloc(&N_d, n_size * 2 * sizeof(int));
-    cudaMalloc(&R_d, r_size * sizeof(int));
-    cudaMemcpy(N_d, neighbourhood, n_size * 2 * sizeof(int), cudaMemcpyHostToDevice);
-    cudaMemcpy(R_d, rule, r_size * sizeof(int), cudaMemcpyHostToDevice);
+
+    cudaMemcpy(A_d, space, size, cudaMemcpyHostToDevice);
+    cudaMemcpyToSymbol(c_neighbourhood, neighbourhood, in_n_size * 2 * sizeof(int));
+    cudaMemcpyToSymbol(c_rule, rule, in_r_size * sizeof(int));
 }
 
 CA::~CA()
 {
     cudaFree(A_d);
     cudaFree(B_d);
-    cudaFree(N_d);
-    cudaFree(R_d);
 
     delete[] space;
     delete[] neighbourhood;
@@ -60,60 +83,43 @@ CA::~CA()
 
 void CA::step()
 {
-    cudaMemcpy(A_d, space, size, cudaMemcpyHostToDevice);
-
-    CA_GPU<<<blocks, threads>>>(A_d, B_d, width, height, states, N_d, n_size, R_d, r_size);
-    cudaDeviceSynchronize();
-
+    CA_GPU<<<blocks, threads>>>(A_d, B_d, width, height, states, n_size);
     cudaMemcpy(space, B_d, size, cudaMemcpyDeviceToHost);
+    int *tmp = A_d;
+    A_d = B_d;
+    B_d = tmp;
 }
 
-__global__ void CA_GPU(
-    int *A,
-    int *B,
-    int width,
-    int height,
-    int states,
-    int *neighbourhood, int n_size,
-    int *rule, int r_size)
+int *CA::run(int steps)
 {
-    int idx = blockIdx.x * blockDim.x + threadIdx.x;
-    int idy = blockIdx.y * blockDim.y + threadIdx.y;
+    int *history = new int[steps * height * width];
+    size_t frame_size = height * width;
 
-    if (idx >= width || idy >= height)
-        return;
-
-    int total = 0;
-    int p = 1;
-
-    // Recorremos los vecinos (n_size es la cantidad de parejas, ej: 3)
-    for (int i = n_size - 1; i >= 0; i--)
+    for (int s = 0; s < steps; s++)
     {
-        // Extraemos los offsets x e y del arreglo plano
-        int offset_x = neighbourhood[i * 2];
-        int offset_y = neighbourhood[i * 2 + 1];
+        CA_GPU<<<blocks, threads>>>(A_d, B_d, width, height, states, n_size);
 
-        // Calculamos la posición del vecino con condiciones de borde
-        int nx = (idx + offset_x + width) % width;
-        int ny = (idy + offset_y + height) % height;
+        cudaMemcpy(&history[s * frame_size], B_d, size, cudaMemcpyDeviceToHost);
 
-        // Accedemos a la memoria usando el índice lineal 2D
-        total += A[ny * width + nx] * p;
-        p *= states;
+        int *tmp = A_d;
+        A_d = B_d;
+        B_d = tmp;
     }
 
-    // Save result
-    B[idy * width + idx] = rule[total];
+    std::memcpy(space, &history[(steps - 1) * frame_size], size);
+
+    return history;
 }
+
 void CA::print()
 {
     for (int y = 0; y < height; y++)
     {
         for (int x = 0; x < width; x++)
             std::cout << space[y * width + x] << " ";
-        std::cout << std::endl;
+        std::cout << "\n";
     }
-    std::cout << std::endl;
+    std::cout << "\n";
 }
 
 // Getters
@@ -123,18 +129,24 @@ int CA::getHeight() const { return height; }
 int CA::getStates() const { return states; }
 int *CA::getNeighbourhood() const { return neighbourhood; }
 int *CA::getRule() const { return rule; }
-int CA::getCell(int x, int y) const { 
+int CA::getNSize() const { return n_size; }
+int CA::getRSize() const { return r_size; }
+int CA::getCell(int x, int y) const
+{
     return space[y * width + x];
 }
 
-int CA::getNSize() const { return n_size; }
-int CA::getRSize() const { return r_size; }
-
 // Setters
-void CA::setSpace(int *new_space) { std::memcpy(space, new_space, size); }
 void CA::setStates(int new_states) { states = new_states; }
 void CA::setNeighbourhood(int *new_neighbourhood) { neighbourhood = new_neighbourhood; }
 void CA::setRule(int *new_rule) { rule = new_rule; }
-void CA::setCell(int x, int y, int value) { 
+void CA::setSpace(int *new_space)
+{
+    std::memcpy(space, new_space, size);
+    cudaMemcpy(A_d, space, size, cudaMemcpyHostToDevice);
+}
+void CA::setCell(int x, int y, int value)
+{
     space[y * width + x] = value;
- }
+    cudaMemcpy(&A_d[y * width + x], &space[y * width + x], sizeof(int), cudaMemcpyHostToDevice);
+}

@@ -20,6 +20,7 @@ public:
     ~CA();
 
     void step();
+    int *run(int steps);
     void print();
 
     // Getters
@@ -35,7 +36,7 @@ public:
     int getRSize() const;
 
     // Setters
-    void setSpace( int *);
+    void setSpace(int *);
     void setStates(int);
     void setNeighbourhood(int *);
     void setRule(int *);
@@ -55,7 +56,7 @@ private:
     int r_size;
 
     size_t size;
-    int *A_d, *B_d, *N_d, *R_d;
+    int *A_d, *B_d;
     dim3 threads;
     dim3 blocks;
 };
