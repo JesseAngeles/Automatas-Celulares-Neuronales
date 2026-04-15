@@ -1,0 +1,14 @@
+flowchart TD
+    %% Definición de nodos y sus estilos
+    SR("Sistema real")
+    M(modelo)
+    R(resultados)
+
+    %% Estilos específicos para los nodos (color de fondo y bordes)
+    classDef yellowNodes fill:#f9e8a0,stroke:#e1ca72,stroke-width:1px,rx:2,ry:2;
+    class SR,M,R yellowNodes;
+
+    %% Conexiones y etiquetas de las flechas
+    SR -->|Abstracción| M
+    M -->|Inferencia| R
+    R -->|Aplicación| SR

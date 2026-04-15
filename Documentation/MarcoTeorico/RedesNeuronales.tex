@@ -1,82 +1,65 @@
 \chapter{Marco teórico: Inteligencia artificial y redes neuronales}
 
-Las redes neuronales artificiales son un modelo de inteligencia artificial inspirado en el pensamiento humano, más específicamente, en cómo un conjunto de neuronas interconectadas comparten información. 	
+Las redes neuronales artificiales son una herramienta de inteligencia artificial inspirada en el pensamiento humano, más específicamente, en cómo un conjunto de neuronas interconectadas comparten información para realizar inferencias. 	
 
-El desarrollo de las redes neuronales tiene sus orígenes en los modelos propuestos por McCulloch y Pitts en 1943, quienes establecieron las bases del perceptrón. Posteriormente, en 1957 Rosenblatt formalizó su implementación computacional. Sin embargo, el campo experimentó un periodo de estancamiento tras las críticas de Minsky y Papert en 1969, recuperando impulso en los años ochenta gracias al surgimiento de la retropropagación y de las redes recurrentes \cite{ann_extra}.
+Las redes neuronales tienen su origen en 1943, donde McCulloch y Pitts propusieron un modelo que establecería las bases del perceptrón. Posteriormente, en 1957, Rosenblatt formalizó su implementación computacional, pero no fue hasta los años ochenta donde tuvo un impacto en su implementación gracias al surgimiento de la retropropagación y de las redes recurrentes \cite{matich2001_ann}.
 
-Las redes neuronales artificiales son un conjunto de neuronas artificiales interconectadas que realizan cálculos y transmiten información para realizar una operación, imitando el comportamiento del cerebro.
+Las redes neuronales artificiales son un conjunto de neuronas o módulos computacionales interconectados que realizan cálculos y transmiten información para llevar a cabo una operación, imitando el comportamiento del cerebro.
 
-Pero para entender este modelo, es necesario tener los fundamentos de inteligencia artificial y la clasificación de aprendizaje supervisado.
+Sin embargo, para entender este modelo, es necesario tener los fundamentos de inteligencia artificial y la clasificación de aprendizaje supervisado. Es por esto que en este capítulo, se describen términos como inteligencia artificial, aprendizaje supervisado, la composición, estructura y comportamiento de las redes neuronales y algunos tipos de ellas. 
 
-\section{Inteligencia artificial y aprendizaje supervisado}
+\section{Inteligencia artificial}
 
-La inteligencia artificial fue definida por primera vez por John McCarthy en 1955 como \textit{la ciencia e ingeniería de hacer máquinas inteligentes} \cite{ai_def_1}. Siguiendo a \cite{ai_def_1, ai_def_2, ai_def_3}, se propone la siguiente definición:
+La inteligencia artificial fue definida por primera vez por John McCarthy en 1955 como \textit{la ciencia e ingeniería de hacer máquinas inteligentes} \cite{Manning2020_ai}. Es un término que ha ido evolucionando a lo largo de los años y con diferentes interpretaciones. Para el objetivo de esta investigación y siguiendo a \cite{Manning2020_ai, google2025_ai, mccarthy2007_ai}, se sigue la siguiente definición:
 
 \begin{definition}
-	
 	La inteligencia artificial es la ciencia que utiliza modelos computacionales para crear sistemas capaces de realizar tareas que, si fueran hechas por humanos, requerirían inteligencia.
-	
 \end{definition}
 
-Una de las ramas de la inteligencia artificial es el aprendizaje automático, el cual se centra en desarrollar sistemas con la capacidad de aprender en función de los datos \cite{ml_def_1}. Esto permite reconocer patrones y realizar predicciones a partir de grandes cantidades de datos \cite{GoogleCloud2025}.
+Una de las ramas de la inteligencia artificial es el aprendizaje automático, el cual se centra en desarrollar sistemas con la capacidad de aprender en función de los datos \cite{oracle2025_ml}. Esto permite reconocer patrones y realizar predicciones a partir de grandes cantidades de datos \cite{google_ml}.
 
-Por lo que, con base en \cite{Oracle2025, IBM2025} podemos definir al aprendizaje automático de la siguiente manera:
+Por lo que, con base en \cite{oracle2025_ml, ibm_ml} podemos definir al aprendizaje automático como:
 
 \begin{definition}
-	
 	El aprendizaje automático es la disciplina que permite a las computadoras mejorar su desempeño en una tarea mediante la experiencia con datos, sin necesidad de instrucciones explícitas.
-	
 \end{definition}
 
-Esta tecnología funciona trabajando a través del entrenamiento de algoritmos en conjuntos de datos para conseguir un resultado esperado. Es el proceso de optimizar el modelo para que pueda predecir la respuesta correcta. A mayor calidad en los datos de entrenamiento, mayor precisión se tendrá en el modelo \cite{GoogleCloud2025}.
+Esta tecnología funciona trabajando a través del entrenamiento de algoritmos en conjuntos de datos para conseguir un resultado esperado. Es el proceso de optimizar el modelo para que pueda predecir la respuesta correcta. A mayor calidad en los datos de entrenamiento, mayor precisión se tendrá en el modelo \cite{google_ml}.
 
-El entrenamiento se refiere al proceso de enseñarle a un modelo de inteligencia artificial a realizar una o varias tareas mediante la exposición a grandes cantidades de datos \cite{training}. Este proceso facilita a los humanos el proceso de análisis de grandes volúmenes, especialmente en la era actual, donde se generan más datos que nunca en la historia \cite{oracle_ia}.
+El entrenamiento se refiere al proceso de enseñarle a un modelo de inteligencia artificial a realizar una o varias tareas mediante la exposición a grandes cantidades de datos \cite{main2023_training}. Este proceso facilita a los humanos el proceso de análisis de extensos volúmenes, especialmente en la era actual, donde se generan más datos que nunca en la historia \cite{oracle2024_big_data}.
 
 Dentro del aprendizaje automático se definen tres métodos en cómo una computadora puede aprender. Estos métodos son aprendizaje supervisado, no supervisado y por refuerzo.
 
 \begin{itemize}
+	\item El aprendizaje supervisado se caracteriza por el uso de conjuntos de datos etiquetados para entrenar algoritmos que clasifiquen datos o predigan resultados con precisión. Durante el proceso de entrenamiento, el modelo recibe entradas junto con las salidas correctas, lo que le permite al modelo ajustar sus parámetros hasta que sea capaz de realizar predicciones precisas sobre nuevos datos \cite{ibm_ml}. 
 	
-	\item El aprendizaje supervisado se caracteriza por el uso de conjuntos de datos etiquetados para entrenar algoritmos que clasifiquen datos o predigan resultados con precisión. Durante el proceso de entrenamiento, el modelo recibe entradas junto con las salidas correctas, lo que le permite al modelo ajustar sus parámetros hasta que sea capaz de realizar predicciones precisas sobre nuevos datos \cite{IBM2025}. 
+	\item El aprendizaje no supervisado, a diferencia del supervisado, no necesita de un conjunto de datos etiquetados generados por el ser humano. Este tipo de aprendizaje puede descubrir patrones y estadísticas sin ninguna orientación o instrucción explícita \cite{google_u_ml}. 
 	
-	
-	
-	\item El aprendizaje no supervisado, a diferencia del supervisado, no necesita de un conjunto de datos etiquetados generados por el ser humano. Este tipo de aprendizaje puede descubrir patrones y estadísticas sin ninguna orientación o instrucción explícita \cite{GoogleCloud}. 
-	
-	
-	
-	\item El aprendizaje por refuerzo busca imitar la forma de aprendizaje humana de prueba y error. Este tipo de aprendizaje permite a las máquinas aprender a tomar decisiones y mejorar sus resultados con base en los errores cometidos \cite{AWS}.
-	
-	
+	\item El aprendizaje por refuerzo busca imitar la forma de aprendizaje humana de prueba y error. Este tipo de aprendizaje permite a las máquinas aprender a tomar decisiones y mejorar sus resultados con base en los errores cometidos \cite{aws_r_ml}.
 	
 \end{itemize}
 
-IBM \cite{IBM2025} menciona algunos de los algoritmos más comunes de aprendizaje automático:
+IBM \cite{ibm_ml} menciona algunos de los algoritmos más comunes de aprendizaje automático:
 
 \begin{enumerate}
-	
-	\item \textbf{Redes neuronales:} Simulan el funcionamiento del cerebro humano, con un gran número de nodos de procesamiento conectados entre sí, llamados neuronas.
-	
 	\item \textbf{Regresión lineal:} Predice valores numéricos, con base en una relación lineal entre diferentes valores.
-	
-	\item \textbf{Regresión logística:} Realiza predicciones para variables de respuestas categóricas.
 	
 	\item \textbf{Agrupación en clústeres:} Identifican patrones en los datos y los agrupan en centroides.
 	
 	\item \textbf{Árboles de decisión:} Utilizan una secuencia ramificada de decisiones vinculadas que se representan con un diagrama de árbol.
 	
-	\item \textbf{Bosques aleatorios:} Combina los resultados de varios árboles de decisión y predice un valor o clasificación.
-	
+	\item \textbf{Redes neuronales:} Simulan el funcionamiento del cerebro humano, con un gran número de nodos de procesamiento conectados entre sí, llamados neuronas.
 \end{enumerate}
 
-Las redes neuronales presentan ventajas que pueden llegar a agilizar y optimizar recursos de las organizaciones que lo implementan \cite{Adobe2025}: mejora la productividad, reduce el error humano, mejora la disponibilidad de servicios, reduce tareas repetitivas, descubre patrones ocultos a simple vista, entre otros.
+Las redes neuronales presentan ventajas que pueden llegar a agilizar y optimizar recursos de las organizaciones que lo implementan \cite{adobe_ml}: mejora la productividad, reduce el error humano, mejora la disponibilidad de servicios, reduce tareas repetitivas, descubre patrones ocultos a simple vista, entre otros.
 
-Para comprender cómo las redes neuronales logran estas capacidades, es necesario explorar primero los fundamentos que inspiraron el desarrollo. En particular, su diseño es una abstracción de las neuronas biológicas, cuya estructura y funcionamiento ofrecen una analogía al procesamiento de información.
+Para comprender cómo las redes neuronales logran estas capacidades, es necesario explorar primero los fundamentos que inspiraron el desarrollo. En particular su diseño es una abstracción de las neuronas biológicas, cuya estructura y funcionamiento ofrecen una analogía para el procesamiento de la información.
 
 \section{Neurona biológica}
 
-Las neuronas son células especializadas del sistema nervioso cuyo objetivo es recibir, procesar y transmitir información por medio de señales químicas y eléctricas \cite{neurona_1, neurona_2}. 
+Las neuronas son células especializadas del sistema nervioso cuyo objetivo es recibir, procesar y transmitir información por medio de señales químicas y eléctricas \cite{navarra_neurona, bordoli2023_neurona}. 
 
-Cada neurona se compone (principalmente) de tres elementos (como se muestra en la figura \ref{fig:neurona}): 
+Cada neurona se compone (principalmente) de tres elementos, como se muestra en la figura \ref{fig:neurona}: 
 
 \begin{itemize}
 	
@@ -94,7 +77,7 @@ Cada neurona se compone (principalmente) de tres elementos (como se muestra en l
 	
 	\includegraphics[width=0.6\linewidth]{img/neurona.png}
 	
-	\caption{Representación de una neurona \cite{img_neurona}. Se encuentran señaladas las dendritas, el núcleo y el axón, encargado de recibir, procesar y transmitir la información, respectivamente.}
+	\caption{Representación de una neurona \cite{brgfx_neurona}. Se encuentran señaladas las dendritas, el núcleo y el axón, encargado de recibir, procesar y transmitir la información, respectivamente.}
 	
 	\label{fig:neurona}
 	
@@ -104,13 +87,13 @@ Las redes neuronales naturales son un sistema de neuronas que permite el procesa
 
 \section{Neurona artificial} 
 
-La neurona artificial se considera como una unidad de procesamiento de información \cite{neurona_1}. Sigue la misma estructura del modelo biológico con algunas consideraciones adicionales, como lo marcan \cite{neurona_1, neurona_artificial_1, neurona_artificial_2}:
+La neurona artificial se considera como una unidad de procesamiento de información \cite{navarra_neurona}. Sigue la misma estructura del modelo biológico con algunas consideraciones adicionales, como lo marcan \cite{navarra_neurona, Mhatre2020_neurona_artificial, leon2017_neurona_artificial}:
 
 \begin{itemize}
 	
 	\item Las dendritas equivalen al conjunto de datos de entrada. Sin embargo, no toda la información tiene la misma relevancia; para esto se le asigna a cada entrada un peso sináptico.
 	
-	\item El cuerpo se sustituye por dos funciones: (1) Una función de agregación que combina todos los datos de entrada (generalmente es una combinación lineal entre las entradas y los pesos sinápticos) y (2) una función de activación que determina si la neurona está activa y en qué grado. 
+	\item El cuerpo se sustituye por dos funciones: (1) una función de agregación que combina todos los datos de entrada (generalmente es una combinación lineal entre las entradas y los pesos sinápticos) y (2) una función de activación que determina si la neurona está activa y en qué grado. 
 \end{itemize}
 
 La cual se suele representar como en la figura \ref{fig:neurona_artificial}.
@@ -122,56 +105,38 @@ La cual se suele representar como en la figura \ref{fig:neurona_artificial}.
 	\includegraphics[width=0.6\linewidth]{img/neurona_artificial.png}
 	
 	\caption{Representación gráfica de una neurona artificial. Contiene las entradas ($x_1, x_2, \dots, x_n$), los pesos sinápticos ($w_1, w_2, \dots, w_n$), el sesgo ($w_0$ o $b$), la función de agregación ($\Sigma$), la función de activación ($f$) y la salida.}
-	
 	\label{fig:neurona_artificial}
 	
 \end{figure}
-
 \begin{definition}
-	
 	Una neurona artificial es una función $f: \mathbb{R}^n \to \mathbb{R}$ dada por:
-
 	\[
 	f(x) = \phi (\omega (X, W, b))
 	\]
-	
 	donde:
-	
 	\begin{itemize}
 		
-		\item $X = \{x_1, x_2, \dots, x_n\} \in \mathbb{R}$ es el conjunto de datos que recibe cada neurona.
-		
-		
-		
-		\item $W = \{ w_1, w_2, \dots, w_n \} \in \mathbb{R}$ es el conjunto de pesos sinápticos que indican la importancia de cada entrada.
-		
-		
+		\item $X = \{x_1, x_2, \dots, x_n\} \in \mathbb{R}^n$ es el conjunto de datos que recibe cada neurona.
+		\item $W = \{ w_1, w_2, \dots, w_n \} \in \mathbb{R}^n$ es el conjunto de pesos sinápticos que indican la importancia de cada entrada.
 		
 		\item $b$ o $w_0 \in \mathbb{R}$ es un sesgo que desplaza la función de activación y controla el umbral de aceptación.
 		
-		
-		
 		\item $\omega(X,W,b)$ es una función de agregación $\omega: \mathbb{R}^n \to \mathbb{R}$ que combina las entradas. Usualmente se define como una combinación lineal:
-		
 		\[
 		\omega(X,W,b) = \sum_{i = 1}^{n} w_i x_i + b
 		\]
-		
-		
-		
 		\item $\phi(\omega(X,W,b))$ es la función de activación $\phi: \mathbb{R} \to \mathbb{R}$ que transforma $\omega(X,W,b)$ en una salida activada.
-
 	\end{itemize}
 
 \end{definition}
 
-Además de la combinación lineal, la función de agregación puede adoptar otras formas, como el máximo, el mínimo o incluso combinaciones lógicas (AND, OR) en redes con entradas binarias. No obstante, la suma ponderada continúa siendo la más utilizada en aplicaciones prácticas \cite{ann_extra}.
+Además de la combinación lineal, la función de agregación puede adoptar otras formas, como el máximo, el mínimo o combinaciones lógicas (AND, OR) en redes con entradas binarias. No obstante, la suma ponderada continúa siendo la más utilizada en aplicaciones prácticas \cite{matich2001_ann}.
 
-La función de activación es la que determina el valor de salida de cada neurona. Este valor, normalmente, se asigna entre un umbral para que limiten el comportamiento de la red neuronal \cite{funcion_activacion_1}.
+La función de activación es la que determina el valor de salida de cada neurona. Este valor, normalmente, se encuentra acotado dentro de un rango específico (como $[0, 1]$ o $[-1, 1]$) para normalizar el comportamiento de la red \cite{google_activacion}. Además, su naturaleza no lineal es fundamental para que el modelo pueda aproximar funciones complejas y resolver problemas que no son linealmente separables.
 
 \section{Redes neuronales}
 
-Una neurona únicamente puede realizar una operación. Para aumentar la capacidad de entender patrones más complejos, es necesario añadir múltiples neuronas interconectadas, lo que se conoce como red neuronal artificial \cite{ann_1}. Esta puede definirse como un grafo dirigido \cite{ann_2}.
+Una neurona únicamente puede realizar una operación. Para aumentar la capacidad de entender patrones más complejos, es necesario añadir múltiples neuronas interconectadas, lo que se conoce como red neuronal artificial \cite{aws_ann}. Esta puede definirse como un grafo dirigido \cite{tech2019_ann}.
 
 \begin{definition}
 	Una red neuronal artificial es un grafo dirigido $G = (V, E)$ donde cada nodo $v \in V$ representa una neurona y cada arista $(u, v) \in E$ transporta la salida $y_u$ desde $u$ hasta $v$ ponderada por el peso $w_{uv}$. 
@@ -180,220 +145,167 @@ Una neurona únicamente puede realizar una operación. Para aumentar la capacida
 	
 \end{definition}
 
-La red en su conjunto implementa una función parametrizada.
+Aunque la topología de la red puede ser arbitraria, en la práctica las redes se organizan en tres conjuntos de capas. Esto se muestra en la figura \ref{fig:ann_multicapa}, las cuales son (1) una de entrada que recibe los datos, (2) una o varias ocultas y (3) una de salida que devuelve el resultado. Adicionalmente, suelen diseñarse redes neuronales completamente conectadas, es decir, todas las neuronas tienen una relación con todas las de la siguiente capa, pero no es una restricción \cite{ibm2021_ann}. 
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{img/ANN_multicapa.png}
+	\caption{Red neuronal de tres capas: tres entradas, una capa oculta y tres salidas.}
+	\label{fig:ann_multicapa}
+\end{figure}
+
+La red en su conjunto implementa una función parametrizada.
 \[F_\theta: \mathbb{R}^n \to \mathbb{R}^m\] 
 
-donde $n$ es el número de datos de entrada, $m$ el número de datos de salida y $\theta$ el conjunto de parámetros entrenables.
+donde $n$ es el número de datos de entrada, $m$ el número de datos de salida y $\theta$ el conjunto de parámetros entrenables. El entrenamiento de una red neuronal consiste en ajustar $\theta$.
 
-Por lo que podemos concluir con la definición de \cite{ann_3}, la cual dice que
-
+Por lo que se puede concluir con la definición de \cite{matich2001_ann}, la cual dice que
 \begin{definition}
-	
 	Una red neuronal es una función $F_\theta: \mathbb{R}^n \to \mathbb{R}^m$ donde $\theta = \{ w_{uv}, b_v : (u, v) \in E, v \in V \}$ es el conjunto de parámetros entrenables.
-	
 \end{definition}
 
 \subsection{Funciones de activación}
+
+La capacidad de $F_\theta$ para modelar relaciones no lineales depende de las funciones de activación aplicadas en cada nodo $v$. Sin la función de activación, la red neuronal podría definirse únicamente como una función lineal.
 
 En esta sección se presentan las funciones de activación más comunes utilizadas en redes neuronales. Para cada función se muestra su definición matemática, una breve descripción de su comportamiento práctico y una figura ilustrativa.
 
 \subsubsection{Binary step (escalón binario)}
 
 La función escalón binario se define por partes:
-
 \[
 f(x) =
 \begin{cases}
-	
 	1 & \text{si } x \ge 0,\\[4pt]
-	
 	0 & \text{si } x < 0.
-	
 \end{cases}
 \]
-
 Produce salidas discretas (0/1) y fue utilizada en perceptrones tempranos como función de decisión. No es diferenciable en el punto de umbral y su derivada es nula en casi todas partes, por lo que no es adecuada para entrenamiento mediante gradiente (backpropagation). Aun así, se usa conceptualmente para tomar decisiones discretas o como capa de postprocesado/umbral en modelos ya entrenados.
-
 \begin{figure}[H]
-	
 	\centering
-	
 	\includegraphics[width=0.5\textwidth]{img/binary.png}
-	
 	\caption{Función de activación escalón binario.}
-	
 	\label{fig:binary}
-	
 \end{figure}
 
 \subsubsection{Lineal}
-
 La función lineal (o identidad) se define como:
-
 \[
 f(x) = ax + b \quad \lor \quad f(x)=x.
 \]
-
 Produce una salida proporcional a la entrada y mantiene la linealidad en la red. Se utiliza principalmente en la capa de salida para tareas de regresión donde se requiere predecir valores continuos. No es adecuada para capas ocultas cuando se desea que la red aprenda transformaciones no lineales.
-
 \begin{figure}[H]
-	
 	\centering
-	
 	\includegraphics[width=0.5\textwidth]{img/lineal.png}
-	
 	\caption{Función de activación lineal.}
-	
 	\label{fig:linear}
-	
 \end{figure}
 
 \subsubsection{Sigmoide}
 
 La función sigmoide logística se define como:
-
 \[
 \sigma(x) = \frac{1}{1 + e^{-x}}.
 \]
-
 Tiene la propiedad de:
-
 \[
 \sigma'(x) = \sigma(x)\,(1 - \sigma(x)).
 \]
-
-Comprime la entrada en el intervalo $(0,1)$, por lo que es apropiada para modelar probabilidades y se ha usado históricamente en la salida de clasificadores binarios. Sufre saturación cuando los valores son muy grandes, lo que provoca gradientes muy pequeños (esto se llama el problema del gradiente desvanecido) y una salida que no está centrada (es positiva). Por eso, en las capas ocultas modernas, a menudo se reemplaza por ReLU o tanh.
-
+Comprime la entrada en el intervalo $(0,1)$, por lo que es apropiada para modelar probabilidades y se ha usado históricamente en la salida de clasificadores binarios. Sufre saturación cuando los valores son grandes, lo que provoca gradientes pequeños (esto se llama el problema del gradiente desvanecido) y una salida que no está centrada (es positiva). Por eso, en las capas ocultas modernas, a menudo se reemplaza por ReLU o tanh.
 \begin{figure}[H]
-	
 	\centering
-	
 	\includegraphics[width=0.5\textwidth]{img/sigmoid.png}
-	
 	\caption{Función de activación sigmoide.}
-	
 	\label{fig:sigmoid}
-	
 \end{figure}
 
 \subsubsection{tanh (hiperbólica)}
 
 La tangente hiperbólica se define como:
-
 \[
 \tanh(x) = \frac{e^{x} - e^{-x}}{e^{x} + e^{-x}}.
 \]
-
 Su rango es $(-1, 1)$ y su derivada puede expresarse en función de sí misma.  
 
 Es una versión centrada en cero de la sigmoide, lo que facilita el aprendizaje (gradientes con medias cercanas a cero). Se usa en capas ocultas cuando se necesita una salida limitada y centrada. Era una opción común en problemas secuenciales y en redes neuronales tradicionales antes de que se popularizaran arquitecturas y funciones de activación más modernas.
-
-\begin{figure}[H]
-	
+\begin{figure}[H]	
 	\centering
-	
 	\includegraphics[width=0.5\textwidth]{img/tanh.png}
-	
 	\caption{Función de activación \texttt{tanh}.}
-	
 	\label{fig:tanh}
-	
 \end{figure}
 
 \subsubsection{ReLU (Rectified Linear Unit)}
 
 La función ReLU se define por partes:
-
 \[
 f(x) = \max(0, x).
 \]
-
-Activa linealmente las entradas positivas y pone a cero las negativas. Es simple y computacionalmente eficiente, favorece la esparcidad de activaciones y reduce en la práctica el problema del gradiente desvanecido en redes profundas. Muy utilizada en capas ocultas de arquitecturas modernas. Tiene la desventaja de poder provocar neuronas ``muertas'' (gradiente cero para entradas negativas).
-
+Activa linealmente las entradas positivas y pone a cero las negativas. Es sencillo y computacionalmente eficiente, favorece la esparcidad de activaciones y reduce en la práctica el problema del gradiente desvanecido en redes profundas. Muy utilizada en capas ocultas de arquitecturas modernas. Tiene la desventaja de poder provocar neuronas ``muertas'' (gradiente cero para entradas negativas), problema que funciones como Leaky ReLU intentan corregir.
 \begin{figure}[H]
-	
 	\centering
-	
 	\includegraphics[width=0.5\textwidth]{img/relu.png}
-	
 	\caption{Función de activación ReLU.}
-	
 	\label{fig:relu}
-	
 \end{figure}
 
 \subsection{Aprendizaje en redes neuronales}
 
 Dada una red neuronal artificial con los parámetros entrenables totalmente configurados, es capaz de realizar su clasificación o predicción de manera correcta. Sin embargo, resulta imposible configurar estos pesos manualmente, por lo que requiere de un ``entrenamiento'' que ayude a definir los pesos sinápticos. A continuación se define la función de pérdida, optimización y entrenamiento, elementos necesarios para obtener esa configuración específica.
 
-En los primeros modelos la actualización de los pesos se realizaba a partir del error cuadrático del valor de activación. La regla de actualización se expresaba como:
-
+En los primeros modelos, la actualización de los pesos se realizaba a partir del error cuadrático del valor de activación. La regla de actualización se expresaba como:
 \[
 	\Delta w_j = - \alpha(c- a)x_j
 \]
-
-Donde $a$ representa la activación y $\alpha$ la tasa de aprendizaje. Este método permitió superar la no diferenciabilidad de la función escalón en los perceptrones originales \cite{ann_extra}.
+Donde $a$ representa la activación y $\alpha$ la tasa de aprendizaje. Este método permitió superar la no diferenciabilidad de la función escalón en los perceptrones originales \cite{matich2001_ann}.
 
 \subsubsection{Función de pérdida}
 
-La función de pérdida se usa para medir el rendimiento del modelo. Calcula la desviación que existe entre el valor predicho y el valor esperado. Esta función puede ser un escalar o un vector que permite aproximar la tasa de error para llegar a una solución óptima \cite{funcion_perdida_1}. 
+La función de pérdida se usa para medir el rendimiento del modelo. Calcula la desviación que existe entre el valor predicho y el valor esperado. Esta función puede ser un escalar o un vector que permite aproximar la tasa de error para llegar a una solución óptima \cite{bergmann_funcion_perdida}. 
 
 \begin{definition}
 	
-	Sea $F_\theta$ una red neuronal artificial y $ \mathcal{D} = \{ (x^{(i)}, y^{(i)}) \}_{i = 1}^n $ un conjunto de datos de entrenamiento donde $x^{(i)}$ es la entrada y $y^{(i)}$ es la salida esperada; una función de pérdida es un mapeo. 
-	
+	Sea $F_\theta$ una red neuronal artificial y $ \mathcal{D} = \{ (x^{(i)}, y^{(i)}) \}_{i = 1}^n $ un conjunto de datos de entrenamiento donde $x^{(i)}$ es la entrada y $y^{(i)}$ es la salida esperada; una función de pérdida es un mapeo que tiene la siguiente forma: 
 	\[
 	\mathcal{L}: \mathbb{R}^m \times \mathbb{R}^m \to \mathbb{R}_{\geq 0}
 	\]
-	
 	Tal que mide la discrepancia entre la predicción del modelo y la salida real:
-	
 	\[
 	\mathcal{L} (F_\theta (x^{(i)}, y^{(i)}))
 	\]
-	
-	
-	
 \end{definition}
 
 Es importante que la función de pérdida sea diferenciable. El gradiente de la función de pérdida permite conocer la dirección hacia la cual debe moverse para disminuir la pérdida.
 
-Las funciones de pérdida se pueden utilizar para regresión y para clasificación. La primera mide el error en valores continuos, usado para estimar valores contables como el precio, tamaño, tiempo. La segunda mide los errores en valores discretos, como la clasificación o la categoría.
+Las funciones de pérdida se pueden utilizar para regresión y para clasificación. La primera mide el error en valores continuos y se utiliza para estimar valores contables como el precio, tamaño y tiempo. La segunda mide los errores en valores discretos, como la clasificación o la categoría.
 
-Diferentes funciones de pérdida priorizan diferentes tipos de error; la elección de la función de pérdida dependerá de la tarea que se desea realizar. Además, la función de pérdida únicamente se limita a una muestra; para una población de muestras, se utiliza la función de costo, la cual se define a continuación \cite{funcion_perdida_1, funcion_perdida_2}:
+Distintas funciones de pérdida priorizan diferentes tipos de error; la elección de la función de pérdida dependerá de la tarea que se desea realizar. Además, la función de pérdida únicamente se aplica a una muestra; para una población de muestras, se utiliza la función de costo, que se define a continuación \cite{bergmann_funcion_perdida, ultralytics2025_funcion_perdida}:
 
 \begin{definition}
 	
-	Sea $F_\theta$ una red neuronal artificial y $\mathcal{L}$ un conjunto de datos de entrenamiento; la función de costo es el promedio de las pérdidas:
-	
+	Sea $F_\theta$ una red neuronal artificial y $\mathcal{L}$ la función de pérdida; la función de costo es el promedio de las pérdidas:
 	\[
 	J(\theta) = \frac{1}{n} \sum_{i = 1}^{n} \mathcal{L}(F_\theta(x^{(i)}), y^{(i)})
 	\]
-	
 \end{definition}
 
 \subsubsection{Optimización}
 
-El entrenamiento de una red consiste en ajustar los parámetros entrenables $\theta$ para minimizar la función de pérdida. La optimización resulta en resolver el problema de minimización dado por:
-
+El entrenamiento de una red consiste en ajustar los parámetros entrenables $\theta$ para minimizar la función de pérdida. La optimización consiste en resolver el problema de minimización dado por:
 \[
 \theta^* = \arg \min_{\theta} J(\theta)
 \]
-
 Esto se puede conseguir mediante diferentes técnicas, siendo el descenso del gradiente la más común. Este método actualiza los parámetros en la dirección opuesta al gradiente de la función de pérdida:
-
 \[
-\theta^{t + 1} = \theta^{(t)} - \eta  \nabla_\theta \mathcal{L}(\theta^{(t)})
+\theta_{t + 1} = \theta_{(t)} - \eta  \nabla_\theta J(\theta^{(t)})
 \]
+donde $\eta >0$ es la tasa de aprendizaje. Una tasa de aprendizaje alta puede divergir en la solución, mientras que una tasa baja puede tener una convergencia lenta \cite{matich2001_ann}. 
 
-donde $\eta >0$ es la tasa de aprendizaje. Una tasa de aprendizaje alta puede divergir en la solución, mientras que una tasa baja puede tener una convergencia lenta \cite{ann_3}. 
-
-En la práctica, es común iniciar el entrenamiento con una tasa de aprendizaje relativamente alta y luego reducirla gradualmente a medida que el modelo converge. También se suele incorporar un término de \textit{momentum }para acelerar la convergencia y reducir oscilaciones \cite{ann_extra}
+En la práctica, es común iniciar el entrenamiento con una tasa de aprendizaje relativamente alta y luego reducirla gradualmente a medida que el modelo converge. También se suele incorporar un término de \textit{momentum }para acelerar la convergencia y reducir oscilaciones \cite{matich2001_ann}.
 
 \subsubsection{Entrenamiento}
 
-Antes del entrenamiento, las variables de entrada deben normalizarse para ajustarse al rango de activación de la red (por ejemplo, $[0,1]$ o $[-1,1]$). Este paso evita que una variable con valores grandes domine la función de agregación y mejora la estabilidad del entrenamiento. Es importante que la normalización preserve la distribución original de los datos y la proporción entre atributos \cite{ann_extra}.
+Antes del entrenamiento, las variables de entrada deben normalizarse para ajustarse al rango de activación de la red (por ejemplo, $[0,1]$ o $[-1,1]$). Este paso evita que una variable con valores grandes domine la función de agregación y mejora la estabilidad del entrenamiento. Es importante que la normalización preserve la distribución original de los datos y la proporción entre atributos \cite{matich2001_ann}.
 
 Finalmente, el entrenamiento consiste en ajustar todos los parámetros $\theta = \{ W^{(l)}, b^{(l)}\}$ para minimizar la función de costos $J(\theta)$ en un conjunto de datos de entrenamiento. Este proceso se compone de las siguientes etapas:
 
@@ -405,15 +317,13 @@ Finalmente, el entrenamiento consiste en ajustar todos los parámetros $\theta =
 
 	\item Se calcula la pérdida: $\mathcal{L}^{(i)} = \mathcal{L}(\hat{y}^{(i)}, y^{(i)})$
 	
-	\item Se calculan los gradientes propagando la información hacia atrás o \textit{backpropagation} utilizando la regla de la cadena.
-	
+	\item Se calculan los gradientes propagando la información hacia atrás o \textit{backpropagation} utilizando la regla de la cadena.	
 	\[
 	\nabla_\theta J(\theta) = \frac{1}{N} \sum_{i = 1}^{N} \nabla_\theta \mathcal{L} (F_ \theta(x^{(i)}, y ^{(i)}))
 	\]
+	Se actualizan los parámetros mediante la función de optimización: $\theta_{t + 1} = \theta_{(t)} - \eta  \nabla_\theta \mathcal{L}(\theta^{(t)})$
 
-	Se actualizan los parámetros mediante la función de optimización: $\theta^{t + 1} = \theta^{(t)} - \eta  \nabla_\theta \mathcal{L}(\theta^{(t)})$
-
-	\item Se repite este proceso sobre un \textit{dataset} hasta la convergencia de la solución o hasta alcanzar un criterio de parada \cite{ann_3}.
+	\item Se repite este proceso sobre un \textit{dataset} hasta la convergencia de la solución o hasta alcanzar un criterio de parada \cite{matich2001_ann}.
 	
 	Una vez entrenada la red, puede evaluarse la importancia relativa de las entradas mediante un análisis de sensibilidad. Este procedimiento consiste en:
 	
@@ -424,11 +334,11 @@ Finalmente, el entrenamiento consiste en ajustar todos los parámetros $\theta =
 		\item Repetir el proceso para cada variable de entrada.
 	\end{enumerate}
 	
-	De esta manera, se identifica qué variables influyen más en el resultado, lo cual aporta interpretabilidad al modelo \cite{ann_extra}.
+	De esta manera, se identifica qué variables influyen más en el resultado, lo cual aporta interpretabilidad al modelo \cite{matich2001_ann}.
 	
 \end{enumerate}
 
-La elección de la topología de la red, en particular el número de neuronas ocultas, suele determinarse empíricamente. Una regla práctica consiste en comenzar con un número de neuronas ocultas similar al número de entradas y ajustar a partir del rendimiento obtenido. Otras heurísticas recomiendan iniciar con el doble de nodos de entrada y reducir gradualmente si se detecta sobreajuste \cite{ann_extra}.
+La elección de la topología de la red, en particular el número de neuronas ocultas, suele determinarse empíricamente. Una regla práctica consiste en comenzar con un número de neuronas ocultas similar al número de entradas y ajustar a partir del rendimiento obtenido. Otras heurísticas recomiendan iniciar con el doble de nodos de entrada y reducir gradualmente si se detecta sobreajuste \cite{matich2001_ann}.
 
 En resumen, el entrenamiento de la red neuronal es un proceso iterativo de optimización que consiste en:
 
@@ -438,7 +348,7 @@ En resumen, el entrenamiento de la red neuronal es un proceso iterativo de optim
 	
 	\item Comparar la salida con el valor real usando una función de pérdida.
 	
-	\item Propagar el error hacia atrás para obtener gradientes.
+	\item Propagar el error hacia atrás permite obtener gradientes.
 	
 	\item Actualizar los parámetros con un algoritmo de optimización.
 	
@@ -454,8 +364,6 @@ Por un lado, las evoluciones de un autómata celular ocurren de forma secuencial
 
 Por otro lado, como se explicará más adelante, se ha demostrado que los autómatas celulares y las redes neuronales convolucionales tienen algunas similitudes, especialmente porque el \textit{kernel} de la red convolucional es similar a la vecindad del autómata celular.
 
-A continuación se desarrollan ambas arquitecturas de manera formal.
-
 \subsection{Redes neuronales convolucionales}
 
 Las redes neuronales convolucionales constituyen una clase de redes profundas cuya estructura está diseñada para explotar la topología de los datos que tienen forma de rejilla. Por ejemplo, imágenes en dos dimensiones.
@@ -470,7 +378,7 @@ El elemento clave es su operación de convolución: un filtro (o \textit{kernel}
 Y = f(X * K + b)
 \]
 
-Donde $X$ es el volumen de entrada, $K$ es el filtro (o filtros) de convolución, $b$ es el sesgo y $f$ es una función de activación. A continuación pueden seguir operaciones de \textit{pooling} y capas totalmente conectadas para producir la salida final \cite{cnn}.
+Donde $X$ es el volumen de entrada, $K$ es el filtro (o filtros) de convolución, $b$ es el sesgo y $f$ es una función de activación. A continuación pueden seguir operaciones de \textit{pooling} y capas totalmente conectadas para producir la salida final \cite{amidi2025_cnn}.
 
 Se aplica principalmente en clasificación de imágenes, segmentación, reconocimiento de video y procesamiento de audio. En el contexto de los autómatas celulares, se puede ver que el filtro de la red neuronal convolucional es similar a la vecindad del autómata. Esto permite entenderlo como una operación de actualización local que se repite en un espacio organizado, igual que en un autómata celular.
 
@@ -493,13 +401,10 @@ La vecindad temporal está dada por la conexión de la unidad de tiempo $t$ con 
 
 Como se mostró más arriba, la actualización recursiva del estado oculto actúa como la función de transición temporal de la red. La red integra información histórica para producir la salida en cada paso de tiempo.
 
-Estas redes se utilizan frecuentemente en el procesamiento de lenguaje natural, reconocimiento de voz, series temporales, traducción automática y otras tareas en las que el orden temporal de los datos es esencial \cite{rnn}.
+Estas redes se utilizan frecuentemente en el procesamiento de lenguaje natural, reconocimiento de voz, series temporales, traducción automática y otras tareas en las que el orden temporal de los datos es esencial \cite{amidi2025_rnn}.
 
 Dado que un autómata celular evoluciona en pasos discretos de tiempo y cada uno puede depender del estado previo del sistema, las redes neuronales recurrentes aportan un modelo natural para capturar dependencias temporales entre estados sucesivos del autómata. Esto resulta especialmente útil si la regla del autómata celular tiene memoria o se desea que aprenda dinámicas espacio-temporales.
 
-
-Una vez comprendidas las redes neuronales, podemos retomar la definición de un autómata celular neuronal: una arquitectura que surge de la integración entre los autómatas celulares y las redes neuronales artificiales.
-
-
+En conclusión, mientras que las redes neuronales convolucionales capturan la estructura espacial y la vecindad local del sistema, las redes neuronales recurrentes modelan su evolución y persistencia temporal. La integración de ambas capacidades permite que un autómata celular neuronal no solo emule reglas estables, sino que aprenda dinámicas complejas a partir de datos, superando las limitaciones de las reglas de transición diseñadas manualmente.
 
 \clearpage
