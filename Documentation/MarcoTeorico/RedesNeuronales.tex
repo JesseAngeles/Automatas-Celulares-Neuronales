@@ -71,7 +71,7 @@ Cada neurona se compone (principalmente) de tres elementos, como se muestra en l
 	
 \end{itemize}
 
-\begin{figure}[H]
+\begin{figure}[!htbp]
 	
 	\centering
 	
@@ -98,7 +98,7 @@ La neurona artificial se considera como una unidad de procesamiento de informaci
 
 La cual se suele representar como en la figura \ref{fig:neurona_artificial}.
 
-\begin{figure}[H]
+\begin{figure}[!htbp]
 	
 	\centering
 	
@@ -147,7 +147,7 @@ Una neurona únicamente puede realizar una operación. Para aumentar la capacida
 
 Aunque la topología de la red puede ser arbitraria, en la práctica las redes se organizan en tres conjuntos de capas. Esto se muestra en la figura \ref{fig:ann_multicapa}, las cuales son (1) una de entrada que recibe los datos, (2) una o varias ocultas y (3) una de salida que devuelve el resultado. Adicionalmente, suelen diseñarse redes neuronales completamente conectadas, es decir, todas las neuronas tienen una relación con todas las de la siguiente capa, pero no es una restricción \cite{ibm2021_ann}. 
 
-\begin{figure}[H]
+\begin{figure}[!htbp]
 	\centering
 	\includegraphics[width=0.5\textwidth]{img/ANN_multicapa.png}
 	\caption{Red neuronal de tres capas: tres entradas, una capa oculta y tres salidas.}
@@ -181,7 +181,7 @@ f(x) =
 \end{cases}
 \]
 Produce salidas discretas (0/1) y fue utilizada en perceptrones tempranos como función de decisión. No es diferenciable en el punto de umbral y su derivada es nula en casi todas partes, por lo que no es adecuada para entrenamiento mediante gradiente (backpropagation). Aun así, se usa conceptualmente para tomar decisiones discretas o como capa de postprocesado/umbral en modelos ya entrenados.
-\begin{figure}[H]
+\begin{figure}[!htbp]
 	\centering
 	\includegraphics[width=0.5\textwidth]{img/binary.png}
 	\caption{Función de activación escalón binario.}
@@ -194,7 +194,7 @@ La función lineal (o identidad) se define como:
 f(x) = ax + b \quad \lor \quad f(x)=x.
 \]
 Produce una salida proporcional a la entrada y mantiene la linealidad en la red. Se utiliza principalmente en la capa de salida para tareas de regresión donde se requiere predecir valores continuos. No es adecuada para capas ocultas cuando se desea que la red aprenda transformaciones no lineales.
-\begin{figure}[H]
+\begin{figure}[!htbp]
 	\centering
 	\includegraphics[width=0.5\textwidth]{img/lineal.png}
 	\caption{Función de activación lineal.}
@@ -212,7 +212,7 @@ Tiene la propiedad de:
 \sigma'(x) = \sigma(x)\,(1 - \sigma(x)).
 \]
 Comprime la entrada en el intervalo $(0,1)$, por lo que es apropiada para modelar probabilidades y se ha usado históricamente en la salida de clasificadores binarios. Sufre saturación cuando los valores son grandes, lo que provoca gradientes pequeños (esto se llama el problema del gradiente desvanecido) y una salida que no está centrada (es positiva). Por eso, en las capas ocultas modernas, a menudo se reemplaza por ReLU o tanh.
-\begin{figure}[H]
+\begin{figure}[!htbp]
 	\centering
 	\includegraphics[width=0.5\textwidth]{img/sigmoid.png}
 	\caption{Función de activación sigmoide.}
@@ -228,7 +228,7 @@ La tangente hiperbólica se define como:
 Su rango es $(-1, 1)$ y su derivada puede expresarse en función de sí misma.  
 
 Es una versión centrada en cero de la sigmoide, lo que facilita el aprendizaje (gradientes con medias cercanas a cero). Se usa en capas ocultas cuando se necesita una salida limitada y centrada. Era una opción común en problemas secuenciales y en redes neuronales tradicionales antes de que se popularizaran arquitecturas y funciones de activación más modernas.
-\begin{figure}[H]	
+\begin{figure}[!htbp]	
 	\centering
 	\includegraphics[width=0.5\textwidth]{img/tanh.png}
 	\caption{Función de activación \texttt{tanh}.}
@@ -242,7 +242,7 @@ La función ReLU se define por partes:
 f(x) = \max(0, x).
 \]
 Activa linealmente las entradas positivas y pone a cero las negativas. Es sencillo y computacionalmente eficiente, favorece la esparcidad de activaciones y reduce en la práctica el problema del gradiente desvanecido en redes profundas. Muy utilizada en capas ocultas de arquitecturas modernas. Tiene la desventaja de poder provocar neuronas ``muertas'' (gradiente cero para entradas negativas), problema que funciones como Leaky ReLU intentan corregir.
-\begin{figure}[H]
+\begin{figure}[!htbp]
 	\centering
 	\includegraphics[width=0.5\textwidth]{img/relu.png}
 	\caption{Función de activación ReLU.}
@@ -373,11 +373,9 @@ Una red neuronal convolucional consta de una capa de entrada, varias capas ocult
 Se asume un volumen de entrada con dimensiones $(H \times W \times C)$, es decir, altura $H$, anchura $W$ y $C$ canales (por ejemplo, RGB en imágenes). La red maneja este volumen usando filtros deslizantes. Aunque normalmente no se describen en términos de estados discretos de autómatas, se puede entender que cada neurona de una capa representa un estado continuo real (por ejemplo, una activación $a \in \mathbb{R}$).
 
 El elemento clave es su operación de convolución: un filtro (o \textit{kernel}) de tamaño $k \times k$ se desliza sobre la entrada, compartiendo pesos y produciendo mapas de activación. Se puede ver como una vecindad local de la neurona que influye en su valor de activación que se aplica en cada capa de convolución:
-
 \[
 Y = f(X * K + b)
 \]
-
 Donde $X$ es el volumen de entrada, $K$ es el filtro (o filtros) de convolución, $b$ es el sesgo y $f$ es una función de activación. A continuación pueden seguir operaciones de \textit{pooling} y capas totalmente conectadas para producir la salida final \cite{amidi2025_cnn}.
 
 Se aplica principalmente en clasificación de imágenes, segmentación, reconocimiento de video y procesamiento de audio. En el contexto de los autómatas celulares, se puede ver que el filtro de la red neuronal convolucional es similar a la vecindad del autómata. Esto permite entenderlo como una operación de actualización local que se repite en un espacio organizado, igual que en un autómata celular.
