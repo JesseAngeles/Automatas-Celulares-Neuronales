@@ -104,7 +104,7 @@ PYBIND11_MODULE(CA, m)
             if (new_neighbourhood.shape(0) != self.getNSize() || new_neighbourhood.shape(1) != 2)
                 throw std::runtime_error("set_neighbourhood: wrong dimensions");
 
-            self.setNeighbourhood(const_cast<int*>(new_neighbourhood.data())); })
+            self.setNeighbourhood(const_cast<int*>(new_neighbourhood.data()), new_neighbourhood.shape(0)); })
 
         .def("set_rule", [](CA &self, py::array_t<int, py::array::c_style | py::array::forcecast> new_rule)
              {

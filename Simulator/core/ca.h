@@ -38,7 +38,7 @@ public:
     // Setters
     void setSpace(int *);
     void setStates(int);
-    void setNeighbourhood(int *);
+    void setNeighbourhood(int *, int);
     void setRule(int *);
     void setCell(int, int, int);
 
@@ -59,4 +59,6 @@ private:
     int *A_d, *B_d;
     dim3 threads;
     dim3 blocks;
+
+    void fixRuleRize();
 };

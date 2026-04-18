@@ -137,9 +137,36 @@ int CA::getCell(int x, int y) const
 }
 
 // Setters
-void CA::setStates(int new_states) { states = new_states; }
-void CA::setNeighbourhood(int *new_neighbourhood) { neighbourhood = new_neighbourhood; }
-void CA::setRule(int *new_rule) { rule = new_rule; }
+void CA::setStates(int new_states)
+{
+    states = new_states;
+    fixRuleRize();
+}
+void CA::setNeighbourhood(int *new_neighbourhood, int new_n_size)
+{
+    if (new_n_size > 64)
+        throw std::runtime_error("n_size exceed memory (64)");
+
+    // El tamaño cambiar
+    if (new_n_size != n_size)
+    {
+        n_size = new_n_size;
+        delete[] neighbourhood;
+        neighbourhood = new int[n_size * 2];
+        fixRuleRize();
+    }
+    std::memcpy(neighbourhood, new_neighbourhood, n_size * 2 * sizeof(int));
+    cudaMemcpyToSymbol(c_neighbourhood, neighbourhood, n_size * 2 * sizeof(int));
+}
+
+void CA::setRule(int *new_rule)
+{
+    std::memcpy(rule, new_rule, r_size * sizeof(int));
+    for (int i = 0; i < r_size; i++)
+        rule[i] %= states;
+    cudaMemcpyToSymbol(c_rule, rule, r_size * sizeof(int));
+}
+
 void CA::setSpace(int *new_space)
 {
     std::memcpy(space, new_space, size);
@@ -149,4 +176,29 @@ void CA::setCell(int x, int y, int value)
 {
     space[y * width + x] = value;
     cudaMemcpy(&A_d[y * width + x], &space[y * width + x], sizeof(int), cudaMemcpyHostToDevice);
+}
+
+void CA::fixRuleRize()
+{
+    int new_r_size = (int)pow(states, n_size);
+    if (new_r_size > 4096)
+        throw std::runtime_error("r_size exceed the memory (4096)");
+
+    int *new_rule = new int[new_r_size];
+
+    int elements = min(r_size, new_r_size);
+    for (int i = 0; i < elements; i++)
+        new_rule[i] = rule[i];
+
+    if (new_r_size > r_size)
+        for (int i = r_size; i < new_r_size; i++)
+            new_rule[i] = 0;
+
+    delete[] rule;
+
+    r_size = new_r_size;
+    rule = new_rule;
+    for (int i = 0; i < r_size; i++)
+        rule[i] %= states;
+    cudaMemcpyToSymbol(c_rule, rule, r_size * sizeof(int));
 }
