@@ -3,6 +3,7 @@
 #include <pybind11/numpy.h>
 
 #include "ca.h"
+#include "nca.h"
 
 namespace py = pybind11;
 
@@ -114,4 +115,74 @@ PYBIND11_MODULE(CA, m)
             self.setRule(const_cast<int * >(new_rule.data())); })
 
         .def("set_cell", &CA::setCell);
+
+    py::class_<NCA>(m, "NCA")
+        // Constructor
+        .def(py::init([](
+                          int width, int height,
+                          py::array_t<float, py::array::c_style | py::array::forcecast> space,
+                          py::array_t<int, py::array::c_style | py::array::forcecast> neighbourhood,
+                          int n_size)
+                      { return new NCA(
+                            width, height,
+                            space.mutable_data(),
+                            neighbourhood.mutable_data(),
+                            n_size); }))
+
+        .def("step", &NCA::step)
+        .def("print", &NCA::print)
+
+        // Getters
+        .def("get_space", [](NCA &self)
+             { return py::array_t<float>(
+                   {self.getHeight(), self.getWidth()},
+                   {self.getWidth() * (ssize_t)sizeof(float), (ssize_t)sizeof(float)},
+                   self.getSpace(),
+                   py::cast(self)); })
+
+        .def("get_width", &NCA::getWidth)
+        .def("get_height", &NCA::getHeight)
+        .def("get_n_size", &NCA::getNSize)
+        .def("get_cell", &NCA::getCell)
+
+        .def("get_neighbourhood", [](NCA &self)
+             { return py::array_t<int>(
+                   {self.getNSize(), 2},
+                   {2 * (ssize_t)sizeof(int), (ssize_t)sizeof(int)},
+                   self.getNeighbourhood(),
+                   py::cast(self)); })
+
+        // Setters
+        .def("set_space", [](NCA &self, py::array_t<float, py::array::c_style | py::array::forcecast> new_space)
+             {
+            if (new_space.ndim() != 2)
+                throw std::runtime_error("set_space: 2D array expected (height, width)");
+            if (new_space.shape(0) != self.getHeight() || new_space.shape(1) != self.getWidth())
+                throw std::runtime_error("set_space: wrong dimensions");
+            self.setSpace(new_space.mutable_data()); })
+
+        .def("set_cell", &NCA::setCell)
+
+        .def("set_neighbourhood", [](NCA &self, py::array_t<int, py::array::c_style | py::array::forcecast> new_neighbourhood)
+             {
+            if (new_neighbourhood.ndim() != 2 || new_neighbourhood.shape(1) != 2)
+                throw std::runtime_error("set_neighbourhood: 2D array expected (n_size, 2)");
+            self.setNeighbourhood(new_neighbourhood.mutable_data(), new_neighbourhood.shape(0)); })
+
+        .def("set_weights", [](NCA &self,
+                               std::vector<py::array_t<float, py::array::c_style | py::array::forcecast>> weights,
+                               std::vector<py::array_t<float, py::array::c_style | py::array::forcecast>> biases,
+                               std::vector<int> layer_in,
+                               std::vector<int> layer_out,
+                               std::vector<int> activations)
+             {
+            int n = weights.size();
+            std::vector<float *> w_ptrs(n), b_ptrs(n);
+            for (int i = 0; i < n; i++) {
+                w_ptrs[i] = weights[i].mutable_data();
+                b_ptrs[i] = biases[i].mutable_data();
+            }
+            self.setWeights(w_ptrs.data(), b_ptrs.data(),
+                            layer_in.data(), layer_out.data(),
+                            activations.data(), n); });
 }

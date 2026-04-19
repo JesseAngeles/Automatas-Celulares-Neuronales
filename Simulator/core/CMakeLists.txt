@@ -21,6 +21,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 # Buscamos archivos .cpp y .cu
 file(GLOB_RECURSE SOURCES
     "./ca.cu"
+    "./nca.cu"
     "bindings/python_module.cpp"
 )
 

@@ -15,19 +15,20 @@ class MainWindow(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Cellular Automata Simulator")
-        self.setFixedSize(QSize(1000, 900))
+        self.setFixedSize(QSize(1800, 1000))
+        # self.showFullScreen()
 
         # create config
         self.config = SimulationConfig()
 
         # create widgets
         self.control_pane = ControlPane()
-        self.control_pane.setFixedWidth(200)
+        self.control_pane.setFixedWidth(250)
         
         self.simulation = SimulationWidget(grid_size = grid_size)
 
         self.config_pane = ConfigPane()
-        self.config_pane.setFixedWidth(200)
+        self.config_pane.setFixedWidth(250)
 
         # Definir conexiones
         self.control_pane.play_clicked.connect(self.handle_play)

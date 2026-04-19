@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>CA Simulator — Mockup</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; font-size: 13px; }
+  body { background: #1e1e2e; color: #cdd6f4; display: flex; flex-direction: column; height: 100vh; }
+
+  /* ── Top bar ── */
+  .topbar {
+    background: #181825;
+    border-bottom: 1px solid #313244;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .topbar h1 { font-size: 14px; font-weight: 600; color: #cba6f7; letter-spacing: 1px; }
+  .topbar .tag { background: #313244; border-radius: 4px; padding: 2px 8px; font-size: 11px; color: #a6e3a1; }
+
+  /* ── Main layout ── */
+  .main { display: flex; flex: 1; overflow: hidden; }
+
+  /* ── Left panel ── */
+  .left-panel {
+    width: 180px;
+    background: #181825;
+    border-right: 1px solid #313244;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 10px;
+    gap: 6px;
+  }
+  .section-title {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #6c7086;
+    margin: 8px 0 4px;
+  }
+  .btn {
+    background: #313244;
+    border: none;
+    border-radius: 6px;
+    color: #cdd6f4;
+    padding: 7px 10px;
+    cursor: pointer;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.15s;
+  }
+  .btn:hover { background: #45475a; }
+  .btn.primary { background: #cba6f7; color: #1e1e2e; font-weight: 600; }
+  .btn.primary:hover { background: #b4befe; }
+  .btn.danger { background: #f38ba8; color: #1e1e2e; font-weight: 600; }
+  .btn.danger:hover { background: #eba0ac; }
+  .btn.record { background: #f38ba8; color: #1e1e2e; font-weight: 600; }
+  .btn.record:hover { background: #eba0ac; }
+  .btn.active-rec { background: #a6e3a1; color: #1e1e2e; }
+
+  .slider-label { font-size: 11px; color: #6c7086; margin-top: 4px; }
+  input[type=range] { width: 100%; accent-color: #cba6f7; }
+
+  .divider { border: none; border-top: 1px solid #313244; margin: 6px 0; }
+
+  /* ── Center panel ── */
+  .center-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #1e1e2e;
+    padding: 16px;
+    gap: 12px;
+  }
+  .grid-container {
+    border: 1px solid #313244;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(20, 28px);
+    grid-template-rows: repeat(20, 28px);
+  }
+  .cell {
+    border: 0.5px solid #313244;
+    background: #fff;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .cell.s1 { background: #1e1e2e; }
+  .cell.s2 { background: #cba6f7; }
+  .cell.s3 { background: #a6e3a1; }
+
+  .step-info {
+    font-size: 11px;
+    color: #6c7086;
+    display: flex;
+    gap: 16px;
+  }
+  .step-info span { color: #cdd6f4; font-weight: 600; }
+
+  /* ── Right panel ── */
+  .right-panel {
+    width: 240px;
+    background: #181825;
+    border-left: 1px solid #313244;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding: 12px 10px;
+    gap: 8px;
+  }
+
+  /* Neighbourhood grid */
+  .nbh-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 32px);
+    grid-template-rows: repeat(5, 32px);
+    gap: 3px;
+    margin: 0 auto;
+  }
+  .nbh-cell {
+    border-radius: 4px;
+    background: #313244;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: #6c7086;
+    transition: background 0.15s;
+  }
+  .nbh-cell.active { background: #cba6f7; color: #1e1e2e; font-weight: 700; }
+  .nbh-cell.center { background: #f38ba8; color: #1e1e2e; font-weight: 700; cursor: default; }
+
+  /* Rule table */
+  .rule-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  .rule-table th { background: #313244; padding: 4px 6px; text-align: center; color: #6c7086; }
+  .rule-table td { padding: 3px 6px; text-align: center; border-bottom: 1px solid #313244; }
+  .rule-table tr:hover td { background: #252536; }
+  .rule-select {
+    background: #313244;
+    border: none;
+    border-radius: 4px;
+    color: #cdd6f4;
+    padding: 2px 4px;
+    width: 48px;
+  }
+
+  /* States config */
+  .state-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+    border-bottom: 1px solid #313244;
+  }
+  .state-color {
+    width: 20px; height: 20px;
+    border-radius: 4px;
+    border: 1px solid #45475a;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .state-label { flex: 1; color: #cdd6f4; font-size: 11px; }
+  .state-num { color: #6c7086; font-size: 11px; }
+
+  /* Modal overlay */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal {
+    background: #24273a;
+    border: 1px solid #313244;
+    border-radius: 12px;
+    padding: 24px;
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  }
+  .modal h2 { font-size: 14px; color: #cba6f7; }
+  .modal input[type=number] {
+    background: #313244;
+    border: 1px solid #45475a;
+    border-radius: 6px;
+    color: #cdd6f4;
+    padding: 8px 10px;
+    width: 100%;
+    font-size: 13px;
+  }
+  .modal-btns { display: flex; gap: 8px; justify-content: flex-end; }
+  .btn-sm {
+    background: #313244;
+    border: none;
+    border-radius: 6px;
+    color: #cdd6f4;
+    padding: 6px 14px;
+    cursor: pointer;
+  }
+  .btn-sm.confirm { background: #cba6f7; color: #1e1e2e; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- Top bar -->
+<div class="topbar">
+  <h1>CA Simulator</h1>
+  <span class="tag">CA Mode</span>
+  <span class="tag" style="color:#f38ba8">● Not recording</span>
+</div>
+
+<div class="main">
+
+  <!-- ── LEFT PANEL ── -->
+  <div class="left-panel">
+    <div class="section-title">Simulación</div>
+    <button class="btn primary">▶ Play</button>
+    <button class="btn">⏭ Step</button>
+    <button class="btn">⏮ Backstep</button>
+
+    <hr class="divider">
+    <div class="section-title">Grid</div>
+    <button class="btn">🔀 Random</button>
+    <button class="btn danger">✕ Erase</button>
+
+    <hr class="divider">
+    <div class="section-title">Velocidad</div>
+    <div class="slider-label">Lento ←→ Rápido</div>
+    <input type="range" min="1" max="1000" value="750">
+
+    <hr class="divider">
+    <div class="section-title">Grabación</div>
+    <button class="btn record" onclick="document.getElementById('rec-modal').classList.add('show')">⏺ Grabar N pasos</button>
+
+    <hr class="divider">
+    <div class="section-title">Archivo</div>
+    <button class="btn">📂 Importar (.npy)</button>
+    <button class="btn">💾 Exportar (.npy)</button>
+  </div>
+
+  <!-- ── CENTER PANEL ── -->
+  <div class="center-panel">
+    <div class="grid-container">
+      <div class="grid" id="main-grid"></div>
+    </div>
+    <div class="step-info">
+      <div>Paso: <span id="step-count">0</span></div>
+      <div>Grid: <span>20 × 20</span></div>
+      <div>Estados: <span>3</span></div>
+    </div>
+  </div>
+
+  <!-- ── RIGHT PANEL ── -->
+  <div class="right-panel">
+
+    <!-- Neighbourhood -->
+    <div class="section-title">Vecindad (semitotalística)</div>
+    <div class="nbh-grid" id="nbh-grid"></div>
+    <div style="font-size:10px; color:#6c7086; text-align:center; margin-top:4px;">
+      Activos: <span id="nbh-count" style="color:#cba6f7">8</span> vecinos
+    </div>
+
+    <hr class="divider">
+
+    <!-- States -->
+    <div class="section-title">Estados</div>
+    <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+      <span style="color:#6c7086; font-size:11px;">Nº estados:</span>
+      <input type="number" min="2" max="16" value="3"
+        style="width:50px; background:#313244; border:1px solid #45475a; border-radius:4px; color:#cdd6f4; padding:3px 6px; font-size:12px;">
+    </div>
+    <div id="state-colors"></div>
+
+    <hr class="divider">
+
+    <!-- Rule table -->
+    <div class="section-title">Regla de transición</div>
+    <div style="font-size:10px; color:#6c7086; margin-bottom:6px;">
+      (celda actual, suma vecinos) → salida
+    </div>
+    <table class="rule-table" id="rule-table">
+      <thead>
+        <tr><th>Celda</th><th>Suma</th><th>→</th></tr>
+      </thead>
+      <tbody id="rule-body"></tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- ── MODAL: Grabar N pasos ── -->
+<div class="modal-overlay" id="rec-modal">
+  <div class="modal">
+    <h2>⏺ Grabar evolución</h2>
+    <p style="font-size:11px; color:#6c7086;">
+      Se ejecutarán N pasos sin animación y se guardará cada frame para entrenar la red neuronal.
+    </p>
+    <input type="number" min="1" max="10000" value="100" placeholder="Número de pasos (N)">
+    <div class="modal-btns">
+      <button class="btn-sm" onclick="document.getElementById('rec-modal').classList.remove('show')">Cancelar</button>
+      <button class="btn-sm confirm" onclick="document.getElementById('rec-modal').classList.remove('show')">Grabar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── Main grid ──
+  const grid = document.getElementById('main-grid');
+  const SIZE = 20;
+  const cells = [];
+  for (let y = 0; y < SIZE; y++) {
+    cells[y] = [];
+    for (let x = 0; x < SIZE; x++) {
+      const c = document.createElement('div');
+      c.className = 'cell';
+      c.addEventListener('click', () => {
+        const states = ['', 's1', 's2', 's3'];
+        const cur = states.indexOf(c.dataset.state || '');
+        const next = (cur + 1) % 3;
+        c.className = 'cell ' + (states[next + 1] || '');
+        c.dataset.state = states[next + 1] || '';
+      });
+      grid.appendChild(c);
+      cells[y][x] = c;
+    }
+  }
+  // Some initial pattern (glider-like)
+  [[2,1],[3,2],[1,3],[2,3],[3,3]].forEach(([x,y]) => {
+    cells[y][x].className = 'cell s1';
+    cells[y][x].dataset.state = 's1';
+  });
+
+  // ── Neighbourhood grid (5x5) ──
+  const nbhGrid = document.getElementById('nbh-grid');
+  const nbhCount = document.getElementById('nbh-count');
+  let active = 0;
+  for (let r = 0; r < 5; r++) {
+    for (let c = 0; c < 5; c++) {
+      const cell = document.createElement('div');
+      cell.className = 'nbh-cell';
+      const isCenter = r === 2 && c === 2;
+      if (isCenter) {
+        cell.className = 'nbh-cell center';
+        cell.textContent = '●';
+      } else {
+        const isMoore = Math.abs(r-2) <= 1 && Math.abs(c-2) <= 1;
+        if (isMoore) { cell.classList.add('active'); active++; }
+        cell.addEventListener('click', () => {
+          cell.classList.toggle('active');
+          active = document.querySelectorAll('.nbh-cell.active').length;
+          nbhCount.textContent = active;
+          buildRuleTable();
+        });
+      }
+      nbhGrid.appendChild(cell);
+    }
+  }
+  nbhCount.textContent = active;
+
+  // ── State colors ──
+  const stateColors = ['#ffffff','#1e1e2e','#cba6f7'];
+  const stateNames  = ['Estado 0 (vacío)','Estado 1 (vivo)','Estado 2'];
+  const stateColorsDiv = document.getElementById('state-colors');
+  stateColors.forEach((color, i) => {
+    const row = document.createElement('div');
+    row.className = 'state-row';
+    row.innerHTML = `
+      <div class="state-color" style="background:${color}" title="Click para cambiar color"></div>
+      <span class="state-label">${stateNames[i]}</span>
+      <span class="state-num">#${i}</span>`;
+    stateColorsDiv.appendChild(row);
+  });
+
+  // ── Rule table ──
+  function buildRuleTable() {
+    const tbody = document.getElementById('rule-body');
+    tbody.innerHTML = '';
+    const nSize = parseInt(nbhCount.textContent);
+    const states = 3;
+    for (let s = 0; s < states; s++) {
+      for (let sum = 0; sum <= nSize; sum++) {
+        const tr = document.createElement('tr');
+        const sel = `<select class="rule-select">
+          ${[0,1,2].map(v => `<option value="${v}" ${v===0?'selected':''}>${v}</option>`).join('')}
+        </select>`;
+        tr.innerHTML = `<td>${s}</td><td>${sum}</td><td>${sel}</td>`;
+        tbody.appendChild(tr);
+      }
+    }
+  }
+  buildRuleTable();
+</script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 # models.cellularAutomaton.py
 
-import CA # type: ignore
+from CA import CA
 import numpy as np
 
 class cellularAutomaton:
@@ -14,7 +14,7 @@ class cellularAutomaton:
         new_neighbourhood = np.array(neighbourhood, dtype=np.int32).flatten()
         new_rule = np.array(rule, dtype=np.int32)
 
-        self.ca = CA.CA(
+        self.ca = CA(
             width,
             height,
             new_space,
