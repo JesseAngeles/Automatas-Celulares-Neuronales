@@ -21,6 +21,7 @@ class ControlPane(QWidget):
         
         # Define labels
         self.simulation_label = QLabel("Simulation")
+        self.step_label = QLabel("Step: 0")
         self.speed_label = QLabel("Speed")
         self.grid_label = QLabel("Grid")
         self.record_label = QLabel("Record")
@@ -41,6 +42,7 @@ class ControlPane(QWidget):
 
         # Añadir elementos
         layout.addWidget(self.simulation_label)
+        layout.addWidget(self.step_label)
         layout.addWidget(self.step_button)
         layout.addWidget(self.play_button)
         layout.addWidget(self.backstep_button)
@@ -68,7 +70,10 @@ class ControlPane(QWidget):
         self.speed_slider.valueChanged.connect(self.speed_moved.emit)
 
     def update_play_button(self, is_running: bool):
-        self.play_button.setText("play" if is_running else "pause")
+        self.play_button.setText("pause" if is_running else "play")
+
+    def update_step_label(self, n: int):
+        self.step_label.setText(f"Step: {n}")
 
     def connect_controller(self, controller):
         self.step_button.clicked.connect(controller.on_step_button)
@@ -76,3 +81,6 @@ class ControlPane(QWidget):
         self.backstep_button.clicked.connect(controller.on_backstep_button)
         self.erase_button.clicked.connect(controller.on_erase_button)
         self.random_button.clicked.connect(controller.on_random_button)
+        self.record_botton.clicked.connect(controller.on_record_button)
+        self.import_button.clicked.connect(controller.on_import_button)
+        self.export_button.clicked.connect(controller.on_export_button)

@@ -17,16 +17,17 @@ PYBIND11_MODULE(CA, m)
                           int states,
                           py::array_t<int, py::array::c_style | py::array::forcecast> neighbourhood,
                           int n_size,
+                          py::array_t<int, py::array::c_style | py::array::forcecast> group_sizes,
+                          int n_groups,
                           py::array_t<int, py::array::c_style | py::array::forcecast> rule,
                           int r_size)
                       { return new CA(
                             width, height,
                             space.mutable_data(),
                             states,
-                            neighbourhood.mutable_data(),
-                            n_size,
-                            rule.mutable_data(),
-                            r_size); }))
+                            neighbourhood.mutable_data(), n_size,
+                            group_sizes.mutable_data(), n_groups,
+                            rule.mutable_data(), r_size); }))
 
         .def("step", &CA::step)
 
@@ -53,9 +54,6 @@ PYBIND11_MODULE(CA, m)
         // Getters
         .def("get_space", [](CA &self)
              {
-            auto shape = std::vector<ssize_t>{self.getHeight(), self.getWidth()};
-            auto strides = std::vector<ssize_t>{self.getWidth() * (ssize_t)sizeof(int), (ssize_t)sizeof(int)};
-
             return py::array_t<int>(
                 {self.getHeight(), self.getWidth()},
                 {self.getWidth() * (ssize_t)sizeof(int), (ssize_t)sizeof(int)},
@@ -66,6 +64,7 @@ PYBIND11_MODULE(CA, m)
         .def("get_height", &CA::getHeight)
         .def("get_states", &CA::getStates)
         .def("get_n_size", &CA::getNSize)
+        .def("get_n_groups", &CA::getNGroups)
         .def("get_r_size", &CA::getRSize)
 
         .def("get_neighbourhood", [](CA &self)
@@ -73,6 +72,13 @@ PYBIND11_MODULE(CA, m)
                    {self.getNSize(), 2},
                    {2 * (ssize_t)sizeof(int), (ssize_t)sizeof(int)},
                    self.getNeighbourhood(),
+                   py::cast(self)); })
+
+        .def("get_group_sizes", [](CA &self)
+             { return py::array_t<int>(
+                   {self.getNGroups()},
+                   {(ssize_t)sizeof(int)},
+                   self.getGroupSizes(),
                    py::cast(self)); })
 
         .def("get_rule", [](CA &self)
@@ -92,29 +98,35 @@ PYBIND11_MODULE(CA, m)
 
             if (new_space.shape(0) != self.getHeight() || new_space.shape(1) != self.getWidth())
                 throw std::runtime_error("set_space: wrong dimensions");
-            
+
             self.setSpace(const_cast<int*>(new_space.data())); })
 
         .def("set_states", &CA::setStates)
 
-        .def("set_neighbourhood", [](CA &self, py::array_t<int, py::array::c_style | py::array::forcecast> new_neighbourhood)
+        .def("set_neighbourhood", [](CA &self,
+                                     py::array_t<int, py::array::c_style | py::array::forcecast> new_neighbourhood,
+                                     py::array_t<int, py::array::c_style | py::array::forcecast> new_group_sizes)
              {
-            if (new_neighbourhood.ndim() != 2)
+            if (new_neighbourhood.ndim() != 2 || new_neighbourhood.shape(1) != 2)
                 throw std::runtime_error("set_neighbourhood: 2D array expected (n_size, 2)");
+            if (new_group_sizes.ndim() != 1)
+                throw std::runtime_error("set_neighbourhood: group_sizes must be 1D");
 
-            if (new_neighbourhood.shape(0) != self.getNSize() || new_neighbourhood.shape(1) != 2)
-                throw std::runtime_error("set_neighbourhood: wrong dimensions");
-
-            self.setNeighbourhood(const_cast<int*>(new_neighbourhood.data()), new_neighbourhood.shape(0)); })
+            self.setNeighbourhood(
+                const_cast<int*>(new_neighbourhood.data()), new_neighbourhood.shape(0),
+                const_cast<int*>(new_group_sizes.data()), new_group_sizes.shape(0)); })
 
         .def("set_rule", [](CA &self, py::array_t<int, py::array::c_style | py::array::forcecast> new_rule)
              {
             if (new_rule.ndim() != 1)
                 throw std::runtime_error("set_rule: 1D array expected");
-           
+
             self.setRule(const_cast<int * >(new_rule.data())); })
 
-        .def("set_cell", &CA::setCell);
+        .def("set_cell", &CA::setCell)
+
+        .def("set_boundary", &CA::setBoundary)
+        .def("get_boundary", &CA::getBoundary);
 
     py::class_<NCA>(m, "NCA")
         // Constructor

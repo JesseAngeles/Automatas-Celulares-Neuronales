@@ -3,7 +3,8 @@
 #include "ca.h"
 
 // Constant memory
-__constant__ int c_neighbourhood[128]; // Hasta 64 vecinos
+__constant__ int c_neighbourhood[128]; // Hasta 64 vecinos (dx,dy pares)
+__constant__ int c_group_sizes[64];    // Tamaño de cada grupo
 __constant__ int c_rule[4096];
 
 __global__ void CA_GPU(
@@ -12,7 +13,8 @@ __global__ void CA_GPU(
     int width,
     int height,
     int states,
-    int n_size)
+    int n_groups,
+    int boundary_mode)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
     int idy = blockIdx.y * blockDim.y + threadIdx.y;
@@ -20,19 +22,58 @@ __global__ void CA_GPU(
     if (idx >= width || idy >= height)
         return;
 
-    int total = 0;
-    int p = 1;
+    // Calcular suma de cada grupo
+    int sums[64];
+    int offset = 0;
 
-    for (int i = n_size - 1; i >= 0; i--)
+    for (int g = 0; g < n_groups; g++)
     {
-        int nx = (idx + c_neighbourhood[i * 2] + width) % width;
-        int ny = (idy + c_neighbourhood[i * 2 + 1] + height) % height;
+        int sum = 0;
+        for (int k = 0; k < c_group_sizes[g]; k++)
+        {
+            int raw_nx = idx + c_neighbourhood[(offset + k) * 2];
+            int raw_ny = idy + c_neighbourhood[(offset + k) * 2 + 1];
+            int cell_val;
 
-        total += A[ny * width + nx] * p;
-        p *= states;
+            if (boundary_mode == 1) {
+                // Periódica: toroidal
+                int nx = ((raw_nx % width)  + width)  % width;
+                int ny = ((raw_ny % height) + height) % height;
+                cell_val = A[ny * width + nx];
+            } else if (boundary_mode == 2) {
+                // Reflectiva: fuera de rango → valor de la celda origen
+                if (raw_nx < 0 || raw_nx >= width || raw_ny < 0 || raw_ny >= height)
+                    cell_val = A[idy * width + idx];
+                else
+                    cell_val = A[raw_ny * width + raw_nx];
+            } else if (boundary_mode == 3) {
+                // Reflexiva: fuera de rango → vecino más cercano (clamp)
+                int nx = max(0, min(raw_nx, width  - 1));
+                int ny = max(0, min(raw_ny, height - 1));
+                cell_val = A[ny * width + nx];
+            } else {
+                // Abierta (0 y cualquier otro): fuera de rango → 0
+                if (raw_nx < 0 || raw_nx >= width || raw_ny < 0 || raw_ny >= height)
+                    cell_val = 0;
+                else
+                    cell_val = A[raw_ny * width + raw_nx];
+            }
+            sum += cell_val;
+        }
+        sums[g] = sum;
+        offset += c_group_sizes[g];
     }
 
-    B[idy * width + idx] = c_rule[total];
+    // Índice lineal: primer grupo es el más significativo
+    int rule_index = 0;
+    int multiplier = 1;
+    for (int g = n_groups - 1; g >= 0; g--)
+    {
+        rule_index += sums[g] * multiplier;
+        multiplier *= (states - 1) * c_group_sizes[g] + 1;
+    }
+
+    B[idy * width + idx] = c_rule[rule_index];
 }
 
 CA::CA(
@@ -41,12 +82,15 @@ CA::CA(
     int *in_space,
     int in_states,
     int *in_neighbourhood, int in_n_size,
+    int *in_group_sizes, int in_n_groups,
     int *in_rule, int in_r_size)
     : width(in_width),
       height(in_height),
       states(in_states),
       n_size(in_n_size),
-      r_size(in_r_size)
+      n_groups(in_n_groups),
+      r_size(in_r_size),
+      boundary_mode(BOUNDARY_PERIODIC)
 {
     size = width * height * sizeof(int);
 
@@ -60,6 +104,9 @@ CA::CA(
     neighbourhood = new int[in_n_size * 2];
     std::memcpy(neighbourhood, in_neighbourhood, in_n_size * 2 * sizeof(int));
 
+    group_sizes = new int[in_n_groups];
+    std::memcpy(group_sizes, in_group_sizes, in_n_groups * sizeof(int));
+
     rule = new int[in_r_size];
     std::memcpy(rule, in_rule, in_r_size * sizeof(int));
 
@@ -68,6 +115,7 @@ CA::CA(
 
     cudaMemcpy(A_d, space, size, cudaMemcpyHostToDevice);
     cudaMemcpyToSymbol(c_neighbourhood, neighbourhood, in_n_size * 2 * sizeof(int));
+    cudaMemcpyToSymbol(c_group_sizes, group_sizes, in_n_groups * sizeof(int));
     cudaMemcpyToSymbol(c_rule, rule, in_r_size * sizeof(int));
 }
 
@@ -78,12 +126,13 @@ CA::~CA()
 
     delete[] space;
     delete[] neighbourhood;
+    delete[] group_sizes;
     delete[] rule;
 }
 
 void CA::step()
 {
-    CA_GPU<<<blocks, threads>>>(A_d, B_d, width, height, states, n_size);
+    CA_GPU<<<blocks, threads>>>(A_d, B_d, width, height, states, n_groups, boundary_mode);
     cudaMemcpy(space, B_d, size, cudaMemcpyDeviceToHost);
     int *tmp = A_d;
     A_d = B_d;
@@ -97,7 +146,7 @@ int *CA::run(int steps)
 
     for (int s = 0; s < steps; s++)
     {
-        CA_GPU<<<blocks, threads>>>(A_d, B_d, width, height, states, n_size);
+        CA_GPU<<<blocks, threads>>>(A_d, B_d, width, height, states, n_groups, boundary_mode);
 
         cudaMemcpy(&history[s * frame_size], B_d, size, cudaMemcpyDeviceToHost);
 
@@ -128,35 +177,46 @@ int CA::getWidth() const { return width; }
 int CA::getHeight() const { return height; }
 int CA::getStates() const { return states; }
 int *CA::getNeighbourhood() const { return neighbourhood; }
-int *CA::getRule() const { return rule; }
 int CA::getNSize() const { return n_size; }
+int *CA::getGroupSizes() const { return group_sizes; }
+int CA::getNGroups() const { return n_groups; }
+int *CA::getRule() const { return rule; }
 int CA::getRSize() const { return r_size; }
-int CA::getCell(int x, int y) const
-{
-    return space[y * width + x];
-}
+int CA::getCell(int x, int y) const { return space[y * width + x]; }
 
 // Setters
 void CA::setStates(int new_states)
 {
     states = new_states;
-    fixRuleRize();
+    fixRuleSize();
 }
-void CA::setNeighbourhood(int *new_neighbourhood, int new_n_size)
+
+void CA::setNeighbourhood(int *new_neighbourhood, int new_n_size, int *new_group_sizes, int new_n_groups)
 {
     if (new_n_size > 64)
-        throw std::runtime_error("n_size exceed memory (64)");
+        throw std::runtime_error("n_size exceeds memory limit (64)");
+    if (new_n_groups > 64)
+        throw std::runtime_error("n_groups exceeds memory limit (64)");
 
-    // El tamaño cambiar
     if (new_n_size != n_size)
     {
-        n_size = new_n_size;
         delete[] neighbourhood;
-        neighbourhood = new int[n_size * 2];
-        fixRuleRize();
+        neighbourhood = new int[new_n_size * 2];
+        n_size = new_n_size;
     }
     std::memcpy(neighbourhood, new_neighbourhood, n_size * 2 * sizeof(int));
     cudaMemcpyToSymbol(c_neighbourhood, neighbourhood, n_size * 2 * sizeof(int));
+
+    if (new_n_groups != n_groups)
+    {
+        delete[] group_sizes;
+        group_sizes = new int[new_n_groups];
+        n_groups = new_n_groups;
+    }
+    std::memcpy(group_sizes, new_group_sizes, n_groups * sizeof(int));
+    cudaMemcpyToSymbol(c_group_sizes, group_sizes, n_groups * sizeof(int));
+
+    fixRuleSize();
 }
 
 void CA::setRule(int *new_rule)
@@ -172,33 +232,35 @@ void CA::setSpace(int *new_space)
     std::memcpy(space, new_space, size);
     cudaMemcpy(A_d, space, size, cudaMemcpyHostToDevice);
 }
+
 void CA::setCell(int x, int y, int value)
 {
     space[y * width + x] = value;
     cudaMemcpy(&A_d[y * width + x], &space[y * width + x], sizeof(int), cudaMemcpyHostToDevice);
 }
 
-void CA::fixRuleRize()
+void CA::setBoundary(int mode) { boundary_mode = mode; }
+int  CA::getBoundary() const   { return boundary_mode; }
+
+void CA::fixRuleSize()
 {
-    int new_r_size = (int)pow(states, n_size);
+    int new_r_size = 1;
+    for (int g = 0; g < n_groups; g++)
+        new_r_size *= (states - 1) * group_sizes[g] + 1;
+
     if (new_r_size > 4096)
-        throw std::runtime_error("r_size exceed the memory (4096)");
+        throw std::runtime_error("r_size exceeds memory limit (4096)");
 
     int *new_rule = new int[new_r_size];
 
-    int elements = min(r_size, new_r_size);
+    int elements = (r_size < new_r_size) ? r_size : new_r_size;
     for (int i = 0; i < elements; i++)
-        new_rule[i] = rule[i];
-
-    if (new_r_size > r_size)
-        for (int i = r_size; i < new_r_size; i++)
-            new_rule[i] = 0;
+        new_rule[i] = rule[i] % states;
+    for (int i = r_size; i < new_r_size; i++)
+        new_rule[i] = 0;
 
     delete[] rule;
-
-    r_size = new_r_size;
     rule = new_rule;
-    for (int i = 0; i < r_size; i++)
-        rule[i] %= states;
+    r_size = new_r_size;
     cudaMemcpyToSymbol(c_rule, rule, r_size * sizeof(int));
 }
