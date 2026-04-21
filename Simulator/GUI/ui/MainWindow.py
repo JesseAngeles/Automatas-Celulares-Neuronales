@@ -10,22 +10,171 @@ from ui.ConfigPane import ConfigPane
 from controllers.SimulationController import SimulationController
 from controllers.SimulationConfig import SimulationConfig
 
+
+APP_STYLESHEET = """
+QMainWindow, QWidget#root {
+    background-color: #f3f3f5;
+}
+
+QWidget {
+    font-family: "Inter", "Segoe UI", "Helvetica Neue", sans-serif;
+    font-size: 12px;
+    color: #2a2a2e;
+}
+
+QWidget#panel {
+    background-color: #ffffff;
+    border: 1px solid #e3e3e8;
+    border-radius: 10px;
+}
+
+QLabel#sectionTitle {
+    color: #8a8a92;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+QLabel#paneTitle {
+    color: #1a1a1e;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+QLabel#stepCounter {
+    color: #1a1a1e;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+QLabel#mutedValue {
+    color: #8a8a92;
+    font-size: 11px;
+}
+
+QFrame#sep {
+    background: #ececf0;
+    max-height: 1px;
+    min-height: 1px;
+    border: none;
+}
+
+QPushButton {
+    background-color: #ffffff;
+    color: #2a2a2e;
+    border: 1px solid #d7d7dc;
+    border-radius: 6px;
+    padding: 6px 10px;
+    min-height: 20px;
+}
+QPushButton:hover {
+    background-color: #f5f5f8;
+    border-color: #b8b8bf;
+}
+QPushButton:pressed {
+    background-color: #eaeaef;
+}
+QPushButton:disabled {
+    color: #b4b4ba;
+    background-color: #fafafb;
+    border-color: #e6e6ea;
+}
+
+QPushButton#primary {
+    background-color: #3478f6;
+    color: #ffffff;
+    border: 1px solid #2f6de0;
+    font-weight: 600;
+}
+QPushButton#primary:hover {
+    background-color: #2f6de0;
+}
+QPushButton#primary:pressed {
+    background-color: #2960c9;
+}
+
+QPushButton#ghost {
+    background-color: transparent;
+    border: 1px solid #e0e0e5;
+    color: #4a4a50;
+}
+QPushButton#ghost:hover {
+    background-color: #f5f5f8;
+    border-color: #c8c8cf;
+}
+
+QSpinBox {
+    background: #ffffff;
+    border: 1px solid #d7d7dc;
+    border-radius: 6px;
+    padding: 3px 6px;
+    min-height: 20px;
+}
+QSpinBox:focus {
+    border-color: #3478f6;
+}
+
+QSlider::groove:horizontal {
+    height: 4px;
+    background: #e0e0e5;
+    border-radius: 2px;
+}
+QSlider::sub-page:horizontal {
+    background: #3478f6;
+    border-radius: 2px;
+}
+QSlider::handle:horizontal {
+    background: #ffffff;
+    border: 1px solid #b8b8bf;
+    width: 14px;
+    height: 14px;
+    margin: -6px 0;
+    border-radius: 8px;
+}
+QSlider::handle:horizontal:hover {
+    border-color: #3478f6;
+}
+
+QScrollArea {
+    border: none;
+    background: transparent;
+}
+QScrollBar:vertical {
+    background: transparent;
+    width: 8px;
+    margin: 2px;
+}
+QScrollBar::handle:vertical {
+    background: #d0d0d6;
+    border-radius: 4px;
+    min-height: 20px;
+}
+QScrollBar::handle:vertical:hover {
+    background: #b0b0b8;
+}
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    height: 0px;
+}
+"""
+
+
 class MainWindow(QMainWindow):
     def __init__(self, grid_size):
         super().__init__()
 
         self.setWindowTitle("Cellular Automata Simulator")
         self.setFixedSize(QSize(1800, 1000))
+        self.setStyleSheet(APP_STYLESHEET)
 
         self.config = SimulationConfig()
 
         self.control_pane = ControlPane()
-        self.control_pane.setFixedWidth(250)
+        self.control_pane.setFixedWidth(260)
 
         self.simulation = SimulationWidget(grid_size=grid_size)
 
         self.config_pane = ConfigPane()
-        self.config_pane.setFixedWidth(250)
+        self.config_pane.setFixedWidth(280)
 
         self.control_pane.reset_clicked.connect(self.handle_reset)
         self.control_pane.speed_moved.connect(self.handle_speed)
@@ -62,11 +211,14 @@ class MainWindow(QMainWindow):
         self._update_rule_table()
 
         layout = QHBoxLayout()
+        layout.setContentsMargins(14, 14, 14, 14)
+        layout.setSpacing(12)
         layout.addWidget(self.control_pane)
-        layout.addWidget(self.simulation)
+        layout.addWidget(self.simulation, stretch=1)
         layout.addWidget(self.config_pane)
 
         container = QWidget()
+        container.setObjectName("root")
         container.setLayout(layout)
         self.setCentralWidget(container)
 

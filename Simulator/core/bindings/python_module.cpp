@@ -1,6 +1,8 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <pybind11/numpy.h>
+#include <cuda_runtime.h>
+#include <cstdint>
 
 #include "ca.h"
 #include "nca.h"
@@ -13,7 +15,7 @@ PYBIND11_MODULE(CA, m)
         // Constructor
         .def(py::init([](
                           int width, int height,
-                          py::array_t<int, py::array::c_style | py::array::forcecast> space,
+                          py::array_t<uint8_t, py::array::c_style | py::array::forcecast> space,
                           int states,
                           py::array_t<int, py::array::c_style | py::array::forcecast> neighbourhood,
                           int n_size,
@@ -33,17 +35,17 @@ PYBIND11_MODULE(CA, m)
 
         .def("run", [](CA &self, int steps)
              {
-        int *history = self.run(steps);
+        uint8_t *history = self.run(steps);
 
         py::capsule free_when_done(history, [](void *ptr)
-                                   { delete[] reinterpret_cast<int *>(ptr); });
+                                   { cudaFreeHost(ptr); });
 
-        return py::array_t<int>(
+        return py::array_t<uint8_t>(
             {steps, self.getHeight(), self.getWidth() },
         {
-            self.getHeight() * self.getWidth() * (ssize_t)sizeof(int),
-            self.getWidth() * (ssize_t)sizeof(int),
-            (ssize_t)sizeof(int)
+            self.getHeight() * self.getWidth() * (ssize_t)sizeof(uint8_t),
+            self.getWidth() * (ssize_t)sizeof(uint8_t),
+            (ssize_t)sizeof(uint8_t)
         },
         history,
         free_when_done
@@ -54,9 +56,9 @@ PYBIND11_MODULE(CA, m)
         // Getters
         .def("get_space", [](CA &self)
              {
-            return py::array_t<int>(
+            return py::array_t<uint8_t>(
                 {self.getHeight(), self.getWidth()},
-                {self.getWidth() * (ssize_t)sizeof(int), (ssize_t)sizeof(int)},
+                {self.getWidth() * (ssize_t)sizeof(uint8_t), (ssize_t)sizeof(uint8_t)},
                 self.getSpace(),
                 py::cast(self)); })
 
@@ -91,7 +93,7 @@ PYBIND11_MODULE(CA, m)
         .def("get_cell", &CA::getCell)
 
         // Setters
-        .def("set_space", [](CA &self, py::array_t<int, py::array::c_style | py::array::forcecast> new_space)
+        .def("set_space", [](CA &self, py::array_t<uint8_t, py::array::c_style | py::array::forcecast> new_space)
              {
             if (new_space.ndim() != 2)
                 throw std::runtime_error("set_space: 2D array expected (height, width)");
@@ -99,7 +101,7 @@ PYBIND11_MODULE(CA, m)
             if (new_space.shape(0) != self.getHeight() || new_space.shape(1) != self.getWidth())
                 throw std::runtime_error("set_space: wrong dimensions");
 
-            self.setSpace(const_cast<int*>(new_space.data())); })
+            self.setSpace(new_space.data()); })
 
         .def("set_states", &CA::setStates)
 

@@ -6,18 +6,19 @@ import numpy as np
 class cellularAutomaton:
 
     # Constructor
+    # space: ndarray (H, W) uint8 o list[list[int]]
     # neighbourhood: lista de grupos, cada grupo es lista de [dx, dy]
-    # Ej: [[[-1,0],[1,0]], [[0,0]]]  → grupo vecinos + grupo celda central
-    def __init__(self, space: list[list[int]], states: int, neighbourhood: list[list[list[int]]], rule: list[int]):
-        height = len(space)
-        width = len(space[0])
+    def __init__(self, space, states: int, neighbourhood, rule):
+        arr = np.ascontiguousarray(space, dtype=np.uint8)
+        if arr.ndim != 2:
+            raise ValueError("space must be 2D")
+        height, width = arr.shape
 
         flat, group_sizes = self._parse_neighbourhood(neighbourhood)
 
-        new_space      = np.array(space, dtype=np.int32).flatten()
-        new_neighbourhood = np.array(flat, dtype=np.int32)
+        new_neighbourhood = np.array(flat,        dtype=np.int32)
         new_group_sizes   = np.array(group_sizes, dtype=np.int32)
-        new_rule          = np.array(rule, dtype=np.int32)
+        new_rule          = np.array(rule,        dtype=np.int32)
 
         n_size   = len(flat)
         n_groups = len(group_sizes)
@@ -25,16 +26,15 @@ class cellularAutomaton:
 
         self.ca = CA(
             width, height,
-            new_space,
+            arr,
             states,
             new_neighbourhood, n_size,
             new_group_sizes, n_groups,
             new_rule, r_size
         )
 
-    # Calcula r_size para una vecindad agrupada dada
     @staticmethod
-    def ruleSize(states: int, neighbourhood: list[list[list[int]]]) -> int:
+    def ruleSize(states: int, neighbourhood) -> int:
         r = 1
         for group in neighbourhood:
             r *= (states - 1) * len(group) + 1
@@ -89,12 +89,12 @@ class cellularAutomaton:
 
     # Setters
     def setSpace(self, space):
-        self.ca.set_space(np.array(space, dtype=np.int32))
+        self.ca.set_space(np.ascontiguousarray(space, dtype=np.uint8))
 
     def setStates(self, states: int):
         self.ca.set_states(states)
 
-    def setNeighbourhood(self, neighbourhood: list[list[list[int]]]):
+    def setNeighbourhood(self, neighbourhood):
         flat, group_sizes = self._parse_neighbourhood(neighbourhood)
         self.ca.set_neighbourhood(
             np.array(flat, dtype=np.int32),

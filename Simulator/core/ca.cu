@@ -1,20 +1,21 @@
 // ca.cu
 
 #include "ca.h"
+#include <algorithm>
 
 // Constant memory
 __constant__ int c_neighbourhood[128]; // Hasta 64 vecinos (dx,dy pares)
 __constant__ int c_group_sizes[64];    // Tamaño de cada grupo
 __constant__ int c_rule[4096];
 
-__global__ void CA_GPU(
-    const int *__restrict__ A,
-    int *__restrict__ B,
+template <int BM>
+__global__ void CA_GPU_T(
+    const uint8_t *__restrict__ A,
+    uint8_t *__restrict__ B,
     int width,
     int height,
     int states,
-    int n_groups,
-    int boundary_mode)
+    int n_groups)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
     int idy = blockIdx.y * blockDim.y + threadIdx.y;
@@ -22,37 +23,37 @@ __global__ void CA_GPU(
     if (idx >= width || idy >= height)
         return;
 
-    // Calcular suma de cada grupo
-    int sums[64];
+    int sums[16];   // hasta 16 grupos — suficiente en la práctica
     int offset = 0;
 
     for (int g = 0; g < n_groups; g++)
     {
         int sum = 0;
-        for (int k = 0; k < c_group_sizes[g]; k++)
+        int gs = c_group_sizes[g];
+        for (int k = 0; k < gs; k++)
         {
             int raw_nx = idx + c_neighbourhood[(offset + k) * 2];
             int raw_ny = idy + c_neighbourhood[(offset + k) * 2 + 1];
             int cell_val;
 
-            if (boundary_mode == 1) {
-                // Periódica: toroidal
+            if constexpr (BM == 1) {
+                // Periódica (toroidal)
                 int nx = ((raw_nx % width)  + width)  % width;
                 int ny = ((raw_ny % height) + height) % height;
                 cell_val = A[ny * width + nx];
-            } else if (boundary_mode == 2) {
-                // Reflectiva: fuera de rango → valor de la celda origen
+            } else if constexpr (BM == 2) {
+                // Reflectiva: fuera → celda origen
                 if (raw_nx < 0 || raw_nx >= width || raw_ny < 0 || raw_ny >= height)
                     cell_val = A[idy * width + idx];
                 else
                     cell_val = A[raw_ny * width + raw_nx];
-            } else if (boundary_mode == 3) {
-                // Reflexiva: fuera de rango → vecino más cercano (clamp)
+            } else if constexpr (BM == 3) {
+                // Reflexiva: fuera → clamp
                 int nx = max(0, min(raw_nx, width  - 1));
                 int ny = max(0, min(raw_ny, height - 1));
                 cell_val = A[ny * width + nx];
             } else {
-                // Abierta (0 y cualquier otro): fuera de rango → 0
+                // Abierta: fuera → 0
                 if (raw_nx < 0 || raw_nx >= width || raw_ny < 0 || raw_ny >= height)
                     cell_val = 0;
                 else
@@ -61,10 +62,9 @@ __global__ void CA_GPU(
             sum += cell_val;
         }
         sums[g] = sum;
-        offset += c_group_sizes[g];
+        offset += gs;
     }
 
-    // Índice lineal: primer grupo es el más significativo
     int rule_index = 0;
     int multiplier = 1;
     for (int g = n_groups - 1; g >= 0; g--)
@@ -73,13 +73,25 @@ __global__ void CA_GPU(
         multiplier *= (states - 1) * c_group_sizes[g] + 1;
     }
 
-    B[idy * width + idx] = c_rule[rule_index];
+    B[idy * width + idx] = (uint8_t)c_rule[rule_index];
+}
+
+void CA::launch()
+{
+    switch (boundary_mode)
+    {
+        case 0: CA_GPU_T<0><<<blocks, threads, 0, stream>>>(A_d, B_d, width, height, states, n_groups); break;
+        case 1: CA_GPU_T<1><<<blocks, threads, 0, stream>>>(A_d, B_d, width, height, states, n_groups); break;
+        case 2: CA_GPU_T<2><<<blocks, threads, 0, stream>>>(A_d, B_d, width, height, states, n_groups); break;
+        case 3: CA_GPU_T<3><<<blocks, threads, 0, stream>>>(A_d, B_d, width, height, states, n_groups); break;
+        default: CA_GPU_T<1><<<blocks, threads, 0, stream>>>(A_d, B_d, width, height, states, n_groups); break;
+    }
 }
 
 CA::CA(
     int in_width,
     int in_height,
-    int *in_space,
+    uint8_t *in_space,
     int in_states,
     int *in_neighbourhood, int in_n_size,
     int *in_group_sizes, int in_n_groups,
@@ -90,15 +102,23 @@ CA::CA(
       n_size(in_n_size),
       n_groups(in_n_groups),
       r_size(in_r_size),
-      boundary_mode(BOUNDARY_PERIODIC)
+      boundary_mode(BOUNDARY_PERIODIC),
+      host_dirty(false)
 {
-    size = width * height * sizeof(int);
+    if (in_n_size > 64)
+        throw std::runtime_error("n_size exceeds memory limit (64)");
+    if (in_n_groups > 16)
+        throw std::runtime_error("n_groups exceeds memory limit (16)");
+    if (in_r_size > 4096)
+        throw std::runtime_error("r_size exceeds memory limit (4096)");
+
+    size = (size_t)width * height * sizeof(uint8_t);
 
     threads = dim3(16, 16);
     blocks = dim3((width + threads.x - 1) / threads.x,
                   (height + threads.y - 1) / threads.y);
 
-    space = new int[in_width * in_height];
+    space = new uint8_t[(size_t)width * height];
     std::memcpy(space, in_space, size);
 
     neighbourhood = new int[in_n_size * 2];
@@ -110,6 +130,7 @@ CA::CA(
     rule = new int[in_r_size];
     std::memcpy(rule, in_rule, in_r_size * sizeof(int));
 
+    cudaStreamCreate(&stream);
     cudaMalloc(&A_d, size);
     cudaMalloc(&B_d, size);
 
@@ -121,8 +142,10 @@ CA::CA(
 
 CA::~CA()
 {
+    cudaStreamSynchronize(stream);
     cudaFree(A_d);
     cudaFree(B_d);
+    cudaStreamDestroy(stream);
 
     delete[] space;
     delete[] neighbourhood;
@@ -132,57 +155,66 @@ CA::~CA()
 
 void CA::step()
 {
-    CA_GPU<<<blocks, threads>>>(A_d, B_d, width, height, states, n_groups, boundary_mode);
-    cudaMemcpy(space, B_d, size, cudaMemcpyDeviceToHost);
-    int *tmp = A_d;
-    A_d = B_d;
-    B_d = tmp;
+    launch();
+    std::swap(A_d, B_d);
+    host_dirty = true;
 }
 
-int *CA::run(int steps)
+uint8_t *CA::run(int steps)
 {
-    int *history = new int[steps * height * width];
-    size_t frame_size = height * width;
+    uint8_t *history = nullptr;
+    // Memoria pinned para habilitar cudaMemcpyAsync real
+    cudaHostAlloc((void **)&history, (size_t)steps * height * width, cudaHostAllocDefault);
+
+    size_t frame_size = (size_t)height * width;
 
     for (int s = 0; s < steps; s++)
     {
-        CA_GPU<<<blocks, threads>>>(A_d, B_d, width, height, states, n_groups, boundary_mode);
-
-        cudaMemcpy(&history[s * frame_size], B_d, size, cudaMemcpyDeviceToHost);
-
-        int *tmp = A_d;
-        A_d = B_d;
-        B_d = tmp;
+        launch();
+        cudaMemcpyAsync(&history[s * frame_size], B_d, size, cudaMemcpyDeviceToHost, stream);
+        std::swap(A_d, B_d);
     }
+    cudaStreamSynchronize(stream);
 
+    // Espacio en host = último frame del historial
     std::memcpy(space, &history[(steps - 1) * frame_size], size);
+    host_dirty = false;
 
     return history;
 }
 
+void CA::syncHost()
+{
+    if (!host_dirty) return;
+    cudaMemcpyAsync(space, A_d, size, cudaMemcpyDeviceToHost, stream);
+    cudaStreamSynchronize(stream);
+    host_dirty = false;
+}
+
 void CA::print()
 {
+    syncHost();
     for (int y = 0; y < height; y++)
     {
         for (int x = 0; x < width; x++)
-            std::cout << space[y * width + x] << " ";
+            std::cout << (int)space[y * width + x] << " ";
         std::cout << "\n";
     }
     std::cout << "\n";
 }
 
 // Getters
-int *CA::getSpace() const { return space; }
-int CA::getWidth() const { return width; }
-int CA::getHeight() const { return height; }
-int CA::getStates() const { return states; }
-int *CA::getNeighbourhood() const { return neighbourhood; }
-int CA::getNSize() const { return n_size; }
-int *CA::getGroupSizes() const { return group_sizes; }
-int CA::getNGroups() const { return n_groups; }
-int *CA::getRule() const { return rule; }
-int CA::getRSize() const { return r_size; }
-int CA::getCell(int x, int y) const { return space[y * width + x]; }
+uint8_t *CA::getSpace()             { syncHost(); return space; }
+int CA::getWidth() const            { return width; }
+int CA::getHeight() const           { return height; }
+int CA::getStates() const           { return states; }
+int *CA::getNeighbourhood() const   { return neighbourhood; }
+int CA::getNSize() const            { return n_size; }
+int *CA::getGroupSizes() const      { return group_sizes; }
+int CA::getNGroups() const          { return n_groups; }
+int *CA::getRule() const            { return rule; }
+int CA::getRSize() const            { return r_size; }
+uint8_t CA::getCell(int x, int y)   { syncHost(); return space[y * width + x]; }
 
 // Setters
 void CA::setStates(int new_states)
@@ -195,8 +227,8 @@ void CA::setNeighbourhood(int *new_neighbourhood, int new_n_size, int *new_group
 {
     if (new_n_size > 64)
         throw std::runtime_error("n_size exceeds memory limit (64)");
-    if (new_n_groups > 64)
-        throw std::runtime_error("n_groups exceeds memory limit (64)");
+    if (new_n_groups > 16)
+        throw std::runtime_error("n_groups exceeds memory limit (16)");
 
     if (new_n_size != n_size)
     {
@@ -227,16 +259,22 @@ void CA::setRule(int *new_rule)
     cudaMemcpyToSymbol(c_rule, rule, r_size * sizeof(int));
 }
 
-void CA::setSpace(int *new_space)
+void CA::setSpace(const uint8_t *new_space)
 {
+    syncHost();  // descarta datos dirty del device; vamos a sobrescribir A_d
     std::memcpy(space, new_space, size);
-    cudaMemcpy(A_d, space, size, cudaMemcpyHostToDevice);
+    cudaMemcpyAsync(A_d, space, size, cudaMemcpyHostToDevice, stream);
+    cudaStreamSynchronize(stream);
+    host_dirty = false;
 }
 
 void CA::setCell(int x, int y, int value)
 {
-    space[y * width + x] = value;
-    cudaMemcpy(&A_d[y * width + x], &space[y * width + x], sizeof(int), cudaMemcpyHostToDevice);
+    syncHost();
+    space[y * width + x] = (uint8_t)value;
+    cudaMemcpyAsync(&A_d[y * width + x], &space[y * width + x],
+                    sizeof(uint8_t), cudaMemcpyHostToDevice, stream);
+    cudaStreamSynchronize(stream);
 }
 
 void CA::setBoundary(int mode) { boundary_mode = mode; }

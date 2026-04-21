@@ -1,79 +1,147 @@
 # ui.ControlPane
 
-from PyQt5.QtWidgets import QWidget, QPushButton, QSlider, QVBoxLayout, QLabel
+from PyQt5.QtWidgets import (
+    QWidget, QPushButton, QSlider, QVBoxLayout, QHBoxLayout, QLabel, QFrame
+)
 from PyQt5.QtCore import pyqtSignal, Qt
 
+
+def _separator() -> QFrame:
+    line = QFrame()
+    line.setObjectName("sep")
+    line.setFrameShape(QFrame.NoFrame)
+    line.setFixedHeight(1)
+    return line
+
+
+def _section_label(text: str) -> QLabel:
+    lbl = QLabel(text.upper())
+    lbl.setObjectName("sectionTitle")
+    return lbl
+
+
 class ControlPane(QWidget):
-    # signal
-    play_clicked = pyqtSignal()
-    step_clicked = pyqtSignal()
+    play_clicked  = pyqtSignal()
+    step_clicked  = pyqtSignal()
     reset_clicked = pyqtSignal()
-    speed_moved = pyqtSignal(int)
+    speed_moved   = pyqtSignal(int)
 
     def __init__(self):
         super().__init__()
+        self.setObjectName("panel")
 
-        # Define speed slider
+        # ── Header: título + contador de pasos ───────────────────────
+        title = QLabel("Simulation")
+        title.setObjectName("paneTitle")
+
+        self.step_label = QLabel("Step 0")
+        self.step_label.setObjectName("stepCounter")
+        self.step_label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+
+        header = QHBoxLayout()
+        header.addWidget(title)
+        header.addStretch()
+        header.addWidget(self.step_label)
+
+        # ── Playback ──────────────────────────────────────────────────
+        self.backstep_button = QPushButton("◀")
+        self.play_button     = QPushButton("▶  Play")
+        self.step_button     = QPushButton("▶|")
+
+        self.play_button.setObjectName("primary")
+        self.play_button.setMinimumHeight(34)
+        self.backstep_button.setFixedWidth(46)
+        self.step_button.setFixedWidth(46)
+        self.backstep_button.setMinimumHeight(34)
+        self.step_button.setMinimumHeight(34)
+
+        playback_row = QHBoxLayout()
+        playback_row.setSpacing(6)
+        playback_row.addWidget(self.backstep_button)
+        playback_row.addWidget(self.play_button, stretch=1)
+        playback_row.addWidget(self.step_button)
+
+        # ── Speed ─────────────────────────────────────────────────────
         self.speed_slider = QSlider(Qt.Horizontal)
         self.speed_slider.setMinimum(1)
         self.speed_slider.setMaximum(1000)
         self.speed_slider.setValue(750)
-        
-        # Define labels
-        self.simulation_label = QLabel("Simulation")
-        self.step_label = QLabel("Step: 0")
-        self.speed_label = QLabel("Speed")
-        self.grid_label = QLabel("Grid")
-        self.record_label = QLabel("Record")
-        self.file_label = QLabel("Files")
 
-        # Define buttons
-        self.step_button = QPushButton("step")
-        self.play_button = QPushButton("play")
-        self.backstep_button = QPushButton("backstep")
-        self.erase_button = QPushButton("Erase")
+        self._speed_value = QLabel("750")
+        self._speed_value.setObjectName("mutedValue")
+
+        speed_head = QHBoxLayout()
+        speed_head.addWidget(_section_label("Speed"))
+        speed_head.addStretch()
+        speed_head.addWidget(self._speed_value)
+
+        self.speed_slider.valueChanged.connect(
+            lambda v: self._speed_value.setText(str(v))
+        )
+
+        # ── Grid ──────────────────────────────────────────────────────
+        self.erase_button  = QPushButton("Erase")
         self.random_button = QPushButton("Random")
-        self.record_botton = QPushButton("Record N steps")
-        self.import_button = QPushButton("Import evolution")
-        self.export_button = QPushButton("Export evolution") 
 
-        # Definir el layout
+        grid_row = QHBoxLayout()
+        grid_row.setSpacing(6)
+        grid_row.addWidget(self.erase_button)
+        grid_row.addWidget(self.random_button)
+
+        # ── Record ────────────────────────────────────────────────────
+        self.record_button = QPushButton("Record N steps")
+
+        # ── Files ─────────────────────────────────────────────────────
+        self.import_button = QPushButton("Import")
+        self.export_button = QPushButton("Export")
+        self.import_button.setObjectName("ghost")
+        self.export_button.setObjectName("ghost")
+
+        file_row = QHBoxLayout()
+        file_row.setSpacing(6)
+        file_row.addWidget(self.import_button)
+        file_row.addWidget(self.export_button)
+
+        # ── Layout principal ──────────────────────────────────────────
         layout = QVBoxLayout()
+        layout.setContentsMargins(18, 18, 18, 18)
+        layout.setSpacing(10)
 
-        # Añadir elementos
-        layout.addWidget(self.simulation_label)
-        layout.addWidget(self.step_label)
-        layout.addWidget(self.step_button)
-        layout.addWidget(self.play_button)
-        layout.addWidget(self.backstep_button)
-        layout.addWidget(self.speed_label)
+        layout.addLayout(header)
+        layout.addWidget(_separator())
+
+        layout.addLayout(playback_row)
+        layout.addSpacing(4)
+        layout.addLayout(speed_head)
         layout.addWidget(self.speed_slider)
-        
-        layout.addWidget(self.grid_label)
-        layout.addWidget(self.erase_button)
-        layout.addWidget(self.random_button)
+        layout.addWidget(_separator())
 
-        layout.addWidget(self.record_label)
-        layout.addWidget(self.record_botton)
-        
-        layout.addWidget(self.file_label)
-        layout.addWidget(self.import_button)
-        layout.addWidget(self.export_button)
+        layout.addWidget(_section_label("Grid"))
+        layout.addLayout(grid_row)
+        layout.addWidget(_separator())
 
-        # Definir layout
+        layout.addWidget(_section_label("Record"))
+        layout.addWidget(self.record_button)
+        layout.addWidget(_separator())
+
+        layout.addWidget(_section_label("Files"))
+        layout.addLayout(file_row)
+
+        layout.addStretch()
         self.setLayout(layout)
 
-        # Connect the signals
+        # ── Signals ───────────────────────────────────────────────────
         self.play_button.clicked.connect(self.play_clicked.emit)
         self.step_button.clicked.connect(self.step_clicked.emit)
         self.erase_button.clicked.connect(self.reset_clicked.emit)
         self.speed_slider.valueChanged.connect(self.speed_moved.emit)
 
+    # ------------------------------------------------------------------
     def update_play_button(self, is_running: bool):
-        self.play_button.setText("pause" if is_running else "play")
+        self.play_button.setText("⏸  Pause" if is_running else "▶  Play")
 
     def update_step_label(self, n: int):
-        self.step_label.setText(f"Step: {n}")
+        self.step_label.setText(f"Step {n}")
 
     def connect_controller(self, controller):
         self.step_button.clicked.connect(controller.on_step_button)
@@ -81,6 +149,6 @@ class ControlPane(QWidget):
         self.backstep_button.clicked.connect(controller.on_backstep_button)
         self.erase_button.clicked.connect(controller.on_erase_button)
         self.random_button.clicked.connect(controller.on_random_button)
-        self.record_botton.clicked.connect(controller.on_record_button)
+        self.record_button.clicked.connect(controller.on_record_button)
         self.import_button.clicked.connect(controller.on_import_button)
         self.export_button.clicked.connect(controller.on_export_button)

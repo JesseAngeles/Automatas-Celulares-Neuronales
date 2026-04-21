@@ -23,6 +23,20 @@ def _rand_color() -> QColor:
     return QColor(random.randint(60, 210), random.randint(60, 210), random.randint(60, 210))
 
 
+def _separator() -> QFrame:
+    line = QFrame()
+    line.setObjectName("sep")
+    line.setFrameShape(QFrame.NoFrame)
+    line.setFixedHeight(1)
+    return line
+
+
+def _section_label(text: str) -> QLabel:
+    lbl = QLabel(text.upper())
+    lbl.setObjectName("sectionTitle")
+    return lbl
+
+
 class ConfigPane(QWidget):
 
     neighbourhood_applied = pyqtSignal(object)      # list[list[list[int]]]
@@ -35,14 +49,19 @@ class ConfigPane(QWidget):
 
     def __init__(self):
         super().__init__()
+        self.setObjectName("panel")
 
         self.neighbout_widget = NeighbourWidget()
 
-        # ── Labels ────────────────────────────────────────────────────
-        self.neighbour_label = QLabel("Neighbourhood")
-        self.states_label    = QLabel("States")
-        self.frontier_label  = QLabel("Frontier")
-        self.rule_label      = QLabel("Rule")
+        # ── Título del panel ──────────────────────────────────────────
+        self.pane_title = QLabel("Configuration")
+        self.pane_title.setObjectName("paneTitle")
+
+        # ── Section labels ────────────────────────────────────────────
+        self.neighbour_label = _section_label("Neighbourhood")
+        self.states_label    = _section_label("States")
+        self.frontier_label  = _section_label("Frontier")
+        self.rule_label      = _section_label("Rule")
 
         # ── Buttons ───────────────────────────────────────────────────
         self._boundary_mode  = 1  # PERIODIC — igual que el default del core
@@ -50,6 +69,8 @@ class ConfigPane(QWidget):
         self.frontier_button.clicked.connect(self._on_frontier_button)
         self.states_button   = QPushButton("Apply")
         self.rule_button     = QPushButton("Apply")
+        self.states_button.setObjectName("ghost")
+        self.rule_button.setObjectName("ghost")
 
         # ── Inputs ────────────────────────────────────────────────────
         self.states_spin = QSpinBox()
@@ -128,22 +149,33 @@ class ConfigPane(QWidget):
         rule_table_scroll.setFrameShape(QFrame.Box)
 
         # ── Layout principal ──────────────────────────────────────────
-        layout        = QVBoxLayout()
+        layout = QVBoxLayout()
+        layout.setContentsMargins(18, 18, 18, 18)
+        layout.setSpacing(8)
+
         states_layout = QHBoxLayout()
+        states_layout.setSpacing(6)
         rule_layout   = QHBoxLayout()
+        rule_layout.setSpacing(6)
+
+        layout.addWidget(self.pane_title)
+        layout.addWidget(_separator())
 
         layout.addWidget(self.neighbour_label)
         layout.addLayout(nb_row)
         layout.addWidget(self._apply_btn)
+        layout.addWidget(_separator())
 
         layout.addWidget(self.states_label)
         states_layout.addWidget(self.states_spin)
         states_layout.addWidget(self.states_button)
         layout.addLayout(states_layout)
         layout.addWidget(states_scroll)
+        layout.addWidget(_separator())
 
         layout.addWidget(self.frontier_label)
         layout.addWidget(self.frontier_button)
+        layout.addWidget(_separator())
 
         layout.addWidget(self.rule_label)
         rule_layout.addWidget(self.rule_spin)

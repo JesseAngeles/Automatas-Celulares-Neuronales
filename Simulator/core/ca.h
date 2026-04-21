@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include <iostream>
 #include <cstring>
 #include <cuda_runtime.h>
@@ -20,7 +21,7 @@ public:
     CA(
         int width,
         int height,
-        int *space,
+        uint8_t *space,
         int states,
         int *neighbourhood, int n_size,
         int *group_sizes, int n_groups,
@@ -28,11 +29,11 @@ public:
     ~CA();
 
     void step();
-    int *run(int steps);
+    uint8_t *run(int steps);
     void print();
 
     // Getters
-    int *getSpace() const;
+    uint8_t *getSpace();          // no-const: sincroniza device→host si hace falta
     int getWidth() const;
     int getHeight() const;
     int getStates() const;
@@ -42,11 +43,11 @@ public:
     int getNGroups() const;
     int *getRule() const;
     int getRSize() const;
-    int getCell(int x, int y) const;
+    uint8_t getCell(int x, int y);
     int getBoundary() const;
 
     // Setters
-    void setSpace(int *);
+    void setSpace(const uint8_t *);
     void setStates(int);
     void setNeighbourhood(int *, int, int *, int);
     void setRule(int *);
@@ -54,7 +55,7 @@ public:
     void setBoundary(int mode);
 
 private:
-    int *space;
+    uint8_t *space;
     int width;
     int height;
 
@@ -71,10 +72,16 @@ private:
 
     int boundary_mode;
 
+    // host_dirty = true cuando el buffer del host está desfasado frente a A_d
+    bool host_dirty;
+
     size_t size;
-    int *A_d, *B_d;
+    uint8_t *A_d, *B_d;
+    cudaStream_t stream;
     dim3 threads;
     dim3 blocks;
 
     void fixRuleSize();
+    void syncHost();   // device → host si host_dirty
+    void launch();     // lanza el kernel con boundary especializado en compile-time
 };

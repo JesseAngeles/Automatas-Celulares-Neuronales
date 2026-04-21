@@ -1,8 +1,10 @@
 # ui.SimulationWidget
 
+import numpy as np
 from PyQt5.QtWidgets import QWidget
-from PyQt5.QtGui import QPainter, QColor, QMouseEvent
-from PyQt5.QtCore import pyqtSignal, Qt
+from PyQt5.QtGui import QPainter, QColor, QMouseEvent, QImage
+from PyQt5.QtCore import pyqtSignal, Qt, QRectF
+
 
 class SimulationWidget(QWidget):
     cell_toggled = pyqtSignal(int, int, int)
@@ -11,37 +13,71 @@ class SimulationWidget(QWidget):
         super().__init__()
 
         self.grid_size = grid_size
-        self.grid = [[0] * grid_size for _ in range(grid_size)]
-        self.setMinimumSize(200, 200)
-        self.setMinimumSize(
-            grid_size * self.cell_size,
-            grid_size * self.cell_size
-        )
+        self.grid = np.zeros((grid_size, grid_size), dtype=np.uint8)
 
         self._active_state = 1
         self._state_colors: list[QColor] = [QColor(255, 255, 255), QColor(0, 0, 0)]
-        self._last_painted: tuple[int, int] | None = None
+        self._color_table: list[int] = self._build_color_table()
 
+        self._last_painted: tuple[int, int] | None = None
+        self._cell_size_cached = 0
+
+        self.setMinimumSize(200, 200)
+        self.setCursor(Qt.CrossCursor)
+        self.setStyleSheet(
+            "SimulationWidget { background: #ffffff; border: 1px solid #e3e3e8; border-radius: 8px; }"
+        )
+        self._recompute_cell_size()
+
+    # ------------------------------------------------------------------
+    # Dibujo
+    # ------------------------------------------------------------------
     @property
     def cell_size(self):
-        return min(self.width(), self.height()) // self.grid_size
+        return self._cell_size_cached
+
+    def _recompute_cell_size(self):
+        if self.grid_size <= 0:
+            self._cell_size_cached = 0
+            return
+        self._cell_size_cached = max(1, min(self.width(), self.height()) // self.grid_size)
+
+    def resizeEvent(self, event):
+        self._recompute_cell_size()
+        super().resizeEvent(event)
+
+    def _build_color_table(self) -> list[int]:
+        # Tabla de 256 entradas (requerida por Format_Indexed8)
+        default = QColor(128, 128, 128).rgb()
+        n = len(self._state_colors)
+        table = [0] * 256
+        for i in range(256):
+            table[i] = self._state_colors[i].rgb() if i < n else default
+        return table
 
     def paintEvent(self, _):
         painter = QPainter(self)
-        n = len(self._state_colors)
+        if self._cell_size_cached <= 0:
+            return
 
-        for y in range(self.grid_size):
-            for x in range(self.grid_size):
-                s = self.grid[y][x]
-                color = self._state_colors[s] if s < n else QColor(128, 128, 128)
-                painter.setBrush(color)
-                painter.drawRect(
-                    x * self.cell_size,
-                    y * self.cell_size,
-                    self.cell_size,
-                    self.cell_size
-                )
+        if not self.grid.flags["C_CONTIGUOUS"]:
+            self.grid = np.ascontiguousarray(self.grid)
 
+        h, w = self.grid.shape
+        bytes_per_line = self.grid.strides[0]
+
+        img = QImage(
+            self.grid.data, w, h, bytes_per_line, QImage.Format_Indexed8
+        )
+        img.setColorTable(self._color_table)
+
+        dst_w = w * self._cell_size_cached
+        dst_h = h * self._cell_size_cached
+        painter.drawImage(QRectF(0, 0, dst_w, dst_h), img)
+
+    # ------------------------------------------------------------------
+    # Mouse
+    # ------------------------------------------------------------------
     def mousePressEvent(self, event: QMouseEvent):
         self._last_painted = None
         self._paint_at(event)
@@ -54,26 +90,40 @@ class SimulationWidget(QWidget):
         self._last_painted = None
 
     def _paint_at(self, event: QMouseEvent):
-        x = event.pos().x() // self.cell_size
-        y = event.pos().y() // self.cell_size
+        cs = self._cell_size_cached
+        if cs <= 0:
+            return
+        x = event.pos().x() // cs
+        y = event.pos().y() // cs
         if not (0 <= x < self.grid_size and 0 <= y < self.grid_size):
             return
         if (x, y) == self._last_painted:
             return
         self._last_painted = (x, y)
-        current = self.grid[y][x]
+
+        current = int(self.grid[y, x])
         new_val = 0 if current == self._active_state else self._active_state
-        self.grid[y][x] = new_val
-        self.cell_toggled.emit(x, y, new_val)
+        self.grid[y, x] = new_val
+        self.cell_toggled.emit(int(x), int(y), int(new_val))
         self.update()
 
+    # ------------------------------------------------------------------
+    # API pública
+    # ------------------------------------------------------------------
     def set_active_state(self, state: int):
         self._active_state = state
 
-    def set_state_colors(self, colors: list[QColor]):
+    def set_state_colors(self, colors):
         self._state_colors = list(colors)
+        self._color_table = self._build_color_table()
         self.update()
 
     def update_grid(self, grid):
-        self.grid = grid
+        # Acepta ndarray o list-of-lists. Convierte a uint8 C-contiguo si hace falta.
+        arr = np.asarray(grid)
+        if arr.ndim == 1:
+            arr = arr.reshape(self.grid_size, self.grid_size)
+        if arr.dtype != np.uint8 or not arr.flags["C_CONTIGUOUS"]:
+            arr = np.ascontiguousarray(arr, dtype=np.uint8)
+        self.grid = arr
         self.update()
