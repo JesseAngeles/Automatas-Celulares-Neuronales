@@ -219,9 +219,9 @@ class ConfigPane(QWidget):
     # Tabla de regla
     # ------------------------------------------------------------------
     def sync_rule_table(self, group_sizes: list, states: int, rule: list):
-        self._rule_group_sizes = list(group_sizes)
-        self._rule_states      = states
-        self._rule_array       = list(rule)
+        self._rule_group_sizes = [int(g) for g in group_sizes]
+        self._rule_states      = int(states)
+        self._rule_array       = [int(x) for x in rule]
         self._rebuild_rule_table()
         self._sync_spinner_from_array()
 
