@@ -102,6 +102,12 @@ class ControlPane(QWidget):
         file_row.addWidget(self.import_button)
         file_row.addWidget(self.export_button)
 
+        # ── NCA ───────────────────────────────────────────────────────
+        self.load_nca_button = QPushButton("Load NCA weights")
+        self.mode_button = QPushButton("Mode: CA")
+        self.mode_button.setObjectName("ghost")
+        self.mode_button.setEnabled(False)
+
         # ── Layout principal ──────────────────────────────────────────
         layout = QVBoxLayout()
         layout.setContentsMargins(18, 18, 18, 18)
@@ -126,6 +132,11 @@ class ControlPane(QWidget):
 
         layout.addWidget(_section_label("Files"))
         layout.addLayout(file_row)
+        layout.addWidget(_separator())
+
+        layout.addWidget(_section_label("NCA"))
+        layout.addWidget(self.load_nca_button)
+        layout.addWidget(self.mode_button)
 
         layout.addStretch()
         self.setLayout(layout)
@@ -152,3 +163,5 @@ class ControlPane(QWidget):
         self.record_button.clicked.connect(controller.on_record_button)
         self.import_button.clicked.connect(controller.on_import_button)
         self.export_button.clicked.connect(controller.on_export_button)
+        self.load_nca_button.clicked.connect(controller.on_load_nca_button)
+        self.mode_button.clicked.connect(controller.on_mode_toggle)

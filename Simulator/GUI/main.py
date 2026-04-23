@@ -13,7 +13,7 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setStyle("Fusion")
 
-    window = MainWindow(1000)
+    window = MainWindow(100)
     window.show()
 
     app.exec()

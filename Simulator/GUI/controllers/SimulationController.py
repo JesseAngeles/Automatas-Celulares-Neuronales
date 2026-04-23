@@ -71,6 +71,10 @@ class SimulationController:
         self._on_step_changed    = None   # callback(step: int)
         self.current_step        = 0
 
+        self._nca_mode = False
+        self._nca      = None
+        self._on_nca_mode_changed = None   # callback(nca_mode: bool)
+
         self.simulation_widget.cell_toggled.connect(self.on_cell_toggled)
 
     # ------------------------------------------------------------------
@@ -98,6 +102,8 @@ class SimulationController:
             self._on_running_changed(True)
 
     def _prefetch(self):
+        if self._nca_mode:
+            return
         locker = QMutexLocker(self.mutex)
         if self._prefetch_running or len(self.future_record) >= PREFETCH_SIZE:
             return
@@ -132,9 +138,10 @@ class SimulationController:
     # Eventos de mouse
     # ------------------------------------------------------------------
     def on_cell_toggled(self, x, y, new_val):
-        # El widget ya actualizó su propia grid; sincronizamos GPU al estado visible
         self._clear_history()
         self.automaton.setSpace(self.simulation_widget.grid)
+        if self._nca_mode and self._nca is not None:
+            self._nca.set_space(self.simulation_widget.grid.astype(np.float32))
 
     # ------------------------------------------------------------------
     # Eventos de slider
@@ -147,6 +154,17 @@ class SimulationController:
     # Eventos de botones
     # ------------------------------------------------------------------
     def on_step_button(self):
+        if self._nca_mode and self._nca is not None:
+            self.past_record.append(self.simulation_widget.grid.copy())
+            self._nca.step()
+            raw     = self._nca.get_space()                   # (H, W) float32
+            display = (raw > 0.5).astype(np.uint8)           # threshold → uint8
+            self._nca.set_space(display.astype(np.float32))  # realimentar binario
+            self.simulation_widget.update_grid(np.ascontiguousarray(display))
+            self.current_step += 1
+            self._emit_step()
+            return
+
         self.past_record.append(self.simulation_widget.grid.copy())
 
         locker = QMutexLocker(self.mutex)
@@ -197,6 +215,8 @@ class SimulationController:
         new_grid = np.zeros((n, n), dtype=np.uint8)
         self._clear_history()
         self.automaton.setSpace(new_grid)
+        if self._nca_mode and self._nca is not None:
+            self._nca.set_space(new_grid.astype(np.float32))
         self.simulation_widget.update_grid(new_grid)
         if self.is_running:
             self.on_play_button()
@@ -294,6 +314,57 @@ class SimulationController:
         new_grid = np.random.randint(0, states, size=(n, n), dtype=np.uint8)
         self._clear_history()
         self.automaton.setSpace(new_grid)
+        if self._nca_mode and self._nca is not None:
+            self._nca.set_space(new_grid.astype(np.float32))
         self.simulation_widget.update_grid(new_grid)
         if self.is_running:
             self.on_play_button()
+
+    def on_load_nca_button(self):
+        from PyQt5.QtWidgets import QFileDialog, QMessageBox
+        from CA import NCA as NCA_CUDA
+
+        path, _ = QFileDialog.getOpenFileName(None, "Load NCA weights", "", "NumPy (*.npz)")
+        if not path:
+            return
+        if self.is_running:
+            self.on_play_button()
+
+        try:
+            data = np.load(path)
+            n_layers     = int(data["layer_in"].shape[0])
+            neighbourhood = data["neighbourhood"].astype(np.int32)  # (n_size, 2)
+            n_size        = len(neighbourhood)
+
+            n = self.simulation_widget.grid_size
+            grid_float = self.simulation_widget.grid.astype(np.float32)
+
+            self._nca = NCA_CUDA(n, n, grid_float, neighbourhood, n_size)
+            self._nca.set_weights(
+                [data[f"weights_{i}"] for i in range(n_layers)],
+                [data[f"biases_{i}"]  for i in range(n_layers)],
+                data["layer_in"].tolist(),
+                data["layer_out"].tolist(),
+                data["activations"].tolist(),
+            )
+
+            self._nca_mode = True
+            self._clear_history()
+            if self._on_nca_mode_changed:
+                self._on_nca_mode_changed(self._nca_mode, nca_loaded=True)
+
+        except Exception as e:
+            QMessageBox.critical(None, "Error loading NCA", str(e))
+
+    def on_mode_toggle(self):
+        if self._nca is None:
+            return
+        if self.is_running:
+            self.on_play_button()
+        self._nca_mode = not self._nca_mode
+        grid = self.simulation_widget.grid
+        self.automaton.setSpace(grid)
+        self._nca.set_space(grid.astype(np.float32))
+        self._clear_history()
+        if self._on_nca_mode_changed:
+            self._on_nca_mode_changed(self._nca_mode, nca_loaded=True)

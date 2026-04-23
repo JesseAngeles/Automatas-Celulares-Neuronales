@@ -180,8 +180,9 @@ class MainWindow(QMainWindow):
         self.control_pane.speed_moved.connect(self.handle_speed)
 
         self.controller = SimulationController(self.simulation, self.config)
-        self.controller._on_running_changed = self.control_pane.update_play_button
-        self.controller._on_step_changed = self.control_pane.update_step_label
+        self.controller._on_running_changed  = self.control_pane.update_play_button
+        self.controller._on_step_changed     = self.control_pane.update_step_label
+        self.controller._on_nca_mode_changed = self._on_nca_mode_changed
 
         self.control_pane.connect_controller(self.controller)
         self.config_pane.connect_config(self.config)
@@ -250,3 +251,9 @@ class MainWindow(QMainWindow):
 
     def _on_rule_number_applied(self, _):
         self._update_rule_table()
+
+    def _on_nca_mode_changed(self, active: bool, nca_loaded: bool = False):
+        btn = self.control_pane.mode_button
+        btn.setText("Mode: NCA  →  CA" if active else "Mode: CA  →  NCA")
+        if nca_loaded:
+            btn.setEnabled(True)
