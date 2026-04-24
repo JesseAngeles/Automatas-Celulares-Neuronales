@@ -71,7 +71,8 @@ private:
     bool nn_ready;
 
     float *temp_d;
-    
+    int   out_size;
+
     size_t size;
     float *A_d, *B_d;
     dim3 threads;

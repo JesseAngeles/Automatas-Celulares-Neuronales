@@ -14,6 +14,6 @@ if __name__ == "__main__":
     app.setStyle("Fusion")
 
     window = MainWindow(100)
-    window.show()
+    window.showMaximized()
 
     app.exec()

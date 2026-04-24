@@ -31,7 +31,8 @@ __global__ void NCA_GPU(
     const int *activations,
     int n_layers,
     float *temp,
-    int max_layer_size)
+    int max_layer_size,
+    int out_size)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
     int idy = blockIdx.y * blockDim.y + threadIdx.y;
@@ -73,7 +74,19 @@ __global__ void NCA_GPU(
         nxt = tmp;
     }
 
-    B[cell_id] = cur[0];
+    if (out_size == 1) {
+        B[cell_id] = cur[0];
+    } else {
+        int best = 0;
+        float best_val = cur[0];
+        for (int j = 1; j < out_size; j++) {
+            if (cur[j] > best_val) {
+                best_val = cur[j];
+                best     = j;
+            }
+        }
+        B[cell_id] = (float)best;
+    }
 }
 
 NCA::NCA(
@@ -86,6 +99,7 @@ NCA::NCA(
       n_size(in_n_size),
       n_layers(0),
       max_layer_size(0),
+      out_size(1),
       nn_ready(false),
       weights_d(nullptr),
       biases_d(nullptr),
@@ -137,7 +151,7 @@ void NCA::step()
         w_offsets_d, b_offsets_d,
         layer_in_d, layer_out_d,
         activation_d, n_layers,
-        temp_d, max_layer_size);
+        temp_d, max_layer_size, out_size);
 
     cudaMemcpy(space, B_d, size, cudaMemcpyDeviceToHost);
     float *tmp = A_d;
@@ -166,6 +180,7 @@ void NCA::setWeights(
 {
     freeNN();
     this->n_layers = n_layers;
+    this->out_size = layer_out[n_layers - 1];
     max_layer_size = 0;
 
     // Calcular offsets y tamaños totales

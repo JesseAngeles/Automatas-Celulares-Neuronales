@@ -1,15 +1,14 @@
 # ui.MainWindow
 
-from PyQt5.QtCore import QSize
-from PyQt5.QtWidgets import QMainWindow, QWidget, QHBoxLayout
+from PyQt5.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QTabWidget
 
 from ui.ControlPane import ControlPane
 from ui.SimulationWidget import SimulationWidget
 from ui.ConfigPane import ConfigPane
+from ui.TrainingPane import TrainingPane
 
 from controllers.SimulationController import SimulationController
 from controllers.SimulationConfig import SimulationConfig
-
 
 APP_STYLESHEET = """
 QMainWindow, QWidget#root {
@@ -155,15 +154,66 @@ QScrollBar::handle:vertical:hover {
 QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
     height: 0px;
 }
-"""
 
+QTabWidget::pane {
+    background: #f3f3f5;
+    border: none;
+}
+QTabBar::tab {
+    background: #ffffff;
+    border: 1px solid #e3e3e8;
+    border-bottom: none;
+    border-radius: 6px 6px 0 0;
+    padding: 10px 32px;
+    min-width: 160px;
+    color: #8a8a92;
+    font-size: 13px;
+}
+QTabBar::tab:selected {
+    background: #f3f3f5;
+    color: #1a1a1e;
+    font-weight: 600;
+}
+QTabBar::tab:hover:!selected {
+    background: #f5f5f8;
+}
+
+QLineEdit {
+    background: #ffffff;
+    border: 1px solid #d7d7dc;
+    border-radius: 6px;
+    padding: 3px 6px;
+    min-height: 20px;
+}
+QLineEdit:focus {
+    border-color: #3478f6;
+}
+QLineEdit[readOnly="true"] {
+    background: #fafafa;
+    color: #6a6a72;
+}
+
+QComboBox {
+    background: #ffffff;
+    border: 1px solid #d7d7dc;
+    border-radius: 6px;
+    padding: 3px 6px;
+    min-height: 20px;
+}
+QComboBox:focus {
+    border-color: #3478f6;
+}
+QComboBox::drop-down {
+    width: 18px;
+    border: none;
+}
+"""
 
 class MainWindow(QMainWindow):
     def __init__(self, grid_size):
         super().__init__()
 
         self.setWindowTitle("Cellular Automata Simulator")
-        self.setFixedSize(QSize(1800, 1000))
         self.setStyleSheet(APP_STYLESHEET)
 
         self.config = SimulationConfig()
@@ -211,17 +261,21 @@ class MainWindow(QMainWindow):
         self.config_pane.set_rule_max(ca.get_r_size(), ca.get_states())
         self._update_rule_table()
 
-        layout = QHBoxLayout()
-        layout.setContentsMargins(14, 14, 14, 14)
-        layout.setSpacing(12)
-        layout.addWidget(self.control_pane)
-        layout.addWidget(self.simulation, stretch=1)
-        layout.addWidget(self.config_pane)
+        sim_widget = QWidget()
+        sim_widget.setObjectName("root")
+        sim_layout = QHBoxLayout(sim_widget)
+        sim_layout.setContentsMargins(14, 14, 14, 14)
+        sim_layout.setSpacing(12)
+        sim_layout.addWidget(self.control_pane)
+        sim_layout.addWidget(self.simulation, stretch=1)
+        sim_layout.addWidget(self.config_pane)
 
-        container = QWidget()
-        container.setObjectName("root")
-        container.setLayout(layout)
-        self.setCentralWidget(container)
+        self.training_pane = TrainingPane()
+
+        tabs = QTabWidget()
+        tabs.addTab(sim_widget, "Simulation")
+        tabs.addTab(self.training_pane, "Training")
+        self.setCentralWidget(tabs)
 
     # ------------------------------------------------------------------
 
