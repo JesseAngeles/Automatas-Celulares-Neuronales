@@ -157,13 +157,9 @@ Para que esta regla sea isotrópica, es necesario que sea independiente de la di
 Se sustituyen las funciones de los filtros de Sobel en \cite{mordvintsev2020_nca} por un único filtro laplaciano:
 \[
 K_{lap} = \begin{bmatrix}
-	
 	1 & 2 & 1 \\
-	
 	2 & -12 & 2 \\
-	
-	1 & 2 & 1 
-	
+	1 & 2 & 1 	
 \end{bmatrix}
 \]
 El cual se concatena al vector de cada célula y alimenta a una red neuronal artificial de $9408$ parámetros. 

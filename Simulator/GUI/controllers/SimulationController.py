@@ -71,9 +71,11 @@ class SimulationController:
         self._on_step_changed    = None   # callback(step: int)
         self.current_step        = 0
 
-        self._nca_mode = False
-        self._nca      = None
+        self._nca_mode     = False
+        self._nca          = None
+        self._nca_out_size = 1             # 1 = binario, >1 = N-estados
         self._on_nca_mode_changed = None   # callback(nca_mode: bool)
+        self._on_timeline_changed = None   # callback(current: int, total: int)
 
         self.simulation_widget.cell_toggled.connect(self.on_cell_toggled)
 
@@ -87,10 +89,15 @@ class SimulationController:
         self.current_step = 0
         if self._on_step_changed:
             self._on_step_changed(0)
+        if self._on_timeline_changed:
+            self._on_timeline_changed(0, 0)
 
     def _emit_step(self):
         if self._on_step_changed:
             self._on_step_changed(self.current_step)
+        if self._on_timeline_changed:
+            total = len(self.past_record) + len(self.future_record)
+            self._on_timeline_changed(len(self.past_record), total)
 
     # ------------------------------------------------------------------
     # Prefetch
@@ -157,9 +164,13 @@ class SimulationController:
         if self._nca_mode and self._nca is not None:
             self.past_record.append(self.simulation_widget.grid.copy())
             self._nca.step()
-            raw     = self._nca.get_space()                   # (H, W) float32
-            display = (raw > 0.5).astype(np.uint8)           # threshold → uint8
-            self._nca.set_space(display.astype(np.float32))  # realimentar binario
+            raw = self._nca.get_space()                       # (H, W) float32
+            if self._nca_out_size == 1:
+                display = (raw > 0.5).astype(np.uint8)
+                self._nca.set_space(display.astype(np.float32))
+            else:
+                display = raw.astype(np.uint8)                # argmax ya en kernel
+                self._nca.set_space(raw)
             self.simulation_widget.update_grid(np.ascontiguousarray(display))
             self.current_step += 1
             self._emit_step()
@@ -260,16 +271,34 @@ class SimulationController:
             return
         if self.is_running:
             self.on_play_button()
+
+        if self._nca_mode and self._nca is not None:
+            self._nca.set_space(self.simulation_widget.grid.astype(np.float32))
+            self._clear_history()
+            self.past_record.append(self.simulation_widget.grid.copy())
+            display = self.simulation_widget.grid
+            for i in range(n):
+                self._nca.step()
+                raw = self._nca.get_space()              # (H, W) float32
+                if self._nca_out_size == 1:
+                    display = (raw > 0.5).astype(np.uint8)
+                    self._nca.set_space(display.astype(np.float32))
+                else:
+                    display = raw.astype(np.uint8)
+                    self._nca.set_space(raw)
+                if i < n - 1:
+                    self.past_record.append(np.ascontiguousarray(display))
+            self.simulation_widget.update_grid(np.ascontiguousarray(display))
+            self.current_step = n
+            self._emit_step()
+            return
+
         self.automaton.setSpace(self.simulation_widget.grid)
         self._clear_history()
-
-        # Usar run() del core = memoria pinned + stream asíncrono
         frames = self.automaton.run(n)   # ndarray (n, H, W) uint8
-        # past_record: guardar el estado inicial + frames[0..n-1] (sin incluir el último que es el mostrado)
         self.past_record.append(self.simulation_widget.grid.copy())
         for i in range(n - 1):
             self.past_record.append(np.ascontiguousarray(frames[i]))
-
         self.simulation_widget.update_grid(np.ascontiguousarray(frames[n - 1]))
         self.current_step = n
         self._emit_step()
@@ -289,7 +318,7 @@ class SimulationController:
         scipy.io.savemat(base + ".mat", {"evolution": arr})
 
     def on_import_button(self):
-        from PyQt5.QtWidgets import QFileDialog
+        from PyQt5.QtWidgets import QFileDialog, QMessageBox
         path, _ = QFileDialog.getOpenFileName(None, "Import evolution", "", "NumPy (*.npy)")
         if not path:
             return
@@ -299,6 +328,23 @@ class SimulationController:
         if self.is_running:
             self.on_play_button()
         arr = arr.astype(np.uint8, copy=False)
+
+        n = self.simulation_widget.grid_size
+        fH, fW = arr.shape[1], arr.shape[2]
+        if fH != n or fW != n:
+            QMessageBox.information(
+                None, "Tamaño ajustado",
+                f"La evolución importada es {fW}×{fH} y la grilla actual es {n}×{n}.\n"
+                f"{'Se recortará' if fH > n or fW > n else 'Se centrará'} en el espacio disponible."
+            )
+            fitted = np.zeros((arr.shape[0], n, n), dtype=np.uint8)
+            src_h = min(fH, n)
+            src_w = min(fW, n)
+            off_y = (n - src_h) // 2
+            off_x = (n - src_w) // 2
+            fitted[:, off_y:off_y + src_h, off_x:off_x + src_w] = arr[:, :src_h, :src_w]
+            arr = fitted
+
         self._clear_history()
         for i in range(arr.shape[0] - 1):
             self.past_record.append(np.ascontiguousarray(arr[i]))
@@ -347,6 +393,7 @@ class SimulationController:
                 data["layer_out"].tolist(),
                 data["activations"].tolist(),
             )
+            self._nca_out_size = int(data["layer_out"][-1])
 
             self._nca_mode = True
             self._clear_history()
@@ -355,6 +402,29 @@ class SimulationController:
 
         except Exception as e:
             QMessageBox.critical(None, "Error loading NCA", str(e))
+
+    def on_timeline_jump(self, pos: int):
+        locker = QMutexLocker(self.mutex)
+        current_pos = len(self.past_record)
+        if pos == current_pos:
+            return
+        current_frame = self.simulation_widget.grid.copy()
+        full = self.past_record + [current_frame] + list(self.future_record)
+        if pos < 0 or pos >= len(full):
+            return
+        delta = pos - current_pos
+        self.past_record = list(full[:pos])
+        self.future_record = deque(full[pos + 1:])
+        self._generation += 1
+        locker.unlock()
+
+        self.current_step += delta
+        target = np.ascontiguousarray(full[pos])
+        self.automaton.setSpace(target)
+        if self._nca_mode and self._nca is not None:
+            self._nca.set_space(target.astype(np.float32))
+        self.simulation_widget.update_grid(target)
+        self._emit_step()
 
     def on_mode_toggle(self):
         if self._nca is None:
@@ -368,3 +438,4 @@ class SimulationController:
         self._clear_history()
         if self._on_nca_mode_changed:
             self._on_nca_mode_changed(self._nca_mode, nca_loaded=True)
+

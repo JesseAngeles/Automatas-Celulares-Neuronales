@@ -1,7 +1,7 @@
 # ui.ConfigPane
 
 import random
-from PyQt5.QtWidgets import (QWidget, QPushButton, QVBoxLayout, QHBoxLayout,
+from PyQt5.QtWidgets import (QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QGridLayout,
                               QLabel, QSpinBox, QFrame, QScrollArea, QColorDialog)
 from PyQt5.QtGui import QColor
 from PyQt5.QtCore import pyqtSignal, Qt
@@ -123,15 +123,9 @@ class ConfigPane(QWidget):
         self._active_paint_state = 1
 
         self._states_container = QWidget()
-        self._states_layout    = QVBoxLayout(self._states_container)
+        self._states_layout    = QGridLayout(self._states_container)
         self._states_layout.setContentsMargins(0, 0, 0, 0)
         self._states_layout.setSpacing(4)
-
-        states_scroll = QScrollArea()
-        states_scroll.setWidgetResizable(True)
-        states_scroll.setWidget(self._states_container)
-        states_scroll.setMaximumHeight(120)
-        states_scroll.setFrameShape(QFrame.NoFrame)
 
         # ── Tabla de regla ─────────────────────────────────────────────
         self._rule_array:       list[int] = []
@@ -170,7 +164,7 @@ class ConfigPane(QWidget):
         states_layout.addWidget(self.states_spin)
         states_layout.addWidget(self.states_button)
         layout.addLayout(states_layout)
-        layout.addWidget(states_scroll)
+        layout.addWidget(self._states_container)
         layout.addWidget(_separator())
 
         layout.addWidget(self.frontier_label)
@@ -407,6 +401,35 @@ class ConfigPane(QWidget):
     # ------------------------------------------------------------------
     # Panel de estados (pintura)
     # ------------------------------------------------------------------
+    _STATE_COLS = 5  # 5 × 2 filas = 10 estados sin scroll
+
+    def _make_state_swatch(self, i: int, color: QColor) -> QFrame:
+        is_active = (i == self._active_paint_state)
+        border = "3px solid #e0e0e0" if is_active else "1px solid #555"
+        lum = 0.299 * color.red() + 0.587 * color.green() + 0.114 * color.blue()
+        text_color = "#000000" if lum > 128 else "#ffffff"
+        text = "E" if i == 0 else str(i)
+
+        cell = QFrame()
+        cell.setFixedSize(44, 44)
+        cell.setStyleSheet(
+            f"QFrame {{ background-color: {color.name()}; "
+            f"border: {border}; border-radius: 4px; }}"
+        )
+        cell.setCursor(Qt.PointingHandCursor)
+
+        lbl = QLabel(text, cell)
+        lbl.setAlignment(Qt.AlignCenter)
+        lbl.setGeometry(0, 0, 44, 44)
+        lbl.setStyleSheet(
+            f"color: {text_color}; font-size: 11px; font-weight: bold; "
+            "background: transparent; border: none;"
+        )
+
+        cell.mousePressEvent       = lambda _e, s=i: self._select_paint_state(s)
+        cell.mouseDoubleClickEvent = lambda _e, s=i: self._pick_state_color(s)
+        return cell
+
     def _rebuild_states_panel(self):
         while self._states_layout.count():
             item = self._states_layout.takeAt(0)
@@ -414,30 +437,8 @@ class ConfigPane(QWidget):
                 item.widget().deleteLater()
 
         for i, color in enumerate(self._state_colors):
-            is_active = (i == self._active_paint_state)
-            border    = "2px solid #222" if is_active else "1px solid #888"
-
-            swatch = QFrame()
-            swatch.setFixedSize(16, 16)
-            swatch.setStyleSheet(f"background-color: {color.name()}; border: {border};")
-
-            label = QLabel("Erase" if i == 0 else f"State {i}")
-            label.setStyleSheet("font-size: 11px;")
-
-            row_layout = QHBoxLayout()
-            row_layout.setSpacing(6)
-            row_layout.setContentsMargins(2, 1, 2, 1)
-            row_layout.addWidget(swatch)
-            row_layout.addWidget(label)
-            row_layout.addStretch()
-
-            wrapper = QWidget()
-            wrapper.setLayout(row_layout)
-            wrapper.setCursor(Qt.PointingHandCursor)
-            wrapper.mousePressEvent       = lambda _e, s=i: self._select_paint_state(s)
-            wrapper.mouseDoubleClickEvent = lambda _e, s=i: self._pick_state_color(s)
-
-            self._states_layout.addWidget(wrapper)
+            row, col = divmod(i, self._STATE_COLS)
+            self._states_layout.addWidget(self._make_state_swatch(i, color), row, col)
 
     def _select_paint_state(self, state: int):
         self._active_paint_state = state

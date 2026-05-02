@@ -21,10 +21,11 @@ def _section_label(text: str) -> QLabel:
 
 
 class ControlPane(QWidget):
-    play_clicked  = pyqtSignal()
-    step_clicked  = pyqtSignal()
-    reset_clicked = pyqtSignal()
-    speed_moved   = pyqtSignal(int)
+    play_clicked    = pyqtSignal()
+    step_clicked    = pyqtSignal()
+    reset_clicked   = pyqtSignal()
+    speed_moved     = pyqtSignal(int)
+    timeline_jumped = pyqtSignal(int)
 
     def __init__(self):
         super().__init__()
@@ -42,6 +43,14 @@ class ControlPane(QWidget):
         header.addWidget(title)
         header.addStretch()
         header.addWidget(self.step_label)
+
+        # ── Timeline ──────────────────────────────────────────────────
+        self.timeline_slider = QSlider(Qt.Horizontal)
+        self.timeline_slider.setMinimum(0)
+        self.timeline_slider.setMaximum(0)
+        self.timeline_slider.setValue(0)
+        self.timeline_slider.setEnabled(False)
+        self.timeline_slider.setObjectName("timelineSlider")
 
         # ── Playback ──────────────────────────────────────────────────
         self.backstep_button = QPushButton("◀")
@@ -114,6 +123,7 @@ class ControlPane(QWidget):
         layout.setSpacing(10)
 
         layout.addLayout(header)
+        layout.addWidget(self.timeline_slider)
         layout.addWidget(_separator())
 
         layout.addLayout(playback_row)
@@ -146,6 +156,7 @@ class ControlPane(QWidget):
         self.step_button.clicked.connect(self.step_clicked.emit)
         self.erase_button.clicked.connect(self.reset_clicked.emit)
         self.speed_slider.valueChanged.connect(self.speed_moved.emit)
+        self.timeline_slider.valueChanged.connect(self.timeline_jumped.emit)
 
     # ------------------------------------------------------------------
     def update_play_button(self, is_running: bool):
@@ -153,6 +164,13 @@ class ControlPane(QWidget):
 
     def update_step_label(self, n: int):
         self.step_label.setText(f"Step {n}")
+
+    def update_timeline(self, current: int, total: int):
+        self.timeline_slider.blockSignals(True)
+        self.timeline_slider.setMaximum(total)
+        self.timeline_slider.setValue(current)
+        self.timeline_slider.setEnabled(total > 0)
+        self.timeline_slider.blockSignals(False)
 
     def connect_controller(self, controller):
         self.step_button.clicked.connect(controller.on_step_button)
@@ -165,3 +183,5 @@ class ControlPane(QWidget):
         self.export_button.clicked.connect(controller.on_export_button)
         self.load_nca_button.clicked.connect(controller.on_load_nca_button)
         self.mode_button.clicked.connect(controller.on_mode_toggle)
+        self.timeline_jumped.connect(controller.on_timeline_jump)
+        controller._on_timeline_changed = self.update_timeline
