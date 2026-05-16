@@ -3,10 +3,15 @@
 #include "ca.h"
 #include <algorithm>
 
+#define CUDA_CHECK(call) do { \
+    cudaError_t _err = (call); \
+    if (_err != cudaSuccess) \
+        throw std::runtime_error(std::string("CUDA error in " #call ": ") + cudaGetErrorString(_err)); \
+} while(0)
+
 // Constant memory
 __constant__ int c_neighbourhood[128]; // Hasta 64 vecinos (dx,dy pares)
 __constant__ int c_group_sizes[64];    // Tamaño de cada grupo
-__constant__ int c_rule[4096];
 
 template <int BM>
 __global__ void CA_GPU_T(
@@ -15,7 +20,8 @@ __global__ void CA_GPU_T(
     int width,
     int height,
     int states,
-    int n_groups)
+    int n_groups,
+    const int *__restrict__ rule)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
     int idy = blockIdx.y * blockDim.y + threadIdx.y;
@@ -23,7 +29,7 @@ __global__ void CA_GPU_T(
     if (idx >= width || idy >= height)
         return;
 
-    int sums[16];   // hasta 16 grupos — suficiente en la práctica
+    int sums[64];   // hasta 64 grupos
     int offset = 0;
 
     for (int g = 0; g < n_groups; g++)
@@ -73,18 +79,18 @@ __global__ void CA_GPU_T(
         multiplier *= (states - 1) * c_group_sizes[g] + 1;
     }
 
-    B[idy * width + idx] = (uint8_t)c_rule[rule_index];
+    B[idy * width + idx] = (uint8_t)rule[rule_index];
 }
 
 void CA::launch()
 {
     switch (boundary_mode)
     {
-        case 0: CA_GPU_T<0><<<blocks, threads, 0, stream>>>(A_d, B_d, width, height, states, n_groups); break;
-        case 1: CA_GPU_T<1><<<blocks, threads, 0, stream>>>(A_d, B_d, width, height, states, n_groups); break;
-        case 2: CA_GPU_T<2><<<blocks, threads, 0, stream>>>(A_d, B_d, width, height, states, n_groups); break;
-        case 3: CA_GPU_T<3><<<blocks, threads, 0, stream>>>(A_d, B_d, width, height, states, n_groups); break;
-        default: CA_GPU_T<1><<<blocks, threads, 0, stream>>>(A_d, B_d, width, height, states, n_groups); break;
+        case 0: CA_GPU_T<0><<<blocks, threads, 0, stream>>>(A_d, B_d, width, height, states, n_groups, rule_d); break;
+        case 1: CA_GPU_T<1><<<blocks, threads, 0, stream>>>(A_d, B_d, width, height, states, n_groups, rule_d); break;
+        case 2: CA_GPU_T<2><<<blocks, threads, 0, stream>>>(A_d, B_d, width, height, states, n_groups, rule_d); break;
+        case 3: CA_GPU_T<3><<<blocks, threads, 0, stream>>>(A_d, B_d, width, height, states, n_groups, rule_d); break;
+        default: CA_GPU_T<1><<<blocks, threads, 0, stream>>>(A_d, B_d, width, height, states, n_groups, rule_d); break;
     }
 }
 
@@ -107,10 +113,10 @@ CA::CA(
 {
     if (in_n_size > 64)
         throw std::runtime_error("n_size exceeds memory limit (64)");
-    if (in_n_groups > 16)
-        throw std::runtime_error("n_groups exceeds memory limit (16)");
-    if (in_r_size > 4096)
-        throw std::runtime_error("r_size exceeds memory limit (4096)");
+    if (in_n_groups > 64)
+        throw std::runtime_error("n_groups exceeds memory limit (64)");
+    if (in_r_size > (1 << 24))
+        throw std::runtime_error("r_size exceeds memory limit (16777216)");
 
     size = (size_t)width * height * sizeof(uint8_t);
 
@@ -130,21 +136,24 @@ CA::CA(
     rule = new int[in_r_size];
     std::memcpy(rule, in_rule, in_r_size * sizeof(int));
 
-    cudaStreamCreate(&stream);
-    cudaMalloc(&A_d, size);
-    cudaMalloc(&B_d, size);
+    CUDA_CHECK(cudaStreamCreate(&stream));
+    CUDA_CHECK(cudaMalloc(&A_d, size));
+    CUDA_CHECK(cudaMalloc(&B_d, size));
 
-    cudaMemcpy(A_d, space, size, cudaMemcpyHostToDevice);
-    cudaMemcpyToSymbol(c_neighbourhood, neighbourhood, in_n_size * 2 * sizeof(int));
-    cudaMemcpyToSymbol(c_group_sizes, group_sizes, in_n_groups * sizeof(int));
-    cudaMemcpyToSymbol(c_rule, rule, in_r_size * sizeof(int));
+    CUDA_CHECK(cudaMemcpy(A_d, space, size, cudaMemcpyHostToDevice));
+    CUDA_CHECK(cudaMemcpyToSymbol(c_neighbourhood, neighbourhood, in_n_size * 2 * sizeof(int)));
+    CUDA_CHECK(cudaMemcpyToSymbol(c_group_sizes, group_sizes, in_n_groups * sizeof(int)));
+
+    CUDA_CHECK(cudaMalloc(&rule_d, (size_t)r_size * sizeof(int)));
+    CUDA_CHECK(cudaMemcpy(rule_d, rule, (size_t)r_size * sizeof(int), cudaMemcpyHostToDevice));
 }
 
 CA::~CA()
 {
-    cudaStreamSynchronize(stream);
+    cudaStreamSynchronize(stream);  // best-effort in destructor, don't throw
     cudaFree(A_d);
     cudaFree(B_d);
+    cudaFree(rule_d);
     cudaStreamDestroy(stream);
 
     delete[] space;
@@ -156,6 +165,8 @@ CA::~CA()
 void CA::step()
 {
     launch();
+    CUDA_CHECK(cudaGetLastError());
+    CUDA_CHECK(cudaStreamSynchronize(stream));
     std::swap(A_d, B_d);
     host_dirty = true;
 }
@@ -164,17 +175,18 @@ uint8_t *CA::run(int steps)
 {
     uint8_t *history = nullptr;
     // Memoria pinned para habilitar cudaMemcpyAsync real
-    cudaHostAlloc((void **)&history, (size_t)steps * height * width, cudaHostAllocDefault);
+    CUDA_CHECK(cudaHostAlloc((void **)&history, (size_t)steps * height * width, cudaHostAllocDefault));
 
     size_t frame_size = (size_t)height * width;
 
     for (int s = 0; s < steps; s++)
     {
         launch();
-        cudaMemcpyAsync(&history[s * frame_size], B_d, size, cudaMemcpyDeviceToHost, stream);
+        CUDA_CHECK(cudaGetLastError());
+        CUDA_CHECK(cudaMemcpyAsync(&history[s * frame_size], B_d, size, cudaMemcpyDeviceToHost, stream));
         std::swap(A_d, B_d);
     }
-    cudaStreamSynchronize(stream);
+    CUDA_CHECK(cudaStreamSynchronize(stream));
 
     // Espacio en host = último frame del historial
     std::memcpy(space, &history[(steps - 1) * frame_size], size);
@@ -186,8 +198,8 @@ uint8_t *CA::run(int steps)
 void CA::syncHost()
 {
     if (!host_dirty) return;
-    cudaMemcpyAsync(space, A_d, size, cudaMemcpyDeviceToHost, stream);
-    cudaStreamSynchronize(stream);
+    CUDA_CHECK(cudaMemcpyAsync(space, A_d, size, cudaMemcpyDeviceToHost, stream));
+    CUDA_CHECK(cudaStreamSynchronize(stream));
     host_dirty = false;
 }
 
@@ -219,6 +231,13 @@ uint8_t CA::getCell(int x, int y)   { syncHost(); return space[y * width + x]; }
 // Setters
 void CA::setStates(int new_states)
 {
+    // Validar r_size ANTES de modificar estados
+    int64_t new_r_size_64 = 1;
+    for (int g = 0; g < n_groups; g++)
+        new_r_size_64 *= (int64_t)(new_states - 1) * group_sizes[g] + 1;
+    if (new_r_size_64 > (1 << 24))
+        throw std::runtime_error("r_size exceeds memory limit (16777216)");
+
     states = new_states;
     fixRuleSize();
 }
@@ -227,8 +246,15 @@ void CA::setNeighbourhood(int *new_neighbourhood, int new_n_size, int *new_group
 {
     if (new_n_size > 64)
         throw std::runtime_error("n_size exceeds memory limit (64)");
-    if (new_n_groups > 16)
-        throw std::runtime_error("n_groups exceeds memory limit (16)");
+    if (new_n_groups > 64)
+        throw std::runtime_error("n_groups exceeds memory limit (64)");
+
+    // Validar r_size ANTES de modificar cualquier estado o memoria GPU
+    int64_t new_r_size_64 = 1;
+    for (int g = 0; g < new_n_groups; g++)
+        new_r_size_64 *= (int64_t)(states - 1) * new_group_sizes[g] + 1;
+    if (new_r_size_64 > (1 << 24))
+        throw std::runtime_error("r_size exceeds memory limit (16777216)");
 
     if (new_n_size != n_size)
     {
@@ -237,7 +263,7 @@ void CA::setNeighbourhood(int *new_neighbourhood, int new_n_size, int *new_group
         n_size = new_n_size;
     }
     std::memcpy(neighbourhood, new_neighbourhood, n_size * 2 * sizeof(int));
-    cudaMemcpyToSymbol(c_neighbourhood, neighbourhood, n_size * 2 * sizeof(int));
+    CUDA_CHECK(cudaMemcpyToSymbol(c_neighbourhood, neighbourhood, n_size * 2 * sizeof(int)));
 
     if (new_n_groups != n_groups)
     {
@@ -246,7 +272,7 @@ void CA::setNeighbourhood(int *new_neighbourhood, int new_n_size, int *new_group
         n_groups = new_n_groups;
     }
     std::memcpy(group_sizes, new_group_sizes, n_groups * sizeof(int));
-    cudaMemcpyToSymbol(c_group_sizes, group_sizes, n_groups * sizeof(int));
+    CUDA_CHECK(cudaMemcpyToSymbol(c_group_sizes, group_sizes, n_groups * sizeof(int)));
 
     fixRuleSize();
 }
@@ -256,15 +282,15 @@ void CA::setRule(int *new_rule)
     std::memcpy(rule, new_rule, r_size * sizeof(int));
     for (int i = 0; i < r_size; i++)
         rule[i] %= states;
-    cudaMemcpyToSymbol(c_rule, rule, r_size * sizeof(int));
+    CUDA_CHECK(cudaMemcpy(rule_d, rule, (size_t)r_size * sizeof(int), cudaMemcpyHostToDevice));
 }
 
 void CA::setSpace(const uint8_t *new_space)
 {
     syncHost();  // descarta datos dirty del device; vamos a sobrescribir A_d
     std::memcpy(space, new_space, size);
-    cudaMemcpyAsync(A_d, space, size, cudaMemcpyHostToDevice, stream);
-    cudaStreamSynchronize(stream);
+    CUDA_CHECK(cudaMemcpyAsync(A_d, space, size, cudaMemcpyHostToDevice, stream));
+    CUDA_CHECK(cudaStreamSynchronize(stream));
     host_dirty = false;
 }
 
@@ -272,9 +298,9 @@ void CA::setCell(int x, int y, int value)
 {
     syncHost();
     space[y * width + x] = (uint8_t)value;
-    cudaMemcpyAsync(&A_d[y * width + x], &space[y * width + x],
-                    sizeof(uint8_t), cudaMemcpyHostToDevice, stream);
-    cudaStreamSynchronize(stream);
+    CUDA_CHECK(cudaMemcpyAsync(&A_d[y * width + x], &space[y * width + x],
+                    sizeof(uint8_t), cudaMemcpyHostToDevice, stream));
+    CUDA_CHECK(cudaStreamSynchronize(stream));
 }
 
 void CA::setBoundary(int mode) { boundary_mode = mode; }
@@ -282,12 +308,14 @@ int  CA::getBoundary() const   { return boundary_mode; }
 
 void CA::fixRuleSize()
 {
-    int new_r_size = 1;
+    int64_t new_r_size_64 = 1;
     for (int g = 0; g < n_groups; g++)
-        new_r_size *= (states - 1) * group_sizes[g] + 1;
+        new_r_size_64 *= (int64_t)(states - 1) * group_sizes[g] + 1;
 
-    if (new_r_size > 4096)
-        throw std::runtime_error("r_size exceeds memory limit (4096)");
+    if (new_r_size_64 > (1 << 24))
+        throw std::runtime_error("r_size exceeds memory limit (16777216)");
+
+    int new_r_size = (int)new_r_size_64;
 
     int *new_rule = new int[new_r_size];
 
@@ -300,5 +328,8 @@ void CA::fixRuleSize()
     delete[] rule;
     rule = new_rule;
     r_size = new_r_size;
-    cudaMemcpyToSymbol(c_rule, rule, r_size * sizeof(int));
+
+    cudaFree(rule_d);
+    CUDA_CHECK(cudaMalloc(&rule_d, (size_t)r_size * sizeof(int)));
+    CUDA_CHECK(cudaMemcpy(rule_d, rule, (size_t)r_size * sizeof(int), cudaMemcpyHostToDevice));
 }

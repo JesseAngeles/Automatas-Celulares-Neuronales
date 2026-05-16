@@ -1,4 +1,13 @@
 cmake_minimum_required(VERSION 3.15)
+
+# GCC 16 no es soportado por CUDA 13.2; usar GCC 15 como host compiler
+if(NOT DEFINED CMAKE_CUDA_HOST_COMPILER)
+    find_program(GCC15 NAMES g++-15)
+    if(GCC15)
+        set(CMAKE_CUDA_HOST_COMPILER "${GCC15}" CACHE STRING "" FORCE)
+    endif()
+endif()
+
 project(CA LANGUAGES CXX CUDA)
 
 set(CMAKE_CUDA_ARCHITECTURES native)

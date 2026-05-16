@@ -20,6 +20,12 @@
 \usepackage{enumitem}
 \usepackage{amssymb}		% Simbolos matematicos
 \usepackage{fancyhdr}  % Para encabezados personalizados
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{verbatim}
+\usepackage[edges]{forest}
+\usepackage{tabularx}
+
 \newtheorem{definition}{Definición}
 \setlength{\parskip}{10pt}
 
@@ -43,6 +49,16 @@
 	\textcolor{black}{BTN\theBTNcounter~\csname BTNtext@#1\endcsname}%
 }
 \newcommand{\BTN}[1]{\hyperlink{#1}{\textcolor{black}{BTN\ref{#1}~\csname BTNtext@#1\endcsname}}}
+
+\newcounter{SLDcounter}
+\newcommand{\NewSLD}[2]{%
+	\refstepcounter{SLDcounter}%
+	\expandafter\gdef\csname SLDtext@#1\endcsname{#2}%
+	\hypertarget{#1}{}%  Define el destino del enlace
+	\label{#1}%
+	\textcolor{black}{SLD\theSLDcounter~\csname SLDtext@#1\endcsname}%
+}
+\newcommand{\SLD}[1]{\hyperlink{#1}{\textcolor{black}{SLD\ref{#1}~\csname SLDtext@#1\endcsname}}}
 
 %%% Inputs - IN 
 \newcounter{INcounter}
@@ -87,3 +103,8 @@
 	\textcolor{black}{UI\theUIcounter~\csname UItext@#1\endcsname}%
 }
 \newcommand{\UI}[1]{\hyperlink{#1}{\textcolor{black}{UI\ref{#1}~\csname UItext@#1\endcsname}}}
+
+
+\setlength{\headheight}{27.1pt} 
+\useforestlibrary{edges}
+\newcommand{\fitem}[2]{\makebox[3cm][l]{#1}{\textcolor{gray}{#2}}}

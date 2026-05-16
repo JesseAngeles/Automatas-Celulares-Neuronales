@@ -1,0 +1,85 @@
+\section{Validación y pruebas}
+
+La validación del simulador se realiza en tres partes: primero se comprueba el funcionamiento del autómata celular replicando reglas conocidas; después se realiza una verificación numérica del autómata celular neuronal y finalmente se realizan mediciones de rendimiento.
+
+\subsection{Validación funcional del autómata celular clásico}
+
+El autómata celular se valida reproduciendo reglas ampliamente documentadas en la literatura y comparando visual y numéricamente la evolución obtenida con la esperada.
+
+Para esto se establece la misma condición inicial en dos diferentes simuladores y se evolucionan bajo las mismas condiciones. Si la diferencia de las evoluciones en cada paso evolutivo es $0$, se infiere que el comportamiento es el mismo, pues sus trayectorias en el espacio de evoluciones son equivalentes.
+
+\subsection{Validación del autómata celular neuronal}
+
+El criterio de validación del entrenamiento es la capacidad del modelo entrenado para replicar la regla original. Para cada regla objetivo se realiza el siguiente procedimiento:
+
+\begin{enumerate}
+    \item Generar una evolución de $T$ pasos con el autómata celular clásico.
+    \item Entrenar el perceptrón multicapa con dicha evolución.
+    \item Cargar los pesos resultantes en el modo NCA del simulador.
+    \item Ejecutar una nueva evolución partiendo de la misma configuración inicial y comparar.
+\end{enumerate}
+
+La métrica principal es el porcentaje de celdas coincidentes entre las dos evoluciones a lo largo de los $T$ pasos. Una coincidencia superior al 99\% en una vecindad completa se interpreta como que el autómata celular neuronal fue capaz de replicar exitosamente la regla.
+
+\subsection{Pruebas de rendimiento}
+
+Para las pruebas de rendimiento en la simulación se utilizó la regla B2/S23 y con una población aleatoria con 50\% de células vivas. El rendimiento se analiza dentro del método \texttt{step()} que es quien ejecuta el paso evolutivo y se sincroniza con la GPU y el método \texttt{run()}, que ejecuta $N$ pasos consecutivos.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{c|c|c}
+        \hline
+        $n$ & \texttt{step()} (steps/s) & \texttt{run(100)} (steps/s) \\ \hline
+        100  & 345\,000 & 102\,800 \\ \hline
+        500  & 313\,000 &   6\,500 \\ \hline
+        1000 & 137\,000 &   1\,800 \\ \hline
+        2000 &  55\,400 &     520  \\ \hline
+    \end{tabular}
+    \caption{Velocidad de evolución medida sobre grillas $n \times n$. \texttt{step()} mide únicamente el \textit{kernel} y el intercambio de buffers (sincronización perezosa). \texttt{run()} incluye la copia \textit{device-to-host} por \textit{frame}, que constituye el techo real para la reproducción visible.}
+    \label{tab:perf-evolucion}
+\end{table}
+
+La caída de \texttt{run()} respecto a \texttt{step()} cuantifica el costo de la transferencia \textit{device-to-host}: en grillas de $2000 \times 2000$ la transferencia domina por encima del cómputo.
+
+\subsubsection{Velocidad de renderizado}
+
+El renderizado se mide en modo \texttt{offscreen} de \textit{Qt Platform Abstraction} para aislar el costo de dibujar del costo del sistema de ventanas. Se contabiliza el tiempo medio entre \texttt{update()} y la finalización del \textit{repaint}.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{c|c|c}
+        \hline
+        $n$ & ms / \textit{repaint} & fps \\ \hline
+        100  & 2.66 &  375 \\ \hline
+        500  & 0.89 & 1\,125 \\ \hline
+        1000 & 2.83 &  353 \\ \hline
+        2000 & 8.18 &  122 \\ \hline
+    \end{tabular}
+    \caption{Velocidad de renderizado para distintos tamaños de grilla.}
+    \label{tab:perf-render}
+\end{table}
+
+Incluso a $2000 \times 2000$ celdas (4 millones de celdas), el renderizado supera los 100 \textit{fps}, lo que confirma la viabilidad del enfoque basado en \texttt{QImage(Format\_Indexed8)} con una sola llamada a \texttt{drawImage} por \textit{frame}.
+
+\subsection{Pruebas de interfaz}
+
+Las pruebas de la interfaz gráfica se realizaron de forma manual siguiendo guiones derivados de los casos de uso. Los escenarios principales validados son:
+
+\begin{itemize}
+    \item Configuración de una regla desde cero: definir estados, vecindad multigrupo y tabla de regla, y verificar la evolución resultante.
+    \item Edición interactiva del espacio celular: pintar con el mouse, borrar y aleatorizar, comprobando que la grilla mostrada coincide con el estado interno del autómata.
+    \item Importación y exportación de evoluciones: grabar una evolución, exportarla a \texttt{.npy} y \texttt{.mat}, reimportarla y verificar que la secuencia reproducida es idéntica.
+    \item Carga de un modelo NCA entrenado y conmutación entre los modos CA y NCA durante la simulación.
+    \item Lanzamiento del subproceso de entrenamiento desde la pestaña correspondiente, verificando la captura de la salida en tiempo real y la correcta finalización del archivo \texttt{.npz}.
+\end{itemize}
+
+\subsection{Robustez y manejo de errores}
+
+A lo largo del desarrollo se identificaron y resolvieron algunos errores:
+
+\begin{itemize}
+    \item \textbf{Errores de CUDA silenciosos}: todas las llamadas a la API de CUDA se envuelven en una macro \texttt{CUDA\_CHECK} que verifica el código de retorno y aborta con un mensaje descriptivo, evitando segmentos de fallo retardados que dificultan la depuración. La macro se omite deliberadamente en los destructores para no propagar excepciones durante el desensamblado.
+    \item \textbf{Tamaño de tabla excesivo}: cambios en \texttt{states} o en \texttt{group\_sizes} pueden generar tablas de regla que excederían los límites técnicos del dispositivo. La capa de \textit{bindings} prevalida $r_{\text{size}} \leq 16\,777\,216$ antes de aplicar cualquier cambio.
+    \item \textbf{Invalidación del \textit{prefetch}}: el contador \texttt{\_generation} en el controlador descarta de forma segura los \textit{frames} precomputados cuyo trabajo ha quedado obsoleto, evitando inconsistencias visuales.
+    \item \textbf{Mismatch entre el \textit{driver} y la biblioteca de CUDA}: Incidentes documentados durante el desarrollo recomendaron reiniciar el sistema tras actualizaciones parciales del \textit{driver} \textit{NVIDIA}.
+\end{itemize}

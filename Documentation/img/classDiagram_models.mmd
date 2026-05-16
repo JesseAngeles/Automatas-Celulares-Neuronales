@@ -1,0 +1,44 @@
+classDiagram
+  direction LR
+      class cellularAutomaton {
+          -CA ca
+          +step() void
+          +run(int) ndarray
+          +getSpace() ndarray
+          +setSpace(ndarray) void
+          +setNeighbourhood(list) void
+          +setRule(list) void
+          +setBoundary(int) void
+      }
+
+      class neuralCellularAutomaton {
+          -NCA nca
+          +step() void
+          +set_weights(...) void
+          +setSpace(ndarray) void
+          +setNeighbourhood(list) void
+      }
+
+      class SimulationController {
+          -cellularAutomaton automaton
+          -neuralCellularAutomaton _nca
+          -bool is_running
+          -bool _nca_mode
+          -int current_step
+          +on_play_button() void
+          +on_step_button() void
+          +on_record_button() void
+          +on_export_button() void
+          +on_load_nca_button() void
+          +on_mode_toggle() void
+      }
+
+      class PrefetchWorker {
+          -deque future_record
+          -int _generation
+          +run() void
+      }
+
+      SimulationController *-- cellularAutomaton
+      SimulationController o-- neuralCellularAutomaton : carga dinámica
+      SimulationController ..> PrefetchWorker : crea

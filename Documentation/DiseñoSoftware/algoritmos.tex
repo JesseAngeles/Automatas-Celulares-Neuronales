@@ -1,0 +1,241 @@
+\section{Diseño de Algoritmos}
+
+Dentro del simulador existen seis algoritmos no triviales que determinan el correcto funcionamiento de todos los modulos. estos algoritmos son: indexación de la regla semitotalística, el paso de evolución del autómata celular clásico, el manejo de las condiciones de frontera, el \textit{forward pass} del autómata celular neuronal, el entrenamiento del modelo neuronal y el prefetch asíncrono. En esta sección se presentan los pseudocódigos de dichos algoritmos junto con sus decisiones de diseño.
+
+Para homogeneizar los algoritmos, todos se rigen bajo las siguientes convenciones:
+\begin{itemize}
+    \item Los arreglos se indexan desde cero.
+    \item \texttt{H} y \texttt{W} son alto y ancho del espacio celular.
+    \item Para acceder a la posición de espacio celular en su forma unidimensional se realiza mediante el siguiente calculo: \texttt{A[y\,$\cdot$\,W + x]}.
+    \item \texttt{states} es el número de estados permitidos por celda.
+    \item \texttt{n\_groups} y \texttt{group\_sizes[]} describen la partición en grupos de la vecindad.
+\end{itemize}
+
+\subsection{Indexación de la regla semitotalística}
+
+La tabla de regla \texttt{rule[]} contiene una entrada por cada combinación posible de conteos por grupo. Para acceder a la entrada correcta durante la evaluación de una celda, se requiere convertir el vector de conteos en un índice lineal único. Este algoritmo se invoca $H \times W$ veces por cada paso evolutivo.
+
+Cada grupo $g$ aporta una contribución igual a la suma de los estados de las celdas que lo integran. Esa suma puede tomar valores en $\{0, 1, \dots, (\text{states}-1)\cdot|g|\}$, es decir, $((\text{states}-1)\cdot|g| + 1)$ valores distintos. El índice global se construye en base mixta posicional, multiplicando cada contribución por el producto acumulado de los tamaños de los grupos previos.
+
+\begin{algorithm}[H]
+\caption{IndiceRegla: vector de conteos $\to$ índice lineal}
+\label{alg:indice}
+\begin{algorithmic}[1]
+\Require \texttt{sums[n\_groups]}, \texttt{group\_sizes[n\_groups]}, \texttt{states}
+\Ensure \texttt{idx} $\in [0, r_{\text{size}})$
+\State $\texttt{idx} \gets 0$
+\State $\texttt{mult} \gets 1$
+\For{$g \gets 0$ \textbf{to} $\texttt{n\_groups} - 1$}
+    \State $\texttt{idx} \gets \texttt{idx} + \texttt{sums}[g] \cdot \texttt{mult}$
+    \State $\texttt{mult} \gets \texttt{mult} \cdot ((\texttt{states} - 1) \cdot \texttt{group\_sizes}[g] + 1)$
+\EndFor
+\State \Return \texttt{idx}
+\end{algorithmic}
+\end{algorithm}
+
+\textbf{Complejidad}: $\mathcal{O}(\texttt{n\_groups})$ por celda. 
+
+En el juego de la vida existen dos grupos: los 8 vecinos de Moore y la célula central, y dos estados (vivo/muerto). El tamaño de tabla resulta $r_{\text{size}} = \bigl((2-1)\cdot 8  + 1\bigr)\cdot\bigl((2-1)\cdot 1 + 1\bigr) = 9 \cdot 2 = 18$ entradas, indexadas por el conteo de vecinos vivos, lo que corresponde a la formulación clásica B3/S23.
+
+\subsection{Paso de evolución del autómata celular clásico}
+
+En cada paso evolutivo el kernel CUDA gestiona los hilos responsables de calcular el nuevo estado de exactamente todas las celdas. La grilla se mapea a una topología bidimensional de bloques: cada bloque cubre $16 \times 16$ celdas, y los bloques se organizan en un grid de tamaño $\lceil W/16 \rceil \times \lceil H/16 \rceil$.
+
+Para cada celda, el hilo recorre la vecindad agrupada, acumula la suma de estados por grupo, calcula el índice de la regla y escribe el resultado en el búfer destino. Tras el kernel, los punteros \texttt{A\_d} y \texttt{B\_d} se intercambian (\textit{ping-pong}), evitando copias entre pasos.
+
+\begin{algorithm}[H]
+\caption{stepKernel$\langle$\texttt{BoundaryMode}$\rangle$: un paso de evolución del autómata celular}
+\label{alg:step-ca}
+\begin{algorithmic}[1]
+\Require búfer origen \texttt{A[H$\cdot$W]}, búfer destino \texttt{B[H$\cdot$W]}, \texttt{neighbourhood[n\_size]}, \texttt{group\_sizes[n\_groups]}, \texttt{rule[r\_size]}
+\State $(x, y) \gets$ coordenadas del hilo en el grid
+\If{$x \geq W$ \textbf{or} $y \geq H$} \State \Return \EndIf
+\State $\texttt{offset} \gets 0$;\quad $\texttt{idx} \gets 0$;\quad $\texttt{mult} \gets 1$
+\For{$g \gets 0$ \textbf{to} $\texttt{n\_groups} - 1$}
+    \State $\texttt{sum} \gets 0$
+    \For{$i \gets 0$ \textbf{to} $\texttt{group\_sizes}[g] - 1$}
+        \State $(dx, dy) \gets \texttt{neighbourhood}[\texttt{offset} + i]$
+        \State $(x', y', \texttt{valid}) \gets \textsc{ApplyBoundary}\langle\texttt{BoundaryMode}\rangle(x + dx, y + dy, W, H)$
+        \If{\texttt{valid}}
+            \State $\texttt{sum} \gets \texttt{sum} + \texttt{A}[y' \cdot W + x']$
+        \EndIf
+    \EndFor
+    \State $\texttt{idx} \gets \texttt{idx} + \texttt{sum} \cdot \texttt{mult}$
+    \State $\texttt{mult} \gets \texttt{mult} \cdot ((\texttt{states} - 1) \cdot \texttt{group\_sizes}[g] + 1)$
+    \State $\texttt{offset} \gets \texttt{offset} + \texttt{group\_sizes}[g]$
+\EndFor
+\State $\texttt{B}[y \cdot W + x] \gets \texttt{rule}[\texttt{idx}]$
+\end{algorithmic}
+\end{algorithm}
+
+El parámetro \texttt{BoundaryMode} es un argumento de plantilla, no un parámetro en tiempo de ejecución. El compilador genera cuatro versiones del kernel (una por modo de frontera) y el \texttt{if constexpr} dentro de \textsc{ApplyBoundary} elimina toda ramificación condicional en el GPU lo que evita la divergencia de \textit{warps} en celdas cercanas al borde.
+
+\textbf{Complejidad}: $\mathcal{O}(\texttt{n\_size})$ por celda, $\mathcal{O}(H \cdot W \cdot \texttt{n\_size})$ por paso.
+
+\subsection{Manejo de condiciones de frontera}
+
+Las cuatro condiciones de frontera modifican la coordenada de un vecino que cae fuera del dominio antes de leerlo. Cada modo se implementa como una función separada pero con la misma firma.
+
+\begin{algorithm}[H]
+\caption{ApplyBoundary: cuatro variantes especializadas en compilación}
+\label{alg:frontera}
+\begin{algorithmic}[1]
+\Function{ApplyBoundary}{OPEN}{$x, y, W, H$}
+    \If{$x < 0$ \textbf{or} $x \geq W$ \textbf{or} $y < 0$ \textbf{or} $y \geq H$}
+        \State \Return $(0, 0, \texttt{false})$
+    \EndIf
+    \State \Return $(x, y, \texttt{true})$
+\EndFunction
+\Statex
+\Function{ApplyBoundary}{PERIODIC}{$x, y, W, H$}
+    \State \Return $((x \bmod W + W) \bmod W,\; (y \bmod H + H) \bmod H,\; \texttt{true})$
+\EndFunction
+\Statex
+\Function{ApplyBoundary}{REFLECTIVE}{$x, y, W, H$}
+    \Comment{La frontera actúa como un espejo}
+    \If{$x < 0$} \State $x \gets -x - 1$ \EndIf
+    \If{$x \geq W$} \State $x \gets 2W - x - 1$ \EndIf
+    \If{$y < 0$} \State $y \gets -y - 1$ \EndIf
+    \If{$y \geq H$} \State $y \gets 2H - y - 1$ \EndIf
+    \State \Return $(x, y, \texttt{true})$
+\EndFunction
+\Statex
+\Function{ApplyBoundary}{REFLEXIVE}{$x, y, W, H$}
+    \Comment{El borde se trata como una celda real}
+    \If{$x < 0$} \State $x \gets -x$ \EndIf
+    \If{$x \geq W$} \State $x \gets 2W - x - 2$ \EndIf
+    \If{$y < 0$} \State $y \gets -y$ \EndIf
+    \If{$y \geq H$} \State $y \gets 2H - y - 2$ \EndIf
+    \State \Return $(x, y, \texttt{true})$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\textbf{Complejidad}: $\mathcal{O}(\texttt{1})$.
+
+\subsection{Forward pass del autómata celular neuronal}
+
+El autómata celular neuronal, a diferencia del clasico utiliza un perceptrón multicapa que se evalúa de forma independiente sobre cada celda. El kernel CUDA mantiene la misma estructura que el autómata celular ejecutando un hilo por cada celda. Sin embargo, en lugar de un acceso a la tabla, se ejecuta una secuencia de productos matriz-vector con activaciones intercaladas.
+
+Los pesos y sesgos de las capas residen en un dos arreglos planos \texttt{weights[]} y \texttt{biases[]}, cada uno con su vector \texttt{w\_offsets[]} que apunta al inicio de cada matriz $W^{(l)}$. 
+
+\begin{algorithm}[H]
+\caption{ncaKernel: \textit{forward pass} del MLP por celda}
+\label{alg:nca-fwd}
+\begin{algorithmic}[1]
+\Require \texttt{A}, \texttt{B}, \texttt{neighbourhood[n\_size]}, \texttt{weights[]}, \texttt{biases[]}, \texttt{w\_offsets[]}, \texttt{b\_offsets[]}, \texttt{layer\_sizes[n\_layers+1]}, \texttt{activations[n\_layers]}
+\State $(x, y) \gets$ coordenadas del hilo
+\If{$x \geq W$ \textbf{or} $y \geq H$} \State \Return \EndIf
+\State $\texttt{input}[\texttt{n\_size}] \gets$ vector de tamaño $\texttt{n\_size}$
+\For{$i \gets 0$ \textbf{to} $\texttt{n\_size} - 1$}
+    \State $(dx, dy) \gets \texttt{neighbourhood}[i]$
+    \State $(x', y', \_) \gets \textsc{ApplyBoundary}(x + dx, y + dy, W, H)$
+    \State $\texttt{input}[i] \gets \texttt{A}[y' \cdot W + x']$
+\EndFor
+\State $\texttt{current} \gets \texttt{input}$
+\For{$\ell \gets 0$ \textbf{to} $\texttt{n\_layers} - 1$}
+    \State $W_\ell \gets \texttt{weights} + \texttt{w\_offsets}[\ell]$
+    \State $b_\ell \gets \texttt{biases} + \texttt{b\_offsets}[\ell]$
+    \State $n_{\text{in}} \gets \texttt{layer\_sizes}[\ell]$;\quad $n_{\text{out}} \gets \texttt{layer\_sizes}[\ell+1]$
+    \For{$j \gets 0$ \textbf{to} $n_{\text{out}} - 1$}
+        \State $s \gets b_\ell[j]$
+        \For{$k \gets 0$ \textbf{to} $n_{\text{in}} - 1$}
+            \State $s \gets s + W_\ell[j \cdot n_{\text{in}} + k] \cdot \texttt{current}[k]$
+        \EndFor
+        \State $\texttt{next}[j] \gets \textsc{Activar}(s,\; \texttt{activations}[\ell])$
+    \EndFor
+    \State $\texttt{current} \gets \texttt{next}$
+\EndFor
+\State $\texttt{B}[y \cdot W + x] \gets \texttt{current}[0]$
+\end{algorithmic}
+\end{algorithm}
+
+Se evita el uso de \texttt{std::function} u otros punteros a función, ya que no son compatibles con kernels CUDA.
+
+\textbf{Complejidad}: $\displaystyle \mathcal{O}\left(N_{size} + \sum_{l = 0}^{L - 1}(n_l \cdot n_{l+1})\right)$ por celda. 
+
+\subsection{Entrenamiento del autómata celular neuronal}
+
+El entrenamiento parte de una evolución registrada en formato $(T, H, W)$ y produce los pesos del perceptrón multicapa que mejor reproducen la transición observada. El procedimiento se ejecuta en PyTorch fuera del módulo CUDA, en CPU o GPU según disponibilidad.
+
+A diferencia del aprendizaje supervisado tradicional sobre imágenes, aquí cada par de entrenamiento corresponde a una celda individual: la entrada es el vector de estados en su vecindad en el instante $t$, y el objetivo es el estado de la misma celda en el instante $t+1$.
+
+\begin{algorithm}[H]
+\caption{EntrenarNCA: ajuste del MLP a partir de una evolución registrada}
+\label{alg:entrenar}
+\begin{algorithmic}[1]
+\Require \texttt{evolucion}$\in \mathbb{R}^{T \times H \times W}$, \texttt{vecindad}, \texttt{arq[]} (tamaños de capa), \texttt{act[]} (activaciones), \texttt{lr}, \texttt{epochs\_max}, \texttt{batch}, \texttt{loss\_target}
+\Ensure pesos y sesgos del MLP
+\Statex
+\State $X \gets [\ ]$;\quad $Y \gets [\ ]$ \Comment{Extracción de pares (vecindad, objetivo)}
+\For{$t \gets 0$ \textbf{to} $T - 2$}
+    \For{$y \gets 0$ \textbf{to} $H - 1$}
+        \For{$x \gets 0$ \textbf{to} $W - 1$}
+            \State $v \gets [\ ]$
+            \ForAll{$(dx, dy) \in \texttt{vecindad}$}
+                \State $v.\textsc{append}(\texttt{evolucion}[t,\; (y+dy) \bmod H,\; (x+dx) \bmod W])$
+            \EndFor
+            \State $X.\textsc{append}(v)$
+            \State $Y.\textsc{append}(\texttt{evolucion}[t+1, y, x])$
+        \EndFor
+    \EndFor
+\EndFor
+\Statex
+\State $\texttt{modelo} \gets \textsc{ConstruirMLP}(\texttt{arq}, \texttt{act})$
+\State $\texttt{optim} \gets \textsc{Adam}(\texttt{modelo.parametros}, \texttt{lr})$
+\State $\texttt{criterio} \gets \textsc{MSE}$
+\Statex
+\For{$e \gets 0$ \textbf{to} $\texttt{epochs\_max} - 1$}
+    \State $L_{\text{acum}} \gets 0$
+    \ForAll{\texttt{(X\_b, Y\_b)} en lotes de tamaño \texttt{batch}}
+        \State $\hat{Y} \gets \texttt{modelo}(\texttt{X\_b})$
+        \State $L \gets \texttt{criterio}(\hat{Y}, \texttt{Y\_b})$
+        \State $\texttt{optim.zero\_grad}()$
+        \State $L.\texttt{backward}()$
+        \State $\texttt{optim.step}()$
+        \State $L_{\text{acum}} \gets L_{\text{acum}} + L$
+    \EndFor
+    \If{$L_{\text{acum}} < \texttt{loss\_target}$} \State \textbf{break} \EndIf
+\EndFor
+\State \Return pesos y sesgos del \texttt{modelo}
+\end{algorithmic}
+\end{algorithm}
+
+Además del límite \texttt{epochs\_max}, se detiene el entrenamiento si la pérdida acumulada cae por debajo de \texttt{loss\_target}. 
+
+\textbf{Complejidad}: La primera fase $\mathcal{O}(T \cdot H \cdot W \cdot N_{vec})$. La segunda fase $\mathcal{O}(E \cdot T \cdot H \cdot W \cdot P)$, donde $E$ es el número de épocas y $P$ representa la cantidad total de parámetros del percentrón muticapa ($\sum n_l \cdot n_{l+1}$).
+
+\subsection{Prefetch asíncrono con invalidación por generación}
+
+La GUI debe sostener una reproducción visualmente fluida sin bloquear el hilo principal de Qt, incluso cuando el cómputo de un paso es computacionalmente complejo (grillas grandes o autómatas celulares neuronales profundos). Para ello, un \textit{worker} en un hilo del \texttt{QThreadPool} precomputa hasta \texttt{PREFETCH\_SIZE} frames y los entrega al \texttt{future\_record} del controlador.
+
+Si el usuario cambia la regla, la vecindad o el estado mientras el \textit{worker} está corriendo, los frames precomputados ya no corresponden a la configuración activa y deben descartarse. La solución es un contador entero \texttt{\_generation} que el controlador incrementa ante cualquier cambio; el \textit{worker} captura su valor al lanzarse y verifica coincidencia antes de publicar resultados.
+
+\begin{algorithm}[H]
+\caption{PrefetchWorker.run: producción asíncrona de frames}
+\label{alg:prefetch}
+\begin{algorithmic}[1]
+\Require \texttt{automata}, \texttt{gen} (generación capturada al instanciar), \texttt{controller}, $N = \texttt{PREFETCH\_SIZE}$
+\State $\texttt{frames} \gets [\ ]$
+\For{$i \gets 0$ \textbf{to} $N - 1$}
+    \If{$\texttt{controller.generation} \neq \texttt{gen}$}
+        \State \Return \Comment{Configuración cambió; descartar trabajo}
+    \EndIf
+    \State $\texttt{automata.step}()$
+    \State $\texttt{frames.append}(\texttt{automata.getSpace}().\texttt{copy}())$
+\EndFor
+\Statex
+\State \textit{// Postear de regreso al hilo de Qt vía señal}
+\If{$\texttt{controller.generation} = \texttt{gen}$}
+    \State $\texttt{controller.future\_record.extend}(\texttt{frames})$
+\Else
+    \State descartar \texttt{frames}
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+La comprobación dentro del bucle permite abortar tempranamente y liberar el hilo del pool; la comprobación final antes de publicar evita que la generación cambie justo después del último \texttt{step()} pero antes de la respuesta.
+
+Cuando el usuario retrocede, los frames se consumen desde \texttt{past\_record}; cuando avanza más allá de lo registrado, se consumen desde \texttt{future\_record}. Si este último se vacía, se dispara un nuevo \texttt{PrefetchWorker} con la generación actual.
+
+\textbf{Complejidad}: $\mathcal{O}(N\cdot H\cdot W\cdot c)$, donde $N=\texttt{PREFETCH\_SIZE}$ y $c$ es el costo por celda del paso evolutivo subyacente ($\texttt{n\_size}$ para CA, $N_{size}+\sum_\ell n_\ell  n_{\ell+1}$ para NCA).

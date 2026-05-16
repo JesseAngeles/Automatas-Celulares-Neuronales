@@ -1,0 +1,16 @@
+sequenceDiagram
+    actor User
+    User->>UI: Clic en BTN8 Grabar evolución
+    UI->>User: Solicitar número de pasos
+    User->>UI: Ingresa N
+    UI->>Modelo: Grabar N pasos
+    Modelo->>Core: Evolucionar N pasos
+    Core->>Modelo: N espacios
+    Modelo->>Modelo: Almacenar evolución
+    Modelo->>UI: Mostrar último paso
+
+    User->>UI: Clic en BTN9 Exportar evolución
+    UI->>User: Solicitar ruta de guardado
+    User->>UI: Selecciona ruta
+    UI->>Modelo: Exportar evolución
+    Modelo->>Archivo: Escribir .npy y .mat

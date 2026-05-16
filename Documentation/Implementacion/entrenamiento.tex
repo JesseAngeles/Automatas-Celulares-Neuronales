@@ -1,0 +1,77 @@
+\section{Entrenamiento del modelo}
+
+El entrenamiento del autómata celular neuronal consiste en ajustar los pesos y sesgos del perceptrón multicapa para que, dado el vector de estados en la vecindad de una celda en el instante $t$, produzca como salida el estado de esa misma celda en el instante $t+1$. 
+
+Esta sección describe la implementación concreta del pipeline de entrenamiento: la preparación del conjunto de datos, la construcción dinámica del modelo, el ciclo de optimización, la persistencia de los pesos y la integración con la interfaz gráfica.
+
+\subsection{Preparación del conjunto de datos}
+
+El entrenamiento parte de una evolución registrada previamente desde la GUI o generada por una utilidad externa. El archivo se almacena en formato NumPy con \textit{shape} $(T, H, W)$ y \texttt{dtype} entero, donde $T$ es el número de pasos temporales registrados.
+
+A partir de esta evolución se extraen pares de entrenamiento a nivel de celda, no a nivel de imagen. Para cada celda $(x, y)$ en cada instante $t \in [0, T-1)$ se construye:
+
+\begin{itemize}
+    \item \textbf{Entrada} $X_{t,x,y}$: vector de tamaño $N_{\text{vec}}$ que concatena el estado de las celdas indicadas por la vecindad relativa a $(x, y)$ en el instante $t$. Las coordenadas se resuelven con condición de frontera periódica (módulo $H$ y $W$).
+    \item \textbf{Salida esperada} $Y_{t,x,y}$: estado de la celda $(x, y)$ en el instante $t+1$.
+\end{itemize}
+
+Esta vectorización transforma una evolución de $T$ pasos sobre una grilla $H \times W$ en un conjunto de $T \cdot H \cdot W$ muestras independientes, lo que multiplica la cantidad de datos por celdas evaluadas y permite entrenar con \textit{batches} grandes sin requerir múltiples evoluciones.
+
+\subsection{Construcción dinámica del modelo}
+
+La arquitectura del perceptron multicapa no está fijada en el código: se determina en tiempo de ejecución a partir de los argumentos de la línea de comandos (o de la pestaña de entrenamiento de la GUI). El \textit{script} \texttt{training/main.py} acepta los parámetros resumidos en la tabla \ref{tab:cli-entrenamiento}.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{l|l|p{0.42\linewidth}}
+        \hline
+        \textbf{Argumento} & \textbf{Default} & \textbf{Descripción} \\ \hline
+        \texttt{--data} & --- & Archivo \texttt{.npy} con la evolución de entrada. \\ \hline
+        \texttt{--output} & \texttt{weights.npz} & Archivo de salida con los pesos entrenados. \\ \hline
+        \texttt{--neighbourhood} & --- & Lista de pares \texttt{"dx,dy"} separados por espacio. \\ \hline
+        \texttt{--radius} & 1 & Vecindad cuadrada $(2r+1) \times (2r+1)$ si no se especifica \texttt{--neighbourhood}. \\ \hline
+        \texttt{--layers} & --- & Capas ocultas con activación, ejemplo \texttt{"64:relu 32:tanh"}. \\ \hline
+        \texttt{--hidden} & 64 & Tamaño de capa oculta única (si no se usa \texttt{--layers}). \\ \hline
+        \texttt{--out-size} & 1 & Neuronas de la capa de salida. \\ \hline
+        \texttt{--out-act} & \texttt{sigmoid} & Activación de la capa de salida. \\ \hline
+        \texttt{--epochs} & 20000 & Número máximo de épocas. \\ \hline
+        \texttt{--batch} & 8192 & Tamaño de \textit{batch}. \\ \hline
+        \texttt{--lr} & 0.001 & Tasa de aprendizaje del optimizador. \\ \hline
+        \texttt{--loss-target} & 0.01 & Umbral de pérdida para detención temprana. \\ \hline
+        \texttt{--print-every} & 50 & Frecuencia de impresión del \textit{log}. \\ \hline
+    \end{tabular}
+    \caption{Argumentos CLI del \textit{script} de entrenamiento.}
+    \label{tab:cli-entrenamiento}
+\end{table}
+
+A partir de estos argumentos se construye un \texttt{torch.nn.Sequential} concatenando capas \texttt{nn.Linear} con la activación correspondiente. Las activaciones soportadas son \texttt{ReLU}, \texttt{Sigmoid}, \texttt{Tanh} y \texttt{Linear} (identidad), las mismas que reconoce el \textit{kernel} CUDA del NCA. La equivalencia de códigos numéricos (\texttt{0=ReLU, 1=Sigmoid, 2=Tanh, 3=Linear}) garantiza que los pesos entrenados sean directamente ejecutables en el dispositivo.
+
+\subsection{Ciclo de optimización}
+
+El entrenamiento sigue un esquema de optimización por descenso de gradiente estocástico con minilotes:
+
+\begin{itemize}
+    \item \textbf{Optimizador}: \texttt{torch.optim.Adam} con la tasa de aprendizaje configurada. Se eligió \textit{Adam} por su robustez frente a la elección inicial de hiperparámetros y por su comportamiento estable en presencia de gradientes ruidosos.
+    \item \textbf{Función de pérdida}: error cuadrático medio (\texttt{MSELoss}). Aunque el objetivo es discreto en los autómatas celulares clásicos, el MLP produce salidas continuas y se interpreta el valor de salida mediante umbralización al momento de inferencia.
+    \item \textbf{Detención temprana}: el ciclo se interrumpe cuando la pérdida acumulada por época cae por debajo de \texttt{loss\_target}, evitando épocas adicionales innecesarias una vez que el modelo ha convergido.
+    \item \textbf{\textit{Logging}}: cada \texttt{print\_every} épocas se imprime el número de época, la pérdida acumulada. Este \textit{log} se captura en tiempo real por la GUI cuando el entrenamiento se lanza desde \texttt{TrainingPane}.
+\end{itemize}
+
+\subsection{Persistencia de los pesos}
+
+Al finalizar el entrenamiento, el modelo se almacena en un archivo \texttt{.npz} con la siguiente estructura:
+
+\begin{itemize}
+    \item \texttt{weights\_N} y \texttt{biases\_N} por cada capa lineal (con $N$ el índice de capa).
+    \item \texttt{layer\_in}, \texttt{layer\_out}: tamaños de entrada y salida.
+    \item \texttt{activations}: arreglo de códigos enteros para cada capa.
+    \item \texttt{neighbourhood}: lista de desplazamientos relativos utilizada durante el entrenamiento.
+\end{itemize}
+
+Este formato es el que espera el método \texttt{on\_load\_nca\_button} de \texttt{SimulationController} y es compatible con la firma del constructor de la clase \texttt{NCA} en el módulo nativo, sin necesidad de transformaciones intermedias.
+
+\subsection{Integración con la interfaz gráfica}
+
+Desde la pestaña de entrenamiento de la GUI, el usuario configura visualmente la vecindad, las capas ocultas, las activaciones y los hiperparámetros. Al pulsar el botón de entrenamiento, la GUI ensambla la línea de comandos equivalente e instancia un \texttt{QProcess} con la \textit{flag} \texttt{-u} de Python, que desactiva el \textit{buffering} de la salida estándar. La salida estándar y de error del subproceso se conecta mediante señales de Qt a un \textit{widget} de \textit{log} que se actualiza en tiempo real.
+
+Esta arquitectura permite que el entrenamiento se ejecute en un proceso completamente independiente del de la GUI: una falla durante el entrenamiento no afecta a la interfaz, y el usuario puede continuar simulando o ajustando la configuración mientras el proceso avanza en segundo plano. Una vez terminado, el archivo \texttt{.npz} resultante puede cargarse desde la pestaña de simulación para intercambiar al modo NCA.

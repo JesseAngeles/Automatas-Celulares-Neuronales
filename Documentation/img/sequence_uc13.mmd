@@ -1,0 +1,10 @@
+sequenceDiagram
+    actor User
+    User->>UI: Selecciona grupo y celdas
+    User->>UI: Clic en BTN12 Definir vecindad
+    UI->>Modelo: Aplicar nueva vecindad
+    Modelo->>Modelo: Detener simulación
+    Modelo->>Modelo: Descartar evoluciones precomputadas
+    Modelo->>Core: Reconstruir CA con nueva vecindad
+    Core->>Modelo: Nuevo tamaño de regla
+    Modelo->>UI: Actualizar código de regla

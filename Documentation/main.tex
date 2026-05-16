@@ -1,9 +1,9 @@
-\documentclass[12pt]{report} % Usamos 'report' para tesis largas
+\documentclass[12pt]{report} 
 
 % Preambulo
 \input{Componentes/Preambulo.tex}
 
-\title{Título de la Tesis}
+\title{Simulación de sistemas complejos mediante autómatas celulares neuronales}
 \author{Erick Jesse Angeles López}
 \date{\today}
 
@@ -24,41 +24,32 @@
 	\pagenumbering{arabic}
 	\setcounter{page}{1}
 	
+
 	\input{Introduccion/Introduccion.tex}
 
 	\input{MarcoTeorico/SistemasComplejos.tex}
 	\input{MarcoTeorico/AutomataCelular.tex}
 	\input{MarcoTeorico/RedesNeuronales.tex}
-	\input{MarcoTeorico/AutomataCelularNeuronal.tex}
-	
-	\chapter{Marco metodológico}
-	\input{MarcoMetodologico/introduccion.tex}
-	\input{MarcoMetodologico/diseño.tex}
-	\input{MarcoMetodologico/enfoque.tex}
-	\input{MarcoMetodologico/poblacion.tex}
-	\input{MarcoMetodologico/muestreo.tex}
-	\input{MarcoMetodologico/tipo.tex}
-	\input{MarcoMetodologico/tecnicas.tex}
-	\input{MarcoMetodologico/procedimiento.tex}
-	\input{MarcoMetodologico/procesamiento.tex}
-	\input{MarcoMetodologico/contextualizacion.tex}
-	\input{MarcoMetodologico/conclusion.tex}
-	
-	\chapter{Análisis de software}
-	\input{IngenieriaSoftware/introduccion.tex}
-	\input{IngenieriaSoftware/metodologia.tex}
-	\input{IngenieriaSoftware/requerimientos.tex}
+	\input{MarcoTeorico/AutomataCelularNeuronal.tex}	
+
+	\input{MarcoMetodologico/marco.tex}
+
+	\input{IngenieriaSoftware/metodologia_requerimientos.tex}
 	\input{IngenieriaSoftware/riesgos.tex}
-	\input{IngenieriaSoftware/factibilidad.tex}
-	\input{IngenieriaSoftware/casosDeUso.tex}
-	\input{IngenieriaSoftware/diccionario.tex}
+	\input{IngenieriaSoftware/casos_de_uso.tex}
 	\input{IngenieriaSoftware/especificaciones.tex}
 	\input{IngenieriaSoftware/secuencia.tex}
 		
-	\chapter{Diseño de software}
 	\input{DiseñoSoftware/arquitectura.tex}
 	\input{DiseñoSoftware/clases.tex}
+	\input{DiseñoSoftware/datos.tex}
+	\input{DiseñoSoftware/algoritmos.tex}
 	\input{DiseñoSoftware/ui.tex}
+		
+	\input{Implementacion/entorno.tex}
+	\input{Implementacion/estructura.tex}
+	\input{Implementacion/entrenamiento.tex}
+	\input{Implementacion/pruebas.tex}
 	
 	% Referencias generales
 	\clearpage

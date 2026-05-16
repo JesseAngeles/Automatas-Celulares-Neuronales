@@ -1,0 +1,39 @@
+ classDiagram
+      class CA {
+          -uint8_t* space
+          -int width, height, states
+          -int* neighbourhood, rule
+          -BoundaryMode boundary_mode
+          +step() void
+          +run(int) uint8_t*
+          +getSpace() uint8_t*
+          +setSpace(uint8_t*) void
+          +setBoundary(BoundaryMode) void
+      }
+
+      class NCA {
+          -float* space
+          -int width, height
+          -int* neighbourhood
+          -float* weights, biases
+          -int n_layers, out_size
+          +step() void
+          +setWeights(...) void
+      }
+
+      class MLPlayer {
+          <<struct>>
+          +int in_size, out_size
+          +int activation
+      }
+
+      class BoundaryMode {
+          <<enum>>
+          OPEN
+          PERIODIC
+          REFLECTIVE
+          REFLEXIVE
+      }
+
+      NCA ..> MLPlayer : uses
+      CA ..> BoundaryMode : uses

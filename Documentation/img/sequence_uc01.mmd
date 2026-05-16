@@ -1,0 +1,17 @@
+sequenceDiagram
+    actor User 
+    User->>UI: Clic en BTN1 Iniciar simulación
+    UI->>Modelo: Iniciar simulación
+    Modelo->>UI: Deshabilitar BTN1 
+    Modelo->>UI: Habilitar BTN2 Pausar simulación
+    par Productor (async)
+        Modelo->>Core: Evolucionar N pasos
+        Core->>Modelo: Encolar evoluciones
+    and Consumidor (periódico)
+        Modelo->>Modelo: Desencolar siguiente espacio
+        Modelo->>UI: Actualizar espacio celular
+    end
+    User->>UI: Clic en BTN2
+    UI->>Modelo: Detener simulación
+    Modelo->>UI: Deshabilitar BTN2 
+    Modelo->>UI: Habilitar BTN1

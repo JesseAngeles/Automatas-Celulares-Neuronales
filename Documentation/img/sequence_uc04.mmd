@@ -1,0 +1,11 @@
+sequenceDiagram
+    actor User
+      User->>UI: Clic en BTN3 Simular un paso
+      UI->>Modelo: Avanzar un paso
+      alt Cola precomputada vacía
+          Modelo->>Core: Evolucionar un paso
+          Core->>Modelo: Espacio actualizado
+      else Cola con evoluciones pendientes
+          Modelo->>Modelo: Desencolar siguiente espacio
+      end
+      Modelo->>UI: Actualizar espacio celular

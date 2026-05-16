@@ -1,14 +1,31 @@
 \section{Diagrama de clases}
 
-El diagrama de clases UML sirve para mostrar una vista estática de las clases de un sistema, sus atributos, métodos y relaciones entre objetos. Sirve para proporcionar una información general sobre la aplicación \cite{clase}.
+El diagrama de clases UML sirve para mostrar una vista estática de las clases de un sistema, sus atributos, métodos y relaciones entre objetos. Sirve para proporcionar una información general sobre la aplicación \cite{clase}. 
 
-Como se muestra en la figura \ref{fig:clases}, el simulador está compuesto por siete clases. De estas, únicamente la clase CASimulator se encuentra implementada en C++, por lo que se especifican su encapsulamiento y el tipo de sus variables.
-
-El resto de las clases están desarrolladas en Python y se definen siguiendo la filosofía “pythónica”, en la cual “lo simple es mejor” \cite{pythonTutorial}.
+El diagrama de clases se compone de tres partes: 
+\begin{itemize}[nosep, noitemsep]
+	\item \textbf{CUDA}: La figura \ref{fig:class_cuda} muestra la definición de las clases del autómata celular y el autómata celular neuronal. 
+	\item \textbf{Modelos} Son los modelos construidos con Pybind11 los cuales son manipulados por ``SimulationController'', como se muestra en la figura \ref{fig:class_models}.
+	\item \textbf{UI}  Elementos y controladores de la interfaz grafica en PyQt5. Ver figura \ref{fig:class_ui}.
+\end{itemize}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.9\linewidth]{img/uml_cd.png}
-	\caption{Diagrama de clases.}
-	\label{fig:clases}
+	\includegraphics[width=.7 \linewidth]{"./img/classDiagram_cuda.png"}
+	\caption{Diagrama de clases: Capa CUDA}
+	\label{fig:class_cuda}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.95 \linewidth]{"./img/classDiagram_models.png"}
+	\caption{Diagrama de clases: Capa de modelos}
+	\label{fig:class_models}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.95 \linewidth]{"./img/classDiagram_ui.png"}
+	\caption{Diagrama de clases: Capa UI}
+	\label{fig:class_ui}
 \end{figure}

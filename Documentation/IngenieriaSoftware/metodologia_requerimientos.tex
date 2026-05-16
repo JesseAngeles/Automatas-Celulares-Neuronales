@@ -1,3 +1,42 @@
+\chapter{Análisis de software}
+
+Hasta el momento conocemos la metodología utilizada para la investigación completa; sin embargo, es necesario especificar el desarrollo del software, ya que es necesario garantizar el correcto diseño e implementación del simulador para poder realizar las pruebas adecuadas con el menor número de errores. Es por esto que en este capítulo se detalla el proceso de desarrollo del simulador, lo que incluye la especificación de la metodología utilizada, requerimientos del sistema y modelado, diseño e implementación de cada una de las entregas.
+
+\section{Metodología de desarrollo}
+
+Para el desarrollo de software se utiliza un modelo de entrega por etapas. Este modelo, como se observa en la figura \ref{fig:modelo_etapas}, realiza las primeras etapas de forma secuencial y permite diseñar e implementar los componentes del proyecto por separado. Seguir este modelo permite entregar partes del proyecto y tener visibilidad del progreso. 
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.75\linewidth]{img/modelo_etapas.png}
+	\caption{Representación gráfica del modelo de entrega por etapas para el desarrollo del software}
+	\label{fig:modelo_etapas}
+\end{figure}
+
+Estas son algunas de las razones por las cuales se opta por este modelo:
+
+\begin{itemize}
+	\item El tamaño del equipo de desarrollo es reducido: Al tener un número de integrantes reducido, resulta inviable desarrollar múltiples componentes de forma paralela. 
+	
+	\item No existe un cliente: El desarrollo de este producto de software es únicamente un medio para el proceso experimental.
+	
+	\item No es un producto comercial: No se planea monetizar dado que no existe un cliente. Por lo que en la ingeniería de requisitos se consideran los necesarios propuestos por el equipo de investigación para satisfacer las necesidades tecnológicas.
+	
+	\item No hay procesos iterativos: Al no tener cliente, no es necesario tener una validación externa, ni cambios significativos en los requerimientos del software. 
+\end{itemize}
+
+\begin{itemize}
+	\item Simulador funcional del cualquier autómata celular en dos dimensiones en un espacio celular finito.
+	
+	\item Personalización de la vecindad, conjunto de estados, condición de frontera y función de transición.
+	
+	\item Personalización del diseño de estados e interacción en tiempo real con el espacio celular.
+	
+	\item Controles de simulación para avanzar, retroceder, reiniciar y manipular la velocidad de la animación.
+\end{itemize}
+
+Para mayor detalle de esta primer etapa, mas adelante se especifican los casos de uso.
+
 \section{Reglas de negocio}
 
 \begin{enumerate}[label*=RN\arabic*]

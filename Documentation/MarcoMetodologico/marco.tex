@@ -1,0 +1,251 @@
+\chapter{Marco metodológico}
+
+El marco metodológico se constituye como el resultado de la aplicación sistemática y lógica de los conceptos y fundamentos abordados en el marco teórico. Azuero et al. \cite{azuero2019_metodologico} lo definen como un conjunto de acciones destinadas a describir y analizar el fondo del problema planteado, mediante procedimientos específicos que incluyen técnicas de observación y recolección de datos, los cuales determinarán el cómo se llevará a cabo la investigación. 
+
+Este capítulo se dividirá en secciones que definan la estructura del marco metodológico, con el fin de sustentar los métodos y recursos elegidos para el desarrollo de la investigación. Se asegurará que cada fase esté alineada con los principios teóricos fundamentales y que los resultados obtenidos sean fiables, replicables y efectivos en el tratamiento de la problemática planteada.
+
+\section{Diseño de la investigación}
+
+\subsection{Diseño experimental}
+
+El diseño experimental es un método sistemático para planificar, ejecutar y analizar experimentos, con el objetivo de identificar relaciones causales entre variables. En otras palabras, se manipula una variable independiente para observar su efecto sobre la variable dependiente \cite{unam2025_experimental}.
+
+De acuerdo con su nivel de control, los diseños experimentales se clasifican en tres tipos: preexperimentos, cuasiexperimentos y experimentos puros. En el presente trabajo se adopta un diseño cuasiexperimental por las características propias del entorno de simulación y la naturaleza del objeto de estudio.
+
+El diseño experimental resulta apropiado en este contexto. Se manipula una variable independiente (la definición de la función de transición mediante una red neuronal) para observar sus efectos sobre el comportamiento del sistema simulado. Esto se hace sin que exista una asignación aleatoria ni un grupo control en un sentido estricto. 
+
+\subsubsection{Diseño cuasiexperimental}
+
+El diseño cuasiexperimental busca establecer relaciones causales sin la necesidad de asignar aleatoriamente a los participantes o unidades experimentales a los grupos de estudio. Se caracteriza por la existencia de una intervención deliberada sobre una variable independiente, mientras que los grupos de comparación se definen con base en condiciones preexistentes \cite{capili2024_cuasiexperimento}.
+
+En el caso de esta investigación, el estudio se desarrolla en un entorno computacional controlado, donde las condiciones experimentales se reproducen mediante simulaciones. El objetivo principal es estudiar cómo diferentes factores, como la forma de la red neuronal o la configuración del autómata, afectan los patrones que aparecen en los autómatas celulares neuronales. Este enfoque permite observar efectos y comportamientos resultantes, manteniendo un control suficiente sobre las variables involucradas sin requerir un esquema de aleatorización.
+
+\section{Enfoque de la investigación}
+
+Este proyecto utiliza un enfoque cuantitativo, que se basa en recoger y analizar datos numéricos para describir fenómenos a través de métodos estadísticos y matemáticos \cite{jaen_cuantitativa}. Este enfoque prioriza la objetividad y medición precisa para relacionar causales entre las variables observadas.
+
+A diferencia de los enfoques cualitativos o mixtos, este no requiere de estudiar percepciones, significados ni experiencias humanas, por lo que es adecuado para investigaciones donde las variables pueden ser definidas, controladas y medidas \cite{cueva2023_mixto}.
+
+El enfoque cuantitativo se justifica porque el análisis se realiza a partir de datos generados mediante simulación computacional. En este proceso no hay intervención directa con humanos y los resultados obtenidos no están sujetos a interpretaciones. Este enfoque permite comparar escenarios, desempeño de modelos e influencia de parámetros sobre la dinámica emergente del sistema.
+
+\section{Población}
+
+La población de estudio se define como un conjunto cerrado, finito y accesible de casos (personas, animales, expedientes, objetos, etc.), los cuales cumplen con un criterio de inclusión y que sirven como base para la investigación \cite{arias2016_poblacion}. En otras palabras, es un conjunto conformado por todos los elementos a los que se pretende generalizar los resultados del estudio.
+
+En este trabajo, la población que se estudia está formada por todos los autómatas celulares finitos que se encuentran en un espacio bidimensional con una distribución de cuadrícula regular. Se consideran condiciones de frontera un conjunto de estados finito y cualquier función que pueda mapear de $\mathbb{R}^{|\mathcal{N}|} \to \mathbb{R}$.
+
+\section{Muestra y muestreo}
+
+La muestra corresponde a un subconjunto de la población de estudio y consiste en el número de casos que realmente serán estudiados. Esta debe ser representativa para garantizar la validez de los resultados. Por otro lado, el muestreo se refiere al proceso aplicado por el investigador para seleccionar a los participantes dentro de la población \cite{diaz2017_muestra}.
+
+Existe el muestreo probabilístico, donde cada miembro de la población tiene una probabilidad de ser escogido; y el no probabilístico, donde la selección se basa en la conveniencia, el juicio del investigador u otros criterios \cite{diaz2017_muestra}. 
+
+Para esta investigación se realiza un muestreo no probabilístico intencional, donde los elementos seleccionados para la muestra son elegidos por el criterio del investigador. Esto se justifica, ya que, al existir una infinitud de autómatas celulares dadas las restricciones en la población, es necesario delimitar y tratar de replicar los comportamientos. Además, dado que cada autómata celular resuelve un problema, es necesario identificar de forma precisa el problema que se está resolviendo \cite{elsevier2016_computational_biology}.
+
+\section{Tipo de investigación}
+
+Con base en los objetivos, esta investigación se considera aplicada. La investigación aplicada, también conocida como práctica o empírica, se caracteriza porque busca poner en práctica o utilizar los conocimientos adquiridos. En este tipo, las consecuencias prácticas son un interés primordial del investigador \cite{veracruz_aplicada}.
+
+Además, se utiliza un diseño cuasiexperimental, porque se cambian variables independientes para ver cómo afectan los resultados de la simulación, sin tener un grupo control o asignar condiciones experimentales de forma aleatoria. 
+
+Este tipo de investigación es útil porque ayuda a encontrar relaciones de causa y efecto entre los elementos del modelo y los comportamientos que surgen en el sistema, mientras se mantiene un entorno computacional que es controlado y se puede repetir.
+
+\section{Técnicas e instrumentos de recolección de datos}
+
+La recolección de datos se realiza a partir de las simulaciones computacionales realizadas. Dado que se trata de enfoque cuantitativo, no es necesario usar técnicas de observación como encuestas, sino procedimientos de registro automatizado para su posterior análisis numérico. 
+
+\subsection{Técnicas de recolección de datos}
+
+\begin{itemize}
+	
+	\item Simulación computacional: Ejecución del modelo del autómata celular bajo diferentes configuraciones de vecindad, estados y arquitectura de la red neuronal artificial.
+	
+	\item Registro automático de datos: Datos generados por la simulación. Como el historial evolutivo, patrones y métricas de estabilidad, error y desempeño.
+	
+	\item Análisis estadístico: Se aplican métricas cuantitativas que permiten comparar configuraciones para evaluar la efectividad del modelo. Métricas como precisión, convergencia, tasa de error y comportamiento temporal de los patrones.
+	
+\end{itemize}
+
+\subsection{Instrumentos de recolección de datos}
+
+Se consideran los siguientes instrumentos para obtener y analizar los datos:
+
+\begin{itemize}
+	
+	\item Simulador desarrollado: Herramienta computacional implementada en Python que permite ejecutar y visualizar el comportamiento de los autómatas celulares neuronales.
+	
+	\item Códigos de registro y procesamiento: Conjunto de programas auxiliares que capturan las métricas numéricas de cada simulación y las almacenan en archivos.
+	
+	\item Herramientas de análisis estadístico y visualización: Librerías y herramientas que permiten obtener representaciones gráficas con los datos obtenidos. 
+	
+\end{itemize}
+
+\section{Procedimiento}
+
+El desarrollo metodológico de la investigación se llevará a cabo en diversas fases secuenciales. Estas abarcan desde el diseño e implementación del simulador hasta la evaluación del modelo de autómatas celulares neuronales. Cada fase está orientada a cumplir los objetivos planteados y a generar datos cuantitativos que permitan analizar el comportamiento de los sistemas simulados.
+
+\begin{itemize}
+	
+	\item \textbf{Diseño, desarrollo e implementación del simulador}: Se construye una herramienta computacional capaz de simular autómatas celulares bidimensionales. Aunque el fin último es estudiar los autómatas celulares neuronales, este simulador debe poder aceptar configuraciones clásicas. Esto debido a que, para las siguientes fases, es necesario conocer el comportamiento de configuraciones conocidas.
+	
+	\item \textbf{Diseño, desarrollo e integración del módulo red neuronal artificial}: Se implementa un módulo adicional que permite entrenar una red neuronal artificial para aprender el comportamiento de autómatas celulares existentes. La salida de este módulo es la función de transición aprendida. Además, este módulo se integra dentro del simulador principal para permitir la experimentación directa.
+	
+	\item \textbf{Imitación de patrones conocidos}: Se diseñan y ejecutan experimentos para evaluar la capacidad del modelo neuronal de imitar el comportamiento de autómatas celulares clásicos, como el juego de la vida. Se busca, además, medir la precisión del aprendizaje y la estabilidad de las configuraciones generadas. 
+	
+	\item \textbf{Simulación de otros sistemas complejos:} Una vez validado el funcionamiento del modelo neuronal, se aplican las mismas técnicas a simulaciones que representen otros sistemas complejos. Se busca probar diferentes configuraciones iniciales y parámetros para analizar la capacidad de generalizar la aparición de nuevos patrones.
+	
+\end{itemize}
+
+Cada una de estas etapas genera resultados que ayudan a mejorar el proceso de desarrollo. Esto permite ajustar tanto la estructura de la red neuronal como las condiciones del simulador.
+
+\section{Técnicas y herramientas de procesamiento de datos}
+
+Una vez recolectados los datos provenientes de las simulaciones computacionales, es fundamental aplicar técnicas adecuadas de procesamiento y análisis para garantizar la validez de los resultados y su correcta interpretación. Dado que el enfoque de la investigación es cuantitativo, el procesamiento se centra en el análisis numérico de los datos generados por el simulador, permitiendo identificar patrones, tendencias y relaciones entre las variables del sistema.
+
+\subsection{Procesamiento de datos cuantitativos}
+
+Los datos cuantitativos se obtienen de las ejecuciones del simulador, donde se registran variables como número de iteraciones, estados promedio de las celdas, métricas de error y estabilidad de los patrones emergentes durante un periodo determinado. Posteriormente, estos datos se organizan, procesan y analizan mediante herramientas estadísticas y de visualización.
+
+\begin{itemize}
+	\item \textbf{Análisis estadístico descriptivo:} Se calculan medidas de tendencia central y de dispersión con el fin de describir cuantitativamente el comportamiento de las variables analizadas y detectar posibles irregularidades o tendencias \cite{question2023_estadistico}.
+	
+	\item \textbf{Visualización de datos:} Se elaboran gráficos de barras, histogramas y diagramas de dispersión para representar visualmente los resultados obtenidos, facilitando la comprensión de la dinámica del sistema y la comparación entre diferentes configuraciones experimentales.
+\end{itemize}
+
+El procesamiento y análisis de los datos se lleva a cabo utilizando herramientas computacionales. Los resultados obtenidos servirán como base para la interpretación y discusión en las etapas posteriores de la investigación.
+
+\section{Contextualización de la tecnología}
+
+El desarrollo de un simulador de sistemas complejos mediante autómatas celulares neuronales implica la integración de múltiples tecnologías, seleccionadas estratégicamente para satisfacer los requerimientos funcionales y técnicos del proyecto. Esto incluye crear una interfaz gráfica de usuario fácil de usar, simular autómatas celulares en dos dimensiones con diferentes estados, vecindades y reglas de transición, personalizar las condiciones iniciales y entrenar sistemas para que imiten comportamientos que el usuario proporciona.
+
+La elección de estas tecnologías responde a criterios de compatibilidad, escalabilidad, facilidad de implementación y disposición de herramientas específicas para el procesamiento de datos e inteligencia artificial. 
+
+Con el fin de proporcionar una visión clara y comprensiva de las bases técnicas del proyecto, a continuación se presentan tanto el área de estudio, elementos clave para orientar el desarrollo del simulador y validarlo, como los fundamentos y el contexto de las tecnologías utilizadas, así como los entornos de trabajo que hacen posible este trabajo. 
+
+\subsection{Fundamentos y contexto de las tecnologías}
+
+Un lenguaje de programación es una herramienta que permite el desarrollo de software y programas para computadora. Son empleados para diseñar programas encargados de definir el comportamiento físico y lógico de una computadora \cite{uapa2025_lenguajes}.
+
+Debido a que la elección del entorno y lenguaje de programación resulta crítica para el éxito de cualquier proyecto, es importante considerar las metas y alcances del mismo, puesto que no todos los lenguajes son óptimos para resolver ciertos tipos de problemas \cite{clickpanda2023_entorno}.
+
+Entre los factores clave para la elección de un lenguaje de programación se encuentran la escalabilidad, el rendimiento, el costo de mantenimiento, la compatibilidad y el sistema de herramientas, entre otros \cite{clickpanda2023_entorno}.
+
+Es por esto que, como lenguajes de programación, se decidió utilizar C++/CUDA para el núcleo de simulación y cálculos pesados en paralelo, y Python para la interfaz, visualización, control de simulación y diseño de redes neuronales. 
+
+A continuación se presentan las definiciones pertinentes de los lenguajes de programación, frameworks y librerías utilizadas para el desarrollo de la aplicación móvil.
+
+\subsubsection{C++}
+
+C++ es un lenguaje de programación compilado y multiparadigma desarrollado como una extensión de C \cite{valladolid_c}. Se considera un lenguaje de bajo nivel, ya que permite manipular directamente la memoria, lo que lo convierte en un lenguaje versátil. Es orientado a objetos, permite la creación de clases y objetos y es ampliamente utilizado para aplicaciones que requieren un alto rendimiento.
+
+Es utilizado en motores de videojuegos, software de sistemas, aplicaciones en tiempo real, simulaciones científicas y cálculo numérico \cite{msmk2025_c}. Para esta investigación, se utilizarán las siguientes bibliotecas de C++:
+
+\begin{itemize}
+	\item \textbf{pybind11}: facilita la integración de código C++ con Python, permitiendo exponer funciones y clases para análisis y visualización \cite{pybind_pybind}.
+	
+	\item \textbf{iostream}: Declara objetos que controlan la lectura y escritura de datos de un programa en C++ \cite{microsoft2025_iostream}.
+	
+	\item \textbf{algorithm}: Contiene funciones que realizan algoritmos comunes \cite{microsoft2025_algorithm}.
+	
+	\item \textbf{cstring}: Funciones que permiten la manipulación de memoria \cite{microsoft2024_cstring}.
+\end{itemize}
+
+\subsubsection{CUDA}
+
+CUDA es una plataforma de computación paralela y un modelo de programación desarrollado por NVIDIA que permite utilizar la GPU para cálculos de propósito general. Se emplea para acelerar operaciones matemáticas y simulaciones que requieren grandes cantidades de procesamiento paralelo \cite{cuda}, como el entrenamiento de redes neuronales o la simulación de autómatas celulares.
+
+Se requiere de la librería \textbf{cuda\_runtime} la cual le permite a un programa escrito en C/C++ usar los núcleos CUDA de una tarjeta grafica de NVIDIA \cite{cuda_runtime}. Esto permite gestionar la memoria, controlar los núcleos, manejar errores y dispositivos.
+
+\subsubsection{Python}
+
+De acuerdo con la página oficial de la documentación de Python \cite{pythonTutorial}, es un lenguaje de programación potente y fácil de aprender. Tiene estructuras de datos de alto nivel, sintaxis elemental y elegante, un tipado dinámico, naturaleza interpretada, etc. 
+
+Además de ser gratuito, se puede integrar bien en todos los equipos y sistemas. En adición a esto, \cite{awsPython} señala que entre los beneficios que Python incluye se encuentran los siguientes:
+
+\begin{itemize}
+	\item Los programas son fáciles de leer y comprender.
+	
+	\item Mayor productividad al escribir un programa con menos líneas de código en comparación con muchos otros lenguajes de programación.
+	
+	\item Se puede usar fácilmente con otros lenguajes de programación.
+	
+	\item Soporte rápido de la comunidad.
+	
+	\item Se puede trasladar a través de diferentes sistemas operativos de computadora.
+\end{itemize}
+
+En adición a lo anterior, cuenta con una amplia colección de librerías y \textit{frameworks} diseñados para tareas que resultaron muy convenientes en el desarrollo de simuladores. Se detallan tanto librerías como \textit{frameworks} a utilizar a continuación.
+
+\begin{itemize}
+	\item\textbf{NumPy} es una librería de Python especializada en el cálculo numérico y el análisis de datos. Es ideal para el manejo de grandes volúmenes de datos \cite{alfaro_numpy}.
+	
+	Puede hacer operaciones hasta 50 veces más rápido que las listas normales usando un objeto llamado arreglo que permite representar colecciones de datos en varias dimensiones \cite{alfaro_numpy}.
+	
+	\item\textbf{PyTorch} es una biblioteca de tensores optimizada para el aprendizaje profundo utilizando GPU y CPU \cite{pytorch_1}. Se emplea para crear redes neuronales, combinando la biblioteca de ML de Torch con una API de alto nivel basada en Python. 
+	
+	Es uno de los marcos de ML destinados a comunidades académicas y de investigación por su flexibilidad y sencillez de uso, además de admitir una amplia variedad de estructuras de redes neuronales \cite{pytorch_2}.
+	
+	\item \textbf{PyQt5 / PySide6} son herramientas que permiten usar Python como un lenguaje alternativo de desarrollo de aplicaciones a C++ en todas las plataformas soportadas \cite{qt_1}. PyQt5 también puede integrarse en aplicaciones basadas en C++ para permitir a los usuarios de dichas software configurar o mejorar la funcionalidad de las mismas, mientras que PySide6 ofrece compatibilidad oficial con las bibliotecas Qt desarrolladas por The Qt Company \cite{qt_2}.
+	
+	\item \textbf{pybind11} es una biblioteca de C++ diseñada para exponer tipos y funciones de C++ en Python y viceversa, facilitando la creación de extensiones de Python basadas en código C++ \cite{pybind_pybind}. Puede generar enlaces entre ambos lenguajes de manera compacta, eficiente y con un código más simple, posibilitando así integrar cálculos de alto rendimiento escritos en C++ dentro de entornos Python.
+	
+	\item\textbf{Matplotlib} De acuerdo con \cite{alferez_matplotlib}, Matplotlib es una librería de Python especializada en la creación de gráficos en dos dimensiones.
+	
+	Además, mencionan que permite crear y personalizar los gráficos más comunes, entre los que se encuentran:
+	\begin{itemize}
+		\item Diagramas de barras.
+		\item Histograma.
+		\item Diagramas de sectores.
+		\item Diagramas de caja y bigotes.
+	\end{itemize}
+	
+	\item \textbf{Scikit-learn} es una librería que cuenta con algoritmos de clasificación, regresión, clustering y reducción de dimensionalidad, etc. Es compatible con otras librerías de Python \cite{mds_scikitlearn}.
+\end{itemize}
+
+\subsubsection{Wolfram Mathematica}
+
+Es un sistema de computación cientifica que sigue el paradigma de programación simbolica. Fue desarrollado por Wolfram Research y se especializa en manejar matemáticas complejos, algoritmos de visualización y manipulación de datos de forma nativa \cite{mathematica_2024}. Algunas de sus funcionalidades son:
+\begin{itemize}
+	\item Visualización: Genera gráficos en 2D y 3D, mapas y diagramas dinámicos.
+	
+	\item Procesamiento de Datos: Herramientas para aprendizaje automático, procesamiento de imágenes y señales.
+	
+	\item Documentos Interactivos: Se trabaja en cuadernos, los cuales mezclan código ejecutable, texto enriquecido, imágenes y modelos interactivos.
+\end{itemize}
+
+Adicionalmente, en Wolfram Mathematica existen funciones nativas para construir, evolucionar, manipular y analizar autómatas celulares. Por lo que su uso como medio de referencia en la construcción del simulador y como herramienta de análisis de datos resulta fundamental (Wolfram Mathematica no tiene interacción directa con el simulador, unicamente se usa para el estudio de los resultados obtenidos mediante el simulador).
+
+\subsection{Entornos de trabajo}
+
+El desarrollo del presente proyecto requiere de un entorno flexible y bien estructurado que facilite tanto la construcción como la validación de los distintos componentes del sistema. Para ello, se han seleccionado diversas plataformas que permiten organizar tareas, escribir y probar código, almacenar datos, así como documentar y presentar avances de manera clara y profesional.
+
+\subsubsection{Plataformas de desarrollo}
+
+Con el fin de cubrir las distintas etapas del proyecto, desde la implementación hasta la comunicación de resultados. Las siguientes plataformas han sido clave para mantener un flujo de trabajo continuo y bien coordinado.
+
+\begin{itemize}	
+	
+	\item\textbf{Visual Studio Code} Es un editor de código gratuito, de código abierto y compatible con múltiples sistemas operativos. Fue creado por Microsoft, empresa con amplia trayectoria en el desarrollo de entornos integrados (IDE), lo que se refleja en la eficiencia y funcionalidad que ofrece esta herramienta, muy valorada por la comunidad de desarrolladores \cite{cimas2024vscode}.
+	
+	Aunque su nombre puede sugerir una relación directa con Visual Studio, en realidad Visual Studio Code es una aplicación independiente, construida desde cero con tecnologías diferentes. Mientras Visual Studio se orienta principalmente a tecnologías propias de Microsoft, VSCode destaca por su flexibilidad y capacidad de adaptarse a prácticamente cualquier lenguaje de programación \cite{garcia2024vscode}.
+	
+	\item\textbf{Github} Es una plataforma basada en la nube donde puedes almacenar, compartir, trabajar y versionar junto con otros usuarios para escribir código \cite{github2025about}. En adición a lo anterior, también permite realizar lo siguiente:
+	
+	\begin{itemize}
+		\item Presentar o compartir el trabajo.
+		\item Seguir y administrar los cambios en el código a lo largo del tiempo.
+		\item Dejar que otros usuarios revisen el código y realicen sugerencias para mejorarlo.
+		\item Colaborar en un proyecto compartido, sin preocuparse de que los cambios afectarán al trabajo de los colaboradores antes de que esté listo para integrarlos.
+	\end{itemize}
+	
+	El versionamiento, una de las características fundamentales de GitHub, es posible gracias al software de código abierto Git, en el que se basa GitHub \cite{github2025about}.
+	
+	\item\textbf{Canva} fue lanzada en 2013, Canva es una herramienta de diseño y publicación online que tiene como misión poner el poder del diseño al alcance de todo el mundo, para que cualquier persona pueda crear lo que quiera y publicarlo donde quiera \cite{canva2025about}.
+	
+	\item\textbf{TexStudio} es un entorno de escritura integrado para la creación de documentos LaTeX. Cuenta con numerosas características como resaltado de sintaxis, visor integrado, comprobación de referencias y varios asistentes. TeXstudio es de código abierto y está disponible para todos los principales sistemas operativos \cite{texstudio}.
+	
+	\item \textbf{draw.io} es una herramienta de software gratuita diseñada para la creación de diagramas. Se utiliza para modelado UML, documentación de proyectos y gestión de flujos \cite{drawio2024}.
+	
+\end{itemize}
+
+Habiendo definido el enfoque metodológico, justificado las decisiones técnicas del estudio y contextualizado la tecnología utilizada, se cuenta con una base sólida para la implementación y ejecución de los experimentos. Esto permite garantizar que las simulaciones se realicen bajo condiciones controladas, que los datos recolectados sean confiables y que los análisis posteriores aporten resultados válidos y pertinentes para responder a las preguntas de investigación planteadas.

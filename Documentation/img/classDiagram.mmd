@@ -1,0 +1,254 @@
+classDiagram
+    %% ── C++ / CUDA ────────────────────────────────────────────────
+    class CA {
+        -uint8_t* space
+        -int width, height, states
+        -int* neighbourhood, rule, group_sizes
+        -int n_size, r_size, n_groups
+        -int boundary_mode
+        -int* rule_d
+        -bool host_dirty
+        -uint8_t* A_d, B_d
+        -cudaStream_t stream
+        -dim3 threads, blocks
+        +CA(...)
+        +~CA()
+        +step() void
+        +run(int) uint8_t*
+        +print() void
+        +getSpace() uint8_t*
+        +setBoundary(int) void
+        -fixRuleSize() void
+        -syncHost() void
+        -launch() void
+    }
+
+    class NCA {
+        -float* space
+        -int width, height
+        -int* neighbourhood
+        -int n_size
+        -float* weights_d, biases_d
+        -int* w_offsets_d, b_offsets_d
+        -int* layer_in_d, layer_out_d, activation_d
+        -int n_layers, max_layer_size, out_size
+        -bool nn_ready
+        -float* temp_d
+        -float* A_d, B_d
+        -dim3 threads, blocks
+        +NCA(...)
+        +~NCA()
+        +step() void
+        +print() void
+        +setWeights(...) void
+        -freeNN() void
+    }
+
+    class MLPlayer {
+        <<struct>>
+        +int in_size
+        +int out_size
+        +int activation
+    }
+
+    %% ── Python models ─────────────────────────────────────────────
+    class cellularAutomaton {
+        -CA ca
+        +cellularAutomaton(space, states, neighbourhood, rule)
+        +ruleSize(int, list)$ int
+        +step() void
+        +run(int) ndarray
+        +print() void
+        +getSpace() ndarray
+        +getStates() int
+        +getRule() ndarray
+        +getGroupSizes() ndarray
+        +getNGroups() int
+        +setSpace(ndarray) void
+        +setStates(int) void
+        +setNeighbourhood(list) void
+        +setRule(list) void
+        +setBoundary(int) void
+        -_parse_neighbourhood(list)$ tuple
+    }
+
+    class neuralCellularAutomaton {
+        -NCA nca
+        +neuralCellularAutomaton(space, neighbourhood)
+        +step() void
+        +print() void
+        +set_weights(...) void
+        +get_space() ndarray
+        +get_width() int
+        +get_height() int
+        +setSpace(ndarray) void
+        +setNeighbourhood(list) void
+    }
+
+    %% ── Controllers ───────────────────────────────────────────────
+    class SimulationController {
+        -cellularAutomaton automaton
+        -neuralCellularAutomaton _nca
+        -SimulationWidget simulation_widget
+        -QTimer timer
+        -QMutex mutex
+        -QThreadPool thread_pool
+        -list past_record
+        -deque future_record
+        -bool is_running
+        -bool _nca_mode
+        -int _nca_out_size
+        -int current_step
+        +on_step_button() void
+        +on_play_button() void
+        +on_backstep_button() void
+        +on_erase_button() void
+        +on_random_button() void
+        +on_record_button() void
+        +on_import_button() void
+        +on_export_button() void
+        +on_load_nca_button() void
+        +on_mode_toggle() void
+        +on_timeline_jump(int) void
+        +on_speed_change(int) void
+        +on_boundary_change(int) void
+        +on_neighbourhood_change(list) void
+        +on_rule_change(int) void
+        +on_rule_array_change(list) void
+        +on_states_change(int, list) void
+        +on_cell_toggled(int, int, int) void
+        -_prefetch() void
+        -_clear_history() void
+        -_emit_step() void
+        -_start_timer() void
+    }
+
+    class PrefetchWorker {
+        -cellularAutomaton automaton
+        -deque future_record
+        -QMutex mutex
+        -int _generation
+        +run() void
+    }
+
+    class SimulationConfig {
+        +on_neighbour_button() void
+        +on_frontier_button() void
+        +on_states_button() void
+        +on_rule_button() void
+    }
+
+    %% ── UI ────────────────────────────────────────────────────────
+    class MainWindow {
+        -SimulationConfig config
+        -ControlPane control_pane
+        -SimulationWidget simulation
+        -ConfigPane config_pane
+        -TrainingPane training_pane
+        -SimulationController controller
+        +handle_reset() void
+        +handle_speed(int) void
+        -_update_rule_table() void
+        -_on_neighbourhood_applied() void
+        -_on_states_applied() void
+        -_on_rule_number_applied() void
+        -_on_nca_mode_changed(bool, bool) void
+    }
+
+    class ConfigPane {
+        -NeighbourWidget neighbour_widget
+        -int _boundary_mode
+        -list _state_colors
+        -list _rule_array
+        +pyqtSignal neighbourhood_applied
+        +pyqtSignal states_applied
+        +pyqtSignal active_state_changed
+        +pyqtSignal state_colors_changed
+        +pyqtSignal rule_applied
+        +pyqtSignal rule_array_applied
+        +pyqtSignal boundary_changed
+        +sync_rule_table(list, int, list) void
+        +set_rule_max(int, int) void
+        +connect_config(config) void
+        -_rebuild_rule_table() void
+        -_rebuild_states_panel() void
+        -_rebuild_groups_panel() void
+    }
+
+    class ControlPane {
+        +pyqtSignal play_clicked
+        +pyqtSignal step_clicked
+        +pyqtSignal reset_clicked
+        +pyqtSignal speed_moved
+        +pyqtSignal timeline_jumped
+        +update_play_button(bool) void
+        +update_step_label(int) void
+        +update_timeline(int, int) void
+        +connect_controller(controller) void
+    }
+
+    class SimulationWidget {
+        -int grid_size
+        -ndarray grid
+        -int _active_state
+        -list _state_colors
+        +pyqtSignal cell_toggled
+        +set_active_state(int) void
+        +set_state_colors(list) void
+        +update_grid(ndarray) void
+    }
+
+    class NeighbourWidget {
+        -int grid_size
+        -list grid
+        -int active_state
+        -list group_colors
+        +n_groups() int
+        +add_group(QColor) int
+        +remove_last_group() bool
+        +set_active_state(int) void
+        +get_neighbourhood() list
+        +load_neighbourhood(list) void
+        +reset() void
+    }
+
+    class TrainingPane {
+        -NeighbourWidget _nb_widget
+        -QProcess _process
+        +_start_training() void
+        +_stop_training() void
+        -_build_command() list
+        -_parse_layer_assignments() list
+        -_log(str) void
+    }
+
+    %% ── RELACIONES ──────────────────────────────────────────────────
+    MainWindow --|> QMainWindow 
+    ControlPane --|> QWidget
+    ConfigPane --|> QWidget
+    SimulationWidget --|> QWidget
+    NeighbourWidget --|> QWidget
+
+    ConfigPane *-- NeighbourWidget
+    %% TrainingPane --|> QWidget
+    
+    SimulationController --* MainWindow 
+    SimulationController --> SimulationWidget : actualiza
+    
+    MainWindow *-- ControlPane
+    MainWindow *-- ConfigPane
+    MainWindow *-- TrainingPane
+    TrainingPane *-- NeighbourWidget
+    MainWindow *-- SimulationConfig
+    MainWindow *-- SimulationWidget
+    
+    cellularAutomaton *-- CA : pybind11
+    neuralCellularAutomaton *-- NCA : pybind11
+    NCA ..> MLPlayer : uses
+
+    SimulationController *-- cellularAutomaton
+    SimulationController o-- neuralCellularAutomaton : carga dinámica
+    SimulationController ..> PrefetchWorker : crea
+    PrefetchWorker --|> QRunnable
+
+    

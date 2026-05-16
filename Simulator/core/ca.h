@@ -69,6 +69,7 @@ private:
 
     int *rule;
     int r_size;
+    int *rule_d;    // device copy of rule (global memory, no size limit)
 
     int boundary_mode;
 

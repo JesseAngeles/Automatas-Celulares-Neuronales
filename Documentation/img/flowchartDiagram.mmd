@@ -1,0 +1,36 @@
+flowchart TD
+    subgraph UI["UI Layer"]
+        CTP[ControlPane]
+        TP[TrainingPane]
+        MW[MainWindow]
+        SW[SimulationWidget]
+        CP[ConfigPane]
+    end
+
+    subgraph CTR["Controller Layer"]
+        SC[SimulationController]
+        PW[PrefetchWorker]
+    end
+
+    subgraph TR["Training"]
+        main.py
+    end
+
+    subgraph MOD["Model Layer (Python)"]
+        CA_py[cellularAutomaton]
+        NCA_py[neuralCellularAutomaton]
+    end
+
+    subgraph CUDA["CUDA Layer (C++)"]
+        CA[CA]
+        NCA[NCA]
+    end
+
+    SW <--> SC
+    MW <--> SC
+    SC --> CA_py
+    SC -.->|carga dinámica| NCA_py
+    CA_py -->|pybind11| CA
+    NCA_py -->|pybind11| NCA
+    TP --> main.py
+    main.py -.-> SC

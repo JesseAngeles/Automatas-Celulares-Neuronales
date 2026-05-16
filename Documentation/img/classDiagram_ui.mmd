@@ -1,0 +1,50 @@
+classDiagram
+  direction LR
+      class MainWindow
+      class SimulationController
+
+      class SimulationConfig {
+          +on_neighbour_button() void
+          +on_rule_button() void
+          +on_states_button() void
+          +on_frontier_button() void
+      }
+
+      class ConfigPane {
+          +pyqtSignal neighbourhood_applied
+          +pyqtSignal rule_applied
+          +pyqtSignal states_applied
+          +pyqtSignal boundary_changed
+      }
+
+      class ControlPane {
+          +pyqtSignal play_clicked
+          +pyqtSignal step_clicked
+          +pyqtSignal timeline_jumped
+      }
+
+      class SimulationWidget {
+          -ndarray grid
+          +pyqtSignal cell_toggled
+          +update_grid(ndarray) void
+      }
+
+      class NeighbourWidget {
+          +get_neighbourhood() list
+          +load_neighbourhood(list) void
+      }
+
+      class TrainingPane {
+          +start_training() void
+          +stop_training() void
+      }
+
+      MainWindow *-- SimulationController
+      MainWindow *-- SimulationConfig
+      MainWindow *-- ControlPane
+      MainWindow *-- ConfigPane
+      MainWindow *-- TrainingPane
+      MainWindow *-- SimulationWidget
+      ConfigPane *-- NeighbourWidget
+      TrainingPane *-- NeighbourWidget
+      SimulationController --> SimulationWidget : actualiza

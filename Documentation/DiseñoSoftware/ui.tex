@@ -1,39 +1,58 @@
 \section{Interfaces de usuarios}
 
-
-A continuación se muestran las interfaces desarrolladas en PyQt5. Se busca mantener una estructura intuitiva y modular que facilite la configuración, ejecución y visualización del CA.
+A continuación se muestran las interfaces desarrolladas en PyQt5. Se busca mantener una estructura intuitiva y modular que facilite la configuración, ejecución y visualización de los autómatas celulares.
 
 \begin{itemize}
-	\item \textbf{Interfaz principal}
-	
-	La interfaz principal se divide en tres secciones: el espacio de evolución, ubicado en la parte superior izquierda, donde se visualiza la cuadrícula en la que evoluciona el autómata celular; el área de controles, situada en la parte inferior izquierda, que permite manipular la simulación (iniciar, pausar, reiniciar, avanzar o retroceder); y la sección de configuración, ubicada a la derecha, donde se especifican parámetros como la vecindad, las condiciones de frontera, los estados, los colores asociados y la regla de transición (Figura \ref{fig:ui_main}).
+	\item \textbf{Pestaña de simulación}
+
+	La pestaña de simulación permite configurar y controlar la evolución de los autómatas celulares como se observa en la figura \ref{fig:ui_main}. Se divide en tres secciones: 
 	
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.9\linewidth]{img/ui_main.png}
-		\caption{Interfaz de usuario principal.}
+		\caption{Interfaz de usuario. Pestaña de simulación.}
 		\label{fig:ui_main}
 	\end{figure}
 	
-	\item \textbf{Interfaz de vecindad}
-	
-	Esta interfaz permite al usuario definir la topología de la vecindad que determinará la dinámica del CA. Para ello, se presenta un espacio celular de menor tamaño en el cual se pueden activar o desactivar las celdas que formarán parte de la vecindad (Figura \ref{fig:ui_neighbour}).
+	\begin{enumerate}
+		\item Los controles de evolución, situados del lado izquierdo (ver figura \ref{fig:ui_main_simulator}), manipula la evolución del autómata celular (iniciar, pausar, reiniciar, avanzar, retroceder o cambiar velocidad), ademas, permite importar y exportar evoluciones y cargar modelos del autómata celular neuronal.
+		\item El área central es el espacio de evolución definido por una red regular cuadrada.
+		\item La configuración del autómata celular, localizado del lado derecho (ver figura \ref{fig:ui_main_config}), define la vecindad, los estados, la condición de frontera y la regla de transición.
+	\end{enumerate}
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.65\linewidth]{img/ui_neighbour.png}
-		\caption{Interfaz de usuario que define la vecindad.}
-		\label{fig:ui_neighbour}
+		\begin{subfigure}{0.4\textwidth}
+			\centering
+			\includegraphics[width=0.8\linewidth]{img/ui_main_simulator.png}
+			\caption{Controles de evolución.}
+			\label{fig:ui_main_simulator}
+		\end{subfigure}
+		\begin{subfigure}{0.4 \textwidth}
+			\centering
+			\includegraphics[width=0.8\linewidth]{img/ui_main_config.png}
+			\caption{Controles de configuración.}
+			\label{fig:ui_main_config}
+		\end{subfigure}
 	\end{figure}
 	
-	\item \textbf{Interfaz para definir color}
+	\item \textbf{Pestaña de entrenamiento}
 	
-	Esta ventana utiliza un componente nativo de \textbf{PyQt5} para la selección de colores. Permite al usuario asignar un color a cada estado del autómata (Figura \ref{fig:ui_color}).
+	Esta pestaña permite al usuario entrenar al autómata celular neuronal dado un conjunto de datos, tal como se muestra en la figura \ref{fig:ui_training}. 
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.4\linewidth]{img/ui_color.png}
-		\caption{Interfaz de usuario para definir el color.}
-		\label{fig:ui_color}
+		\includegraphics[width=0.9\linewidth]{img/ui_training.png}
+		\caption{Interfaz de usuario. Pestaña de entrenamiento .}
+		\label{fig:ui_training}
+	\end{figure}
+	
+	La primer sección permite realizar la configuración, la cual incluye la vecindad, numero de capas ocultas y funciones de activación en cada capa. así como definición de hiperparametros como numero de épocas, tasa de aprendizaje y perdida optima (ver figura \ref{fig:ui_training_config}). La segunda parte muestra unicamente los registros del entrenamiento. 
+	
+		\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.4\linewidth]{img/ui_training_config.png}
+		\caption{Controles de definición de entrenamiento.}
+		\label{fig:ui_training_config}
 	\end{figure}
 \end{itemize}

@@ -1,0 +1,21 @@
+sequenceDiagram
+    actor User
+    User->>UI: Clic en BTN19 Cargar evolución
+    UI->>User: Abrir explorador
+    User->>UI: Selecciona archivo .npy
+    UI->>UI: Mostrar ruta de entrada
+
+    User->>UI: Clic en BTN20 Definir ruta de guardado
+    UI->>User: Abrir explorador
+    User->>UI: Selecciona ruta .npz
+    UI->>UI: Mostrar ruta de salida
+
+    User->>UI: Configura vecindad, red e hiperparámetros
+    User->>UI: Clic en BTN21 Iniciar entrenamiento
+    UI->>UI: Limpiar consola
+    UI->>+Proceso: Lanzar entrenamiento con parámetros
+    loop Durante entrenamiento
+        Proceso->>UI: Progreso (épocas, pérdida)
+    end
+    Proceso->>Archivo: Guardar pesos .npz
+    Proceso->>-UI: Finaliza

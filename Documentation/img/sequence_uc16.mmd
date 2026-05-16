@@ -1,0 +1,10 @@
+sequenceDiagram
+    actor User 
+    User->>UI: Ingresa código de regla
+    User->>UI: Clic en BTN18 Definir regla
+    UI->>Modelo: Aplicar nueva regla
+    alt Regla fuera de rango
+        Modelo->>Modelo: Ajustar al rango válido
+    end
+    Modelo->>Core: Establecer regla
+    Modelo->>UI: Actualizar regla y código

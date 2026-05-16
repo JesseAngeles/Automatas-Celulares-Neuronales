@@ -1,0 +1,73 @@
+\chapter{Implementación}
+
+
+Durante el siguiente capítulo se explora el proceso de implementación de software. Se describe como fueron usadas las tecnologías, las versiones requeridas de las herramientas utilizadas, la estructura del proyecto, el proceso de entrenamiento de la red neuronal y termina con la validación del software, analizando las evoluciones obtenidas.
+
+\section{Entorno de desarrollo}
+
+El simulador se construyó mediante tres entornos de ejecución independientes; cada uno está asociado a una parte fundamental del proyecto o a una herramienta específica. Estos entornos son: 
+
+\begin{itemize}
+	\item \textbf{core}: Implementa el cómputo intensivo para la simulación del autómata celular y su versión neuronal, lo que requiere cálculos matriciales complejos que fueron delegados a CUDA por su alto poder computacional paralelo. 
+	
+	\item \textbf{GUI}: La interfaz gráfica construida en Python utilizando PyQt5 que tiene instancia con el \textit{binding} del core. 
+	
+	\item \textbf{training}: Módulo de entrenamiento neuronal ejecutado en PyTorch como un proceso desacoplado.
+	
+\end{itemize}
+
+El sistema fue desarrollado y probado en \textit{Fedora Linux 44 Workstation Edition} con una GPU \textit{NVIDIA} compatible con CUDA. Adicionalmente, en la tabla \ref{table:entorno_global} se describen las versiones requeridas de las herramientas utilizadas.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{l|l}
+        \hline
+        \textbf{Herramienta} & \textbf{Versión} \\ \hline
+        Sistema operativo & Fedora Linux 44 \\ \hline
+        Compilador C++ & GCC 15 (\textit{host compiler} para \texttt{nvcc}) \\ \hline
+        CUDA Toolkit & 13.2 \\ \hline
+        CMake & $\geq$ 3.15 \\ \hline
+        Python & 3.14 \\ \hline
+        Pybind11 & última versión estable \\ \hline
+        PyQt5 & 5.15 \\ \hline
+        NumPy & $\geq$ 1.24 \\ \hline
+        SciPy & $\geq$ 1.10 \\ \hline
+        PyTorch & 2.x con soporte CUDA \\ \hline
+    \end{tabular}
+    \caption{Versiones de las herramientas del entorno global.}
+    \label{table:entorno_global}
+\end{table}
+
+\subsection{core}
+
+El módulo de \textit{core} implementa ambos autómatas celulares en C++17 y CUDA. Estos se exponen a Python mediante \textit{bindings}. Se compilan y generan los archivos \texttt{CA.cpython-*.so} y \texttt{NCA.cpython-*.so} que posteriormente son importados por GUI como un módulo nativo.
+
+\begin{itemize}
+    \item \textbf{Lenguajes}: C++17 para la lógica y los \textit{bindings}. CUDA C++17 para los \textit{kernels} del dispositivo.
+    \item \textbf{Sistema de \textit{build}}: CMake (El compilador para \texttt{nvcc} se fija a GCC 15, ya que HCC 16 no es compatible con CUDA 13.2).
+    \item \textbf{Dependencias}: \texttt{pybind11} (instalado en un entorno virtual local), \texttt{CUDAToolkit} y encabezados de Python.
+    \item \textbf{Arquitectura GPU}: la opción \texttt{CMAKE\_CUDA\_ARCHITECTURES native} permite que el compilador detecte la \textit{Compute Capability} de la GPU presente al momento de la compilación.
+\end{itemize}
+
+El proceso de compilación y exportación del binding al directorio GUI se automatiza mediante el código \texttt{core/bind.sh}. Este \textit{script} activa el entorno virtual, ejecuta CMake, invoca \texttt{make} y copia el artefacto en el directorio de la GUI.
+
+\subsection{GUI}
+
+La interfaz gráfica se desarrolla en Python sobre PyQt5. Es el único medio de interacción con el usuario. 
+
+\begin{itemize}
+    \item \textbf{Lenguaje}: Python 3.14.
+    \item \textbf{\textit{Framework} gráfico}: PyQt5 (\textit{bindings} de Qt 5.15). Elegido por su modelo de señales y su soporte estable de \texttt{QImage} para el renderizado del espacio celular.
+    \item \textbf{Dependencias numéricas}: NumPy para el manejo del arreglo del espacio celular; SciPy para la exportación al formato \texttt{.mat}.
+    \item \textbf{Módulo nativo}: \texttt{CA.cpython-*.so} y \texttt{NCA.cpython-*.so}.
+\end{itemize}
+
+\subsection{training}
+
+El entorno de entrenamiento es independiente de la GUI y del módulo nativo. No requiere CUDA en tiempo de compilación, ya que PyTorch gestiona el acceso a la GPU en tiempo de ejecución.
+
+\begin{itemize}
+    \item \textbf{Lenguaje}: Python 3.x.
+    \item \textbf{\textit{Framework} de aprendizaje profundo}: PyTorch 2.x con soporte CUDA. La elección frente a TensorFlow o JAX se justifica por la facilidad de prototipado y el control explícito sobre el entrenamiento.
+    \item \textbf{Invocación}: El \textit{script} principal \texttt{training/main.py} se ejecuta de forma independiente o como subproceso lanzado por la pestaña de entrenamiento de la GUI.
+\end{itemize}
