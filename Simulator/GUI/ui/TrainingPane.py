@@ -5,7 +5,7 @@ import sys
 
 from PyQt5.QtWidgets import (
     QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QLabel, QFrame,
-    QScrollArea, QSpinBox, QComboBox, QTextEdit, QLineEdit, QFileDialog,
+    QSpinBox, QComboBox, QTextEdit, QLineEdit, QFileDialog,
 )
 from PyQt5.QtCore import Qt, QProcess
 from PyQt5.QtGui import QFont, QTextCursor
@@ -79,7 +79,7 @@ class TrainingPane(QWidget):
         self._output_edit.setPlaceholderText("No file selected...")
 
         # Neighbourhood
-        self._nb_widget = NeighbourWidget()
+        self._nb_widget = NeighbourWidget(grid_size=11)
         self._nb_widget.load_neighbourhood([DEFAULT_NB_3x3])
 
         # Architecture
@@ -125,6 +125,9 @@ class TrainingPane(QWidget):
         self._print_spin.setRange(1, 100_000)
         self._print_spin.setValue(50)
 
+        self._seed_edit = QLineEdit()
+        self._seed_edit.setPlaceholderText("Random")
+
         # Buttons
         self._train_btn = QPushButton("Train")
         self._train_btn.setObjectName("primary")
@@ -139,18 +142,30 @@ class TrainingPane(QWidget):
     # ── Layout ────────────────────────────────────────────────────────────────
 
     def _assemble_layout(self):
-        config_inner  = QWidget()
-        config_layout = QVBoxLayout(config_inner)
-        config_layout.setContentsMargins(18, 18, 18, 18)
-        config_layout.setSpacing(10)
+        config_panel = QWidget()
+        config_panel.setObjectName("panel")
+        config_panel.setFixedWidth(760)
+
+        config_layout = QVBoxLayout(config_panel)
+        config_layout.setContentsMargins(16, 16, 16, 16)
+        config_layout.setSpacing(8)
 
         title = QLabel("Training")
         title.setObjectName("paneTitle")
         config_layout.addWidget(title)
         config_layout.addWidget(_sep())
 
-        # ── DATA ─────────────────────────────────────────────────────
-        config_layout.addWidget(_section_label("Data"))
+        # Two-column body
+        body = QHBoxLayout()
+        body.setSpacing(16)
+
+        left_col  = QVBoxLayout()
+        left_col.setSpacing(8)
+        right_col = QVBoxLayout()
+        right_col.setSpacing(8)
+
+        # ── LEFT: DATA ────────────────────────────────────────────────
+        left_col.addWidget(_section_label("Data"))
 
         data_browse = QPushButton("Browse...")
         data_browse.setFixedWidth(72)
@@ -162,7 +177,7 @@ class TrainingPane(QWidget):
         data_row.addWidget(data_lbl)
         data_row.addWidget(self._data_edit, stretch=1)
         data_row.addWidget(data_browse)
-        config_layout.addLayout(data_row)
+        left_col.addLayout(data_row)
 
         out_browse = QPushButton("Save...")
         out_browse.setFixedWidth(72)
@@ -174,29 +189,26 @@ class TrainingPane(QWidget):
         out_row.addWidget(out_lbl)
         out_row.addWidget(self._output_edit, stretch=1)
         out_row.addWidget(out_browse)
-        config_layout.addLayout(out_row)
+        left_col.addLayout(out_row)
 
-        config_layout.addWidget(_sep())
+        left_col.addWidget(_sep())
 
-        # ── NEIGHBOURHOOD ─────────────────────────────────────────────
-        config_layout.addWidget(_section_label("Neighbourhood"))
-
+        # ── LEFT: NEIGHBOURHOOD ───────────────────────────────────────
+        nb_hdr = QHBoxLayout()
+        nb_hdr.addWidget(_section_label("Neighbourhood"))
+        nb_hdr.addStretch()
         reset_nb = QPushButton("Reset")
         reset_nb.setObjectName("ghost")
         reset_nb.setFixedWidth(52)
         reset_nb.clicked.connect(self._nb_widget.reset)
-
-        nb_hdr = QHBoxLayout()
-        nb_hdr.addStretch()
         nb_hdr.addWidget(reset_nb)
-        config_layout.addLayout(nb_hdr)
-        config_layout.addWidget(self._nb_widget, alignment=Qt.AlignHCenter)
-        config_layout.addWidget(_sep())
+        left_col.addLayout(nb_hdr)
+        left_col.addWidget(self._nb_widget, alignment=Qt.AlignHCenter)
+        left_col.addStretch()
 
-        # ── ARCHITECTURE ──────────────────────────────────────────────
-        config_layout.addWidget(_section_label("Architecture"))
+        # ── RIGHT: ARCHITECTURE ───────────────────────────────────────
+        right_col.addWidget(_section_label("Architecture"))
 
-        # Hidden layers count + neurons per layer on one row
         arch_row = QHBoxLayout()
         arch_row.setSpacing(12)
         hl_lbl = QLabel("Hidden layers")
@@ -206,15 +218,13 @@ class TrainingPane(QWidget):
         neu_lbl = QLabel("Neurons")
         arch_row.addWidget(neu_lbl)
         arch_row.addWidget(self._neurons_spin)
-        config_layout.addLayout(arch_row)
+        right_col.addLayout(arch_row)
 
-        # Hint label
         hint = QLabel("Enter layer numbers for each activation (e.g. 1,3,5)")
         hint.setObjectName("mutedValue")
         hint.setWordWrap(True)
-        config_layout.addWidget(hint)
+        right_col.addWidget(hint)
 
-        # 4 activation fields
         LABEL_W = 62
         for act, lbl_text in zip(ACTIVATIONS, ACT_LABELS):
             row = QHBoxLayout()
@@ -223,9 +233,8 @@ class TrainingPane(QWidget):
             lbl.setFixedWidth(LABEL_W)
             row.addWidget(lbl)
             row.addWidget(self._act_edits[act])
-            config_layout.addLayout(row)
+            right_col.addLayout(row)
 
-        # Output layer
         out_row2 = QHBoxLayout()
         out_row2.setSpacing(6)
         out_lbl2 = QLabel("Output")
@@ -234,11 +243,12 @@ class TrainingPane(QWidget):
         out_row2.addStretch()
         out_row2.addWidget(self._out_neurons_spin)
         out_row2.addWidget(self._out_act_combo)
-        config_layout.addLayout(out_row2)
-        config_layout.addWidget(_sep())
+        right_col.addLayout(out_row2)
 
-        # ── HYPERPARAMETERS ───────────────────────────────────────────
-        config_layout.addWidget(_section_label("Hyperparameters"))
+        right_col.addWidget(_sep())
+
+        # ── RIGHT: HYPERPARAMETERS ────────────────────────────────────
+        right_col.addWidget(_section_label("Hyperparameters"))
 
         for label_text, widget in [
             ("Epochs",        self._epochs_spin),
@@ -246,36 +256,28 @@ class TrainingPane(QWidget):
             ("Learning rate", self._lr_edit),
             ("Loss target",   self._loss_target_edit),
             ("Print every",   self._print_spin),
+            ("Seed",          self._seed_edit),
         ]:
             row = QHBoxLayout()
             row.setSpacing(6)
             row.addWidget(QLabel(label_text))
             row.addStretch()
             row.addWidget(widget)
-            config_layout.addLayout(row)
+            right_col.addLayout(row)
 
-        config_layout.addWidget(_sep())
+        right_col.addStretch()
+
+        body.addLayout(left_col,  stretch=1)
+        body.addLayout(right_col, stretch=1)
+        config_layout.addLayout(body, stretch=1)
 
         # ── BUTTONS ───────────────────────────────────────────────────
+        config_layout.addWidget(_sep())
         btn_row = QHBoxLayout()
         btn_row.setSpacing(8)
         btn_row.addWidget(self._train_btn, stretch=1)
         btn_row.addWidget(self._stop_btn)
         config_layout.addLayout(btn_row)
-        config_layout.addStretch()
-
-        # Scroll + panel wrapper
-        config_scroll = QScrollArea()
-        config_scroll.setWidget(config_inner)
-        config_scroll.setWidgetResizable(True)
-        config_scroll.setFrameShape(QFrame.NoFrame)
-
-        config_panel = QWidget()
-        config_panel.setObjectName("panel")
-        config_panel.setFixedWidth(420)
-        cp_layout = QVBoxLayout(config_panel)
-        cp_layout.setContentsMargins(0, 0, 0, 0)
-        cp_layout.addWidget(config_scroll)
 
         # ── LOG ───────────────────────────────────────────────────────
         log_label = QLabel("Log")
@@ -378,7 +380,7 @@ class TrainingPane(QWidget):
             self._log("Error: invalid learning rate or loss target\n")
             return None
 
-        return [
+        cmd = [
             "-u", TRAINING_SCRIPT,
             "--data",          data_path,
             "--output",        output_path,
@@ -392,6 +394,17 @@ class TrainingPane(QWidget):
             "--loss-target",   str(loss_target),
             "--print-every",   str(self._print_spin.value()),
         ]
+
+        seed_text = self._seed_edit.text().strip()
+        if seed_text:
+            try:
+                seed_val = int(seed_text)
+            except ValueError:
+                self._log(f"Error: '{seed_text}' is not a valid seed (must be an integer)\n")
+                return None
+            cmd += ["--seed", str(seed_val)]
+
+        return cmd
 
     def _start_training(self):
         cmd = self._build_command()

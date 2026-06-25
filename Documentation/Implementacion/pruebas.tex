@@ -23,7 +23,7 @@ La métrica principal es el porcentaje de celdas coincidentes entre las dos evol
 
 \subsection{Pruebas de rendimiento}
 
-Para las pruebas de rendimiento en la simulación se utilizó la regla B2/S23 y con una población aleatoria con 50\% de células vivas. El rendimiento se analiza dentro del método \texttt{step()} que es quien ejecuta el paso evolutivo y se sincroniza con la GPU y el método \texttt{run()}, que ejecuta $N$ pasos consecutivos.
+Para las pruebas de rendimiento en la simulación se utilizó la regla B3/S23 y con una población aleatoria con 50\% de células vivas. El rendimiento se analiza dentro del método \texttt{step()} que es quien ejecuta el paso evolutivo y se sincroniza con la GPU y el método \texttt{run()}, que ejecuta $N$ pasos consecutivos.
 
 \begin{table}[H]
     \centering
@@ -82,4 +82,12 @@ A lo largo del desarrollo se identificaron y resolvieron algunos errores:
     \item \textbf{Tamaño de tabla excesivo}: cambios en \texttt{states} o en \texttt{group\_sizes} pueden generar tablas de regla que excederían los límites técnicos del dispositivo. La capa de \textit{bindings} prevalida $r_{\text{size}} \leq 16\,777\,216$ antes de aplicar cualquier cambio.
     \item \textbf{Invalidación del \textit{prefetch}}: el contador \texttt{\_generation} en el controlador descarta de forma segura los \textit{frames} precomputados cuyo trabajo ha quedado obsoleto, evitando inconsistencias visuales.
     \item \textbf{Mismatch entre el \textit{driver} y la biblioteca de CUDA}: Incidentes documentados durante el desarrollo recomendaron reiniciar el sistema tras actualizaciones parciales del \textit{driver} \textit{NVIDIA}.
+\end{itemize}
+
+\subsection{Cambios}
+
+Durante el desarrollo de la investigación, estos fueron los cambios requeridos en el software que no fueron contemplados:
+
+\begin{itemize}
+	\item Se añadió un campo opcional en el modulo de entrenamiento que es la semilla, esto para poder replicar experimentos y ademas, para poder realizar multiples pruebas con diferentes semillas aleatorias.
 \end{itemize}

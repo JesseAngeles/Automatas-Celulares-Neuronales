@@ -25,6 +25,7 @@ def parse_args():
     p.add_argument("--lr",           type=float, default=1e-3, help="Learning rate (default: 1e-3)")
     p.add_argument("--loss-target",  type=float, default=0.01, help="Stop when loss < value (default: 0.01)")
     p.add_argument("--print-every",  type=int,   default=50,   help="Print every N epochs (default: 50)")
+    p.add_argument("--seed",         type=int,   default=None, help="Random seed (default: random)")
     return p.parse_args()
 
 
@@ -56,12 +57,13 @@ def parse_layers_arg(s: str) -> list:
 def extract_patches(data: np.ndarray, neighbourhood: np.ndarray):
     src = data[:-1]
     tgt = data[1:]
-    patches = np.stack([
-        np.roll(np.roll(src, -int(dy), axis=1), -int(dx), axis=2)
-        for dx, dy in neighbourhood
-    ], axis=-1)                                   # (T-1, H, W, n_size)
-    X = patches.reshape(-1, len(neighbourhood))  # (N, n_size)
-    Y = tgt.reshape(-1)                          # (N,)
+    T1, H, W = src.shape
+    n = len(neighbourhood)
+    X = np.empty((T1, H, W, n), dtype=np.float32)
+    for i, (dx, dy) in enumerate(neighbourhood):
+        X[..., i] = np.roll(np.roll(src, -int(dy), axis=1), -int(dx), axis=2)
+    X = X.reshape(-1, n)
+    Y = tgt.reshape(-1)
     return X, Y
 
 
@@ -107,6 +109,15 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Device: {device}")
 
+    if args.seed is not None:
+        np.random.seed(args.seed)
+        torch.manual_seed(args.seed)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed_all(args.seed)
+        print(f"Seed: {args.seed}")
+    else:
+        print("Seed: random")
+
     neighbourhood = build_neighbourhood(args)
     n_size        = len(neighbourhood)
     print(f"Vecindad: {n_size} celdas  {neighbourhood.tolist()}")
@@ -133,10 +144,10 @@ def main():
               f"Ajustando out_size → {n_classes_data}.")
         out_size = n_classes_data
 
-    X = torch.tensor(X_np, dtype=torch.float32)
-    Y = (torch.tensor(Y_np, dtype=torch.long)
+    X = torch.from_numpy(X_np)
+    Y = (torch.from_numpy(Y_np).long()
          if multiclass
-         else torch.tensor(Y_np, dtype=torch.float32).unsqueeze(1))
+         else torch.from_numpy(Y_np).unsqueeze(1))
     N = X.shape[0]
 
     if multiclass:
