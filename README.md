@@ -1,48 +1,51 @@
-Para ejecutar es necesario el comando:
-```
-python -m gui.MainWindow
-```
+# Trabajo Terminal
 
-Para compilar CASimulador.++ se ejecutan los siguientes comandos desde ./core/
-```
+Simulador de autómatas celulares con interfaz gráfica en Python y núcleo de cómputo en C++ (pybind11).
+
+## Tecnologías
+
+- Python (interfaz gráfica)
+- C++ (núcleo del simulador)
+- pybind11 (enlace Python-C++)
+- CMake
+
+## Instalación
+
+**Fedora (recomendado)**
+
+```bash
+cd core
 mkdir build && cd build
 cmake ..
 make
 ```
 
-**Ejecución en fedora (recomendado)**
-```
-cd core
-mdir build
-cd build
-cmake ..
-make
-```
+**Windows**
 
-**Ejecución en Windows**
+Activar el entorno virtual:
 
-Activar el entorno virtual: 
-```
+```powershell
 .\venv\Scripts\Activate.ps1
 ```
 
-Desde la raíz del proyecto:
-```
-cd core
-rmdir -Recurse -Force build
-mkdir build
-cd build
-```
-
 Compilar:
-```
-cmake .. -G "MinGW Makefiles" `
-  -DCMAKE_CXX_COMPILER=c++ `
-  -DCMAKE_C_COMPILER=gcc `
-  -Dpybind11_DIR="C:/Users/redix/OneDrive/Documentos/Trabajo-Terminal/Codigo/simulator/venv/Lib/site-packages/pybind11/share/cmake/pybind11"
+
+```powershell
+cd core
+mkdir build && cd build
+cmake .. -G "MinGW Makefiles" -DCMAKE_CXX_COMPILER=c++ -DCMAKE_C_COMPILER=gcc
+cmake --build .
 ```
 
-Compilar el modulo:
+## Ejecución
+
+```bash
+python -m gui.MainWindow
 ```
-cmake --build .
+
+## Estructura
+
+```
+Codigo/         # Código fuente (Python + C++)
+Documentacion/  # Documentación del proyecto
 ```
