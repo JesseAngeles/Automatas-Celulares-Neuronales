@@ -1,6 +1,13 @@
 // nca.cu
 
 #include "nca.h"
+#include <algorithm>
+
+#define CUDA_CHECK(call) do { \
+    cudaError_t _err = (call); \
+    if (_err != cudaSuccess) \
+        throw std::runtime_error(std::string("CUDA error in " #call ": ") + cudaGetErrorString(_err)); \
+} while(0)
 
 // Constant memory
 __constant__ int c_neighbourhood[128]; // Hasta 64 vecinos
@@ -22,18 +29,38 @@ __global__ void NCA_GPU(
     int width,
     int height,
     int n_size,
-    const float *weights,
-    const float *biases,
-    const int *w_offsets,
-    const int *b_offsets,
-    const int *layer_in,
-    const int *layer_out,
-    const int *activations,
+    const float *__restrict__ weights,
+    const float *__restrict__ biases,
+    const int *__restrict__ w_offsets,
+    const int *__restrict__ b_offsets,
+    const int *__restrict__ layer_in,
+    const int *__restrict__ layer_out,
+    const int *__restrict__ activations,
     int n_layers,
     float *temp,
     int max_layer_size,
-    int out_size)
+    int out_size,
+    int total_weights,
+    int total_biases,
+    int use_smem)
 {
+    // Pesos y biases del MLP a shared memory (todos los hilos leen los mismos)
+    extern __shared__ float smem[];
+    const float *Wall = weights;
+    const float *ball = biases;
+    if (use_smem)
+    {
+        const int nt  = blockDim.x * blockDim.y;
+        const int tid = threadIdx.y * blockDim.x + threadIdx.x;
+        for (int i = tid; i < total_weights; i += nt)
+            smem[i] = weights[i];
+        for (int i = tid; i < total_biases; i += nt)
+            smem[total_weights + i] = biases[i];
+        __syncthreads();  // antes del return de los hilos fuera de la grilla
+        Wall = smem;
+        ball = smem + total_weights;
+    }
+
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
     int idy = blockIdx.y * blockDim.y + threadIdx.y;
 
@@ -41,22 +68,27 @@ __global__ void NCA_GPU(
         return;
 
     int cell_id = idy * width + idx;
-    float *cur = &temp[cell_id * 2 * max_layer_size];
-    float *nxt = cur + max_layer_size;
+
+    // Scratch en layout SoA: temp[k * n_cells + cell_id]. Hilos consecutivos
+    // acceden a direcciones consecutivas (coalescido), a diferencia del layout
+    // por-celda que separaba a cada hilo 2*max_layer_size floats.
+    const size_t n_cells = (size_t)width * height;
+    float *cur = temp + cell_id;
+    float *nxt = temp + (size_t)max_layer_size * n_cells + cell_id;
 
     // Valores del vecindario
     for (int i = 0; i < n_size; i++)
     {
         int nx = (idx + c_neighbourhood[i * 2] + width) % width;
         int ny = (idy + c_neighbourhood[i * 2 + 1] + height) % height;
-        cur[i] = A[ny * width + nx];
+        cur[(size_t)i * n_cells] = A[ny * width + nx];
     }
 
     // Forward pass
     for (int l = 0; l < n_layers; l++)
     {
-        const float *W = &weights[w_offsets[l]];
-        const float *b = &biases[b_offsets[l]];
+        const float *W = &Wall[w_offsets[l]];
+        const float *b = &ball[b_offsets[l]];
 
         int in = layer_in[l];
         int out = layer_out[l];
@@ -65,8 +97,8 @@ __global__ void NCA_GPU(
         {
             float sum = b[j];
             for (int i = 0; i < in; i++)
-                sum += W[j * in + i] * cur[i];
-            nxt[j] = activate(sum, activations[l]);
+                sum += W[j * in + i] * cur[(size_t)i * n_cells];
+            nxt[(size_t)j * n_cells] = activate(sum, activations[l]);
         }
 
         float *tmp = cur;
@@ -80,8 +112,9 @@ __global__ void NCA_GPU(
         int best = 0;
         float best_val = cur[0];
         for (int j = 1; j < out_size; j++) {
-            if (cur[j] > best_val) {
-                best_val = cur[j];
+            float v = cur[(size_t)j * n_cells];
+            if (v > best_val) {
+                best_val = v;
                 best     = j;
             }
         }
@@ -99,6 +132,9 @@ NCA::NCA(
       n_size(in_n_size),
       n_layers(0),
       max_layer_size(0),
+      total_weights(0),
+      total_biases(0),
+      use_smem(false),
       out_size(1),
       nn_ready(false),
       weights_d(nullptr),
@@ -108,11 +144,14 @@ NCA::NCA(
       layer_in_d(nullptr),
       layer_out_d(nullptr),
       activation_d(nullptr),
-      temp_d(nullptr)
+      temp_d(nullptr),
+      stage_h(nullptr),
+      stage_cap(0)
 {
     size = width * height * sizeof(float);
 
-    threads = dim3(16, 16);
+    // 32×8: cada warp cubre una fila completa de 32 celdas contiguas
+    threads = dim3(32, 8);
     blocks = dim3((width + threads.x - 1) / threads.x,
                   (height + threads.y - 1) / threads.y);
 
@@ -122,17 +161,40 @@ NCA::NCA(
     neighbourhood = new int[in_n_size * 2];
     std::memcpy(neighbourhood, in_neighbourhood, in_n_size * 2 * sizeof(int));
 
-    cudaMalloc(&A_d, size);
-    cudaMalloc(&B_d, size);
+    CUDA_CHECK(cudaStreamCreate(&stream));
+    CUDA_CHECK(cudaStreamCreate(&copy_stream));
+    for (int i = 0; i < 2 * RUN_CHUNK; i++)
+    {
+        CUDA_CHECK(cudaEventCreateWithFlags(&k_done[i], cudaEventDisableTiming));
+        CUDA_CHECK(cudaEventCreateWithFlags(&c_done[i], cudaEventDisableTiming));
+    }
+    for (int i = 0; i < 2; i++)
+        CUDA_CHECK(cudaEventCreateWithFlags(&chunk_done[i], cudaEventDisableTiming));
 
-    cudaMemcpy(A_d, space, size, cudaMemcpyHostToDevice);
-    cudaMemcpyToSymbol(c_neighbourhood, neighbourhood, in_n_size * 2 * sizeof(int));
+    CUDA_CHECK(cudaMalloc(&A_d, size));
+    CUDA_CHECK(cudaMalloc(&B_d, size));
+
+    CUDA_CHECK(cudaMemcpy(A_d, space, size, cudaMemcpyHostToDevice));
+    CUDA_CHECK(cudaMemcpyToSymbol(c_neighbourhood, neighbourhood, in_n_size * 2 * sizeof(int)));
 }
 
 NCA::~NCA()
 {
+    cudaStreamSynchronize(stream);  // best-effort in destructor, don't throw
+    cudaStreamSynchronize(copy_stream);
     cudaFree(A_d);
     cudaFree(B_d);
+    if (stage_h)
+        cudaFreeHost(stage_h);
+    for (int i = 0; i < 2 * RUN_CHUNK; i++)
+    {
+        cudaEventDestroy(k_done[i]);
+        cudaEventDestroy(c_done[i]);
+    }
+    for (int i = 0; i < 2; i++)
+        cudaEventDestroy(chunk_done[i]);
+    cudaStreamDestroy(stream);
+    cudaStreamDestroy(copy_stream);
 
     delete[] space;
     delete[] neighbourhood;
@@ -140,23 +202,107 @@ NCA::~NCA()
     freeNN();
 }
 
-void NCA::step()
+void NCA::launchNN()
 {
-    if (!nn_ready)
-        throw std::runtime_error("Weights not loaded. Call setWeights() first.");
-
-    NCA_GPU<<<blocks, threads>>>(
+    size_t smem_bytes = use_smem ? (size_t)(total_weights + total_biases) * sizeof(float) : 0;
+    NCA_GPU<<<blocks, threads, smem_bytes, stream>>>(
         A_d, B_d, width, height, n_size,
         weights_d, biases_d,
         w_offsets_d, b_offsets_d,
         layer_in_d, layer_out_d,
         activation_d, n_layers,
-        temp_d, max_layer_size, out_size);
+        temp_d, max_layer_size, out_size,
+        total_weights, total_biases, use_smem ? 1 : 0);
+}
 
-    cudaMemcpy(space, B_d, size, cudaMemcpyDeviceToHost);
-    float *tmp = A_d;
-    A_d = B_d;
-    B_d = tmp;
+void NCA::step()
+{
+    std::lock_guard<std::mutex> lock(gpu_mutex);
+    if (!nn_ready)
+        throw std::runtime_error("Weights not loaded. Call setWeights() first.");
+
+    launchNN();
+    CUDA_CHECK(cudaGetLastError());
+    CUDA_CHECK(cudaMemcpyAsync(space, B_d, size, cudaMemcpyDeviceToHost, stream));
+    CUDA_CHECK(cudaStreamSynchronize(stream));
+    std::swap(A_d, B_d);
+}
+
+// Mismo pipeline a profundidad 2 que CA::run: kernel s+1 se solapa con la copia
+// D2H del frame s y la CPU drena el chunk anterior mientras la GPU procesa el
+// siguiente. El estado del device queda continuo (sin re-inyección discreta).
+void NCA::run(int steps, float *out)
+{
+    std::lock_guard<std::mutex> lock(gpu_mutex);
+    if (!nn_ready)
+        throw std::runtime_error("Weights not loaded. Call setWeights() first.");
+
+    const size_t frame = (size_t)width * height;  // elementos float por frame
+    const int R2 = 2 * RUN_CHUNK;
+
+    size_t need = (size_t)R2 * frame * sizeof(float);
+    if (stage_cap < need)
+    {
+        if (stage_h)
+            CUDA_CHECK(cudaFreeHost(stage_h));
+        CUDA_CHECK(cudaHostAlloc((void **)&stage_h, need, cudaHostAllocDefault));
+        stage_cap = need;
+    }
+
+    const int n_chunks = (steps + RUN_CHUNK - 1) / RUN_CHUNK;
+
+    for (int c = 0; c < n_chunks; c++)
+    {
+        const int half = c & 1;
+        const int first = c * RUN_CHUNK;
+        const int count = std::min(RUN_CHUNK, steps - first);
+
+        for (int j = 0; j < count; j++)
+        {
+            const int s = first + j;
+            // WAR: el kernel s escribe el búfer que la copia s-2 estuvo leyendo
+            if (s >= 2)
+                CUDA_CHECK(cudaStreamWaitEvent(stream, c_done[(s - 2) % R2], 0));
+
+            launchNN();
+            CUDA_CHECK(cudaGetLastError());
+            CUDA_CHECK(cudaEventRecord(k_done[s % R2], stream));
+
+            CUDA_CHECK(cudaStreamWaitEvent(copy_stream, k_done[s % R2], 0));
+            CUDA_CHECK(cudaMemcpyAsync(stage_h + ((size_t)half * RUN_CHUNK + j) * frame,
+                                       B_d, size, cudaMemcpyDeviceToHost, copy_stream));
+            CUDA_CHECK(cudaEventRecord(c_done[s % R2], copy_stream));
+
+            std::swap(A_d, B_d);
+        }
+        CUDA_CHECK(cudaEventRecord(chunk_done[half], copy_stream));
+
+        if (c > 0)
+        {
+            const int pc = c - 1;
+            const int ph = pc & 1;
+            const int pfirst = pc * RUN_CHUNK;
+            const int pcount = std::min(RUN_CHUNK, steps - pfirst);
+            CUDA_CHECK(cudaEventSynchronize(chunk_done[ph]));
+            std::memcpy(out + (size_t)pfirst * frame,
+                        stage_h + (size_t)ph * RUN_CHUNK * frame,
+                        (size_t)pcount * frame * sizeof(float));
+        }
+    }
+
+    const int lc = n_chunks - 1;
+    const int lh = lc & 1;
+    const int lfirst = lc * RUN_CHUNK;
+    CUDA_CHECK(cudaEventSynchronize(chunk_done[lh]));
+    std::memcpy(out + (size_t)lfirst * frame,
+                stage_h + (size_t)lh * RUN_CHUNK * frame,
+                (size_t)(steps - lfirst) * frame * sizeof(float));
+
+    CUDA_CHECK(cudaStreamSynchronize(stream));
+    CUDA_CHECK(cudaStreamSynchronize(copy_stream));
+
+    // Espacio en host = último frame del historial
+    std::memcpy(space, out + (size_t)(steps - 1) * frame, size);
 }
 
 void NCA::print()
@@ -178,6 +324,7 @@ void NCA::setWeights(
     int *activations,
     int n_layers)
 {
+    std::lock_guard<std::mutex> lock(gpu_mutex);
     freeNN();
     this->n_layers = n_layers;
     this->out_size = layer_out[n_layers - 1];
@@ -186,8 +333,8 @@ void NCA::setWeights(
     // Calcular offsets y tamaños totales
     int *w_offsets = new int[n_layers];
     int *b_offsets = new int[n_layers];
-    int total_weights = 0;
-    int total_biases = 0;
+    total_weights = 0;
+    total_biases = 0;
 
     for (int i = 0; i < n_layers; i++)
     {
@@ -197,6 +344,9 @@ void NCA::setWeights(
         total_biases += layer_out[i];
         max_layer_size = max(max_layer_size, max(layer_in[i], layer_out[i]));
     }
+
+    // El kernel copia pesos+biases a shared memory si caben (límite por bloque)
+    use_smem = ((size_t)(total_weights + total_biases) * sizeof(float) <= 48 * 1024);
 
     // Aplanar biases y pesos en arreglos del host
     float *flat_weights = new float[total_weights];
@@ -246,18 +396,24 @@ float NCA::getCell(int x, int y) const { return space[y * width + x]; }
 // Setters
 void NCA::setSpace(float *new_space)
 {
+    std::lock_guard<std::mutex> lock(gpu_mutex);
     std::memcpy(space, new_space, size);
-    cudaMemcpy(A_d, space, size, cudaMemcpyHostToDevice);
+    CUDA_CHECK(cudaMemcpyAsync(A_d, space, size, cudaMemcpyHostToDevice, stream));
+    CUDA_CHECK(cudaStreamSynchronize(stream));
 }
 
 void NCA::setCell(int x, int y, float value)
 {
+    std::lock_guard<std::mutex> lock(gpu_mutex);
     space[y * width + x] = value;
-    cudaMemcpy(&A_d[y * width + x], &space[y * width + x], sizeof(float), cudaMemcpyHostToDevice);
+    CUDA_CHECK(cudaMemcpyAsync(&A_d[y * width + x], &space[y * width + x],
+                               sizeof(float), cudaMemcpyHostToDevice, stream));
+    CUDA_CHECK(cudaStreamSynchronize(stream));
 }
 
 void NCA::setNeighbourhood(int *new_neighbourhood, int new_n_size)
 {
+    std::lock_guard<std::mutex> lock(gpu_mutex);
     if (new_n_size != n_size)
     {
         delete[] neighbourhood;
@@ -265,7 +421,7 @@ void NCA::setNeighbourhood(int *new_neighbourhood, int new_n_size)
         n_size = new_n_size;
     }
     std::memcpy(neighbourhood, new_neighbourhood, n_size * 2 * sizeof(int));
-    cudaMemcpyToSymbol(c_neighbourhood, neighbourhood, n_size * 2 * sizeof(int));
+    CUDA_CHECK(cudaMemcpyToSymbol(c_neighbourhood, neighbourhood, n_size * 2 * sizeof(int)));
 }
 
 void NCA::freeNN()

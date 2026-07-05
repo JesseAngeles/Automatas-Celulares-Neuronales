@@ -116,6 +116,9 @@ class ControlPane(QWidget):
         self.mode_button = QPushButton("Mode: CA")
         self.mode_button.setObjectName("ghost")
         self.mode_button.setEnabled(False)
+        self.continuous_button = QPushButton("Output: Discrete")
+        self.continuous_button.setObjectName("ghost")
+        self.continuous_button.setEnabled(False)
 
         # ── Layout principal ──────────────────────────────────────────
         layout = QVBoxLayout()
@@ -147,6 +150,7 @@ class ControlPane(QWidget):
         layout.addWidget(_section_label("NCA"))
         layout.addWidget(self.load_nca_button)
         layout.addWidget(self.mode_button)
+        layout.addWidget(self.continuous_button)
 
         layout.addStretch()
         self.setLayout(layout)
@@ -164,6 +168,12 @@ class ControlPane(QWidget):
 
     def update_step_label(self, n: int):
         self.step_label.setText(f"Step {n}")
+
+    def update_continuous_button(self, continuous: bool, available: bool):
+        self.continuous_button.setText(
+            "Output: Continuous" if continuous else "Output: Discrete"
+        )
+        self.continuous_button.setEnabled(available)
 
     def update_timeline(self, current: int, total: int):
         self.timeline_slider.blockSignals(True)
@@ -183,5 +193,7 @@ class ControlPane(QWidget):
         self.export_button.clicked.connect(controller.on_export_button)
         self.load_nca_button.clicked.connect(controller.on_load_nca_button)
         self.mode_button.clicked.connect(controller.on_mode_toggle)
+        self.continuous_button.clicked.connect(controller.on_continuous_toggle)
         self.timeline_jumped.connect(controller.on_timeline_jump)
         controller._on_timeline_changed = self.update_timeline
+        controller._on_continuous_changed = self.update_continuous_button

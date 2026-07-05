@@ -31,25 +31,24 @@ PYBIND11_MODULE(CA, m)
                             group_sizes.mutable_data(), n_groups,
                             rule.mutable_data(), r_size); }))
 
-        .def("step", &CA::step)
+        // Sin GIL durante el kernel: el prefetch corre en otro hilo sin bloquear
+        // el event loop de la GUI. CA serializa el acceso a GPU con su mutex.
+        .def("step", &CA::step, py::call_guard<py::gil_scoped_release>())
 
         .def("run", [](CA &self, int steps)
              {
-        uint8_t *history = self.run(steps);
+        if (steps <= 0)
+            throw std::runtime_error("run: steps must be > 0");
 
-        py::capsule free_when_done(history, [](void *ptr)
-                                   { cudaFreeHost(ptr); });
-
-        return py::array_t<uint8_t>(
-            {steps, self.getHeight(), self.getWidth() },
+        // El array destino lo posee numpy; run() drena su staging pinned
+        // directamente aquí (sin capsule ni transferencia de ownership).
+        auto result = py::array_t<uint8_t>({steps, self.getHeight(), self.getWidth()});
+        uint8_t *out = result.mutable_data();
         {
-            self.getHeight() * self.getWidth() * (ssize_t)sizeof(uint8_t),
-            self.getWidth() * (ssize_t)sizeof(uint8_t),
-            (ssize_t)sizeof(uint8_t)
-        },
-        history,
-        free_when_done
-        ); })
+            py::gil_scoped_release release;
+            self.run(steps, out);
+        }
+        return result; })
 
         .def("print", &CA::print)
 
@@ -143,7 +142,22 @@ PYBIND11_MODULE(CA, m)
                             neighbourhood.mutable_data(),
                             n_size); }))
 
-        .def("step", &NCA::step)
+        .def("step", &NCA::step, py::call_guard<py::gil_scoped_release>())
+
+        .def("run", [](NCA &self, int steps)
+             {
+        if (steps <= 0)
+            throw std::runtime_error("run: steps must be > 0");
+
+        // float32 de extremo a extremo: sin truncar el estado continuo
+        auto result = py::array_t<float>({steps, self.getHeight(), self.getWidth()});
+        float *out = result.mutable_data();
+        {
+            py::gil_scoped_release release;
+            self.run(steps, out);
+        }
+        return result; })
+
         .def("print", &NCA::print)
 
         // Getters

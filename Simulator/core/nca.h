@@ -4,13 +4,14 @@
 
 #include <iostream>
 #include <cstring>
+#include <mutex>
 #include <cuda_runtime.h>
 
 struct MLPlayer
 {
     int in_size;
     int out_size;
-    int activation; 
+    int activation;
 };
 
 class NCA
@@ -25,6 +26,7 @@ public:
     ~NCA();
 
     void step();
+    void run(int steps, float *out);  // escribe (steps, H, W) en out; evolución continua
     void print();
 
     void setWeights(
@@ -68,6 +70,9 @@ private:
     int *activation_d;
     int n_layers;
     int max_layer_size;
+    int total_weights;
+    int total_biases;
+    bool use_smem;      // pesos+biases caben en shared memory del bloque
     bool nn_ready;
 
     float *temp_d;
@@ -75,8 +80,23 @@ private:
 
     size_t size;
     float *A_d, *B_d;
+    cudaStream_t stream;
     dim3 threads;
     dim3 blocks;
 
+    // run(): mismo pipeline a profundidad 2 que CA::run (staging pinned
+    // reutilizable de 2 chunks + stream de copia con eventos)
+    static constexpr int RUN_CHUNK = 8;
+    float *stage_h;
+    size_t stage_cap;
+    cudaStream_t copy_stream;
+    cudaEvent_t k_done[2 * RUN_CHUNK];
+    cudaEvent_t c_done[2 * RUN_CHUNK];
+    cudaEvent_t chunk_done[2];
+
+    // step()/run() corren sin GIL: serializar el acceso a GPU
+    std::mutex gpu_mutex;
+
     void freeNN();
+    void launchNN();  // lanza NCA_GPU sobre `stream` con la config vigente
 };
