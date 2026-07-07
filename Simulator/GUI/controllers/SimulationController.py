@@ -75,10 +75,14 @@ class SimulationController:
         self._nca          = None
         self._update_prob  = 1.0             # p estocástico compartido CA/NCA
         self._nca_out_size = 1             # 1 = binario, >1 = N-estados
+        self._nca_channels = 1             # canales float por celda (C)
+        self._nca_state    = None          # estado completo (H, W, C) si C > 1
+        self._display_channel = 0          # canal mostrado cuando C > 1
         self._continuous   = False         # NCA sin discretizar entre pasos
         self._on_nca_mode_changed = None   # callback(nca_mode: bool)
         self._on_timeline_changed = None   # callback(current: int, total: int)
         self._on_continuous_changed = None # callback(continuous: bool, available: bool)
+        self._on_channels_changed = None   # callback(channels: int)
 
         self.simulation_widget.cell_toggled.connect(self.on_cell_toggled)
 
@@ -155,7 +159,12 @@ class SimulationController:
         if grid.dtype == np.uint8:
             self.automaton.setSpace(grid)
         if self._nca_mode and self._nca is not None:
-            self._nca.set_space(np.ascontiguousarray(grid, dtype=np.float32))
+            if self._nca_channels > 1:
+                # El pintado edita el canal visible; el resto del vector se conserva
+                self._nca_state[..., self._display_channel] = grid
+                self._nca.set_space(self._nca_state)
+            else:
+                self._nca.set_space(np.ascontiguousarray(grid, dtype=np.float32))
 
     # ------------------------------------------------------------------
     # Eventos de slider
@@ -169,6 +178,18 @@ class SimulationController:
     # ------------------------------------------------------------------
     def on_step_button(self):
         if self._nca_mode and self._nca is not None:
+            if self._nca_channels > 1:
+                # Multi-canal: el historial guarda el estado completo (H, W, C);
+                # el widget muestra solo el canal seleccionado
+                self.past_record.append(self._nca_state)
+                self._nca.step()
+                self._nca_state = np.ascontiguousarray(
+                    self._nca.get_space(), dtype=np.float32)
+                self.simulation_widget.update_grid(
+                    np.ascontiguousarray(self._nca_state[..., self._display_channel]))
+                self.current_step += 1
+                self._emit_step()
+                return
             self.past_record.append(self.simulation_widget.grid.copy())
             self._nca.step()
             raw = self._nca.get_space()                       # (H, W) float32
@@ -224,14 +245,31 @@ class SimulationController:
     def on_backstep_button(self):
         if not self.past_record:
             return
-        self.future_record.appendleft(self.simulation_widget.grid.copy())
-        prev = self.past_record.pop()
-        self.simulation_widget.update_grid(prev)
+        if self._nca_mode and self._nca_channels > 1:
+            self.future_record.appendleft(self._nca_state)
+            prev = self.past_record.pop()
+            self._nca_state = prev
+            self._nca.set_space(prev)
+            self.simulation_widget.update_grid(
+                np.ascontiguousarray(prev[..., self._display_channel]))
+        else:
+            self.future_record.appendleft(self.simulation_widget.grid.copy())
+            prev = self.past_record.pop()
+            self.simulation_widget.update_grid(prev)
         self.current_step -= 1
         self._emit_step()
 
     def on_erase_button(self):
         n = self.simulation_widget.grid_size
+        if self._nca_mode and self._nca_channels > 1:
+            self._clear_history()
+            self._nca_state = np.zeros((n, n, self._nca_channels), dtype=np.float32)
+            self._nca.set_space(self._nca_state)
+            self.simulation_widget.update_grid(
+                np.zeros((n, n), dtype=np.float32))
+            if self.is_running:
+                self.on_play_button()
+            return
         dtype = np.float32 if self._continuous else np.uint8
         new_grid = np.zeros((n, n), dtype=dtype)
         self._clear_history()
@@ -298,6 +336,21 @@ class SimulationController:
             self.on_play_button()
 
         if self._nca_mode and self._nca is not None:
+            if self._nca_channels > 1:
+                # Multi-canal: run() batcheado, historial de estados completos
+                self._nca.set_space(self._nca_state)
+                self._clear_history()
+                self.past_record.append(self._nca_state)
+                frames = self._nca.run(n)                # (n, H, W, C) float32
+                for i in range(n - 1):
+                    self.past_record.append(np.ascontiguousarray(frames[i]))
+                self._nca_state = np.ascontiguousarray(frames[n - 1])
+                self.simulation_widget.update_grid(
+                    np.ascontiguousarray(self._nca_state[..., self._display_channel]))
+                self.current_step = n
+                self._emit_step()
+                return
+
             self._nca.set_space(
                 np.ascontiguousarray(self.simulation_widget.grid, dtype=np.float32))
             self._clear_history()
@@ -348,8 +401,11 @@ class SimulationController:
         path, _ = QFileDialog.getSaveFileName(None, "Export evolution", "", "Evolution files (*)")
         if not path:
             return
-        frames = self.past_record + [self.simulation_widget.grid]
-        arr = np.stack(frames)  # (T, H, W)
+        last = (self._nca_state
+                if self._nca_mode and self._nca_channels > 1
+                else self.simulation_widget.grid)
+        frames = self.past_record + [last]
+        arr = np.stack(frames)  # (T, H, W) o (T, H, W, C)
         if np.issubdtype(arr.dtype, np.floating):
             arr = arr.astype(np.float32, copy=False)  # continuo: sin truncar
         else:
@@ -412,6 +468,16 @@ class SimulationController:
 
     def on_random_button(self):
         n = self.simulation_widget.grid_size
+        if self._nca_mode and self._nca_channels > 1:
+            self._clear_history()
+            self._nca_state = np.random.random(
+                (n, n, self._nca_channels)).astype(np.float32)
+            self._nca.set_space(self._nca_state)
+            self.simulation_widget.update_grid(
+                np.ascontiguousarray(self._nca_state[..., self._display_channel]))
+            if self.is_running:
+                self.on_play_button()
+            return
         if self._continuous:
             new_grid = np.random.random((n, n)).astype(np.float32)
         else:
@@ -441,11 +507,22 @@ class SimulationController:
             n_layers     = int(data["layer_in"].shape[0])
             neighbourhood = data["neighbourhood"].astype(np.int32)  # (n_size, 2)
             n_size        = len(neighbourhood)
+            channels      = int(data["channels"]) if "channels" in data.files else 1
 
             n = self.simulation_widget.grid_size
             grid_float = self.simulation_widget.grid.astype(np.float32)
 
-            self._nca = NCA_CUDA(n, n, grid_float, neighbourhood, n_size)
+            if channels > 1:
+                # Estado inicial: canal 0 = grilla visible, resto en 0
+                state = np.zeros((n, n, channels), dtype=np.float32)
+                state[..., 0] = grid_float
+                self._nca = NCA_CUDA(n, n, state, neighbourhood, n_size, channels)
+                self._nca_state = state
+            else:
+                self._nca = NCA_CUDA(n, n, grid_float, neighbourhood, n_size)
+                self._nca_state = None
+            self._nca_channels    = channels
+            self._display_channel = 0
             self._nca.set_weights(
                 [data[f"weights_{i}"] for i in range(n_layers)],
                 [data[f"biases_{i}"]  for i in range(n_layers)],
@@ -458,9 +535,14 @@ class SimulationController:
                 self._nca.set_update_prob(self._update_prob)
 
             self._nca_mode = True
-            # Cargar pesos vuelve al modo discreto; si la grilla venía continua,
-            # se discretiza para que display y modo queden consistentes
-            if self._continuous:
+            if channels > 1:
+                # Multi-canal es continuo por construcción: display float (canal 0)
+                self._continuous = False
+                self.simulation_widget.update_grid(
+                    np.ascontiguousarray(self._nca_state[..., 0]))
+            elif self._continuous:
+                # Cargar pesos vuelve al modo discreto; si la grilla venía continua,
+                # se discretiza para que display y modo queden consistentes
                 self._continuous = False
                 disc = (np.asarray(self.simulation_widget.grid) > 0.5).astype(np.uint8)
                 self.automaton.setSpace(disc)
@@ -471,7 +553,9 @@ class SimulationController:
                 self._on_nca_mode_changed(self._nca_mode, nca_loaded=True)
             if self._on_continuous_changed:
                 # Continuo solo para salida escalar: out_size > 1 ya es argmax discreto
-                self._on_continuous_changed(False, self._nca_out_size == 1)
+                self._on_continuous_changed(False, self._nca_out_size == 1 and channels == 1)
+            if self._on_channels_changed:
+                self._on_channels_changed(channels)
 
         except Exception as e:
             QMessageBox.critical(None, "Error loading NCA", str(e))
@@ -481,7 +565,9 @@ class SimulationController:
         current_pos = len(self.past_record)
         if pos == current_pos:
             return
-        current_frame = self.simulation_widget.grid.copy()
+        current_frame = (self._nca_state
+                         if self._nca_mode and self._nca_channels > 1
+                         else self.simulation_widget.grid.copy())
         full = self.past_record + [current_frame] + list(self.future_record)
         if pos < 0 or pos >= len(full):
             return
@@ -493,9 +579,18 @@ class SimulationController:
 
         self.current_step += delta
         target = np.ascontiguousarray(full[pos])
+        if target.ndim == 3:
+            # Frame multi-canal (H, W, C): restaurar estado completo del NCA
+            self._nca_state = target
+            if self._nca is not None:
+                self._nca.set_space(target)
+            self.simulation_widget.update_grid(
+                np.ascontiguousarray(target[..., self._display_channel]))
+            self._emit_step()
+            return
         if target.dtype == np.uint8:
             self.automaton.setSpace(target)
-        if self._nca_mode and self._nca is not None:
+        if self._nca_mode and self._nca is not None and self._nca_channels == 1:
             self._nca.set_space(target.astype(np.float32, copy=False))
         self.simulation_widget.update_grid(target)
         self._emit_step()
@@ -506,20 +601,38 @@ class SimulationController:
         if self.is_running:
             self.on_play_button()
         # Salir del modo NCA fuerza salida discreta (el CA no acepta floats)
-        if self._nca_mode and self._continuous:
+        if self._nca_mode and (self._continuous or self._nca_channels > 1):
             self._continuous = False
             disc = (np.asarray(self.simulation_widget.grid) > 0.5).astype(np.uint8)
             self.simulation_widget.update_grid(disc)
         self._nca_mode = not self._nca_mode
         grid = self.simulation_widget.grid
         self.automaton.setSpace(grid)
-        self._nca.set_space(grid.astype(np.float32))
+        if self._nca_channels > 1:
+            # Re-sembrar el NCA multi-canal: canal 0 = grilla visible, resto en 0
+            state = np.zeros((*grid.shape, self._nca_channels), dtype=np.float32)
+            state[..., 0] = grid
+            self._nca_state = state
+            self._nca.set_space(state)
+            if self._nca_mode:
+                self.simulation_widget.update_grid(
+                    np.ascontiguousarray(state[..., self._display_channel]))
+        else:
+            self._nca.set_space(grid.astype(np.float32))
         self._clear_history()
         if self._on_nca_mode_changed:
             self._on_nca_mode_changed(self._nca_mode, nca_loaded=True)
         if self._on_continuous_changed:
             self._on_continuous_changed(
                 self._continuous, self._nca_mode and self._nca_out_size == 1)
+
+    def on_display_channel_change(self, channel: int):
+        if self._nca_channels <= 1:
+            return
+        self._display_channel = max(0, min(int(channel), self._nca_channels - 1))
+        if self._nca_mode and self._nca_state is not None:
+            self.simulation_widget.update_grid(
+                np.ascontiguousarray(self._nca_state[..., self._display_channel]))
 
     def on_continuous_toggle(self):
         if self._nca is None or self._nca_out_size != 1 or not self._nca_mode:

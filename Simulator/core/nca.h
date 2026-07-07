@@ -17,16 +17,19 @@ struct MLPlayer
 class NCA
 {
 public:
+    // space: C canales float por celda en layout SoA channel-major
+    // (space[c*W*H + y*W + x]); channels = 1 reproduce el NCA escalar
     NCA(
         int width,
         int height,
         float *space,
-        int *neighbourhood, int n_size);
+        int *neighbourhood, int n_size,
+        int channels = 1);
 
     ~NCA();
 
     void step();
-    void run(int steps, float *out);  // escribe (steps, H, W) en out; evolución continua
+    void run(int steps, float *out);  // escribe (steps, C, H, W) en out; evolución continua
     void print();
 
     void setWeights(
@@ -41,15 +44,16 @@ public:
     // Getters
     int getWidth() const;
     int getHeight() const;
-    
+    int getChannels() const;
+
     float *getSpace() const;
-    float getCell(int x, int y) const;
+    float getCell(int x, int y, int channel = 0) const;
     int *getNeighbourhood() const;
     int getNSize() const;
 
     // Setters
-    void setSpace(float *);
-    void setCell(int, int, float);
+    void setSpace(float *);   // layout SoA channel-major (C, H, W)
+    void setCell(int, int, float, int channel = 0);
     void setNeighbourhood(int *, int);
 
     // Modo estocástico: cada celda se actualiza con probabilidad p por paso.
@@ -61,6 +65,7 @@ public:
 private:
     int width;
     int height;
+    int channels;   // canales float por celda (C); estado = (C, H, W) SoA
     float *space;
 
     int *neighbourhood;

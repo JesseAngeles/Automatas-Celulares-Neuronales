@@ -2,7 +2,7 @@
 
 from PyQt5.QtWidgets import (
     QWidget, QPushButton, QSlider, QVBoxLayout, QHBoxLayout, QLabel, QFrame,
-    QDoubleSpinBox
+    QDoubleSpinBox, QSpinBox
 )
 from PyQt5.QtCore import pyqtSignal, Qt
 
@@ -143,6 +143,18 @@ class ControlPane(QWidget):
         self.continuous_button.setObjectName("ghost")
         self.continuous_button.setEnabled(False)
 
+        # Selector de canal: solo habilitado con un NCA multi-canal cargado
+        self.channel_spin = QSpinBox()
+        self.channel_spin.setRange(0, 0)
+        self.channel_spin.setEnabled(False)
+
+        channel_row = QHBoxLayout()
+        channel_row.setSpacing(6)
+        channel_row.addWidget(QLabel("Channel"))
+        channel_row.addStretch()
+        channel_row.addWidget(self.channel_spin)
+        self._channel_row = channel_row
+
         # ── Layout principal ──────────────────────────────────────────
         layout = QVBoxLayout()
         layout.setContentsMargins(18, 18, 18, 18)
@@ -178,6 +190,7 @@ class ControlPane(QWidget):
         layout.addWidget(self.load_nca_button)
         layout.addWidget(self.mode_button)
         layout.addWidget(self.continuous_button)
+        layout.addLayout(self._channel_row)
 
         layout.addStretch()
         self.setLayout(layout)
@@ -202,6 +215,13 @@ class ControlPane(QWidget):
         )
         self.continuous_button.setEnabled(available)
 
+    def update_channel_selector(self, channels: int):
+        self.channel_spin.blockSignals(True)
+        self.channel_spin.setRange(0, max(0, channels - 1))
+        self.channel_spin.setValue(0)
+        self.channel_spin.blockSignals(False)
+        self.channel_spin.setEnabled(channels > 1)
+
     def update_timeline(self, current: int, total: int):
         self.timeline_slider.blockSignals(True)
         self.timeline_slider.setMaximum(total)
@@ -222,6 +242,8 @@ class ControlPane(QWidget):
         self.mode_button.clicked.connect(controller.on_mode_toggle)
         self.continuous_button.clicked.connect(controller.on_continuous_toggle)
         self.stochastic_spin.valueChanged.connect(controller.on_stochastic_p_change)
+        self.channel_spin.valueChanged.connect(controller.on_display_channel_change)
         self.timeline_jumped.connect(controller.on_timeline_jump)
         controller._on_timeline_changed = self.update_timeline
         controller._on_continuous_changed = self.update_continuous_button
+        controller._on_channels_changed = self.update_channel_selector

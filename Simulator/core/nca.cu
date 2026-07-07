@@ -44,6 +44,7 @@ __global__ void NCA_GPU(
     int total_weights,
     int total_biases,
     int use_smem,
+    int channels,
     float p,
     unsigned long long seed,
     unsigned long long step_idx)
@@ -72,6 +73,7 @@ __global__ void NCA_GPU(
         return;
 
     int cell_id = idy * width + idx;
+    const size_t n_cells = (size_t)width * height;
 
     // Modo estocástico: la celda solo se actualiza con probabilidad p.
     // Philox counter-based: mismo (seed, celda, paso) → mismo valor.
@@ -82,7 +84,8 @@ __global__ void NCA_GPU(
         curand_init(seed, (unsigned long long)cell_id, step_idx, &rng);
         if (curand_uniform(&rng) > p)
         {
-            B[cell_id] = A[cell_id];
+            for (int c = 0; c < channels; c++)
+                B[(size_t)c * n_cells + cell_id] = A[(size_t)c * n_cells + cell_id];
             return;
         }
     }
@@ -90,16 +93,18 @@ __global__ void NCA_GPU(
     // Scratch en layout SoA: temp[k * n_cells + cell_id]. Hilos consecutivos
     // acceden a direcciones consecutivas (coalescido), a diferencia del layout
     // por-celda que separaba a cada hilo 2*max_layer_size floats.
-    const size_t n_cells = (size_t)width * height;
     float *cur = temp + cell_id;
     float *nxt = temp + (size_t)max_layer_size * n_cells + cell_id;
 
-    // Valores del vecindario
+    // Valores del vecindario: los C canales de cada vecino, consecutivos,
+    // en el orden de la vecindad (entrada del MLP = n_size * channels)
     for (int i = 0; i < n_size; i++)
     {
         int nx = (idx + c_neighbourhood[i * 2] + width) % width;
         int ny = (idy + c_neighbourhood[i * 2 + 1] + height) % height;
-        cur[(size_t)i * n_cells] = A[ny * width + nx];
+        int nid = ny * width + nx;
+        for (int c = 0; c < channels; c++)
+            cur[(size_t)(i * channels + c) * n_cells] = A[(size_t)c * n_cells + nid];
     }
 
     // Forward pass
@@ -124,7 +129,11 @@ __global__ void NCA_GPU(
         nxt = tmp;
     }
 
-    if (out_size == 1) {
+    if (channels > 1) {
+        // Multi-canal: la salida del MLP es el vector de C canales de la celda
+        for (int c = 0; c < channels; c++)
+            B[(size_t)c * n_cells + cell_id] = cur[(size_t)c * n_cells];
+    } else if (out_size == 1) {
         B[cell_id] = cur[0];
     } else {
         int best = 0;
@@ -144,9 +153,11 @@ NCA::NCA(
     int in_width,
     int in_height,
     float *in_space,
-    int *in_neighbourhood, int in_n_size)
+    int *in_neighbourhood, int in_n_size,
+    int in_channels)
     : width(in_width),
       height(in_height),
+      channels(in_channels),
       n_size(in_n_size),
       n_layers(0),
       max_layer_size(0),
@@ -169,14 +180,17 @@ NCA::NCA(
       stage_h(nullptr),
       stage_cap(0)
 {
-    size = width * height * sizeof(float);
+    if (in_channels < 1)
+        throw std::runtime_error("channels must be >= 1");
+
+    size = (size_t)width * height * channels * sizeof(float);
 
     // 32×8: cada warp cubre una fila completa de 32 celdas contiguas
     threads = dim3(32, 8);
     blocks = dim3((width + threads.x - 1) / threads.x,
                   (height + threads.y - 1) / threads.y);
 
-    space = new float[in_width * in_height];
+    space = new float[(size_t)in_width * in_height * channels];
     std::memcpy(space, in_space, size);
 
     neighbourhood = new int[in_n_size * 2];
@@ -234,7 +248,7 @@ void NCA::launchNN()
         activation_d, n_layers,
         temp_d, max_layer_size, out_size,
         total_weights, total_biases, use_smem ? 1 : 0,
-        update_prob, rng_seed, step_count);
+        channels, update_prob, rng_seed, step_count);
     step_count++;
 }
 
@@ -260,7 +274,7 @@ void NCA::run(int steps, float *out)
     if (!nn_ready)
         throw std::runtime_error("Weights not loaded. Call setWeights() first.");
 
-    const size_t frame = (size_t)width * height;  // elementos float por frame
+    const size_t frame = (size_t)width * height * channels;  // elementos float por frame
     const int R2 = 2 * RUN_CHUNK;
 
     size_t need = (size_t)R2 * frame * sizeof(float);
@@ -348,6 +362,12 @@ void NCA::setWeights(
     int n_layers)
 {
     std::lock_guard<std::mutex> lock(gpu_mutex);
+
+    if (layer_in[0] != n_size * channels)
+        throw std::runtime_error("layer_in[0] must equal n_size * channels");
+    if (channels > 1 && layer_out[n_layers - 1] != channels)
+        throw std::runtime_error("output layer size must equal channels");
+
     freeNN();
     this->n_layers = n_layers;
     this->out_size = layer_out[n_layers - 1];
@@ -411,10 +431,14 @@ void NCA::setWeights(
 // Getters
 int NCA::getWidth() const { return width; }
 int NCA::getHeight() const { return height; }
+int NCA::getChannels() const { return channels; }
 float *NCA::getSpace() const { return space; }
 int *NCA::getNeighbourhood() const { return neighbourhood; }
 int NCA::getNSize() const { return n_size; }
-float NCA::getCell(int x, int y) const { return space[y * width + x]; }
+float NCA::getCell(int x, int y, int channel) const
+{
+    return space[(size_t)channel * width * height + y * width + x];
+}
 
 // Setters
 void NCA::setSpace(float *new_space)
@@ -425,11 +449,12 @@ void NCA::setSpace(float *new_space)
     CUDA_CHECK(cudaStreamSynchronize(stream));
 }
 
-void NCA::setCell(int x, int y, float value)
+void NCA::setCell(int x, int y, float value, int channel)
 {
     std::lock_guard<std::mutex> lock(gpu_mutex);
-    space[y * width + x] = value;
-    CUDA_CHECK(cudaMemcpyAsync(&A_d[y * width + x], &space[y * width + x],
+    size_t idx = (size_t)channel * width * height + y * width + x;
+    space[idx] = value;
+    CUDA_CHECK(cudaMemcpyAsync(&A_d[idx], &space[idx],
                                sizeof(float), cudaMemcpyHostToDevice, stream));
     CUDA_CHECK(cudaStreamSynchronize(stream));
 }

@@ -221,9 +221,33 @@ def nca_ref_step(grid, nb, layers, out_size):
     return np.argmax(v, axis=1).astype(np.float32).reshape(H, W_)
 
 
-def make_nca(grid, nb, layers):
-    H, W = grid.shape
-    nca = ca_module.NCA(W, H, grid, np.ascontiguousarray(nb, dtype=np.int32), len(nb))
+def nca_ref_step_mc(state, nb, layers):
+    """Referencia multicanal: state (H, W, C) → (H, W, C); entrada del MLP =
+    C canales de cada vecino, consecutivos, en el orden de la vecindad."""
+    def act(v, code):
+        if code == 0:
+            return np.maximum(0.0, v)
+        if code == 1:
+            return 1.0 / (1.0 + np.exp(-v))
+        if code == 2:
+            return np.tanh(v)
+        return v
+
+    H, W_, C = state.shape
+    n = len(nb)
+    X = np.empty((H, W_, n * C), dtype=np.float32)
+    for i, (dx, dy) in enumerate(nb):
+        X[..., i * C:(i + 1) * C] = np.roll(np.roll(state, -dy, axis=0), -dx, axis=1)
+    v = X.reshape(-1, n * C)
+    for Wm, b, code in layers:
+        v = act(v @ Wm.T + b, code).astype(np.float32)
+    return v.reshape(H, W_, C)
+
+
+def make_nca(grid, nb, layers, channels=1):
+    H, W = grid.shape[0], grid.shape[1]
+    nca = ca_module.NCA(W, H, grid, np.ascontiguousarray(nb, dtype=np.int32),
+                        len(nb), channels)
     nca.set_weights(
         [l[0] for l in layers], [l[1] for l in layers],
         [l[0].shape[1] for l in layers], [l[0].shape[0] for l in layers],
@@ -270,6 +294,50 @@ def test_nca_reference(rng):
         ok = ok and (got == ref).mean() >= 0.999  # tolerancia por empates float
         del nca
     check("NCA multiclase (argmax) vs numpy", ok)
+
+
+def test_nca_multichannel(rng):
+    print("── NCA multicanal (C = 3) vs referencia numpy ──")
+    nb = np.array([[dx, dy] for dy in (-1, 0, 1) for dx in (-1, 0, 1)], dtype=np.int32)
+    C = 3
+    layers = random_layers(rng, [9 * C, 24, C], [0, 1])
+
+    # Pasos independientes vs referencia
+    ok = True
+    for _ in range(3):
+        init = rng.random((17, 23, C)).astype(np.float32)
+        nca = make_nca(init, nb, layers, channels=C)
+        nca.step()
+        got = np.asarray(nca.get_space())
+        ref = nca_ref_step_mc(init, nb, layers)
+        ok = ok and got.shape == (17, 23, C) and np.allclose(got, ref, atol=1e-4)
+        del nca
+    check("NCA C=3 step vs numpy", ok)
+
+    # run() batcheado: evolución continua multicanal vs referencia iterada
+    init = rng.random((17, 23, C)).astype(np.float32)
+    nca = make_nca(init, nb, layers, channels=C)
+    frames = nca.run(4)
+    ref = init
+    ok = frames.shape == (4, 17, 23, C)
+    for s in range(4):
+        ref = nca_ref_step_mc(ref, nb, layers)
+        ok = ok and np.allclose(frames[s], ref, atol=1e-3)
+    check("NCA C=3 run(4) vs numpy", ok)
+    del nca
+
+    # Estocástico multicanal: misma semilla → misma salida, canales atómicos
+    def stoch(seed):
+        nca = make_nca(init, nb, layers, channels=C)
+        nca.set_update_prob(0.5)
+        nca.set_seed(seed)
+        out = np.array(nca.run(5))
+        del nca
+        return out
+
+    a, b, c = stoch(11), stoch(11), stoch(12)
+    check("NCA C=3 misma semilla → misma salida", np.array_equal(a, b))
+    check("NCA C=3 semillas distintas → salidas distintas", not np.array_equal(a, c))
 
 
 # ── Modo estocástico ──────────────────────────────────────────────────────────
@@ -384,6 +452,7 @@ def main():
     test_ca_bit_exact(rng)
     test_ca_run_equals_steps(rng)
     test_nca_reference(rng)
+    test_nca_multichannel(rng)
     test_stochastic_ca(rng)
     test_stochastic_nca(rng)
     total = CHECKS["pass"] + CHECKS["fail"]
