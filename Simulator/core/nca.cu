@@ -2,6 +2,7 @@
 
 #include "nca.h"
 #include <algorithm>
+#include <curand_kernel.h>
 
 #define CUDA_CHECK(call) do { \
     cudaError_t _err = (call); \
@@ -42,7 +43,10 @@ __global__ void NCA_GPU(
     int out_size,
     int total_weights,
     int total_biases,
-    int use_smem)
+    int use_smem,
+    float p,
+    unsigned long long seed,
+    unsigned long long step_idx)
 {
     // Pesos y biases del MLP a shared memory (todos los hilos leen los mismos)
     extern __shared__ float smem[];
@@ -68,6 +72,20 @@ __global__ void NCA_GPU(
         return;
 
     int cell_id = idy * width + idx;
+
+    // Modo estocástico: la celda solo se actualiza con probabilidad p.
+    // Philox counter-based: mismo (seed, celda, paso) → mismo valor.
+    // p = 1.0 no toca el RNG: el camino determinista queda idéntico.
+    if (p < 1.0f)
+    {
+        curandStatePhilox4_32_10_t rng;
+        curand_init(seed, (unsigned long long)cell_id, step_idx, &rng);
+        if (curand_uniform(&rng) > p)
+        {
+            B[cell_id] = A[cell_id];
+            return;
+        }
+    }
 
     // Scratch en layout SoA: temp[k * n_cells + cell_id]. Hilos consecutivos
     // acceden a direcciones consecutivas (coalescido), a diferencia del layout
@@ -136,6 +154,9 @@ NCA::NCA(
       total_biases(0),
       use_smem(false),
       out_size(1),
+      update_prob(1.0f),
+      rng_seed(0),
+      step_count(0),
       nn_ready(false),
       weights_d(nullptr),
       biases_d(nullptr),
@@ -212,7 +233,9 @@ void NCA::launchNN()
         layer_in_d, layer_out_d,
         activation_d, n_layers,
         temp_d, max_layer_size, out_size,
-        total_weights, total_biases, use_smem ? 1 : 0);
+        total_weights, total_biases, use_smem ? 1 : 0,
+        update_prob, rng_seed, step_count);
+    step_count++;
 }
 
 void NCA::step()
@@ -409,6 +432,23 @@ void NCA::setCell(int x, int y, float value)
     CUDA_CHECK(cudaMemcpyAsync(&A_d[y * width + x], &space[y * width + x],
                                sizeof(float), cudaMemcpyHostToDevice, stream));
     CUDA_CHECK(cudaStreamSynchronize(stream));
+}
+
+void NCA::setUpdateProb(float p)
+{
+    std::lock_guard<std::mutex> lock(gpu_mutex);
+    if (!(p > 0.0f && p <= 1.0f))
+        throw std::runtime_error("update_prob must be in (0, 1]");
+    update_prob = p;
+}
+
+float NCA::getUpdateProb() const { return update_prob; }
+
+void NCA::setSeed(unsigned long long seed)
+{
+    std::lock_guard<std::mutex> lock(gpu_mutex);
+    rng_seed = seed;
+    step_count = 0;
 }
 
 void NCA::setNeighbourhood(int *new_neighbourhood, int new_n_size)

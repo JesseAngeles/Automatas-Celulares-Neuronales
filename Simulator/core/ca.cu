@@ -2,6 +2,7 @@
 
 #include "ca.h"
 #include <algorithm>
+#include <curand_kernel.h>
 
 #define CUDA_CHECK(call) do { \
     cudaError_t _err = (call); \
@@ -27,7 +28,10 @@ __global__ void CA_GPU_T(
     int n_groups,
     const int *__restrict__ rule,
     int rx,
-    int ry)
+    int ry,
+    float p,
+    unsigned long long seed,
+    unsigned long long step_idx)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
     int idy = blockIdx.y * blockDim.y + threadIdx.y;
@@ -70,6 +74,24 @@ __global__ void CA_GPU_T(
 
     if (idx >= width || idy >= height)
         return;
+
+    // Modo estocástico: la celda solo se actualiza con probabilidad p.
+    // Philox counter-based: mismo (seed, celda, paso) → mismo valor, sin
+    // estado persistente ni máscara generada en el host. p = 1.0 no toca
+    // el RNG: el camino determinista queda bit a bit idéntico.
+    if (p < 1.0f)
+    {
+        curandStatePhilox4_32_10_t rng;
+        curand_init(seed, (unsigned long long)idy * width + idx, step_idx, &rng);
+        if (curand_uniform(&rng) > p)
+        {
+            if constexpr (TILED)
+                B[idy * width + idx] = tile[base_t];
+            else
+                B[idy * width + idx] = A[idy * width + idx];
+            return;
+        }
+    }
 
     int rule_index = 0;
     int offset = 0;
@@ -134,8 +156,8 @@ __global__ void CA_GPU_T(
 void CA::launch()
 {
 #define CA_LAUNCH(BM) do { \
-    if (tiled) CA_GPU_T<BM, true ><<<blocks, threads, tile_bytes, stream>>>(A_d, B_d, width, height, n_groups, rule_d, rx, ry); \
-    else       CA_GPU_T<BM, false><<<blocks, threads, 0,          stream>>>(A_d, B_d, width, height, n_groups, rule_d, rx, ry); \
+    if (tiled) CA_GPU_T<BM, true ><<<blocks, threads, tile_bytes, stream>>>(A_d, B_d, width, height, n_groups, rule_d, rx, ry, update_prob, rng_seed, step_count); \
+    else       CA_GPU_T<BM, false><<<blocks, threads, 0,          stream>>>(A_d, B_d, width, height, n_groups, rule_d, rx, ry, update_prob, rng_seed, step_count); \
 } while (0)
 
     switch (boundary_mode)
@@ -147,6 +169,7 @@ void CA::launch()
         default: CA_LAUNCH(1); break;
     }
 #undef CA_LAUNCH
+    step_count++;
 }
 
 void CA::updateTileMeta()
@@ -187,6 +210,9 @@ CA::CA(
       n_groups(in_n_groups),
       r_size(in_r_size),
       boundary_mode(BOUNDARY_PERIODIC),
+      update_prob(1.0f),
+      rng_seed(0),
+      step_count(0),
       host_dirty(false),
       stage_h(nullptr),
       stage_cap(0)
@@ -477,6 +503,23 @@ void CA::setBoundary(int mode)
 }
 
 int CA::getBoundary() const { return boundary_mode; }
+
+void CA::setUpdateProb(float p)
+{
+    std::lock_guard<std::mutex> lock(gpu_mutex);
+    if (!(p > 0.0f && p <= 1.0f))
+        throw std::runtime_error("update_prob must be in (0, 1]");
+    update_prob = p;
+}
+
+float CA::getUpdateProb() const { return update_prob; }
+
+void CA::setSeed(unsigned long long seed)
+{
+    std::lock_guard<std::mutex> lock(gpu_mutex);
+    rng_seed = seed;
+    step_count = 0;
+}
 
 void CA::fixRuleSize()
 {

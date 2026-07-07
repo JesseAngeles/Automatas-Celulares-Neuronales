@@ -73,6 +73,7 @@ class SimulationController:
 
         self._nca_mode     = False
         self._nca          = None
+        self._update_prob  = 1.0             # p estocástico compartido CA/NCA
         self._nca_out_size = 1             # 1 = binario, >1 = N-estados
         self._continuous   = False         # NCA sin discretizar entre pasos
         self._on_nca_mode_changed = None   # callback(nca_mode: bool)
@@ -241,6 +242,20 @@ class SimulationController:
         self.simulation_widget.update_grid(new_grid)
         if self.is_running:
             self.on_play_button()
+
+    def on_stochastic_p_change(self, p: float):
+        p = float(p)
+        if p == self._update_prob:
+            return
+        self._update_prob = p
+        # Cambio de configuración: sincronizar al frame visible e invalidar prefetch
+        grid = self.simulation_widget.grid
+        if grid.dtype == np.uint8:
+            self.automaton.setSpace(grid)
+        self._clear_history()
+        self.automaton.setUpdateProb(p)
+        if self._nca is not None:
+            self._nca.set_update_prob(p)
 
     def on_boundary_change(self, mode: int):
         self.automaton.setSpace(self.simulation_widget.grid)
@@ -439,6 +454,8 @@ class SimulationController:
                 data["activations"].tolist(),
             )
             self._nca_out_size = int(data["layer_out"][-1])
+            if self._update_prob < 1.0:
+                self._nca.set_update_prob(self._update_prob)
 
             self._nca_mode = True
             # Cargar pesos vuelve al modo discreto; si la grilla venía continua,

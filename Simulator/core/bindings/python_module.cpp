@@ -127,7 +127,12 @@ PYBIND11_MODULE(CA, m)
         .def("set_cell", &CA::setCell)
 
         .def("set_boundary", &CA::setBoundary)
-        .def("get_boundary", &CA::getBoundary);
+        .def("get_boundary", &CA::getBoundary)
+
+        // Modo estocástico: p = 1.0 mantiene el comportamiento determinista
+        .def("set_update_prob", &CA::setUpdateProb)
+        .def("get_update_prob", &CA::getUpdateProb)
+        .def("set_seed", &CA::setSeed);
 
     py::class_<NCA>(m, "NCA")
         // Constructor
@@ -212,5 +217,10 @@ PYBIND11_MODULE(CA, m)
             }
             self.setWeights(w_ptrs.data(), b_ptrs.data(),
                             layer_in.data(), layer_out.data(),
-                            activations.data(), n); });
+                            activations.data(), n); })
+
+        // Modo estocástico: p = 1.0 mantiene el comportamiento determinista
+        .def("set_update_prob", &NCA::setUpdateProb)
+        .def("get_update_prob", &NCA::getUpdateProb)
+        .def("set_seed", &NCA::setSeed);
 }

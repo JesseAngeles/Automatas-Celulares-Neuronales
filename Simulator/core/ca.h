@@ -55,6 +55,12 @@ public:
     void setCell(int, int, int);
     void setBoundary(int mode);
 
+    // Modo estocástico: cada celda se actualiza con probabilidad p por paso.
+    // p = 1.0 reproduce el comportamiento determinista bit a bit.
+    void setUpdateProb(float p);
+    float getUpdateProb() const;
+    void setSeed(unsigned long long seed);  // reinicia el contador de pasos del RNG
+
 private:
     // Frames por chunk en el pipeline de run(); el staging pinned aloja 2 chunks
     static constexpr int RUN_CHUNK = 8;
@@ -76,6 +82,12 @@ private:
     int *rule_d;    // device copy of rule (global memory, no size limit)
 
     int boundary_mode;
+
+    // Modo estocástico: probabilidad de actualización por celda; semilla y
+    // contador de pasos (offset del RNG counter-based, un valor por frame)
+    float update_prob;
+    unsigned long long rng_seed;
+    unsigned long long step_count;
 
     // host_dirty = true cuando el buffer del host está desfasado frente a A_d
     bool host_dirty;

@@ -1,7 +1,8 @@
 # ui.ControlPane
 
 from PyQt5.QtWidgets import (
-    QWidget, QPushButton, QSlider, QVBoxLayout, QHBoxLayout, QLabel, QFrame
+    QWidget, QPushButton, QSlider, QVBoxLayout, QHBoxLayout, QLabel, QFrame,
+    QDoubleSpinBox
 )
 from PyQt5.QtCore import pyqtSignal, Qt
 
@@ -88,6 +89,28 @@ class ControlPane(QWidget):
             lambda v: self._speed_value.setText(str(v))
         )
 
+        # ── Stochastic ────────────────────────────────────────────────
+        self.stochastic_spin = QDoubleSpinBox()
+        self.stochastic_spin.setRange(0.01, 1.0)
+        self.stochastic_spin.setSingleStep(0.01)
+        self.stochastic_spin.setDecimals(2)
+        self.stochastic_spin.setValue(1.0)
+
+        # p = 1.0 → actualización síncrona clásica (sin efecto estocástico)
+        self._stochastic_state = QLabel("deterministic")
+        self._stochastic_state.setObjectName("mutedValue")
+
+        stochastic_head = QHBoxLayout()
+        stochastic_head.addWidget(_section_label("Stochastic p"))
+        stochastic_head.addStretch()
+        stochastic_head.addWidget(self._stochastic_state)
+
+        self.stochastic_spin.valueChanged.connect(
+            lambda v: self._stochastic_state.setText(
+                "deterministic" if v >= 1.0 else "stochastic"
+            )
+        )
+
         # ── Grid ──────────────────────────────────────────────────────
         self.erase_button  = QPushButton("Erase")
         self.random_button = QPushButton("Random")
@@ -133,6 +156,10 @@ class ControlPane(QWidget):
         layout.addSpacing(4)
         layout.addLayout(speed_head)
         layout.addWidget(self.speed_slider)
+        layout.addWidget(_separator())
+
+        layout.addLayout(stochastic_head)
+        layout.addWidget(self.stochastic_spin)
         layout.addWidget(_separator())
 
         layout.addWidget(_section_label("Grid"))
@@ -194,6 +221,7 @@ class ControlPane(QWidget):
         self.load_nca_button.clicked.connect(controller.on_load_nca_button)
         self.mode_button.clicked.connect(controller.on_mode_toggle)
         self.continuous_button.clicked.connect(controller.on_continuous_toggle)
+        self.stochastic_spin.valueChanged.connect(controller.on_stochastic_p_change)
         self.timeline_jumped.connect(controller.on_timeline_jump)
         controller._on_timeline_changed = self.update_timeline
         controller._on_continuous_changed = self.update_continuous_button

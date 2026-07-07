@@ -52,6 +52,12 @@ public:
     void setCell(int, int, float);
     void setNeighbourhood(int *, int);
 
+    // Modo estocástico: cada celda se actualiza con probabilidad p por paso.
+    // p = 1.0 reproduce el comportamiento determinista.
+    void setUpdateProb(float p);
+    float getUpdateProb() const;
+    void setSeed(unsigned long long seed);  // reinicia el contador de pasos del RNG
+
 private:
     int width;
     int height;
@@ -77,6 +83,12 @@ private:
 
     float *temp_d;
     int   out_size;
+
+    // Modo estocástico: probabilidad de actualización por celda; semilla y
+    // contador de pasos (offset del RNG counter-based, un valor por frame)
+    float update_prob;
+    unsigned long long rng_seed;
+    unsigned long long step_count;
 
     size_t size;
     float *A_d, *B_d;

@@ -112,3 +112,12 @@ class cellularAutomaton:
 
     def getBoundary(self) -> int:
         return self.ca.get_boundary()
+
+    def setUpdateProb(self, p: float):
+        self.ca.set_update_prob(float(p))
+
+    def getUpdateProb(self) -> float:
+        return self.ca.get_update_prob()
+
+    def setSeed(self, seed: int):
+        self.ca.set_seed(int(seed))
