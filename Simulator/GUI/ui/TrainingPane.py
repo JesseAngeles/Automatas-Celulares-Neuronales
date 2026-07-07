@@ -5,7 +5,7 @@ import sys
 
 from PyQt5.QtWidgets import (
     QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QLabel, QFrame,
-    QSpinBox, QComboBox, QTextEdit, QLineEdit, QFileDialog,
+    QSpinBox, QComboBox, QTextEdit, QLineEdit, QFileDialog, QTabWidget,
 )
 from PyQt5.QtCore import Qt, QProcess
 from PyQt5.QtGui import QFont, QTextCursor
@@ -24,6 +24,9 @@ DEFAULT_NB_3x3 = [
 
 TRAINING_SCRIPT = os.path.abspath(
     os.path.join(os.path.dirname(__file__), '..', '..', 'training', 'main.py')
+)
+OPTIMIZE_SCRIPT = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), '..', '..', 'training', 'optimize.py')
 )
 
 
@@ -49,6 +52,7 @@ class TrainingPane(QWidget):
 
         self._init_terminal()
         self._init_config_widgets()
+        self._init_optimize_widgets()
         self._assemble_layout()
 
     # ── Terminal ──────────────────────────────────────────────────────────────
@@ -139,12 +143,84 @@ class TrainingPane(QWidget):
         self._stop_btn.setMinimumHeight(34)
         self._stop_btn.clicked.connect(self._stop_training)
 
+    # ── Optimize widgets ──────────────────────────────────────────────────────
+
+    def _init_optimize_widgets(self):
+        # Files
+        self._opt_initial_edit = QLineEdit()
+        self._opt_initial_edit.setReadOnly(True)
+        self._opt_initial_edit.setPlaceholderText("No file selected...")
+
+        self._opt_target_edit = QLineEdit()
+        self._opt_target_edit.setReadOnly(True)
+        self._opt_target_edit.setPlaceholderText("No file selected...")
+
+        self._opt_output_edit = QLineEdit()
+        self._opt_output_edit.setReadOnly(True)
+        self._opt_output_edit.setPlaceholderText("No file selected...")
+
+        # Neighbourhood (independiente de la pestaña Train)
+        self._opt_nb_widget = NeighbourWidget(grid_size=11)
+        self._opt_nb_widget.load_neighbourhood([DEFAULT_NB_3x3])
+
+        # Architecture (mismos controles que Train)
+        self._opt_n_hidden_spin = QSpinBox()
+        self._opt_n_hidden_spin.setRange(1, 64)
+        self._opt_n_hidden_spin.setValue(1)
+
+        self._opt_neurons_spin = QSpinBox()
+        self._opt_neurons_spin.setRange(1, 4096)
+        self._opt_neurons_spin.setValue(64)
+
+        self._opt_act_edits: dict[str, QLineEdit] = {}
+        defaults = {"relu": "1", "sigmoid": "", "tanh": "", "linear": ""}
+        for act in ACTIVATIONS:
+            edit = QLineEdit(defaults[act])
+            edit.setPlaceholderText("e.g. 1,3,5")
+            self._opt_act_edits[act] = edit
+
+        # Salida: out_size = channels; solo la activación es configurable
+        self._opt_out_act_combo = QComboBox()
+        for lbl in ACT_LABELS:
+            self._opt_out_act_combo.addItem(lbl)
+        self._opt_out_act_combo.setCurrentIndex(1)  # Sigmoid
+
+        self._opt_channels_spin = QSpinBox()
+        self._opt_channels_spin.setRange(1, 64)
+        self._opt_channels_spin.setValue(1)
+
+        # Hyperparameters
+        self._opt_steps_spin = QSpinBox()
+        self._opt_steps_spin.setRange(1, 10_000)
+        self._opt_steps_spin.setValue(10)
+
+        self._opt_epochs_spin = QSpinBox()
+        self._opt_epochs_spin.setRange(1, 1_000_000)
+        self._opt_epochs_spin.setValue(5_000)
+
+        self._opt_lr_edit          = QLineEdit("0.001")
+        self._opt_loss_target_edit = QLineEdit("0.01")
+        self._opt_l2_edit          = QLineEdit("0")
+
+        self._opt_seed_edit = QLineEdit()
+        self._opt_seed_edit.setPlaceholderText("Random")
+
+        # Buttons
+        self._optimize_btn = QPushButton("Optimize")
+        self._optimize_btn.setObjectName("primary")
+        self._optimize_btn.setMinimumHeight(34)
+        self._optimize_btn.clicked.connect(self._start_optimize)
+
+        self._opt_stop_btn = QPushButton("Stop")
+        self._opt_stop_btn.setEnabled(False)
+        self._opt_stop_btn.setMinimumHeight(34)
+        self._opt_stop_btn.clicked.connect(self._stop_training)
+
     # ── Layout ────────────────────────────────────────────────────────────────
 
     def _assemble_layout(self):
         config_panel = QWidget()
         config_panel.setObjectName("panel")
-        config_panel.setFixedWidth(760)
 
         config_layout = QVBoxLayout(config_panel)
         config_layout.setContentsMargins(16, 16, 16, 16)
@@ -296,12 +372,158 @@ class TrainingPane(QWidget):
         term_layout.addLayout(log_hdr)
         term_layout.addWidget(self._terminal)
 
+        # ── TABS: Train | Optimize ────────────────────────────────────
+        tabs = QTabWidget()
+        tabs.addTab(config_panel, "Train")
+        tabs.addTab(self._assemble_optimize_panel(), "Optimize")
+        tabs.setFixedWidth(768)
+
         # ── ROOT ──────────────────────────────────────────────────────
         root = QHBoxLayout(self)
         root.setContentsMargins(14, 14, 14, 14)
         root.setSpacing(12)
-        root.addWidget(config_panel)
+        root.addWidget(tabs)
         root.addWidget(terminal_panel, stretch=1)
+
+    def _assemble_optimize_panel(self) -> QWidget:
+        panel = QWidget()
+        panel.setObjectName("panel")
+
+        layout = QVBoxLayout(panel)
+        layout.setContentsMargins(16, 16, 16, 16)
+        layout.setSpacing(8)
+
+        title = QLabel("Optimize")
+        title.setObjectName("paneTitle")
+        layout.addWidget(title)
+        layout.addWidget(_sep())
+
+        body = QHBoxLayout()
+        body.setSpacing(16)
+
+        left_col = QVBoxLayout()
+        left_col.setSpacing(8)
+        right_col = QVBoxLayout()
+        right_col.setSpacing(8)
+
+        # ── LEFT: STATES ──────────────────────────────────────────────
+        left_col.addWidget(_section_label("States"))
+
+        for label_text, edit, handler in [
+            ("Initial (.npy)", self._opt_initial_edit, self._browse_opt_initial),
+            ("Target (.npy)",  self._opt_target_edit,  self._browse_opt_target),
+        ]:
+            browse = QPushButton("Browse...")
+            browse.setFixedWidth(72)
+            browse.clicked.connect(handler)
+            row = QHBoxLayout()
+            row.setSpacing(6)
+            lbl = QLabel(label_text)
+            lbl.setFixedWidth(96)
+            row.addWidget(lbl)
+            row.addWidget(edit, stretch=1)
+            row.addWidget(browse)
+            left_col.addLayout(row)
+
+        out_browse = QPushButton("Save...")
+        out_browse.setFixedWidth(72)
+        out_browse.clicked.connect(self._browse_opt_output)
+        out_row = QHBoxLayout()
+        out_row.setSpacing(6)
+        out_lbl = QLabel("Output (.npz)")
+        out_lbl.setFixedWidth(96)
+        out_row.addWidget(out_lbl)
+        out_row.addWidget(self._opt_output_edit, stretch=1)
+        out_row.addWidget(out_browse)
+        left_col.addLayout(out_row)
+
+        left_col.addWidget(_sep())
+
+        # ── LEFT: NEIGHBOURHOOD ───────────────────────────────────────
+        nb_hdr = QHBoxLayout()
+        nb_hdr.addWidget(_section_label("Neighbourhood"))
+        nb_hdr.addStretch()
+        reset_nb = QPushButton("Reset")
+        reset_nb.setObjectName("ghost")
+        reset_nb.setFixedWidth(52)
+        reset_nb.clicked.connect(self._opt_nb_widget.reset)
+        nb_hdr.addWidget(reset_nb)
+        left_col.addLayout(nb_hdr)
+        left_col.addWidget(self._opt_nb_widget, alignment=Qt.AlignHCenter)
+        left_col.addStretch()
+
+        # ── RIGHT: ARCHITECTURE ───────────────────────────────────────
+        right_col.addWidget(_section_label("Architecture"))
+
+        arch_row = QHBoxLayout()
+        arch_row.setSpacing(12)
+        arch_row.addWidget(QLabel("Hidden layers"))
+        arch_row.addStretch()
+        arch_row.addWidget(self._opt_n_hidden_spin)
+        arch_row.addWidget(QLabel("Neurons"))
+        arch_row.addWidget(self._opt_neurons_spin)
+        right_col.addLayout(arch_row)
+
+        hint = QLabel("Enter layer numbers for each activation (e.g. 1,3,5)")
+        hint.setObjectName("mutedValue")
+        hint.setWordWrap(True)
+        right_col.addWidget(hint)
+
+        LABEL_W = 62
+        for act, lbl_text in zip(ACTIVATIONS, ACT_LABELS):
+            row = QHBoxLayout()
+            row.setSpacing(8)
+            lbl = QLabel(lbl_text)
+            lbl.setFixedWidth(LABEL_W)
+            row.addWidget(lbl)
+            row.addWidget(self._opt_act_edits[act])
+            right_col.addLayout(row)
+
+        out_row2 = QHBoxLayout()
+        out_row2.setSpacing(6)
+        out_lbl2 = QLabel("Output act.")
+        out_lbl2.setFixedWidth(LABEL_W)
+        out_row2.addWidget(out_lbl2)
+        out_row2.addStretch()
+        out_row2.addWidget(self._opt_out_act_combo)
+        right_col.addLayout(out_row2)
+
+        right_col.addWidget(_sep())
+
+        # ── RIGHT: HYPERPARAMETERS ────────────────────────────────────
+        right_col.addWidget(_section_label("Hyperparameters"))
+
+        for label_text, widget in [
+            ("Steps (n)",     self._opt_steps_spin),
+            ("Channels",      self._opt_channels_spin),
+            ("Epochs",        self._opt_epochs_spin),
+            ("Learning rate", self._opt_lr_edit),
+            ("Loss target",   self._opt_loss_target_edit),
+            ("L2 lambda",     self._opt_l2_edit),
+            ("Seed",          self._opt_seed_edit),
+        ]:
+            row = QHBoxLayout()
+            row.setSpacing(6)
+            row.addWidget(QLabel(label_text))
+            row.addStretch()
+            row.addWidget(widget)
+            right_col.addLayout(row)
+
+        right_col.addStretch()
+
+        body.addLayout(left_col,  stretch=1)
+        body.addLayout(right_col, stretch=1)
+        layout.addLayout(body, stretch=1)
+
+        # ── BUTTONS ───────────────────────────────────────────────────
+        layout.addWidget(_sep())
+        btn_row = QHBoxLayout()
+        btn_row.setSpacing(8)
+        btn_row.addWidget(self._optimize_btn, stretch=1)
+        btn_row.addWidget(self._opt_stop_btn)
+        layout.addLayout(btn_row)
+
+        return panel
 
     # ── Files ─────────────────────────────────────────────────────────────────
 
@@ -317,15 +539,37 @@ class TrainingPane(QWidget):
                 path += '.npz'
             self._output_edit.setText(path)
 
+    def _browse_opt_initial(self):
+        path, _ = QFileDialog.getOpenFileName(self, "Select initial state", "", "NumPy (*.npy)")
+        if path:
+            self._opt_initial_edit.setText(path)
+
+    def _browse_opt_target(self):
+        path, _ = QFileDialog.getOpenFileName(self, "Select target state", "", "NumPy (*.npy)")
+        if path:
+            self._opt_target_edit.setText(path)
+
+    def _browse_opt_output(self):
+        path, _ = QFileDialog.getSaveFileName(self, "Save weights", "", "NumPy (*.npz)")
+        if path:
+            if not path.endswith('.npz'):
+                path += '.npz'
+            self._opt_output_edit.setText(path)
+
     # ── Training process ──────────────────────────────────────────────────────
 
-    def _parse_layer_assignments(self) -> list[str] | None:
-        n = self._n_hidden_spin.value()
-        neurons = self._neurons_spin.value()
+    def _parse_layer_assignments(self, n_hidden_spin=None, neurons_spin=None,
+                                 act_edits=None) -> list[str] | None:
+        n_hidden_spin = n_hidden_spin or self._n_hidden_spin
+        neurons_spin  = neurons_spin  or self._neurons_spin
+        act_edits     = act_edits     or self._act_edits
+
+        n = n_hidden_spin.value()
+        neurons = neurons_spin.value()
 
         layer_act: dict[int, str] = {}
         for act in ACTIVATIONS:
-            text = self._act_edits[act].text().strip()
+            text = act_edits[act].text().strip()
             if not text:
                 continue
             for part in text.split(','):
@@ -406,11 +650,75 @@ class TrainingPane(QWidget):
 
         return cmd
 
+    def _build_optimize_command(self) -> list | None:
+        initial_path = self._opt_initial_edit.text().strip()
+        target_path  = self._opt_target_edit.text().strip()
+        if not initial_path or not target_path:
+            self._log("Error: select initial and target state files (.npy)\n")
+            return None
+
+        output_path = self._opt_output_edit.text().strip() or "weights.npz"
+
+        groups = self._opt_nb_widget.get_neighbourhood()
+        if not groups or not groups[0]:
+            self._log("Error: neighbourhood is empty — select at least one cell\n")
+            return None
+        nb_str = " ".join(f"{dx},{dy}" for dx, dy in groups[0])
+
+        specs = self._parse_layer_assignments(
+            self._opt_n_hidden_spin, self._opt_neurons_spin, self._opt_act_edits)
+        if specs is None:
+            return None
+        layers_str = " ".join(specs)
+
+        out_act = ACTIVATIONS[self._opt_out_act_combo.currentIndex()]
+
+        try:
+            lr          = float(self._opt_lr_edit.text())
+            loss_target = float(self._opt_loss_target_edit.text())
+            l2          = float(self._opt_l2_edit.text())
+        except ValueError:
+            self._log("Error: invalid learning rate, loss target or L2 lambda\n")
+            return None
+
+        cmd = [
+            "-u", OPTIMIZE_SCRIPT,
+            "--initial",       initial_path,
+            "--target",        target_path,
+            "--steps",         str(self._opt_steps_spin.value()),
+            "--neighbourhood", nb_str,
+            "--channels",      str(self._opt_channels_spin.value()),
+            "--layers",        layers_str,
+            "--out-act",       out_act,
+            "--lr",            str(lr),
+            "--epochs",        str(self._opt_epochs_spin.value()),
+            "--loss-target",   str(loss_target),
+            "--l2",            str(l2),
+            "--output",        output_path,
+        ]
+
+        seed_text = self._opt_seed_edit.text().strip()
+        if seed_text:
+            try:
+                seed_val = int(seed_text)
+            except ValueError:
+                self._log(f"Error: '{seed_text}' is not a valid seed (must be an integer)\n")
+                return None
+            cmd += ["--seed", str(seed_val)]
+
+        return cmd
+
     def _start_training(self):
         cmd = self._build_command()
-        if cmd is None:
-            return
+        if cmd is not None:
+            self._start_process(cmd)
 
+    def _start_optimize(self):
+        cmd = self._build_optimize_command()
+        if cmd is not None:
+            self._start_process(cmd)
+
+    def _start_process(self, cmd: list):
         self._terminal.clear()
         self._log(f"[{sys.executable} {' '.join(cmd)}]\n\n")
 
@@ -421,7 +729,9 @@ class TrainingPane(QWidget):
         self._process.start(sys.executable, cmd)
 
         self._train_btn.setEnabled(False)
+        self._optimize_btn.setEnabled(False)
         self._stop_btn.setEnabled(True)
+        self._opt_stop_btn.setEnabled(True)
 
     def _stop_training(self):
         if self._process and self._process.state() != QProcess.NotRunning:
@@ -437,7 +747,9 @@ class TrainingPane(QWidget):
 
     def _on_finished(self, exit_code, _):
         self._train_btn.setEnabled(True)
+        self._optimize_btn.setEnabled(True)
         self._stop_btn.setEnabled(False)
+        self._opt_stop_btn.setEnabled(False)
         self._log(f"\n[Process finished — code {exit_code}]\n")
         self._process = None
 
