@@ -84,6 +84,7 @@ private:
     int total_weights;
     int total_biases;
     bool use_smem;      // pesos+biases caben en shared memory del bloque
+    bool use_reg;       // max_layer_size cabe en el buffer por-hilo del kernel
     bool nn_ready;
 
     float *temp_d;

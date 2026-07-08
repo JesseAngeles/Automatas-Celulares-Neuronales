@@ -19,7 +19,7 @@ __constant__ int c_multipliers[64];    // Multiplicador posicional de cada grupo
 // shared memory y todas las lecturas de vecinos salen de ahí. La frontera se
 // resuelve al llenar el halo, salvo REFLECTIVE (sustituye por el valor de la
 // celda lectora, que depende del lector y no de la posición del vecino).
-template <int BM, bool TILED>
+template <int BM, bool TILED, bool STOCH>
 __global__ void CA_GPU_T(
     const uint8_t *__restrict__ A,
     uint8_t *__restrict__ B,
@@ -77,9 +77,10 @@ __global__ void CA_GPU_T(
 
     // Modo estocástico: la celda solo se actualiza con probabilidad p.
     // Philox counter-based: mismo (seed, celda, paso) → mismo valor, sin
-    // estado persistente ni máscara generada en el host. p = 1.0 no toca
-    // el RNG: el camino determinista queda bit a bit idéntico.
-    if (p < 1.0f)
+    // estado persistente ni máscara generada en el host. STOCH es parámetro
+    // de plantilla: la instancia determinista no contiene código de cuRAND
+    // (sin costo de registros/ocupación cuando p = 1.0).
+    if constexpr (STOCH)
     {
         curandStatePhilox4_32_10_t rng;
         curand_init(seed, (unsigned long long)idy * width + idx, step_idx, &rng);
@@ -155,9 +156,15 @@ __global__ void CA_GPU_T(
 
 void CA::launch()
 {
+#define CA_ARGS A_d, B_d, width, height, n_groups, rule_d, rx, ry, update_prob, rng_seed, step_count
 #define CA_LAUNCH(BM) do { \
-    if (tiled) CA_GPU_T<BM, true ><<<blocks, threads, tile_bytes, stream>>>(A_d, B_d, width, height, n_groups, rule_d, rx, ry, update_prob, rng_seed, step_count); \
-    else       CA_GPU_T<BM, false><<<blocks, threads, 0,          stream>>>(A_d, B_d, width, height, n_groups, rule_d, rx, ry, update_prob, rng_seed, step_count); \
+    if (update_prob < 1.0f) { \
+        if (tiled) CA_GPU_T<BM, true,  true ><<<blocks, threads, tile_bytes, stream>>>(CA_ARGS); \
+        else       CA_GPU_T<BM, false, true ><<<blocks, threads, 0,          stream>>>(CA_ARGS); \
+    } else { \
+        if (tiled) CA_GPU_T<BM, true,  false><<<blocks, threads, tile_bytes, stream>>>(CA_ARGS); \
+        else       CA_GPU_T<BM, false, false><<<blocks, threads, 0,          stream>>>(CA_ARGS); \
+    } \
 } while (0)
 
     switch (boundary_mode)
@@ -169,6 +176,7 @@ void CA::launch()
         default: CA_LAUNCH(1); break;
     }
 #undef CA_LAUNCH
+#undef CA_ARGS
     step_count++;
 }
 

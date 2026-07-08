@@ -24,6 +24,13 @@ __device__ float activate(float x, int type)
     return x;           // linear
 }
 
+// REG=true: las activaciones del forward pass viven en un buffer por-hilo
+// (local/registros, respaldado por L1) en lugar del scratch global temp[].
+// Elimina el tráfico a DRAM del caso dominante (la capa l relee su entrada
+// layer_out[l] veces por celda). Requiere max_layer_size <= NCA_REG_BUF.
+constexpr int NCA_REG_BUF = 64;
+
+template <bool STOCH, bool REG>
 __global__ void NCA_GPU(
     const float *__restrict__ A,
     float *__restrict__ B,
@@ -76,9 +83,10 @@ __global__ void NCA_GPU(
     const size_t n_cells = (size_t)width * height;
 
     // Modo estocástico: la celda solo se actualiza con probabilidad p.
-    // Philox counter-based: mismo (seed, celda, paso) → mismo valor.
-    // p = 1.0 no toca el RNG: el camino determinista queda idéntico.
-    if (p < 1.0f)
+    // Philox counter-based: mismo (seed, celda, paso) → mismo valor. STOCH
+    // es parámetro de plantilla: la instancia determinista no contiene
+    // código de cuRAND (sin costo de registros cuando p = 1.0).
+    if constexpr (STOCH)
     {
         curandStatePhilox4_32_10_t rng;
         curand_init(seed, (unsigned long long)cell_id, step_idx, &rng);
@@ -90,11 +98,25 @@ __global__ void NCA_GPU(
         }
     }
 
-    // Scratch en layout SoA: temp[k * n_cells + cell_id]. Hilos consecutivos
-    // acceden a direcciones consecutivas (coalescido), a diferencia del layout
-    // por-celda que separaba a cada hilo 2*max_layer_size floats.
-    float *cur = temp + cell_id;
-    float *nxt = temp + (size_t)max_layer_size * n_cells + cell_id;
+    // Scratch del forward pass:
+    //  - REG=true: buffer por-hilo (local, L1) con stride 1 — sin tráfico
+    //    global entre capas.
+    //  - REG=false (fallback max_layer_size > NCA_REG_BUF): SoA en temp[],
+    //    temp[k * n_cells + cell_id], hilos consecutivos → accesos coalescidos.
+    // stride se pliega a constante 1 en la instancia REG (parámetro de plantilla).
+    float rbuf[REG ? 2 * NCA_REG_BUF : 1];
+    float *cur, *nxt;
+    const size_t stride = REG ? 1 : n_cells;
+    if constexpr (REG)
+    {
+        cur = rbuf;
+        nxt = rbuf + NCA_REG_BUF;
+    }
+    else
+    {
+        cur = temp + cell_id;
+        nxt = temp + (size_t)max_layer_size * n_cells + cell_id;
+    }
 
     // Valores del vecindario: los C canales de cada vecino, consecutivos,
     // en el orden de la vecindad (entrada del MLP = n_size * channels)
@@ -104,7 +126,7 @@ __global__ void NCA_GPU(
         int ny = (idy + c_neighbourhood[i * 2 + 1] + height) % height;
         int nid = ny * width + nx;
         for (int c = 0; c < channels; c++)
-            cur[(size_t)(i * channels + c) * n_cells] = A[(size_t)c * n_cells + nid];
+            cur[(size_t)(i * channels + c) * stride] = A[(size_t)c * n_cells + nid];
     }
 
     // Forward pass
@@ -120,8 +142,8 @@ __global__ void NCA_GPU(
         {
             float sum = b[j];
             for (int i = 0; i < in; i++)
-                sum += W[j * in + i] * cur[(size_t)i * n_cells];
-            nxt[(size_t)j * n_cells] = activate(sum, activations[l]);
+                sum += W[j * in + i] * cur[(size_t)i * stride];
+            nxt[(size_t)j * stride] = activate(sum, activations[l]);
         }
 
         float *tmp = cur;
@@ -132,14 +154,14 @@ __global__ void NCA_GPU(
     if (channels > 1) {
         // Multi-canal: la salida del MLP es el vector de C canales de la celda
         for (int c = 0; c < channels; c++)
-            B[(size_t)c * n_cells + cell_id] = cur[(size_t)c * n_cells];
+            B[(size_t)c * n_cells + cell_id] = cur[(size_t)c * stride];
     } else if (out_size == 1) {
         B[cell_id] = cur[0];
     } else {
         int best = 0;
         float best_val = cur[0];
         for (int j = 1; j < out_size; j++) {
-            float v = cur[(size_t)j * n_cells];
+            float v = cur[(size_t)j * stride];
             if (v > best_val) {
                 best_val = v;
                 best     = j;
@@ -164,6 +186,7 @@ NCA::NCA(
       total_weights(0),
       total_biases(0),
       use_smem(false),
+      use_reg(false),
       out_size(1),
       update_prob(1.0f),
       rng_seed(0),
@@ -240,15 +263,21 @@ NCA::~NCA()
 void NCA::launchNN()
 {
     size_t smem_bytes = use_smem ? (size_t)(total_weights + total_biases) * sizeof(float) : 0;
-    NCA_GPU<<<blocks, threads, smem_bytes, stream>>>(
-        A_d, B_d, width, height, n_size,
-        weights_d, biases_d,
-        w_offsets_d, b_offsets_d,
-        layer_in_d, layer_out_d,
-        activation_d, n_layers,
-        temp_d, max_layer_size, out_size,
-        total_weights, total_biases, use_smem ? 1 : 0,
-        channels, update_prob, rng_seed, step_count);
+#define NCA_ARGS A_d, B_d, width, height, n_size, weights_d, biases_d, \
+    w_offsets_d, b_offsets_d, layer_in_d, layer_out_d, activation_d, n_layers, \
+    temp_d, max_layer_size, out_size, total_weights, total_biases, \
+    use_smem ? 1 : 0, channels, update_prob, rng_seed, step_count
+    if (update_prob < 1.0f)
+    {
+        if (use_reg) NCA_GPU<true,  true ><<<blocks, threads, smem_bytes, stream>>>(NCA_ARGS);
+        else         NCA_GPU<true,  false><<<blocks, threads, smem_bytes, stream>>>(NCA_ARGS);
+    }
+    else
+    {
+        if (use_reg) NCA_GPU<false, true ><<<blocks, threads, smem_bytes, stream>>>(NCA_ARGS);
+        else         NCA_GPU<false, false><<<blocks, threads, smem_bytes, stream>>>(NCA_ARGS);
+    }
+#undef NCA_ARGS
     step_count++;
 }
 
@@ -390,6 +419,8 @@ void NCA::setWeights(
 
     // El kernel copia pesos+biases a shared memory si caben (límite por bloque)
     use_smem = ((size_t)(total_weights + total_biases) * sizeof(float) <= 48 * 1024);
+    // Forward pass en buffer por-hilo si las capas caben (evita el scratch global)
+    use_reg = (max_layer_size <= NCA_REG_BUF);
 
     // Aplanar biases y pesos en arreglos del host
     float *flat_weights = new float[total_weights];
@@ -418,7 +449,11 @@ void NCA::setWeights(
     cudaMemcpy(layer_out_d,  layer_out,    n_layers * sizeof(int), cudaMemcpyHostToDevice);
     cudaMemcpy(activation_d, activations,  n_layers * sizeof(int), cudaMemcpyHostToDevice);
 
-    cudaMalloc(&temp_d, width * height * 2 * max_layer_size * sizeof(float));
+    // El scratch global solo se usa en el fallback (max_layer_size > NCA_REG_BUF)
+    if (use_reg)
+        temp_d = nullptr;
+    else
+        cudaMalloc(&temp_d, (size_t)width * height * 2 * max_layer_size * sizeof(float));
 
     delete[] flat_weights;
     delete[] flat_biases;
