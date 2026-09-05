@@ -1,0 +1,19 @@
+{
+  "layers": [
+    "128:tanh",
+    "32:linear",
+    "128:tanh",
+    "16:linear",
+    "128:sigmoid",
+    "4:linear",
+    "32:linear"
+  ],
+  "out_size": 1,
+  "batch": 4096,
+  "lr": 0.01,
+  "final_loss": "< 5e-9",
+  "final_loss_note": "eval 21; el CSV registra 0.00000000 con 8 decimales",
+  "epochs_per_eval": 100,
+  "total_evaluations": 55,
+  "total_seconds": 296.6
+}

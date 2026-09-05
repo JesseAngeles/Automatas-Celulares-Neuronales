@@ -1,7 +1,0 @@
-venv
-.vscode
-CUDA_HelloWorld.cu
-__pycache__/
-core/tmp.exe
-core/build
-cudaPractices

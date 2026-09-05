@@ -1,0 +1,11 @@
+capa_oculta,capa_salida,epocas,perdida,convergio,segundos
+4x64:relu,2:linear,2,0.0006,si,1.7
+4x64:tanh,2:linear,3,0.0006,si,1.8
+4x64:relu,1:sigmoid,2,0.0026,si,1.7
+4x64:tanh,1:sigmoid,3,0.0008,si,1.8
+4x64:sigmoid,2:linear,8,0.0080,si,2.0
+4x64:sigmoid,1:sigmoid,7,0.0078,si,2.0
+4x64:relu,2:tanh,2000,0.1269,no,128.3
+4x64:linear,1:sigmoid,2000,0.2975,no,114.7
+4x64:linear,2:linear,2000,0.2975,no,107.5
+4x64:relu,2:sigmoid,2000,0.3133,no,121.3

@@ -5,7 +5,7 @@ import sys
 
 from PyQt5.QtWidgets import (
     QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QLabel, QFrame,
-    QSpinBox, QComboBox, QTextEdit, QLineEdit, QFileDialog,
+    QSpinBox, QComboBox, QTextEdit, QLineEdit, QFileDialog, QCheckBox,
 )
 from PyQt5.QtCore import Qt, QProcess
 from PyQt5.QtGui import QFont, QTextCursor
@@ -127,6 +127,17 @@ class TrainingPane(QWidget):
 
         self._seed_edit = QLineEdit()
         self._seed_edit.setPlaceholderText("Random")
+
+        self._copy_paste_check = QCheckBox("Copy and Paste")
+        self._copy_paste_check.setToolTip(
+            "Exporta un CSV (epoch, loss) con el mismo nombre que el output.npz"
+        )
+
+        self._copy_paste_suffix_edit = QLineEdit()
+        self._copy_paste_suffix_edit.setPlaceholderText("e.g. _2_3")
+        self._copy_paste_suffix_edit.setToolTip(
+            "Se añade al final del nombre del CSV: nombre + terminación + .csv"
+        )
 
         # Buttons
         self._train_btn = QPushButton("Train")
@@ -264,6 +275,12 @@ class TrainingPane(QWidget):
             row.addStretch()
             row.addWidget(widget)
             right_col.addLayout(row)
+
+        cp_row = QHBoxLayout()
+        cp_row.setSpacing(6)
+        cp_row.addWidget(self._copy_paste_check)
+        cp_row.addWidget(self._copy_paste_suffix_edit, stretch=1)
+        right_col.addLayout(cp_row)
 
         right_col.addStretch()
 
@@ -403,6 +420,11 @@ class TrainingPane(QWidget):
                 self._log(f"Error: '{seed_text}' is not a valid seed (must be an integer)\n")
                 return None
             cmd += ["--seed", str(seed_val)]
+
+        if self._copy_paste_check.isChecked():
+            suffix   = self._copy_paste_suffix_edit.text().strip()
+            csv_path = os.path.splitext(output_path)[0] + suffix + ".csv"
+            cmd += ["--log-csv", csv_path]
 
         return cmd
 

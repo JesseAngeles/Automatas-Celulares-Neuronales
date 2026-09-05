@@ -4,52 +4,90 @@ Una vez construido, validado e implementando el simulador, es momento de la expe
 
 \section{Duplicación de reglas}
 
-El objetivo de este primer experimento es pode replicar el comportamiento de evoluciones de las cuales ya se tenga un conocimiento exacto sobre su evolución para identificar la capacidad del autómata celular neuronal para poder replicar comportamientos conociendo unicamente su evolución y su vecindad.
+El objetivo de este primer experimento es poder replicar el comportamiento de evoluciones conocidas para identificar la capacidad del autómata celular neuronal de replicar comportamientos con base en su evolución y su vecindad.
 
-Todas estas pruebas fueron realizadas en un espacio de $100 \times 100$ con configuración inicial aleatoria con $50\%$ de probabilidad entre células vivas y muertas. A continuación se muestra el proceso y los resultados obtenidos del primer experimento, el juego de la vida.
+Las pruebas a continuación fueron realizadas en un espacio de $100 \times 100$ con una configuración inicial aleatoria y unicamente dos estados. Adelante se muestra el proceso de cada experimento y los resultados obtenidos.
 
 \subsection{Experimento 1: Juego de la vida}
 
-El objetivo es poder replicar diferentes reglas del juego de la vida. Aunque el juego de la vida suele ser conocido como la regla B3/S23, este experimento abarca todo el espacio de reglas generadas bajo la vecindad semitotalistica y dos estados. 
+Este experimento analiza diferentes configuraciones del juego de la vida incluyendo la regla original B3/S23. Para el entrenamiento de la red neuronal se usaron 100 pasos evolutivos con una vecindad de $3 \times 3$.
 
-Para el entrenamiento de la red neuronal se usaron 100 pasos evolutivos y se considero una vecindad $3 \times 3$, la cual representa el \textit{kernel} de entrenamiento y la vecindad semitotalistica. 
+% En esta parte vamos a definir la perdida objetivo
+
+Primero vamos a definir una perdida objetivo,  y de aquí sale una pregunta, ¿Como medimos que 2 reglas son similiares? por consecuente, saber la diferencia entre dos reglas dadas nos permitiria no solo saber si el autoamta celular neuronal fue capaz de replicar correctamente, sino si tan solo fue capaz de extraer las caracteristicas esenciales de dicha regla. A continuación se muestra un ejemplo que nos permite aproximar 
+
+La figura \ref{fig:life_pattern_count} muestra la probabilidad de que aparezca cada patrón en una evolución del juego del juego de la vida con una condición inicial aleatoria. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/life_pattern_count.png}
+	\caption{}
+	\label{fig:life_pattern_count}
+\end{figure}
 
 \subsubsection{B3/S23}
 
-Utilizando 100 pasos evolutivos de la regla B3/S23 se entreno la red neuronal compuesta de nueve neuronas en la capa de entrada y cinco neuronas en la capa oculta. Se identificaron cinco combinaciones de diferentes funciones de activación que convergen en menos de 100 épocas, tal como se muestra en la tabla \ref{tab:nca_gol_funciones_1}. Adicionalmente, se identificaron otras cinco combinaciones que tienen una alta divergencia y cuyo entrenamiento termino por limite de épocas.
+Considerando una red neuronal de 9 neuronas en la capa de entrada se probaron 10 combinaciones de funciones de activación, de las cuales una sola converge en menos de 1000 épocas, tal como se observa en la tabla \ref{tab:nca_gol_funciones_1}. La falta de convergencia puede deberse al tamaño de la red neuronal o la perdida objetivo utilizada. 
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{llrrr}
+		\toprule
+		\textbf{Capa Oculta} & \textbf{Capa Salida} & \textbf{Épocas} & \textbf{Pérdida} & \textbf{Tiempo} \\
+		\midrule
+		1:4:ReLU & 2:Linear & 122 & 0.000098 & 4.64 s \\
+		1:4:TanH & 1:Sigmoid & 1000 & 0.052895 & 40.19 s\\
+		1:4:TanH & 2:Linear & 1000 & 0.079425 & 36.52 s \\
+		1:4:Sigmoid & 2:Linear & 1000 & 0.159343 & 36.71 s \\
+		1:4:Sigmoid & 1:Sigmoid & 1000 & 0.159343 & 39.37 s \\
+		1:4:ReLU & 2:TanH & 1000 &  0.179589 & 38.65 s \\
+		1:4:ReLU & 1:Sigmoid & 1000 & 0.269196 & 38.16 s\\
+		1:4:Linear & 1:Sigmoid & 1000 & 0.297529 & 39.12 s \\
+		1:4:Linear & 2:Linear & 1000 & 0.297529 & 34.75 s  \\
+		1:4:ReLU & 2:Sigmoid & 1000 & 0.374756 & 37.55 s \\
+		\midrule
+	\end{tabular}
+	\caption{Comparativa de rendimiento con múltiples hiperparámetros: Perdida objetivo 0.0001, limite de épocas: 1000, 
+		tamaño del lote: 8192, tasa de aprendizaje: 0.001, semilla aleatoria: 42}
+	\label{tab:nca_gol_funciones_1}
+\end{table}
+
+Si incrementamos el numero de capas ocultas y de neuronas, se observa que en la tabla \ref{tab:nca_gol_funciones_2} ahora existen cinco configuraciones que alcanzan la convergencia. Adicionalmente, en la figura \ref{fig:gol_funciones_2} observamos que el estancamiento ocurre en las primeras 12 épocas, lo que sugiere que se deba a la tasa de aprendizaje. 
 
 \begin{table}[h]
 	\centering
 	\begin{tabular}{llrr}
 		\toprule
-		\textbf{Capa Oculta} & \textbf{Capa Salida} & \textbf{Épocas} & \textbf{Pérdida} \\
+		\textbf{Capa Oculta} & \textbf{Capa Salida} & \textbf{Épocas} & \textbf{Pérdida}\\
 		\midrule
-		\multicolumn{4}{l}{\textit{Configuraciones con mejor desempeño:}} \\
-		5:ReLU & 2:Linear & 46 & 0.0098 \\
-		5:TanH & 2:Linear & 48 & 0.0093 \\
-		5:ReLU & 1:Sigmoid & 61 & 0.0096 \\
-		5:TanH & 1:Sigmoid & 73 & 0.0096 \\
-		5:Sigmoid & 2:Linear & 95 & 0.0095 \\
-		\midrule
-		\multicolumn{4}{l}{\textit{Configuraciones con alta divergencia:}} \\
-		5:Sigmoid & 1:Sigmoid & 2000 & 0.1461 \\
-		5:ReLU & 2:TanH & 2000 & 0.203717 \\
-		5:Linear & 1:Sigmoid & 2000 & 0.2741 \\
-		5:Linear & 2:Linear & 2000 & 0.2742 \\
-		5:ReLU & 2:Sigmoid & 2000 & 0.3865 \\
-		\midrule
+		4:8:ReLU & 2:Linear & 18 & 0.000087 \\
+		4:8:TanH & 1:Sigmoid & 51 & 0.000097 \\
+		4:8:TanH & 2:Linear & 35 & 0.000097 \\
+		4:8:Sigmoid & 2:Linear & 79 & 0.000095 \\
+		4:8:Sigmoid & 1:Sigmoid & 1000 & 0.159342 \\
+		4:8:ReLU & 2:TanH & 1000 & 0.126928 \\
+		4:8:ReLU & 1:Sigmoid & 133 & 0.000096 \\
+		4:8:Linear & 1:Sigmoid & 1000 & 0.297542 \\
+		4:8:Linear & 2:Linear & 1000 & 0.297544 \\
+		4:8:ReLU & 2:Sigmoid & 1000 & 0.374756 \\
+		\bottomrule
 	\end{tabular}
-	\caption{Comparativa de hiperparámetros y desempeño del modelo. La pérdida representa el valor final tras alcanzar la perdida objetivo de 0.01 o el límite de épocas.}
-	\label{tab:nca_gol_funciones_1}
+	\caption{Comparativa de rendimiento con múltiples hiperparámetros: Perdida objetivo 0.0001, limite de épocas: 1000, 
+		tamaño del lote: 8192, tasa de aprendizaje: 0.001, semilla aleatoria: 42}
+	\label{tab:nca_gol_funciones_2}
 \end{table}
 
-Las funciones \textit{Linear} y \textit{Sigmoid} en la capa de salida son las únicas que convergen, adicionalmente, es la función \textit{ReLU} la que tiene el mejor desempeño en las capas ocultas.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\linewidth]{img/gol_funciones_2.png}
+	\caption{Registro de perdida obtenida en los primeros 12 pasos de las configuraciones sin convergencia}
+	\label{fig:gol_funciones_2}
+\end{figure}
 
-Las configuraciones con mejor desempeño replican la regla B3/S23 sin problemas. Sin embargo, la siguiente prueba permite conocer si este alcance es una restricción innata de las configuraciones propuestas o es la falta de mas capas ocultas.
-
-Finalmente, podemos tener una convergencia casi inmediata si utilizamos la configuración 32:ReLU, 32:ReLU, 2:Linar, teniendo una perdida de 0.001048.
+Al haber encontrado configuraciones de la red neuronal que son capaces de converger con un perdida de 0.0001, no resulta necesario experimentar con el resto de configuraciones, pues los próximos experimentos serán desarrollados con las redes neuronales descubiertas. 
 
 \subsubsection{NCA multicapa: B3/S236}
+
 
 las figuras \ref{fig:ex_1} muestran la comparativa de estas reglas con respecto a la evolución base. Claramente se observa que todas las reglas generadas por esas condiciones tienden a generar combinaciones estáticas. Por lo que no tienen parecido a la regla B3/S23.
 
@@ -95,7 +133,7 @@ Para poner a prueba el potencial de las redes neuronales, se realiza la prueba d
 		\bottomrule
 	\end{tabular}
 	\caption{Comparativa de hiperparámetros y desempeño del modelo. La pérdida representa el valor final tras alcanzar la convergencia o el límite de épocas.}
-	\label{tab:nca_gol_funciones_2}
+	\label{tab:nca_gol_funciones_3}
 \end{table}
 
 Podemos corroborar esta información con las graficas de las figuras \ref{fig:ex_2}. Esto nos deja una nueva pregunta: Cual es el limite de la perdida aceptable para que un autómata celular neuronal pueda replicar el comportamiento de su contraparte original?
@@ -125,6 +163,10 @@ Podemos corroborar esta información con las graficas de las figuras \ref{fig:ex
 	\caption{sas}
 	\label{fig:ex_2}
 \end{figure}
+
+
+Finalmente, podemos tener una convergencia casi inmediata si utilizamos la configuración 32:ReLU, 32:ReLU, 2:Linar, teniendo una perdida de 0.001048.
+
 
 \subsubsection{Variación de error}
 

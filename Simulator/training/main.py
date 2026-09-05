@@ -1,4 +1,6 @@
 import argparse
+import csv
+import time
 import numpy as np
 import torch
 import torch.nn as nn
@@ -26,6 +28,7 @@ def parse_args():
     p.add_argument("--loss-target",  type=float, default=0.01, help="Stop when loss < value (default: 0.01)")
     p.add_argument("--print-every",  type=int,   default=50,   help="Print every N epochs (default: 50)")
     p.add_argument("--seed",         type=int,   default=None, help="Random seed (default: random)")
+    p.add_argument("--log-csv",      default=None,             help="Write epoch,loss for each printed message to this CSV path")
     return p.parse_args()
 
 
@@ -175,7 +178,14 @@ def main():
             print(f"Datos en CPU/pin_memory  ({data_bytes/1e9:.2f} GB, "
                   f"VRAM total: {total_vram/1e9:.2f} GB)")
 
+    csv_file = csv_writer = None
+    if args.log_csv:
+        csv_file   = open(args.log_csv, "w", newline="")
+        csv_writer = csv.writer(csv_file)
+        csv_writer.writerow(["epoch", "loss"])
+
     print("Training...")
+    train_start = time.perf_counter()
     try:
         for epoch in range(args.epochs):
             if on_gpu:
@@ -205,12 +215,26 @@ def main():
             avg_loss = epoch_loss / n_batches
             if epoch % args.print_every == 0:
                 print(f"epoch: {epoch:>6}  loss: {avg_loss:.6f}")
+                if csv_writer:
+                    csv_writer.writerow([epoch, avg_loss])
+                    csv_file.flush()
             if avg_loss < args.loss_target:
                 print(f"Convergió en epoch {epoch}  loss: {avg_loss:.6f}")
+                if csv_writer:
+                    csv_writer.writerow([epoch, avg_loss])
+                    csv_file.flush()
                 break
 
     except KeyboardInterrupt:
         print("\nInterrumpido.")
+    finally:
+        if csv_file:
+            csv_file.close()
+            print(f"Registro CSV guardado → {args.log_csv}")
+
+    train_elapsed = time.perf_counter() - train_start
+    print(f"Tiempo de entrenamiento: {train_elapsed:.2f} s "
+          f"({train_elapsed/60:.2f} min)")
 
     save_weights(args.output, model, neighbourhood, hidden_layers, out_act)
 
