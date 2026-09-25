@@ -183,7 +183,7 @@ class TrainingPane(QWidget):
         data_browse.clicked.connect(self._browse_data)
         data_row = QHBoxLayout()
         data_row.setSpacing(6)
-        data_lbl = QLabel("Data (.npy)")
+        data_lbl = QLabel("Data (.npy/.mat)")
         data_lbl.setFixedWidth(96)
         data_row.addWidget(data_lbl)
         data_row.addWidget(self._data_edit, stretch=1)
@@ -323,7 +323,9 @@ class TrainingPane(QWidget):
     # ── Files ─────────────────────────────────────────────────────────────────
 
     def _browse_data(self):
-        path, _ = QFileDialog.getOpenFileName(self, "Select data", "", "NumPy (*.npy)")
+        path, _ = QFileDialog.getOpenFileName(
+            self, "Select data", "", "Data files (*.npy *.mat)"
+        )
         if path:
             self._data_edit.setText(path)
 
@@ -371,7 +373,7 @@ class TrainingPane(QWidget):
     def _build_command(self) -> list | None:
         data_path = self._data_edit.text().strip()
         if not data_path:
-            self._log("Error: select a data file (.npy)\n")
+            self._log("Error: select a data file (.npy/.mat)\n")
             return None
 
         output_path = self._output_edit.text().strip() or "weights.npz"

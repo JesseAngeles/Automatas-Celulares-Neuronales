@@ -9,6 +9,39 @@ from models.cellularAutomaton import cellularAutomaton
 PREFETCH_SIZE = 20
 
 
+def _load_mat_arrays(path: str) -> dict:
+    """Lee un .mat y descarta las claves de metadatos que agrega scipy."""
+    import scipy.io
+    raw = scipy.io.loadmat(path)
+    return {k: v for k, v in raw.items() if not k.startswith("__")}
+
+
+def _load_ndarray(path: str, preferred_key: str | None = None) -> np.ndarray:
+    """Carga un array (.npy o .mat) sin importar cuál de los dos formatos es."""
+    if path.lower().endswith(".mat"):
+        data = _load_mat_arrays(path)
+        if preferred_key and preferred_key in data:
+            return data[preferred_key]
+        if len(data) == 1:
+            return next(iter(data.values()))
+        raise ValueError(
+            f"El archivo .mat contiene varias matrices ({', '.join(data)}); "
+            f"exporta solo una o nómbrala '{preferred_key}'."
+        )
+    return np.load(path)
+
+
+def _load_weights_dict(path: str) -> dict:
+    """Carga el diccionario de pesos NCA (.npz o .mat) normalizando shapes 1D."""
+    if path.lower().endswith(".mat"):
+        data = _load_mat_arrays(path)
+        for key in list(data.keys()):
+            if key.startswith(("biases_", "layer_in", "layer_out", "activations")):
+                data[key] = data[key].ravel()
+        return data
+    return np.load(path)
+
+
 class PrefetchWorker(QRunnable):
     def __init__(self, automaton, future_record, mutex, condition, needed, generation, get_gen):
         super().__init__()
@@ -319,10 +352,16 @@ class SimulationController:
 
     def on_import_button(self):
         from PyQt5.QtWidgets import QFileDialog, QMessageBox
-        path, _ = QFileDialog.getOpenFileName(None, "Import evolution", "", "NumPy (*.npy)")
+        path, _ = QFileDialog.getOpenFileName(
+            None, "Import evolution", "", "Evolution files (*.npy *.mat)"
+        )
         if not path:
             return
-        arr = np.load(path)
+        try:
+            arr = _load_ndarray(path, preferred_key="evolution")
+        except Exception as e:
+            QMessageBox.critical(None, "Error importing evolution", str(e))
+            return
         if arr.ndim != 3:
             return
         if self.is_running:
@@ -370,14 +409,16 @@ class SimulationController:
         from PyQt5.QtWidgets import QFileDialog, QMessageBox
         from CA import NCA as NCA_CUDA
 
-        path, _ = QFileDialog.getOpenFileName(None, "Load NCA weights", "", "NumPy (*.npz)")
+        path, _ = QFileDialog.getOpenFileName(
+            None, "Load NCA weights", "", "NCA weights (*.npz *.mat)"
+        )
         if not path:
             return
         if self.is_running:
             self.on_play_button()
 
         try:
-            data = np.load(path)
+            data = _load_weights_dict(path)
             n_layers     = int(data["layer_in"].shape[0])
             neighbourhood = data["neighbourhood"].astype(np.int32)  # (n_size, 2)
             n_size        = len(neighbourhood)

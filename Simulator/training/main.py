@@ -14,7 +14,8 @@ ACT_CODE = {'relu': 0,       'sigmoid': 1,           'tanh': 2,       'linear': 
 
 def parse_args():
     p = argparse.ArgumentParser(description="Train NCA weights from CA evolution data")
-    p.add_argument("--data",         required=True,            help="Path to .npy file (T, H, W)")
+    p.add_argument("--data",         required=True,            help="Path to .npy or .mat file (T, H, W)")
+    p.add_argument("--mat-key",      default=None,             help="Nombre de la variable a usar si --data es .mat con varias matrices")
     p.add_argument("--output",       default="weights.npz",    help="Output .npz (default: weights.npz)")
     p.add_argument("--neighbourhood",default=None,             help='Pairs "dx,dy" separated by spaces')
     p.add_argument("--radius",       type=int,   default=1,    help="Square radius (2r+1)×(2r+1) (default: 1)")
@@ -53,6 +54,29 @@ def parse_layers_arg(s: str) -> list:
         neurons, act = part.split(':')
         layers.append((int(neurons), act.lower()))
     return layers
+
+
+# ── Carga de datos ────────────────────────────────────────────────────────────
+
+def load_data(path: str, mat_key: str = None) -> np.ndarray:
+    """Carga la evolución de entrenamiento desde .npy o .mat."""
+    if path.lower().endswith(".mat"):
+        import scipy.io
+        raw = scipy.io.loadmat(path)
+        data = {k: v for k, v in raw.items() if not k.startswith("__")}
+        if mat_key:
+            if mat_key not in data:
+                raise ValueError(f"'{mat_key}' no está en {path}. Disponibles: {', '.join(data)}")
+            return data[mat_key]
+        if "evolution" in data:
+            return data["evolution"]
+        if len(data) == 1:
+            return next(iter(data.values()))
+        raise ValueError(
+            f"El archivo .mat contiene varias matrices ({', '.join(data)}); "
+            f"usa --mat-key para elegir una."
+        )
+    return np.load(path)
 
 
 # ── Extracción de muestras ────────────────────────────────────────────────────
@@ -132,7 +156,7 @@ def main():
     print(f"Arquitectura: {n_size} → {arch_str}")
 
     print("Leyendo datos...")
-    data = np.load(args.data).astype(np.float32)
+    data = load_data(args.data, args.mat_key).astype(np.float32)
     print(f"Shape: {data.shape}")
 
     X_np, Y_np = extract_patches(data, neighbourhood)
