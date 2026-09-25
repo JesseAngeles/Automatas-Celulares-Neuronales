@@ -1,0 +1,155 @@
+\ProvidesPackage{ipn-escom-theme}
+
+\RequirePackage{tikz}
+\RequirePackage{etoolbox}
+
+\mode<presentation>
+
+% ==============================
+% COLORES INSTITUCIONALES
+% ==============================
+\definecolor{ipnguinda}{RGB}{0,43,92}
+\definecolor{black}{RGB}{0,0,0}
+\definecolor{ipnblue}{RGB}{30,153,255}
+\definecolor{escomazul}{RGB}{0,0,0}
+\definecolor{grisfondo}{RGB}{15,15,20}
+\definecolor{grismedio}{RGB}{80,80,80}
+\definecolor{escomblue}{HTML}{007be4}
+\definecolor{escomgray}{gray}{0.85}
+\definecolor{escomdark}{HTML}{0A1A2A}
+
+% ==============================
+% NAVIGATION HEADER
+% ==============================
+\defbeamertemplate*{headline}{escom header}{
+	\leavevmode%
+	\begin{beamercolorbox}[wd=\paperwidth,ht=2.2em,dp=0.5em,center]{palette primary}
+		\begin{tikzpicture}[remember picture,overlay]
+			
+			% Fondo superior
+			\fill[ipnblue] (0,0) rectangle (\paperwidth,2.5em);
+			
+			% Secciones
+			\newcount\i
+			\i=0
+			\foreach \name in \SectionsMenu {
+				\advance\i by 1
+				\pgfmathsetmacro{\xpos}{\i*(\paperwidth/9)}
+				
+				% Nombre
+				\node[anchor=west,text=white,font=\footnotesize]
+				at (\xpos-3.2cm,1.4em) {\name};
+				
+				% Diez puntos
+				\foreach \j in {1,...,10} {
+					\pgfmathsetmacro{\dx}{(\j*0.25)-2.5}
+					
+					% Condición manual (TikZ friendly)
+					\ifnum\i=\thesection
+					\def\dotcolor{escomblue}
+					\def\dotopacity{1}
+					\else
+					\def\dotcolor{white}
+					\def\dotopacity{0.3}
+					\fi
+					
+					\fill[circle, fill=\dotcolor, opacity=\dotopacity]
+					(\xpos+\dx cm, 0.5em) circle (2pt);
+				}
+			}
+		\end{tikzpicture}
+	\end{beamercolorbox}
+}
+
+\setbeamertemplate{headline}{}
+
+% ==============================
+% COLORES DE TEXTO
+% ==============================
+\setbeamercolor{structure}{fg=escomazul}
+\setbeamercolor{normal text}{fg=white,bg=ipnblue}
+\setbeamercolor{title}{fg=white}
+\setbeamercolor{frametitle}{bg=ipnguinda,fg=white}
+
+\setbeamerfont{title}{size=\LARGE,series=\bfseries}
+\setbeamerfont{frametitle}{size=\Large,series=\bfseries}
+
+% ==============================
+% BACKGROUND GLOBAL
+% ==============================
+\setbeamertemplate{background}{
+	\parbox[c][\paperheight][c]{\paperwidth}{
+		\centering
+		\includegraphics[width=\paperwidth,height=\paperheight]{images/fondo_celdas.png}
+	}
+}
+
+% ==============================
+% PORTADA
+% ==============================
+\newenvironment{portadalogos}{
+	\setbeamertemplate{headline}{}
+}{
+	\setbeamertemplate{headline}[escom header]
+}
+
+\newcommand{\TituloPortada}{
+	\begin{portadalogos}
+		\begin{frame}[plain]
+			\begin{center}
+				
+				% Contenido izquierdo - Imagen
+				\begin{minipage}{0.17\textwidth}
+					\centering
+					\includegraphics[width=0.9\textwidth]{images/ipn_logo2} % Ajusta esta línea
+				\end{minipage}
+				\begin{minipage}{.55\textwidth}
+					\centering
+					{\Large Instituto Politécnico Nacional}\\
+					{\Large Escuela Superior de Cómputo} \\
+				\end{minipage}
+				\begin{minipage}{0.17\textwidth}
+					\centering
+					\includegraphics[width=0.9\textwidth]{images/escom_logo2} % Ajusta esta línea
+				\end{minipage}			
+			\end{center}
+			
+			\begin{center}
+				
+				{\large \textbf{Trabajo Terminal: 2026-A114}}\\[0.2cm]
+				
+				\rule{0.6\textwidth}{0.4pt}\\[0.2cm]
+				{\LARGE \textbf{Simulación de sistemas complejos mediante autómatas celulares neuronales}}\\
+				\rule{0.6\textwidth}{0.4pt}\\[0.2cm]
+				{\large \textbf{Ángeles López Erick Jesse}}\\[0.5cm]
+				
+				{\large \textit{Director:}}\\[0.1cm]
+				{\large \textbf{Dr. Genaro Juárez Martínez}}\\[3cm]
+				
+				\vfill
+				
+				{\large Ciudad de México, \today}
+				
+			\end{center}
+		\end{frame}
+	\end{portadalogos}
+}
+
+% ==============================
+% FOOTER SIMPLE
+% ==============================
+\setbeamertemplate{footline}{%
+	\leavevmode%
+	\hbox{
+		\begin{beamercolorbox}[wd=.85\paperwidth,ht=2ex,dp=1ex,left]{}
+			\hspace{0.3cm}
+		\end{beamercolorbox}
+		\begin{beamercolorbox}[wd=.15\paperwidth,ht=2ex,dp=1ex,right]{}
+			\insertframenumber{} / \inserttotalframenumber \hspace{0.3cm}
+		\end{beamercolorbox}
+	}
+}
+
+\setbeamertemplate{navigation symbols}{}
+
+\mode<all>
