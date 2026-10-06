@@ -1,0 +1,332 @@
+% ============================================================================
+%  Reporte de seguimiento - Trabajo Terminal II
+%
+%  Un solo archivo genera los reportes de cada mes. El mes se elige con \corte:
+%      1 = Agosto 2026, 2 = Septiembre 2026
+%
+%  Compilación (desde esta carpeta):
+%      pdflatex -jobname=1ReporteSeguimiento "\def\corte{1}\input{reporteSeguimiento}"
+%      pdflatex -jobname=2ReporteSeguimiento "\def\corte{2}\input{reporteSeguimiento}"
+%  o simplemente:  ./compilar.sh
+%
+%  Las páginas y secciones citadas corresponden a Documentation/main.pdf
+%  (reporte técnico de TT), que es el PDF que se adjunta como evidencia.
+% ============================================================================
+\documentclass[letterpaper,10pt,oneside]{article}
+\usepackage[margin=2.54cm]{geometry}
+\usepackage[spanish]{babel}
+\newcommand\authormark[1]{\textsuperscript{#1}}
+\usepackage[colorlinks=true,bookmarks=true,linkcolor=black,citecolor=black,urlcolor=blue]{hyperref}
+\usepackage{times}
+\usepackage[table]{xcolor}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{titlesec}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{float}
+
+\titleformat{\section}
+{\normalfont\fontsize{12pt}{14pt}\bfseries}
+{\thesection}{1em}{}
+
+% ----------------------------------------------------------------------------
+%  Mes reportado
+% ----------------------------------------------------------------------------
+\providecommand\corte{2}
+\ifnum\corte=1
+	\def\numReporte{1}
+	\def\mes{Agosto}
+	\def\fechaCorte{31 de agosto de 2026}
+\else
+	\def\numReporte{2}
+	\def\mes{Septiembre}
+	\def\fechaCorte{30 de septiembre de 2026}
+\fi
+% \segun{texto agosto}{texto septiembre}
+\newcommand\segun[2]{\ifnum\corte=1 #1\else #2\fi}
+
+% ----------------------------------------------------------------------------
+%  Porcentajes (editar aquí). Formato: \segun{agosto}{septiembre}
+%  "esp" = avance esperado según cronograma al corte, "real" = avance logrado.
+% ----------------------------------------------------------------------------
+\def\espEntrenamiento{\segun{33}{67}}   \def\realEntrenamiento{\segun{33}{67}}
+\def\espExperimentos{\segun{25}{50}}    \def\realExperimentos{\segun{25}{50}}
+\def\espAnalisis{\segun{25}{50}}        \def\realAnalisis{\segun{25}{50}}
+
+% ----------------------------------------------------------------------------
+%  Enlaces a video (dejar vacío si no aplica)
+% ----------------------------------------------------------------------------
+\def\videoSimulacion{}
+\def\videoEntrenamiento{}
+
+% ----------------------------------------------------------------------------
+%  Bloque de evidencia por actividad
+%  \actividad{nombre}{fase}{periodo}{tipo de evidencia}{ubicación en reporte TT}
+%            {descripción}{porcentaje}{enlace de video}
+% ----------------------------------------------------------------------------
+\definecolor{encabezado}{gray}{0.85}
+\newcommand\video[1]{\edef\tmp{#1}\ifx\tmp\empty No aplica.\else\url{#1}\fi}
+\newcommand\actividad[8]{%
+	\par\noindent
+	\begin{minipage}{\linewidth}
+		\renewcommand{\arraystretch}{1.25}
+		\begin{tabularx}{\linewidth}{|>{\raggedright\bfseries\arraybackslash}p{0.24\linewidth}|X|}
+			\hline
+			\rowcolor{encabezado}
+			Nombre de la actividad & \textbf{#1} \\ \hline
+			Fase y periodo & #2 \,(#3) \\ \hline
+			Evidencia de trabajo & #4 \\ \hline
+			Ubicación en el reporte de TT & #5 \\ \hline
+			Descripción del avance & #6 \\ \hline
+			Porcentaje de cumplimiento & \textbf{#7} \\ \hline
+			Enlace de video & \video{#8} \\ \hline
+		\end{tabularx}
+	\end{minipage}
+	\par\vspace{1.2em}%
+}
+
+% Porcentaje de cumplimiento: real respecto a lo esperado al corte
+\newcommand\cumplimiento[2]{\fpeval{min(100, round(100*(#2)/(#1), 0))}\%}
+
+% Columna del mes reportado en el cronograma
+\newcommand\mesActual[2]{\ifnum\corte=#1\cellcolor{black!70}\textcolor{white}{\textbf{#2}}\else\textbf{#2}\fi}
+
+\begin{document}
+
+	\begin{center}
+		\fontsize{14}{16}\selectfont\bfseries
+		\numReporte° Reporte de seguimiento (\mes{} 2026): \\
+		Simulación de sistemas complejos mediante autómatas celulares neuronales
+	\end{center}
+
+	\begin{center}
+		\fontsize{14}{16}\selectfont\bfseries
+		\textit{Trabajo Terminal No. 2026-A114}
+	\end{center}
+
+	\begin{center}
+		\fontsize{12}{16}\selectfont
+		\textit{Alumno: \authormark{*}Angeles López Erick Jesse\authormark{1}} \\
+		\textit{Director: Juárez Martínez Genaro\authormark{1}} \\
+		\textit{\authormark{*}e-mail: eangelesl1700@alumno.ipn.mx}
+	\end{center}
+
+	\section{Información general}
+
+	\begin{itemize}[leftmargin=*]
+		\item \textbf{Periodo reportado:} \mes{} 2026 (corte al \fechaCorte).
+		\item \textbf{Documento de evidencia adjunto:} reporte técnico de Trabajo Terminal
+		\textit{``Simulación de sistemas complejos mediante autómatas celulares neuronales''} (PDF, 204 páginas).
+		El avance es incremental: cada evidencia listada en este reporte se encuentra integrada en el capítulo
+		y sección correspondiente de dicho documento, cuyas páginas se indican en cada actividad.
+		\item \textbf{Actividades programadas en el mes:} \segun{Módulos de entrenamiento (cierre), Entrenamiento y ajuste,
+		Experimentación y análisis, Análisis de resultados (global).}{Entrenamiento y ajuste, Experimentación y análisis,
+		Análisis de resultados (global).}
+	\end{itemize}
+
+	\section{Resumen de cumplimiento}
+
+	\begin{table}[H]
+		\centering
+		\renewcommand{\arraystretch}{1.2}
+		\begin{tabular}{l c c c c}
+			\toprule
+			\textbf{Actividad} & \textbf{Periodo} & \textbf{Esperado al corte} & \textbf{Avance real} & \textbf{Cumplimiento} \\
+			\midrule
+			\multicolumn{5}{l}{\textit{Fase 1: Planificación y Revisión Bibliográfica}} \\
+			Estado del arte                  & Ago/25 -- Oct/25 & 100\% & 100\% & 100\% \\
+			Marco teórico y metodológico     & Sep/25 -- Oct/25 & 100\% & 100\% & 100\% \\
+			\multicolumn{5}{l}{\textit{Fase 2: Diseño e implementación del simulador}} \\
+			Arquitectura del simulador       & Oct/25 -- Nov/25 & 100\% & 100\% & 100\% \\
+			Módulos de simulación            & Nov/25 -- Dic/25 & 100\% & 100\% & 100\% \\
+			Módulos entrenamiento            & Dic/25 -- Ago/26 & 100\% & 100\% & 100\% \\
+			\multicolumn{5}{l}{\textit{Fase 3: Entrenamiento y Validación}} \\
+			Entrenamiento y ajuste           & Ago/26 -- Oct/26 & \espEntrenamiento\% & \realEntrenamiento\% & \cumplimiento{\espEntrenamiento}{\realEntrenamiento} \\
+			Experimentación y análisis       & Ago/26 -- Nov/26 & \espExperimentos\%  & \realExperimentos\%  & \cumplimiento{\espExperimentos}{\realExperimentos} \\
+			Análisis de resultados (global)  & Ago/26 -- Nov/26 & \espAnalisis\%      & \realAnalisis\%      & \cumplimiento{\espAnalisis}{\realAnalisis} \\
+			\multicolumn{5}{l}{\textit{Fase 4: Documentación y Difusión}} \\
+			Documentación técnica            & Oct/26 -- Dic/26 & 0\% & -- & No iniciada \\
+			Artículo académico               & Oct/26 -- Dic/26 & 0\% & -- & No iniciada \\
+			\bottomrule
+		\end{tabular}
+		\caption{Avance acumulado por actividad al \fechaCorte. ``Esperado al corte'' es la proporción del periodo
+		programado en el cronograma que ha transcurrido; ``Cumplimiento'' compara el avance real con dicho valor.}
+	\end{table}
+
+	\section{Evidencias por actividad}
+
+	\subsection*{Fase 1: Planificación y Revisión Bibliográfica}
+
+	\actividad{Estado del arte}
+	{Fase 1}{Ago/25 -- Oct/25}
+	{Documento escrito.}
+	{Capítulo 5, sección 5.1 \textit{Estado del arte, aplicaciones y líneas actuales de investigación} (pp.~61--77);
+	Capítulo 1 \textit{Introducción} (pp.~1--6).}
+	{Revisión de trabajos sobre autómatas celulares neuronales: morfogénesis, NCA isotrópicos, autoclasificación,
+	representaciones tridimensionales, NCA en malla, modelos generativos y aplicaciones adicionales.
+	Actividad concluida en Trabajo Terminal I.}
+	{100\%}{}
+
+	\actividad{Marco teórico y metodológico}
+	{Fase 1}{Sep/25 -- Oct/25}
+	{Documento escrito.}
+	{Capítulos 2 a 5 (marco teórico, pp.~7--77) y Capítulo 6 \textit{Marco metodológico} (pp.~78--90).}
+	{Marco teórico de sistemas complejos y teoría del caos, autómatas celulares, inteligencia artificial y redes
+	neuronales, y autómatas celulares neuronales. Marco metodológico con diseño cuasiexperimental, población,
+	muestra, técnicas de recolección y procesamiento de datos, y contextualización tecnológica.
+	Actividad concluida en Trabajo Terminal I.}
+	{100\%}{}
+
+	\subsection*{Fase 2: Diseño e implementación del simulador}
+
+	\actividad{Arquitectura del simulador}
+	{Fase 2}{Oct/25 -- Nov/25}
+	{Documento escrito (análisis y diseño de software, diagramas UML).}
+	{Capítulo 7 \textit{Análisis de software} (pp.~91--135); Capítulo 8, secciones 8.1 \textit{Arquitectura},
+	8.2 \textit{Diagrama de clases}, 8.3 \textit{Diseño de datos} y 8.5 \textit{Interfaces de usuarios} (pp.~136--143, 153--156).}
+	{Metodología de desarrollo, reglas de negocio, requerimientos, análisis de riesgos, estudio de factibilidad,
+	casos de uso con sus especificaciones, diagramas de secuencia, arquitectura MVC, diagrama de clases,
+	diseño de datos e interfaces gráficas.}
+	{100\%}{}
+
+	\actividad{Módulos de simulación}
+	{Fase 2}{Nov/25 -- Dic/25}
+	{Documento escrito, tablas de resultados y pruebas de operatividad.}
+	{Sección 8.4 \textit{Diseño de algoritmos} (8.4.1--8.4.4 y 8.4.6, pp.~144--152); secciones 9.1 \textit{Entorno de desarrollo}
+	y 9.2 \textit{Estructura del proyecto} (pp.~157--162); subsecciones 9.4.1, 9.4.3, 9.4.4 y 9.4.5 de
+	\textit{Validación y pruebas} (pp.~166--169), tablas 9.6 y 9.7.}
+	{Núcleo de simulación en C++/CUDA con enlaces a Python e interfaz en Qt: indexación de la regla semitotalística,
+	paso de evolución, condiciones de frontera, \textit{forward pass} del NCA y \textit{prefetch} asíncrono.
+	Validación funcional contra reglas conocidas y pruebas de rendimiento (hasta 345\,000 pasos/s en
+	$100\times100$ y más de 100 fps de renderizado en $2000\times2000$).}
+	{100\%}{\videoSimulacion}
+
+	\actividad{Módulos entrenamiento}
+	{Fase 2}{Dic/25 -- Ago/26}
+	{Documento escrito, pruebas de operatividad.}
+	{Subsección 7.8.4 \textit{Especificaciones de casos de uso: Entrenamiento} (pp.~125--130); 8.3.5
+	\textit{Configuración del NCA} (p.~143); 8.4.5 \textit{Entrenamiento del autómata celular neuronal} (pp.~150--151);
+	sección 9.3 \textit{Entrenamiento del modelo} (pp.~163--166, tabla 9.5); subsecciones 9.4.2 y 9.4.6 (pp.~167, 169).}
+	{Módulo de entrenamiento en PyTorch con construcción dinámica del perceptrón multicapa, ciclo de optimización
+	con Adam y detención temprana, persistencia de pesos en \texttt{.npz} compatible con el \textit{kernel} CUDA e
+	integración con la pestaña de entrenamiento de la GUI (subproceso con \textit{log} en tiempo real).
+	Se agregó el parámetro de semilla aleatoria para reproducir experimentos.
+	\segun{Actividad concluida en el mes reportado.}{Actividad concluida en agosto de 2026.}}
+	{100\%}{\videoEntrenamiento}
+
+	\subsection*{Fase 3: Entrenamiento y Validación}
+
+	\actividad{Entrenamiento y ajuste}
+	{Fase 3}{Ago/26 -- Oct/26}
+	{Documento escrito y tablas de resultados.}
+	{Capítulo 10, sección 10.1 \textit{Duplicación de reglas del juego de la vida}:
+	\segun{tablas 10.1 y 10.2 y figura 10.3 (pp.~173--174).}
+	{tablas 10.1 y 10.2 y figura 10.3 (pp.~173--174); figuras 10.5 a 10.9 (pp.~176--178).}}
+	{\segun{Barrido de hiperparámetros para la regla B3/S23: 10 combinaciones de funciones de activación con
+	una capa oculta de 4 neuronas (una sola converge) y con 4 capas ocultas de 8 neuronas (cinco convergen a una
+	pérdida menor a $10^{-4}$). Se identifica el estancamiento en las primeras 12 épocas.}
+	{Además del barrido de hiperparámetros de agosto, se entrenaron las reglas B3/S23, B3/S238, B38/S23, B3/S236
+	y B38/S238 con distintas pérdidas objetivo y semillas, midiendo la distancia Manhattan entre el vector de regla
+	aprendido y el original. Se determinó que la pérdida objetivo debe ser $\leq 0.1$ para B3/S23.}}
+	{\realEntrenamiento\% (esperado: \espEntrenamiento\%)}{}
+
+	\actividad{Experimentación y análisis}
+	{Fase 3}{Ago/26 -- Nov/26}
+	{Documento escrito, tablas y gráficas de resultados.}
+	{Capítulo 10, sección 10.1:
+	\segun{figuras 10.1 y 10.2 (pp.~170--172).}
+	{figuras 10.1 a 10.13 (pp.~170--181).}}
+	{\segun{Generación del conjunto de datos (100 condiciones iniciales en $100\times100$ durante 100 pasos) y
+	análisis de su balance: el estado 1 aparece un $16.5\% \pm 4.2\%$ y los patrones $C0N8$ y $C1N8$ representan
+	menos del $0.02\%$ de las entradas.}
+	{Primer experimento (duplicación de reglas del juego de la vida) completo. Se diseñó un espacio con las
+	512 permutaciones de la vecindad para extraer el vector de regla aprendido y verificar si el NCA conserva la
+	propiedad semitotalística. Se identificaron reglas aprendidas alternativas (B3/S23 en lugar de B3/S238,
+	B3/S23678 en lugar de B3/S236) y reglas no semitotalísticas.}}
+	{\realExperimentos\% (esperado: \espExperimentos\%)}{}
+
+	\actividad{Análisis de resultados (global)}
+	{Fase 3}{Ago/26 -- Nov/26}
+	{Documento escrito.}
+	{Capítulo 10, sección 10.1\segun{ (pp.~170--172).}{, conclusiones del experimento (p.~181).}}
+	{\segun{Análisis estadístico de la distribución de estados y de patrones de vecindad para la regla B3/S23,
+	identificando el sesgo de muestra y proponiendo sobremuestreo o ponderación de la función de costo.}
+	{Conclusiones del primer experimento: la generalización depende del sesgo de muestra de patrones poco frecuentes,
+	el entrenamiento de reglas semitotalísticas no garantiza una regla aprendida semitotalística, y no se requieren
+	arquitecturas complejas para replicar estas dinámicas. Se valida la metodología de extracción del vector de
+	regla para los siguientes experimentos.}}
+	{\realAnalisis\% (esperado: \espAnalisis\%)}{}
+
+	\subsection*{Fase 4: Documentación y Difusión}
+
+	\actividad{Documentación técnica}
+	{Fase 4}{Oct/26 -- Dic/26}
+	{No aplica en el periodo.}
+	{Reporte técnico de TT completo (204 páginas).}
+	{Actividad programada a partir de octubre de 2026. El reporte técnico se ha redactado de forma incremental
+	conforme avanza cada actividad, por lo que su integración final partirá del documento adjunto.}
+	{No iniciada (0\% esperado al corte)}{}
+
+	\actividad{Artículo académico}
+	{Fase 4}{Oct/26 -- Dic/26}
+	{No aplica en el periodo.}
+	{--}
+	{Actividad programada a partir de octubre de 2026.}
+	{No iniciada (0\% esperado al corte)}{}
+
+	\section{Cronograma}
+
+	\resizebox{\linewidth}{!}{%
+		\begin{tabular}{p{5cm}*{10}{>{\centering\arraybackslash}p{1cm}}}
+			\toprule
+			\textbf{Actividad} & \textbf{Ago/25} & \textbf{Sep/25} & \textbf{Oct/25} & \textbf{Nov/25} & \textbf{Dic/25} & \mesActual{1}{Ago/26} & \mesActual{2}{Sep/26} & \textbf{Oct/26} & \textbf{Nov/26} & \textbf{Dic/26} \\
+			\midrule
+			\multicolumn{11}{l}{\textbf{Fase 1: Planificación y Revisión Bibliográfica}} \\
+
+			Estado del arte       & \cellcolor{gray!30} & \cellcolor{gray!30} & \cellcolor{gray!30} &  &  &  &  &  &  &   \\
+
+			Marco teórico y metodológico &  & \cellcolor{gray!30} & \cellcolor{gray!30} &  &  &  &  &  &  &   \\
+
+			\midrule
+
+			\multicolumn{11}{l}{\textbf{Fase 2: Diseño e implementación del simulador}} \\
+			Arquitectura del simulador &  &  & \cellcolor{gray!30} & \cellcolor{gray!30} &  &  &  &  &  &   \\
+
+			Módulos de simulación  &  &  &  & \cellcolor{gray!30} & \cellcolor{gray!30} &  &  &  &  &   \\
+
+			Módulos entrenamiento   &  &  &  &  & \cellcolor{gray!30} & \cellcolor{gray!30} &  &  &  &   \\
+
+			\midrule
+
+			\multicolumn{11}{l}{\textbf{Fase 3: Entrenamiento y Validación}} \\
+			Entrenamiento y ajuste   &  &  &  &  &  & \cellcolor{gray!30} & \cellcolor{gray!30} & \cellcolor{gray!30} &   &   \\
+
+			Experimentación y análisis  &  &  &  &  &  & \cellcolor{gray!30}  & \cellcolor{gray!30} & \cellcolor{gray!30} & \cellcolor{gray!30} &   \\
+
+			Análisis de resultados (global) &  &  &  &  &  & \cellcolor{gray!30} & \cellcolor{gray!30} & \cellcolor{gray!30} & \cellcolor{gray!30} &   \\
+
+			\midrule
+
+			\multicolumn{11}{l}{\textbf{Fase 4: Documentación y Difusión}} \\
+			Documentación técnica  &  &  &  &  &  &  &  & \cellcolor{gray!30}  & \cellcolor{gray!30} & \cellcolor{gray!30}  \\
+
+			Artículo académico  &  &  &  &  &  &  &  & \cellcolor{gray!30}  & \cellcolor{gray!30}  & \cellcolor{gray!30}  \\
+
+			\bottomrule
+		\end{tabular}
+	}
+
+	\vspace{0.5em}
+	{\small La columna resaltada corresponde al mes reportado.}
+
+	\section{Alumnos y directores}
+
+	\vspace{1em}
+	\begin{tabular}{@{} p{0.45\textwidth} p{0.45\textwidth} @{}}
+		\textit{Erick Jesse Angeles López} & \textit{Dr. Genaro Juárez Martínez} \\[5em]
+		Firma: \rule{6cm}{0.4pt} & Firma: \rule{6cm}{0.4pt} \\
+	\end{tabular}
+
+\end{document}

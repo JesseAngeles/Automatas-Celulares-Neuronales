@@ -1,0 +1,302 @@
+% ============================================================================
+%  1° Reporte de seguimiento (Agosto 2026) - Trabajo Terminal II
+%
+%  Compilación (desde esta carpeta):  pdflatex 1ReporteSeguimiento.tex
+%
+%  Las secciones citadas corresponden a Documentation/main.pdf
+%  (reporte técnico de TT), que es el PDF que se adjunta como evidencia.
+% ============================================================================
+\documentclass[letterpaper,10pt,oneside]{article}
+\usepackage[margin=2.54cm]{geometry}
+\usepackage[spanish]{babel}
+\newcommand\authormark[1]{\textsuperscript{#1}}
+\usepackage[colorlinks=true,bookmarks=true,linkcolor=black,citecolor=black,urlcolor=blue]{hyperref}
+\usepackage{times}
+\usepackage[table]{xcolor}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{titlesec}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{xurl}
+\urlstyle{same}
+
+\titleformat{\section}
+{\normalfont\fontsize{12pt}{14pt}\bfseries}
+{\thesection}{1em}{}
+
+% ----------------------------------------------------------------------------
+%  Mes reportado
+% ----------------------------------------------------------------------------
+\def\numReporte{1}
+\def\mes{Agosto}
+\def\fechaCorte{31 de agosto de 2026}
+
+% ----------------------------------------------------------------------------
+%  Porcentajes de la Fase 3 (editar aquí).
+%  "esp" = avance esperado según cronograma al corte, "real" = avance logrado.
+% ----------------------------------------------------------------------------
+\def\espEntrenamiento{33}   \def\realEntrenamiento{33}
+\def\espExperimentos{33}    \def\realExperimentos{20}
+\def\espAnalisis{33}        \def\realAnalisis{20}
+
+% Color del encabezado de las tablas de evidencias
+\definecolor{encabezado}{gray}{0.85}
+
+% Porcentaje de cumplimiento: real respecto a lo esperado al corte
+\newcommand\cumplimiento[2]{\fpeval{min(100, round(100*(#2)/(#1), 0))}\%}
+
+% Porcentaje de la ficha: muestra el esperado solo si no se cumple
+\newcommand\porcentaje[2]{#2\%\ifnum#2<#1\ (esperado: #1\%)\fi}
+
+\begin{document}
+
+	\begin{center}
+		\fontsize{14}{16}\selectfont\bfseries
+		\numReporte° Reporte de seguimiento (\mes{} 2026): \\
+		Simulación de sistemas complejos mediante autómatas celulares neuronales
+	\end{center}
+
+	\begin{center}
+		\fontsize{14}{16}\selectfont\bfseries
+		\textit{Trabajo Terminal No. 2026-A114}
+	\end{center}
+
+	\begin{center}
+		\fontsize{12}{16}\selectfont
+		\textit{Alumno: \authormark{*}Angeles López Erick Jesse\authormark{1}} \\
+		\textit{Director: Juárez Martínez Genaro\authormark{1}} \\
+		\textit{\authormark{*}e-mail: eangelesl1700@alumno.ipn.mx}
+	\end{center}
+
+	\section{Información general}
+
+	\begin{itemize}[leftmargin=*]
+		\item \textbf{Periodo:} \mes{} 2026.
+		\item \textbf{Evidencia:} reporte técnico de Trabajo Terminal. Capítulos 2 al 10.
+		\item \textbf{Actividades:} Módulos de entrenamiento (cierre), Entrenamiento y ajuste, Experimentación y análisis, Análisis de resultados (global).
+	\end{itemize}
+
+	\section{Resumen de cumplimiento}
+
+	\begin{table}[H]
+		\centering
+		\renewcommand{\arraystretch}{1.2}
+		\begin{tabular}{l c c c c}
+			\toprule
+			\textbf{Actividad} & \textbf{Periodo} & \textbf{Esperado al corte} & \textbf{Avance real} & \textbf{Cumplimiento} \\
+			\midrule
+			\multicolumn{5}{l}{\textbf{Fase 1: Planificación y Revisión Bibliográfica}} \\
+			Estado del arte                  & Ago/25 -- Oct/25 & 100\% & 100\% & 100\% \\
+			Marco teórico y metodológico     & Sep/25 -- Oct/25 & 100\% & 100\% & 100\% \\
+			\multicolumn{5}{l}{\textbf{Fase 2: Diseño e implementación del simulador}} \\
+			Arquitectura del simulador       & Oct/25 -- Nov/25 & 100\% & 100\% & 100\% \\
+			Módulos de simulación            & Nov/25 -- Dic/25 & 100\% & 100\% & 100\% \\
+			Módulos entrenamiento            & Dic/25 -- Ago/26 & 100\% & 100\% & 100\% \\
+			\multicolumn{5}{l}{\textbf{Fase 3: Entrenamiento y Validación}} \\
+			Entrenamiento y ajuste           & Ago/26 -- Oct/26 & \espEntrenamiento\% & \realEntrenamiento\% & \cumplimiento{\espEntrenamiento}{\realEntrenamiento} \\
+			Experimentación y análisis       & Ago/26 -- Nov/26 & \espExperimentos\%  & \realExperimentos\%  & \cumplimiento{\espExperimentos}{\realExperimentos} \\
+			Análisis de resultados (global)  & Ago/26 -- Nov/26 & \espAnalisis\%      & \realAnalisis\%      & \cumplimiento{\espAnalisis}{\realAnalisis} \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+
+	\section{Evidencias por actividad}
+
+	\subsection*{Fase 1: Planificación y Revisión Bibliográfica}
+
+	\begin{table}[H]
+		\centering
+		\renewcommand{\arraystretch}{1.25}
+		\begin{tabularx}{\linewidth}{|>{\raggedright\bfseries\arraybackslash}p{0.24\linewidth}|X|}
+			\hline
+			\rowcolor{encabezado}
+			Nombre de la actividad & \textbf{Estado del arte} \\ \hline
+			Periodo & Ago/25 -- Oct/25 \\ \hline
+			Evidencia de trabajo & Documento escrito. \\ \hline
+			Ubicación en el reporte & 5.1 (Estado del arte, aplicaciones y líneas actuales de investigación). \\ \hline
+			Descripción del avance & Revisión de trabajos sobre autómatas celulares neuronales y sus aplicaciones. \\ \hline
+			Porcentaje & 100\% \\ \hline
+		\end{tabularx}
+	\end{table}
+
+	\begin{table}[H]
+		\centering
+		\renewcommand{\arraystretch}{1.25}
+		\begin{tabularx}{\linewidth}{|>{\raggedright\bfseries\arraybackslash}p{0.24\linewidth}|X|}
+			\hline
+			\rowcolor{encabezado}
+			Nombre de la actividad & \textbf{Marco teórico y metodológico} \\ \hline
+			Periodo & Sep/25 -- Oct/25 \\ \hline
+			Evidencia de trabajo & Documento escrito. \\ \hline
+			Ubicación en el reporte & 2 (Sistemas, caos y simulación), 3 (Autómatas celulares), 4 (Inteligencia artificial y redes neuronales), 5 (Autómatas celulares neuronales) y 6 (Marco metodológico). \\ \hline
+			Descripción del avance & Fundamentos teóricos del proyecto y diseño metodológico de la investigación. \\ \hline
+			Porcentaje & 100\% \\ \hline
+		\end{tabularx}
+	\end{table}
+
+	\subsection*{Fase 2: Diseño e implementación del simulador}
+
+	\begin{table}[H]
+		\centering
+		\renewcommand{\arraystretch}{1.25}
+		\begin{tabularx}{\linewidth}{|>{\raggedright\bfseries\arraybackslash}p{0.24\linewidth}|X|}
+			\hline
+			\rowcolor{encabezado}
+			Nombre de la actividad & \textbf{Arquitectura del simulador} \\ \hline
+			Periodo & Oct/25 -- Nov/25 \\ \hline
+			Evidencia de trabajo & Documento escrito (análisis y diseño de software, diagramas UML). \\ \hline
+			Ubicación en el reporte & 7 (Análisis de software), 8.1 (Arquitectura), 8.2 (Diagrama de clases), 8.3 (Diseño de datos) y 8.5 (Interfaces de usuarios). \\ \hline
+			Descripción del avance & Requerimientos, casos de uso, diagramas UML, arquitectura MVC e interfaces gráficas. \\ \hline
+			Porcentaje & 100\% \\ \hline
+		\end{tabularx}
+	\end{table}
+
+	\begin{table}[H]
+		\centering
+		\renewcommand{\arraystretch}{1.25}
+		\begin{tabularx}{\linewidth}{|>{\raggedright\bfseries\arraybackslash}p{0.24\linewidth}|X|}
+			\hline
+			\rowcolor{encabezado}
+			Nombre de la actividad & \textbf{Módulos de simulación} \\ \hline
+			Periodo & Nov/25 -- Dic/25 \\ \hline
+			Evidencia de trabajo & Documento escrito, tablas de resultados y pruebas de operatividad. \\ \hline
+			Ubicación en el reporte & 8.4 (Diseño de algoritmos), 9.1 (Entorno de desarrollo), 9.2 (Estructura del proyecto) y 9.4 (Validación y pruebas). Tablas 9.6 y 9.7. \\ \hline
+			Descripción del avance & Simulador en C++/CUDA con interfaz en Qt, validado con reglas conocidas y pruebas de rendimiento. \\ \hline
+			Porcentaje & 100\% \\ \hline
+			Enlace de video & \url{https://drive.google.com/file/d/1tmUq2OIrWDl01cZxxLEUQqLCJ-hqWrWG/view?usp=drive_link} \\ \hline
+		\end{tabularx}
+	\end{table}
+
+	\begin{table}[H]
+		\centering
+		\renewcommand{\arraystretch}{1.25}
+		\begin{tabularx}{\linewidth}{|>{\raggedright\bfseries\arraybackslash}p{0.24\linewidth}|X|}
+			\hline
+			\rowcolor{encabezado}
+			Nombre de la actividad & \textbf{Módulos entrenamiento} \\ \hline
+			Periodo & Dic/25 -- Ago/26 \\ \hline
+			Evidencia de trabajo & Documento escrito y pruebas de operatividad. \\ \hline
+			Ubicación en el reporte & 7.8.4 (Entrenamiento), 8.4.5 (Entrenamiento del autómata celular neuronal), 9.3 (Entrenamiento del modelo) y 9.4.2 (Validación del autómata celular neuronal). \\ \hline
+			Descripción del avance & Entrenamiento del NCA en PyTorch integrado a la interfaz gráfica. Concluido en el mes reportado. \\ \hline
+			Porcentaje & 100\% \\ \hline
+		\end{tabularx}
+	\end{table}
+
+	\subsection*{Fase 3: Entrenamiento y Validación}
+
+	\begin{table}[H]
+		\centering
+		\renewcommand{\arraystretch}{1.25}
+		\begin{tabularx}{\linewidth}{|>{\raggedright\bfseries\arraybackslash}p{0.24\linewidth}|X|}
+			\hline
+			\rowcolor{encabezado}
+			Nombre de la actividad & \textbf{Entrenamiento y ajuste} \\ \hline
+			Periodo & Ago/26 -- Oct/26 \\ \hline
+			Evidencia de trabajo & Documento escrito y tablas de resultados. \\ \hline
+			Ubicación en el reporte & 10.1 (Duplicación de reglas del juego de la vida). Tablas 10.1 y 10.2. \\ \hline
+			Descripción del avance & Comparativa de funciones de activación y tamaños de red para la regla B3/S23. \\ \hline
+			Porcentaje & \porcentaje{\espEntrenamiento}{\realEntrenamiento} \\ \hline
+		\end{tabularx}
+	\end{table}
+
+	\begin{table}[H]
+		\centering
+		\renewcommand{\arraystretch}{1.25}
+		\begin{tabularx}{\linewidth}{|>{\raggedright\bfseries\arraybackslash}p{0.24\linewidth}|X|}
+			\hline
+			\rowcolor{encabezado}
+			Nombre de la actividad & \textbf{Experimentación y análisis} \\ \hline
+			Periodo & Ago/26 -- Nov/26 \\ \hline
+			Evidencia de trabajo & Documento escrito y gráficas de resultados. \\ \hline
+			Ubicación en el reporte & 10.1 (Duplicación de reglas del juego de la vida). Figuras 10.1 y 10.2. \\ \hline
+			Descripción del avance & Generación del conjunto de datos y análisis de su balance para la regla B3/S23. \\ \hline
+			Porcentaje & \porcentaje{\espExperimentos}{\realExperimentos} \\ \hline
+		\end{tabularx}
+	\end{table}
+
+	\begin{table}[H]
+		\centering
+		\renewcommand{\arraystretch}{1.25}
+		\begin{tabularx}{\linewidth}{|>{\raggedright\bfseries\arraybackslash}p{0.24\linewidth}|X|}
+			\hline
+			\rowcolor{encabezado}
+			Nombre de la actividad & \textbf{Análisis de resultados (global)} \\ \hline
+			Periodo & Ago/26 -- Nov/26 \\ \hline
+			Evidencia de trabajo & Documento escrito. \\ \hline
+			Ubicación en el reporte & 10.1 (Duplicación de reglas del juego de la vida). \\ \hline
+			Descripción del avance & Identificación del sesgo de muestra en patrones de vecindad poco frecuentes. \\ \hline
+			Porcentaje & \porcentaje{\espAnalisis}{\realAnalisis} \\ \hline
+		\end{tabularx}
+	\end{table}
+
+	\section{Actividades pendientes}
+
+	\begin{table}[H]
+		\centering
+		\renewcommand{\arraystretch}{1.2}
+		\begin{tabular}{l c l}
+			\toprule
+			\textbf{Fase} & \textbf{Periodo} & \textbf{Actividad} \\
+			\midrule
+			Fase 4: Documentación y Difusión & Oct/26 -- Dic/26 & Documentación técnica \\
+			Fase 4: Documentación y Difusión & Oct/26 -- Dic/26 & Artículo académico \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+
+	\section{Cronograma}
+
+	\begin{table}[H]
+	\resizebox{\linewidth}{!}{%
+		\begin{tabular}{p{5cm}*{10}{>{\centering\arraybackslash}p{1cm}}}
+			\toprule
+			\textbf{Actividad} & \textbf{Ago/25} & \textbf{Sep/25} & \textbf{Oct/25} & \textbf{Nov/25} & \textbf{Dic/25} & \cellcolor{black!70}\textcolor{white}{\textbf{Ago/26}} & \textbf{Sep/26} & \textbf{Oct/26} & \textbf{Nov/26} & \textbf{Dic/26} \\
+			\midrule
+			\multicolumn{11}{l}{\textbf{Fase 1: Planificación y Revisión Bibliográfica}} \\
+
+			Estado del arte       & \cellcolor{gray!30} & \cellcolor{gray!30} & \cellcolor{gray!30} &  &  &  &  &  &  &   \\
+
+			Marco teórico y metodológico &  & \cellcolor{gray!30} & \cellcolor{gray!30} &  &  &  &  &  &  &   \\
+
+			\midrule
+
+			\multicolumn{11}{l}{\textbf{Fase 2: Diseño e implementación del simulador}} \\
+			Arquitectura del simulador &  &  & \cellcolor{gray!30} & \cellcolor{gray!30} &  &  &  &  &  &   \\
+
+			Módulos de simulación  &  &  &  & \cellcolor{gray!30} & \cellcolor{gray!30} &  &  &  &  &   \\
+
+			Módulos entrenamiento   &  &  &  &  & \cellcolor{gray!30} & \cellcolor{gray!30} &  &  &  &   \\
+
+			\midrule
+
+			\multicolumn{11}{l}{\textbf{Fase 3: Entrenamiento y Validación}} \\
+			Entrenamiento y ajuste   &  &  &  &  &  & \cellcolor{gray!30} & \cellcolor{gray!30} & \cellcolor{gray!30} &   &   \\
+
+			Experimentación y análisis  &  &  &  &  &  & \cellcolor{gray!30}  & \cellcolor{gray!30} & \cellcolor{gray!30} & \cellcolor{gray!30} &   \\
+
+			Análisis de resultados (global) &  &  &  &  &  & \cellcolor{gray!30} & \cellcolor{gray!30} & \cellcolor{gray!30} & \cellcolor{gray!30} &   \\
+
+			\midrule
+
+			\multicolumn{11}{l}{\textbf{Fase 4: Documentación y Difusión}} \\
+			Documentación técnica  &  &  &  &  &  &  &  & \cellcolor{gray!30}  & \cellcolor{gray!30} & \cellcolor{gray!30}  \\
+
+			Artículo académico  &  &  &  &  &  &  &  & \cellcolor{gray!30}  & \cellcolor{gray!30}  & \cellcolor{gray!30}  \\
+
+			\bottomrule
+		\end{tabular}
+	}
+	\end{table}
+
+	\section{Alumnos y directores}
+
+	\vspace{1em}
+	\begin{tabular}{@{} p{0.45\textwidth} p{0.45\textwidth} @{}}
+		\textit{Erick Jesse Angeles López} & \textit{Dr. Genaro Juárez Martínez} \\[5em]
+		Firma: \rule{6cm}{0.4pt} & Firma: \rule{6cm}{0.4pt} \\
+	\end{tabular}
+
+\end{document}
