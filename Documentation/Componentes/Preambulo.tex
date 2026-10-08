@@ -29,6 +29,9 @@
 \newtheorem{definition}{Definición}
 \setlength{\parskip}{10pt}
 
+% Pendientes visibles en el PDF: \TODO{texto}
+\newcommand{\TODO}[1]{\par\noindent\fcolorbox{orange!70!black}{yellow!25}{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{\textbf{TODO:} #1}}\par}
+
 % Configurar encabezados
 \pagestyle{fancy}
 \fancyhf{}

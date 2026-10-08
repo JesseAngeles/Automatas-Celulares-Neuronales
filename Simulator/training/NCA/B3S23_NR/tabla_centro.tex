@@ -1,0 +1,35 @@
+\begin{table}[h]
+	\centering
+	\begin{tabular}{lllr}
+		\toprule
+		\textbf{Vecino eliminado} & \textbf{Capa Oculta} & \textbf{Capa Salida} & \textbf{Pérdida} \\
+		\midrule
+		Centro $(0,0)$ & 1:4:ReLU & 2:Linear & 0.088437 \\
+		Centro $(0,0)$ & 2:8:ReLU & 2:Linear & 0.085921 \\
+		Centro $(0,0)$ & 4:8:ReLU & 2:Linear & 0.078934 \\
+		Centro $(0,0)$ & 4:16:ReLU & 2:Linear & 0.078685 \\
+		Centro $(0,0)$ & 8:16:ReLU & 2:Linear & 0.078674 \\
+		Centro $(0,0)$ & 16:16:ReLU & 2:Linear & 0.078720 \\
+		Centro $(0,0)$ & 1:4:TanH & 1:Sigmoid & 0.081676 \\
+		Centro $(0,0)$ & 2:8:TanH & 1:Sigmoid & 0.078866 \\
+		Centro $(0,0)$ & 4:8:TanH & 1:Sigmoid & 0.078713 \\
+		Centro $(0,0)$ & 4:16:TanH & 1:Sigmoid & 0.078670 \\
+		Centro $(0,0)$ & 8:16:TanH & 1:Sigmoid & 0.078671 \\
+		Centro $(0,0)$ & 16:16:TanH & 1:Sigmoid & 0.078707 \\
+		Centro $(0,0)$ & 1:4:TanH & 2:Linear & 0.082283 \\
+		Centro $(0,0)$ & 2:8:TanH & 2:Linear & 0.078758 \\
+		Centro $(0,0)$ & 4:8:TanH & 2:Linear & 0.078716 \\
+		Centro $(0,0)$ & 4:16:TanH & 2:Linear & 0.078685 \\
+		Centro $(0,0)$ & 8:16:TanH & 2:Linear & 0.078680 \\
+		Centro $(0,0)$ & 16:16:TanH & 2:Linear & 0.078900 \\
+		Centro $(0,0)$ & 1:4:ReLU & 1:Sigmoid & 0.168493 \\
+		Centro $(0,0)$ & 2:8:ReLU & 1:Sigmoid & 0.080522 \\
+		Centro $(0,0)$ & 4:8:ReLU & 1:Sigmoid & 0.078796 \\
+		Centro $(0,0)$ & 4:16:ReLU & 1:Sigmoid & 0.078688 \\
+		Centro $(0,0)$ & 8:16:ReLU & 1:Sigmoid & 0.078679 \\
+		Centro $(0,0)$ & 16:16:ReLU & 1:Sigmoid & 0.078671 \\
+		\bottomrule
+	\end{tabular}
+	\caption{Comparativa de rendimiento con múltiples hiperparámetros de la regla B3/S23 sin la célula central: Pérdida objetivo 0.001, límite de épocas: 500, tamaño del lote: 4096, tasa de aprendizaje: 0.001, semilla aleatoria: 42. Pérdida mínima alcanzable: 0.078650.}
+	\label{tab:nca_gol_reduction_centro}
+\end{table}

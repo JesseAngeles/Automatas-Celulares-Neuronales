@@ -1,0 +1,110 @@
+\begin{table}[h]
+	\centering
+	\begin{tabular}{lllrr}
+		\toprule
+		\textbf{Vecindad} & \textbf{Capa Oculta} & \textbf{Capa Salida} & \textbf{Épocas} & \textbf{Pérdida} \\
+		\midrule
+		$3\times3$ & 1:4:ReLU & 2:Linear & 38 & 0.000923 \\
+		$3\times3$ & 2:8:ReLU & 2:Linear & 28 & 0.000933 \\
+		$3\times3$ & 4:8:ReLU & 2:Linear & 5 & 0.000942 \\
+		$3\times3$ & 4:16:ReLU & 2:Linear & 4 & 0.000372 \\
+		$3\times3$ & 8:16:ReLU & 2:Linear & 3 & 0.000012 \\
+		$3\times3$ & 16:16:ReLU & 2:Linear & 3 & 0.000003 \\
+		$3\times3$ & 1:4:TanH & 1:Sigmoid & 55 & 0.000998 \\
+		$3\times3$ & 2:8:TanH & 1:Sigmoid & 20 & 0.000867 \\
+		$3\times3$ & 4:8:TanH & 1:Sigmoid & 11 & 0.000948 \\
+		$3\times3$ & 4:16:TanH & 1:Sigmoid & 5 & 0.000951 \\
+		$3\times3$ & 8:16:TanH & 1:Sigmoid & 5 & 0.000945 \\
+		$3\times3$ & 16:16:TanH & 1:Sigmoid & 6 & 0.000918 \\
+		$3\times3$ & 1:4:TanH & 2:Linear & 500 & 0.079526 \\
+		$3\times3$ & 2:8:TanH & 2:Linear & 14 & 0.000880 \\
+		$3\times3$ & 4:8:TanH & 2:Linear & 7 & 0.000987 \\
+		$3\times3$ & 4:16:TanH & 2:Linear & 4 & 0.000742 \\
+		$3\times3$ & 8:16:TanH & 2:Linear & 3 & 0.000612 \\
+		$3\times3$ & 16:16:TanH & 2:Linear & 3 & 0.000848 \\
+		$3\times3$ & 1:4:ReLU & 1:Sigmoid & 500 & 0.097058 \\
+		$3\times3$ & 2:8:ReLU & 1:Sigmoid & 16 & 0.000828 \\
+		$3\times3$ & 4:8:ReLU & 1:Sigmoid & 45 & 0.000954 \\
+		$3\times3$ & 4:16:ReLU & 1:Sigmoid & 3 & 0.000646 \\
+		$3\times3$ & 8:16:ReLU & 1:Sigmoid & 3 & 0.000021 \\
+		$3\times3$ & 16:16:ReLU & 1:Sigmoid & 3 & 0.000053 \\
+		\midrule
+		$5\times5$ & 1:4:ReLU & 2:Linear & 38 & 0.000975 \\
+		$5\times5$ & 2:8:ReLU & 2:Linear & 11 & 0.000747 \\
+		$5\times5$ & 4:8:ReLU & 2:Linear & 500 & 0.159375 \\
+		$5\times5$ & 4:16:ReLU & 2:Linear & 19 & 0.000035 \\
+		$5\times5$ & 8:16:ReLU & 2:Linear & 3 & 0.000062 \\
+		$5\times5$ & 16:16:ReLU & 2:Linear & 3 & 0.000332 \\
+		$5\times5$ & 1:4:TanH & 1:Sigmoid & 53 & 0.000962 \\
+		$5\times5$ & 2:8:TanH & 1:Sigmoid & 18 & 0.000948 \\
+		$5\times5$ & 4:8:TanH & 1:Sigmoid & 11 & 0.000898 \\
+		$5\times5$ & 4:16:TanH & 1:Sigmoid & 6 & 0.000854 \\
+		$5\times5$ & 8:16:TanH & 1:Sigmoid & 6 & 0.000837 \\
+		$5\times5$ & 16:16:TanH & 1:Sigmoid & 7 & 0.000722 \\
+		$5\times5$ & 1:4:TanH & 2:Linear & 37 & 0.000936 \\
+		$5\times5$ & 2:8:TanH & 2:Linear & 17 & 0.000868 \\
+		$5\times5$ & 4:8:TanH & 2:Linear & 8 & 0.000783 \\
+		$5\times5$ & 4:16:TanH & 2:Linear & 4 & 0.000652 \\
+		$5\times5$ & 8:16:TanH & 2:Linear & 4 & 0.000708 \\
+		$5\times5$ & 16:16:TanH & 2:Linear & 3 & 0.000852 \\
+		$5\times5$ & 1:4:ReLU & 1:Sigmoid & 49 & 0.000882 \\
+		$5\times5$ & 2:8:ReLU & 1:Sigmoid & 43 & 0.000971 \\
+		$5\times5$ & 4:8:ReLU & 1:Sigmoid & 10 & 0.000545 \\
+		$5\times5$ & 4:16:ReLU & 1:Sigmoid & 3 & 0.000768 \\
+		$5\times5$ & 8:16:ReLU & 1:Sigmoid & 43 & 0.000926 \\
+		$5\times5$ & 16:16:ReLU & 1:Sigmoid & 4 & 0.000225 \\
+		\midrule
+		$7\times7$ & 1:4:ReLU & 2:Linear & 500 & 0.103870 \\
+		$7\times7$ & 2:8:ReLU & 2:Linear & 14 & 0.000885 \\
+		$7\times7$ & 4:8:ReLU & 2:Linear & 10 & 0.000656 \\
+		$7\times7$ & 4:16:ReLU & 2:Linear & 3 & 0.000526 \\
+		$7\times7$ & 8:16:ReLU & 2:Linear & 5 & 0.000023 \\
+		$7\times7$ & 16:16:ReLU & 2:Linear & 3 & 0.000188 \\
+		$7\times7$ & 1:4:TanH & 1:Sigmoid & 55 & 0.000953 \\
+		$7\times7$ & 2:8:TanH & 1:Sigmoid & 19 & 0.000813 \\
+		$7\times7$ & 4:8:TanH & 1:Sigmoid & 11 & 0.000839 \\
+		$7\times7$ & 4:16:TanH & 1:Sigmoid & 5 & 0.000827 \\
+		$7\times7$ & 8:16:TanH & 1:Sigmoid & 6 & 0.000880 \\
+		$7\times7$ & 16:16:TanH & 1:Sigmoid & 7 & 0.000962 \\
+		$7\times7$ & 1:4:TanH & 2:Linear & 46 & 0.000905 \\
+		$7\times7$ & 2:8:TanH & 2:Linear & 16 & 0.000903 \\
+		$7\times7$ & 4:8:TanH & 2:Linear & 8 & 0.000865 \\
+		$7\times7$ & 4:16:TanH & 2:Linear & 4 & 0.000686 \\
+		$7\times7$ & 8:16:TanH & 2:Linear & 4 & 0.000633 \\
+		$7\times7$ & 16:16:TanH & 2:Linear & 4 & 0.000497 \\
+		$7\times7$ & 1:4:ReLU & 1:Sigmoid & 54 & 0.000909 \\
+		$7\times7$ & 2:8:ReLU & 1:Sigmoid & 14 & 0.000803 \\
+		$7\times7$ & 4:8:ReLU & 1:Sigmoid & 43 & 0.000928 \\
+		$7\times7$ & 4:16:ReLU & 1:Sigmoid & 5 & 0.000137 \\
+		$7\times7$ & 8:16:ReLU & 1:Sigmoid & 3 & 0.000045 \\
+		$7\times7$ & 16:16:ReLU & 1:Sigmoid & 5 & 0.000152 \\
+		\midrule
+		$8\times8$ & 1:4:ReLU & 2:Linear & 500 & 0.103870 \\
+		$8\times8$ & 2:8:ReLU & 2:Linear & 30 & 0.000985 \\
+		$8\times8$ & 4:8:ReLU & 2:Linear & 5 & 0.000792 \\
+		$8\times8$ & 4:16:ReLU & 2:Linear & 4 & 0.000302 \\
+		$8\times8$ & 8:16:ReLU & 2:Linear & 3 & 0.000063 \\
+		$8\times8$ & 16:16:ReLU & 2:Linear & 4 & 0.000336 \\
+		$8\times8$ & 1:4:TanH & 1:Sigmoid & 57 & 0.000913 \\
+		$8\times8$ & 2:8:TanH & 1:Sigmoid & 19 & 0.000913 \\
+		$8\times8$ & 4:8:TanH & 1:Sigmoid & 11 & 0.000823 \\
+		$8\times8$ & 4:16:TanH & 1:Sigmoid & 5 & 0.000826 \\
+		$8\times8$ & 8:16:TanH & 1:Sigmoid & 6 & 0.000786 \\
+		$8\times8$ & 16:16:TanH & 1:Sigmoid & 6 & 0.000802 \\
+		$8\times8$ & 1:4:TanH & 2:Linear & 39 & 0.000976 \\
+		$8\times8$ & 2:8:TanH & 2:Linear & 15 & 0.000948 \\
+		$8\times8$ & 4:8:TanH & 2:Linear & 8 & 0.000871 \\
+		$8\times8$ & 4:16:TanH & 2:Linear & 4 & 0.000547 \\
+		$8\times8$ & 8:16:TanH & 2:Linear & 3 & 0.000746 \\
+		$8\times8$ & 16:16:TanH & 2:Linear & 5 & 0.000742 \\
+		$8\times8$ & 1:4:ReLU & 1:Sigmoid & 500 & 0.103871 \\
+		$8\times8$ & 2:8:ReLU & 1:Sigmoid & 39 & 0.000927 \\
+		$8\times8$ & 4:8:ReLU & 1:Sigmoid & 41 & 0.000944 \\
+		$8\times8$ & 4:16:ReLU & 1:Sigmoid & 4 & 0.000425 \\
+		$8\times8$ & 8:16:ReLU & 1:Sigmoid & 3 & 0.000141 \\
+		$8\times8$ & 16:16:ReLU & 1:Sigmoid & 21 & 0.000156 \\
+		\bottomrule
+	\end{tabular}
+	\caption{Comparativa de rendimiento con múltiples hiperparámetros de la regla B3/S23 al aumentar la vecindad: Pérdida objetivo 0.001, límite de épocas: 500, tamaño del lote: 4096, tasa de aprendizaje: 0.001, semilla aleatoria: 42. La vecindad de $8\times8$ abarca los desplazamientos $-4$ a $3$ en cada eje.}
+	\label{tab:nca_gol_vecindad}
+\end{table}

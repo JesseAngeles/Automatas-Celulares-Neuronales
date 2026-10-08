@@ -23,7 +23,7 @@ DEFAULT_NB_3x3 = [
 ]
 
 TRAINING_SCRIPT = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), '..', '..', 'training', 'main.py')
+    os.path.join(os.path.dirname(__file__), '..', '..', 'training', 'scripts', 'main.py')
 )
 
 

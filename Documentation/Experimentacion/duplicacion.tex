@@ -1,8 +1,4 @@
-\chapter{Experimentación y resultados}
-
-Una vez construido, validado e implementado el simulador, es momento de la experimentación y del análisis de resultados. A lo largo de este capítulo se exponen los tres principales experimentos realizados utilizando el simulador para generar evoluciones con un autómata celular neuronal para analizarlas  en Mathematica. 
-
-\section{Duplicación de reglas del juego de la vida}
+\subsection{Duplicación de reglas del juego de la vida}\label{sec:exp1_life}
 
 El objetivo de este primer experimento es replicar el comportamiento de evoluciones conocidas para identificar la capacidad del autómata celular neuronal de replicar comportamientos con base en su evolución y su vecindad. 
 
@@ -237,4 +233,129 @@ Los resultados de este primer experimento permiten establecer las siguientes con
 \end{itemize}
 
 Estos experimentos confirman que no se requieren arquitecturas neuronales complejas para replicar este tipo de dinámicas evolutivas. Asimismo, queda validada la metodología propuesta para extraer e identificar el vector de regla aprendido por el modelo, sentando las bases para los siguientes experimentos del capítulo.
+
+\subsubsection{Efecto del tamaño de la vecindad}
+
+Al experimentar con automatas celualres ya conocidos, se puede saber el comprotamiento futuro porque la regla nos indica la función de transición, el numero estados y el tamaño de la vecindad. Por lo que los entrenamiento de la red neuronal han requerido como entrada los mismo elementos que forman la vecindad. Sin embargo, en escenarios donde desconocemos la función de transición, no podemos definir con total exactitud la vecindad. Esa por esta razón que los experimentos a continuación buscan identificar como afecta el desconocimiento de la vecindad al momento de intentar replicar el comportamiento de la regla B3/S23.
+
+El juego de la vida se define mediante una regla semitotalistica que diferencía el centro de los bordes. Considerando esto realizaremos 4 pruebas: (1) eliminación del estado central, (2) eliminación de células exteriores, (3) incremento del tamaño de la vecindad y (4) sustitución de elementos de la vecindad. Con esto se busca identificar un método de selección de vecindad que nos permita extraer el comportamiento esencial de un sistema complejo.
+
+% Datos generados por Simulator/training/scripts/resultados_vecindad.py
+\input{Experimentacion/datos/vecindad_ajuste.tex}
+
+Como primer experimento se ignora la célula del centro. Como se observa en la tabla \ref{tab:nca_gol_reduction}, ninguna de las configuraciones tuvo una perdida menor al 0.07.  Es imposible extraer el comportamiento de B3/S23 sin conocer la información del centro, sin embargo, la configuración 16:16:ReLU \& 1:Sigmoid genera un vector de regla que difiere en 28 de  512  elementos ($5.46875\%$) si lo consideramos como una regla tradicional. Su evolución tiende a eliminar todos los estados 1 y genera pocas configuraciones estáticas y cíclicas en menos de 50 pasos, tal como se muestran en las figuras \ref{fig:b3s23_c0n8}.
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{llr}
+		\toprule
+		\textbf{Capa Oculta} & \textbf{Capa Salida} & \textbf{Pérdida} \\
+		\midrule
+		16:16:ReLU & 2:Linear & 0.078754 \\
+		16:16:TanH & 1:Sigmoid &  0.078889  \\
+		16:16:TanH & 2:Linear &  0.078603   \\
+		16:16:Sigmoid & 2:Linear & 0.414097   \\
+		16:16:ReLU & 1:Sigmoid & 0.078445  \\
+		\bottomrule
+	\end{tabular}
+	\caption{Comparativa de rendimiento con múltiples hiperparámetros de la regla B3/S23: Pérdida objetivo 0.001, límite de épocas: 1000, 
+		tamaño del lote: 8192, tasa de aprendizaje: 0.001, semilla aleatoria: 42.}
+	\label{tab:nca_gol_reduction}
+\end{table}
+
+\begin{figure}[htbp]
+	\centering
+	\begin{subfigure}[b]{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.77\linewidth]{img/b3s23_reduction_1s.png}
+		\caption{Proporción de unos en cada paso evolutivo.}
+		\label{fig:b3s23_reduction_1s} 
+	\end{subfigure}%
+	\hfill % Añade espacio horizontal flexible entre las figuras
+	\begin{subfigure}[b]{0.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{img/b3s23_reduction_changes.png}
+		\caption{Porcentaje nacimientos, muertes y células sin cambios en cada paso evolutivo.}
+		\label{fig:b3s23_reduction_changes}
+	\end{subfigure}
+	\caption{Proporciones de estados y cambios de estados en 10 evoluciones con condiciones iniciales aleatorias durante 50 pasos con el autómata celular neuronal obtenido por 16:16:ReLU \& 1:Sigmoid.}
+	\label{fig:b3s23_c0n8}
+\end{figure}
+
+\input{Experimentacion/datos/vecindad_centro.tex}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{img/vecindad_centro.png}
+	\caption{Regla B3/S23 sin la célula central. Fila 1: pérdida por época (línea punteada: pérdida mínima alcanzable). Fila 2: fracción de células distintas a B3/S23 por paso. Fila 3: fracción de células vivas por paso (línea discontinua: B3/S23). Filas 2 y 3: promedio de 10 condiciones iniciales aleatorias.}
+	\label{fig:vecindad_centro}
+\end{figure}
+
+Por otro lado, la tabla \ref{tab:vecindad_no}
+
+\input{Experimentacion/datos/vecindad_no.tex}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{img/vecindad_no.png}
+	\caption{Regla B3/S23 sin el vecino noroeste $(-1,-1)$. Mismas filas que la figura \ref{fig:vecindad_centro}.}
+	\label{fig:vecindad_no}
+\end{figure}
+
+\input{Experimentacion/datos/vecindad_n.tex}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{img/vecindad_n.png}
+	\caption{Regla B3/S23 sin el vecino norte $(0,-1)$. Mismas filas que la figura \ref{fig:vecindad_centro}.}
+	\label{fig:vecindad_n}
+\end{figure}
+
+
+\subsection{Incremento de vecindad}
+
+Por otro lado, los resultados \TODO{} muestran que el incremento de la vecindad no afecta el replicameinto del comportamiento, la red nueornal sigue pudiendo aprender la regla sin saturarla. Ciertamente, el numero de épocas requeridas también cambia según la demanda que obtenga, esto se debe principalmente ya que considera algunos pasos para matar las células cuyas entradas provienen de esas vecindades extras.
+
+Por otro lado, la susitución depende específicamente de donde se esta obteniendo y el tamaño de la vecindad que lo define. Esto se convirte en 2 problemas, intentar definir el estado de la celula faltante con lso estados actuales de sus vecinos y luego utilizar ese dato adicional para definir el estado actual.
+
+Es necesario notar que B3/S23 es muy sensible a un estado que vale un 1 o un 0, porque un único bit marca la diferente entre B24/S1234. Es por esto que el siguiente experimento utiliza una regla high life \TODO{definir regla high life} que muestra los siguientes resultados.
+
+Podemos concluir entonces el valor de la vecindad.
+
+% Datos generados por Simulator/training/scripts/resultados_vecindad.py (línea punteada de la fila 1: pérdida objetivo)
+\input{Experimentacion/datos/vecindad_3x3.tex}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{img/vecindad_3x3.png}
+	\caption{Regla B3/S23 con vecindad de $3\times3$. Mismas filas que la figura \ref{fig:vecindad_centro}; en la fila 1 la línea punteada es la pérdida objetivo.}
+	\label{fig:vecindad_3x3}
+\end{figure}
+
+\input{Experimentacion/datos/vecindad_5x5.tex}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{img/vecindad_5x5.png}
+	\caption{Regla B3/S23 con vecindad de $5\times5$. Mismas filas que la figura \ref{fig:vecindad_3x3}.}
+	\label{fig:vecindad_5x5}
+\end{figure}
+
+\input{Experimentacion/datos/vecindad_7x7.tex}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{img/vecindad_7x7.png}
+	\caption{Regla B3/S23 con vecindad de $7\times7$. Mismas filas que la figura \ref{fig:vecindad_3x3}.}
+	\label{fig:vecindad_7x7}
+\end{figure}
+
+\input{Experimentacion/datos/vecindad_8x8.tex}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{img/vecindad_8x8.png}
+	\caption{Regla B3/S23 con vecindad de $8\times8$ (desplazamientos $-4$ a $3$ en cada eje, el máximo que admite el kernel). Mismas filas que la figura \ref{fig:vecindad_3x3}.}
+	\label{fig:vecindad_8x8}
+\end{figure}
 

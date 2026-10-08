@@ -1,0 +1,60 @@
+\begin{table}[h]
+	\centering
+	\begin{tabular}{lllr}
+		\toprule
+		\textbf{Vecino eliminado} & \textbf{Capa Oculta} & \textbf{Capa Salida} & \textbf{Pérdida} \\
+		\midrule
+		Noroeste $(-1,-1)$ & 1:4:ReLU & 2:Linear & 0.124695 \\
+		Noroeste $(-1,-1)$ & 2:8:ReLU & 2:Linear & 0.122691 \\
+		Noroeste $(-1,-1)$ & 4:8:ReLU & 2:Linear & 0.121956 \\
+		Noroeste $(-1,-1)$ & 4:16:ReLU & 2:Linear & 0.121646 \\
+		Noroeste $(-1,-1)$ & 8:16:ReLU & 2:Linear & 0.121453 \\
+		Noroeste $(-1,-1)$ & 16:16:ReLU & 2:Linear & 0.121473 \\
+		Noroeste $(-1,-1)$ & 1:4:TanH & 1:Sigmoid & 0.146544 \\
+		Noroeste $(-1,-1)$ & 2:8:TanH & 1:Sigmoid & 0.121963 \\
+		Noroeste $(-1,-1)$ & 4:8:TanH & 1:Sigmoid & 0.121544 \\
+		Noroeste $(-1,-1)$ & 4:16:TanH & 1:Sigmoid & 0.121433 \\
+		Noroeste $(-1,-1)$ & 8:16:TanH & 1:Sigmoid & 0.121434 \\
+		Noroeste $(-1,-1)$ & 16:16:TanH & 1:Sigmoid & 0.121510 \\
+		Noroeste $(-1,-1)$ & 1:4:TanH & 2:Linear & 0.122987 \\
+		Noroeste $(-1,-1)$ & 2:8:TanH & 2:Linear & 0.122124 \\
+		Noroeste $(-1,-1)$ & 4:8:TanH & 2:Linear & 0.121537 \\
+		Noroeste $(-1,-1)$ & 4:16:TanH & 2:Linear & 0.121453 \\
+		Noroeste $(-1,-1)$ & 8:16:TanH & 2:Linear & 0.121432 \\
+		Noroeste $(-1,-1)$ & 16:16:TanH & 2:Linear & 0.121528 \\
+		Noroeste $(-1,-1)$ & 1:4:ReLU & 1:Sigmoid & 0.123439 \\
+		Noroeste $(-1,-1)$ & 2:8:ReLU & 1:Sigmoid & 0.123578 \\
+		Noroeste $(-1,-1)$ & 4:8:ReLU & 1:Sigmoid & 0.122326 \\
+		Noroeste $(-1,-1)$ & 4:16:ReLU & 1:Sigmoid & 0.121524 \\
+		Noroeste $(-1,-1)$ & 8:16:ReLU & 1:Sigmoid & 0.121457 \\
+		Noroeste $(-1,-1)$ & 16:16:ReLU & 1:Sigmoid & 0.121469 \\
+		\midrule
+		Norte $(0,-1)$ & 1:4:ReLU & 2:Linear & 0.122197 \\
+		Norte $(0,-1)$ & 2:8:ReLU & 2:Linear & 0.120552 \\
+		Norte $(0,-1)$ & 4:8:ReLU & 2:Linear & 0.208683 \\
+		Norte $(0,-1)$ & 4:16:ReLU & 2:Linear & 0.118567 \\
+		Norte $(0,-1)$ & 8:16:ReLU & 2:Linear & 0.118518 \\
+		Norte $(0,-1)$ & 16:16:ReLU & 2:Linear & 0.118545 \\
+		Norte $(0,-1)$ & 1:4:TanH & 1:Sigmoid & 0.121592 \\
+		Norte $(0,-1)$ & 2:8:TanH & 1:Sigmoid & 0.119090 \\
+		Norte $(0,-1)$ & 4:8:TanH & 1:Sigmoid & 0.118605 \\
+		Norte $(0,-1)$ & 4:16:TanH & 1:Sigmoid & 0.118499 \\
+		Norte $(0,-1)$ & 8:16:TanH & 1:Sigmoid & 0.118477 \\
+		Norte $(0,-1)$ & 16:16:TanH & 1:Sigmoid & 0.118552 \\
+		Norte $(0,-1)$ & 1:4:TanH & 2:Linear & 0.120355 \\
+		Norte $(0,-1)$ & 2:8:TanH & 2:Linear & 0.118989 \\
+		Norte $(0,-1)$ & 4:8:TanH & 2:Linear & 0.118644 \\
+		Norte $(0,-1)$ & 4:16:TanH & 2:Linear & 0.118511 \\
+		Norte $(0,-1)$ & 8:16:TanH & 2:Linear & 0.118491 \\
+		Norte $(0,-1)$ & 16:16:TanH & 2:Linear & 0.118562 \\
+		Norte $(0,-1)$ & 1:4:ReLU & 1:Sigmoid & 0.121933 \\
+		Norte $(0,-1)$ & 2:8:ReLU & 1:Sigmoid & 0.121536 \\
+		Norte $(0,-1)$ & 4:8:ReLU & 1:Sigmoid & 0.118923 \\
+		Norte $(0,-1)$ & 4:16:ReLU & 1:Sigmoid & 0.118516 \\
+		Norte $(0,-1)$ & 8:16:ReLU & 1:Sigmoid & 0.118541 \\
+		Norte $(0,-1)$ & 16:16:ReLU & 1:Sigmoid & 0.118566 \\
+		\bottomrule
+	\end{tabular}
+	\caption{Comparativa de rendimiento con múltiples hiperparámetros de la regla B3/S23 sin un vecino del borde: Pérdida objetivo 0.001, límite de épocas: 500, tamaño del lote: 4096, tasa de aprendizaje: 0.001, semilla aleatoria: 42. Pérdida mínima alcanzable: 0.121294 sin la esquina y 0.118412 sin el lado.}
+	\label{tab:nca_gol_reduction_borde}
+\end{table}

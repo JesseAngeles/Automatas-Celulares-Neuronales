@@ -1,0 +1,11 @@
+\subsection{Seguimiento de células (Cell Tracking Challenge)}\label{sec:exp2_ctc}
+
+El \textit{Cell Tracking Challenge} publica secuencias \textit{time-lapse} bidimensionales de células en cultivo (migración, división y muerte celular) obtenidas con distintas técnicas de microscopía, junto con anotaciones de segmentación y seguimiento. A diferencia de los embriones, las anotaciones de segmentación ya identifican cada célula, por lo que la limpieza parte de máscaras y no de la imagen cruda.
+
+Se consideran los ocho conjuntos de entrenamiento 2D de menor tamaño: DIC-C2DH-HeLa, Fluo-C2DL-Huh7, Fluo-C2DL-MSC, Fluo-N2DH-GOWT1, Fluo-N2DL-HeLa, PhC-C2DH-U373, PhC-C2DL-PSC y Fluo-N2DH-SIM+ (este último simulado, con segmentación perfecta).
+
+\TODO{Descargar los conjuntos (el servidor de datos no respondía el 7 de octubre de 2026) y elegir las secuencias con segmentación completa en todas las imágenes.}
+
+\TODO{Definir los estados a partir de las máscaras de segmentación (por ejemplo, fondo, interior de célula y borde de célula) y escribir el método de limpieza.}
+
+\TODO{Entrenar el autómata celular neuronal y comparar la evolución generada contra la observada.}

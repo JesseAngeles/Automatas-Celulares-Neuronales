@@ -17,7 +17,9 @@ Dataset/
 *.npy
 *.mat
 *.npz
-Simulator/training/Evolutions/
+Simulator/training/CA/FLAME3/
+Simulator/training/CA/embryo/
+Simulator/training/CA/embryo_states/
 Simulator/training/Models/
 Simulator/training/training_env/
 Simulator/training/similitud.nb

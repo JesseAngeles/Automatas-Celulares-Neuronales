@@ -64,20 +64,21 @@ Implementa la aplicación gráfica completa siguiendo el patrón Modelo-Vista-Co
 
 \subsection{Directorio training}
 
-Reúne los \textit{scripts} de entrenamiento del autómata celular neuronal y las evoluciones de referencia utilizadas como conjuntos de datos.
+Reúne los \textit{scripts} de entrenamiento del autómata celular neuronal, las evoluciones de referencia utilizadas como conjuntos de datos y los modelos entrenados a partir de ellas.
 
 \begin{table}[H]
     \centering
     \begin{tabular}{l|p{0.62\linewidth}}
         \hline
         \textbf{Archivo / directorio} & \textbf{Responsabilidad} \\ \hline
-        \texttt{main.py} & \textit{Script} principal. Implementa la extracción de pares (vecindad, objetivo), la construcción dinámica del MLP en PyTorch y el ciclo de entrenamiento. \\ \hline
-        \texttt{test.py} & Implementación de referencia en NumPy y la compara contra la evolución esperada. \\ \hline
-        \texttt{png\_to\_evolution.py} & Utilidad para convertir secuencias de imágenes PNG segmentadas al formato \texttt{(T, H, W)} en \texttt{.npy}/\texttt{.mat}. \\ \hline
-        \texttt{Evolutions/} & Evoluciones registradas en formatos \texttt{.npy} (NumPy) y \texttt{.mat} (Wolfram Mathematica). \\ \hline
-        \texttt{Models/} & Pesos entrenados en formato \texttt{.npz} listos para ser cargados por la GUI. \\ \hline
-        \texttt{analysis.nb} & \textit{Notebook} de Wolfram Mathematica utilizado para análisis y verificación visual. \\ \hline
-        \texttt{training\_env/} & Entorno virtual con PyTorch y dependencias auxiliares. \\ \hline
+        \texttt{scripts/main.py} & \textit{Script} principal. Implementa la extracción de pares (vecindad, objetivo), la construcción dinámica del MLP en PyTorch y el ciclo de entrenamiento. \\ \hline
+        \texttt{scripts/genetic\_search.py} & Búsqueda de hiperparámetros de entrenamiento mediante un algoritmo genético. \\ \hline
+        \texttt{scripts/test.py} & Implementación de referencia en NumPy y la compara contra la evolución esperada. \\ \hline
+        \texttt{preprocessing/} & Utilidades para convertir datos externos al formato \texttt{(T, H, W)} en \texttt{.npy}/\texttt{.mat}: secuencias PNG segmentadas (\texttt{png\_to\_evolution.py}), imágenes térmicas del conjunto FLAME 3 (\texttt{celsius\_to\_evolution.py}, \texttt{thermal\_to\_evolution.py}) y secuencias de desarrollo embrionario (\texttt{embryo\_to\_evolution.py}). \\ \hline
+        \texttt{CA/} & Evoluciones de referencia, una carpeta por regla (\texttt{evo} para entrenamiento, \texttt{base} como condición de prueba), \texttt{FLAME3/} con las evoluciones térmicas, \texttt{embryo/} con las imágenes de embriones y \texttt{embryo\_states/} con sus evoluciones segmentadas. \\ \hline
+        \texttt{NCA/} & Pesos entrenados (\texttt{.npz}) por regla, las evoluciones que producen (\texttt{t\_*}) y los \textit{notebooks} de análisis de cada experimento; \texttt{ga\_runs/} contiene la búsqueda genética. \\ \hline
+        \texttt{notebooks/} & \textit{Notebooks} de Wolfram Mathematica para análisis y verificación visual generales. \\ \hline
+        \texttt{Dataset/} & Datos crudos descargados (no versionado). \\ \hline
     \end{tabular}
     \caption{Contenido del directorio \texttt{training/}.}
 \end{table}
@@ -88,7 +89,7 @@ La figura conceptual del flujo de artefactos es la siguiente:
 
 \begin{enumerate}
     \item El \textit{build} en \texttt{core/build/} produce \texttt{CA.cpython-*.so}, que se copia al directorio \texttt{GUI/}.
-    \item La GUI registra evoluciones mediante el botón de grabación de \texttt{ControlPane} y las exporta a \texttt{.npy}/\texttt{.mat} en cualquier ubicación, típicamente \texttt{training/Evolutions/}.
+    \item La GUI registra evoluciones mediante el botón de grabación de \texttt{ControlPane} y las exporta a \texttt{.npy}/\texttt{.mat} en cualquier ubicación, típicamente \texttt{training/CA/}.
     \item El \textit{script} de entrenamiento lee dichos archivos y produce un \texttt{.npz} con pesos, sesgos y metadatos.
     \item La GUI carga el \texttt{.npz} desde \texttt{SimulationController} e intercambia al modo NCA para reproducir la evolución aprendida.
 \end{enumerate}

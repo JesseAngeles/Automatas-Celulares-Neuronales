@@ -1,0 +1,40 @@
+\begin{table}[H]
+	\centering
+	\footnotesize
+	\setlength{\tabcolsep}{2.5pt}
+	\begin{tabular}{llrrrrrrr}
+		\toprule
+		\textbf{\begin{tabular}[b]{@{}c@{}}Capa\\Oculta\end{tabular}} & \textbf{\begin{tabular}[b]{@{}c@{}}Capa\\Salida\end{tabular}} & \textbf{\begin{tabular}[b]{@{}c@{}}Épocas\end{tabular}} & \textbf{\begin{tabular}[b]{@{}c@{}}Pérdida\end{tabular}} & \textbf{\begin{tabular}[b]{@{}c@{}}Brecha\end{tabular}} & \textbf{\begin{tabular}[b]{@{}c@{}}Patrones\\distintos\end{tabular}} & \textbf{\begin{tabular}[b]{@{}c@{}}Error\\paso 1\end{tabular}} & \textbf{\begin{tabular}[b]{@{}c@{}}Error\\paso 50\end{tabular}} & \textbf{\begin{tabular}[b]{@{}c@{}}Densidad\\paso 50\end{tabular}} \\
+		\midrule
+		1:4:ReLU & 2:Linear & 38 & 0.000975 & 0.000975 & 0 & 0.0000 & 0.0000 & 0.1160 \\
+		2:8:ReLU & 2:Linear & 11 & 0.000747 & 0.000747 & 0 & 0.0000 & 0.0000 & 0.1160 \\
+		4:8:ReLU & 2:Linear & 500 & 0.159375 & 0.159375 & 326 & 0.6425 & 0.8840 & 1.0000 \\
+		4:16:ReLU & 2:Linear & 19 & 0.000035 & 0.000035 & 0 & 0.0000 & 0.0000 & 0.1160 \\
+		8:16:ReLU & 2:Linear & 3 & 0.000062 & 0.000062 & 0 & 0.0000 & 0.0000 & 0.1160 \\
+		16:16:ReLU & 2:Linear & 3 & 0.000332 & 0.000332 & 0 & 0.0007 & 0.2190 & 0.1370 \\
+		\midrule
+		1:4:TanH & 1:Sigmoid & 53 & 0.000962 & 0.000962 & 0 & 0.0000 & 0.0000 & 0.1160 \\
+		2:8:TanH & 1:Sigmoid & 18 & 0.000948 & 0.000948 & 0 & 0.0000 & 0.0000 & 0.1160 \\
+		4:8:TanH & 1:Sigmoid & 11 & 0.000898 & 0.000898 & 0 & 0.0000 & 0.0000 & 0.1160 \\
+		4:16:TanH & 1:Sigmoid & 6 & 0.000854 & 0.000854 & 0 & 0.0000 & 0.0000 & 0.1160 \\
+		8:16:TanH & 1:Sigmoid & 6 & 0.000837 & 0.000837 & 0 & 0.0000 & 0.0000 & 0.1160 \\
+		16:16:TanH & 1:Sigmoid & 7 & 0.000722 & 0.000722 & 0 & 0.0000 & 0.0043 & 0.1159 \\
+		\midrule
+		1:4:TanH & 2:Linear & 37 & 0.000936 & 0.000936 & 0 & 0.0000 & 0.0000 & 0.1160 \\
+		2:8:TanH & 2:Linear & 17 & 0.000868 & 0.000868 & 0 & 0.0000 & 0.0000 & 0.1160 \\
+		4:8:TanH & 2:Linear & 8 & 0.000783 & 0.000783 & 0 & 0.0000 & 0.0000 & 0.1160 \\
+		4:16:TanH & 2:Linear & 4 & 0.000652 & 0.000652 & 0 & 0.0000 & 0.0000 & 0.1160 \\
+		8:16:TanH & 2:Linear & 4 & 0.000708 & 0.000708 & 0 & 0.0000 & 0.0000 & 0.1160 \\
+		16:16:TanH & 2:Linear & 3 & 0.000852 & 0.000852 & 0 & 0.0000 & 0.0074 & 0.1169 \\
+		\midrule
+		1:4:ReLU & 1:Sigmoid & 49 & 0.000882 & 0.000882 & 0 & 0.0000 & 0.0000 & 0.1160 \\
+		2:8:ReLU & 1:Sigmoid & 43 & 0.000971 & 0.000971 & 0 & 0.0000 & 0.0000 & 0.1160 \\
+		4:8:ReLU & 1:Sigmoid & 10 & 0.000545 & 0.000545 & 0 & 0.0000 & 0.0000 & 0.1160 \\
+		4:16:ReLU & 1:Sigmoid & 3 & 0.000768 & 0.000768 & 0 & 0.0000 & 0.0000 & 0.1160 \\
+		8:16:ReLU & 1:Sigmoid & 43 & 0.000926 & 0.000926 & 0 & 0.0000 & 0.0000 & 0.1160 \\
+		16:16:ReLU & 1:Sigmoid & 4 & 0.000225 & 0.000225 & 0 & 0.0000 & 0.0000 & 0.1160 \\
+		\bottomrule
+	\end{tabular}
+	\caption{Regla B3/S23 con vecindad de $5\times5$. Pérdida objetivo 0.001, límite de épocas: 500, tamaño del lote: 4096, tasa de aprendizaje: 0.001, semilla aleatoria: 42. Pérdida mínima alcanzable: 0.000000. Brecha: pérdida final $-$ pérdida mínima. Patrones: centros distintos a B3/S23 de los 512 patrones tras un paso. Error $k$: fracción de células distintas a B3/S23 en el paso $k$ y Densidad 50: fracción de células vivas en el paso 50, ambas promedio de 10 condiciones iniciales aleatorias de $69\times69$ (B3/S23: 0.1160).}
+	\label{tab:vecindad_5x5}
+\end{table}

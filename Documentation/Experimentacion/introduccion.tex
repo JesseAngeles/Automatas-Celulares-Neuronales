@@ -1,0 +1,9 @@
+\chapter{Experimentación y resultados}
+
+Una vez construido, validado e implementado el simulador, es momento de la experimentación y del análisis de resultados. A lo largo de este capítulo se exponen los tres experimentos realizados con el simulador para entrenar autómatas celulares neuronales y analizar en Mathematica las evoluciones que generan. Los experimentos avanzan de sistemas con una regla conocida hacia sistemas de los que solo se conoce su resultado:
+
+\begin{enumerate}
+	\item \textbf{Replicación de comportamientos conocidos} (sección \ref{sec:exp1}). Se entrena el autómata celular neuronal con evoluciones de reglas bien conocidas (juego de la vida, \textit{sandpile} y hormiga de Langton) para medir su capacidad de recuperar la regla a partir de la evolución y la vecindad.
+	\item \textbf{Replicación de sistemas complejos naturales} (sección \ref{sec:exp2}). Se entrena con evoluciones obtenidas de sistemas reales sin una regla de transición conocida: la propagación de un incendio, el desarrollo de un embrión y el movimiento de células en cultivo. Cada sistema requiere su propio método de limpieza para llevar los datos al formato $(T, n, n)$ del simulador.
+	\item \textbf{Morfogénesis} (sección \ref{sec:exp3}). Se conoce la condición inicial y la configuración final, pero no la evolución intermedia; el autómata debe encontrar una regla que lleve de una a otra.
+\end{enumerate}
