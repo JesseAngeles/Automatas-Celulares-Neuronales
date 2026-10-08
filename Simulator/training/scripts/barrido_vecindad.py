@@ -74,7 +74,7 @@ def perdida_minima(datos: np.ndarray, vecindad: list) -> float:
 
 
 def nombre(capas: int, neuronas: int, act: str, out_size: int, out_act: str) -> str:
-    return f"{capas}:{neuronas}:{act}_{out_size}:{out_act}"
+    return f"{capas}-{neuronas}-{act}_{out_size}-{out_act}"
 
 
 def entrenar(job: dict) -> dict:
