@@ -1,0 +1,15 @@
+\subsection{Sandpile}\label{sec:exp1_sandpile}
+
+Para finalizar esta primer serie de experimentos, se busca replicar el comportamiento de un sistema autoorganizado llamado SandPile porpuesto por \TODO{\textbackslash cite}. Es un sistema en donde hay pilas de arena que icnrementan, pero, cuando se acumulan 5 granos, los 4 a arriba se se dispersan de manera uniformen sus cuatro vecinos equidistantes mas cercanos.
+
+Esta versión únicamente espera que se terminen de acomodar todos los granos de arena se suelta el siguiente en el centro o puede que en cada paso siempre se añada un grano de arena. El primero no puede tener una representación como automata celular ya que lpara cambiar un estado es necesario que el sistema se encuentre en equilibrio, y eso va en contra de la naturaleza de los autómatas celuales pues el único conocimiento es de su vecindad. Es por esto que se propone un conjunto de estados adicionales que sean los generadores de arena, por lo que tendremos 3 tipos de espacios, arena normal, vacio y arena generadora. Esto se puede definir entonces como 5 + 5 + 1 estados.
+
+Con 11 estados y 5 vecinos, existen $11^5$ configuraciones. La regla parece simple, si tengo 5 disperso 4 de ellas, pero si nos ponemos en el lugar de cada una de las células, cambia la perspectiva. Porque no es lo mismo que tenga 5 y mis vecinos también tengan 5, o que solo un vecino tenga 5 o 2. Si soy el único disperso y me quedo con 1. Si tengo a $n$ vecinos mi tamaño aumenta a $1 + n$ pero si tengo 4 vecinos en 5, paso de 5 a 5. Una función matematica sencilla, pero que el CA lo diferencia en casos.
+
+Los datos no son obtenidos mediante la representación del automata celular, sino son obtenidos mediante la simulación de sandpile y el objetivo es obtener la regla del CA que pueda replicar ese comportamiento.
+
+En \TODO{} vemos los resultados de de la simulación con el entrenamiento. El sistema aprendio el comportamiento considerando un solo generador. En \TODO{} se muestran los  resultados de la evolución pero considerando multiple puntos generadores.
+
+La reducción de vecindad afecta completamente el comportamiento, eliminar el centro le quita a las células conocer su altura, y eliminar cualquier vecino rompe la información por si algún vecino tiene arena que pasarle.
+
+El NCA es mas complicado que la función propia del juego. Sin embargo, esta prueba esta realizada en un ambiente que ya conocemos y cumple el objetivo. Replicar el comportamiento de un sistema para posteriormente simular las reglas de ese sistema complejo pero en diferentes situaciones, es decir, los experimentos realizados con multiples generadores.

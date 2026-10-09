@@ -6,6 +6,7 @@ con los mismos hiperparámetros, genera las evoluciones con el simulador y escri
 Uso (desde Simulator/training):
     python scripts/barrido_vecindad.py entrenar centro 3x3 5x5 7x7 8x8
     python scripts/barrido_vecindad.py evoluciones NO N centro 3x3 5x5 7x7 8x8
+    python scripts/barrido_vecindad.py entrenar 7x7_NO 7x7_centro 9x9_NO 9x9_centro   (solo 16:16)
     python scripts/barrido_vecindad.py referencia
     python scripts/barrido_vecindad.py tablas
 """
@@ -50,9 +51,24 @@ EXPERIMENTOS = {
     "3x3":    dict(vecindad=cuadrado(-1, 1), carpeta="NCA/Vecindad/3x3", etiqueta="$3\\times3$"),
     "5x5":    dict(vecindad=cuadrado(-2, 2), carpeta="NCA/Vecindad/5x5", etiqueta="$5\\times5$"),
     "7x7":    dict(vecindad=cuadrado(-3, 3), carpeta="NCA/Vecindad/7x7", etiqueta="$7\\times7$"),
-    # El kernel admite hasta 64 vecinos (c_neighbourhood[128] en core/nca.cu): 8×8 es el máximo
+    # Con el kernel original (64 vecinos) 8×8 era el máximo; ahora admite 128 (MAX_VECINOS en core/nca.cu)
     "8x8":    dict(vecindad=cuadrado(-4, 3), carpeta="NCA/Vecindad/8x8", etiqueta="$8\\times8$"),
+    # Vecindad ampliada sin la esquina noroeste; solo la red 16:16
+    "7x7_NO": dict(vecindad=[c for c in cuadrado(-3, 3) if c != (-1, -1)], carpeta="NCA/Vecindad/7x7_sin_NO",
+                   etiqueta="$7\\times7$ sin $(-1,-1)$", tamanos=[(16, 16)]),
+    # Vecindad ampliada sin la célula central; solo la red 16:16
+    "7x7_centro": dict(vecindad=[c for c in cuadrado(-3, 3) if c != (0, 0)], carpeta="NCA/Vecindad/7x7_sin_centro",
+                       etiqueta="$7\\times7$ sin $(0,0)$", tamanos=[(16, 16)]),
+    # 9 × 9 (80 vecinos): requiere el kernel con MAX_VECINOS = 128 (core/nca.cu)
+    "9x9_NO": dict(vecindad=[c for c in cuadrado(-4, 4) if c != (-1, -1)], carpeta="NCA/Vecindad/9x9_sin_NO",
+                   etiqueta="$9\\times9$ sin $(-1,-1)$", tamanos=[(16, 16)]),
+    "9x9_centro": dict(vecindad=[c for c in cuadrado(-4, 4) if c != (0, 0)], carpeta="NCA/Vecindad/9x9_sin_centro",
+                       etiqueta="$9\\times9$ sin $(0,0)$", tamanos=[(16, 16)]),
 }
+
+
+def tamanos(exp: str) -> list:
+    return EXPERIMENTOS[exp].get("tamanos", TAMANOS)
 
 
 def cargar_datos() -> np.ndarray:
@@ -118,7 +134,7 @@ def cmd_entrenar(exps: list):
         minimo = perdida_minima(datos, e["vecindad"])
         print(f"{exp}: {len(e['vecindad'])} celdas, pérdida mínima alcanzable {minimo:.6f}", flush=True)
         for act, out_size, out_act in CONFIGS:
-            for capas, neuronas in TAMANOS:
+            for capas, neuronas in tamanos(exp):
                 jobs.append(dict(exp=exp, carpeta=e["carpeta"], capas=capas, neuronas=neuronas, act=act,
                                  out_size=out_size, out_act=out_act, lr=LR, lote=LOTE, epocas=EPOCAS,
                                  minimo=minimo,
@@ -139,7 +155,7 @@ def cmd_evoluciones(exps: list):
     for exp in exps:
         e = EXPERIMENTOS[exp]
         pesos = [str(Path(e["carpeta"]) / f"{nombre(c, n, a, o, oa)}.npz")
-                 for a, o, oa in CONFIGS for c, n in TAMANOS]
+                 for a, o, oa in CONFIGS for c, n in tamanos(exp)]
         r = subprocess.run([PY, "-W", "ignore", GEN_EVOS, *pesos], capture_output=True, text=True)
         estado = "ok" if r.returncode == 0 else f"ERROR {r.stderr.strip().splitlines()[-1]}"
         print(f"evoluciones {exp}: {len(pesos)} modelos {estado}", flush=True)

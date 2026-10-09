@@ -1,0 +1,50 @@
+{
+	"simulation":"sandpile",
+	"shape":[
+		10001,
+		69,
+		69
+	],
+	"size":69,
+	"steps":10000,
+	"generators":[
+		[
+			35,
+			35
+		]
+	],
+	"threshold":4,
+	"grains_per_toppling":4,
+	"boundary":"open",
+	"state_encoding":"altura en celdas normales; altura + threshold en celdas generadoras",
+	"states":[
+		"0: 0 granos",
+		"1: 1 grano",
+		"2: 2 granos",
+		"3: 3 granos",
+		"4: generador, 0 granos",
+		"5: generador, 1 grano",
+		"6: generador, 2 granos",
+		"7: generador, 3 granos"
+	],
+	"colors_hex":[
+		"#f0efec",
+		"#2a78d6",
+		"#eb6834",
+		"#1baf7a",
+		"#848382",
+		"#174276",
+		"#81391d",
+		"#0f6043"
+	],
+	"state_fraction":[
+		0.5603684958116245,
+		6.645317404827465e-2,
+		0.1455848534029185,
+		0.22738343682959997,
+		5.252572831353706e-5,
+		5.250472642296787e-5,
+		5.250472642296787e-5,
+		5.250472642296787e-5
+	]
+}

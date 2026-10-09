@@ -1,0 +1,5 @@
+exp,carpeta,capas,neuronas,act,out_size,out_act,lr,lote,epocas,epocas_corridas,final,minima,minimo,brecha,segundos,salida,error
+9x9_centro,NCA/Vecindad/9x9_sin_centro,16,16,relu,2,linear,0.001,4096,500,500,0.06706579046285882,0.06700538930540183,0.001102225520072307,0.06596356494278652,444.0328490119937,NCA/Vecindad/9x9_sin_centro/16-16-relu_2-linear.npz,
+9x9_centro,NCA/Vecindad/9x9_sin_centro,16,16,tanh,1,sigmoid,0.001,4096,500,500,0.06603147912086273,0.06599677866514848,0.001102225520072307,0.06492925360079042,444.6376766769972,NCA/Vecindad/9x9_sin_centro/16-16-tanh_1-sigmoid.npz,
+9x9_centro,NCA/Vecindad/9x9_sin_centro,16,16,tanh,2,linear,0.001,4096,500,500,0.06598689379740734,0.06594861613548532,0.001102225520072307,0.06488466827733504,160.70132739799737,NCA/Vecindad/9x9_sin_centro/16-16-tanh_2-linear.npz,
+9x9_centro,NCA/Vecindad/9x9_sin_centro,16,16,relu,1,sigmoid,0.001,4096,500,500,0.06719744255652232,0.06711433619564894,0.001102225520072307,0.06609521703645002,160.82230535599956,NCA/Vecindad/9x9_sin_centro/16-16-relu_1-sigmoid.npz,

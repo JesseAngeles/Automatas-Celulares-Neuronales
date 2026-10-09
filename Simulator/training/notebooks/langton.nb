@@ -1,0 +1,1340 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 15.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[     53071,       1331]
+NotebookOptionsPosition[     49313,       1282]
+NotebookOutlinePosition[     49627,       1296]
+CellTagsIndexPosition[     49584,       1293]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["Hormiga de Langton", "Title",ExpressionUUID->"4387abd4-b72d-4544-b5e2-271d7f69d9ec"],
+
+Cell[TextData[{
+ "Simulaci\[OAcute]n directa de una hormiga de Langton generalizada, no como \
+aut\[OAcute]mata celular. La regla es una cadena con una letra por color: ",
+ Cell[BoxData[Cell["R",
+   Background->None,ExpressionUUID->"54657371-c82c-4cd1-b74c-0a5306b511d8"]], 
+  "InlineCode",ExpressionUUID->"9fa19c20-b846-4c3c-b6b5-e4c3cc44b095"],
+ " gira a la derecha, ",
+ Cell[BoxData[Cell["L",
+   Background->None,ExpressionUUID->"3c4d897b-5f7a-427c-9561-e82d5ea1a23d"]], 
+  "InlineCode",ExpressionUUID->"b3f203f9-d2c4-438b-92d4-634968f1bc20"],
+ " a la izquierda, ",
+ Cell[BoxData[
+  TemplateBox[{
+   "N", "paclet:ref/N", "https://reference.wolfram.com/language/ref/N.html"},
+   "TextRefLink",
+   DisplayFunction->(TagBox[
+     ButtonBox[
+      StyleBox[#, ShowStringCharacters -> True, FontFamily -> 
+       "Source Sans Pro"], 
+      BaseStyle -> {"Link", FontColor -> LightDarkSwitched[
+          RGBColor[0.02, 0.286, 0.651], 
+          RGBColor[0.2823, 0.6666, 0.949]]}, ButtonData -> #2, ContentPadding -> 
+      False], 
+     MouseAppearanceTag["LinkHand"]]& )]],ExpressionUUID->
+  "c7868ded-c6b6-41bc-89e2-c5f81c50338b"],
+ " no gira y ",
+ Cell[BoxData[Cell["U",
+   Background->None,ExpressionUUID->"6a651d5a-c803-4a82-a112-eeacd6ba0792"]], 
+  "InlineCode",ExpressionUUID->"1fb98cd5-a8ce-4c66-aa24-0e69366e391f"],
+ " da media vuelta. En cada paso de tiempo la hormiga:"
+}], "Text",ExpressionUUID->"ee967a56-189c-4895-ac86-02f57aaf508c"],
+
+Cell[TextData[{
+ "1. lee el color ",
+ StyleBox["c", "TI"],
+ " de su celda y gira seg\[UAcute]n la letra ",
+ StyleBox["c", "TI"],
+ " de la regla,"
+}], "Text",ExpressionUUID->"293abce1-19fe-45e5-8aa3-eb9dc0e70e7c"],
+
+Cell[TextData[{
+ "2. cambia el color de la celda a ",
+ Cell[BoxData[Cell["c + 1",
+   Background->None,ExpressionUUID->"26411f8a-9e1d-48fa-9d2e-608758f8e1c3"]], 
+  "InlineCode",ExpressionUUID->"a059d628-2f40-4b51-a726-c6f2e28ebcdb"],
+ " (m\[OAcute]dulo el n\[UAcute]mero de colores),"
+}], "Text",ExpressionUUID->"797f4097-570f-4e57-a6a9-f8b2d0745bb6"],
+
+Cell["3. avanza una celda en su nueva direcci\[OAcute]n.", "Text",ExpressionUUID->"f393a8cf-42ee-4d1a-9242-8e3f87ab797c"],
+
+Cell[TextData[{
+ "La regla cl\[AAcute]sica es ",
+ Cell[BoxData["\"\<RL\>\""], "InlineWL", "Input",
+  ShowAutoStyles->True,
+  ShowSyntaxStyles->True,
+  LanguageCategory->"Input",
+  ShowStringCharacters->True,ExpressionUUID->
+  "4e859637-0432-49e4-9c47-64ea063c294b"],
+ ". Otras conocidas: ",
+ Cell[BoxData["\"\<RLR\>\""], "InlineWL", "Input",
+  ShowAutoStyles->True,
+  ShowSyntaxStyles->True,
+  LanguageCategory->"Input",
+  ShowStringCharacters->True,ExpressionUUID->
+  "1e3ff3bb-4ff8-48b7-8734-bffe7f15237b"],
+ ", ",
+ Cell[BoxData["\"\<LLRR\>\""], "InlineWL", "Input",
+  ShowAutoStyles->True,
+  ShowSyntaxStyles->True,
+  LanguageCategory->"Input",
+  ShowStringCharacters->True,ExpressionUUID->
+  "693a82ee-9228-462c-b34e-02f097972ba9"],
+ ", ",
+ Cell[BoxData["\"\<LRRRRRLLR\>\""], "InlineWL", "Input",
+  ShowAutoStyles->True,
+  ShowSyntaxStyles->True,
+  LanguageCategory->"Input",
+  ShowStringCharacters->True,ExpressionUUID->
+  "d7b66755-eccd-4781-81e4-6f1178c9aa49"],
+ ", ",
+ Cell[BoxData["\"\<RRLLLRLLLRRR\>\""], "InlineWL", "Input",
+  ShowAutoStyles->True,
+  ShowSyntaxStyles->True,
+  LanguageCategory->"Input",
+  ShowStringCharacters->True,ExpressionUUID->
+  "9e8babf1-2b65-4d3d-9c5d-8c8a3726a585"],
+ ". Los bordes son peri\[OAcute]dicos. "
+}], "Text",ExpressionUUID->"e8e351f3-26b9-4e70-a080-7d9d7fc81ee2"],
+
+Cell["Estados", "Section",ExpressionUUID->"99706e94-0ad7-4cda-81c2-e18212575613"],
+
+Cell[TextData[{
+ "Con ",
+ StyleBox["n", "TI"],
+ " colores, cada celda sin hormiga tiene su color ",
+ Cell[BoxData[Cell["0 \[Ellipsis] n \[Minus] 1",
+   Background->None,ExpressionUUID->"7bd0306e-060c-4132-8029-892657ce9845"]], 
+  "InlineCode",ExpressionUUID->"ce013419-9c0f-4da8-bf9f-7d36cbf8d233"],
+ ". La celda con la hormiga se distingue sumando ",
+ StyleBox["n", "TI"],
+ " veces (direcci\[OAcute]n + 1) a su color, con las direcciones 0 = arriba, \
+1 = derecha, 2 = abajo y 3 = izquierda: "
+}], "Text",ExpressionUUID->"9ed076f4-ae58-4802-b196-f8025c1e9785"],
+
+Cell[TextData[{
+ Cell[BoxData[Cell["0 \[Ellipsis] n \[Minus] 1",
+   Background->None,ExpressionUUID->"88f179c3-4f51-4083-8e24-148c648b819f"]], 
+  "InlineCode",ExpressionUUID->"c315034e-89b5-44b4-a3e6-682f3376d5e2"],
+ ": color sin hormiga."
+}], "Item",ExpressionUUID->"4e8c20d2-2121-4821-9b71-c87cf46035ef"],
+
+Cell[TextData[{
+ Cell[BoxData[Cell["n \[Ellipsis] 2n \[Minus] 1",
+   Background->None,ExpressionUUID->"306545de-e0e8-431f-ad24-9df75f691220"]], 
+  "InlineCode",ExpressionUUID->"3dae506c-1d2a-478e-97f6-7dd48917b10c"],
+ ": hormiga hacia arriba sobre ese color."
+}], "Item",ExpressionUUID->"b589b440-3569-47c2-8009-9a1133a373ce"],
+
+Cell[TextData[{
+ Cell[BoxData[Cell["2n \[Ellipsis] 3n \[Minus] 1",
+   Background->None,ExpressionUUID->"694486c9-6126-4f98-aa91-c25fa979f10c"]], 
+  "InlineCode",ExpressionUUID->"c29408ec-d1b8-4d88-998a-5d2212116d05"],
+ ": hormiga hacia la derecha."
+}], "Item",ExpressionUUID->"e48706c0-a05d-4884-8afa-32bdc2b81389"],
+
+Cell[TextData[{
+ Cell[BoxData[Cell["3n \[Ellipsis] 4n \[Minus] 1",
+   Background->None,ExpressionUUID->"636e6866-4e59-4b79-981c-be624e55f859"]], 
+  "InlineCode",ExpressionUUID->"b347107a-9e89-423d-a49d-591b93e681dd"],
+ ": hormiga hacia abajo."
+}], "Item",ExpressionUUID->"0ed29b33-7d4f-4df8-bfe2-96d94096db71"],
+
+Cell[TextData[{
+ Cell[BoxData[Cell["4n \[Ellipsis] 5n \[Minus] 1",
+   Background->None,ExpressionUUID->"198f7cb6-a89d-4a8a-b12d-50eb23fbe2b9"]], 
+  "InlineCode",ExpressionUUID->"5f60cea4-04c5-4a5e-b800-b5f72c44d455"],
+ ": hormiga hacia la izquierda."
+}], "Item",ExpressionUUID->"91f4e48b-8450-4df7-ac58-84de999b680e"],
+
+Cell[TextData[{
+ "Con ",
+ Cell[BoxData["\"\<RL\>\""], "InlineWL", "Input",
+  ShowAutoStyles->True,
+  ShowSyntaxStyles->True,
+  LanguageCategory->"Input",
+  ShowStringCharacters->True,ExpressionUUID->
+  "5fc286ae-39ca-4ea5-b6e6-5fc397f77a5b"],
+ " son 10 estados. Se guarda el espacio despu\[EAcute]s de cada paso, as\
+\[IAcute] que la evoluci\[OAcute]n tiene ",
+ Cell[BoxData[Cell["pasos + 1",
+   Background->None,ExpressionUUID->"dbbde5e1-bd33-4244-bd9f-0e871c42a98d"]], 
+  "InlineCode",ExpressionUUID->"9ea4d545-7ee2-4c22-abfe-4569954309d8"],
+ " cuadros (el cuadro 0 es la hormiga en su posici\[OAcute]n inicial). "
+}], "Text",ExpressionUUID->"e54d27cd-21a0-4567-b926-6d5169b1a38f"],
+
+Cell["Par\[AAcute]metros", "Section",ExpressionUUID->"879414e5-d06e-4368-8dff-e3562751fbeb"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"regla", "=", "\"\<RL\>\""}], ";"}], "                    ", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"una", " ", "letra", " ", "por", " ", 
+     RowBox[{"color", ":", " ", "R"}]}], ",", " ", "L", ",", " ", 
+    RowBox[{"N", " ", "o", " ", "U"}]}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"lado", "=", "101"}], ";"}], "                      ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"espacio", " ", "de", " ", "lado", " ", "\[Times]", " ", "lado"}], 
+   " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"pasos", "=", "11000"}], ";"}], "                   ", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "con", " ", "RL", " ", "la", " ", "autopista", " ", "aparece", " ", 
+    "cerca", " ", "del", " ", "paso", " ", "10", " ", "000"}], " ", 
+   "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"inicio", "=", 
+    RowBox[{"{", 
+     RowBox[{"51", ",", "51"}], "}"}]}], ";"}], "               ", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"fila", ",", " ", "columna"}], "}"}], " ", "inicial", " ", "de", 
+    " ", "la", " ", "hormiga"}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"direccion", "=", "0"}], ";"}], "                   ", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"0", " ", "arriba"}], ",", " ", 
+    RowBox[{"1", " ", "derecha"}], ",", " ", 
+    RowBox[{"2", " ", "abajo"}], ",", " ", 
+    RowBox[{"3", " ", "izquierda"}]}], " ", "*)"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"!", " ", 
+      RowBox[{"StringMatchQ", "[", 
+       RowBox[{"regla", ",", 
+        RowBox[{
+         RowBox[{"(", 
+          
+          RowBox[{"\"\<R\>\"", " ", "|", " ", "\"\<L\>\"", " ", "|", 
+           " ", "\"\<N\>\"", " ", "|", " ", "\"\<U\>\""}], ")"}], " ", 
+         ".."}]}], "]"}]}], "||", 
+     RowBox[{
+      RowBox[{"StringLength", "[", "regla", "]"}], "<", "2"}]}], ",", 
+    "\[IndentingNewLine]", "\t", 
+    RowBox[{
+     RowBox[{
+     "Print", "[", "\"\<La regla debe tener al menos 2 letras R, L, N o U\>\"",
+       "]"}], ";", " ", 
+     RowBox[{"Abort", "[", "]"}]}]}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"n", "=", 
+   RowBox[{"StringLength", "[", "regla", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"giros", "=", 
+   RowBox[{"<|", 
+    RowBox[{
+     RowBox[{"\"\<R\>\"", "->", "1"}], ",", 
+     RowBox[{"\"\<L\>\"", "->", 
+      RowBox[{"-", "1"}]}], ",", 
+     RowBox[{"\"\<N\>\"", "->", "0"}], ",", 
+     RowBox[{"\"\<U\>\"", "->", "2"}]}], "|>"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"movimientos", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "1"}], ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", 
+       RowBox[{"-", "1"}]}], "}"}]}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"flechas", "=", 
+   RowBox[{"{", 
+    RowBox[{"\"\<\[UpArrow]\>\"", ",", "\"\<\[RightArrow]\>\"", 
+     ",", "\"\<\[DownArrow]\>\"", ",", "\"\<\[LeftArrow]\>\""}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"colorHormiga", "[", 
+    RowBox[{"c_", ",", "d_"}], "]"}], ":=", 
+   RowBox[{"c", "+", 
+    RowBox[{"n", " ", 
+     RowBox[{"(", 
+      RowBox[{"d", "+", "1"}], ")"}]}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"estados", "=", 
+   RowBox[{"Range", "[", 
+    RowBox[{"0", ",", 
+     RowBox[{
+      RowBox[{"5", " ", "n"}], "-", "1"}]}], "]"}]}], ";"}]}], "Input",Express\
+ionUUID->"2204605e-b9a1-45bb-ad36-6245554375e0"],
+
+Cell["Simulaci\[OAcute]n", "Section",ExpressionUUID->"5cdd49d0-607a-4e17-b5d8-36e93edd8076"],
+
+Cell[TextData[{
+ "Para no ocupar memoria de m\[AAcute]s, los cuadros se guardan en bloques de \
+enteros de 8 bits (",
+ Cell[BoxData[
+  TemplateBox[{
+   "NumericArray", "paclet:ref/NumericArray", 
+    "https://reference.wolfram.com/language/ref/NumericArray.html"},
+   "TextRefLink",
+   DisplayFunction->(TagBox[
+     ButtonBox[
+      StyleBox[#, ShowStringCharacters -> True, FontFamily -> 
+       "Source Sans Pro"], 
+      BaseStyle -> {"Link", FontColor -> LightDarkSwitched[
+          RGBColor[0.02, 0.286, 0.651], 
+          RGBColor[0.2823, 0.6666, 0.949]]}, ButtonData -> #2, ContentPadding -> 
+      False], 
+     MouseAppearanceTag["LinkHand"]]& )]],ExpressionUUID->
+  "a717ac68-91d9-499c-b9de-124fa67f63ac"],
+ "). Adem\[AAcute]s del espacio, se registran los conteos de celdas de cada \
+color y la posici\[OAcute]n de la hormiga sin envolver en el borde (para \
+medir su distancia al inicio). "
+}], "Text",ExpressionUUID->"033ab064-7b79-484f-9017-43ee0c74e178"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"bloque", "=", "500"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"simular", "[", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"g", "=", 
+         RowBox[{"ConstantArray", "[", 
+          RowBox[{"0", ",", 
+           RowBox[{"{", 
+            RowBox[{"lado", ",", "lado"}], "}"}]}], "]"}]}], ",", 
+        RowBox[{"p", "=", "inicio"}], ",", 
+        RowBox[{"d", "=", "direccion"}], ",", 
+        RowBox[{"q", "=", "inicio"}], ",", "\[IndentingNewLine]", "\t\t", 
+        RowBox[{"gs", "=", 
+         RowBox[{"Lookup", "[", 
+          RowBox[{"giros", ",", 
+           RowBox[{"Characters", "[", "regla", "]"}]}], "]"}]}], ",", "c", ",", 
+        RowBox[{"trozos", "=", 
+         RowBox[{"{", "}"}]}], ",", "trozo", ",", 
+        RowBox[{"i", "=", "0"}], ",", "conteo", ",", "conteos", ",", 
+        "posiciones", ",", "guardar"}], "}"}], ",", "\[IndentingNewLine]", 
+      "\t", 
+      RowBox[{
+       RowBox[{"conteo", "=", 
+        RowBox[{"ReplacePart", "[", 
+         RowBox[{
+          RowBox[{"ConstantArray", "[", 
+           RowBox[{"0", ",", "n"}], "]"}], ",", 
+          RowBox[{"1", "->", 
+           RowBox[{"lado", "^", "2"}]}]}], "]"}]}], ";", " ", 
+       "\[IndentingNewLine]", "\t", 
+       RowBox[{"conteos", "=", 
+        RowBox[{"ConstantArray", "[", 
+         RowBox[{"0", ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"pasos", "+", "1"}], ",", "n"}], "}"}]}], "]"}]}], ";", 
+       " ", 
+       RowBox[{"posiciones", "=", 
+        RowBox[{"ConstantArray", "[", 
+         RowBox[{"0", ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"pasos", "+", "1"}], ",", "2"}], "}"}]}], "]"}]}], ";", 
+       " ", "\[IndentingNewLine]", "\t", 
+       RowBox[{"trozo", "=", 
+        RowBox[{"ConstantArray", "[", 
+         RowBox[{"0", ",", 
+          RowBox[{"{", 
+           RowBox[{"bloque", ",", "lado", ",", "lado"}], "}"}]}], "]"}]}], ";",
+        " ", "\[IndentingNewLine]", "\t", 
+       RowBox[{
+        RowBox[{"guardar", "[", "k_", "]"}], ":=", 
+        RowBox[{"(", "\[IndentingNewLine]", "\t\t", 
+         RowBox[{
+          RowBox[{"i", "++"}], ";", " ", 
+          RowBox[{
+           RowBox[{"trozo", "[", 
+            RowBox[{"[", "i", "]"}], "]"}], "=", "g"}], ";", " ", 
+          RowBox[{
+           RowBox[{"trozo", "[", 
+            RowBox[{"[", 
+             RowBox[{"i", ",", 
+              RowBox[{"p", "[", 
+               RowBox[{"[", "1", "]"}], "]"}], ",", 
+              RowBox[{"p", "[", 
+               RowBox[{"[", "2", "]"}], "]"}]}], "]"}], "]"}], "=", 
+           RowBox[{"colorHormiga", "[", 
+            RowBox[{
+             RowBox[{"g", "[", 
+              RowBox[{"[", 
+               RowBox[{
+                RowBox[{"p", "[", 
+                 RowBox[{"[", "1", "]"}], "]"}], ",", 
+                RowBox[{"p", "[", 
+                 RowBox[{"[", "2", "]"}], "]"}]}], "]"}], "]"}], ",", "d"}], 
+            "]"}]}], ";", " ", "\[IndentingNewLine]", "\t\t", 
+          RowBox[{
+           RowBox[{"conteos", "[", 
+            RowBox[{"[", 
+             RowBox[{"k", "+", "1"}], "]"}], "]"}], "=", "conteo"}], ";", " ", 
+          RowBox[{
+           RowBox[{"posiciones", "[", 
+            RowBox[{"[", 
+             RowBox[{"k", "+", "1"}], "]"}], "]"}], "=", "q"}], ";", " ", 
+          "\[IndentingNewLine]", "\t\t", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"i", "==", "bloque"}], ",", 
+            RowBox[{
+             RowBox[{"AppendTo", "[", 
+              RowBox[{"trozos", ",", 
+               RowBox[{"NumericArray", "[", 
+                RowBox[{"trozo", ",", "\"\<Integer8\>\""}], "]"}]}], "]"}], ";",
+              " ", 
+             RowBox[{"i", "=", "0"}]}]}], "]"}]}], ")"}]}], ";", " ", 
+       "\[IndentingNewLine]", "\t", 
+       RowBox[{"guardar", "[", "0", "]"}], ";", " ", "\[IndentingNewLine]", 
+       "\t", 
+       RowBox[{"Do", "[", "\[IndentingNewLine]", "\t\t", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"c", "=", 
+           RowBox[{"g", "[", 
+            RowBox[{"[", 
+             RowBox[{
+              RowBox[{"p", "[", 
+               RowBox[{"[", "1", "]"}], "]"}], ",", 
+              RowBox[{"p", "[", 
+               RowBox[{"[", "2", "]"}], "]"}]}], "]"}], "]"}]}], ";", " ", 
+          "\[IndentingNewLine]", "\t\t", 
+          RowBox[{"d", "=", 
+           RowBox[{"Mod", "[", 
+            RowBox[{
+             RowBox[{"d", "+", 
+              RowBox[{"gs", "[", 
+               RowBox[{"[", 
+                RowBox[{"c", "+", "1"}], "]"}], "]"}]}], ",", "4"}], "]"}]}], 
+          ";", " ", "\[IndentingNewLine]", "\t\t", 
+          RowBox[{
+           RowBox[{"g", "[", 
+            RowBox[{"[", 
+             RowBox[{
+              RowBox[{"p", "[", 
+               RowBox[{"[", "1", "]"}], "]"}], ",", 
+              RowBox[{"p", "[", 
+               RowBox[{"[", "2", "]"}], "]"}]}], "]"}], "]"}], "=", 
+           RowBox[{"Mod", "[", 
+            RowBox[{
+             RowBox[{"c", "+", "1"}], ",", "n"}], "]"}]}], ";", " ", 
+          "\[IndentingNewLine]", "\t\t", 
+          RowBox[{
+           RowBox[{"conteo", "[", 
+            RowBox[{"[", 
+             RowBox[{"c", "+", "1"}], "]"}], "]"}], "--"}], ";", " ", 
+          RowBox[{
+           RowBox[{"conteo", "[", 
+            RowBox[{"[", 
+             RowBox[{
+              RowBox[{"Mod", "[", 
+               RowBox[{
+                RowBox[{"c", "+", "1"}], ",", "n"}], "]"}], "+", "1"}], "]"}],
+             "]"}], "++"}], ";", " ", "\[IndentingNewLine]", "\t\t", 
+          RowBox[{"q", " ", "+=", " ", 
+           RowBox[{"movimientos", "[", 
+            RowBox[{"[", 
+             RowBox[{"d", "+", "1"}], "]"}], "]"}]}], ";", " ", 
+          "\[IndentingNewLine]", "\t\t", 
+          RowBox[{"p", "=", 
+           RowBox[{
+            RowBox[{"Mod", "[", 
+             RowBox[{
+              RowBox[{"p", "+", 
+               RowBox[{"movimientos", "[", 
+                RowBox[{"[", 
+                 RowBox[{"d", "+", "1"}], "]"}], "]"}], "-", "1"}], ",", 
+              "lado"}], "]"}], "+", "1"}]}], ";", " ", "\[IndentingNewLine]", 
+          "\t\t", 
+          RowBox[{"guardar", "[", "k", "]"}]}], ",", "\[IndentingNewLine]", 
+         "\t\t", 
+         RowBox[{"{", 
+          RowBox[{"k", ",", "pasos"}], "}"}]}], "]"}], ";", " ", 
+       "\[IndentingNewLine]", "\t", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"i", ">", "0"}], ",", 
+         RowBox[{"AppendTo", "[", 
+          RowBox[{"trozos", ",", 
+           RowBox[{"NumericArray", "[", 
+            RowBox[{
+             RowBox[{"trozo", "[", 
+              RowBox[{"[", 
+               RowBox[{";;", " ", "i"}], "]"}], "]"}], 
+             ",", "\"\<Integer8\>\""}], "]"}]}], "]"}]}], "]"}], ";", " ", 
+       "\[IndentingNewLine]", "\t", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"Join", " ", "@@", " ", "trozos"}], ",", "conteos", ",", 
+         "posiciones"}], "}"}]}]}], "]"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"evolucion", ",", "conteos", ",", "posiciones"}], "}"}], "=", 
+   RowBox[{"simular", "[", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"cuadro", "[", "k_", "]"}], ":=", 
+   RowBox[{"Normal", "[", 
+    RowBox[{"evolucion", "[", 
+     RowBox[{"[", 
+      RowBox[{"k", "+", "1"}], "]"}], "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"Dimensions", "[", "evolucion", "]"}], ",", 
+   RowBox[{"Union", "[", 
+    RowBox[{"Flatten", "[", 
+     RowBox[{"cuadro", "[", "pasos", "]"}], "]"}], "]"}], ",", 
+   RowBox[{"conteos", "[", 
+    RowBox[{"[", 
+     RowBox[{"-", "1"}], "]"}], "]"}]}], "}"}]}], "Input",ExpressionUUID->\
+"05f83551-5f1e-484d-a40b-5db5596351e3"],
+
+Cell["Colores por estado", "Section",ExpressionUUID->"8dbf58e7-8b4b-4491-94ba-d2de3d8841f9"],
+
+Cell["\<\
+Cada color de celda tiene su color; la hormiga usa el mismo color oscurecido. \
+En los espacios, una flecha negra marca la posici\[OAcute]n y \
+direcci\[OAcute]n de la hormiga. Con m\[AAcute]s de 9 colores se interpola la \
+paleta. \
+\>", "Text",ExpressionUUID->"dcd65905-240b-4f25-82aa-79828744fa7f"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"paleta", "=", 
+   RowBox[{"RGBColor", " ", "/@", " ", 
+    RowBox[{"{", 
+     RowBox[{"\"\<#f0efec\>\"", ",", "\"\<#2a78d6\>\"", ",", "\"\<#eb6834\>\"",
+       ",", "\"\<#1baf7a\>\"", ",", "\"\<#eda100\>\"", ",", "\"\<#e87ba4\>\"",
+       ",", "\"\<#008300\>\"", ",", "\"\<#4a3aa7\>\"", 
+      ",", "\"\<#e34948\>\""}], "}"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"colorCelda", "[", "c_", "]"}], ":=", 
+   RowBox[{"If", "[", 
+    RowBox[{
+     RowBox[{"n", "<=", 
+      RowBox[{"Length", "[", "paleta", "]"}]}], ",", 
+     RowBox[{"paleta", "[", 
+      RowBox[{"[", 
+       RowBox[{"c", "+", "1"}], "]"}], "]"}], ",", "\[IndentingNewLine]", 
+     "\t", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{"c", "==", "0"}], ",", 
+       RowBox[{"First", "[", "paleta", "]"}], ",", 
+       RowBox[{"Blend", "[", 
+        RowBox[{
+         RowBox[{"Rest", "[", "paleta", "]"}], ",", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"c", "-", "1"}], ")"}], "/", 
+          RowBox[{"Max", "[", 
+           RowBox[{"1", ",", 
+            RowBox[{"n", "-", "2"}]}], "]"}]}]}], "]"}]}], "]"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"colores", "=", 
+   RowBox[{"Association", "[", "\[IndentingNewLine]", "\t", 
+    RowBox[{
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"c", "->", 
+        RowBox[{"colorCelda", "[", "c", "]"}]}], ",", 
+       RowBox[{"{", 
+        RowBox[{"c", ",", "0", ",", 
+         RowBox[{"n", "-", "1"}]}], "}"}]}], "]"}], ",", 
+     "\[IndentingNewLine]", "\t", 
+     RowBox[{"Flatten", "@", 
+      RowBox[{"Table", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"colorHormiga", "[", 
+          RowBox[{"c", ",", "d"}], "]"}], "->", 
+         RowBox[{"Darker", "[", 
+          RowBox[{
+           RowBox[{"colorCelda", "[", "c", "]"}], ",", "0.6"}], "]"}]}], ",", 
+        
+        RowBox[{"{", 
+         RowBox[{"d", ",", "0", ",", "3"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"c", ",", "0", ",", 
+          RowBox[{"n", "-", "1"}]}], "}"}]}], "]"}]}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"nombres", "=", 
+   RowBox[{"Association", "[", "\[IndentingNewLine]", "\t", 
+    RowBox[{
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"c", "->", 
+        RowBox[{
+         RowBox[{"ToString", "[", "c", "]"}], " ", "<>", 
+         " ", "\"\<: color \>\"", " ", "<>", " ", 
+         RowBox[{"ToString", "[", "c", "]"}], " ", "<>", " ", "\"\< (\>\"", 
+         " ", "<>", " ", 
+         RowBox[{"StringTake", "[", 
+          RowBox[{"regla", ",", 
+           RowBox[{"{", 
+            RowBox[{"c", "+", "1"}], "}"}]}], "]"}], " ", "<>", 
+         " ", "\"\<)\>\""}]}], ",", 
+       RowBox[{"{", 
+        RowBox[{"c", ",", "0", ",", 
+         RowBox[{"n", "-", "1"}]}], "}"}]}], "]"}], ",", 
+     "\[IndentingNewLine]", "\t", 
+     RowBox[{"Flatten", "@", 
+      RowBox[{"Table", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"colorHormiga", "[", 
+          RowBox[{"c", ",", "d"}], "]"}], "->", 
+         RowBox[{
+          RowBox[{"ToString", "[", 
+           RowBox[{"colorHormiga", "[", 
+            RowBox[{"c", ",", "d"}], "]"}], "]"}], " ", "<>", 
+          " ", "\"\<: hormiga \>\"", " ", "<>", " ", 
+          RowBox[{"flechas", "[", 
+           RowBox[{"[", 
+            RowBox[{"d", "+", "1"}], "]"}], "]"}], " ", "<>", 
+          " ", "\"\<, color \>\"", " ", "<>", " ", 
+          RowBox[{"ToString", "[", "c", "]"}]}]}], ",", 
+        RowBox[{"{", 
+         RowBox[{"d", ",", "0", ",", "3"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"c", ",", "0", ",", 
+          RowBox[{"n", "-", "1"}]}], "}"}]}], "]"}]}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"leyendaEstados", "=", 
+    RowBox[{"SwatchLegend", "[", 
+     RowBox[{
+      RowBox[{"Values", "[", 
+       RowBox[{"KeySort", "[", "colores", "]"}], "]"}], ",", 
+      RowBox[{"Values", "[", 
+       RowBox[{"KeySort", "[", "nombres", "]"}], "]"}], ",", 
+      RowBox[{"LegendMarkerSize", "->", "14"}], ",", "\[IndentingNewLine]", 
+      "\t", 
+      RowBox[{"LegendMarkers", "->", 
+       RowBox[{"Graphics", "[", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"EdgeForm", "[", 
+           RowBox[{"GrayLevel", "[", "0.6", "]"}], "]"}], ",", 
+          RowBox[{"Rectangle", "[", "]"}]}], "}"}], "]"}]}]}], "]"}]}], ";"}],
+   "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"marcaHormiga", "[", "f_", "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"pos", "=", 
+        RowBox[{"First", "@", 
+         RowBox[{"Position", "[", 
+          RowBox[{"f", ",", 
+           RowBox[{"s_", " ", "/;", " ", 
+            RowBox[{"s", ">=", "n"}]}], ",", 
+           RowBox[{"{", "2", "}"}], ",", "1"}], "]"}]}]}], ",", "d", ",", 
+       "centro", ",", "v"}], "}"}], ",", "\[IndentingNewLine]", "\t", 
+     RowBox[{
+      RowBox[{"d", "=", 
+       RowBox[{
+        RowBox[{"Quotient", "[", 
+         RowBox[{
+          RowBox[{"Extract", "[", 
+           RowBox[{"f", ",", "pos"}], "]"}], ",", "n"}], "]"}], "-", "1"}]}], 
+      ";", " ", 
+      RowBox[{"centro", "=", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"pos", "[", 
+           RowBox[{"[", "2", "]"}], "]"}], "-", "0.5"}], ",", 
+         RowBox[{"lado", "-", 
+          RowBox[{"pos", "[", 
+           RowBox[{"[", "1", "]"}], "]"}], "+", "0.5"}]}], "}"}]}], ";", " ", 
+      "\[IndentingNewLine]", "\t", 
+      RowBox[{"v", "=", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", "1"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"1", ",", "0"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", 
+            RowBox[{"-", "1"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", "1"}], ",", "0"}], "}"}]}], "}"}], "[", 
+        RowBox[{"[", 
+         RowBox[{"d", "+", "1"}], "]"}], "]"}]}], ";", " ", 
+      "\[IndentingNewLine]", "\t", 
+      RowBox[{"{", 
+       RowBox[{"Black", ",", 
+        RowBox[{"Thickness", "[", "0.012", "]"}], ",", 
+        RowBox[{"Arrowheads", "[", "0.09", "]"}], ",", 
+        RowBox[{"Arrow", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"centro", "-", 
+            RowBox[{"4", " ", "v"}]}], ",", 
+           RowBox[{"centro", "+", 
+            RowBox[{"4", " ", "v"}]}]}], "}"}], "]"}]}], "}"}]}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"espacio", "[", 
+    RowBox[{"k_", ",", "opts___"}], "]"}], ":=", 
+   RowBox[{"With", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"f", "=", 
+       RowBox[{"cuadro", "[", "k", "]"}]}], "}"}], ",", 
+     RowBox[{"ArrayPlot", "[", 
+      RowBox[{"f", ",", 
+       RowBox[{"ColorRules", "->", 
+        RowBox[{"Normal", "[", "colores", "]"}]}], ",", "\[IndentingNewLine]",
+        "\t", 
+       RowBox[{"Frame", "->", "True"}], ",", 
+       RowBox[{"FrameTicks", "->", "None"}], ",", 
+       RowBox[{"FrameStyle", "->", 
+        RowBox[{"GrayLevel", "[", "0.6", "]"}]}], ",", 
+       RowBox[{"Epilog", "->", 
+        RowBox[{"marcaHormiga", "[", "f", "]"}]}], ",", "\[IndentingNewLine]",
+        "\t", 
+       RowBox[{"PlotLabel", "->", 
+        RowBox[{"Style", "[", 
+         RowBox[{
+          RowBox[{"\"\<Paso \>\"", " ", "<>", " ", 
+           RowBox[{"ToString", "[", "k", "]"}]}], ",", "Black", ",", "12"}], 
+         "]"}]}], ",", 
+       RowBox[{"ImageSize", "->", "160"}], ",", "opts"}], "]"}]}], "]"}]}], 
+  ";"}]}], "Input",ExpressionUUID->"bea7fd4a-c9d4-4142-8963-3312e3ad6b63"],
+
+Cell["Gr\[AAcute]ficas", "Section",ExpressionUUID->"1480ecc9-1264-46d6-b997-d50ba4c66191"],
+
+Cell[TextData[{
+ "Estilo com\[UAcute]n con ",
+ Cell[BoxData[Cell["gol_proportions.nb",
+   Background->None,ExpressionUUID->"0dec1161-872e-45ae-8136-1dae98b33c2c"]], 
+  "InlineCode",ExpressionUUID->"e92e575d-bb8a-4b6b-84a6-ad3354c447dc"],
+ " y ",
+ Cell[BoxData[Cell["sandpile.nb",
+   Background->None,ExpressionUUID->"01fd4587-cec3-4ab0-84d6-355ed80bae5b"]], 
+  "InlineCode",ExpressionUUID->"accb8db5-4027-40ee-a8b9-0a988525f6dc"],
+ ". "
+}], "Text",ExpressionUUID->"28b3b5cc-2e6d-426b-8b1e-ef703f671927"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"estilo", "=", 
+   RowBox[{"Sequence", "[", 
+    RowBox[{
+     RowBox[{"Frame", "->", "True"}], ",", 
+     RowBox[{"Axes", "->", "False"}], ",", 
+     RowBox[{"FrameStyle", "->", 
+      RowBox[{"GrayLevel", "[", "0.4", "]"}]}], ",", "\[IndentingNewLine]", 
+     "\t", 
+     RowBox[{"FrameTicksStyle", "->", 
+      RowBox[{"Directive", "[", 
+       RowBox[{"Black", ",", "11"}], "]"}]}], ",", 
+     RowBox[{"LabelStyle", "->", 
+      RowBox[{"Directive", "[", 
+       RowBox[{"Black", ",", "12"}], "]"}]}], ",", "\[IndentingNewLine]", 
+     "\t", 
+     RowBox[{"GridLinesStyle", "->", 
+      RowBox[{"Directive", "[", 
+       RowBox[{"GrayLevel", "[", "0.85", "]"}], "]"}]}], ",", 
+     RowBox[{"ImageSize", "->", "400"}], ",", 
+     RowBox[{"AspectRatio", "->", 
+      RowBox[{"3", "/", "4"}]}]}], "]"}]}], ";"}]], "Input",ExpressionUUID->\
+"d7f81f64-bf0d-410d-bea4-6558667087a8"],
+
+Cell["Espacio en varios pasos", "Subsection",ExpressionUUID->"e91be1b2-c18a-4cd1-9c08-8e9075ed99f1"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"pasosMuestra", "=", 
+   RowBox[{"Round", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "0.05", ",", "0.2", ",", "0.5", ",", "0.8", ",", "0.95", ",", "1"}], 
+      "}"}], " ", "pasos"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"graficaEspacios", "=", 
+  RowBox[{"Legended", "[", 
+   RowBox[{
+    RowBox[{"GraphicsGrid", "[", 
+     RowBox[{
+      RowBox[{"Partition", "[", 
+       RowBox[{
+        RowBox[{"espacio", " ", "/@", " ", "pasosMuestra"}], ",", "3"}], 
+       "]"}], ",", 
+      RowBox[{"Spacings", "->", 
+       RowBox[{"{", 
+        RowBox[{"10", ",", "10"}], "}"}]}]}], "]"}], ",", 
+    "\[IndentingNewLine]", "\t", 
+    RowBox[{"Placed", "[", 
+     RowBox[{"leyendaEstados", ",", "After"}], "]"}]}], "]"}]}]}], "Input",Exp\
+ressionUUID->"1564c47c-2a70-434e-a9fe-780056021bba"],
+
+Cell["Celdas de cada color", "Subsection",ExpressionUUID->"ea5af7f2-7711-40ec-b3f0-46bd352cfb32"],
+
+Cell["\<\
+El color 0 es el fondo, as\[IAcute] que no se grafica. Con una sola serie no \
+se agrega leyenda. \
+\>", "Text",ExpressionUUID->"3e2557f1-a08f-4ad6-9441-fe3be3a220b6"],
+
+Cell[BoxData[
+ RowBox[{"graficaColores", "=", 
+  RowBox[{"With", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"cs", "=", 
+      RowBox[{"Range", "[", 
+       RowBox[{"1", ",", 
+        RowBox[{"n", "-", "1"}]}], "]"}]}], "}"}], ",", "\[IndentingNewLine]",
+     "\t", 
+    RowBox[{"With", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"g", "=", 
+        RowBox[{"ListLinePlot", "[", 
+         RowBox[{
+          RowBox[{"Transpose", "[", 
+           RowBox[{"conteos", "[", 
+            RowBox[{"[", 
+             RowBox[{"All", ",", 
+              RowBox[{"cs", "+", "1"}]}], "]"}], "]"}], "]"}], ",", 
+          RowBox[{"DataRange", "->", 
+           RowBox[{"{", 
+            RowBox[{"0", ",", "pasos"}], "}"}]}], ",", "\[IndentingNewLine]", 
+          "\t\t\t", 
+          RowBox[{"PlotStyle", "->", 
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"Directive", "[", 
+               RowBox[{
+                RowBox[{"colores", "[", "#", "]"}], ",", 
+                RowBox[{"AbsoluteThickness", "[", "2", "]"}]}], "]"}], " ", 
+              "&"}], " ", "/@", " ", "cs"}], ")"}]}], ",", 
+          "\[IndentingNewLine]", "\t\t\t", 
+          RowBox[{"PlotRange", "->", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{"0", ",", "pasos"}], "}"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"0", ",", "Automatic"}], "}"}]}], "}"}]}], ",", 
+          RowBox[{"GridLines", "->", 
+           RowBox[{"{", 
+            RowBox[{"None", ",", "Automatic"}], "}"}]}], ",", 
+          "\[IndentingNewLine]", "\t\t\t", 
+          RowBox[{"FrameLabel", "->", 
+           RowBox[{"{", 
+            RowBox[{"\"\<Paso\>\"", ",", "\"\<Celdas\>\""}], "}"}]}], ",", 
+          "\[IndentingNewLine]", "\t\t\t", 
+          RowBox[{"PlotLabel", "->", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{"n", "==", "2"}], ",", "\"\<Celdas de color 1\>\"", 
+             ",", "\"\<Celdas por color (sin el color 0)\>\""}], "]"}]}], ",",
+           "estilo"}], "]"}]}], "}"}], ",", "\[IndentingNewLine]", "\t\t", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{"n", "==", "2"}], ",", "g", ",", 
+        RowBox[{"Legended", "[", 
+         RowBox[{"g", ",", 
+          RowBox[{"LineLegend", "[", 
+           RowBox[{
+            RowBox[{"colores", " ", "/@", " ", "cs"}], ",", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{"\"\<Color \>\"", " ", "<>", " ", 
+                RowBox[{"ToString", "[", "#", "]"}]}], ")"}], " ", "&"}], " ",
+              "/@", " ", "cs"}], ",", 
+            RowBox[{"LegendMarkerSize", "->", 
+             RowBox[{"{", 
+              RowBox[{"20", ",", "10"}], "}"}]}]}], "]"}]}], "]"}]}], "]"}]}],
+      "]"}]}], "]"}]}]], "Input",ExpressionUUID->"67a9f5c9-8330-42af-af46-\
+8292ac4738c9"],
+
+Cell["Distancia al inicio", "Subsection",ExpressionUUID->"ff61bc69-3ff5-47a9-b1e5-0913883144d3"],
+
+Cell["\<\
+Distancia euclidiana entre la hormiga y su posici\[OAcute]n inicial, sin \
+envolver en el borde. Cuando la hormiga construye una autopista la distancia \
+crece linealmente. \
+\>", "Text",ExpressionUUID->"dfa4714e-213d-4ae2-849a-488f79e63f5b"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"distancia", "=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"N", "[", 
+      RowBox[{"Norm", "[", 
+       RowBox[{"#", "-", "inicio"}], "]"}], "]"}], " ", "&"}], " ", "/@", " ",
+     "posiciones"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"graficaDistancia", "=", 
+  RowBox[{"ListLinePlot", "[", 
+   RowBox[{"distancia", ",", 
+    RowBox[{"DataRange", "->", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", "pasos"}], "}"}]}], ",", "\[IndentingNewLine]", "\t", 
+    
+    RowBox[{"PlotStyle", "->", 
+     RowBox[{"Directive", "[", 
+      RowBox[{
+       RowBox[{"RGBColor", "[", "\"\<#2a78d6\>\"", "]"}], ",", 
+       RowBox[{"AbsoluteThickness", "[", "1.5", "]"}]}], "]"}]}], ",", 
+    "\[IndentingNewLine]", "\t", 
+    RowBox[{"PlotRange", "->", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", "pasos"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", "Automatic"}], "}"}]}], "}"}]}], ",", 
+    RowBox[{"GridLines", "->", 
+     RowBox[{"{", 
+      RowBox[{"None", ",", "Automatic"}], "}"}]}], ",", "\[IndentingNewLine]",
+     "\t", 
+    RowBox[{"FrameLabel", "->", 
+     RowBox[{"{", 
+      RowBox[{"\"\<Paso\>\"", ",", "\"\<Distancia\>\""}], "}"}]}], ",", 
+    RowBox[{"PlotLabel", "->", "\"\<Distancia de la hormiga al inicio\>\""}], 
+    ",", "estilo"}], "]"}]}]}], "Input",ExpressionUUID->"e23fb1f8-44fb-47a7-\
+ac80-d05be8481610"],
+
+Cell["Exportar", "Section",ExpressionUUID->"1ae54297-054f-4ac6-b8ec-c9ad02096f71"],
+
+Cell[TextData[{
+ "Todo se guarda por regla en ",
+ Cell[BoxData[Cell["CA/LangtonAnt/<regla>/",
+   Background->None,ExpressionUUID->"d5b70c1b-2a69-483a-abc8-d79c74ca8578"]], 
+  "InlineCode",ExpressionUUID->"3ccdc74c-456f-4b80-8770-f393b136d6fc"],
+ ", con el mismo formato que exporta el simulador (GUI) y que lee ",
+ Cell[BoxData[Cell["scripts/main.py",
+   Background->None,ExpressionUUID->"f95c634a-1919-4e90-ae24-26dccb8b7975"]], 
+  "InlineCode",ExpressionUUID->"efb8ecdd-fd39-42ba-bda8-764376310c97"],
+ ": la evoluci\[OAcute]n ",
+ Cell[BoxData[Cell["(pasos + 1, lado, lado)",
+   Background->None,ExpressionUUID->"2d7bc185-2333-49f0-a404-3b3fb15f8165"]], 
+  "InlineCode",ExpressionUUID->"079a5f3e-6487-461c-bfad-362e96a67f82"],
+ " en enteros de 32 bits, como ",
+ Cell[BoxData[Cell["evo.npy",
+   Background->None,ExpressionUUID->"94f2741b-cf38-4e1e-865d-a9ebb9474a89"]], 
+  "InlineCode",ExpressionUUID->"9f806895-d1d0-4d2c-b2b4-857c37411bf6"],
+ " y como ",
+ Cell[BoxData[Cell["evo.mat",
+   Background->None,ExpressionUUID->"c5ee8a0c-ca43-4131-8c7e-defda0ace8a7"]], 
+  "InlineCode",ExpressionUUID->"8a9b9f66-ba02-4a13-aceb-edcaad9b272f"],
+ " (variable ",
+ StyleBox["evolution", "TI"],
+ ", comprimido). ",
+ Cell[BoxData[Cell["evo.json",
+   Background->None,ExpressionUUID->"0ab783c3-71af-4051-8186-55ad95940fd5"]], 
+  "InlineCode",ExpressionUUID->"f85b26de-9f6c-4e9f-853f-03c6a49fe958"],
+ " guarda los par\[AAcute]metros, el significado y color de cada estado y la \
+fracci\[OAcute]n de celdas en cada estado. Tambi\[EAcute]n se exportan la \
+animaci\[OAcute]n (un cuadro cada ",
+ Cell[BoxData[Cell["cadaGif",
+   Background->None,ExpressionUUID->"edc552e9-f421-47cd-853c-6f6648ef694d"]], 
+  "InlineCode",ExpressionUUID->"163feecb-6532-4d90-919b-75069054c1a6"],
+ " pasos, cada celda de ",
+ StyleBox["escala", "TI"],
+ " \[Times] ",
+ StyleBox["escala", "TI"],
+ " p\[IAcute]xeles) y las gr\[AAcute]ficas para el documento en ",
+ Cell[BoxData[Cell["Documentation/img/langton_<regla>_*.png",
+   Background->None,ExpressionUUID->"99c27afc-6411-4876-a691-b54810909fc3"]], 
+  "InlineCode",ExpressionUUID->"fa590995-07f4-44d5-8e7c-0e253fabcc34"],
+ "."
+}], "Text",ExpressionUUID->"db9c2344-0a4e-4dfa-ae1d-4263bd7f0dc1"],
+
+Cell[TextData[{
+ "Mathematica no exporta ",
+ Cell[BoxData[Cell[".npy",
+   Background->None,ExpressionUUID->"070a5e7b-622f-4cd5-8d73-ef72d07e67d3"]], 
+  "InlineCode",ExpressionUUID->"f054b419-3af9-49b2-860e-605a717e1fb3"],
+ ", as\[IAcute] que ",
+ Cell[BoxData[Cell["exportarNPY",
+   Background->None,ExpressionUUID->"710fca48-ca35-451f-bc4d-c1e97040e380"]], 
+  "InlineCode",ExpressionUUID->"7d2d98ba-f38c-445d-90aa-1b1fca8156ca"],
+ " escribe el formato NPY 1.0 a mano: encabezado con tipo ",
+ Cell[BoxData[Cell["<i4",
+   Background->None,ExpressionUUID->"49c1d2eb-0863-4f4f-8e28-2fc44ce89b43"]], 
+  "InlineCode",ExpressionUUID->"828409bc-238e-4bab-9220-84f8c0852632"],
+ ", orden C y forma, y despu\[EAcute]s los datos por bloques. "
+}], "Text",ExpressionUUID->"67bc07a0-1b93-4e26-9824-2219f7f73111"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"exportarNPY", "[", 
+    RowBox[{"archivo_String", ",", "datos_"}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"dims", "=", 
+        RowBox[{"Dimensions", "[", "datos", "]"}]}], ",", "cab", ",", "s", ",", 
+       RowBox[{"b", "=", "500"}]}], "}"}], ",", "\[IndentingNewLine]", "\t", 
+     RowBox[{
+      RowBox[{"cab", "=", 
+       RowBox[{"\"\<{'descr': '<i4', 'fortran_order': False, 'shape': (\>\"", 
+        " ", "<>", " ", 
+        RowBox[{"StringRiffle", "[", 
+         RowBox[{
+          RowBox[{"ToString", " ", "/@", " ", "dims"}], ",", "\"\<, \>\""}], 
+         "]"}], " ", "<>", " ", "\"\<), }\>\""}]}], ";", " ", 
+      "\[IndentingNewLine]", "\t", 
+      RowBox[{"cab", "=", 
+       RowBox[{"cab", " ", "<>", " ", 
+        RowBox[{"StringRepeat", "[", 
+         RowBox[{"\"\< \>\"", ",", 
+          RowBox[{"Mod", "[", 
+           RowBox[{
+            RowBox[{"-", 
+             RowBox[{"(", 
+              RowBox[{"10", "+", 
+               RowBox[{"StringLength", "[", "cab", "]"}], "+", "1"}], ")"}]}],
+             ",", "64"}], "]"}]}], "]"}], " ", "<>", " ", "\"\<\\n\>\""}]}], ";",
+       " ", "\[IndentingNewLine]", "\t", 
+      RowBox[{"s", "=", 
+       RowBox[{"OpenWrite", "[", 
+        RowBox[{"archivo", ",", 
+         RowBox[{"BinaryFormat", "->", "True"}]}], "]"}]}], ";", " ", 
+      "\[IndentingNewLine]", "\t", 
+      RowBox[{"BinaryWrite", "[", 
+       RowBox[{"s", ",", 
+        RowBox[{"Join", "[", 
+         RowBox[{
+          RowBox[{"{", "147", "}"}], ",", 
+          RowBox[{"ToCharacterCode", "[", "\"\<NUMPY\>\"", "]"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"1", ",", "0"}], "}"}]}], "]"}], 
+        ",", "\"\<UnsignedInteger8\>\""}], "]"}], ";", " ", 
+      "\[IndentingNewLine]", "\t", 
+      RowBox[{"BinaryWrite", "[", 
+       RowBox[{"s", ",", 
+        RowBox[{"StringLength", "[", "cab", "]"}], 
+        ",", "\"\<UnsignedInteger16\>\"", ",", 
+        RowBox[{"ByteOrdering", "->", 
+         RowBox[{"-", "1"}]}]}], "]"}], ";", " ", "\[IndentingNewLine]", "\t", 
+      RowBox[{"BinaryWrite", "[", 
+       RowBox[{"s", ",", "cab", ",", "\"\<Character8\>\""}], "]"}], ";", " ", 
+      "\[IndentingNewLine]", "\t", 
+      RowBox[{"Do", "[", 
+       RowBox[{
+        RowBox[{"BinaryWrite", "[", 
+         RowBox[{"s", ",", 
+          RowBox[{"Flatten", "[", 
+           RowBox[{"Normal", "[", 
+            RowBox[{"datos", "[", 
+             RowBox[{"[", 
+              RowBox[{"i", " ", ";;", " ", 
+               RowBox[{"Min", "[", 
+                RowBox[{
+                 RowBox[{"i", "+", "b", "-", "1"}], ",", 
+                 RowBox[{"First", "[", "dims", "]"}]}], "]"}]}], "]"}], "]"}],
+             "]"}], "]"}], ",", "\"\<Integer32\>\"", ",", 
+          RowBox[{"ByteOrdering", "->", 
+           RowBox[{"-", "1"}]}]}], "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "1", ",", 
+          RowBox[{"First", "[", "dims", "]"}], ",", "b"}], "}"}]}], "]"}], ";",
+       " ", "\[IndentingNewLine]", "\t", 
+      RowBox[{"Close", "[", "s", "]"}]}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"hex", "[", "c_", "]"}], ":=", 
+   RowBox[{"\"\<#\>\"", " ", "<>", " ", 
+    RowBox[{"StringJoin", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"IntegerString", "[", 
+        RowBox[{
+         RowBox[{"Round", "[", 
+          RowBox[{"255", " ", "#"}], "]"}], ",", "16", ",", "2"}], "]"}], " ",
+        "&"}], " ", "/@", " ", 
+      RowBox[{"List", " ", "@@", " ", 
+       RowBox[{"ColorConvert", "[", 
+        RowBox[{"c", ",", "\"\<RGB\>\""}], "]"}]}]}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"fraccionEstados", "[", "datos_", "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"t", "=", 
+        RowBox[{"ConstantArray", "[", 
+         RowBox[{"0", ",", 
+          RowBox[{"Length", "[", "estados", "]"}]}], "]"}]}], ",", 
+       RowBox[{"b", "=", "500"}]}], "}"}], ",", "\[IndentingNewLine]", "\t", 
+     RowBox[{
+      RowBox[{"Do", "[", 
+       RowBox[{
+        RowBox[{"t", " ", "+=", " ", 
+         RowBox[{"BinCounts", "[", 
+          RowBox[{
+           RowBox[{"Flatten", "[", 
+            RowBox[{"Normal", "[", 
+             RowBox[{"datos", "[", 
+              RowBox[{"[", 
+               RowBox[{"i", " ", ";;", " ", 
+                RowBox[{"Min", "[", 
+                 RowBox[{
+                  RowBox[{"i", "+", "b", "-", "1"}], ",", 
+                  RowBox[{"Length", "[", "datos", "]"}]}], "]"}]}], "]"}], 
+              "]"}], "]"}], "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"0", ",", 
+             RowBox[{"Length", "[", "estados", "]"}], ",", "1"}], "}"}]}], 
+          "]"}]}], ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "1", ",", 
+          RowBox[{"Length", "[", "datos", "]"}], ",", "b"}], "}"}]}], "]"}], ";",
+       " ", "\[IndentingNewLine]", "\t", 
+      RowBox[{"N", "[", 
+       RowBox[{"t", "/", 
+        RowBox[{"Total", "[", "t", "]"}]}], "]"}]}]}], "]"}]}], 
+  ";"}]}], "Input",ExpressionUUID->"39a4b43b-b790-4562-8d84-d55a090d9d05"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"salida", "=", 
+   RowBox[{"FileNameJoin", "[", 
+    RowBox[{"{", 
+     RowBox[{"\"\<../CA/LangtonAnt\>\"", ",", "regla"}], "}"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Quiet", "@", 
+   RowBox[{"CreateDirectory", "[", "salida", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"img", "=", "\"\<../../../Documentation/img\>\""}], ";", " ", 
+  RowBox[{"base", "=", 
+   RowBox[{"\"\<langton_\>\"", " ", "<>", " ", "regla"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"exportarNPY", "[", 
+   RowBox[{
+    RowBox[{"FileNameJoin", "[", 
+     RowBox[{"{", 
+      RowBox[{"salida", ",", "\"\<evo.npy\>\""}], "}"}], "]"}], ",", 
+    "evolucion"}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"FileNameJoin", "[", 
+     RowBox[{"{", 
+      RowBox[{"salida", ",", "\"\<evo.mat\>\""}], "}"}], "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"\"\<evolution\>\"", "->", 
+      RowBox[{"NumericArray", "[", 
+       RowBox[{"evolucion", ",", "\"\<Integer32\>\""}], "]"}]}], "}"}], 
+    ",", "\"\<LabeledData\>\""}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Export", "[", 
+    RowBox[{
+     RowBox[{"FileNameJoin", "[", 
+      RowBox[{"{", 
+       RowBox[{"salida", ",", "\"\<evo.json\>\""}], "}"}], "]"}], ",", 
+     RowBox[{"<|", "\[IndentingNewLine]", "\t", 
+      RowBox[{
+       RowBox[{"\"\<simulation\>\"", "->", "\"\<langton_ant\>\""}], ",", 
+       RowBox[{"\"\<rule\>\"", "->", "regla"}], ",", 
+       RowBox[{"\"\<colors_count\>\"", "->", "n"}], ",", 
+       "\[IndentingNewLine]", "\t", 
+       RowBox[{"\"\<shape\>\"", "->", 
+        RowBox[{"Dimensions", "[", "evolucion", "]"}]}], ",", 
+       RowBox[{"\"\<size\>\"", "->", "lado"}], ",", 
+       RowBox[{"\"\<steps\>\"", "->", "pasos"}], ",", 
+       RowBox[{"\"\<start\>\"", "->", "inicio"}], ",", 
+       RowBox[{"\"\<direction\>\"", "->", "direccion"}], ",", 
+       "\[IndentingNewLine]", "\t", 
+       RowBox[{"\"\<boundary\>\"", "->", "\"\<periodic\>\""}], ",", 
+       "\[IndentingNewLine]", "\t", 
+       RowBox[{"\"\<state_encoding\>\"", 
+        "->", "\"\<color + n*(direction + 1) en la celda de la hormiga; \
+direction 0 arriba, 1 derecha, 2 abajo, 3 izquierda\>\""}], ",", 
+       "\[IndentingNewLine]", "\t", 
+       RowBox[{"\"\<states\>\"", "->", 
+        RowBox[{"Values", "[", 
+         RowBox[{"KeySort", "[", "nombres", "]"}], "]"}]}], ",", 
+       RowBox[{"\"\<colors_hex\>\"", "->", 
+        RowBox[{"(", 
+         RowBox[{"hex", " ", "/@", " ", 
+          RowBox[{"Values", "[", 
+           RowBox[{"KeySort", "[", "colores", "]"}], "]"}]}], ")"}]}], ",", 
+       "\[IndentingNewLine]", "\t", 
+       RowBox[{"\"\<state_fraction\>\"", "->", 
+        RowBox[{"fraccionEstados", "[", "evolucion", "]"}]}]}], "|>"}], 
+     ",", "\"\<RawJSON\>\""}], "]"}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"cadaGif", "=", "50"}], ";", " ", 
+  RowBox[{"escala", "=", "3"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"cuadros", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"ImageResize", "[", 
+      RowBox[{
+       RowBox[{"Image", "[", 
+        RowBox[{"Map", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"List", " ", "@@", " ", 
+            RowBox[{"colores", "[", "#", "]"}]}], " ", "&"}], ",", 
+          RowBox[{"cuadro", "[", "k", "]"}], ",", 
+          RowBox[{"{", "2", "}"}]}], "]"}], "]"}], ",", 
+       RowBox[{"escala", " ", "lado"}], ",", 
+       RowBox[{"Resampling", "->", "\"\<Nearest\>\""}]}], "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"k", ",", "0", ",", "pasos", ",", "cadaGif"}], "}"}]}], "]"}]}],
+   ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"FileNameJoin", "[", 
+     RowBox[{"{", 
+      RowBox[{"salida", ",", "\"\<evo.gif\>\""}], "}"}], "]"}], ",", 
+    "cuadros", ",", 
+    RowBox[{"\"\<DisplayDurations\>\"", "->", "0.05"}], ",", 
+    RowBox[{"AnimationRepetitions", "->", "Infinity"}]}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Export", "[", 
+    RowBox[{
+     RowBox[{"FileNameJoin", "[", 
+      RowBox[{"{", 
+       RowBox[{"salida", ",", "\"\<evo_final.png\>\""}], "}"}], "]"}], ",", 
+     RowBox[{"Last", "[", "cuadros", "]"}]}], "]"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"FileNameJoin", "[", 
+     RowBox[{"{", 
+      RowBox[{"img", ",", 
+       RowBox[{"base", " ", "<>", " ", "\"\<_espacios.png\>\""}]}], "}"}], 
+     "]"}], ",", "graficaEspacios", ",", 
+    RowBox[{"ImageResolution", "->", "200"}]}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"FileNameJoin", "[", 
+     RowBox[{"{", 
+      RowBox[{"img", ",", 
+       RowBox[{"base", " ", "<>", " ", "\"\<_colores.png\>\""}]}], "}"}], 
+     "]"}], ",", "graficaColores", ",", 
+    RowBox[{"ImageResolution", "->", "200"}]}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"FileNameJoin", "[", 
+     RowBox[{"{", 
+      RowBox[{"img", ",", 
+       RowBox[{"base", " ", "<>", " ", "\"\<_distancia.png\>\""}]}], "}"}], 
+     "]"}], ",", "graficaDistancia", ",", 
+    RowBox[{"ImageResolution", "->", "200"}]}], "]"}], ";"}]}], "Input",Expres\
+sionUUID->"b45fddf7-d46d-4d2b-ac68-33cf466a9c92"]
+},
+FrontEndVersion->"15.0 for Linux x86 (64-bit) (July 2, 2026)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"722d72d9-8e80-47e2-ac21-d4f43aaf2c7c"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[554, 20, 90, 0, 70, "Title",ExpressionUUID->"4387abd4-b72d-4544-b5e2-271d7f69d9ec"],
+Cell[647, 22, 1445, 30, 70, "Text",ExpressionUUID->"ee967a56-189c-4895-ac86-02f57aaf508c"],
+Cell[2095, 54, 212, 6, 70, "Text",ExpressionUUID->"293abce1-19fe-45e5-8aa3-eb9dc0e70e7c"],
+Cell[2310, 62, 350, 6, 70, "Text",ExpressionUUID->"797f4097-570f-4e57-a6a9-f8b2d0745bb6"],
+Cell[2663, 70, 121, 0, 70, "Text",ExpressionUUID->"f393a8cf-42ee-4d1a-9242-8e3f87ab797c"],
+Cell[2787, 72, 1311, 37, 70, "Text",ExpressionUUID->"e8e351f3-26b9-4e70-a080-7d9d7fc81ee2"],
+Cell[4101, 111, 81, 0, 70, "Section",ExpressionUUID->"99706e94-0ad7-4cda-81c2-e18212575613"],
+Cell[4185, 113, 561, 11, 70, "Text",ExpressionUUID->"9ed076f4-ae58-4802-b196-f8025c1e9785"],
+Cell[4749, 126, 306, 5, 70, "Item",ExpressionUUID->"4e8c20d2-2121-4821-9b71-c87cf46035ef"],
+Cell[5058, 133, 326, 5, 70, "Item",ExpressionUUID->"b589b440-3569-47c2-8009-9a1133a373ce"],
+Cell[5387, 140, 315, 5, 70, "Item",ExpressionUUID->"e48706c0-a05d-4884-8afa-32bdc2b81389"],
+Cell[5705, 147, 310, 5, 70, "Item",ExpressionUUID->"0ed29b33-7d4f-4df8-bfe2-96d94096db71"],
+Cell[6018, 154, 317, 5, 70, "Item",ExpressionUUID->"91f4e48b-8450-4df7-ac58-84de999b680e"],
+Cell[6338, 161, 683, 14, 70, "Text",ExpressionUUID->"e54d27cd-21a0-4567-b926-6d5169b1a38f"],
+Cell[7024, 177, 92, 0, 70, "Section",ExpressionUUID->"879414e5-d06e-4368-8dff-e3562751fbeb"],
+Cell[7119, 179, 3908, 112, 70, "Input",ExpressionUUID->"2204605e-b9a1-45bb-ad36-6245554375e0"],
+Cell[11030, 293, 92, 0, 70, "Section",ExpressionUUID->"5cdd49d0-607a-4e17-b5d8-36e93edd8076"],
+Cell[11125, 295, 971, 21, 70, "Text",ExpressionUUID->"033ab064-7b79-484f-9017-43ee0c74e178"],
+Cell[12099, 318, 7899, 206, 70, "Input",ExpressionUUID->"05f83551-5f1e-484d-a40b-5db5596351e3"],
+Cell[20001, 526, 92, 0, 70, "Section",ExpressionUUID->"8dbf58e7-8b4b-4491-94ba-d2de3d8841f9"],
+Cell[20096, 528, 311, 5, 70, "Text",ExpressionUUID->"dcd65905-240b-4f25-82aa-79828744fa7f"],
+Cell[20410, 535, 7741, 212, 70, "Input",ExpressionUUID->"bea7fd4a-c9d4-4142-8963-3312e3ad6b63"],
+Cell[28154, 749, 90, 0, 70, "Section",ExpressionUUID->"1480ecc9-1264-46d6-b997-d50ba4c66191"],
+Cell[28247, 751, 503, 10, 70, "Text",ExpressionUUID->"28b3b5cc-2e6d-426b-8b1e-ef703f671927"],
+Cell[28753, 763, 914, 23, 70, "Input",ExpressionUUID->"d7f81f64-bf0d-410d-bea4-6558667087a8"],
+Cell[29670, 788, 100, 0, 70, "Subsection",ExpressionUUID->"e91be1b2-c18a-4cd1-9c08-8e9075ed99f1"],
+Cell[29773, 790, 847, 24, 70, "Input",ExpressionUUID->"1564c47c-2a70-434e-a9fe-780056021bba"],
+Cell[30623, 816, 97, 0, 70, "Subsection",ExpressionUUID->"ea5af7f2-7711-40ec-b3f0-46bd352cfb32"],
+Cell[30723, 818, 177, 3, 70, "Text",ExpressionUUID->"3e2557f1-a08f-4ad6-9441-fe3be3a220b6"],
+Cell[30903, 823, 2890, 74, 70, "Input",ExpressionUUID->"67a9f5c9-8330-42af-af46-8292ac4738c9"],
+Cell[33796, 899, 96, 0, 70, "Subsection",ExpressionUUID->"ff61bc69-3ff5-47a9-b1e5-0913883144d3"],
+Cell[33895, 901, 252, 4, 70, "Text",ExpressionUUID->"dfa4714e-213d-4ae2-849a-488f79e63f5b"],
+Cell[34150, 907, 1411, 38, 70, "Input",ExpressionUUID->"e23fb1f8-44fb-47a7-ac80-d05be8481610"],
+Cell[35564, 947, 82, 0, 70, "Section",ExpressionUUID->"1ae54297-054f-4ac6-b8ec-c9ad02096f71"],
+Cell[35649, 949, 2205, 42, 70, "Text",ExpressionUUID->"db9c2344-0a4e-4dfa-ae1d-4263bd7f0dc1"],
+Cell[37857, 993, 798, 14, 70, "Text",ExpressionUUID->"67bc07a0-1b93-4e26-9824-2219f7f73111"],
+Cell[38658, 1009, 5201, 132, 70, "Input",ExpressionUUID->"39a4b43b-b790-4562-8d84-d55a090d9d05"],
+Cell[43862, 1143, 5447, 137, 70, "Input",ExpressionUUID->"b45fddf7-d46d-4d2b-ac68-33cf466a9c92"]
+}
+]
+*)
+
+(* End of internal cache information *)
