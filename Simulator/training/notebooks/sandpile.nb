@@ -1,0 +1,1103 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 15.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[     43625,       1094]
+NotebookOptionsPosition[     40330,       1050]
+NotebookOutlinePosition[     40644,       1064]
+CellTagsIndexPosition[     40601,       1061]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["Sandpile", "Title",ExpressionUUID->"dbdc7821-0478-4129-89a6-dd2eff4d35a7"],
+
+Cell[TextData[{
+ "Simulaci\[OAcute]n directa del modelo de pila de arena (Bak\[Dash]Tang\
+\[Dash]Wiesenfeld), no como aut\[OAcute]mata celular. En cada paso de tiempo \
+cae un grano de arena en cada generador y la pila se relaja por completo \
+antes del siguiente paso: toda celda con ",
+ StyleBox["umbral", "TI"],
+ " granos o m\[AAcute]s se derrumba y entrega un grano a cada uno de sus \
+cuatro vecinos (arriba, abajo, izquierda, derecha). Los granos que salen por \
+el borde se pierden."
+}], "Text",ExpressionUUID->"4d0679c0-5870-42cc-a445-13b993a0f944"],
+
+Cell[TextData[{
+ "Despu\[EAcute]s de relajarse, cada celda tiene una altura entre 0 y ",
+ Cell[BoxData[Cell["umbral \[Minus] 1",
+   Background->None,ExpressionUUID->"dc02f597-2809-473a-9676-b96065f889a0"]], 
+  "InlineCode",ExpressionUUID->"73efbc0b-7a3a-4065-9c4c-9c05ce0ea3fa"],
+ ". Las celdas generadoras (donde cae la arena) se distinguen sumando ",
+ StyleBox["umbral", "TI"],
+ " a su altura: "
+}], "Text",ExpressionUUID->"cc776f6d-c93e-4d8b-8f43-95ae0e7513e2"],
+
+Cell[TextData[{
+ "Estados ",
+ Cell[BoxData[Cell["0 \[Ellipsis] umbral \[Minus] 1",
+   Background->None,ExpressionUUID->"d3d0ad20-f758-44d2-a8c9-2ebd1044e5de"]], 
+  "InlineCode",ExpressionUUID->"d5f67e3b-54df-43f3-bb5c-059f05108299"],
+ ": arena normal con esa altura."
+}], "Item",ExpressionUUID->"933b8997-684d-4875-a8b7-4c435ac28974"],
+
+Cell[TextData[{
+ "Estados ",
+ Cell[BoxData[Cell["umbral \[Ellipsis] 2 umbral \[Minus] 1",
+   Background->None,ExpressionUUID->"3eaddf54-d7e8-4e00-8d51-e96f5f9bd59c"]], 
+  "InlineCode",ExpressionUUID->"081a662a-debe-4f28-9e7e-a8216b5e273f"],
+ ": generador con altura ",
+ Cell[BoxData[Cell["estado \[Minus] umbral",
+   Background->None,ExpressionUUID->"38ecec07-b2a9-4af8-9b6b-3bc349e03c6a"]], 
+  "InlineCode",ExpressionUUID->"e787f6d3-e10a-4c69-9e3f-37dfbe789ddb"],
+ " (crecimiento c\[IAcute]clico)."
+}], "Item",ExpressionUUID->"f2ed2ee3-1156-4dd0-97ea-94a352dc2a9c"],
+
+Cell[TextData[{
+ "Con ",
+ Cell[BoxData[Cell["umbral = 4",
+   Background->None,ExpressionUUID->"56750181-c043-4d42-a872-aaf81385df28"]], 
+  "InlineCode",ExpressionUUID->"83b4ae60-69b7-4a9f-9fb5-087cb913ba80"],
+ " los estados son 0\[Dash]3 y 4\[Dash]7; con ",
+ Cell[BoxData[Cell["umbral = 5",
+   Background->None,ExpressionUUID->"cb373bed-77d3-400b-99db-813c302a9e3c"]], 
+  "InlineCode",ExpressionUUID->"fe749f10-3264-4f0e-b330-bd6476398379"],
+ ", 0\[Dash]4 y 5\[Dash]9. Se guarda el estado estable de cada paso, as\
+\[IAcute] que la evoluci\[OAcute]n tiene ",
+ Cell[BoxData[Cell["pasos + 1",
+   Background->None,ExpressionUUID->"36fc7619-eb05-48ac-a612-e137a15bbb79"]], 
+  "InlineCode",ExpressionUUID->"490c7962-b6e2-4fd8-b93b-515e0c2c9ab8"],
+ " cuadros (el cuadro 0 es el espacio vac\[IAcute]o con los generadores). "
+}], "Text",ExpressionUUID->"263ae749-f8dc-4ad1-92f9-0c682025182c"],
+
+Cell["Par\[AAcute]metros", "Section",ExpressionUUID->"274e07b8-2f29-4dca-801c-0a7c735697a5"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"lado", "=", "69"}], ";"}], "                       ", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"espacio", " ", "de", " ", "lado", " ", "\[Times]", " ", "lado"}],
+     ",", " ", 
+    RowBox[{"igual", " ", "que", " ", "las", " ", "pruebas", " ", "de", " ", 
+     RowBox[{"B3", "/", "S23"}]}]}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"pasos", "=", "10000"}], ";"}], "                   ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"granos", " ", "que", " ", "caen", " ", "por", " ", "generador"}], 
+   " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"generadores", "=", 
+    RowBox[{"{", 
+     RowBox[{"{", 
+      RowBox[{"35", ",", "35"}], "}"}], "}"}]}], ";"}], "        ", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"fila", ",", " ", "columna"}], "}"}], " ", "donde", " ", "cae", " ",
+     "el", " ", "grano", " ", "en", " ", "cada", " ", "paso"}], " ", 
+   "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"umbral", "=", "4"}], ";"}], "                      ", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "granos", " ", "con", " ", "los", " ", "que", " ", "una", " ", "celda", " ",
+     "se", " ", "derrumba"}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"reparto", "=", "4"}], ";"}], "                     ", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+    "granos", " ", "que", " ", "entrega", " ", "al", " ", "derrumbarse"}], ",",
+     " ", 
+    RowBox[{"uno", " ", "por", " ", "vecino"}]}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"alturas", "=", 
+   RowBox[{"Range", "[", 
+    RowBox[{"0", ",", 
+     RowBox[{"umbral", "-", "1"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"estados", "=", 
+   RowBox[{"Range", "[", 
+    RowBox[{"0", ",", 
+     RowBox[{
+      RowBox[{"2", " ", "umbral"}], "-", "1"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"mascara", "=", 
+   RowBox[{"ReplacePart", "[", 
+    RowBox[{
+     RowBox[{"ConstantArray", "[", 
+      RowBox[{"0", ",", 
+       RowBox[{"{", 
+        RowBox[{"lado", ",", "lado"}], "}"}]}], "]"}], ",", 
+     RowBox[{"Thread", "[", 
+      RowBox[{"generadores", "->", "1"}], "]"}]}], "]"}]}], ";"}]}], "Input",E\
+xpressionUUID->"16ea3543-2a8b-4b07-8f2e-52079f26f966"],
+
+Cell["Simulaci\[OAcute]n", "Section",ExpressionUUID->"e5d5209f-fd34-4523-b4c1-f9a467eb0e54"],
+
+Cell[TextData[{
+ StyleBox["derrumbar", "TI"],
+ " aplica una ronda: todas las celdas inestables se derrumban a la vez. ",
+ StyleBox["relajar", "TI"],
+ " repite rondas hasta que no queda ninguna inestable. Como el modelo es \
+abeliano, el estado estable final no depende del orden de los derrumbes. El \
+tama\[NTilde]o de la avalancha es el n\[UAcute]mero total de derrumbes. La \
+simulaci\[OAcute]n trabaja con alturas; los estados de generador solo se \
+agregan al guardar cada cuadro. "
+}], "Text",ExpressionUUID->"00b77196-e708-4250-b8bd-e7adab0b0f50"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"derrumbar", "[", "g_", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"t", "=", 
+        RowBox[{"UnitStep", "[", 
+         RowBox[{"g", "-", "umbral"}], "]"}]}], "}"}], ",", 
+      "\[IndentingNewLine]", "\t", 
+      RowBox[{"g", "-", 
+       RowBox[{"reparto", " ", "t"}], "+", "\[IndentingNewLine]", "\t", 
+       RowBox[{"ArrayPad", "[", 
+        RowBox[{"t", ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"1", ",", 
+             RowBox[{"-", "1"}]}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"0", ",", "0"}], "}"}]}], "}"}]}], "]"}], "+", 
+       RowBox[{"ArrayPad", "[", 
+        RowBox[{"t", ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"-", "1"}], ",", "1"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"0", ",", "0"}], "}"}]}], "}"}]}], "]"}], "+", 
+       "\[IndentingNewLine]", "\t", 
+       RowBox[{"ArrayPad", "[", 
+        RowBox[{"t", ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"0", ",", "0"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"1", ",", 
+             RowBox[{"-", "1"}]}], "}"}]}], "}"}]}], "]"}], "+", 
+       RowBox[{"ArrayPad", "[", 
+        RowBox[{"t", ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"0", ",", "0"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"-", "1"}], ",", "1"}], "}"}]}], "}"}]}], "]"}]}]}], 
+     "]"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"relajar", "[", "g0_", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"g", "=", "g0"}], ",", 
+        RowBox[{"derrumbes", "=", "0"}], ",", "t"}], "}"}], ",", 
+      "\[IndentingNewLine]", "\t", 
+      RowBox[{
+       RowBox[{"While", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Max", "[", "g", "]"}], ">=", "umbral"}], ",", 
+         "\[IndentingNewLine]", "\t\t", 
+         RowBox[{
+          RowBox[{"t", "=", 
+           RowBox[{"UnitStep", "[", 
+            RowBox[{"g", "-", "umbral"}], "]"}]}], ";", " ", 
+          RowBox[{"derrumbes", " ", "+=", " ", 
+           RowBox[{"Total", "[", 
+            RowBox[{"t", ",", "2"}], "]"}]}], ";", " ", 
+          RowBox[{"g", "=", 
+           RowBox[{"derrumbar", "[", "g", "]"}]}]}]}], "]"}], ";", " ", 
+       "\[IndentingNewLine]", "\t", 
+       RowBox[{"{", 
+        RowBox[{"g", ",", "derrumbes"}], "}"}]}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"simular", "[", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"g", "=", 
+         RowBox[{"ConstantArray", "[", 
+          RowBox[{"0", ",", 
+           RowBox[{"{", 
+            RowBox[{"lado", ",", "lado"}], "}"}]}], "]"}]}], ",", "evo", ",", 
+        "avalanchas", ",", "r"}], "}"}], ",", "\[IndentingNewLine]", "\t", 
+      RowBox[{
+       RowBox[{"evo", "=", 
+        RowBox[{"ConstantArray", "[", 
+         RowBox[{"0", ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"pasos", "+", "1"}], ",", "lado", ",", "lado"}], "}"}]}], 
+         "]"}]}], ";", " ", "\[IndentingNewLine]", "\t", 
+       RowBox[{"avalanchas", "=", 
+        RowBox[{"ConstantArray", "[", 
+         RowBox[{"0", ",", "pasos"}], "]"}]}], ";", " ", 
+       "\[IndentingNewLine]", "\t", 
+       RowBox[{
+        RowBox[{"evo", "[", 
+         RowBox[{"[", "1", "]"}], "]"}], "=", 
+        RowBox[{"g", "+", 
+         RowBox[{"umbral", " ", "mascara"}]}]}], ";", " ", 
+       "\[IndentingNewLine]", "\t", 
+       RowBox[{"Do", "[", "\[IndentingNewLine]", "\t\t", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Scan", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"g", "[", 
+                RowBox[{"[", 
+                 RowBox[{"Sequence", " ", "@@", " ", "#"}], "]"}], "]"}], 
+               "++"}], ")"}], " ", "&"}], ",", "generadores"}], "]"}], ";", 
+          " ", "\[IndentingNewLine]", "\t\t", 
+          RowBox[{"r", "=", 
+           RowBox[{"relajar", "[", "g", "]"}]}], ";", " ", 
+          RowBox[{"g", "=", 
+           RowBox[{"r", "[", 
+            RowBox[{"[", "1", "]"}], "]"}]}], ";", " ", "\[IndentingNewLine]",
+           "\t\t", 
+          RowBox[{
+           RowBox[{"avalanchas", "[", 
+            RowBox[{"[", "k", "]"}], "]"}], "=", 
+           RowBox[{"r", "[", 
+            RowBox[{"[", "2", "]"}], "]"}]}], ";", " ", 
+          RowBox[{
+           RowBox[{"evo", "[", 
+            RowBox[{"[", 
+             RowBox[{"k", "+", "1"}], "]"}], "]"}], "=", 
+           RowBox[{"g", "+", 
+            RowBox[{"umbral", " ", "mascara"}]}]}]}], ",", 
+         "\[IndentingNewLine]", "\t\t", 
+         RowBox[{"{", 
+          RowBox[{"k", ",", "pasos"}], "}"}]}], "]"}], ";", " ", 
+       "\[IndentingNewLine]", "\t", 
+       RowBox[{"{", 
+        RowBox[{"evo", ",", "avalanchas"}], "}"}]}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"evolucion", ",", "avalanchas"}], "}"}], "=", 
+   RowBox[{"simular", "[", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"altura", "=", 
+   RowBox[{"Mod", "[", 
+    RowBox[{"evolucion", ",", "umbral"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"Dimensions", "[", "evolucion", "]"}], ",", 
+   RowBox[{"Union", "[", 
+    RowBox[{"Flatten", "[", "evolucion", "]"}], "]"}], ",", 
+   RowBox[{"Max", "[", "avalanchas", "]"}]}], "}"}]}], "Input",ExpressionUUID->\
+"fb9fa5ee-2291-442f-bdc2-235f0ffa4fb2"],
+
+Cell["Colores por estado", "Section",ExpressionUUID->"d473c455-a0bb-414b-8cc2-e311d164b42f"],
+
+Cell["\<\
+Cada altura tiene su color; el generador usa el mismo color oscurecido. En \
+los espacios, un recuadro negro marca los generadores. \
+\>", "Text",ExpressionUUID->"b521f768-05f2-49c7-9c20-5a34221f1758"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"paleta", "=", 
+   RowBox[{"RGBColor", " ", "/@", " ", 
+    RowBox[{"{", 
+     RowBox[{"\"\<#f0efec\>\"", ",", "\"\<#2a78d6\>\"", ",", "\"\<#eb6834\>\"",
+       ",", "\"\<#1baf7a\>\"", ",", "\"\<#eda100\>\""}], "}"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"colores", "=", 
+    RowBox[{"Association", "[", "\[IndentingNewLine]", "\t", 
+     RowBox[{
+      RowBox[{"Table", "[", 
+       RowBox[{
+        RowBox[{"h", "->", 
+         RowBox[{"paleta", "[", 
+          RowBox[{"[", 
+           RowBox[{"h", "+", "1"}], "]"}], "]"}]}], ",", 
+        RowBox[{"{", 
+         RowBox[{"h", ",", "alturas"}], "}"}]}], "]"}], ",", 
+      "\[IndentingNewLine]", "\t", 
+      RowBox[{"Table", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"h", "+", "umbral"}], "->", 
+         RowBox[{"Darker", "[", 
+          RowBox[{
+           RowBox[{"paleta", "[", 
+            RowBox[{"[", 
+             RowBox[{"h", "+", "1"}], "]"}], "]"}], ",", "0.45"}], "]"}]}], ",", 
+        RowBox[{"{", 
+         RowBox[{"h", ",", "alturas"}], "}"}]}], "]"}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+    "El", " ", "estado", " ", "0", " ", "es", " ", "casi", " ", "blanco", " ",
+      "en", " ", "el", " ", "espacio"}], ";", " ", 
+    RowBox[{
+    "en", " ", "las", " ", "gr\[AAcute]ficas", " ", "de", " ", 
+     "l\[IAcute]neas", " ", "se", " ", "dibuja", " ", "en", " ", "gris"}]}], 
+   " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"coloresLinea", "=", 
+   RowBox[{"Append", "[", 
+    RowBox[{
+     RowBox[{"KeyTake", "[", 
+      RowBox[{"colores", ",", "alturas"}], "]"}], ",", 
+     RowBox[{"0", "->", 
+      RowBox[{"GrayLevel", "[", "0.55", "]"}]}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"granosTexto", "[", "h_", "]"}], ":=", 
+   RowBox[{
+    RowBox[{"ToString", "[", "h", "]"}], " ", "<>", " ", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{"h", "==", "1"}], ",", "\"\< grano\>\"", 
+      ",", "\"\< granos\>\""}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"nombres", "=", 
+   RowBox[{"Association", "[", "\[IndentingNewLine]", "\t", 
+    RowBox[{
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"h", "->", 
+        RowBox[{
+         RowBox[{"ToString", "[", "h", "]"}], " ", "<>", " ", "\"\<: \>\"", 
+         " ", "<>", " ", 
+         RowBox[{"granosTexto", "[", "h", "]"}]}]}], ",", 
+       RowBox[{"{", 
+        RowBox[{"h", ",", "alturas"}], "}"}]}], "]"}], ",", 
+     "\[IndentingNewLine]", "\t", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"h", "+", "umbral"}], "->", 
+        RowBox[{
+         RowBox[{"ToString", "[", 
+          RowBox[{"h", "+", "umbral"}], "]"}], " ", "<>", 
+         " ", "\"\<: generador, \>\"", " ", "<>", " ", 
+         RowBox[{"granosTexto", "[", "h", "]"}]}]}], ",", 
+       RowBox[{"{", 
+        RowBox[{"h", ",", "alturas"}], "}"}]}], "]"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"leyendaEstados", "=", 
+    RowBox[{"SwatchLegend", "[", 
+     RowBox[{
+      RowBox[{"Values", "[", "colores", "]"}], ",", 
+      RowBox[{"Values", "[", "nombres", "]"}], ",", 
+      RowBox[{"LegendMarkerSize", "->", "14"}], ",", "\[IndentingNewLine]", 
+      "\t", 
+      RowBox[{"LegendMarkers", "->", 
+       RowBox[{"Graphics", "[", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"EdgeForm", "[", 
+           RowBox[{"GrayLevel", "[", "0.6", "]"}], "]"}], ",", 
+          RowBox[{"Rectangle", "[", "]"}]}], "}"}], "]"}]}]}], "]"}]}], ";"}],
+   "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"marcaGeneradores", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"EdgeForm", "[", 
+      RowBox[{"{", 
+       RowBox[{"Black", ",", 
+        RowBox[{"AbsoluteThickness", "[", "1.2", "]"}]}], "}"}], "]"}], ",", 
+     RowBox[{"FaceForm", "[", "None", "]"}], ",", "\[IndentingNewLine]", "\t", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Rectangle", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"#", "[", 
+             RowBox[{"[", "2", "]"}], "]"}], "-", "1", "-", "1.5"}], ",", 
+           RowBox[{"lado", "-", 
+            RowBox[{"#", "[", 
+             RowBox[{"[", "1", "]"}], "]"}], "-", "1.5"}]}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"#", "[", 
+             RowBox[{"[", "2", "]"}], "]"}], "+", "1.5"}], ",", 
+           RowBox[{"lado", "-", 
+            RowBox[{"#", "[", 
+             RowBox[{"[", "1", "]"}], "]"}], "+", "1", "+", "1.5"}]}], 
+          "}"}]}], "]"}], " ", "&"}], " ", "/@", " ", "generadores"}]}], 
+    "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"espacio", "[", 
+    RowBox[{"k_", ",", "opts___"}], "]"}], ":=", 
+   RowBox[{"ArrayPlot", "[", 
+    RowBox[{
+     RowBox[{"evolucion", "[", 
+      RowBox[{"[", 
+       RowBox[{"k", "+", "1"}], "]"}], "]"}], ",", 
+     RowBox[{"ColorRules", "->", 
+      RowBox[{"Normal", "[", "colores", "]"}]}], ",", "\[IndentingNewLine]", 
+     "\t", 
+     RowBox[{"Frame", "->", "True"}], ",", 
+     RowBox[{"FrameTicks", "->", "None"}], ",", 
+     RowBox[{"FrameStyle", "->", 
+      RowBox[{"GrayLevel", "[", "0.6", "]"}]}], ",", 
+     RowBox[{"Epilog", "->", "marcaGeneradores"}], ",", "\[IndentingNewLine]",
+      "\t", 
+     RowBox[{"PlotLabel", "->", 
+      RowBox[{"Style", "[", 
+       RowBox[{
+        RowBox[{"\"\<Paso \>\"", " ", "<>", " ", 
+         RowBox[{"ToString", "[", "k", "]"}]}], ",", "Black", ",", "12"}], 
+       "]"}]}], ",", 
+     RowBox[{"ImageSize", "->", "160"}], ",", "opts"}], "]"}]}], 
+  ";"}]}], "Input",ExpressionUUID->"b70e19b9-683a-4d72-a471-d7f56d6553e6"],
+
+Cell["Gr\[AAcute]ficas", "Section",ExpressionUUID->"69ca72fa-8f59-416f-9035-bce59ef8c4ab"],
+
+Cell[TextData[{
+ "Estilo com\[UAcute]n con ",
+ Cell[BoxData[Cell["gol_proportions.nb",
+   Background->None,ExpressionUUID->"eaa6f7ca-4e03-416c-b9d6-eb02ccff2dd6"]], 
+  "InlineCode",ExpressionUUID->"f53c07f2-69e7-407e-bd64-0c62413df4ec"],
+ ". "
+}], "Text",ExpressionUUID->"53aed996-a643-4e32-b250-31982806b8f6"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"estilo", "=", 
+   RowBox[{"Sequence", "[", 
+    RowBox[{
+     RowBox[{"Frame", "->", "True"}], ",", 
+     RowBox[{"Axes", "->", "False"}], ",", 
+     RowBox[{"FrameStyle", "->", 
+      RowBox[{"GrayLevel", "[", "0.4", "]"}]}], ",", "\[IndentingNewLine]", 
+     "\t", 
+     RowBox[{"FrameTicksStyle", "->", 
+      RowBox[{"Directive", "[", 
+       RowBox[{"Black", ",", "11"}], "]"}]}], ",", 
+     RowBox[{"LabelStyle", "->", 
+      RowBox[{"Directive", "[", 
+       RowBox[{"Black", ",", "12"}], "]"}]}], ",", "\[IndentingNewLine]", 
+     "\t", 
+     RowBox[{"GridLinesStyle", "->", 
+      RowBox[{"Directive", "[", 
+       RowBox[{"GrayLevel", "[", "0.85", "]"}], "]"}]}], ",", 
+     RowBox[{"ImageSize", "->", "400"}], ",", 
+     RowBox[{"AspectRatio", "->", 
+      RowBox[{"3", "/", "4"}]}]}], "]"}]}], ";"}]], "Input",ExpressionUUID->\
+"30cbf49b-2a18-42cd-8bf5-bc82bc9ebaad"],
+
+Cell["Espacio en varios pasos", "Subsection",ExpressionUUID->"42d7d2ac-87ce-4f1f-97ae-8d8518fbcc11"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"pasosMuestra", "=", 
+   RowBox[{"{", 
+    RowBox[{
+    "100", ",", "500", ",", "1000", ",", "2500", ",", "5000", ",", "pasos"}], 
+    "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"graficaEspacios", "=", 
+  RowBox[{"Legended", "[", 
+   RowBox[{
+    RowBox[{"GraphicsGrid", "[", 
+     RowBox[{
+      RowBox[{"Partition", "[", 
+       RowBox[{
+        RowBox[{"espacio", " ", "/@", " ", "pasosMuestra"}], ",", "3"}], 
+       "]"}], ",", 
+      RowBox[{"Spacings", "->", 
+       RowBox[{"{", 
+        RowBox[{"10", ",", "10"}], "}"}]}]}], "]"}], ",", 
+    "\[IndentingNewLine]", "\t", 
+    RowBox[{"Placed", "[", 
+     RowBox[{"leyendaEstados", ",", "After"}], "]"}]}], "]"}]}]}], "Input",Exp\
+ressionUUID->"d9ee72f6-31f3-4f7a-9faf-fb283b396882"],
+
+Cell["Proporci\[OAcute]n de cada altura", "Subsection",ExpressionUUID->"f5a45840-a477-4b8e-958b-bec472975662"],
+
+Cell["Los generadores cuentan con su altura. ", "Text",ExpressionUUID->"b20a999b-99a0-42c5-a132-4b7aa42b54f2"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"celdas", "=", 
+   RowBox[{"N", "[", 
+    RowBox[{"lado", "^", "2"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"proporciones", "=", 
+   RowBox[{"AssociationMap", "[", 
+    RowBox[{
+     RowBox[{"Function", "[", 
+      RowBox[{"h", ",", 
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"Count", "[", 
+           RowBox[{"#", ",", "h", ",", 
+            RowBox[{"{", "2", "}"}]}], "]"}], "/", "celdas"}], " ", "&"}], 
+        " ", "/@", " ", "altura"}]}], "]"}], ",", "alturas"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"graficaEstados", "=", 
+  RowBox[{"Legended", "[", "\[IndentingNewLine]", "\t", 
+   RowBox[{
+    RowBox[{"ListLinePlot", "[", 
+     RowBox[{
+      RowBox[{"Values", "[", "proporciones", "]"}], ",", 
+      RowBox[{"DataRange", "->", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", "pasos"}], "}"}]}], ",", "\[IndentingNewLine]", 
+      "\t\t", 
+      RowBox[{"PlotStyle", "->", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Directive", "[", 
+           RowBox[{
+            RowBox[{"coloresLinea", "[", "#", "]"}], ",", 
+            RowBox[{"AbsoluteThickness", "[", "2", "]"}]}], "]"}], " ", "&"}],
+          " ", "/@", " ", "alturas"}], ")"}]}], ",", "\[IndentingNewLine]", 
+      "\t\t", 
+      RowBox[{"PlotRange", "->", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"0", ",", "pasos"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"0", ",", "1"}], "}"}]}], "}"}]}], ",", 
+      RowBox[{"GridLines", "->", 
+       RowBox[{"{", 
+        RowBox[{"None", ",", 
+         RowBox[{"FindDivisions", "[", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"0", ",", "1"}], "}"}], ",", "5"}], "]"}]}], "}"}]}], ",",
+       "\[IndentingNewLine]", "\t\t", 
+      RowBox[{"FrameLabel", "->", 
+       RowBox[{"{", 
+        RowBox[{"\"\<Paso\>\"", ",", "\"\<Proporci\[OAcute]n\>\""}], "}"}]}], 
+      ",", 
+      RowBox[{
+      "PlotLabel", "->", "\"\<Proporci\[OAcute]n de celdas por altura\>\""}], 
+      ",", "estilo"}], "]"}], ",", "\[IndentingNewLine]", "\t", 
+    RowBox[{"LineLegend", "[", 
+     RowBox[{
+      RowBox[{"Values", "[", "coloresLinea", "]"}], ",", 
+      RowBox[{"granosTexto", " ", "/@", " ", "alturas"}], ",", 
+      RowBox[{"LegendMarkerSize", "->", 
+       RowBox[{"{", 
+        RowBox[{"20", ",", "10"}], "}"}]}]}], "]"}]}], "]"}]}]}], "Input",Expr\
+essionUUID->"5358e502-5250-404f-b7d8-39e27235d339"],
+
+Cell["Granos en el sistema", "Subsection",ExpressionUUID->"cb1395b2-a202-4edd-9775-1d76f115e3cf"],
+
+Cell["\<\
+Crece uno por paso y generador hasta que la avalancha alcanza el borde; desde \
+ah\[IAcute] se pierden granos. \
+\>", "Text",ExpressionUUID->"6c16b560-2fcb-4b4d-ba82-189376d7a5e8"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"granos", "=", 
+   RowBox[{"Total", "[", 
+    RowBox[{"altura", ",", 
+     RowBox[{"{", 
+      RowBox[{"2", ",", "3"}], "}"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"graficaGranos", "=", 
+  RowBox[{"ListLinePlot", "[", 
+   RowBox[{"granos", ",", 
+    RowBox[{"DataRange", "->", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", "pasos"}], "}"}]}], ",", "\[IndentingNewLine]", "\t", 
+    
+    RowBox[{"PlotStyle", "->", 
+     RowBox[{"Directive", "[", 
+      RowBox[{
+       RowBox[{"RGBColor", "[", "\"\<#2a78d6\>\"", "]"}], ",", 
+       RowBox[{"AbsoluteThickness", "[", "2", "]"}]}], "]"}]}], ",", 
+    "\[IndentingNewLine]", "\t", 
+    RowBox[{"PlotRange", "->", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", "pasos"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", "Automatic"}], "}"}]}], "}"}]}], ",", 
+    RowBox[{"GridLines", "->", 
+     RowBox[{"{", 
+      RowBox[{"None", ",", "Automatic"}], "}"}]}], ",", "\[IndentingNewLine]",
+     "\t", 
+    RowBox[{"FrameLabel", "->", 
+     RowBox[{"{", 
+      RowBox[{"\"\<Paso\>\"", ",", "\"\<Granos\>\""}], "}"}]}], ",", 
+    RowBox[{"PlotLabel", "->", "\"\<Granos en el sistema\>\""}], ",", 
+    "estilo"}], "]"}]}]}], "Input",ExpressionUUID->"b8900333-1776-492a-a031-\
+2d284218d385"],
+
+Cell["Tama\[NTilde]o de las avalanchas", "Subsection",ExpressionUUID->"0205e410-aa65-4669-b7ad-4374ba589b4a"],
+
+Cell["\<\
+Frecuencia de cada tama\[NTilde]o de avalancha (n\[UAcute]mero de derrumbes), \
+sin contar los pasos sin avalancha. En escala log\[Dash]log una recta indica \
+una ley de potencias. \
+\>", "Text",ExpressionUUID->"2e38bd98-4d12-4a24-9cdb-e498a2dd1fc8"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"frecuencias", "=", 
+   RowBox[{"SortBy", "[", 
+    RowBox[{
+     RowBox[{"Tally", "[", 
+      RowBox[{"Select", "[", 
+       RowBox[{"avalanchas", ",", 
+        RowBox[{
+         RowBox[{"#", ">", "0"}], " ", "&"}]}], "]"}], "]"}], ",", "First"}], 
+    "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"graficaAvalanchas", "=", 
+  RowBox[{"ListLogLogPlot", "[", 
+   RowBox[{"frecuencias", ",", "\[IndentingNewLine]", "\t", 
+    RowBox[{"PlotStyle", "->", 
+     RowBox[{"Directive", "[", 
+      RowBox[{
+       RowBox[{"RGBColor", "[", "\"\<#2a78d6\>\"", "]"}], ",", 
+       RowBox[{"PointSize", "[", "0.012", "]"}]}], "]"}]}], ",", 
+    "\[IndentingNewLine]", "\t", 
+    RowBox[{"GridLines", "->", "Automatic"}], ",", 
+    RowBox[{"FrameLabel", "->", 
+     RowBox[{"{", 
+      RowBox[{"\"\<Tama\[NTilde]o de la avalancha\>\"", 
+       ",", "\"\<Frecuencia\>\""}], "}"}]}], ",", "\[IndentingNewLine]", "\t", 
+    RowBox[{"PlotLabel", "->", "\"\<Distribuci\[OAcute]n de avalanchas\>\""}],
+     ",", "estilo"}], "]"}]}]}], "Input",ExpressionUUID->"e53b2b94-8e3c-4334-\
+b0a2-4300ebfd3e21"],
+
+Cell["Exportar", "Section",ExpressionUUID->"7720da28-54ce-40a4-9d50-87e707b36913"],
+
+Cell[TextData[{
+ "Mismo formato que exporta el simulador (GUI) y que lee ",
+ Cell[BoxData[Cell["scripts/main.py",
+   Background->None,ExpressionUUID->"c52a744e-0995-41fc-bbd6-96db520ab7eb"]], 
+  "InlineCode",ExpressionUUID->"95d0ff88-41a9-432d-802f-e815097e372e"],
+ ": la evoluci\[OAcute]n ",
+ Cell[BoxData[Cell["(pasos + 1, lado, lado)",
+   Background->None,ExpressionUUID->"8873530b-4446-47d2-bb44-13921009fc92"]], 
+  "InlineCode",ExpressionUUID->"489fec7e-9684-491a-b96b-86f556406548"],
+ " en enteros de 32 bits, como ",
+ Cell[BoxData[Cell["evo.npy",
+   Background->None,ExpressionUUID->"92137691-0d44-4495-bf3d-0da6ea893f05"]], 
+  "InlineCode",ExpressionUUID->"73eb299a-7916-4dad-97c9-a8b18fe4f456"],
+ " y como ",
+ Cell[BoxData[Cell["evo.mat",
+   Background->None,ExpressionUUID->"e00a6a0e-5a9f-4b80-b6e1-0a7f58db118f"]], 
+  "InlineCode",ExpressionUUID->"cd1c8472-e3b3-4334-816d-36bcde43110f"],
+ " (variable ",
+ StyleBox["evolution", "TI"],
+ ", comprimido). ",
+ Cell[BoxData[Cell["evo.json",
+   Background->None,ExpressionUUID->"e020113f-2da8-499e-aa72-6deb3f63c262"]], 
+  "InlineCode",ExpressionUUID->"2e32d46a-de1f-4f77-bf68-beb866c6af3a"],
+ " guarda los par\[AAcute]metros, el significado y color de cada estado y la \
+fracci\[OAcute]n de celdas en cada estado. Tambi\[EAcute]n se exportan los \
+derrumbes por paso, la animaci\[OAcute]n (un cuadro cada ",
+ Cell[BoxData[Cell["cadaGif",
+   Background->None,ExpressionUUID->"1e88e528-9115-421f-862b-df6b997f2eba"]], 
+  "InlineCode",ExpressionUUID->"05905ef1-5e1c-41aa-b8c1-c508f0eb797d"],
+ " pasos, cada celda de 4 \[Times] 4 p\[IAcute]xeles) y las gr\[AAcute]ficas \
+para el documento."
+}], "Text",ExpressionUUID->"d46cbfe5-5646-4c93-ad15-49e0c5063eca"],
+
+Cell[TextData[{
+ "Mathematica no exporta ",
+ Cell[BoxData[Cell[".npy",
+   Background->None,ExpressionUUID->"6564723c-98e6-4c21-9a2d-0d98afa9b138"]], 
+  "InlineCode",ExpressionUUID->"b6971f39-2bba-4d73-aa3d-dc5cd580b1ad"],
+ ", as\[IAcute] que ",
+ Cell[BoxData[Cell["exportarNPY",
+   Background->None,ExpressionUUID->"2fa1e8c1-844e-4776-b98d-8a4fde292166"]], 
+  "InlineCode",ExpressionUUID->"a7a036af-06eb-4cac-8214-370bc461c5db"],
+ " escribe el formato NPY 1.0 a mano: encabezado con tipo ",
+ Cell[BoxData[Cell["<i4",
+   Background->None,ExpressionUUID->"47495f99-05ea-4e14-bc71-6931c17725ae"]], 
+  "InlineCode",ExpressionUUID->"fb272627-4112-4ad6-8e67-831a40aea92f"],
+ ", orden C y forma, y despu\[EAcute]s los datos por bloques. "
+}], "Text",ExpressionUUID->"e6fc7ac9-a9dc-4f28-b3b0-e095fd243841"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"exportarNPY", "[", 
+    RowBox[{"archivo_String", ",", "datos_"}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"dims", "=", 
+        RowBox[{"Dimensions", "[", "datos", "]"}]}], ",", "cab", ",", "s", ",", 
+       RowBox[{"b", "=", "500"}]}], "}"}], ",", "\[IndentingNewLine]", "\t", 
+     RowBox[{
+      RowBox[{"cab", "=", 
+       RowBox[{"\"\<{'descr': '<i4', 'fortran_order': False, 'shape': (\>\"", 
+        " ", "<>", " ", 
+        RowBox[{"StringRiffle", "[", 
+         RowBox[{
+          RowBox[{"ToString", " ", "/@", " ", "dims"}], ",", "\"\<, \>\""}], 
+         "]"}], " ", "<>", " ", "\"\<), }\>\""}]}], ";", " ", 
+      "\[IndentingNewLine]", "\t", 
+      RowBox[{"cab", "=", 
+       RowBox[{"cab", " ", "<>", " ", 
+        RowBox[{"StringRepeat", "[", 
+         RowBox[{"\"\< \>\"", ",", 
+          RowBox[{"Mod", "[", 
+           RowBox[{
+            RowBox[{"-", 
+             RowBox[{"(", 
+              RowBox[{"10", "+", 
+               RowBox[{"StringLength", "[", "cab", "]"}], "+", "1"}], ")"}]}],
+             ",", "64"}], "]"}]}], "]"}], " ", "<>", " ", "\"\<\\n\>\""}]}], ";",
+       " ", "\[IndentingNewLine]", "\t", 
+      RowBox[{"s", "=", 
+       RowBox[{"OpenWrite", "[", 
+        RowBox[{"archivo", ",", 
+         RowBox[{"BinaryFormat", "->", "True"}]}], "]"}]}], ";", " ", 
+      "\[IndentingNewLine]", "\t", 
+      RowBox[{"BinaryWrite", "[", 
+       RowBox[{"s", ",", 
+        RowBox[{"Join", "[", 
+         RowBox[{
+          RowBox[{"{", "147", "}"}], ",", 
+          RowBox[{"ToCharacterCode", "[", "\"\<NUMPY\>\"", "]"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"1", ",", "0"}], "}"}]}], "]"}], 
+        ",", "\"\<UnsignedInteger8\>\""}], "]"}], ";", " ", 
+      "\[IndentingNewLine]", "\t", 
+      RowBox[{"BinaryWrite", "[", 
+       RowBox[{"s", ",", 
+        RowBox[{"StringLength", "[", "cab", "]"}], 
+        ",", "\"\<UnsignedInteger16\>\"", ",", 
+        RowBox[{"ByteOrdering", "->", 
+         RowBox[{"-", "1"}]}]}], "]"}], ";", " ", "\[IndentingNewLine]", "\t", 
+      RowBox[{"BinaryWrite", "[", 
+       RowBox[{"s", ",", "cab", ",", "\"\<Character8\>\""}], "]"}], ";", " ", 
+      "\[IndentingNewLine]", "\t", 
+      RowBox[{"Do", "[", 
+       RowBox[{
+        RowBox[{"BinaryWrite", "[", 
+         RowBox[{"s", ",", 
+          RowBox[{"Flatten", "[", 
+           RowBox[{"Normal", "[", 
+            RowBox[{"datos", "[", 
+             RowBox[{"[", 
+              RowBox[{"i", " ", ";;", " ", 
+               RowBox[{"Min", "[", 
+                RowBox[{
+                 RowBox[{"i", "+", "b", "-", "1"}], ",", 
+                 RowBox[{"First", "[", "dims", "]"}]}], "]"}]}], "]"}], "]"}],
+             "]"}], "]"}], ",", "\"\<Integer32\>\"", ",", 
+          RowBox[{"ByteOrdering", "->", 
+           RowBox[{"-", "1"}]}]}], "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "1", ",", 
+          RowBox[{"First", "[", "dims", "]"}], ",", "b"}], "}"}]}], "]"}], ";",
+       " ", "\[IndentingNewLine]", "\t", 
+      RowBox[{"Close", "[", "s", "]"}]}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"hex", "[", "c_", "]"}], ":=", 
+   RowBox[{"\"\<#\>\"", " ", "<>", " ", 
+    RowBox[{"StringJoin", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"IntegerString", "[", 
+        RowBox[{
+         RowBox[{"Round", "[", 
+          RowBox[{"255", " ", "#"}], "]"}], ",", "16", ",", "2"}], "]"}], " ",
+        "&"}], " ", "/@", " ", 
+      RowBox[{"List", " ", "@@", " ", 
+       RowBox[{"ColorConvert", "[", 
+        RowBox[{"c", ",", "\"\<RGB\>\""}], "]"}]}]}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"fraccionEstados", "[", "datos_", "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"t", "=", 
+        RowBox[{"ConstantArray", "[", 
+         RowBox[{"0", ",", 
+          RowBox[{"Length", "[", "estados", "]"}]}], "]"}]}], ",", 
+       RowBox[{"b", "=", "500"}]}], "}"}], ",", "\[IndentingNewLine]", "\t", 
+     RowBox[{
+      RowBox[{"Do", "[", 
+       RowBox[{
+        RowBox[{"t", " ", "+=", " ", 
+         RowBox[{"BinCounts", "[", 
+          RowBox[{
+           RowBox[{"Flatten", "[", 
+            RowBox[{"Normal", "[", 
+             RowBox[{"datos", "[", 
+              RowBox[{"[", 
+               RowBox[{"i", " ", ";;", " ", 
+                RowBox[{"Min", "[", 
+                 RowBox[{
+                  RowBox[{"i", "+", "b", "-", "1"}], ",", 
+                  RowBox[{"Length", "[", "datos", "]"}]}], "]"}]}], "]"}], 
+              "]"}], "]"}], "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"0", ",", 
+             RowBox[{"Length", "[", "estados", "]"}], ",", "1"}], "}"}]}], 
+          "]"}]}], ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "1", ",", 
+          RowBox[{"Length", "[", "datos", "]"}], ",", "b"}], "}"}]}], "]"}], ";",
+       " ", "\[IndentingNewLine]", "\t", 
+      RowBox[{"N", "[", 
+       RowBox[{"t", "/", 
+        RowBox[{"Total", "[", "t", "]"}]}], "]"}]}]}], "]"}]}], 
+  ";"}]}], "Input",ExpressionUUID->"211210d3-8bcb-42ab-a4e5-e2ff94c9e2e1"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"salida", "=", "\"\<../CA/Sandpile\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"img", "=", "\"\<../../../Documentation/img\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"exportarNPY", "[", 
+   RowBox[{
+    RowBox[{"FileNameJoin", "[", 
+     RowBox[{"{", 
+      RowBox[{"salida", ",", "\"\<evo.npy\>\""}], "}"}], "]"}], ",", 
+    "evolucion"}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"FileNameJoin", "[", 
+     RowBox[{"{", 
+      RowBox[{"salida", ",", "\"\<evo.mat\>\""}], "}"}], "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"\"\<evolution\>\"", "->", 
+      RowBox[{"NumericArray", "[", 
+       RowBox[{"evolucion", ",", "\"\<Integer32\>\""}], "]"}]}], "}"}], 
+    ",", "\"\<LabeledData\>\""}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"FileNameJoin", "[", 
+     RowBox[{"{", 
+      RowBox[{"salida", ",", "\"\<evo.json\>\""}], "}"}], "]"}], ",", 
+    RowBox[{"<|", "\[IndentingNewLine]", "\t", 
+     RowBox[{
+      RowBox[{"\"\<simulation\>\"", "->", "\"\<sandpile\>\""}], ",", 
+      RowBox[{"\"\<shape\>\"", "->", 
+       RowBox[{"Dimensions", "[", "evolucion", "]"}]}], ",", 
+      RowBox[{"\"\<size\>\"", "->", "lado"}], ",", 
+      RowBox[{"\"\<steps\>\"", "->", "pasos"}], ",", "\[IndentingNewLine]", 
+      "\t", 
+      RowBox[{"\"\<generators\>\"", "->", "generadores"}], ",", 
+      RowBox[{"\"\<threshold\>\"", "->", "umbral"}], ",", 
+      RowBox[{"\"\<grains_per_toppling\>\"", "->", "reparto"}], ",", 
+      RowBox[{"\"\<boundary\>\"", "->", "\"\<open\>\""}], ",", 
+      "\[IndentingNewLine]", "\t", 
+      RowBox[{"\"\<state_encoding\>\"", 
+       "->", "\"\<altura en celdas normales; altura + threshold en celdas \
+generadoras\>\""}], ",", "\[IndentingNewLine]", "\t", 
+      RowBox[{"\"\<states\>\"", "->", 
+       RowBox[{"Values", "[", 
+        RowBox[{"KeySort", "[", "nombres", "]"}], "]"}]}], ",", 
+      RowBox[{"\"\<colors_hex\>\"", "->", 
+       RowBox[{"(", 
+        RowBox[{"hex", " ", "/@", " ", 
+         RowBox[{"Values", "[", 
+          RowBox[{"KeySort", "[", "colores", "]"}], "]"}]}], ")"}]}], ",", 
+      "\[IndentingNewLine]", "\t", 
+      RowBox[{"\"\<state_fraction\>\"", "->", 
+       RowBox[{"fraccionEstados", "[", "evolucion", "]"}]}]}], "|>"}], 
+    ",", "\"\<RawJSON\>\""}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Export", "[", 
+    RowBox[{
+     RowBox[{"FileNameJoin", "[", 
+      RowBox[{"{", 
+       RowBox[{"salida", ",", "\"\<avalanchas.csv\>\""}], "}"}], "]"}], ",", 
+     RowBox[{"Prepend", "[", 
+      RowBox[{
+       RowBox[{"Transpose", "[", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"Range", "[", "pasos", "]"}], ",", "avalanchas"}], "}"}], 
+        "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\"\<paso\>\"", ",", "\"\<derrumbes\>\""}], "}"}]}], "]"}]}], 
+    "]"}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"cadaGif", "=", "50"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"cuadros", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"ImageResize", "[", 
+      RowBox[{
+       RowBox[{"Image", "[", 
+        RowBox[{"Map", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"List", " ", "@@", " ", 
+            RowBox[{"colores", "[", "#", "]"}]}], " ", "&"}], ",", 
+          RowBox[{"evolucion", "[", 
+           RowBox[{"[", 
+            RowBox[{"k", "+", "1"}], "]"}], "]"}], ",", 
+          RowBox[{"{", "2", "}"}]}], "]"}], "]"}], ",", 
+       RowBox[{"4", " ", "lado"}], ",", 
+       RowBox[{"Resampling", "->", "\"\<Nearest\>\""}]}], "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"k", ",", "0", ",", "pasos", ",", "cadaGif"}], "}"}]}], "]"}]}],
+   ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"FileNameJoin", "[", 
+     RowBox[{"{", 
+      RowBox[{"salida", ",", "\"\<evo.gif\>\""}], "}"}], "]"}], ",", 
+    "cuadros", ",", 
+    RowBox[{"\"\<DisplayDurations\>\"", "->", "0.05"}], ",", 
+    RowBox[{"AnimationRepetitions", "->", "Infinity"}]}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Export", "[", 
+    RowBox[{
+     RowBox[{"FileNameJoin", "[", 
+      RowBox[{"{", 
+       RowBox[{"salida", ",", "\"\<evo_final.png\>\""}], "}"}], "]"}], ",", 
+     RowBox[{"Last", "[", "cuadros", "]"}]}], "]"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"FileNameJoin", "[", 
+     RowBox[{"{", 
+      RowBox[{"img", ",", "\"\<sandpile_espacios.png\>\""}], "}"}], "]"}], ",",
+     "graficaEspacios", ",", 
+    RowBox[{"ImageResolution", "->", "200"}]}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"FileNameJoin", "[", 
+     RowBox[{"{", 
+      RowBox[{"img", ",", "\"\<sandpile_estados.png\>\""}], "}"}], "]"}], ",",
+     "graficaEstados", ",", 
+    RowBox[{"ImageResolution", "->", "200"}]}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"FileNameJoin", "[", 
+     RowBox[{"{", 
+      RowBox[{"img", ",", "\"\<sandpile_granos.png\>\""}], "}"}], "]"}], ",", 
+    "graficaGranos", ",", 
+    RowBox[{"ImageResolution", "->", "200"}]}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"FileNameJoin", "[", 
+     RowBox[{"{", 
+      RowBox[{"img", ",", "\"\<sandpile_avalanchas.png\>\""}], "}"}], "]"}], ",",
+     "graficaAvalanchas", ",", 
+    RowBox[{"ImageResolution", "->", "200"}]}], "]"}], ";"}]}], "Input",Expres\
+sionUUID->"8ecc0920-d59c-496a-a105-615d06d28035"]
+},
+FrontEndVersion->"15.0 for Linux x86 (64-bit) (July 2, 2026)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"722d72d9-8e80-47e2-ac21-d4f43aaf2c7c"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[554, 20, 80, 0, 70, "Title",ExpressionUUID->"dbdc7821-0478-4129-89a6-dd2eff4d35a7"],
+Cell[637, 22, 557, 9, 70, "Text",ExpressionUUID->"4d0679c0-5870-42cc-a445-13b993a0f944"],
+Cell[1197, 33, 464, 8, 70, "Text",ExpressionUUID->"cc776f6d-c93e-4d8b-8f43-95ae0e7513e2"],
+Cell[1664, 43, 334, 6, 70, "Item",ExpressionUUID->"933b8997-684d-4875-a8b7-4c435ac28974"],
+Cell[2001, 51, 566, 10, 70, "Item",ExpressionUUID->"f2ed2ee3-1156-4dd0-97ea-94a352dc2a9c"],
+Cell[2570, 63, 884, 15, 70, "Text",ExpressionUUID->"263ae749-f8dc-4ad1-92f9-0c682025182c"],
+Cell[3457, 80, 92, 0, 70, "Section",ExpressionUUID->"274e07b8-2f29-4dca-801c-0a7c735697a5"],
+Cell[3552, 82, 2468, 68, 70, "Input",ExpressionUUID->"16ea3543-2a8b-4b07-8f2e-52079f26f966"],
+Cell[6023, 152, 92, 0, 70, "Section",ExpressionUUID->"e5d5209f-fd34-4523-b4c1-f9a467eb0e54"],
+Cell[6118, 154, 554, 9, 70, "Text",ExpressionUUID->"00b77196-e708-4250-b8bd-e7adab0b0f50"],
+Cell[6675, 165, 5928, 166, 70, "Input",ExpressionUUID->"fb9fa5ee-2291-442f-bdc2-235f0ffa4fb2"],
+Cell[12606, 333, 92, 0, 70, "Section",ExpressionUUID->"d473c455-a0bb-414b-8cc2-e311d164b42f"],
+Cell[12701, 335, 211, 3, 70, "Text",ExpressionUUID->"b521f768-05f2-49c7-9c20-5a34221f1758"],
+Cell[12915, 340, 5805, 157, 70, "Input",ExpressionUUID->"b70e19b9-683a-4d72-a471-d7f56d6553e6"],
+Cell[18723, 499, 90, 0, 70, "Section",ExpressionUUID->"69ca72fa-8f59-416f-9035-bce59ef8c4ab"],
+Cell[18816, 501, 310, 6, 70, "Text",ExpressionUUID->"53aed996-a643-4e32-b250-31982806b8f6"],
+Cell[19129, 509, 914, 23, 70, "Input",ExpressionUUID->"30cbf49b-2a18-42cd-8bf5-bc82bc9ebaad"],
+Cell[20046, 534, 100, 0, 70, "Subsection",ExpressionUUID->"42d7d2ac-87ce-4f1f-97ae-8d8518fbcc11"],
+Cell[20149, 536, 782, 22, 70, "Input",ExpressionUUID->"d9ee72f6-31f3-4f7a-9faf-fb283b396882"],
+Cell[20934, 560, 110, 0, 70, "Subsection",ExpressionUUID->"f5a45840-a477-4b8e-958b-bec472975662"],
+Cell[21047, 562, 110, 0, 70, "Text",ExpressionUUID->"b20a999b-99a0-42c5-a132-4b7aa42b54f2"],
+Cell[21160, 564, 2510, 68, 70, "Input",ExpressionUUID->"5358e502-5250-404f-b7d8-39e27235d339"],
+Cell[23673, 634, 97, 0, 70, "Subsection",ExpressionUUID->"cb1395b2-a202-4edd-9775-1d76f115e3cf"],
+Cell[23773, 636, 190, 3, 70, "Text",ExpressionUUID->"6c16b560-2fcb-4b4d-ba82-189376d7a5e8"],
+Cell[23966, 641, 1327, 36, 70, "Input",ExpressionUUID->"b8900333-1776-492a-a031-2d284218d385"],
+Cell[25296, 679, 109, 0, 70, "Subsection",ExpressionUUID->"0205e410-aa65-4669-b7ad-4374ba589b4a"],
+Cell[25408, 681, 260, 4, 70, "Text",ExpressionUUID->"2e38bd98-4d12-4a24-9cdb-e498a2dd1fc8"],
+Cell[25671, 687, 1121, 27, 70, "Input",ExpressionUUID->"e53b2b94-8e3c-4334-b0a2-4300ebfd3e21"],
+Cell[26795, 716, 82, 0, 70, "Section",ExpressionUUID->"7720da28-54ce-40a4-9d50-87e707b36913"],
+Cell[26880, 718, 1709, 31, 70, "Text",ExpressionUUID->"d46cbfe5-5646-4c93-ad15-49e0c5063eca"],
+Cell[28592, 751, 798, 14, 70, "Text",ExpressionUUID->"e6fc7ac9-a9dc-4f28-b3b0-e095fd243841"],
+Cell[29393, 767, 5201, 132, 70, "Input",ExpressionUUID->"211210d3-8bcb-42ab-a4e5-e2ff94c9e2e1"],
+Cell[34597, 901, 5729, 147, 70, "Input",ExpressionUUID->"8ecc0920-d59c-496a-a105-615d06d28035"]
+}
+]
+*)
+
+(* End of internal cache information *)

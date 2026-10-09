@@ -164,20 +164,20 @@ Por lo tanto, la regla aprendida considera todas las permutaciones del patrón $
 	\label{fig:b3s238_vector} 
 \end{figure}
 
-La regla B38/S238 (Figura \ref{fig:b38s23_loss}) aprende 2 comportamientos diferentes: B3/S238 y B3/S23, como se observa en la figura \ref{fig:b38s23_vector}.
+La regla B38/S238 (Figura \ref{fig:b38s238_loss}) aprende 2 comportamientos diferentes: B3/S238 y B3/S23, como se observa en la figura \ref{fig:b38s238_vector}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.75\linewidth]{img/b38s238_loss.png}
+	\caption{Distancia Manhattan de los vectores de regla de múltiples pérdidas objetivo comparadas con B38/S238.}
+	\label{fig:b38s238_loss} 
+\end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=.95\linewidth]{img/b38s238_vector.png}
 	\caption{Últimos 50 elementos de los vectores de regla de B38/S238, B3/S23, B3/S238  y los aprendidos por el autómata celular neuronal.}
 	\label{fig:b38s238_vector} 
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=.75\linewidth]{img/b38s23_loss.png}
-	\caption{Distancia Manhattan de los vectores de regla de múltiples pérdidas objetivo comparadas con B38/S23.}
-	\label{fig:b38s23_loss} 
 \end{figure}
 
 En la regla B3/S236 (Figura \ref{fig:b3s236_loss}) con 0.2 difieren 32 elementos, de los cuales 28 sustituyeron el 1 por 0 (figura \ref{fig:b3s236_02_10}) y 4 al revez (figura \ref{fig:b3s236_02_01}). El primer conjunto corresponde al patrón $C1N6$, mientras que los 4 restantes necesitan otros 4 patrones adicionales para capturar a $C1N7$. Por esta razón, la regla aprendida no es semitotalística, porque hace distinción entre elementos de su vecindad.
@@ -229,32 +229,77 @@ El resto de reglas aprendidas erróneamente diferencian los patrones de las figu
 
 \subsubsection{Efecto del tamaño de la vecindad}
 
-Al experimentar con automatas celualres ya conocidos, se puede saber el comprotamiento futuro porque la regla nos indica la función de transición, el numero estados y el tamaño de la vecindad. Por lo que los entrenamiento de la red neuronal han requerido como entrada los mismo elementos que forman la vecindad. Sin embargo, en escenarios donde desconocemos la función de transición, no podemos definir con total exactitud la vecindad. Esa por esta razón que los experimentos a continuación buscan identificar como afecta el desconocimiento de la vecindad al momento de intentar replicar el comportamiento de la regla B3/S23.
+Experimentar con reglas ya conocidas implica conocer toda la configuración necesaria de ese sistema en especifico. Esto no ocurre en fenomenos reales donde no conocemos el numero de estados, la función de traansición o, especificamente para este experimento, la vecindad que define el sistema. Los siguientes experimentos tienen el proposito de identificar como afecta el desconocimiento de la vecindad en un sistema complejo al momento de intentar replicar el comportamiento de la regla B3/S23.
 
-El juego de la vida se define mediante una regla semitotalistica que diferencía el centro de los bordes. Considerando esto realizaremos 4 pruebas: (1) eliminación del estado central, (2) eliminación de células exteriores, (3) incremento del tamaño de la vecindad y (4) sustitución de elementos de la vecindad. Con esto se busca identificar un método de selección de vecindad que nos permita extraer el comportamiento esencial de un sistema complejo.
+Dada la vecindad de la regla, definimos las siguientes pruebas: (1) eliminación de una célula exterior, (2) eliminación de la célula central, (3) incremento del tamaño de la vecindad y (4) sustitución de elementos de la vecindad. Con esto se busca identificar un método de selección de vecindad que nos permita extraer el comportamiento esencial de un sistema complejo.
 
-% Datos generados por Simulator/training/scripts/resultados_vecindad.py
-\input{Experimentacion/datos/vecindad_ajuste.tex}
+La vecindad semitotalística se divide en dos subvecindades, el centro y los bordes. Dado que el valor de la subvecindad de los bordes esta dado por la sumatoria, cada uno de ellos tiene la misma relevancia, por lo que solo es necesario realizar pruebas ignorando uno de esos elementos. La tabla \ref{tab:vecindad_ajuste_16x16} muestra las perdidas objetivos obtenidas bajo diferentes configuraciones, todas con una pérdida final mayor 0.1. 
 
-Como primer experimento se ignora la célula del centro. Como se observa en la tabla \ref{tab:nca_gol_reduction}, ninguna de las configuraciones tuvo una perdida menor al 0.07.  Es imposible extraer el comportamiento de B3/S23 sin conocer la información del centro, sin embargo, la configuración 16:16:ReLU \& 1:Sigmoid genera un vector de regla que difiere en 28 de  512  elementos ($5.46875\%$) si lo consideramos como una regla tradicional. Su evolución tiende a eliminar todos los estados 1 y genera pocas configuraciones estáticas y cíclicas en menos de 50 pasos, tal como se muestran en las figuras \ref{fig:b3s23_c0n8}.
+\begin{table}[H]
+	\centering
+	\small
+	\begin{tabular}{ccccccc}
+		\toprule
+		& & \textbf{ReLU} & \textbf{TanH} & \textbf{TanH} & \textbf{ReLU} &  \\
+		\textbf{Tasa} & \textbf{Lote} & \textbf{2:Linear }&  \textbf{1:Sigmoid }& \textbf{2:Linear  }& \textbf{1:Sigmoid} & \textbf{Segundos}  \\
+		\midrule
+		0.0003 & 1024 & 0.121595 & 0.121808 & 0.121824 & 0.121536 & 216 \\
+		0.0003 & 4096 & 0.121675 & 0.122049 & 0.122123 & 0.121576 & 58 \\
+		0.0003 & 8192 & 0.121774 & 0.122444 & 0.122367 & 0.121747 & 40 \\
+		\midrule
+		0.001 & 1024 & 0.121590 & 0.121645 & 0.121871 & 0.121605 & 213 \\
+		0.001 & 4096 & 0.121546 & 0.121790 & 0.121768 & 0.121580 & 58 \\
+		0.001 & 8192 & 0.121794 & 0.121946 & 0.122043 & 0.121604 & 42 \\
+		\midrule
+		0.003 & 1024 & 0.121685 & 0.414336 & 0.414441 & 0.486924 & 210 \\
+		0.003 & 4096 & 0.121647 & 0.230796 & 0.318269 & 0.121626 & 58 \\
+		0.003 & 8192 & 0.192933 & 0.122014 & 0.122387 & 0.121660 & 35 \\
+		\bottomrule
+	\end{tabular}
+	\caption{Perdida final de cada configuración. Vecindad de $3 \times 3$ sin el vecino noroeste, 100 épcas, semilla 42, red de tamaño 16:16. Pérdida mínima alcanzable: 0.121576.}
+	\label{tab:vecindad_ajuste_16x16}
+\end{table}
 
-\begin{table}[h]
+Como se menciono anteriormente,  una perdida objetivo de 0.1 es lo suficientemente alta como para que la red neuronal no haya podido replicar el comportamiento. Sin embargo, la mejor configuración (16:16:reLU \& 1:Sigmoid) difiere en 98 de 512 elementos ($19\%$). La regla aprendida no genera osciladores, sino unicamente produce naturaleza muerta. 
+
+Si ignoramos la célula central (Tabla \ref{tab:vecindad_centro}) observamos que ninguna de las configuraciones tuvo una perdida menor al 0.07, mucho menor que eliminando un vecino del exterior. Es una bella casualidad como mediante este experimento, se demuestra una vez que existe una mayor dependencia de los estados vecinos que del propio. La regla aprendida tiende a eliminar todos los estados 1 y genera pocas configuraciones estáticas y cíclicas en menos de 50 pasos, tal como se muestran en las figuras \ref{fig:b3s23_c0n8}.
+
+\begin{table}[H]
 	\centering
 	\begin{tabular}{llr}
 		\toprule
-		\textbf{Capa Oculta} & \textbf{Capa Salida} & \textbf{Pérdida} \\
-		\midrule
-		16:16:ReLU & 2:Linear & 0.078754 \\
-		16:16:TanH & 1:Sigmoid &  0.078889  \\
-		16:16:TanH & 2:Linear &  0.078603   \\
-		16:16:Sigmoid & 2:Linear & 0.414097   \\
-		16:16:ReLU & 1:Sigmoid & 0.078445  \\
-		\bottomrule
-	\end{tabular}
-	\caption{Comparativa de rendimiento con múltiples hiperparámetros de la regla B3/S23: Pérdida objetivo 0.001, límite de épocas: 1000, 
-		tamaño del lote: 8192, tasa de aprendizaje: 0.001, semilla aleatoria: 42.}
-	\label{tab:nca_gol_reduction}
-\end{table}
+		\textbf{Capa Oculta} & \textbf{Capa Salida} & \textbf{Pérdida} \\ 
+			\midrule
+			1:4:ReLU & 2:Linear & 0.088437 \\
+			2:8:ReLU & 2:Linear & 0.085921 \\
+			4:8:ReLU & 2:Linear & 0.078934 \\
+			4:16:ReLU & 2:Linear & 0.078685 \\
+			8:16:ReLU & 2:Linear & 0.078674 \\
+			4:16:ReLU & 2:Linear & 0.078685 \\
+			8:16:ReLU & 2:Linear & 0.078674 \\
+			\midrule
+			1:4:TanH & 1:Sigmoid & 0.081676 \\
+			2:8:TanH & 1:Sigmoid & 0.078866 \\
+			4:8:TanH & 1:Sigmoid & 0.078713 \\
+			4:16:TanH & 1:Sigmoid & 0.078670 \\
+			8:16:TanH & 1:Sigmoid & 0.078671 \\
+			\midrule
+			1:4:TanH & 2:Linear & 0.082283 \\
+			2:8:TanH & 2:Linear & 0.078758 \\
+			4:8:TanH & 2:Linear & 0.078716 \\
+			4:16:TanH & 2:Linear & 0.078685 \\
+			8:16:TanH & 2:Linear & 0.078680 \\
+			\midrule
+			1:4:ReLU & 1:Sigmoid & 0.168493 \\
+			2:8:ReLU & 1:Sigmoid & 0.080522 \\
+			4:8:ReLU & 1:Sigmoid & 0.078796 \\
+			4:16:ReLU & 1:Sigmoid & 0.078688 \\
+			8:16:ReLU & 1:Sigmoid & 0.078679 \\
+			\bottomrule
+		\end{tabular}
+		\caption{Regla B3/S23 sin la célula central. Pérdida objetivo 0.0001, límite de épocas: 500, tamaño del lote: 4096, tasa de aprendizaje: 0.001, semilla aleatoria: 42. Pérdida mínima alcanzable: 0.078650.}
+		\label{tab:vecindad_centro}
+	\end{table}
 
 \begin{figure}[htbp]
 	\centering
@@ -275,91 +320,77 @@ Como primer experimento se ignora la célula del centro. Como se observa en la t
 	\label{fig:b3s23_c0n8}
 \end{figure}
 
-\input{Experimentacion/datos/vecindad_centro.tex}
+Por otro lado, el incremento de la vecindad no afecta el replicamiento del comportamiento. La red neuronal puede aprender la regla incluso con exceso de información. En la tabla \ref{tab:vecindad_ampliada} se muestran los mejores resultados con sus respectivas perdidas objetivos alcanzadas, todas superando el umbral establecido en el numero de epocas.
 
-\begin{figure}[H]
+\begin{table}[H]
 	\centering
-	\includegraphics[width=\linewidth]{img/vecindad_centro.png}
-	\caption{Regla B3/S23 sin la célula central. Fila 1: pérdida por época (línea punteada: pérdida mínima alcanzable). Fila 2: fracción de células distintas a B3/S23 por paso. Fila 3: fracción de células vivas por paso (línea discontinua: B3/S23). Filas 2 y 3: promedio de 10 condiciones iniciales aleatorias.}
-	\label{fig:vecindad_centro}
-\end{figure}
+	\footnotesize
+	\begin{tabular}{lllr}
+		\toprule
+		\textbf{Vecindad} & \textbf{Capa Oculta} & \textbf{Capa Salida} & \textbf{Pérdida} \\
+		\midrule
+		\multirow{3}{*}{$5\times5$} & 4:16:ReLU & 2:Linear & 0.000035 \\
+		& 8:16:ReLU & 2:Linear & 0.000062 \\
+		& 16:16:ReLU & 1:Sigmoid & 0.000225 \\
+		\midrule
+		\multirow{3}{*}{$7\times7$} & 8:16:ReLU & 2:Linear & 0.000023 \\
+		& 8:16:ReLU & 1:Sigmoid & 0.000045 \\
+		& 4:16:ReLU & 1:Sigmoid & 0.000137 \\
+		\midrule
+		\multirow{3}{*}{$8\times8$} & 8:16:ReLU & 2:Linear & 0.000063 \\
+		& 8:16:ReLU & 1:Sigmoid & 0.000141 \\
+		& 16:16:ReLU & 1:Sigmoid & 0.000156 \\
+		\bottomrule
+	\end{tabular}
+	\caption{Las tres configuraciones con menor pérdida de la regla B3/S23 al aumentar la vecindad. Pérdida objetivo 0.001, límite de é 500, tamaño del lote: 4096, tasa de aprendizaje: 0.001, semilla aleatoria: 42. La vecindad de $8\times8$ abarca los desplazamientos $-4$ a $3$ en cada eje.}
+	\label{tab:vecindad_ampliada}
+\end{table}
 
-Por otro lado, la tabla \ref{tab:vecindad_no}
+Para finalizar, se realiza la sustitución, es decir, se elimina un elemento de la vecindad pero se compensa con un incremento de vecinos circundantes en ese punto faltante. Esto con el objetivo de analizar si la información adicional es útil o es unicamente ruido.
 
-\input{Experimentacion/datos/vecindad_no.tex}
+En la ta tabla \ref{tab:vecindad_reducida_ampliada} se experimenta con una vecindad de $9 \times 9$ ignorando dos vecinos diferentes. Se aprecia que el incremento de la vecindad reduce parcialmente la pérdida. Para el centro, pasamos de un 0.078650 a un 0.097587, y para el borde de 0.121294 a 0.065987.
 
-\begin{figure}[H]
+\begin{table}[H]
 	\centering
-	\includegraphics[width=\linewidth]{img/vecindad_no.png}
-	\caption{Regla B3/S23 sin el vecino noroeste $(-1,-1)$. Mismas filas que la figura \ref{fig:vecindad_centro}.}
-	\label{fig:vecindad_no}
-\end{figure}
+	\footnotesize
+	\begin{tabular}{lllr}
+		\toprule
+		\textbf{Vecindad} & \textbf{Capa Oculta} & \textbf{Capa Salida} & \textbf{Pérdida} \\
+		\midrule
+		\multirow{4}{*}{$7\times7$ sin $(-1,-1)$} & 16:16:ReLU & 2:Linear & 0.099847 \\
+		& 16:16:TanH & 1:Sigmoid & 0.098628 \\
+		& 16:16:TanH & 2:Linear & 0.098407 \\
+		& 16:16:ReLU & 1:Sigmoid & 0.099326 \\
+		\midrule
+		\multirow{4}{*}{$9\times9$ sin $(-1,-1)$} & 16:16:ReLU & 2:Linear & 0.098381 \\
+		& 16:16:TanH & 1:Sigmoid & 0.097587 \\
+		& 16:16:TanH & 2:Linear & 0.098029 \\
+		& 16:16:ReLU & 1:Sigmoid & 0.098368 \\
+		\midrule
+		\multirow{4}{*}{$7\times7$ sin $(0,0)$} & 16:16:ReLU & 2:Linear & 0.067663 \\
+		& 16:16:TanH & 1:Sigmoid & 0.066962 \\
+		& 16:16:TanH & 2:Linear & 0.066976 \\
+		& 16:16:ReLU & 1:Sigmoid & 0.068002 \\
+		\midrule
+		\multirow{4}{*}{$9\times9$ sin $(0,0)$} & 16:16:ReLU & 2:Linear & 0.067066 \\
+		& 16:16:TanH & 1:Sigmoid & 0.066031 \\
+		& 16:16:TanH & 2:Linear & 0.065987 \\
+		& 16:16:ReLU & 1:Sigmoid & 0.067197 \\
+		\bottomrule
+	\end{tabular}
+	\caption{Regla B3/S23 con vecindades de $7\times7$ y $9\times9$ sin un vecino. Pérdida objetivo 0.001, límite de épocas: 500, tamaño del lote: 4096, tasa de aprendizaje: 0.001, semilla aleatoria: 42.}
+	\label{tab:vecindad_reducida_ampliada}
+\end{table}
 
-\input{Experimentacion/datos/vecindad_n.tex}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\linewidth]{img/vecindad_n.png}
-	\caption{Regla B3/S23 sin el vecino norte $(0,-1)$. Mismas filas que la figura \ref{fig:vecindad_centro}.}
-	\label{fig:vecindad_n}
-\end{figure}
-
-
-\subsection{Incremento de vecindad}
-
-Por otro lado, los resultados \TODO{} muestran que el incremento de la vecindad no afecta el replicameinto del comportamiento, la red nueornal sigue pudiendo aprender la regla sin saturarla. Ciertamente, el numero de épocas requeridas también cambia según la demanda que obtenga, esto se debe principalmente ya que considera algunos pasos para matar las células cuyas entradas provienen de esas vecindades extras.
-
-Por otro lado, la susitución depende específicamente de donde se esta obteniendo y el tamaño de la vecindad que lo define. Esto se convirte en 2 problemas, intentar definir el estado de la celula faltante con lso estados actuales de sus vecinos y luego utilizar ese dato adicional para definir el estado actual.
-
-Es necesario notar que B3/S23 es muy sensible a un estado que vale un 1 o un 0, porque un único bit marca la diferente entre B24/S1234. Es por esto que el siguiente experimento utiliza una regla high life \TODO{definir regla high life} que muestra los siguientes resultados.
-
-Podemos concluir entonces el valor de la vecindad.
-
-% Datos generados por Simulator/training/scripts/resultados_vecindad.py (línea punteada de la fila 1: pérdida objetivo)
-\input{Experimentacion/datos/vecindad_3x3.tex}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\linewidth]{img/vecindad_3x3.png}
-	\caption{Regla B3/S23 con vecindad de $3\times3$. Mismas filas que la figura \ref{fig:vecindad_centro}; en la fila 1 la línea punteada es la pérdida objetivo.}
-	\label{fig:vecindad_3x3}
-\end{figure}
-
-\input{Experimentacion/datos/vecindad_5x5.tex}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\linewidth]{img/vecindad_5x5.png}
-	\caption{Regla B3/S23 con vecindad de $5\times5$. Mismas filas que la figura \ref{fig:vecindad_3x3}.}
-	\label{fig:vecindad_5x5}
-\end{figure}
-
-\input{Experimentacion/datos/vecindad_7x7.tex}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\linewidth]{img/vecindad_7x7.png}
-	\caption{Regla B3/S23 con vecindad de $7\times7$. Mismas filas que la figura \ref{fig:vecindad_3x3}.}
-	\label{fig:vecindad_7x7}
-\end{figure}
-
-\input{Experimentacion/datos/vecindad_8x8.tex}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\linewidth]{img/vecindad_8x8.png}
-	\caption{Regla B3/S23 con vecindad de $8\times8$ (desplazamientos $-4$ a $3$ en cada eje, el máximo que admite el kernel). Mismas filas que la figura \ref{fig:vecindad_3x3}.}
-	\label{fig:vecindad_8x8}
-\end{figure}
-
-\subsubsection{Conclusiones}
-
-Los resultados de este primer experimento permiten establecer las siguientes consideraciones clave sobre el entrenamiento de autómatas celulares neuronales:
+Con estos resultados experimentales, establecemos algunas consideraciones esenciales para el entrenamiento de autómatas celulares neuronales:
 
 \begin{itemize}
-	\item La capacidad de generalización de la red neuronal depende del sesgo de muestra por la baja frecuencia de aparición de ciertos patrones (como $C0N8$ o $C1N8$). Es por esto que establecer una pérdida objetivo estricta fuerza a la red a ajustar sus pesos en regiones del espacio donde hay patrones menos representados. El caso contrario atenúa estos estados y lo conduce a otro atractor.
+	\item La capacidad de generalización depende de clases y entradas balanceadas. Establecer una pérdida objetivo restrictiva fuerza a la red a ajustar sus pesos en regiones con patrones menos representados. El caso contrario atenúa estados y los conduce a otros comportamientos. 
 	
-	\item Se comprueba que el entrenamiento de reglas semitotalísticas no garantiza que la regla aprendida pertenezca al mismo conjunto. Esto se observó en el caso B3/S236 con pérdida de $0.2$, ya que no se expone a todas las permutaciones rotacionales de la vecindad. Por lo que patrones equivalentes son tratados de forma independiente, rompiendo la simetría propia de la vecindad.
+	\item El entrenamiento de reglas semitotalísticas no garantiza que la regla aprendida igual lo sea. 
+
+	\item Incrementar el tamaño de la vecindad es un costo computacional viable cuando se desconoce el tamaño de la vecindad real. El incremento de igual manera puede ayudar a disminuir la pérdida si es que aun existen vecinos que no fueron considerado pero con un limite contextual.
+
 \end{itemize}
 
 Estos experimentos confirman que no se requieren arquitecturas neuronales complejas para replicar este tipo de dinámicas evolutivas. Asimismo, queda validada la metodología propuesta para extraer e identificar el vector de regla aprendido por el modelo, sentando las bases para los siguientes experimentos del capítulo.

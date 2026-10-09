@@ -1,9 +1,19 @@
 // nca.cu
 
 #include "nca.h"
+#include <stdexcept>
+#include <string>
 
 // Constant memory
-__constant__ int c_neighbourhood[128]; // Hasta 64 vecinos
+constexpr int MAX_VECINOS = 128;                      // 9 x 9 = 81 cabe; 11 x 11 = 121 también
+__constant__ int c_neighbourhood[MAX_VECINOS * 2];    // pares (dx, dy)
+
+static void validarVecindad(int n)
+{
+    if (n < 1 || n > MAX_VECINOS)
+        throw std::invalid_argument("La vecindad debe tener entre 1 y " + std::to_string(MAX_VECINOS) +
+                                    " vecinos (tiene " + std::to_string(n) + ")");
+}
 
 __device__ float activate(float x, int type)
 {
@@ -110,6 +120,7 @@ NCA::NCA(
       activation_d(nullptr),
       temp_d(nullptr)
 {
+    validarVecindad(in_n_size);
     size = width * height * sizeof(float);
 
     threads = dim3(16, 16);
@@ -258,6 +269,7 @@ void NCA::setCell(int x, int y, float value)
 
 void NCA::setNeighbourhood(int *new_neighbourhood, int new_n_size)
 {
+    validarVecindad(new_n_size);
     if (new_n_size != n_size)
     {
         delete[] neighbourhood;

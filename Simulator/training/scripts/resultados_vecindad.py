@@ -8,7 +8,10 @@ contra B3/S23 real:
 
 Escribe Documentation/Experimentacion/datos/*.tex y Documentation/img/vecindad_*.png.
 
-Uso (desde Simulator/training): python scripts/resultados_vecindad.py
+Uso (desde Simulator/training):
+    python scripts/resultados_vecindad.py           tablas y figuras
+    python scripts/resultados_vecindad.py tablas    solo tablas
+    python scripts/resultados_vecindad.py ajuste    imprime las tablas de ajuste (van dentro de gol.tex)
 """
 import csv
 from pathlib import Path
@@ -77,7 +80,7 @@ def metricas(exp: str, ref: list) -> list:
     return out
 
 
-ENCABEZADOS = ["Capa\\\\Oculta", "Capa\\\\Salida", "Épocas", "Pérdida", "Brecha", "Patrones\\\\distintos",
+ENCABEZADOS = ["Capa\\\\Oculta", "Capa\\\\Salida", "Épocas", "Pérdida", "Patrones\\\\distintos",
                "Error\\\\paso 1", "Error\\\\paso 50", "Densidad\\\\paso 50"]
 
 
@@ -94,16 +97,17 @@ def tabla(exp: str, ms: list, dens_ref: float) -> str:
         previa = config
         cuerpo.append(
             f"\t\t{m['capas']}:{m['neuronas']}:{ACT_TXT[m['act']]} & {m['out_size']}:{ACT_TXT[m['out_act']]}"
-            f" & {m['epocas']} & {m['final']:.6f} & {m['final'] - m['minimo']:.6f} & {m['patrones']}"
+            f" & {m['epocas']} & {m['final']:.6f} & {m['patrones']}"
             f" & {m['error'][1]:.4f} & {m['error'][-1]:.4f} & {m['densidad'][-1]:.4f} \\\\")
+    # Cada tabla ocupa casi una página: empieza en una nueva para que [H] no la corte
     return "\n".join([
-        "\\begin{table}[H]", "\t\\centering", "\t\\footnotesize", "\t\\setlength{\\tabcolsep}{2.5pt}",
-        "\t\\begin{tabular}{llrrrrrrr}", "\t\t\\toprule",
+        "\\clearpage", "\\begin{table}[H]", "\t\\centering", "\t\\footnotesize", "\t\\setlength{\\tabcolsep}{2.5pt}",
+        "\t\\begin{tabular}{llrrrrrr}", "\t\t\\toprule",
         "\t\t" + " & ".join(encabezado(t) for t in ENCABEZADOS) + " \\\\",
         "\t\t\\midrule", *cuerpo, "\t\t\\bottomrule", "\t\\end{tabular}",
         f"\t\\caption{{Regla B3/S23 {TITULOS[exp]}. Pérdida objetivo {LOSS_TARGET}, límite de épocas: {EPOCAS}, "
         f"tamaño del lote: {LOTE}, tasa de aprendizaje: {LR}, semilla aleatoria: {SEED}. "
-        f"Pérdida mínima alcanzable: {ms[0]['minimo']:.6f}. Brecha: pérdida final $-$ pérdida mínima. "
+        f"Pérdida mínima alcanzable: {ms[0]['minimo']:.6f}. "
         "Patrones: centros distintos a B3/S23 de los 512 patrones tras un paso. "
         "Error $k$: fracción de células distintas a B3/S23 en el paso $k$ y Densidad 50: fracción de células "
         f"vivas en el paso 50, ambas promedio de {N_TEST} condiciones iniciales aleatorias de $69\\times69$ "
@@ -148,44 +152,50 @@ def figura(exp: str, ms: list, dens_ref: np.ndarray, ruta: Path):
 
 
 def tabla_ajuste(archivo: str, titulo: str, label: str) -> str:
+    """Pérdida final de cada configuración de activación por combinación de tasa y lote."""
     filas = list(csv.DictReader(open(AJUSTE / archivo)))
     lrs = sorted({float(r["lr"]) for r in filas})
     lotes = sorted({int(r["lote"]) for r in filas})
-    celdas = {}
-    for lr in lrs:
-        for lote in lotes:
-            g = [r for r in filas if float(r["lr"]) == lr and int(r["lote"]) == lote]
-            celdas[lr, lote] = (np.mean([float(r["brecha"]) for r in g]), max(float(r["brecha"]) for r in g),
-                                np.mean([float(r["segundos"]) for r in g]))
     cuerpo = []
     for lr in lrs:
         if cuerpo:
             cuerpo.append("\t\t\\midrule")
-        cuerpo += [f"\t\t{lr:g} & {b} & {celdas[lr, b][0]:.5f} & {celdas[lr, b][1]:.5f} & {celdas[lr, b][2]:.0f} \\\\"
-                   for b in lotes]
+        for lote in lotes:
+            g = {(r["act"], int(r["out_size"]), r["out_act"]): r for r in filas
+                 if float(r["lr"]) == lr and int(r["lote"]) == lote}
+            perdidas = " & ".join(f"{float(g[c]['final']):.6f}" for c in CONFIGS)
+            segundos = np.mean([float(r["segundos"]) for r in g.values()])
+            cuerpo.append(f"\t\t{lr:g} & {lote} & {perdidas} & {segundos:.0f} \\\\")
+    columnas = ["Tasa", "Lote"] + [f"{ACT_TXT[a]} \\& \\\\{o}:{ACT_TXT[oa]}" for a, o, oa in CONFIGS] + ["Segundos"]
     return "\n".join([
-        "\\begin{table}[H]", "\t\\centering", "\t\\small", "\t\\begin{tabular}{rrrrr}", "\t\t\\toprule",
-        "\t\t\\textbf{Tasa} & \\textbf{Lote} & \\textbf{Brecha media} & \\textbf{Brecha máxima}"
-        " & \\textbf{Segundos} \\\\",
+        "\\begin{table}[H]", "\t\\centering", "\t\\small", "\t\\begin{tabular}{rrrrrrr}", "\t\t\\toprule",
+        "\t\t" + " & ".join(encabezado(t) for t in columnas) + " \\\\",
         "\t\t\\midrule", *cuerpo, "\t\t\\bottomrule", "\t\\end{tabular}",
         f"\t\\caption{{{titulo} Vecindad de $3\\times3$ sin el vecino noroeste, 100 épocas, semilla 42. "
-        "Brecha: pérdida media de las últimas 10 épocas $-$ pérdida mínima alcanzable (0.121294); media, máximo "
-        "y segundos medios sobre las 4 configuraciones de activación.}",
+        "Pérdida final de cada configuración de activación; segundos: tiempo medio por entrenamiento. "
+        "Pérdida mínima alcanzable: 0.121294.}",
         f"\t\\label{{{label}}}", "\\end{table}", ""])
 
 
+def tablas_ajuste() -> str:
+    return (tabla_ajuste("ajuste_16x16.csv", "Ajuste de tasa de aprendizaje y tamaño de lote con la red 16:16.",
+                         "tab:vecindad_ajuste_16x16")
+            + tabla_ajuste("ajuste_2x16.csv", "Ajuste de tasa de aprendizaje y tamaño de lote con la red 2:16.",
+                           "tab:vecindad_ajuste_2x16"))
+
+
 if __name__ == "__main__":
+    import sys
+    if sys.argv[1:] == ["ajuste"]:
+        # Las tablas de ajuste están escritas dentro de Experimentacion/gol.tex: se imprimen para pegarlas
+        print(tablas_ajuste())
+        sys.exit()
     TEX.mkdir(parents=True, exist_ok=True)
     ref = referencia()
     dens_ref = np.mean([r.mean(axis=(1, 2)) for r in ref], axis=0)
     for exp in ["centro", "NO", "N", "3x3", "5x5", "7x7", "8x8"]:
         ms = metricas(exp, ref)
         (TEX / f"vecindad_{exp.lower()}.tex").write_text(tabla(exp, ms, dens_ref[-1]))
-        figura(exp, ms, dens_ref, IMG / f"vecindad_{exp.lower()}.png")
-        print(f"{exp}: tabla y figura", flush=True)
-    (TEX / "vecindad_ajuste.tex").write_text(
-        tabla_ajuste("ajuste_16x16.csv", "Ajuste de tasa de aprendizaje y tamaño de lote con la red 16:16.",
-                     "tab:vecindad_ajuste_16x16")
-        + tabla_ajuste("ajuste_2x16.csv", "Ajuste de tasa de aprendizaje y tamaño de lote con la red 2:16.",
-                       "tab:vecindad_ajuste_2x16"))
-    print("ajuste: tablas", flush=True)
+        if "tablas" not in sys.argv[1:]:
+            figura(exp, ms, dens_ref, IMG / f"vecindad_{exp.lower()}.png")
+        print(f"{exp}: tabla" + ("" if "tablas" in sys.argv[1:] else " y figura"), flush=True)

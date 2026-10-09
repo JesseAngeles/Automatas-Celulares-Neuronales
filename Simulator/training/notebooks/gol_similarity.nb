@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[     71914,       1906]
-NotebookOptionsPosition[     68849,       1845]
-NotebookOutlinePosition[     69241,       1861]
-CellTagsIndexPosition[     69198,       1858]
+NotebookDataLength[    190689,       5144]
+NotebookOptionsPosition[    187529,       5082]
+NotebookOutlinePosition[    187922,       5098]
+CellTagsIndexPosition[    187879,       5095]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -56,18 +56,25 @@ Cell[TextData[{
  " es la referencia. "
 }], "Text",ExpressionUUID->"645159b3-c2c6-4cc2-a9cc-736bed2903b4"],
 
-Cell[BoxData[{
+Cell[BoxData[
  RowBox[{
   RowBox[{"SetDirectory", "[", 
-   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";"}]], "Input",
+ CellChangeTimes->{4.00050637506109*^9},
+ CellLabel->"In[9]:=",ExpressionUUID->"dfd19ab1-ca82-495e-b251-9998e53aae83"],
+
+Cell[BoxData[{
  RowBox[{
   RowBox[{"archivoA", "=", "\"\<../CA/B3S23/base.mat\>\""}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
   "archivoB", 
-   "=", "\"\<../NCA/B3S23_NR/0_11111111/16:16:relu_1:sigmoid_evo.mat\>\""}], 
+   "=", "\"\<../NCA/B3S23_NR/1_01111111/16-16-tanh_1-sigmoid_evo.mat\>\""}], 
   ";"}]}], "Input",
- CellLabel->"In[1]:=",ExpressionUUID->"dfd19ab1-ca82-495e-b251-9998e53aae83"]
+ CellChangeTimes->{
+  4.00050637506109*^9, {4.000506430903737*^9, 4.0005064364800863`*^9}, 
+   4.000506523904972*^9},
+ CellLabel->"In[33]:=",ExpressionUUID->"55992171-3984-4fb2-86d4-a922c87d13cb"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -113,7 +120,7 @@ Cell[BoxData[{
      RowBox[{";;", " ", 
       RowBox[{"Length", "[", "patrones", "]"}]}], "]"}], "]"}]}], 
   ";"}]}], "Input",
- CellLabel->"In[4]:=",ExpressionUUID->"87d75b88-65dc-45d2-91f6-3feff776295a"]
+ CellLabel->"In[49]:=",ExpressionUUID->"87d75b88-65dc-45d2-91f6-3feff776295a"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -141,7 +148,7 @@ Cell[BoxData[{
    RowBox[{
     RowBox[{"First", "[", "evoA", "]"}], "==", 
     RowBox[{"First", "[", "evoB", "]"}]}]}], "}"}]}], "Input",
- CellLabel->"In[8]:=",ExpressionUUID->"b13ccb1e-1b3b-4be1-b081-bd56b73cf5e0"],
+ CellLabel->"In[53]:=",ExpressionUUID->"b13ccb1e-1b3b-4be1-b081-bd56b73cf5e0"],
 
 Cell[BoxData[
  RowBox[{"{", 
@@ -151,8 +158,9 @@ Cell[BoxData[
    RowBox[{"{", 
     RowBox[{"2", ",", "69", ",", "69"}], "}"}], ",", "True"}], 
   "}"}]], "Output",
- CellChangeTimes->{4.000422167587493*^9},
- CellLabel->"Out[10]=",ExpressionUUID->"a0fe2cd4-6163-4e2a-b7ae-5e0599d4fc42"]
+ CellChangeTimes->{4.000422167587493*^9, 4.000506443968676*^9, 
+  4.000506537415229*^9},
+ CellLabel->"Out[55]=",ExpressionUUID->"1ce11311-7541-46b0-81d3-e0ed8c99b551"]
 }, Open  ]]
 }, Open  ]],
 
@@ -183,25 +191,28 @@ Cell[BoxData[{
   "N"}]}], "Input",
  CellChangeTimes->{{4.000422208634074*^9, 4.00042222144816*^9}, {
   4.0004222811932917`*^9, 4.000422306705418*^9}},
- CellLabel->"In[40]:=",ExpressionUUID->"925e7596-0ccb-4bd7-9229-064098e310cf"],
+ CellLabel->"In[61]:=",ExpressionUUID->"925e7596-0ccb-4bd7-9229-064098e310cf"],
 
 Cell[BoxData["512"], "Output",
  CellChangeTimes->{
   4.000422169726055*^9, {4.000422209614994*^9, 4.000422221835145*^9}, {
-   4.000422291526272*^9, 4.000422307080772*^9}},
- CellLabel->"Out[42]=",ExpressionUUID->"1bb8371d-d644-46ab-8299-582a9969bf5d"],
+   4.000422291526272*^9, 4.000422307080772*^9}, {4.0005064453977013`*^9, 
+   4.000506452878512*^9}, {4.0005065311986303`*^9, 4.000506540469347*^9}},
+ CellLabel->"Out[63]=",ExpressionUUID->"1d1f9524-3e35-4698-8b99-854c444003b7"],
 
-Cell[BoxData["28"], "Output",
+Cell[BoxData["98"], "Output",
  CellChangeTimes->{
   4.000422169726055*^9, {4.000422209614994*^9, 4.000422221835145*^9}, {
-   4.000422291526272*^9, 4.0004223070810738`*^9}},
- CellLabel->"Out[43]=",ExpressionUUID->"ca2517ca-8f51-4b92-9611-f017a1bd1709"],
+   4.000422291526272*^9, 4.000422307080772*^9}, {4.0005064453977013`*^9, 
+   4.000506452878512*^9}, {4.0005065311986303`*^9, 4.000506540469996*^9}},
+ CellLabel->"Out[64]=",ExpressionUUID->"24ba3965-b3fe-406d-b13a-a4be74c5a487"],
 
-Cell[BoxData["5.46875`"], "Output",
+Cell[BoxData["19.140625`"], "Output",
  CellChangeTimes->{
   4.000422169726055*^9, {4.000422209614994*^9, 4.000422221835145*^9}, {
-   4.000422291526272*^9, 4.000422307081349*^9}},
- CellLabel->"Out[44]=",ExpressionUUID->"3f6d2b5c-07df-43ea-aefd-637d24374410"]
+   4.000422291526272*^9, 4.000422307080772*^9}, {4.0005064453977013`*^9, 
+   4.000506452878512*^9}, {4.0005065311986303`*^9, 4.0005065404712*^9}},
+ CellLabel->"Out[65]=",ExpressionUUID->"4b8c10f8-f840-4b92-bee3-8f34ce6ed4ff"]
 }, Open  ]],
 
 Cell[TextData[{
@@ -241,20 +252,21 @@ Cell[BoxData[{
      RowBox[{"vectorB", "[", 
       RowBox[{"[", "diferencias", "]"}], "]"}]}], "}"}], "]"}], 
   "]"}]}], "Input",
- CellLabel->"In[14]:=",ExpressionUUID->"dba5e135-ca2b-49ba-a596-dc9e831a15cd"],
+ CellLabel->"In[26]:=",ExpressionUUID->"dba5e135-ca2b-49ba-a596-dc9e831a15cd"],
 
 Cell[BoxData[
  RowBox[{"\[LeftAssociation]", 
   RowBox[{
    RowBox[{
     RowBox[{"{", 
-     RowBox[{"0", ",", "1"}], "}"}], "\[Rule]", "9"}], ",", 
+     RowBox[{"1", ",", "0"}], "}"}], "\[Rule]", "35"}], ",", 
    RowBox[{
     RowBox[{"{", 
-     RowBox[{"1", ",", "0"}], "}"}], "\[Rule]", "19"}]}], 
+     RowBox[{"0", ",", "1"}], "}"}], "\[Rule]", "63"}]}], 
   "\[RightAssociation]"}]], "Output",
- CellChangeTimes->{4.0004221713659697`*^9},
- CellLabel->"Out[15]=",ExpressionUUID->"c4b53845-121b-40fd-9d72-3b09ac5e9b0d"]
+ CellChangeTimes->{
+  4.0004221713659697`*^9, {4.0005064472802553`*^9, 4.000506449413824*^9}},
+ CellLabel->"Out[27]=",ExpressionUUID->"e7e7ce35-5ac7-4428-ba6b-f1f43a8eca5c"]
 }, Open  ]]
 }, Open  ]],
 
@@ -303,7 +315,7 @@ Cell[BoxData[
        RowBox[{"PlotLabel", "->", "\"\<Diferencias\>\""}]}], "]"}]}], 
     "\[IndentingNewLine]", "\t", "}"}], ",", 
    RowBox[{"ImageSize", "->", "900"}]}], "]"}]], "Input",
- CellLabel->"In[16]:=",ExpressionUUID->"a58eb411-d8d1-456d-8801-6e769077aea2"],
+ CellLabel->"In[66]:=",ExpressionUUID->"a58eb411-d8d1-456d-8801-6e769077aea2"],
 
 Cell[BoxData[
  GraphicsBox[{{}, {InsetBox[
@@ -370,8 +382,8 @@ ioMUgNVgqhsQ+ynWT1ge5i2IOgjNAFMHAGd7A00=
      BaseStyle->{Graphics3DBoxOptions -> {SphericalRegion -> False}}], 
     InsetBox[
      GraphicsBox[{RasterBox[CompressedData["
-1:eJxTTMoPSmJiYGAQYGBgUGBgYGAkANAVkMpnZGAAizHg4FOqnyAfLABCDFAx
-VD7N7WcAA7g4Oh/dHVjcBXYvXD86n4ER1X/ofIS3GJCiG84HAGxOA1c=
+1:eJxTTMoPSmJiYGAQYGBgUGBgYGBgJAAYGBhBahjgXFQ+hjwWE0BqYOpABoDN
+QPDxm09IP2F5mLMg6iA0A1zdCPc/ADN2Ay0=
         "], {{0, 0}, {32, 16}}, {0, 1}], {
         {LightDarkSwitched[
           GrayLevel[
@@ -432,10 +444,11 @@ VD7N7WcAA7g4Oh/dHVjcBXYvXD86n4ER1X/ofIS3GJCiG84HAGxOA1c=
      BaseStyle->{Graphics3DBoxOptions -> {SphericalRegion -> False}}], 
     InsetBox[
      GraphicsBox[{RasterBox[CompressedData["
-1:eJzt08EJhDAUhOEBG9gS1krsYUsQPG/rliDibRBFMXk+/efySZAwLyFt//8N
-jaSPpK+k+XvJ2CEiIiIi1tcT3QcREevoie6DWFNPdB/c1kOfe8/11PNBRMyu
-J7oPYk090X1Qqzl7X0f/x1x6ovu8rT8iPk/P3vrRfUr3zG6WubL0jJr3beeD
-1+qJ7lP6XVw1b+n9zzsBPAnZ8g==
+1:eJzt08EJwzAMheEHXSAjtJN0h4wQ6LmrZ4RSSi8mSlGQLbv5dfmCMOIp2Lfl
+OT8ukiZJV0nv70+td23Wt494Bss62vfOr51/dK29vPt6z5/t/1v5vX3+P/6T
+ZWX3eb+xc6zztfNE5eztnveWf3Stvbz7es/z//f3yurzfmPnWOdr54nKyf3P
+nc/9bzM/Kk/We+nt3mb1R78/UXlGeb/YxrKy8yAiYq5l/ep759TOiYiIiIiI
+iIiZvgC2MDQ+
         "], {{0, 0}, {32, 16}}, {0, 1}], {
         {LightDarkSwitched[
           GrayLevel[
@@ -498,8 +511,8 @@ J7oPYk090X1Qqzl7X0f/x1x6ovu8rT8iPk/P3vrRfUr3zG6WubL0jJr3beeD
   Method->{"IgnoreImageSizeAutomaticLimit" -> True},
   PlotRange->{{0, 967.5}, {-192.00046875000004`, 0}},
   PlotRangePadding->Automatic]], "Output",
- CellChangeTimes->{4.000422173224166*^9},
- CellLabel->"Out[16]=",ExpressionUUID->"7c458129-ae75-4f83-8db3-b54797ac3fb3"]
+ CellChangeTimes->{4.000422173224166*^9, 4.000506700806631*^9},
+ CellLabel->"Out[66]=",ExpressionUUID->"05a5d5ec-012d-4cd7-b18b-fe73863062f0"]
 }, Open  ]],
 
 Cell[TextData[{
@@ -537,14 +550,14 @@ Cell[BoxData[
       "&"}], " ", "/@", " ", "diferencias"}], ",", "\[IndentingNewLine]", 
     "\t", 
     RowBox[{"UpTo", "[", "8", "]"}]}], "]"}], "]"}]], "Input",
- CellLabel->"In[17]:=",ExpressionUUID->"8833b67c-cebd-49bf-8ad2-a4884f72e46c"],
+ CellLabel->"In[67]:=",ExpressionUUID->"8833b67c-cebd-49bf-8ad2-a4884f72e46c"],
 
 Cell[BoxData[
  TagBox[GridBox[{
     {
      LabeledGraphicsBox[
       GraphicsBox[{
-        RasterBox[{{0, 1, 1}, {1, 1, 0}, {1, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+        RasterBox[{{1, 1, 1}, {0, 1, 0}, {1, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
          1}], {
          {LightDarkSwitched[
            GrayLevel[
@@ -586,11 +599,11 @@ Cell[BoxData[
               "freeformCursorMode" -> True, 
                "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
          "DefaultPlotStyle" -> Automatic}], 
-      TemplateBox[{"12", "\": \"", "0", "\"\[Rule]\"", "1"},
+      TemplateBox[{"104", "\": \"", "1", "\"\[Rule]\"", "1"},
        "RowDefault"], Bottom], 
      LabeledGraphicsBox[
       GraphicsBox[{
-        RasterBox[{{1, 0, 0}, {1, 0, 1}, {1, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+        RasterBox[{{0, 0, 1}, {1, 1, 1}, {1, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
          1}], {
          {LightDarkSwitched[
            GrayLevel[
@@ -632,11 +645,11 @@ Cell[BoxData[
               "freeformCursorMode" -> True, 
                "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
          "DefaultPlotStyle" -> Automatic}], 
-      TemplateBox[{"19", "\": \"", "1", "\"\[Rule]\"", "0"},
+      TemplateBox[{"134", "\": \"", "1", "\"\[Rule]\"", "1"},
        "RowDefault"], Bottom], 
      LabeledGraphicsBox[
       GraphicsBox[{
-        RasterBox[{{0, 1, 0}, {1, 0, 1}, {1, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+        RasterBox[{{1, 1, 0}, {0, 0, 1}, {1, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
          1}], {
          {LightDarkSwitched[
            GrayLevel[
@@ -678,11 +691,11 @@ Cell[BoxData[
               "freeformCursorMode" -> True, 
                "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
          "DefaultPlotStyle" -> Automatic}], 
-      TemplateBox[{"21", "\": \"", "1", "\"\[Rule]\"", "0"},
+      TemplateBox[{"177", "\": \"", "1", "\"\[Rule]\"", "0"},
        "RowDefault"], Bottom], 
      LabeledGraphicsBox[
       GraphicsBox[{
-        RasterBox[{{0, 0, 1}, {1, 0, 1}, {1, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+        RasterBox[{{1, 0, 1}, {0, 0, 1}, {1, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
          1}], {
          {LightDarkSwitched[
            GrayLevel[
@@ -724,11 +737,11 @@ Cell[BoxData[
               "freeformCursorMode" -> True, 
                "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
          "DefaultPlotStyle" -> Automatic}], 
-      TemplateBox[{"22", "\": \"", "1", "\"\[Rule]\"", "0"},
+      TemplateBox[{"178", "\": \"", "1", "\"\[Rule]\"", "0"},
        "RowDefault"], Bottom], 
      LabeledGraphicsBox[
       GraphicsBox[{
-        RasterBox[{{1, 1, 0}, {1, 0, 0}, {1, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+        RasterBox[{{0, 1, 1}, {0, 0, 1}, {1, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
          1}], {
          {LightDarkSwitched[
            GrayLevel[
@@ -770,11 +783,11 @@ Cell[BoxData[
               "freeformCursorMode" -> True, 
                "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
          "DefaultPlotStyle" -> Automatic}], 
-      TemplateBox[{"25", "\": \"", "1", "\"\[Rule]\"", "0"},
+      TemplateBox[{"180", "\": \"", "1", "\"\[Rule]\"", "0"},
        "RowDefault"], Bottom], 
      LabeledGraphicsBox[
       GraphicsBox[{
-        RasterBox[{{1, 0, 1}, {1, 0, 0}, {1, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+        RasterBox[{{1, 1, 1}, {0, 0, 0}, {1, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
          1}], {
          {LightDarkSwitched[
            GrayLevel[
@@ -816,11 +829,11 @@ Cell[BoxData[
               "freeformCursorMode" -> True, 
                "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
          "DefaultPlotStyle" -> Automatic}], 
-      TemplateBox[{"26", "\": \"", "1", "\"\[Rule]\"", "0"},
+      TemplateBox[{"184", "\": \"", "1", "\"\[Rule]\"", "0"},
        "RowDefault"], Bottom], 
      LabeledGraphicsBox[
       GraphicsBox[{
-        RasterBox[{{1, 1, 0}, {0, 1, 1}, {1, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+        RasterBox[{{1, 1, 1}, {0, 0, 1}, {1, 0, 0}}, {{0, 0}, {3, 3}}, {0, 
          1}], {
          {LightDarkSwitched[
            GrayLevel[
@@ -862,11 +875,11 @@ Cell[BoxData[
               "freeformCursorMode" -> True, 
                "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
          "DefaultPlotStyle" -> Automatic}], 
-      TemplateBox[{"33", "\": \"", "0", "\"\[Rule]\"", "1"},
+      TemplateBox[{"240", "\": \"", "1", "\"\[Rule]\"", "0"},
        "RowDefault"], Bottom], 
      LabeledGraphicsBox[
       GraphicsBox[{
-        RasterBox[{{1, 1, 1}, {0, 1, 0}, {1, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+        RasterBox[{{1, 0, 0}, {1, 1, 1}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
          1}], {
          {LightDarkSwitched[
            GrayLevel[
@@ -908,12 +921,12 @@ Cell[BoxData[
               "freeformCursorMode" -> True, 
                "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
          "DefaultPlotStyle" -> Automatic}], 
-      TemplateBox[{"40", "\": \"", "0", "\"\[Rule]\"", "1"},
+      TemplateBox[{"259", "\": \"", "1", "\"\[Rule]\"", "0"},
        "RowDefault"], Bottom]},
     {
      LabeledGraphicsBox[
       GraphicsBox[{
-        RasterBox[{{1, 0, 1}, {0, 0, 1}, {1, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+        RasterBox[{{0, 1, 0}, {1, 1, 1}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
          1}], {
          {LightDarkSwitched[
            GrayLevel[
@@ -955,11 +968,11 @@ Cell[BoxData[
               "freeformCursorMode" -> True, 
                "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
          "DefaultPlotStyle" -> Automatic}], 
-      TemplateBox[{"50", "\": \"", "1", "\"\[Rule]\"", "0"},
+      TemplateBox[{"261", "\": \"", "1", "\"\[Rule]\"", "0"},
        "RowDefault"], Bottom], 
      LabeledGraphicsBox[
       GraphicsBox[{
-        RasterBox[{{0, 1, 1}, {0, 0, 1}, {1, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+        RasterBox[{{0, 0, 1}, {1, 1, 1}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
          1}], {
          {LightDarkSwitched[
            GrayLevel[
@@ -1001,11 +1014,11 @@ Cell[BoxData[
               "freeformCursorMode" -> True, 
                "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
          "DefaultPlotStyle" -> Automatic}], 
-      TemplateBox[{"52", "\": \"", "1", "\"\[Rule]\"", "0"},
+      TemplateBox[{"262", "\": \"", "1", "\"\[Rule]\"", "0"},
        "RowDefault"], Bottom], 
      LabeledGraphicsBox[
       GraphicsBox[{
-        RasterBox[{{1, 1, 0}, {1, 0, 1}, {1, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
+        RasterBox[{{0, 0, 0}, {1, 1, 1}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
          1}], {
          {LightDarkSwitched[
            GrayLevel[
@@ -1047,11 +1060,11 @@ Cell[BoxData[
               "freeformCursorMode" -> True, 
                "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
          "DefaultPlotStyle" -> Automatic}], 
-      TemplateBox[{"81", "\": \"", "1", "\"\[Rule]\"", "0"},
+      TemplateBox[{"263", "\": \"", "0", "\"\[Rule]\"", "1"},
        "RowDefault"], Bottom], 
      LabeledGraphicsBox[
       GraphicsBox[{
-        RasterBox[{{1, 0, 1}, {1, 0, 1}, {1, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
+        RasterBox[{{1, 1, 0}, {1, 1, 0}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
          1}], {
          {LightDarkSwitched[
            GrayLevel[
@@ -1093,11 +1106,11 @@ Cell[BoxData[
               "freeformCursorMode" -> True, 
                "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
          "DefaultPlotStyle" -> Automatic}], 
-      TemplateBox[{"82", "\": \"", "1", "\"\[Rule]\"", "0"},
+      TemplateBox[{"265", "\": \"", "1", "\"\[Rule]\"", "0"},
        "RowDefault"], Bottom], 
      LabeledGraphicsBox[
       GraphicsBox[{
-        RasterBox[{{0, 1, 1}, {1, 0, 1}, {1, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
+        RasterBox[{{1, 0, 1}, {1, 1, 0}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
          1}], {
          {LightDarkSwitched[
            GrayLevel[
@@ -1139,11 +1152,11 @@ Cell[BoxData[
               "freeformCursorMode" -> True, 
                "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
          "DefaultPlotStyle" -> Automatic}], 
-      TemplateBox[{"84", "\": \"", "1", "\"\[Rule]\"", "0"},
+      TemplateBox[{"266", "\": \"", "1", "\"\[Rule]\"", "0"},
        "RowDefault"], Bottom], 
      LabeledGraphicsBox[
       GraphicsBox[{
-        RasterBox[{{1, 1, 1}, {1, 0, 0}, {1, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
+        RasterBox[{{1, 0, 0}, {1, 1, 0}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
          1}], {
          {LightDarkSwitched[
            GrayLevel[
@@ -1185,11 +1198,11 @@ Cell[BoxData[
               "freeformCursorMode" -> True, 
                "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
          "DefaultPlotStyle" -> Automatic}], 
-      TemplateBox[{"88", "\": \"", "1", "\"\[Rule]\"", "0"},
+      TemplateBox[{"267", "\": \"", "0", "\"\[Rule]\"", "1"},
        "RowDefault"], Bottom], 
      LabeledGraphicsBox[
       GraphicsBox[{
-        RasterBox[{{1, 1, 1}, {0, 1, 1}, {1, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
+        RasterBox[{{0, 1, 1}, {1, 1, 0}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
          1}], {
          {LightDarkSwitched[
            GrayLevel[
@@ -1231,11 +1244,11 @@ Cell[BoxData[
               "freeformCursorMode" -> True, 
                "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
          "DefaultPlotStyle" -> Automatic}], 
-      TemplateBox[{"96", "\": \"", "0", "\"\[Rule]\"", "1"},
+      TemplateBox[{"268", "\": \"", "1", "\"\[Rule]\"", "0"},
        "RowDefault"], Bottom], 
      LabeledGraphicsBox[
       GraphicsBox[{
-        RasterBox[{{1, 1, 0}, {1, 1, 1}, {1, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
+        RasterBox[{{0, 1, 0}, {1, 1, 0}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
          1}], {
          {LightDarkSwitched[
            GrayLevel[
@@ -1277,12 +1290,12 @@ Cell[BoxData[
               "freeformCursorMode" -> True, 
                "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
          "DefaultPlotStyle" -> Automatic}], 
-      TemplateBox[{"129", "\": \"", "0", "\"\[Rule]\"", "1"},
+      TemplateBox[{"269", "\": \"", "0", "\"\[Rule]\"", "1"},
        "RowDefault"], Bottom]},
     {
      LabeledGraphicsBox[
       GraphicsBox[{
-        RasterBox[{{1, 0, 1}, {1, 1, 1}, {1, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
+        RasterBox[{{0, 0, 1}, {1, 1, 0}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
          1}], {
          {LightDarkSwitched[
            GrayLevel[
@@ -1324,283 +1337,7 @@ Cell[BoxData[
               "freeformCursorMode" -> True, 
                "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
          "DefaultPlotStyle" -> Automatic}], 
-      TemplateBox[{"130", "\": \"", "0", "\"\[Rule]\"", "1"},
-       "RowDefault"], Bottom], 
-     LabeledGraphicsBox[
-      GraphicsBox[{
-        RasterBox[{{0, 1, 1}, {1, 1, 1}, {1, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
-         1}], {
-         {LightDarkSwitched[
-           GrayLevel[
-            Rational[2, 3]], 
-           GrayLevel[
-            Rational[1, 2]]], Opacity[
-           NCache[
-            Rational[2, 3], 0.6666666666666666]], 
-          
-          StyleBox[
-           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
-             0}, {3, 0}}}],
-           Antialiasing->False]}, 
-         {LightDarkSwitched[
-           GrayLevel[
-            Rational[2, 3]], 
-           GrayLevel[
-            Rational[1, 2]]], Opacity[
-           NCache[
-            Rational[2, 3], 0.6666666666666666]], 
-          
-          StyleBox[
-           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
-             0}, {3, 3}}}],
-           Antialiasing->False]}}},
-       Frame->False,
-       FrameLabel->{None, None},
-       FrameTicks->{{None, None}, {None, None}},
-       GridLinesStyle->Directive[
-         GrayLevel[0.5, 0.4]],
-       ImageSize->40,
-       Method->{
-        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
-         "DefaultGraphicsInteraction" -> {
-          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
-           "Effects" -> {
-            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
-              "Droplines" -> {
-              "freeformCursorMode" -> True, 
-               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
-         "DefaultPlotStyle" -> Automatic}], 
-      TemplateBox[{"132", "\": \"", "0", "\"\[Rule]\"", "1"},
-       "RowDefault"], Bottom], 
-     LabeledGraphicsBox[
-      GraphicsBox[{
-        RasterBox[{{1, 1, 1}, {1, 0, 0}, {1, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
-         1}], {
-         {LightDarkSwitched[
-           GrayLevel[
-            Rational[2, 3]], 
-           GrayLevel[
-            Rational[1, 2]]], Opacity[
-           NCache[
-            Rational[2, 3], 0.6666666666666666]], 
-          
-          StyleBox[
-           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
-             0}, {3, 0}}}],
-           Antialiasing->False]}, 
-         {LightDarkSwitched[
-           GrayLevel[
-            Rational[2, 3]], 
-           GrayLevel[
-            Rational[1, 2]]], Opacity[
-           NCache[
-            Rational[2, 3], 0.6666666666666666]], 
-          
-          StyleBox[
-           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
-             0}, {3, 3}}}],
-           Antialiasing->False]}}},
-       Frame->False,
-       FrameLabel->{None, None},
-       FrameTicks->{{None, None}, {None, None}},
-       GridLinesStyle->Directive[
-         GrayLevel[0.5, 0.4]],
-       ImageSize->40,
-       Method->{
-        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
-         "DefaultGraphicsInteraction" -> {
-          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
-           "Effects" -> {
-            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
-              "Droplines" -> {
-              "freeformCursorMode" -> True, 
-               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
-         "DefaultPlotStyle" -> Automatic}], 
-      TemplateBox[{"152", "\": \"", "1", "\"\[Rule]\"", "0"},
-       "RowDefault"], Bottom], 
-     LabeledGraphicsBox[
-      GraphicsBox[{
-        RasterBox[{{1, 1, 1}, {0, 0, 1}, {1, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
-         1}], {
-         {LightDarkSwitched[
-           GrayLevel[
-            Rational[2, 3]], 
-           GrayLevel[
-            Rational[1, 2]]], Opacity[
-           NCache[
-            Rational[2, 3], 0.6666666666666666]], 
-          
-          StyleBox[
-           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
-             0}, {3, 0}}}],
-           Antialiasing->False]}, 
-         {LightDarkSwitched[
-           GrayLevel[
-            Rational[2, 3]], 
-           GrayLevel[
-            Rational[1, 2]]], Opacity[
-           NCache[
-            Rational[2, 3], 0.6666666666666666]], 
-          
-          StyleBox[
-           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
-             0}, {3, 3}}}],
-           Antialiasing->False]}}},
-       Frame->False,
-       FrameLabel->{None, None},
-       FrameTicks->{{None, None}, {None, None}},
-       GridLinesStyle->Directive[
-         GrayLevel[0.5, 0.4]],
-       ImageSize->40,
-       Method->{
-        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
-         "DefaultGraphicsInteraction" -> {
-          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
-           "Effects" -> {
-            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
-              "Droplines" -> {
-              "freeformCursorMode" -> True, 
-               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
-         "DefaultPlotStyle" -> Automatic}], 
-      TemplateBox[{"176", "\": \"", "1", "\"\[Rule]\"", "0"},
-       "RowDefault"], Bottom], 
-     LabeledGraphicsBox[
-      GraphicsBox[{
-        RasterBox[{{1, 1, 1}, {1, 0, 1}, {1, 0, 0}}, {{0, 0}, {3, 3}}, {0, 
-         1}], {
-         {LightDarkSwitched[
-           GrayLevel[
-            Rational[2, 3]], 
-           GrayLevel[
-            Rational[1, 2]]], Opacity[
-           NCache[
-            Rational[2, 3], 0.6666666666666666]], 
-          
-          StyleBox[
-           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
-             0}, {3, 0}}}],
-           Antialiasing->False]}, 
-         {LightDarkSwitched[
-           GrayLevel[
-            Rational[2, 3]], 
-           GrayLevel[
-            Rational[1, 2]]], Opacity[
-           NCache[
-            Rational[2, 3], 0.6666666666666666]], 
-          
-          StyleBox[
-           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
-             0}, {3, 3}}}],
-           Antialiasing->False]}}},
-       Frame->False,
-       FrameLabel->{None, None},
-       FrameTicks->{{None, None}, {None, None}},
-       GridLinesStyle->Directive[
-         GrayLevel[0.5, 0.4]],
-       ImageSize->40,
-       Method->{
-        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
-         "DefaultGraphicsInteraction" -> {
-          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
-           "Effects" -> {
-            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
-              "Droplines" -> {
-              "freeformCursorMode" -> True, 
-               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
-         "DefaultPlotStyle" -> Automatic}], 
-      TemplateBox[{"208", "\": \"", "1", "\"\[Rule]\"", "0"},
-       "RowDefault"], Bottom], 
-     LabeledGraphicsBox[
-      GraphicsBox[{
-        RasterBox[{{1, 0, 1}, {1, 1, 1}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
-         1}], {
-         {LightDarkSwitched[
-           GrayLevel[
-            Rational[2, 3]], 
-           GrayLevel[
-            Rational[1, 2]]], Opacity[
-           NCache[
-            Rational[2, 3], 0.6666666666666666]], 
-          
-          StyleBox[
-           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
-             0}, {3, 0}}}],
-           Antialiasing->False]}, 
-         {LightDarkSwitched[
-           GrayLevel[
-            Rational[2, 3]], 
-           GrayLevel[
-            Rational[1, 2]]], Opacity[
-           NCache[
-            Rational[2, 3], 0.6666666666666666]], 
-          
-          StyleBox[
-           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
-             0}, {3, 3}}}],
-           Antialiasing->False]}}},
-       Frame->False,
-       FrameLabel->{None, None},
-       FrameTicks->{{None, None}, {None, None}},
-       GridLinesStyle->Directive[
-         GrayLevel[0.5, 0.4]],
-       ImageSize->40,
-       Method->{
-        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
-         "DefaultGraphicsInteraction" -> {
-          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
-           "Effects" -> {
-            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
-              "Droplines" -> {
-              "freeformCursorMode" -> True, 
-               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
-         "DefaultPlotStyle" -> Automatic}], 
-      TemplateBox[{"258", "\": \"", "0", "\"\[Rule]\"", "1"},
-       "RowDefault"], Bottom], 
-     LabeledGraphicsBox[
-      GraphicsBox[{
-        RasterBox[{{1, 1, 1}, {1, 1, 0}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
-         1}], {
-         {LightDarkSwitched[
-           GrayLevel[
-            Rational[2, 3]], 
-           GrayLevel[
-            Rational[1, 2]]], Opacity[
-           NCache[
-            Rational[2, 3], 0.6666666666666666]], 
-          
-          StyleBox[
-           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
-             0}, {3, 0}}}],
-           Antialiasing->False]}, 
-         {LightDarkSwitched[
-           GrayLevel[
-            Rational[2, 3]], 
-           GrayLevel[
-            Rational[1, 2]]], Opacity[
-           NCache[
-            Rational[2, 3], 0.6666666666666666]], 
-          
-          StyleBox[
-           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
-             0}, {3, 3}}}],
-           Antialiasing->False]}}},
-       Frame->False,
-       FrameLabel->{None, None},
-       FrameTicks->{{None, None}, {None, None}},
-       GridLinesStyle->Directive[
-         GrayLevel[0.5, 0.4]],
-       ImageSize->40,
-       Method->{
-        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
-         "DefaultGraphicsInteraction" -> {
-          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
-           "Effects" -> {
-            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
-              "Droplines" -> {
-              "freeformCursorMode" -> True, 
-               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
-         "DefaultPlotStyle" -> Automatic}], 
-      TemplateBox[{"264", "\": \"", "0", "\"\[Rule]\"", "1"},
+      TemplateBox[{"270", "\": \"", "0", "\"\[Rule]\"", "1"},
        "RowDefault"], Bottom], 
      LabeledGraphicsBox[
       GraphicsBox[{
@@ -1647,8 +1384,53 @@ Cell[BoxData[
                "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
          "DefaultPlotStyle" -> Automatic}], 
       TemplateBox[{"273", "\": \"", "1", "\"\[Rule]\"", "0"},
-       "RowDefault"], Bottom]},
-    {
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 0, 1}, {1, 0, 1}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"274", "\": \"", "1", "\"\[Rule]\"", "0"},
+       "RowDefault"], Bottom], 
      LabeledGraphicsBox[
       GraphicsBox[{
         RasterBox[{{0, 1, 1}, {1, 0, 1}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
@@ -1694,6 +1476,698 @@ Cell[BoxData[
                "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
          "DefaultPlotStyle" -> Automatic}], 
       TemplateBox[{"276", "\": \"", "1", "\"\[Rule]\"", "0"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{0, 0, 0}, {1, 0, 1}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"279", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 1, 1}, {1, 0, 0}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"280", "\": \"", "1", "\"\[Rule]\"", "0"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 0, 0}, {1, 0, 0}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"283", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{0, 1, 0}, {1, 0, 0}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"285", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom]},
+    {
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{0, 0, 1}, {1, 0, 0}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"286", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 1, 0}, {0, 1, 1}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"289", "\": \"", "1", "\"\[Rule]\"", "0"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 0, 1}, {0, 1, 1}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"290", "\": \"", "1", "\"\[Rule]\"", "0"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 0, 0}, {0, 1, 1}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"291", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{0, 1, 1}, {0, 1, 1}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"292", "\": \"", "1", "\"\[Rule]\"", "0"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{0, 1, 0}, {0, 1, 1}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"293", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{0, 0, 1}, {0, 1, 1}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"294", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 1, 1}, {0, 1, 0}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"296", "\": \"", "1", "\"\[Rule]\"", "0"},
+       "RowDefault"], Bottom]},
+    {
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 1, 0}, {0, 1, 0}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"297", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 0, 1}, {0, 1, 0}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"298", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{0, 1, 1}, {0, 1, 0}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"300", "\": \"", "0", "\"\[Rule]\"", "1"},
        "RowDefault"], Bottom], 
      LabeledGraphicsBox[
       GraphicsBox[{
@@ -1743,6 +2217,743 @@ Cell[BoxData[
        "RowDefault"], Bottom], 
      LabeledGraphicsBox[
       GraphicsBox[{
+        RasterBox[{{1, 0, 0}, {0, 0, 1}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"307", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{0, 1, 0}, {0, 0, 1}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"309", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{0, 0, 1}, {0, 0, 1}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"310", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 1, 0}, {0, 0, 0}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"313", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom]},
+    {
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 0, 1}, {0, 0, 0}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"314", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{0, 1, 1}, {0, 0, 0}, {0, 1, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"316", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 1, 0}, {1, 1, 1}, {0, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"321", "\": \"", "1", "\"\[Rule]\"", "0"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 0, 1}, {1, 1, 1}, {0, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"322", "\": \"", "1", "\"\[Rule]\"", "0"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 0, 0}, {1, 1, 1}, {0, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"323", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{0, 1, 1}, {1, 1, 1}, {0, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"324", "\": \"", "1", "\"\[Rule]\"", "0"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{0, 1, 0}, {1, 1, 1}, {0, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"325", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{0, 0, 1}, {1, 1, 1}, {0, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"326", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom]},
+    {
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 1, 1}, {1, 1, 0}, {0, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"328", "\": \"", "1", "\"\[Rule]\"", "0"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 1, 0}, {1, 1, 0}, {0, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"329", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 0, 1}, {1, 1, 0}, {0, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"330", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{0, 1, 1}, {1, 1, 0}, {0, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"332", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
         RasterBox[{{1, 1, 1}, {1, 0, 1}, {0, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
          1}], {
          {LightDarkSwitched[
@@ -1789,6 +3000,1065 @@ Cell[BoxData[
        "RowDefault"], Bottom], 
      LabeledGraphicsBox[
       GraphicsBox[{
+        RasterBox[{{1, 0, 0}, {1, 0, 1}, {0, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"339", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{0, 1, 0}, {1, 0, 1}, {0, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"341", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{0, 0, 1}, {1, 0, 1}, {0, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"342", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom]},
+    {
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 1, 0}, {1, 0, 0}, {0, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"345", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 0, 1}, {1, 0, 0}, {0, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"346", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{0, 1, 1}, {1, 0, 0}, {0, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"348", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 1, 1}, {0, 1, 1}, {0, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"352", "\": \"", "1", "\"\[Rule]\"", "0"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 1, 0}, {0, 1, 1}, {0, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"353", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 0, 1}, {0, 1, 1}, {0, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"354", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{0, 1, 1}, {0, 1, 1}, {0, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"356", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 1, 0}, {0, 0, 1}, {0, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"369", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom]},
+    {
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 0, 1}, {0, 0, 1}, {0, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"370", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{0, 1, 1}, {0, 0, 1}, {0, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"372", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 1, 1}, {0, 0, 0}, {0, 1, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"376", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 1, 0}, {1, 1, 1}, {0, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"385", "\": \"", "1", "\"\[Rule]\"", "0"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 0, 1}, {1, 1, 1}, {0, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"386", "\": \"", "1", "\"\[Rule]\"", "0"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 0, 0}, {1, 1, 1}, {0, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"387", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{0, 1, 1}, {1, 1, 1}, {0, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"388", "\": \"", "1", "\"\[Rule]\"", "0"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{0, 1, 0}, {1, 1, 1}, {0, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"389", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom]},
+    {
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 1, 1}, {1, 1, 0}, {0, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"392", "\": \"", "1", "\"\[Rule]\"", "0"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 1, 0}, {1, 1, 0}, {0, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"393", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 0, 1}, {1, 1, 0}, {0, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"394", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{0, 1, 1}, {1, 1, 0}, {0, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"396", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
         RasterBox[{{1, 1, 1}, {1, 0, 1}, {0, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
          1}], {
          {LightDarkSwitched[
@@ -1832,18 +4102,985 @@ Cell[BoxData[
                "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
          "DefaultPlotStyle" -> Automatic}], 
       TemplateBox[{"400", "\": \"", "1", "\"\[Rule]\"", "0"},
-       "RowDefault"], Bottom], "", "", "", ""}
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 0, 0}, {1, 0, 1}, {0, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"403", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{0, 1, 0}, {1, 0, 1}, {0, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"405", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{0, 0, 1}, {1, 0, 1}, {0, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"406", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom]},
+    {
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 1, 0}, {1, 0, 0}, {0, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"409", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 0, 1}, {1, 0, 0}, {0, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"410", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{0, 1, 1}, {1, 0, 0}, {0, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"412", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 1, 1}, {0, 1, 1}, {0, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"416", "\": \"", "1", "\"\[Rule]\"", "0"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 1, 0}, {0, 1, 1}, {0, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"417", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 0, 1}, {0, 1, 1}, {0, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"418", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{0, 1, 1}, {0, 1, 1}, {0, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"420", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 1, 1}, {0, 1, 0}, {0, 0, 1}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"424", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom]},
+    {
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 1, 1}, {1, 1, 1}, {0, 0, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"448", "\": \"", "1", "\"\[Rule]\"", "0"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 1, 0}, {1, 1, 1}, {0, 0, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"449", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 0, 1}, {1, 1, 1}, {0, 0, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"450", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{0, 1, 1}, {1, 1, 1}, {0, 0, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"452", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 1, 1}, {1, 1, 0}, {0, 0, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"456", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 1, 0}, {1, 0, 1}, {0, 0, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"465", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 0, 1}, {1, 0, 1}, {0, 0, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"466", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{0, 1, 1}, {1, 0, 1}, {0, 0, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"468", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom]},
+    {
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 1, 1}, {1, 0, 0}, {0, 0, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"472", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], 
+     LabeledGraphicsBox[
+      GraphicsBox[{
+        RasterBox[{{1, 1, 1}, {0, 1, 1}, {0, 0, 0}}, {{0, 0}, {3, 3}}, {0, 
+         1}], {
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 3}, {3, 3}}, {{0, 2}, {3, 2}}, {{0, 1}, {3, 1}}, {{0,
+             0}, {3, 0}}}],
+           Antialiasing->False]}, 
+         {LightDarkSwitched[
+           GrayLevel[
+            Rational[2, 3]], 
+           GrayLevel[
+            Rational[1, 2]]], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], 
+          
+          StyleBox[
+           LineBox[{{{0, 0}, {0, 3}}, {{1, 0}, {1, 3}}, {{2, 0}, {2, 3}}, {{3,
+             0}, {3, 3}}}],
+           Antialiasing->False]}}},
+       Frame->False,
+       FrameLabel->{None, None},
+       FrameTicks->{{None, None}, {None, None}},
+       GridLinesStyle->Directive[
+         GrayLevel[0.5, 0.4]],
+       ImageSize->40,
+       Method->{
+        "GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, 
+         "DefaultGraphicsInteraction" -> {
+          "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+           "Effects" -> {
+            "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2},
+              "Droplines" -> {
+              "freeformCursorMode" -> True, 
+               "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+         "DefaultPlotStyle" -> Automatic}], 
+      TemplateBox[{"480", "\": \"", "0", "\"\[Rule]\"", "1"},
+       "RowDefault"], Bottom], "", "", "", "", "", ""}
    },
    AutoDelete->False,
    GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
   "Grid"]], "Output",
- CellChangeTimes->{4.000422180109857*^9},
- CellLabel->"Out[17]=",ExpressionUUID->"5f0c1d2e-4c8f-4ce2-a899-8f4ae917cad2"]
+ CellChangeTimes->{4.000422180109857*^9, 4.000506718173728*^9},
+ CellLabel->"Out[67]=",ExpressionUUID->"e51a8f2e-968a-43ce-b42c-6fd143b03ff6"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
 },
-WindowSize->{672.75, 784.5},
+WindowSize->{672.75, 387.75},
 WindowMargins->{{0, Automatic}, {Automatic, 0}},
 FrontEndVersion->"15.0 for Linux x86 (64-bit) (July 2, 2026)",
 StyleDefinitions->"Default.nb",
@@ -1862,55 +5099,54 @@ CellTagsIndex->{}
 Notebook[{
 Cell[CellGroupData[{
 Cell[576, 22, 105, 0, 96, "Title",ExpressionUUID->"f5ae7b19-94a3-4678-a5ce-42e67e553ce0"],
-Cell[684, 24, 930, 20, 121, "Text",ExpressionUUID->"9e42355a-3857-4839-bbbb-2b287b0fffac"],
+Cell[684, 24, 930, 20, 99, "Text",ExpressionUUID->"9e42355a-3857-4839-bbbb-2b287b0fffac"],
 Cell[CellGroupData[{
 Cell[1639, 48, 82, 0, 65, "Section",ExpressionUUID->"a6afcd23-b0fa-44f3-aef0-0a8df0688f61"],
 Cell[1724, 50, 335, 6, 33, "Text",ExpressionUUID->"645159b3-c2c6-4cc2-a9cc-736bed2903b4"],
-Cell[2062, 58, 452, 11, 69, "Input",ExpressionUUID->"dfd19ab1-ca82-495e-b251-9998e53aae83"]
+Cell[2062, 58, 242, 5, 29, "Input",ExpressionUUID->"dfd19ab1-ca82-495e-b251-9998e53aae83"],
+Cell[2307, 65, 447, 11, 49, "Input",ExpressionUUID->"55992171-3984-4fb2-86d4-a922c87d13cb"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[2551, 74, 83, 0, 65, "Section",ExpressionUUID->"6a58d8d6-7b8d-4756-8231-0b7f9d51cd17"],
-Cell[2637, 76, 1333, 39, 109, "Input",ExpressionUUID->"87d75b88-65dc-45d2-91f6-3feff776295a"]
+Cell[2791, 81, 83, 0, 65, "Section",ExpressionUUID->"6a58d8d6-7b8d-4756-8231-0b7f9d51cd17"],
+Cell[2877, 83, 1334, 39, 109, "Input",ExpressionUUID->"87d75b88-65dc-45d2-91f6-3feff776295a"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[4007, 120, 94, 0, 65, "Section",ExpressionUUID->"c098ec97-1f58-4365-b808-1bda7a0ca0d6"],
-Cell[4104, 122, 170, 3, 33, "Text",ExpressionUUID->"b9dbf986-bb11-4d82-bd53-dcb9c5e89cd2"],
+Cell[4248, 127, 94, 0, 65, "Section",ExpressionUUID->"c098ec97-1f58-4365-b808-1bda7a0ca0d6"],
+Cell[4345, 129, 170, 3, 33, "Text",ExpressionUUID->"b9dbf986-bb11-4d82-bd53-dcb9c5e89cd2"],
 Cell[CellGroupData[{
-Cell[4299, 129, 581, 14, 69, "Input",ExpressionUUID->"b13ccb1e-1b3b-4be1-b081-bd56b73cf5e0"],
-Cell[4883, 145, 332, 9, 33, "Output",ExpressionUUID->"a0fe2cd4-6163-4e2a-b7ae-5e0599d4fc42"]
+Cell[4540, 136, 582, 14, 69, "Input",ExpressionUUID->"b13ccb1e-1b3b-4be1-b081-bd56b73cf5e0"],
+Cell[5125, 152, 379, 10, 33, "Output",ExpressionUUID->"1ce11311-7541-46b0-81d3-e0ed8c99b551"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[5264, 160, 96, 0, 65, "Section",ExpressionUUID->"8cde5b32-e426-4e6d-8744-e28a70077a4c"],
+Cell[5553, 168, 96, 0, 65, "Section",ExpressionUUID->"8cde5b32-e426-4e6d-8744-e28a70077a4c"],
 Cell[CellGroupData[{
-Cell[5385, 164, 816, 21, 109, "Input",ExpressionUUID->"925e7596-0ccb-4bd7-9229-064098e310cf"],
-Cell[6204, 187, 250, 4, 33, "Output",ExpressionUUID->"1bb8371d-d644-46ab-8299-582a9969bf5d"],
-Cell[6457, 193, 251, 4, 33, "Output",ExpressionUUID->"ca2517ca-8f51-4b92-9611-f017a1bd1709"],
-Cell[6711, 199, 255, 4, 33, "Output",ExpressionUUID->"3f6d2b5c-07df-43ea-aefd-637d24374410"]
+Cell[5674, 172, 816, 21, 109, "Input",ExpressionUUID->"925e7596-0ccb-4bd7-9229-064098e310cf"],
+Cell[6493, 195, 350, 5, 33, "Output",ExpressionUUID->"1d1f9524-3e35-4698-8b99-854c444003b7"],
+Cell[6846, 202, 349, 5, 33, "Output",ExpressionUUID->"24ba3965-b3fe-406d-b13a-a4be74c5a487"],
+Cell[7198, 209, 355, 5, 33, "Output",ExpressionUUID->"4b8c10f8-f840-4b92-bee3-8f34ce6ed4ff"]
 }, Open  ]],
-Cell[6981, 206, 752, 14, 55, "Text",ExpressionUUID->"de428e4b-9aa1-4824-afd3-b13e88bc028a"],
+Cell[7568, 217, 752, 14, 55, "Text",ExpressionUUID->"de428e4b-9aa1-4824-afd3-b13e88bc028a"],
 Cell[CellGroupData[{
-Cell[7758, 224, 678, 19, 49, "Input",ExpressionUUID->"dba5e135-ca2b-49ba-a596-dc9e831a15cd"],
-Cell[8439, 245, 397, 11, 33, "Output",ExpressionUUID->"c4b53845-121b-40fd-9d72-3b09ac5e9b0d"]
+Cell[8345, 235, 678, 19, 49, "Input",ExpressionUUID->"dba5e135-ca2b-49ba-a596-dc9e831a15cd"],
+Cell[9026, 256, 449, 12, 33, "Output",ExpressionUUID->"e7e7ce35-5ac7-4428-ba6b-f1f43a8eca5c"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[8885, 262, 95, 0, 65, "Section",ExpressionUUID->"221b2837-a18a-4274-a8f2-a6ab863c1732"],
-Cell[8983, 264, 176, 3, 33, "Text",ExpressionUUID->"4a91276d-3d10-45de-88c6-085b7d86053c"],
+Cell[9524, 274, 95, 0, 65, "Section",ExpressionUUID->"221b2837-a18a-4274-a8f2-a6ab863c1732"],
+Cell[9622, 276, 176, 3, 33, "Text",ExpressionUUID->"4a91276d-3d10-45de-88c6-085b7d86053c"],
 Cell[CellGroupData[{
-Cell[9184, 271, 1353, 34, 129, "Input",ExpressionUUID->"a58eb411-d8d1-456d-8801-6e769077aea2"],
-Cell[10540, 307, 9377, 194, 195, "Output",ExpressionUUID->"7c458129-ae75-4f83-8db3-b54797ac3fb3"]
+Cell[9823, 283, 1353, 34, 129, "Input",ExpressionUUID->"a58eb411-d8d1-456d-8801-6e769077aea2"],
+Cell[11179, 319, 9424, 195, 195, "Output",ExpressionUUID->"05a5d5ec-012d-4cd7-b18b-fe73863062f0"]
 }, Open  ]],
-Cell[19932, 504, 360, 6, 33, "Text",ExpressionUUID->"3d0fa468-32ad-4bba-b8df-4cd990b220cb"],
+Cell[20618, 517, 360, 6, 33, "Text",ExpressionUUID->"3d0fa468-32ad-4bba-b8df-4cd990b220cb"],
 Cell[CellGroupData[{
-Cell[20317, 514, 1007, 25, 109, "Input",ExpressionUUID->"8833b67c-cebd-49bf-8ad2-a4884f72e46c"],
-Cell[21327, 541, 47482, 1299, 336, "Output",ExpressionUUID->"5f0c1d2e-4c8f-4ce2-a899-8f4ae917cad2"]
+Cell[21003, 527, 1007, 25, 109, "Input",ExpressionUUID->"8833b67c-cebd-49bf-8ad2-a4884f72e46c"],
+Cell[22013, 554, 165476, 4523, 1067, "Output",ExpressionUUID->"e51a8f2e-968a-43ce-b42c-6fd143b03ff6"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
 }
 ]
 *)
-
-(* End of internal cache information *)
 
