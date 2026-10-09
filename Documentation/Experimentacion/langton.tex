@@ -1,0 +1,24 @@
+\subsection{Hormiga de Langton}
+
+Para finalizar 
+
+Para comprobar los resultados de comprotamientos ya conocidos, se realiza un análisis similar la hormiga de Langton. La hormiga de Langton es un agente en una grilla bidimensional que sigue instrucciones sencillas, lee un estado, el estado define su neuva dirección y se mueve a ella, similar a una maquina de Turing pero en 2 dimensiones, también conocido como turmite.
+
+Este sistema puede ser representado mediante un automata celular, cuyos estados esta dado por la unión de los estados del tablero $\cup$ estados que definen la dirección de la hormiga, para la definición mas pequeña, tendraimos 8 estados en una vecindad de Neumman, por lo que su vector seria de $2^5 = 32$ elementos, por lo que la hormiga de Langton es una regla de $2^32 = 4294967296$ reglas, por lo que usamos el NCA para extraer el comportamiento del agente de la hormiga.
+
+Las figuras \TODO{} muestran un análisis estadístico del balanceo de clases y el balanceo de entradas, lo que nos indica  que \TODO{}.
+
+Siguiendo la misma configuración que con las reglas life, se muestra que puede replicar el comportamiento de la hormiga de Langton. En la figura \TODO{} se muestra la carretera producida después de \TODO{100} pasos producida tanto por la hormiga de Langton como por el NCA.
+
+el NCA fue entrenado con una sola hormiga, sin embargo, con este comportamiento individual nos preguntamos ¿Cómo generaliza esto a multiples hormigas?
+
+Por otro lado, el entrenamiento con multiples hormigas depende de las restricciones que se definan cuando una hormiga se encuentra con otra. ¿Se tienen que esperar?, ¿Ambas puedan ocupar la misma celda pero cada una maneja su estado independiente? o ¿se eliminan las hormigas?. Estas restricciones son las que definen las reglas que el automata celular neuronal va a replicar, y son datos que tenemos que considerar. Por ejemplo, si se pueden sobreponer las hormigas, entonces ahora puede haber hasta \TODO{$|15| \cup {estados}$} total de estados. ya que Si hay una sola hormiga, puede tener 4 direcciones (u,d,l,r), si tengo 2 hormigas puedo tener (ur, ud, ul, rd,rl, dl), si tengo 3 hormigas puedo tener: (urd, url, udl,  rdl) y con 4 (el máximo posible) solo tengo una posibilidad (urdl). Esto se debe a que esta configuración solo considera que todas las hormigas tienen la misma regla. Si consideramos que existen tipos de hormigas, entonces el numero de estados crece significamente porque ahora 2 hormigas diferentes pueden tener la misma dirección en la misma celula al mismo tiempo pero sin ser iguales, por lo que el numero de estados aumenta a la combinatoria de 1 en 4 direcciones, 2 en 4, 3 en 4 y 4 en 4 $\cup$ estados.
+
+Es por esto, que esta prueba esta diseñada para medir la capacidad de replicamiento de reglas con un incremento de estados sustancial. Para cumplir uno de los objetivos de esta investigación, repicamiento de comportamientos cuyo definición manual sea complicada. Los resultados se muestran en la figura \TODO{}.
+
+
+Finalmente, replicamos los experimentos de cambios en la vecindad. Si eliminamos el centro vemos que no afecta para una única hormiga, ya que no import alo que tenga dentro, si tiene una hormiga aputnando a el entonces cambia el estado, y si en el siguiente paso no tiene ninguna hormiga apuntando a el, entonces su estado es 0. Es decir, el único escenario en que mi estado es diferente de 0 es cuando tengo una hormiga aputnando a la celula en uno d esus vecinos.
+
+\TODO{Diferenciar el comportamiento de cuando es una hormiga y cuando hay muchas hormigas}
+
+Por otro lado, como se muestra con las figuras \TODO{}, se aprecia que la eliminación de cualquier otro elemento en la vecindad si compromete completamente la evolución del automata celular.
