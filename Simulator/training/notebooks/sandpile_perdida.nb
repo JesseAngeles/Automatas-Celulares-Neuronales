@@ -202,7 +202,7 @@ Cell[BoxData[{
 linear.csv\>\"", ",", "0.000001"}], "]"}]}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
-   RowBox[{"\"\<../../../Documentation/img/sp_4generadores_loss.png\>\"", ",",
+   RowBox[{"\"\<../../../Documentation/img/experimentacion/duplicacion/sandpile/sp_4generadores_loss.png\>\"", ",",
      "graficaConstante", ",", 
     RowBox[{"ImageResolution", "->", "200"}]}], "]"}], ";"}]}], "Input",Expres\
 sionUUID->"14b186a0-4852-4d19-8786-0c3452a69e10"],
@@ -227,7 +227,7 @@ Cell[BoxData[{
 17-linear.csv\>\"", ",", "0.000001"}], "]"}]}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
-   RowBox[{"\"\<../../../Documentation/img/sp_4generadores_loss_exp.png\>\"", 
+   RowBox[{"\"\<../../../Documentation/img/experimentacion/duplicacion/sandpile/sp_4generadores_loss_exp.png\>\"", 
     ",", "graficaExp", ",", 
     RowBox[{"ImageResolution", "->", "200"}]}], "]"}], ";"}]}], "Input",Expres\
 sionUUID->"2f570dc4-a7e8-4cb8-94a5-60cd1d7c506c"],
@@ -257,7 +257,7 @@ relu_17-linear.csv\>\"", ",", "0.000001"}], "]"}]}],
   "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
-   RowBox[{"\"\<../../../Documentation/img/sp_4generadores_loss_plateau.png\>\
+   RowBox[{"\"\<../../../Documentation/img/experimentacion/duplicacion/sandpile/sp_4generadores_loss_plateau.png\>\
 \"", ",", "graficaPlateau", ",", 
     RowBox[{"ImageResolution", "->", "200"}]}], "]"}], ";"}]}], "Input",Expres\
 sionUUID->"9859583d-c27e-4439-890c-7a999e2c9230"]

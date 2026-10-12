@@ -6,7 +6,7 @@ contra B3/S23 real:
   - error paso k: fracción de células distintas a B3/S23 en el paso k, media de las 10 condiciones aleatorias
   - densidad paso 50: fracción de células vivas en el paso 50, media de las 10 condiciones aleatorias
 
-Escribe Documentation/Experimentacion/datos/*.tex y Documentation/img/vecindad_*.png.
+Escribe Documentation/Experimentacion/datos/*.tex y Documentation/img/experimentacion/duplicacion/gol/vecindad_*.png.
 
 Uso (desde Simulator/training):
     python scripts/resultados_vecindad.py           tablas y figuras
@@ -26,7 +26,7 @@ from barrido_vecindad import (ACT_TXT, CONFIGS, EPOCAS, EXPERIMENTOS, LOSS_TARGE
 
 DOC = Path("../../Documentation")
 TEX = DOC / "Experimentacion/datos"
-IMG = DOC / "img"
+IMG = DOC / "img/experimentacion/duplicacion/gol"
 AJUSTE = Path("NCA/B3S23_NR/ajuste_hiperparametros")
 N_TEST = 10
 
@@ -187,7 +187,7 @@ def tablas_ajuste() -> str:
 if __name__ == "__main__":
     import sys
     if sys.argv[1:] == ["ajuste"]:
-        # Las tablas de ajuste están escritas dentro de Experimentacion/gol.tex: se imprimen para pegarlas
+        # Las tablas de ajuste están escritas dentro de Experimentacion/duplicacion/gol.tex: se imprimen para pegarlas
         print(tablas_ajuste())
         sys.exit()
     TEX.mkdir(parents=True, exist_ok=True)

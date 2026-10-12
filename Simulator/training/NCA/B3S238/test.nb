@@ -1389,7 +1389,7 @@ Cell[BoxData[{
    RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
-   RowBox[{"\"\<../../../../Documentation/img/b3s238_vector.png\>\"", ",", 
+   RowBox[{"\"\<../../../../Documentation/img/experimentacion/duplicacion/gol/b3s238_vector.png\>\"", ",", 
     "fplotc"}], "]"}], ";"}]}], "Input",
  CellChangeTimes->{{3.997748091802018*^9, 3.9977481211609898`*^9}, {
   3.997748478046083*^9, 3.9977485146802187`*^9}},

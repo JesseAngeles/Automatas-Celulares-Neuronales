@@ -1,6 +1,6 @@
 """Tablas LaTeX del entrenamiento de sandpile (sección 1.3 del experimento 1).
 
-Lee los CSV de NCA/Sandpile/ e imprime las tablas para pegarlas en Documentation/Experimentacion/sandpile.tex:
+Lee los CSV de NCA/Sandpile/ e imprime las tablas para pegarlas en Documentation/Experimentacion/duplicacion/sandpile.tex:
     sandpile_ajuste_lr.tex       pérdida de las 9 configuraciones 16:16 con cuatro tasas de aprendizaje (100 épocas)
     sandpile_activaciones.tex    las 9 configuraciones 16:16 con 500 épocas
     sandpile_arquitecturas.tex   ReLU / 17:Linear con otros tamaños de red, tasas y pérdidas objetivo

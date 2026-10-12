@@ -735,7 +735,7 @@ Cell[BoxData[{
   RowBox[{"SetDirectory", "[", 
    RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{"Export", "[", 
-  RowBox[{"\"\<./../../../../Documentation/img/b3s23_loss.png\>\"", ",", 
+  RowBox[{"\"\<./../../../../Documentation/img/experimentacion/duplicacion/gol/b3s23_loss.png\>\"", ",", 
    "fplot"}], "]"}]}], "Input",
  CellChangeTimes->{{3.997575096371223*^9, 3.997575103264924*^9}, 
    3.9977116603455667`*^9, {3.997711691997509*^9, 3.9977117070259657`*^9}, {
@@ -743,7 +743,7 @@ Cell[BoxData[{
  CellLabel->
   "In[184]:=",ExpressionUUID->"59265dc4-a89a-4d03-af86-dba861f46f0f"],
 
-Cell[BoxData["\<\"./../../../../Documentation/img/b3s23_loss.png\"\>"], "Output",
+Cell[BoxData["\<\"./../../../../Documentation/img/experimentacion/duplicacion/gol/b3s23_loss.png\"\>"], "Output",
  CellChangeTimes->{
   3.997711709226313*^9, {3.9977117989110823`*^9, 3.997711823570751*^9}, {
    3.997711882475746*^9, 3.997711919907782*^9}, {3.997740097537423*^9, 

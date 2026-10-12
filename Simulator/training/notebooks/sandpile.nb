@@ -917,7 +917,7 @@ Cell[BoxData[{
 Cell[BoxData[
  RowBox[{
   RowBox[{"Export", "[", 
-   RowBox[{"\"\<../../../Documentation/img/sp_proportion.png\>\"", ",", 
+   RowBox[{"\"\<../../../Documentation/img/experimentacion/duplicacion/sandpile/sp_proportion.png\>\"", ",", 
     "graficaProporcionEstados", ",", 
     RowBox[{"ImageResolution", "->", "200"}]}], "]"}], ";"}]], "Input",Express\
 ionUUID->"9468e536-89e9-4d45-bece-40cae19493a2"],
