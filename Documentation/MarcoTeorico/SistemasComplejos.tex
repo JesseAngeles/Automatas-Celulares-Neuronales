@@ -1,8 +1,8 @@
 \chapter{Marco teórico: Sistemas, caos y simulación}
 
-	Estudiar fenómenos naturales y artificiales requiere el diseño de estructuras que permitan simplificar la realidad sin perder su esencia. En el presente capítulo se establecen los fundamentos teóricos para comprender la simulación computacional de sistemas, abarcando desde la Teoría General de Sistemas hasta la caracterización de los sistemas complejos.
+	Estudiar fenómenos naturales y artificiales requiere el diseño de estructuras que permitan simplificar la realidad sin perder su esencia. En el presente capítulo se establecen los fundamentos teóricos para comprender la simulación computacional de sistemas, abarcando desde la teoría general de sistemas hasta la caracterización de los sistemas complejos.
 	
-	En primer lugar, se explora la Teoría General de Sistemas como un enfoque interdisciplinario utilizado para comprender la complejidad en diferentes contextos. Esta perspectiva se apoya en dos pilares fundamentales: la concepción de que cualquier fenómeno puede ser entendido como un sistema y la premisa de que las conexiones entre las partes son esenciales para su funcionamiento.
+	En primer lugar, se explora la teoría general de sistemas como un enfoque interdisciplinario utilizado para comprender la complejidad en diferentes contextos. Esta perspectiva se apoya en dos pilares fundamentales: la concepción de que cualquier fenómeno puede ser entendido como un sistema y la premisa de que las conexiones entre las partes son esenciales para su funcionamiento.
 	
 	Luego, se presenta la teoría del caos y el concepto de atractores, elementos que permiten diferenciar y analizar sistemas deterministas que presentan comportamientos aparentemente aleatorios.
 	
@@ -43,7 +43,7 @@ De acuerdo con \cite{Arnold1998_def_tgs}, los sistemas se categorizan según su 
 
 \subsubsection{Sistemas abiertos y cerrados}
 
-Un sistema es abierto si mantiene un intercambio permanente de elementos con su entorno \cite{Arnold1998_def_tgs}. Tienen una interacción activa con el mundo que los rodea o con su ambiente. Estas influencias externas pueden ajustar las respuestas del propio sistema y se caracterizan por:
+Un sistema es abierto si mantiene un intercambio permanente de elementos con su entorno \cite{Arnold1998_def_tgs}. Tiene una interacción activa con el mundo que lo rodea o con su ambiente. Estas influencias externas pueden ajustar las respuestas del propio sistema, el cual se caracteriza por:
 
 \begin{itemize}
 	\item Adaptabilidad: Pueden ajustar el comportamiento y las estructuras internas para mantener su funcionamiento y equilibrio en respuesta a perturbaciones externas.
@@ -58,7 +58,7 @@ Siguiendo a \cite{Ospina2023_abierto}, todas las fluctuaciones y cambios depende
 \begin{itemize}
 	\item La frontera impide interacción significativa con el entorno, por lo que no se ve afectado el funcionamiento interno.
 	
-	\item Conservan la energía y la materia que los contienen, lo que contribuye a la estabilidad de la estructura y el equilibrio.	
+	\item Conservan la energía, la materia y la información, lo que contribuye a la estabilidad de la estructura y el equilibrio.	
 \end{itemize}
 
 Con base en los principios básicos de un sistema, es imposible que existan sistemas cerrados porque un sistema siempre pertenece a otro. La clasificación de sistemas según su relación con el ambiente busca disminuir esa interacción con el entorno para propiciar condiciones ideales de aislamiento.
@@ -69,7 +69,7 @@ Un sistema determinista es aquel en donde las mismas entradas producirán invari
 
 Por otro lado, un sistema estocástico es aquel que se rige por el azar. El resultado depende de probabilidades que cambian o pueden variar en función del tiempo \cite{Rojas2018_probablistisco}.
 
-No hay que confundir los sistemas estocásticos con los sistemas caóticos. En los sistemas estocásticos existe una variable aleatoria que impide que las mismas entradas tengan las mismas salidas. Los sistemas caóticos son deterministas, pero establecer el sistema en evoluciones futuras resulta complicado. 
+No hay que confundir los sistemas estocásticos con los sistemas caóticos. En los sistemas estocásticos existe una variable aleatoria que impide que las mismas entradas tengan las mismas salidas. Los sistemas caóticos son deterministas, pero resulta complicado predecir evoluciones futuras. 
 
 \subsubsection{Sistemas estáticos y dinámicos}
 
@@ -239,15 +239,15 @@ Las condiciones iniciales suelen contener errores que incrementarán exponencial
 	
 	\begin{itemize}
 		\item La aplicación $\phi: X \to X$ es topológicamente transitiva. 
-		\item El conjunto de puntos de $\phi$ es denso en el atractor. 
-		\item La aplicación $\phi: X \to X$ tiene dependencias sensitivas a las condiciones iniciales. 
+		\item El conjunto de puntos periódicos de $\phi$ es denso en $X$.  
+		\item La aplicación $\phi: X \to X$ tiene dependencia sensible a las condiciones iniciales. 
 	\end{itemize}	
 	
 \end{definition}
 
 El hecho de que la aplicación sea topológicamente transitiva implica que el atractor caótico es irreducible, es decir, si iteramos la función $\phi$ un número determinado de veces (evolucionar el sistema durante un periodo de tiempo suficiente), se puede acceder a cualquier punto del atractor desde cualquier otro.
 
-Si el conjunto de puntos es denso en el atractor, entonces cualquier punto en el espacio está arbitrariamente cerca de una órbita periódica. 
+Si el conjunto de puntos periódicos es denso en $X$, entonces cualquier punto del espacio está arbitrariamente cerca de una órbita periódica. 
 
 Finalmente, la sensibilidad a las condiciones iniciales refleja el hecho de que, en un sistema caótico, dos trayectorias que inician relativamente cerca acabarán comportándose de una forma diferente a largo plazo. 
 
@@ -265,10 +265,10 @@ Donde $\lambda$ es el exponente de Lyapunov. Es decir, mide la tasa de separaci�
 
 \subsection{Atractores}
 
-En un espacio disipado, la región del espacio de fases que atrae a las trayectorias vecinas se conoce como atractor. Es un subconjunto en el espacio de fases, es decir, un conjunto de estados a los que tiende a evolucionar el sistema en función de las condiciones iniciales.
+En un sistema disipado, la región del espacio de fases que atrae a las trayectorias vecinas se conoce como atractor. Es un subconjunto en el espacio de fases, es decir, un conjunto de estados a los que tiende a evolucionar el sistema en función de las condiciones iniciales.
 
 \begin{definition}
-	Sea $X$ el espacio de fases de un sistema dinámico disipado y sea $\phi_t: X \to X$ la transformación que describe el movimiento. Se dice que $A \subset X$ es un atractor si verifica las siguientes condiciones:
+	Sea $X$ el espacio de fases de un sistema disipado y sea $\phi_t: X \to X$ la transformación que describe el movimiento. Se dice que $A \subset X$ es un atractor si verifica las siguientes condiciones:
 	
 	\begin{itemize}
 		
@@ -292,7 +292,7 @@ A continuación, se describen los cuatro tipos de atractores que se encuentran e
 	
 	\item Atractores de punto fijo: Un atractor es de punto fijo si existe un punto fijo tal que todas las trayectorias cercanas convergen a él cuando $t \to \infty$.
 
-	La figura \ref{fig:punto_fijo} muestra el comportamiento de un péndulo con resistencia al viento que responde a la ecuación:
+	La figura \ref{fig:punto_fijo} muestra el comportamiento de un péndulo con resistencia del aire que responde a la ecuación:
 	\begin{equation*}
 		\theta'' + \gamma \theta' + \beta \theta' |\theta'| + \frac{g}{L} \sin(\theta) = 0
 	\end{equation*}
@@ -306,13 +306,13 @@ A continuación, se describen los cuatro tipos de atractores que se encuentran e
 	\end{equation*}
 	El sistema aumenta la energía cuando la amplitud es pequeña y la disipa si es grande, por lo que todas las trayectorias convergen a una órbita periódica estable. 
 	
-	\item Atractores cuasiperiódicos: Cuando dos ciclos límites con diferentes trayectorias se superponen, estas se enroscan en las direcciones longitudinales y latitudinales, creando una figura toroidal.
+	\item Atractores cuasiperiódicos: Cuando dos ciclos límite con diferentes trayectorias se superponen, estas se enroscan en las direcciones longitudinales y latitudinales, creando una figura toroidal.
 	
-	La figura \ref{fig:cuasi_periodico} ilustra un oscilador lineal forzado con una frecuencia externa basada en la razón áurea $\phi$:
+	La figura \ref{fig:cuasi_periodico} ilustra un oscilador lineal forzado con una frecuencia externa $\omega$ igual a la razón áurea:
 	\begin{equation*}
-		x'' + x = A \cos(\phi t)
+		x'' + x = A \cos(\omega t), \quad \omega = \frac{1 + \sqrt{5}}{2}
 	\end{equation*}
-	Debido a que $\phi$ es irracional respecto a la frecuencia del oscilador, el movimiento resultante es una superposición de trayectorias que nunca se repiten exactamente.
+	Debido a que $\omega$ es irracional respecto a la frecuencia del oscilador, el movimiento resultante es una superposición de trayectorias que nunca se repiten exactamente.
 	
 	\item Atractores extraños: Se dice que un atractor es extraño si tiene dimensión fractal (patrón de autosimilitud a diferentes escalas). Además, un atractor extraño es caótico si las trayectorias del sistema son atraídas hacia él, pero dentro del atractor son inestables. Esto significa que son sensibles a las condiciones iniciales.
 	
@@ -357,7 +357,7 @@ A continuación, se describen los cuatro tipos de atractores que se encuentran e
 
 Los sistemas complejos son sistemas dinámicos con muchos componentes que interactúan entre sí mediante el intercambio de materia, energía o información y que, eventualmente, sufren la acción de agentes externos \cite{Torres2025_complejo}. Las colonias de hormigas, el mercado bursátil, el clima, el sistema nervioso, las células y los organismos vivos son algunos ejemplos de sistemas complejos. Estos se caracterizan por tener un conjunto de elementos que interactúan entre sí con el fin de alcanzar un objetivo \cite{Zelinka2014_cs, Zelinka2018_cs}. 
 
-Los sistemas complejos tienen dos implicaciones fundamentales: (1) existe una influencia mutua entre sus elementos, donde el cambio afecta inevitablemente al resto de elementos, y (2) persiguen un objetivo \cite{Zelinka2018_cs}. Además, de acuerdo con \cite{sole1996_cs_caos}, los sistemas complejos están estrechamente relacionados con la teoría del caos, pues la interacción de múltiples elementos locales puede llevar al sistema completo a lo que llama ``borde del caos'', una región donde el sistema es lo suficientemente estable para mantener su estructura, pero se mantiene flexible para generar nuevos patrones.
+Los sistemas complejos tienen dos implicaciones fundamentales: (1) existe una influencia mutua entre sus elementos, donde el cambio afecta inevitablemente al resto de elementos, y (2) persiguen un objetivo \cite{Zelinka2018_cs}. Además, de acuerdo con \cite{sole1996_cs_caos}, los sistemas complejos están estrechamente relacionados con la teoría del caos, pues la interacción de múltiples elementos locales puede llevar al sistema completo a lo que se conoce como ``borde del caos'', una región donde el sistema es lo suficientemente estable para mantener su estructura, pero se mantiene flexible para generar nuevos patrones.
 
 \begin{definition}
 	Un sistema complejo es una entidad compuesta de partes interconectadas, de tal forma que el comportamiento colectivo es más que la suma de sus componentes individuales.
@@ -375,9 +375,9 @@ Los sistemas complejos se caracterizan principalmente por:
 	
 	\item \textbf{Orden espontáneo}: Existe un orden emergente resultado de las interacciones locales no coordinadas, el cual no puede ser descrito mediante sus interacciones locales \cite{Moriello2003_cs}.
 	
-	\textbf{Aparición (\textit{emergence})}: Entidades, patrones, comportamientos y propiedades emergen de la interacción de entidades más pequeñas, las cuales no exhiben estos atributos \cite{Moriello2003_cs}.
-
-	\textbf{Elementos múltiples}: Compuesto de múltiples elementos relativamente idénticos con interacciones locales \cite{Zelinka2018_cs}. 
+	\item \textbf{Aparición (\textit{emergence})}: Entidades, patrones, comportamientos y propiedades emergen de la interacción de entidades más pequeñas, las cuales no exhiben estos atributos \cite{Moriello2003_cs}.
+	
+	\item \textbf{Elementos múltiples}: Compuesto de múltiples elementos relativamente idénticos con interacciones locales \cite{Zelinka2018_cs}. 
 \end{itemize}
 
 \section{Modelado de sistemas complejos}

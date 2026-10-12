@@ -1,6 +1,6 @@
 \section{Validación y pruebas}
 
-La validación del simulador se realiza en tres partes: primero se comprueba el funcionamiento del autómata celular replicando reglas conocidas; después se realiza una verificación numérica del autómata celular neuronal y finalmente se realizan mediciones de rendimiento.
+La validación del simulador se realiza en tres partes: primero se comprueba el funcionamiento del autómata celular replicando reglas conocidas; después se realiza una verificación numérica del autómata celular neuronal y finalmente se realizan mediciones de rendimiento. Además, se describen las pruebas de interfaz, el manejo de errores y los cambios que requirió el \textit{software} durante la investigación.
 
 \subsection{Validación funcional del autómata celular clásico}
 
@@ -23,43 +23,43 @@ La métrica principal es el porcentaje de celdas coincidentes entre las dos evol
 
 \subsection{Pruebas de rendimiento}
 
-Para las pruebas de rendimiento en la simulación se utilizó la regla B3/S23 y con una población aleatoria con 50\% de células vivas. El rendimiento se analiza dentro del método \texttt{step()}, que es quien ejecuta el paso evolutivo y se sincroniza con la GPU, y el método \texttt{run()}, que ejecuta $N$ pasos consecutivos.
+Para las pruebas de rendimiento en la simulación se utilizó la regla B3/S23 con una población aleatoria del 50\% de células vivas. El rendimiento se analiza dentro del método \texttt{step()}, que es quien ejecuta el paso evolutivo y se sincroniza con la GPU, y el método \texttt{run()}, que ejecuta $N$ pasos consecutivos.
 
 \begin{table}[H]
     \centering
     \begin{tabular}{c|c|c}
         \hline
-        $n$ & \texttt{step()} (steps/s) & \texttt{run(100)} (steps/s) \\ \hline
-        100  & 345\,000 & 102\,800 \\ \hline
-        500  & 313\,000 &   6\,500 \\ \hline
-        1000 & 137\,000 &   1\,800 \\ \hline
-        2000 &  55\,400 &     520  \\ \hline
+        $n$ & \texttt{step()} (pasos/s) & \texttt{run(100)} (pasos/s) \\ \hline
+        100  & 345,000 & 102,800 \\ \hline
+        500  & 313,000 &   6,500 \\ \hline
+        1,000 & 137,000 &   1,800 \\ \hline
+        2,000 &  55,400 &     520  \\ \hline
     \end{tabular}
-    \caption{Velocidad de evolución medida sobre grillas $n \times n$. \texttt{step()} mide únicamente el \textit{kernel} y el intercambio de \textit{buffers} (sincronización perezosa). \texttt{run()} incluye la copia \textit{device-to-host} por \textit{frame}, que constituye el techo real para la reproducción visible.}
+    \caption{Velocidad de evolución medida sobre cuadrículas $n \times n$. \texttt{step()} mide únicamente el \textit{kernel} y el intercambio de \textit{buffers} (sincronización perezosa). \texttt{run()} incluye la copia \textit{device-to-host} por \textit{frame}, que constituye el techo real para la reproducción visible.}
     \label{tab:perf-evolucion}
 \end{table}
 
-La caída de \texttt{run()} respecto a \texttt{step()} cuantifica el costo de la transferencia \textit{device-to-host}: en grillas de $2000 \times 2000$ la transferencia domina por encima del cómputo.
+La caída de \texttt{run()} respecto a \texttt{step()} cuantifica el costo de la transferencia \textit{device-to-host}: en cuadrículas de $2{,}000 \times 2{,}000$ la transferencia domina por encima del cómputo.
 
 \subsubsection{Velocidad de renderizado}
 
-El renderizado se mide en modo \texttt{offscreen} de \textit{Qt Platform Abstraction} para aislar el costo de dibujar del costo del sistema de ventanas. Se contabiliza el tiempo medio entre \texttt{update()} y la finalización del \textit{repaint}.
+El renderizado se mide en modo \texttt{offscreen} de Qt Platform Abstraction para aislar el costo de dibujar del costo del sistema de ventanas. Se contabiliza el tiempo medio entre \texttt{update()} y la finalización del \textit{repaint}.
 
 \begin{table}[H]
     \centering
     \begin{tabular}{c|c|c}
         \hline
         $n$ & ms / \textit{repaint} & fps \\ \hline
-        100  & 2.66 &  375 \\ \hline
-        500  & 0.89 & 1\,125 \\ \hline
-        1000 & 2.83 &  353 \\ \hline
-        2000 & 8.18 &  122 \\ \hline
+        100  & 0.66 & 1,515 \\ \hline
+        500  & 0.89 & 1,125 \\ \hline
+        1,000 & 2.83 &  353 \\ \hline
+        2,000 & 8.18 &  122 \\ \hline
     \end{tabular}
-    \caption{Velocidad de renderizado para distintos tamaños de grilla.}
+    \caption{Velocidad de renderizado para distintos tamaños de cuadrícula.}
     \label{tab:perf-render}
 \end{table}
 
-Incluso a $2000 \times 2000$ celdas (4 millones de celdas), el renderizado supera los 100 fps, lo que confirma la viabilidad del enfoque basado en \texttt{QImage(Format\_Indexed8)} con una sola llamada a \texttt{drawImage} por \textit{frame}.
+Incluso a $2{,}000 \times 2{,}000$ celdas (4 millones de celdas), el renderizado supera los 100 fps, lo que confirma la viabilidad del enfoque basado en \texttt{QImage(Format\_Indexed8)} con una sola llamada a \texttt{drawImage} por \textit{frame}.
 
 \subsection{Pruebas de interfaz}
 
@@ -78,16 +78,21 @@ Las pruebas de la interfaz gráfica se realizaron de forma manual siguiendo guio
 A lo largo del desarrollo se identificaron y resolvieron algunos errores:
 
 \begin{itemize}
-    \item \textbf{Errores de CUDA silenciosos}: todas las llamadas a la API de CUDA se envuelven en una macro \texttt{CUDA\_CHECK} que verifica el código de retorno y aborta con un mensaje descriptivo, evitando segmentos de fallo retardados que dificultan la depuración. La macro se omite deliberadamente en los destructores para no propagar excepciones durante el desensamblado.
-    \item \textbf{Tamaño de tabla excesivo}: cambios en \texttt{states} o en \texttt{group\_sizes} pueden generar tablas de regla que excederían los límites técnicos del dispositivo. La capa de \textit{bindings} prevalida $r_{\text{size}} \leq 16\,777\,216$ antes de aplicar cualquier cambio.
+    \item \textbf{Errores de CUDA silenciosos}: todas las llamadas a la API de CUDA se envuelven en una macro \texttt{CUDA\_CHECK} que verifica el código de retorno y aborta con un mensaje descriptivo, evitando fallos de segmentación retardados que dificultan la depuración. La macro se omite deliberadamente en los destructores para no propagar excepciones durante la destrucción de los objetos.
+    \item \textbf{Tamaño de tabla excesivo}: cambios en \texttt{states} o en \texttt{group\_sizes} pueden generar tablas de regla que excederían los límites técnicos del dispositivo. La capa de \textit{bindings} prevalida $r_{\text{size}} \leq 16{,}777{,}216$ antes de aplicar cualquier cambio.
     \item \textbf{Invalidación del \textit{prefetch}}: el contador \texttt{\_generation} en el controlador descarta de forma segura los \textit{frames} precomputados cuyo trabajo ha quedado obsoleto, evitando inconsistencias visuales.
     \item \textbf{\textit{Mismatch} entre el \textit{driver} y la biblioteca de CUDA}: Incidentes documentados durante el desarrollo recomendaron reiniciar el sistema tras actualizaciones parciales del \textit{driver} NVIDIA.
 \end{itemize}
 
 \subsection{Cambios}
 
-Durante el desarrollo de la investigación, estos fueron los cambios requeridos en el software que no fueron contemplados:
+Durante el desarrollo de la investigación, estos fueron los cambios requeridos en el \textit{software} que no fueron contemplados:
 
 \begin{itemize}
 	\item Se añadió un campo opcional en el módulo de entrenamiento que es la semilla, esto para poder replicar experimentos y, además, para poder realizar múltiples pruebas con diferentes semillas aleatorias.
+	\item Se agregó la reducción de la tasa de aprendizaje durante el entrenamiento (\texttt{--lr-schedule}): exponencial, coseno o por estancamiento (\textit{plateau}), debido a que con una tasa constante la pérdida oscilaba sin alcanzar la pérdida objetivo.
+	\item Se agregó la codificación \textit{one-hot} de la capa de entrada (\texttt{--one-hot}). El número de estados se guarda en el archivo de pesos (\texttt{one\_hot\_states}) y lo interpretan tanto el \textit{kernel} del autómata celular neuronal como la GUI.
+	\item Se agregó la frontera abierta en el entrenamiento (\texttt{--open-boundary}) para sistemas como \textit{sandpile}, en los que lo que sale del espacio se pierde.
+	\item El entrenamiento acepta varios archivos de datos, en formato \texttt{.npy} o \texttt{.mat}, cuyas transiciones se juntan en un solo conjunto de datos.
+	\item Se agregó el registro de la pérdida y de la tasa de aprendizaje en un archivo CSV (\texttt{--log-csv}) para graficar las curvas de entrenamiento.
 \end{itemize}

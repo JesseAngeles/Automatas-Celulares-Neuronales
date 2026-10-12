@@ -9,15 +9,15 @@ En este capítulo se definen los fundamentos matemáticos y estructurales de un 
 	
 	\item El vecindario: El subconjunto de células que afecta el cambio de una unidad.
 	
-	\item El estado de conjunto: Los valores finitos que puede tomar cada célula.
+	\item El conjunto de estados: Los valores finitos que puede tomar cada célula.
 	
-	\item Las condiciones de frontera son: El comportamiento del sistema en sus límites en el espacio.
+	\item Las condiciones de frontera: El comportamiento del sistema en sus límites en el espacio.
 	
-	\item Las funciones de transición son: El algoritmo que rige la evolución del sistema.
+	\item La función de transición: El algoritmo que rige la evolución del sistema.
 	
 \end{itemize}
 
-Se revisan, asimismo, ejemplos que han sido de una importancia capital para el desarrollo de esta disciplina, tales como el juego de la vida de John Conway y los autómatas celulares elementales de Stephen Wolfram.
+Se revisan, asimismo, ejemplos que han sido de una importancia capital para el desarrollo de esta disciplina, tales como el juego de la vida de John Horton Conway y los autómatas celulares elementales de Stephen Wolfram.
 
 Finalmente, el capítulo amplía la definición clásica hacia terrenos más avanzados. Se presentan autómatas celulares que operan en espacios no euclidianos y se examinan extensiones recientes que incluyen estados continuos, reglas de probabilidad o actualizaciones asíncronas. Estas variaciones hacen que los autómatas celulares continúen siendo, décadas después de ser concebidos por von Neumann, una herramienta de vanguardia en campos tan diversos como la biología teórica, la criptografía y la física de partículas.
 
@@ -65,17 +65,17 @@ Otro ejemplo se encuentra en la figura \ref{fig:N_wolfram}, la cual representa u
 	\centering
 	\begin{subfigure}[b]{0.30\textwidth}
 		\includegraphics[width=\textwidth]{img/nNeumann.png}
-		\caption{Vecindad de von Neumann}
+		\caption{Vecindad de von Neumann.}
 		\label{fig:N_neumann}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.30\textwidth}
 		\includegraphics[width=\textwidth]{img/nMoore.png}
-		\caption{Vecindad de Moore}
+		\caption{Vecindad de Moore.}
 		\label{fig:N_moore}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.40\textwidth}
 		\includegraphics[width=\textwidth]{img/nWolfram.png}
-		\caption{Vecindad de radio uno en $\mathbb{Z}^1$}
+		\caption{Vecindad de radio uno en $\mathbb{Z}^1$.}
 		\label{fig:N_wolfram}
 	\end{subfigure}
 	\caption{Las vecindades \ref{fig:N_neumann} y \ref{fig:N_moore} son para autómatas celulares bidimensionales; la \ref{fig:N_wolfram} es para autómatas celulares unidimensionales. La célula negra representa la célula actual y, junto con las grises, conforma su vecindad.}
@@ -90,17 +90,17 @@ Las vecindades no solo son cuadradas; también pueden tener otras formas, como h
 	\centering
 	\begin{subfigure}[b]{0.30\textwidth}
 		\includegraphics[width=\textwidth]{img/nHexagon.png}
-		\caption{Vecindad hexagonal}
+		\caption{Vecindad hexagonal.}
 		\label{fig:N_hexagonal}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.30\textwidth}
 		\includegraphics[width=\textwidth]{img/nTriangular.png}
-		\caption{Vecindad triangular}
+		\caption{Vecindad triangular.}
 		\label{fig:N_triangular}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.30\textwidth}
 			\includegraphics[width=\textwidth]{img/nMargolus.png}
-		\caption{Vecindad de Margolus}
+		\caption{Vecindad de Margolus.}
 		\label{fig:N_margolus}
 	\end{subfigure}
 	
@@ -123,7 +123,7 @@ Finalmente, los vecinos no tienen que ser estrictamente adyacentes entre sí ni 
 
 Cada célula adquiere un único estado $s$ en cada paso de tiempo, donde $s$ pertenece a un conjunto de estados $s \in \mathcal{S}$. Por ejemplo, el autómata celular de John von Neumann contempla 29 estados, aunque algunos autores han propuesto variantes reducidas a cuatro estados, conservando su capacidad de autorreproducirse \cite{bhattacharjee2019_ca}. 
 
-Por otro lado, el juego de la vida se compone de dos estados que denominó ``vivas'' y ``muertas'' \cite{lifewiki_life}. De igual forma, Stephen Wolfram utiliza dos estados en los autómatas celulares elementales \cite{Wolfram2002_nks}.
+Por otro lado, el juego de la vida se compone de dos estados que Conway denominó ``vivas'' y ``muertas'' \cite{lifewiki_life}. De igual forma, Stephen Wolfram utiliza dos estados en los autómatas celulares elementales \cite{Wolfram2002_nks}.
 
 Idealmente, el espacio celular $\mathcal{L}$ es infinito, lo que permitiría infinitas combinaciones de estados. Sin embargo, esto es inviable computacionalmente. Para esto, se requiere establecer una restricción de finitud, como lo marca \cite{bhattacharjee2019_ca}.
  
@@ -157,7 +157,7 @@ En el tiempo $t + 1$ las células en $n - 1$ y en $n + 1$ tienen un vecino que n
 		2  & & \dots & $q$  & $p$ & $p$ & $p$&  $p$ &  $p$& $q$ & \dots &  \\ \hline
 		3 & \dots & $q$  & $p$ & $p$ & $p$&  $p$&$p$ &$p$& $p$ & $q$ & \dots \\
 	\end{tabular}
-	\caption{Evolución temporal de un autómata celular unidimensional con una configuración inicial finita. Donde $p$ representa estados activos y $q$ estados inactivos. Los conjuntos $\vec{\sigma} (t)$ y $\vec{\sigma} (t + n)$ son finitos.}
+	\caption{Evolución temporal de un autómata celular unidimensional con una configuración inicial finita, donde $p$ representa estados activos y $q$ estados inactivos. Los conjuntos $\vec{\sigma} (t)$ y $\vec{\sigma} (t + n)$ son finitos.}
 	\label{tab:CA_finito}
 \end{table}
 
@@ -194,12 +194,12 @@ Un autómata celular finito siempre tiene fronteras en los límites de su espaci
 	\centering
 	\begin{subfigure}[b]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{img/bAbierta.png}
-		\caption{Condición de frontera abierta}
+		\caption{Condición de frontera abierta.}
 		\label{fig:B_abierta}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{img/bPeriodica.png}
-		\caption{Condición de frontera periódica}
+		\caption{Condición de frontera periódica.}
 		\label{fig:B_periodica}
 	\end{subfigure}
 	
@@ -227,16 +227,16 @@ La frontera no solo puede ser abierta o periódica; existen diferentes comportam
 	\centering
 	\begin{subfigure}[b]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{img/bReflectiva.png}
-		\caption{Condición de frontera reflectiva}
+		\caption{Condición de frontera reflectiva.}
 		\label{fig:B_reflectiva}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{img/bReflexiva.png}
-		\caption{Condición de frontera reflexiva}
+		\caption{Condición de frontera reflexiva.}
 		\label{fig:B_reflexiva}
 	\end{subfigure}
 	
-	\caption{Condiciones de frontera con dos vecinos. La figura \ref{fig:B_reflectiva} muestra que las células en la frontera son vecinas entre sí, mientras que la figura \ref{fig:B_reflexiva} indica que las células que están al lado de las células de la frontera pueden tener múltiples relaciones de vecindad.}
+	\caption{Condiciones de frontera con dos vecinos. La figura \ref{fig:B_reflectiva} muestra que las células en la frontera son vecinas de sí mismas, mientras que la figura \ref{fig:B_reflexiva} indica que las células que están al lado de las células de la frontera pueden tener múltiples relaciones de vecindad.}
 	\label{fig:fronteras_adicionales}
 \end{figure}
 
@@ -248,11 +248,11 @@ Sea $\mathcal{S}$ el conjunto de estados y $m = |\mathcal{N}|$ el número de vec
 \] 
 donde $\mathcal{R}$ asigna un nuevo estado a cada célula en función de los estados de sus $m$ vecinos (incluyéndose a sí misma si aplica).
 
-Para autómatas celulares unidimensionales, dado un rango arbitrario $r$, la regla puede ser escrita como:
+Para autómatas celulares unidimensionales, dado un radio arbitrario $r$, la regla puede ser escrita como:
 \[
-\sigma_{i}(t + 1) = \mathcal{R}(\sigma_{i-r}(t), \sigma_{i-r+1} (t), \dots, \sigma_{i}(t), \dots, \sigma_{i+r} (t)), \; \mathcal{R}:  S^{2r + 1} \to S
+\sigma_{i}(t + 1) = \mathcal{R}(\sigma_{i-r}(t), \sigma_{i-r+1} (t), \dots, \sigma_{i}(t), \dots, \sigma_{i+r} (t)), \; \mathcal{R}: \mathcal{S}^{2r + 1} \to \mathcal{S}
 \]
-donde el radio $r$ especifica el tamaño de la vecindad para cada célula (la vecindad es de tamaño $2r + 1$ como se muestra en la figura \ref{fig:N_wolfram}), la cual puede adquirir un valor $k$.
+donde el radio $r$ especifica el tamaño de la vecindad de cada célula ($2r + 1$, como se muestra en la figura \ref{fig:N_wolfram}) y cada célula puede adquirir uno de $k$ estados.
 
 Un ejemplo de regla local es el juego de la vida \cite{lifewiki_life}. En este caso, el conjunto de estados es binario $\mathcal{S} = \{ 0, 1 \}$, donde $0$ representa células muertas y $1$ las vivas. La regla de transición realiza el siguiente mapeo:
 \[
@@ -275,7 +275,7 @@ El juego de la vida sigue las siguientes tres reglas:
 
 Esta se conoce como regla semitotalística, ya que la transición depende de la suma de los valores en la vecindad, pero distingue entre diferentes posiciones, como el centro y los bordes \cite{genaro2022_semitotalistic}.
 
-Por otro lado, una regla es totalística si la transición depende únicamente de la suma de los estados en todos los vecinos, sin distinguir posiciones \cite{weisstein2002_totalistic}. Para un autómata celular unidimensional con $|\mathcal{S}| = 3$ estados y radio $r = 1$, solo hay $(|\mathcal{S}|-1) |\mathcal{N}|+1 = (2-1) \cdot 3 + 1 = 4$ posibles valores de suma.
+Por otro lado, una regla es totalística si la transición depende únicamente de la suma de los estados en todos los vecinos, sin distinguir posiciones \cite{weisstein2002_totalistic}. Para un autómata celular unidimensional con $|\mathcal{S}| = 3$ estados y radio $r = 1$, solo hay $(|\mathcal{S}|-1) |\mathcal{N}|+1 = (3-1) \cdot 3 + 1 = 7$ posibles valores de suma.
 
 Finalmente, una regla local es arbitraria si distingue las posiciones de cada elemento en la vecindad. Cabe mencionar que las reglas arbitrarias contienen todas las posibles combinaciones de reglas, incluyendo las semitotalísticas, las cuales incluyen a su vez las totalísticas:
 \[
@@ -285,7 +285,7 @@ El objetivo de las reglas semitotalísticas y totalísticas será entonces simpl
 
 La configuración dada para el autómata celular elemental considera $k = 2$ (es decir, $\sigma_i \in \{0, 1\}$), un radio $r = 1$ ($|\mathcal{N}| = 3$) y la regla $\mathcal{R}: \{0,1\}^3 \rightarrow \{0,1\}$ que se define como:
 \[
-\phi(\sigma_{i-1}(t), \sigma_{i}(t), \sigma_{i+1}(t))
+\sigma_i(t + 1) = \mathcal{R}(\sigma_{i-1}(t), \sigma_{i}(t), \sigma_{i+1}(t))
 \]
 Esta dinámica está dada por las posibles configuraciones que las tres células adyacentes pueden adquirir en el tiempo $t$. Podemos encontrar $k^{|\mathcal{N}|} = 2^3 = 8$ patrones posibles en la vecindad, número correspondiente a la combinatoria de dos estados en tres posiciones. Cada vez que encontremos un patrón, podemos asignarle un nuevo estado a $\sigma_i(t + 1)$ ($\{ 0, 1 \}$), por lo que el número total de reglas asciende a $k^{k^{|\mathcal{N}|}} = 2^8 = 256$, como se muestra en la tabla \ref{tab:ECA_evolucion}.
 
@@ -311,7 +311,7 @@ Esta dinámica está dada por las posibles configuraciones que las tres células
 
 Estas reglas se pueden representar de forma tabular y también como un número decimal. La tabla \ref{tab:ECA_rules} muestra la asociación entre la forma tabular y la regla decimal.
 
-Nótese que la regla decimal solo aplica cuando las condiciones son las mismas. Es decir, cuando el número de vecinos $|\mathcal{N}|$ y estados $|\mathcal{S}|$ son invariantes; a cada regla se le puede asociar un entero único, pero dos reglas que difieren en vecindad o estados pueden compartir el número decimal. Por ejemplo, considerando la regla $10$ con $|\mathcal{N}| = 2$ y $|\mathcal{S}| = 2$ es $1010$, la cual es completamente diferente cuando $|\mathcal{N}| = 3$ y $|S| = 2$, lo que da como resultado $ 000000101$.
+Nótese que la regla decimal solo aplica cuando las condiciones son las mismas. Es decir, cuando el número de vecinos $|\mathcal{N}|$ y estados $|\mathcal{S}|$ son invariantes; a cada regla se le puede asociar un entero único, pero dos reglas que difieren en vecindad o estados pueden compartir el número decimal. Por ejemplo, considerando la regla $10$ con $|\mathcal{N}| = 2$ y $|\mathcal{S}| = 2$ es $1010$, la cual es completamente diferente cuando $|\mathcal{N}| = 3$ y $|\mathcal{S}| = 2$, lo que da como resultado $00001010$.
 
 \begin{table}
 	
@@ -351,7 +351,7 @@ Nótese que la regla decimal solo aplica cuando las condiciones son las mismas. 
 
 \subsection{John von Neumann}
 
-El matemático y físico John von Neumann (1903-1957) fue uno de los pioneros en el estudio de los autómatas celulares, especialmente en lo que atañe a la reproducción automática y la universalidad computacional. En su obra póstuma, \textit{Theory of Self-Reproducing Automata}, presentó un modelo de autómata celular bidimensional diseñado para construir máquinas autorreplicantes. 
+El matemático y físico John von Neumann (1903--1957) fue uno de los pioneros en el estudio de los autómatas celulares, especialmente en lo que atañe a la reproducción automática y la universalidad computacional. En su obra póstuma, \textit{Theory of Self-Reproducing Automata}, presentó un modelo de autómata celular bidimensional diseñado para construir máquinas autorreplicantes. 
 
 A continuación se presentan los principales elementos de su autómata celular, adaptados al formato de definición formal de este tipo de autómata:
 
@@ -403,17 +403,17 @@ Dentro de este sistema emergen patrones característicos, que se agrupan en tres
 		\centering
 		\begin{subfigure}[b]{0.18\textwidth}
 			\includegraphics[width=\textwidth]{img/sl_block.png}
-			\caption{\textit{Block}}
+			\caption{\textit{Block}.}
 			\label{fig:block}
 		\end{subfigure}
 		\begin{subfigure}[b]{0.18\textwidth}
 			\includegraphics[width=\textwidth]{img/sl_beehive.png}
-			\caption{\textit{Beehive}}
+			\caption{\textit{Beehive}.}
 			\label{fig:beehive}
 		\end{subfigure}
 		\begin{subfigure}[b]{0.18\textwidth}
 			\includegraphics[width=\textwidth]{img/sl_loaf.png}
-			\caption{\textit{Loaf}}
+			\caption{\textit{Loaf}.}
 			\label{fig:loaf}
 		\end{subfigure}
 		\caption{Ejemplos de configuraciones de naturaleza muerta.}
@@ -521,12 +521,13 @@ Así, puede definirse un vector de 18 elementos que representa la función de tr
 	
 \end{table}
 
-De manera general, el tamaño del vector que define una regla semitotalística puede calcularse mediante la ecuación \ref{eq:semitotalistica}. En este caso, dicho vector tiene tamaño 18, por lo que existen $|\mathcal{S}|^{18} = 2^{18} = 262,144$ posibles reglas.
+De manera general, el tamaño del vector que define una regla semitotalística puede calcularse mediante la ecuación \ref{eq:semitotalistica}. En este caso, dicho vector tiene tamaño 18, por lo que existen $|\mathcal{S}|^{18} = 2^{18} = 262{,}144$ posibles reglas.
 
 \begin{equation}
-	\prod_{i = 0}^{n} (|\mathcal{S}| - 1)(|n|) + 1, \quad \forall n \in \mathcal{N}
+	\prod_{g \in \mathcal{G}} \left( (|\mathcal{S}| - 1)\,|g| + 1 \right)
 	\label{eq:semitotalistica}
 \end{equation}
+donde $\mathcal{G}$ es una partición de la vecindad $\mathcal{N}$ en grupos $g$ cuyos estados se suman. En el juego de la vida, la célula central forma un grupo con $|g| = 1$ y sus ocho vecinas otro con $|g| = 8$, por lo que el vector tiene $\left( (2 - 1) \cdot 1 + 1 \right) \left( (2 - 1) \cdot 8 + 1 \right) = 2 \times 9 = 18$ elementos.
 
 \subsection{Autómata celular elemental}
 
@@ -548,7 +549,7 @@ A continuación, se presentan tres reglas representativas por su relevancia teó
 
 \begin{itemize}
 	
-	\item \textbf{Regla 30}: La Regla 30 pertenece a la clase de comportamiento caótico. A partir de una configuración inicial simple, genera patrones altamente complejos y aparentemente aleatorios \cite{weisstein2002_rule30} como se muestra en las figuras \ref{fig:regla_30}.
+	\item \textbf{Regla 30}: La regla 30 pertenece a la clase de comportamiento caótico. A partir de una configuración inicial simple, genera patrones altamente complejos y aparentemente aleatorios \cite{weisstein2002_rule30} como se muestra en la figura \ref{fig:regla_30}.
 
 	Esta regla plantea tres interrogantes fundamentales sobre la naturaleza del caos y la computabilidad:
 	
@@ -572,16 +573,16 @@ A continuación, se presentan tres reglas representativas por su relevancia teó
 		\end{subfigure}
 		\begin{subfigure}[b]{0.5\textwidth}
 			\includegraphics[width=\textwidth]{img/r30.png}
-			\caption{Función de transición}
+			\caption{Función de transición.}
 			\label{fig:30_rule}
 		\end{subfigure}
-		\caption{Evolución de la regla 30}
+		\caption{Evolución de la regla 30.}
 		\label{fig:regla_30}
 	\end{figure}
 	
 	\item \textbf{Regla 110}: La Regla 110 exhibe un comportamiento mixto: combina regiones periódicas y caóticas que interactúan entre sí de manera compleja. A partir de una única célula activa, genera estructuras móviles y patrones que pueden coexistir en el tiempo \cite{weisstein2002_rule110}.
 	
-	Lo más notable de esta regla es su universalidad computacional. Wolfram y Matthew Cook demostraron que la Regla 110 es Turing completa, es decir, capaz de simular cualquier máquina de Turing y, por tanto, realizar cualquier cómputo posible en un sistema discreto determinista \cite{weisstein2002_rule110}. Su evolución se muestra en las figuras \ref{fig:regla_110}.
+	Lo más notable de esta regla es su universalidad computacional. Wolfram y Matthew Cook demostraron que la regla 110 es Turing completa, es decir, capaz de simular cualquier máquina de Turing y, por tanto, realizar cualquier cómputo posible en un sistema discreto determinista \cite{weisstein2002_rule110}. Su evolución se muestra en la figura \ref{fig:regla_110}.
 	
 	\begin{figure}[!htbp]
 		\centering
@@ -592,14 +593,14 @@ A continuación, se presentan tres reglas representativas por su relevancia teó
 		\end{subfigure}
 		\begin{subfigure}[b]{0.5\textwidth}
 			\includegraphics[width=\textwidth]{img/r110.png}
-			\caption{Función de transición}
+			\caption{Función de transición.}
 			\label{fig:110_rule}
 		\end{subfigure}
-		\caption{Evolución de la regla 110}
+		\caption{Evolución de la regla 110.}
 		\label{fig:regla_110}
 	\end{figure}
 	
-	\item \textbf{Regla 90}: La Regla 90 se distingue por generar estructuras fractales. Iniciando desde una única célula activa, produce el conocido triángulo de Sierpinski como se muestra en la figura \ref{fig:regla_90}, el cual es un patrón autosimilar que aparece en múltiples sistemas naturales y matemáticos \cite{weisstein2002_rule90}.
+	\item \textbf{Regla 90}: La regla 90 se distingue por generar estructuras fractales. Iniciando desde una única célula activa, produce el conocido triángulo de Sierpiński como se muestra en la figura \ref{fig:regla_90}, el cual es un patrón autosimilar que aparece en múltiples sistemas naturales y matemáticos \cite{weisstein2002_rule90}.
 	
 	\begin{figure}[!htbp]
 		\centering
@@ -610,10 +611,10 @@ A continuación, se presentan tres reglas representativas por su relevancia teó
 		\end{subfigure}
 		\begin{subfigure}[b]{0.5\textwidth}
 			\includegraphics[width=\textwidth]{img/r90.png}
-			\caption{Función de transición}
+			\caption{Función de transición.}
 			\label{fig:90_rule}
 		\end{subfigure}
-		\caption{Evolución de la regla 90}
+		\caption{Evolución de la regla 90.}
 		\label{fig:regla_90}
 	\end{figure}
 \end{itemize}
@@ -648,7 +649,7 @@ Una configuración común usa una cuadrícula bidimensional que añade granos de
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.75\linewidth]{img/sandpile_espacios.png}
-	\caption{Evolución de \textit{sandpile} con un solo generador en el centro y frontera abierta en un espacio de $50 \times 50$. De izquierda a derecha y de arriba abajo: pasos 100, 500, 1000, 2500, 5000 y 10000.}
+	\caption{Evolución de \textit{sandpile} con un solo generador en el centro y frontera abierta en un espacio de $50 \times 50$. De izquierda a derecha y de arriba abajo: pasos 100, 500, 1,000, 2,500, 5,000 y 10,000.}
 	\label{fig:sandpile} 
 \end{figure}
 
@@ -689,11 +690,11 @@ La regla original es RL: sobre un sitio de color 0 la hormiga gira a la derecha 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.75\linewidth]{img/langton_espacios.png}
-	\caption{Evolución de la hormiga de Langton RL iniciando en el centro de un espacio vacío de $100 \times 100$. De izquierda a derecha y de arriba abajo: pasos 100, 1000, 5000, 9000, 10500 y 11000.}
+	\caption{Evolución de la hormiga de Langton RL iniciando en el centro de un espacio vacío de $100 \times 100$. De izquierda a derecha y de arriba abajo: pasos 100, 1,000, 5,000, 9,000, 10,500 y 11,000.}
 	\label{fig:langton}
 \end{figure}
 
-Durante los primeros cientos de pasos, la hormiga genera patrones simples y simétricos; después, su comportamiento se vuelve caótico y, alrededor del paso 10000, construye una carretera: un patrón de 104 pasos que se repite indefinidamente y se desplaza en diagonal \cite{wikipedia2024_langton}. En la simulación de la figura \ref{fig:langton}, la carretera comienza en el paso 9976.
+Durante los primeros cientos de pasos, la hormiga genera patrones simples y simétricos; después, su comportamiento se vuelve caótico y, alrededor del paso 10,000, construye una carretera: un patrón de 104 pasos que se repite indefinidamente y se desplaza en diagonal \cite{wikipedia2024_langton}. En la simulación de la figura \ref{fig:langton}, la carretera comienza en el paso 9,976.
 
 La hormiga de Langton puede catalogarse como un agente, es decir, una entidad autónoma que toma decisiones individuales basadas en ciertas reglas \cite{wikipedia2024_agente}. Sin embargo, su comportamiento también puede replicarse con un autómata celular \cite{weisstein2002_ca}. La principal diferencia es que en un autómata celular todos los sitios se actualizan a partir de su vecindad, mientras que la hormiga únicamente modifica el sitio en el que se encuentra. 
 
@@ -701,7 +702,7 @@ La hormiga de Langton puede catalogarse como un agente, es decir, una entidad au
 
 Los autómatas celulares elementales fueron utilizados por diferentes autores por representar la máxima simplicidad y mínima configuración que un autómata puede adquirir y que tenga un amplio rango de comportamientos. Múltiples autores han intentado definir una clasificación; a continuación se muestran algunas clasificaciones propuestas por diferentes autores. 
 
-Stephen Wolfram realiza una clasificación basada en el comportamiento que exhiben ciertas reglas y que es inherente a la configuración inicial. Es por esto que define las siguientes clases de comportamiento, ilustradas en la figura \ref{fig:clasificacion}:
+Stephen Wolfram realiza una clasificación basada en el comportamiento que exhiben las reglas a partir de configuraciones iniciales aleatorias, el cual es independiente de la configuración inicial particular. Es por esto que define las siguientes clases de comportamiento, ilustradas en la figura \ref{fig:clasificacion}:
 
 \begin{enumerate}[label=W\Roman*]
 	\item Evolucionan a un estado uniforme. 
@@ -714,22 +715,22 @@ Stephen Wolfram realiza una clasificación basada en el comportamiento que exhib
 	\centering
 	\begin{subfigure}[b]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{img/c1.png}
-		\caption{Clase I: Regla 168}
+		\caption{Clase I: Regla 168.}
 		\label{fig:c1}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{img/c2.png}
-		\caption{Clase II: Regla 27}
+		\caption{Clase II: Regla 27.}
 		\label{fig:c2}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{img/c3.png}
-		\caption{Clase III: Regla 105}
+		\caption{Clase III: Regla 105.}
 		\label{fig:c3}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{img/c4.png}
-		\caption{Clase IV: Regla 106}
+		\caption{Clase IV: Regla 106.}
 		\label{fig:c4}
 	\end{subfigure}
 	\caption{Clasificación de Wolfram. Las figuras evolucionan 50 pasos con la misma configuración inicial y con condición de frontera periódica.}
@@ -762,10 +763,10 @@ En la tabla \ref{tab:class_wolfram} se muestra la relación de reglas del autóm
 \end{table}
 \end{comment}
 
-Sin embargo, existen reglas bajo diferentes configuraciones que pueden pertenecer a múltiples clases o, en el peor de los casos, no pertenecen a ninguna de ellas \cite{genaro2000_campo_promedio}. 
+Sin embargo, existen reglas bajo diferentes configuraciones que pueden pertenecer a múltiples clases o, en el peor de los casos, no pertenecer a ninguna de ellas \cite{genaro2000_campo_promedio}. 
 
 Li y Packard ofrecen otra clasificación que considera seis clases para categorizar el comportamiento dinámico de los autómatas celulares \cite{genaro2013_class}:
-\begin{enumerate}[label*=LP\Roman*]
+\begin{enumerate}[label*=LP \Roman*]
 	\item La regla evoluciona a un estado homogéneo donde todas las células adquieren el mismo valor.
 	\item Evoluciona hasta una configuración estática no necesariamente homogénea.
 	\item Reglas con un periodo igual a dos.
@@ -786,15 +787,13 @@ Por otro lado, Culik y Yu \cite{genaro2013_class, culik1988_class} proponen una 
 	
 	Es decir, dada cualquier configuración inicial en un autómata celular finito, todas las células adquieren el estado $s$ tras cierto número de pasos evolutivos. Esto se aplica a todas las finitas configuraciones iniciales.
 	
-	\item Un autómata celular es de clase II si existe un estado estable $s \in \mathcal{S}$ tal que se repite a $n$ pasos evolutivos.
+	\item Un autómata celular es de clase II si existe un estado estable $s \in \mathcal{S}$ tal que todas las configuraciones finitas evolucionan a una configuración periódica.
 	
-	Esto implica que la evolución se repite cada $n$ número de pasos ($\sigma(t) = \sigma(t + n)$). Resulta evidente que la clase I está contenida en la clase II, haciendo que $n = 1$, lo que implica un periodo de uno.
-	
-	Una clasificación es $s$-finita si solo difiere del estado estable en una región finita.
+	Esto implica que, tras cierto número de pasos, la evolución se repite cada $n$ pasos ($\sigma(t) = \sigma(t + n)$). Resulta evidente que la clase I está contenida en la clase II, haciendo que $n = 1$, lo que implica un periodo de uno.
 	
 	\item Un autómata celular es de clase III si existe un estado estable $s \in \mathcal{S}$ tal que para cualquier par de configuraciones $s$-finitas $C_1$ y $C_2$, es decidible si $C_1$ evoluciona a $C_2$.
 	
-	Es decir, si podemos determinar en tiempo finito si el autómata celular evoluciona de $C_1$ a $C_2$, entonces pertenece a clase III. En caso contrario, pertenece a la clase IV, la cual contiene a todos los autómatas celulares \cite{culik1988_class}.
+	Es decir, si podemos determinar en tiempo finito si el autómata celular evoluciona de $C_1$ a $C_2$, entonces pertenece a la clase III. En caso contrario, pertenece a la clase IV, la cual contiene a todos los autómatas celulares \cite{culik1988_class}.
 	
 	\item Todos los autómatas celulares pertenecen a la clase IV.	
 \end{enumerate}
@@ -810,7 +809,7 @@ Otra clasificación considera extensiones o modificaciones en la definición que
 	
 	\item \textbf{Autómatas celulares probabilísticos}: Estos extienden el modelo clásico al incorporar reglas de transición estocásticas. En vez de una evolución que sigue un camino fijo, los estados futuros dependen de probabilidades que se ven afectadas por el entorno. Esto ayuda a entender la incertidumbre, el ruido y los comportamientos que surgen de manera inesperada. Son especialmente útiles para simular dinámicas como propagación de epidemias o sistemas sociales, donde los mecanismos de transición no siempre están completamente definidos \cite{gacs2024_pca}.
 	
-	\item \textbf{Autómatas celulares no homogéneos}: Permiten que diferentes células tengan diferentes funciones de transición. Para esto, se utilizan dos planos llamados ``plano de datos'', el cual contiene la evolución del sistema; y ``plano de control'', el cual define las reglas de transición para cada célula. Esto permite estudiar el comportamiento y la interacción entre diferentes reglas que comparten espacio \cite{hartman1987_ihca}.
+	\item \textbf{Autómatas celulares no homogéneos}: Permiten que diferentes células tengan diferentes funciones de transición. Para esto, se utilizan dos planos llamados ``plano de datos'', el cual contiene la evolución del sistema, y ``plano de control'', el cual define las reglas de transición para cada célula. Esto permite estudiar el comportamiento y la interacción entre diferentes reglas que comparten espacio \cite{hartman1987_ihca}.
 	
 	\item \textbf{Autómatas celulares continuos}: Son autómatas celulares que pueden ser continuos en los estados, en el tiempo y en el espacio \cite{Wolfram2002_nks}:
 	

@@ -6,16 +6,16 @@ Esta sección describe la implementación concreta del \textit{pipeline} de entr
 
 \subsection{Preparación del conjunto de datos}
 
-El entrenamiento parte de una evolución registrada previamente desde la GUI o generada por una utilidad externa. El archivo se almacena en formato NumPy con \textit{shape} $(T, H, W)$ y \texttt{dtype} entero, donde $T$ es el número de pasos temporales registrados.
+El entrenamiento parte de una evolución registrada previamente desde la GUI o generada por una utilidad externa. El archivo se almacena en formato NumPy (\texttt{.npy}) o MATLAB (\texttt{.mat}) con \textit{shape} $(T, H, W)$, o $(N, T, H, W)$ si contiene $N$ evoluciones, y \texttt{dtype} entero, donde $T$ es el número de pasos temporales registrados. Se pueden indicar varios archivos; en ese caso, sus transiciones se juntan en un solo conjunto de datos.
 
 A partir de esta evolución se extraen pares de entrenamiento a nivel de celda, no a nivel de imagen. Para cada celda $(x, y)$ en cada instante $t \in [0, T-1)$ se construye:
 
 \begin{itemize}
-    \item \textbf{Entrada} $X_{t,x,y}$: vector de tamaño $N_{\text{vec}}$ que concatena el estado de las celdas indicadas por la vecindad relativa a $(x, y)$ en el instante $t$. Las coordenadas se resuelven con condición de frontera periódica (módulo $H$ y $W$).
+    \item \textbf{Entrada} $X_{t,x,y}$: vector de tamaño \texttt{n\_size} que concatena el estado de las celdas indicadas por la vecindad relativa a $(x, y)$ en el instante $t$. Las coordenadas se resuelven con condición de frontera periódica (módulo $H$ y $W$) o, con \texttt{--open-boundary}, con frontera abierta, donde las posiciones fuera del espacio tienen estado 0. Con \texttt{--one-hot}, cada estado se codifica en un vector \textit{one-hot}, por lo que la entrada tiene \texttt{n\_size} $\times$ \textit{estados} elementos.
     \item \textbf{Salida esperada} $Y_{t,x,y}$: estado de la celda $(x, y)$ en el instante $t+1$.
 \end{itemize}
 
-Esta vectorización transforma una evolución de $T$ pasos sobre una grilla $H \times W$ en un conjunto de $T \cdot H \cdot W$ muestras independientes, lo que multiplica la cantidad de datos por celdas evaluadas y permite entrenar con \textit{batches} grandes sin requerir múltiples evoluciones.
+Esta vectorización transforma una evolución de $T$ pasos sobre una cuadrícula $H \times W$ en un conjunto de $T \cdot H \cdot W$ muestras independientes, lo que multiplica la cantidad de datos por celdas evaluadas y permite entrenar con lotes grandes sin requerir múltiples evoluciones.
 
 \subsection{Construcción dinámica del modelo}
 
@@ -26,7 +26,8 @@ La arquitectura del perceptrón multicapa no está fijada en el código: se dete
     \begin{tabular}{l|l|p{0.42\linewidth}}
         \hline
         \textbf{Argumento} & \textbf{\textit{Default}} & \textbf{Descripción} \\ \hline
-        \texttt{--data} & --- & Archivo \texttt{.npy} con la evolución de entrada. \\ \hline
+        \texttt{--data} & --- & Uno o varios archivos \texttt{.npy} o \texttt{.mat} con evoluciones $(T, H, W)$ o $(N, T, H, W)$. \\ \hline
+        \texttt{--mat-key} & --- & Variable a leer si el archivo \texttt{.mat} contiene varias matrices. \\ \hline
         \texttt{--output} & \texttt{weights.npz} & Archivo de salida con los pesos entrenados. \\ \hline
         \texttt{--neighbourhood} & --- & Lista de pares \texttt{"dx,dy"} separados por espacio. \\ \hline
         \texttt{--radius} & 1 & Vecindad cuadrada $(2r+1) \times (2r+1)$ si no se especifica \texttt{--neighbourhood}. \\ \hline
@@ -34,11 +35,19 @@ La arquitectura del perceptrón multicapa no está fijada en el código: se dete
         \texttt{--hidden} & 64 & Tamaño de capa oculta única (si no se usa \texttt{--layers}). \\ \hline
         \texttt{--out-size} & 1 & Neuronas de la capa de salida. \\ \hline
         \texttt{--out-act} & \texttt{sigmoid} & Activación de la capa de salida. \\ \hline
-        \texttt{--epochs} & 20000 & Número máximo de épocas. \\ \hline
-        \texttt{--batch} & 8192 & Tamaño de \textit{batch}. \\ \hline
-        \texttt{--lr} & 0.001 & Tasa de aprendizaje del optimizador. \\ \hline
+        \texttt{--one-hot} & 0 & Codifica cada vecino en \textit{one-hot} con el número de estados indicado; sin número, lo toma de los datos y con 0 usa la entrada cruda. \\ \hline
+        \texttt{--epochs} & 20,000 & Número máximo de épocas. \\ \hline
+        \texttt{--batch} & 8,192 & Tamaño del lote. \\ \hline
+        \texttt{--lr} & 0.001 & Tasa de aprendizaje inicial del optimizador. \\ \hline
+        \texttt{--lr-schedule} & \texttt{exp} & Reducción de la tasa de aprendizaje: \texttt{exp}, \texttt{cosine}, \texttt{plateau} o \texttt{none}. \\ \hline
+        \texttt{--lr-min} & 0.000001 & Tasa de aprendizaje final o mínima. \\ \hline
+        \texttt{--plateau-patience} & 20 & Épocas sin mejora antes de reducir la tasa con \texttt{plateau}. \\ \hline
+        \texttt{--plateau-factor} & 0.5 & Factor de reducción de la tasa con \texttt{plateau}. \\ \hline
         \texttt{--loss-target} & 0.01 & Umbral de pérdida para detención temprana. \\ \hline
         \texttt{--print-every} & 50 & Frecuencia de impresión del \textit{log}. \\ \hline
+        \texttt{--seed} & aleatoria & Semilla para reproducir el entrenamiento. \\ \hline
+        \texttt{--log-csv} & --- & Archivo CSV con las columnas \texttt{epoch}, \texttt{loss} y \texttt{lr}. \\ \hline
+        \texttt{--open-boundary} & periódica & Usa frontera abierta en lugar de periódica. \\ \hline
     \end{tabular}
     \caption{Argumentos CLI del \textit{script} de entrenamiento.}
     \label{tab:cli-entrenamiento}
@@ -51,10 +60,11 @@ A partir de estos argumentos se construye un \texttt{torch.nn.Sequential} concat
 El entrenamiento sigue un esquema de optimización por descenso de gradiente estocástico con minilotes:
 
 \begin{itemize}
-    \item \textbf{Optimizador}: \texttt{torch.optim.Adam} con la tasa de aprendizaje configurada. Se eligió Adam por su robustez frente a la elección inicial de hiperparámetros y por su comportamiento estable en presencia de gradientes ruidosos.
-    \item \textbf{Función de pérdida}: error cuadrático medio (\texttt{MSELoss}). Aunque el objetivo es discreto en los autómatas celulares clásicos, el MLP produce salidas continuas y se interpreta el valor de salida mediante umbralización al momento de inferencia.
-    \item \textbf{Detención temprana}: el ciclo se interrumpe cuando la pérdida acumulada por época cae por debajo de \texttt{loss\_target}, evitando épocas adicionales innecesarias una vez que el modelo ha convergido.
-    \item \textbf{\textit{Logging}}: cada \texttt{print\_every} épocas se imprime el número de época, la pérdida acumulada. Este \textit{log} se captura en tiempo real por la GUI cuando el entrenamiento se lanza desde \texttt{TrainingPane}.
+    \item \textbf{Optimizador}: \texttt{torch.optim.Adam} con la tasa de aprendizaje inicial configurada. Se eligió Adam por su robustez frente a la elección inicial de hiperparámetros y por su comportamiento estable en presencia de gradientes ruidosos.
+    \item \textbf{Tasa de aprendizaje}: disminuye durante el entrenamiento según \texttt{--lr-schedule}. Con \texttt{exp} (por defecto) o \texttt{cosine}, llega a \texttt{--lr-min} en la última época; con \texttt{plateau}, se multiplica por \texttt{--plateau-factor} cuando la pérdida no mejora en \texttt{--plateau-patience} épocas; con \texttt{none}, permanece constante.
+    \item \textbf{Función de pérdida}: entropía cruzada binaria (\texttt{BCELoss}) cuando la capa de salida tiene una neurona, cuya salida se interpreta mediante umbralización al momento de inferencia, y entropía cruzada (\texttt{CrossEntropyLoss}) cuando \texttt{--out-size} es mayor que uno; en ese caso, cada neurona de salida representa un estado y se elige la de mayor valor.
+    \item \textbf{Detención temprana}: el ciclo se interrumpe cuando la pérdida promedio por lote de la época cae por debajo de \texttt{loss\_target}, evitando épocas adicionales innecesarias una vez que el modelo ha convergido.
+    \item \textbf{\textit{Logging}}: cada \texttt{print\_every} épocas se imprimen el número de época, la pérdida promedio y la tasa de aprendizaje; con \texttt{--log-csv}, estos valores también se guardan en un archivo CSV. Este \textit{log} se captura en tiempo real por la GUI cuando el entrenamiento se lanza desde \texttt{TrainingPane}.
 \end{itemize}
 
 \subsection{Persistencia de los pesos}
@@ -66,6 +76,7 @@ Al finalizar el entrenamiento, el modelo se almacena en un archivo \texttt{.npz}
     \item \texttt{layer\_in}, \texttt{layer\_out}: tamaños de entrada y salida.
     \item \texttt{activations}: arreglo de códigos enteros para cada capa.
     \item \texttt{neighbourhood}: lista de desplazamientos relativos utilizada durante el entrenamiento.
+    \item \texttt{one\_hot\_states}: número de estados de la codificación \textit{one-hot} (0 si la entrada es cruda).
 \end{itemize}
 
 Este formato es el que espera el método \texttt{on\_load\_nca\_button} de \texttt{SimulationController} y es compatible con la firma del constructor de la clase \texttt{NCA} en el módulo nativo, sin necesidad de transformaciones intermedias.

@@ -205,6 +205,12 @@ Formato:  USAR  <-  evitar   (nota)
   En capítulos de software: conservar lo que muestra la GUI ("Tanh") y lo que está en \texttt.
 
 3.8 Software y herramientas (nombres propios, sin cursiva)
+  biblioteca / bibliotecas                     <- librería (calco de library)
+  Modelo-Vista-Controlador (MVC)               <- modelo vista controlador
+  cuadrícula                                   <- grilla (\textit{grid} solo para la malla de bloques de CUDA)
+  pasos/s                                      <- steps/s
+  Escala de probabilidad de riesgos: Muy poco probable (10%), Poco probable (30%), Moderadamente probable (50%),
+  Probable (70%), Muy probable (90%).
   Python, C++, CUDA, PyTorch, NumPy, PyQt5, Qt, pybind11, Mathematica, Wolfram, NVIDIA, GPU, CPU, GUI
       <- numpy, pytorch, \textit{Python}, \textit{NVIDIA}
   interfaz gráfica (en prosa) / GUI (como nombre del módulo o directorio)
@@ -227,6 +233,8 @@ Ya se usan en cursiva (mantener y aplicar donde falte):
   embedding, transformers, self-attention, tokens, stride, offsets, pinned, ping-pong buffering, momentum,
   backpropagation, feedforward, driver, plateau, one-hot, one-hot encoding, dataset, notebooks, flag, log,
   sample pool, empowerment, emojis, Glider, Toad, Loaf, life-like, Birth/Survival.
+hardware y software: en cursiva en prosa y pies de figura, sin cursiva en títulos (decisión del autor,
+  2026-10-12).
 Detectados sin cursiva en al menos un lugar (revisar):
   kernel (15 apariciones, 9 en cursiva), batch (4, ninguna en cursiva), loss (5), epochs (4), dataset.
   Si están dentro de pseudocódigo o \texttt, no cambiar.
@@ -243,9 +251,10 @@ Mayúscula inicial solo al inicio de oración: \textit{framework} (no \textit{Fr
   Comillas:      ``texto'' de LaTeX. Evitar comillas rectas "texto" en prosa (RedesNeuronales.tex,
                  línea ~396) y comillas tipográficas “ ”.
   Decimales:     punto decimal (0.001, 99.417). No usar coma decimal.
-  Miles:         la forma dominante es sin separador (10000, 11000, 1419857). Hay excepciones con coma
-                 (262,144; 10,000; 16,777,216) y con \, en la tabla de pruebas.tex. NO cambiar sin
-                 instrucción del autor; solo reportarlas.
+  Miles:         coma como separador desde 1,000 en texto y tablas (1,000; 10,000; 1,419,857). Dentro de
+                 $...$ se escribe {,} para que LaTeX no agregue espacio ($2^{18} = 262{,}144$).
+                 Sin coma: años (1948, 1970), modelos (RTX 5080), patrones binarios (00001010) y exponentes
+                 ($10^{100000}$). Decisión del autor del 2026-10-11 (Introduccion.tex aún sin unificar).
   Porcentajes:   99.417\% (sin espacio antes de \%).
   Dimensiones:   $100 \times 100$, $3 \times 3$ en modo matemático.
   Potencias:     $10^{5}$, $17^5$, $1 \times 10^{-7}$; los valores pequeños pueden aparecer como 0.000001;
