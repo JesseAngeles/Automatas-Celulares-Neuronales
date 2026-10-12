@@ -12,7 +12,7 @@
 
 La teoría general de sistemas es una forma ordenada de aproximación o simulación del mundo real con base en un procedimiento científico. Su objetivo es difundir una terminología general que pueda describir las características, funciones y comportamientos de cualquier sistema. No busca dar soluciones a problemas, sino que busca formular, matemáticamente, las teorías y definiciones conceptuales que se aplican a la realidad \cite{inei1999_def_tgs, Arnold1998_def_tgs}. 
 
-De acuerdo con \cite{sanchez2024_principios, solano2019_principios, caraballo2013_principios} la teoría general de sistemas establece tres principios básicos: (1) Los sistemas no son fenómenos aislados; un sistema siempre pertenece a otro sistema, por lo tanto (2) todos los sistemas son abiertos, y (3) las funciones de un sistema dependen únicamente de su estructura.
+De acuerdo con \cite{sanchez2024_principios, solano2019_principios, caraballo2013_principios}, la teoría general de sistemas establece tres principios básicos: (1) los sistemas no son fenómenos aislados; un sistema siempre pertenece a otro sistema, por lo tanto (2) todos los sistemas son abiertos, y (3) las funciones de un sistema dependen únicamente de su estructura.
 
 Un sistema es un conjunto de partes o ``subsistemas'' interrelacionados que actúan de forma coordinada, dicho de otro modo:
 \begin{definition}
@@ -20,13 +20,13 @@ Un sistema es un conjunto de partes o ``subsistemas'' interrelacionados que act�
 	\label{def_sistema}
 \end{definition}
 
-Es decir, un sistema es un modelo matemático cuyas funciones están limitadas por su estructura, la cual recibe una entrada, realiza una función y devuelve una salida.  Un modelo es cualquier abstracción de un proceso realizado por el observador y un proceso es cualquier fenómeno presente en la naturaleza que tenga un objetivo. 
+Es decir, un sistema es un modelo matemático cuyas funciones están limitadas por su estructura, la cual recibe una entrada, realiza una función y devuelve una salida. Un modelo es cualquier abstracción de un proceso realizado por el observador y un proceso es cualquier fenómeno presente en la naturaleza que tenga un objetivo. 
 
 Los sistemas, y en general los modelos, son abstracciones inherentes al proceso original, es decir, un sistema puede referenciar múltiples procesos que tengan ciertas propiedades en común. Por ejemplo, el modelo que examina las fuerzas que interactúan en un objeto en caída libre no depende de especificaciones del objeto como su color o su forma. 
 
 El sistema permite probar las respuestas de un proceso a estímulos de interés para el observador. Siguiendo el ejemplo de caída libre, no es necesario soltar diferentes objetos de diferentes alturas para identificar las fuerzas que están interactuando; únicamente es necesario cambiar las entradas del modelo.
 
-De acuerdo con \cite{Concepto2025_sistema}, los sistemas se caracterizan principalmente por
+De acuerdo con \cite{Concepto2025_sistema}, los sistemas se caracterizan principalmente por:
 
 \begin{itemize}[nosep]
 	\item Estar compuestos por elementos internos independientes que pueden organizarse en subsistemas.
@@ -51,7 +51,7 @@ Un sistema es abierto si mantiene un intercambio permanente de elementos con su 
 	\item Entradas y salidas: Sus entradas adquieren información del entorno y las salidas le devuelven una respuesta \cite{Ospina2023_abierto}.
 \end{itemize}
 
-Por su parte, los sistemas cerrados se encuentran aislados de su entorno. Tiene límites que actúan como barreras para el intercambio. Estos operan de forma autocontenida y no tienen una interacción con el entorno que los rodea.
+Por su parte, los sistemas cerrados se encuentran aislados de su entorno. Tienen límites que actúan como barreras para el intercambio. Estos operan de forma autocontenida y no tienen una interacción con el entorno que los rodea.
 
 Siguiendo a \cite{Ospina2023_abierto}, todas las fluctuaciones y cambios dependen únicamente de los elementos que se encuentren dentro del sistema. Estos sistemas tienden a mantener su estructura y equilibrio interno de manera constante; esto se debe principalmente a que:
 
@@ -81,7 +81,7 @@ Un sistema estático o sin memoria es aquel que permanece en un estado constante
 	\item Simplicidad: Usualmente son más sencillos en diseño y operación, lo que facilita su implementación. 
 \end{itemize} 
 
-Por otro lado, un sistema dinámico o con memoria es aquel que cambia con el tiempo. Estos tienen la capacidad de adaptarse y responder ante diferentes condiciones de entrada. En otras palabras, es aquel cuya salida en un instante de tiempo depende tanto de entradas en otros y en ese mismo momento. Este se caracteriza por:
+Por otro lado, un sistema dinámico o con memoria es aquel que cambia con el tiempo. Estos tienen la capacidad de adaptarse y responder ante diferentes condiciones de entrada. En otras palabras, es aquel cuya salida en un instante de tiempo depende tanto de entradas en otros como en ese mismo momento. Este se caracteriza por:
 
 \begin{itemize}
 	\item Cambio en el tiempo: Se adapta ante diferentes situaciones y entradas.
@@ -249,7 +249,7 @@ El hecho de que la aplicación sea topológicamente transitiva implica que el at
 
 Si el conjunto de puntos es denso en el atractor, entonces cualquier punto en el espacio está arbitrariamente cerca de una órbita periódica. 
 
-Finalmente, la sensibilidad a las condiciones iniciales refleja el hecho de que en un sistema caótico, dos trayectorias que inician relativamente cerca acabarán comportándose de una forma diferente a largo plazo. 
+Finalmente, la sensibilidad a las condiciones iniciales refleja el hecho de que, en un sistema caótico, dos trayectorias que inician relativamente cerca acabarán comportándose de una forma diferente a largo plazo. 
 
 \begin{comment}
 	\subsection{Exponentes de Lyapunov}
@@ -274,7 +274,7 @@ En un espacio disipado, la región del espacio de fases que atrae a las trayecto
 		
 		\item $\exists U$ entorno de $A$, llamado cuenca de atracción de $A$, tal que $\forall V$ abierto con $A \subset V$, existe un $T_0$ tal que $\phi_t(U) \subset V, \forall t > T_0$.
 		
-		\item $\phi_t(A) = A, \forall t > 0$
+		\item $\phi_t(A) = A, \forall t > 0$.
 		
 		\item $\nexists S \subset A$ subconjunto propio no vacío que satisfaga las dos propiedades anteriores.
 		
@@ -290,9 +290,9 @@ A continuación, se describen los cuatro tipos de atractores que se encuentran e
 
 \begin{enumerate}
 	
-	\item Atractores de punto fijo:  Un atractor es de punto fijo si existe un punto fijo tal que todas las trayectorias cercanas convergen a el cuando $t \to \infty$.
+	\item Atractores de punto fijo: Un atractor es de punto fijo si existe un punto fijo tal que todas las trayectorias cercanas convergen a él cuando $t \to \infty$.
 
-	La figura \ref{fig:punto_fijo} muestra el comportamiento de  un péndulo con resistencia al viento que responde a la ecuación:
+	La figura \ref{fig:punto_fijo} muestra el comportamiento de un péndulo con resistencia al viento que responde a la ecuación:
 	\begin{equation*}
 		\theta'' + \gamma \theta' + \beta \theta' |\theta'| + \frac{g}{L} \sin(\theta) = 0
 	\end{equation*}
@@ -300,7 +300,7 @@ A continuación, se describen los cuatro tipos de atractores que se encuentran e
 
 	\item Atractores de ciclo límite: Las trayectorias vecinas se acercan o se alejan del ciclo límite en forma de espiral. 
 	
-	En la figura \ref{fig:ciclo_limite} se muestra el oscilador de Van der Pol, cuya dinámica esta definida por:
+	En la figura \ref{fig:ciclo_limite} se muestra el oscilador de Van der Pol, cuya dinámica está definida por:
 	\begin{equation*}
 		x'' - \mu (1 - x^2) x' + x = 0
 	\end{equation*}
@@ -308,7 +308,7 @@ A continuación, se describen los cuatro tipos de atractores que se encuentran e
 	
 	\item Atractores cuasiperiódicos: Cuando dos ciclos límites con diferentes trayectorias se superponen, estas se enroscan en las direcciones longitudinales y latitudinales, creando una figura toroidal.
 	
-	La Figura \ref{fig:cuasi_periodico} ilustra un oscilador lineal forzado con una frecuencia externa basada en la razón áurea $\phi$:
+	La figura \ref{fig:cuasi_periodico} ilustra un oscilador lineal forzado con una frecuencia externa basada en la razón áurea $\phi$:
 	\begin{equation*}
 		x'' + x = A \cos(\phi t)
 	\end{equation*}
@@ -316,7 +316,7 @@ A continuación, se describen los cuatro tipos de atractores que se encuentran e
 	
 	\item Atractores extraños: Se dice que un atractor es extraño si tiene dimensión fractal (patrón de autosimilitud a diferentes escalas). Además, un atractor extraño es caótico si las trayectorias del sistema son atraídas hacia él, pero dentro del atractor son inestables. Esto significa que son sensibles a las condiciones iniciales.
 	
-	La Figura \ref{fig:caotico} muestra el atractor de Rössler, definido por el siguiente sistema de ecuaciones:
+	La figura \ref{fig:caotico} muestra el atractor de Rössler, definido por el siguiente sistema de ecuaciones:
 	\begin{equation*}
 		\begin{cases}
 			x' = -y - z \\
@@ -355,9 +355,9 @@ A continuación, se describen los cuatro tipos de atractores que se encuentran e
 
 \section{Sistemas complejos}
 
-Los sistemas complejos son sistemas dinámicos con muchas componentes que interactúan entre sí mediante el intercambio de materia, energía o información y que, eventualmente, sufren la acción de agentes externos \cite{Torres2025_complejo}. Las colonias de hormigas, el mercado bursátil, el clima, el sistema nervioso, las células y los organismos vivos son algunos ejemplos de sistemas complejos. Estos se caracterizan por tener un conjunto de elementos que interactúan entre sí con el fin de alcanzar un objetivo \cite{Zelinka2014_cs, Zelinka2018_cs}. 
+Los sistemas complejos son sistemas dinámicos con muchos componentes que interactúan entre sí mediante el intercambio de materia, energía o información y que, eventualmente, sufren la acción de agentes externos \cite{Torres2025_complejo}. Las colonias de hormigas, el mercado bursátil, el clima, el sistema nervioso, las células y los organismos vivos son algunos ejemplos de sistemas complejos. Estos se caracterizan por tener un conjunto de elementos que interactúan entre sí con el fin de alcanzar un objetivo \cite{Zelinka2014_cs, Zelinka2018_cs}. 
 
-Los sistemas complejos tienen dos implicaciones fundamentales: (1) Existe una influencia mutua entre sus elementos, donde el cambio afecta inevitablemente al resto de elementos, y (2) persiguen un objetivo \cite{Zelinka2018_cs}. Además, de acuerdo con \cite{sole1996_cs_caos}, los sistemas complejos están estrechamente relacionados con la teoría del caos, pues la interacción de múltiples elementos locales puede llevar al sistema completo a lo que llama ``borde del caos'', una región donde el sistema es lo suficientemente estable para mantener su estructura, pero se mantiene flexible para generar nuevos patrones.
+Los sistemas complejos tienen dos implicaciones fundamentales: (1) existe una influencia mutua entre sus elementos, donde el cambio afecta inevitablemente al resto de elementos, y (2) persiguen un objetivo \cite{Zelinka2018_cs}. Además, de acuerdo con \cite{sole1996_cs_caos}, los sistemas complejos están estrechamente relacionados con la teoría del caos, pues la interacción de múltiples elementos locales puede llevar al sistema completo a lo que llama ``borde del caos'', una región donde el sistema es lo suficientemente estable para mantener su estructura, pero se mantiene flexible para generar nuevos patrones.
 
 \begin{definition}
 	Un sistema complejo es una entidad compuesta de partes interconectadas, de tal forma que el comportamiento colectivo es más que la suma de sus componentes individuales.

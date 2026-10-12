@@ -3,13 +3,13 @@
 
 La investigación de los sistemas complejos es un reto actual de la ciencia moderna. Estos sistemas, caracterizados por la interacción entre múltiples componentes locales, son capaces de generar comportamientos emergentes y, a veces, caóticos. Para entender esta complejidad necesitamos herramientas que puedan capturar la esencia de la autoorganización, y aquí los autómatas celulares surgen como un modelo computacional clave para simular fenómenos tanto naturales como artificiales.
 
-En este capítulo se definen los fundamentos matemáticos y estructurales de un autómata celular. Este se entiende como un sistema dinámico discreto, que combina un conjunto de celdas interconectadas y que pueden producir patrones complejos a partir de reglas locales. Se mencionarán sus elementos esenciales, tales como:
+En este capítulo se definen los fundamentos matemáticos y estructurales de un autómata celular. Este se entiende como un sistema dinámico discreto, que combina un conjunto de células interconectadas y que pueden producir patrones complejos a partir de reglas locales. Se mencionarán sus elementos esenciales, tales como:
 
 \begin{itemize}
 	
-	\item El vecindario: El subconjunto de celdas que afecta el cambio de una unidad.
+	\item El vecindario: El subconjunto de células que afecta el cambio de una unidad.
 	
-	\item El estado de conjunto: Los valores finitos que puede tomar cada celda.
+	\item El estado de conjunto: Los valores finitos que puede tomar cada célula.
 	
 	\item Las condiciones de frontera son: El comportamiento del sistema en sus límites en el espacio.
 	
@@ -17,9 +17,9 @@ En este capítulo se definen los fundamentos matemáticos y estructurales de un 
 	
 \end{itemize}
 
-Se revisan, asimismo, ejemplos que han sido de una importancia capital para el desarrollo de esta disciplina, tales como el Juego de la Vida de John Conway y los autómatas celulares elementales de Stephen Wolfram.
+Se revisan, asimismo, ejemplos que han sido de una importancia capital para el desarrollo de esta disciplina, tales como el juego de la vida de John Conway y los autómatas celulares elementales de Stephen Wolfram.
 
-Finalmente, el capítulo amplía la definición clásica hacia terrenos más avanzados. Se presentan autómatas celulares que operan en espacios no euclidianos y se examinan extensiones recientes que incluyen estados continuos, reglas de probabilidad o actualizaciones asíncronas. Estas variaciones hacen que los AC continúen siendo, décadas después de ser concebidos por Von Neumann, una herramienta de vanguardia en campos tan diversos como la biología teórica, la criptografía y la física de partículas.
+Finalmente, el capítulo amplía la definición clásica hacia terrenos más avanzados. Se presentan autómatas celulares que operan en espacios no euclidianos y se examinan extensiones recientes que incluyen estados continuos, reglas de probabilidad o actualizaciones asíncronas. Estas variaciones hacen que los autómatas celulares continúen siendo, décadas después de ser concebidos por von Neumann, una herramienta de vanguardia en campos tan diversos como la biología teórica, la criptografía y la física de partículas.
 
 \section{Autómata celular}
 
@@ -36,10 +36,10 @@ Siguiendo de manera general a \cite{bhattacharjee2019_ca, sayama2024_ca, Ilachin
 		\[
 		\sigma_{\vec{i}}(t) \in \mathcal{S} \equiv \{ s_0, s_1,s_2, \dots, s_{k - 1} \},\; \forall \vec{i} \in \mathcal{L}
 		\]
-		Donde $\vec{i} \in \mathcal{L}$ es una célula en el espacio celular, $\sigma_{\vec{i}} (t)$ es el estado de la i-ésima célula en el tiempo $t$ y $\mathcal{S}$ es un anillo conmutativo finito, como un intervalo de números enteros, que generalmente se define por los enteros módulo $k$ ($\mathbb{Z}_k$).
+		donde $\vec{i} \in \mathcal{L}$ es una célula en el espacio celular, $\sigma_{\vec{i}} (t)$ es el estado de la i-ésima célula en el tiempo $t$ y $\mathcal{S}$ es un anillo conmutativo finito, como un intervalo de números enteros, que generalmente se define por los enteros módulo $k$ ($\mathbb{Z}_k$).
 			
-		\item $\mathcal{N} = (\vec{v}_1, \vec{v}_2, \dots, \vec{v}_m )$ es el conjunto de los $m$ vectores de desplazamiento que definen la vecindad de una célula en $\mathcal{L}$. Así, los vecinos de las células ubicadas en $\vec{i} \in \mathcal{L}$ se encuentran en las posiciones $\vec{i} + \vec{v}, \forall \vec{v} \in \mathcal{N}$ 
-		
+		\item $\mathcal{N} = (\vec{v}_1, \vec{v}_2, \dots, \vec{v}_m )$ es el conjunto de los $m$ vectores de desplazamiento que definen la vecindad de una célula en $\mathcal{L}$. Así, los vecinos de las células ubicadas en $\vec{i} \in \mathcal{L}$ se encuentran en las posiciones $\vec{i} + \vec{v}, \forall \vec{v} \in \mathcal{N}$.
+
 		\item $\mathcal{R} : \mathcal{S}^m \to \mathcal{S}$ es la regla local del autómata:
 		\[
 		\sigma_{\vec{i}}(t + 1) = \mathcal{R} ( \{ \sigma_{\vec{i} + \vec{v}_j}\}_{j = 1}^m  )
@@ -51,15 +51,15 @@ Siguiendo de manera general a \cite{bhattacharjee2019_ca, sayama2024_ca, Ilachin
 
 \section{Vecindad}
 
-Como ya se mencionó, la vecindad es el conjunto de vectores de desplazamiento, por lo que está estrechamente relacionado con la dimensionalidad del autómata celular. Por ejemplo, John von Neumann propuso una vecindad para $\mathbb{Z}^2$ de cinco células que actualmente se conoce como vecindad de von Neumann. Esta vecindad considera a la célula y a sus cuatro vecinas ortogonales más cercanas \cite{neumann1966_ca}, dicho de otro modo:
+Como ya se mencionó, la vecindad es el conjunto de vectores de desplazamiento, por lo que está estrechamente relacionada con la dimensionalidad del autómata celular. Por ejemplo, John von Neumann propuso una vecindad para $\mathbb{Z}^2$ de cinco células que actualmente se conoce como vecindad de von Neumann. Esta vecindad considera a la célula y a sus cuatro vecinas ortogonales más cercanas \cite{neumann1966_ca}, dicho de otro modo:
 \[
 	\mathcal{N} = ((0, -1), (-1, 0), (0, 0), (1, 0), (0, 1))
 \]
 La cual se puede representar como en la figura \ref{fig:N_neumann}. 
 
-Por otro lado, Moore añade los cuatro vecinos diagonales más cercanos a la vecindad de von Neumann, dando una vecindad de nueve elementos \cite{Kwon2015_moore}. Esta vecindad, representada por la figura \ref{fig:N_moore}, fue utilizada por John Conway en el ``Juego de la Vida'' \cite{lifewiki_life}.
+Por otro lado, Moore añade los cuatro vecinos diagonales más cercanos a la vecindad de von Neumann, dando una vecindad de nueve elementos \cite{Kwon2015_moore}. Esta vecindad, representada por la figura \ref{fig:N_moore}, fue utilizada por John Conway en el ``juego de la vida'' \cite{lifewiki_life}.
 
-Otro ejemplo se encuentra en la figura \ref{fig:N_wolfram}, la cual representa una vecindad de radio uno en un espacio unidimensional, es decir, todas aquellas células a una distancia menor o igual a uno, incluyéndose a su misma. Fue utilizada por Stephen Wolfram para definir los autómatas celulares elementales \cite{Wolfram2002_nks}.
+Otro ejemplo se encuentra en la figura \ref{fig:N_wolfram}, la cual representa una vecindad de radio uno en un espacio unidimensional, es decir, todas aquellas células a una distancia menor o igual a uno, incluyéndose a sí misma. Fue utilizada por Stephen Wolfram para definir los autómatas celulares elementales \cite{Wolfram2002_nks}.
 
 \begin{figure}[!htbp]
 	\centering
@@ -78,13 +78,13 @@ Otro ejemplo se encuentra en la figura \ref{fig:N_wolfram}, la cual representa u
 		\caption{Vecindad de radio uno en $\mathbb{Z}^1$}
 		\label{fig:N_wolfram}
 	\end{subfigure}
-	\caption{Las vecindades \ref{fig:N_neumann} y \ref{fig:N_moore} son para CA bidimensionales; la \ref{fig:N_wolfram} es para CA unidimensionales. La célula negra representa la célula actual y, junto con las grises, conforma su vecindad.}
+	\caption{Las vecindades \ref{fig:N_neumann} y \ref{fig:N_moore} son para autómatas celulares bidimensionales; la \ref{fig:N_wolfram} es para autómatas celulares unidimensionales. La célula negra representa la célula actual y, junto con las grises, conforma su vecindad.}
 	
 	\label{fig:vecindades_regulares}
 	
 \end{figure}
 
-Las vecindades no solo son cuadradas; también pueden tener otras formas, como hexágonos o triángulos, que se muestran en las figuras \ref{fig:N_hexagonal} y \ref{fig:N_triangular}.  Además, existen vecindades con comportamiento dinámico, como la de Margolus mostrada en la figura \ref{fig:N_margolus}, cuya configuración alterna entre dos disposiciones en cada paso evolutivo \cite{tyler2018_margolus}.
+Las vecindades no solo son cuadradas; también pueden tener otras formas, como hexágonos o triángulos, que se muestran en las figuras \ref{fig:N_hexagonal} y \ref{fig:N_triangular}. Además, existen vecindades con comportamiento dinámico, como la de Margolus mostrada en la figura \ref{fig:N_margolus}, cuya configuración alterna entre dos disposiciones en cada paso evolutivo \cite{tyler2018_margolus}.
 
 \begin{figure}[!htbp]
 	\centering
@@ -104,7 +104,7 @@ Las vecindades no solo son cuadradas; también pueden tener otras formas, como h
 		\label{fig:N_margolus}
 	\end{subfigure}
 	
-	\caption{En \ref{fig:N_hexagonal} y \ref{fig:N_triangular}, la célula negra es la actual y las grises su vecindad.  En \ref{fig:N_margolus}, la célula negra es la actual, mientras que las células verdes y moradas representan las vecindades activas en tiempos pares e impares.}
+	\caption{En \ref{fig:N_hexagonal} y \ref{fig:N_triangular}, la célula negra es la actual y las grises su vecindad. En \ref{fig:N_margolus}, la célula negra es la actual, mientras que las células verdes y moradas representan las vecindades activas en tiempos pares e impares.}
 	
 	\label{fig:vecindades_irregulares}
 	
@@ -115,33 +115,33 @@ Finalmente, los vecinos no tienen que ser estrictamente adyacentes entre sí ni 
 \begin{figure}[!htbp]
 	\centering
 	\includegraphics[width=0.5\textwidth]{img/nNoAdyacente.png}
-	\caption{Vecindad en $\mathbb{Z}^1$ con vecinos de adyacentes.}
+	\caption{Vecindad en $\mathbb{Z}^1$ con vecinos no adyacentes.}
 	\label{fig:N_noadyacente}
 \end{figure}
 
 \section{Estados}
 
-Cada célula adquiere un único estado $s$ en cada paso de tiempo, donde $s$ pertenece a un conjunto de estados $s \in \mathcal{S}$. Por ejemplo, el autómata celular de John von Neumann contempla 29 estados, aunque algunos autores han propuesto variantes reducidas a cuatro estados, conservando su capacidad de autoreproducirse \cite{bhattacharjee2019_ca}. 
+Cada célula adquiere un único estado $s$ en cada paso de tiempo, donde $s$ pertenece a un conjunto de estados $s \in \mathcal{S}$. Por ejemplo, el autómata celular de John von Neumann contempla 29 estados, aunque algunos autores han propuesto variantes reducidas a cuatro estados, conservando su capacidad de autorreproducirse \cite{bhattacharjee2019_ca}. 
 
-Por otro lado, el juego de la vida se compone de dos estados que denominó ``vivas'' y ``muertas'' \cite{lifewiki_life}.  De igual forma, Stephen Wolfram utiliza dos estados en los autómatas celulares elementales \cite{Wolfram2002_nks}.
+Por otro lado, el juego de la vida se compone de dos estados que denominó ``vivas'' y ``muertas'' \cite{lifewiki_life}. De igual forma, Stephen Wolfram utiliza dos estados en los autómatas celulares elementales \cite{Wolfram2002_nks}.
 
 Idealmente, el espacio celular $\mathcal{L}$ es infinito, lo que permitiría infinitas combinaciones de estados. Sin embargo, esto es inviable computacionalmente. Para esto, se requiere establecer una restricción de finitud, como lo marca \cite{bhattacharjee2019_ca}.
  
  Supóngase un espacio discreto unidimensional infinito. Idealmente, conocemos el estado de las infinitas células, pero computacionalmente no podemos almacenar ni procesar toda esa información. Por lo que se restringe a los valores que únicamente nos interesan. 
  
- A todas aquellas células que son de interés se les define con un estado activo, el cual puede ser cualquier $s \in \mathcal{S}$, por otro lado, las que no son de interés se les define con un estado inactivo $\sigma_q$:
+ A todas aquellas células que son de interés se les define con un estado activo, el cual puede ser cualquier $s \in \mathcal{S}$; por otro lado, las que no son de interés se les define con un estado inactivo $\sigma_q$:
  
 \begin{definition}
 	Sea $\mathcal{R}$ la regla local de un autómata celular. Un estado $\sigma_q \in \mathcal{S}$ es inactivo si $\mathcal{R}(\sigma_q, \sigma_q, \dots, \sigma_q) = \sigma_q$.
 	\label{def:estado_inactivo}
 \end{definition}
 
-Es decir, si una célula y todos sus vecinos están en estado inactivo, la célula permanece inactiva tras aplicar $\mathcal{R}$. Cabe notar que todos los vecinos deben estar en dicho estado, por lo que, si alguno cambia a cualquier estado $s$, entonces se  activa. Este evento ocurre cuando el espacio en donde evoluciona el autómata celular incrementa. 
+Es decir, si una célula y todos sus vecinos están en estado inactivo, la célula permanece inactiva tras aplicar $\mathcal{R}$. Cabe notar que todos los vecinos deben estar en dicho estado, por lo que, si alguno cambia a cualquier estado $s$, entonces se activa. Este evento ocurre cuando el espacio en donde evoluciona el autómata celular incrementa. 
 
 Para trabajar computacionalmente, \cite{bhattacharjee2019_ca} define las configuraciones finitas de la siguiente manera:
 
 \begin{definition}	
-	Sea $\sigma_q \in \mathcal{S}$ un estado inactivo, $\sigma_p \neq \sigma_q \in \mathcal{S}$ un estado no inactivo y sea $\mathcal{L}$ un espacio celular infinito. Se considera que un autómata celular tiene configuración finita si solo un número finito de celdas están en estados activos $\sigma_p$.
+	Sea $\sigma_q \in \mathcal{S}$ un estado inactivo, $\sigma_p \neq \sigma_q \in \mathcal{S}$ un estado no inactivo y sea $\mathcal{L}$ un espacio celular infinito. Se considera que un autómata celular tiene configuración finita si solo un número finito de células están en estados activos $\sigma_p$.
 \end{definition}
 
 Si la configuración inicial es finita, la propiedad de finitud se preserva en cada paso de tiempo, como se observa en la tabla \ref{tab:CA_finito}. Imaginemos un autómata celular en $\mathbb{Z}^1$ con una vecindad de radio 1 y una sola célula activa en la posición $n$ con estado $\sigma_p$, mientras que el resto de infinitas células tienen estado inactivo $\sigma_q$. 
@@ -216,12 +216,12 @@ Un autómata infinito que tiene una configuración periódica equivale a un aut�
 	\[
 	\vec{\sigma} = T_i^{n_i} (\vec{\sigma}), \; \forall i \in \{ 1,2, \dots, D \}
 	\]
-	donde  $T_i^{n_i}$ denota un desplazamiento de $n_i$ posiciones en la dimensión $i$.
+	donde $T_i^{n_i}$ denota un desplazamiento de $n_i$ posiciones en la dimensión $i$.
 \end{definition}
 
 Definimos entonces a $\mathcal{C}_P \subset \mathcal{C}$ como el conjunto de todas las configuraciones periódicas. Estas configuraciones preservan la condición de frontera periódica en cada traslación \cite{bhattacharjee2019_ca}. 
 
-La frontera no solo puede ser abierta o periódica, existen diferentes comportamientos como la reflectiva y la reflexiva. La frontera reflectiva asigna a los vecinos faltantes el mismo estado de la célula en la frontera (figura \ref{fig:B_reflectiva}), por lo que son vecinas de si mismas. La frontera reflexiva, en cambio, genera una doble relación de vecindad en los extremos (figura \ref{fig:B_reflexiva}), \cite{bhattacharjee2019_ca, ponce2015_ca}.
+La frontera no solo puede ser abierta o periódica; existen diferentes comportamientos como la reflectiva y la reflexiva. La frontera reflectiva asigna a los vecinos faltantes el mismo estado de la célula en la frontera (figura \ref{fig:B_reflectiva}), por lo que son vecinas de sí mismas. La frontera reflexiva, en cambio, genera una doble relación de vecindad en los extremos (figura \ref{fig:B_reflexiva}) \cite{bhattacharjee2019_ca, ponce2015_ca}.
 
 \begin{figure}[!htbp]
 	\centering
@@ -252,7 +252,7 @@ Para autómatas celulares unidimensionales, dado un rango arbitrario $r$, la reg
 \[
 \sigma_{i}(t + 1) = \mathcal{R}(\sigma_{i-r}(t), \sigma_{i-r+1} (t), \dots, \sigma_{i}(t), \dots, \sigma_{i+r} (t)), \; \mathcal{R}:  S^{2r + 1} \to S
 \]
-Donde el radio $r$ especifica el tamaño de la vecindad para cada célula (la vecindad es de tamaño $2r + 1$ como se muestra en la figura \ref{fig:N_wolfram}), la cual puede adquirir un valor $k$.
+donde el radio $r$ especifica el tamaño de la vecindad para cada célula (la vecindad es de tamaño $2r + 1$ como se muestra en la figura \ref{fig:N_wolfram}), la cual puede adquirir un valor $k$.
 
 Un ejemplo de regla local es el juego de la vida \cite{lifewiki_life}. En este caso, el conjunto de estados es binario $\mathcal{S} = \{ 0, 1 \}$, donde $0$ representa células muertas y $1$ las vivas. La regla de transición realiza el siguiente mapeo:
 \[
@@ -267,7 +267,7 @@ El juego de la vida sigue las siguientes tres reglas:
 	\item \textbf{Nacimiento}: Una célula muerta en el tiempo $t$ nace en el tiempo $t + 1$ si tiene exactamente tres vecinos vivos en el tiempo $t$.
 	\item \textbf{Muerte}: Una célula viva en el tiempo $t$ muere en $t + 1$ por:
 	\begin{itemize}
-		\item Sobrepoblación; si hay más de tres vecinos vivos en $t$.
+		\item Sobrepoblación: si hay más de tres vecinos vivos en $t$.
 		\item Soledad: si hay menos de dos vecinos vivos en $t$.
 	\end{itemize}
 	\item \textbf{Supervivencia}: Una célula viva en el tiempo $t$ se mantiene viva en $t + 1$ si tiene dos o tres vecinos vivos en $t$.	 
@@ -303,7 +303,7 @@ Esta dinámica está dada por las posibles configuraciones que las tres células
 		
 	\end{tabular}
 	
-	\caption{Cada posible combinación de tres células puede adquirir uno de dos valores. Cuando la célula evaluada encaja en este patrón, su valor cambia al establecido por la regla. Este conjunto de 256 reglas se le conoce como autómata celular elemental.}
+	\caption{Cada posible combinación de tres células puede adquirir uno de dos valores. Cuando la célula evaluada encaja en este patrón, su valor cambia al establecido por la regla. A este conjunto de 256 reglas se le conoce como autómata celular elemental.}
 	
 	\label{tab:ECA_evolucion}
 	
@@ -319,7 +319,7 @@ Nótese que la regla decimal solo aplica cuando las condiciones son las mismas. 
 	
 	\begin{tabular}{c | c c c c c c c c | c} 
 		
-		\textbf{Binario} &111 & 110 & 101 & 100 & 011 & 010 & 001 & 000 & \multirow{3}{*}{\textbf{regla}} \\ 
+		\textbf{Binario} &111 & 110 & 101 & 100 & 011 & 010 & 001 & 000 & \multirow{3}{*}{\textbf{Regla}} \\ 
 		
 		\textbf{Decimal} & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0 & \\ 
 		
@@ -349,7 +349,7 @@ Nótese que la regla decimal solo aplica cuando las condiciones son las mismas. 
 
 \section{Ejemplos}
 
-\subsection{John Von Neumann}
+\subsection{John von Neumann}
 
 El matemático y físico John von Neumann (1903-1957) fue uno de los pioneros en el estudio de los autómatas celulares, especialmente en lo que atañe a la reproducción automática y la universalidad computacional. En su obra póstuma, \textit{Theory of Self-Reproducing Automata}, presentó un modelo de autómata celular bidimensional diseñado para construir máquinas autorreplicantes. 
 
@@ -357,11 +357,11 @@ A continuación se presentan los principales elementos de su autómata celular, 
 
 \begin{itemize}
 	
-	\item \textbf{Espacio celular:} Von Neumann definió un espacio bidimensional como una cuadrícula regular de celdas, idealmente infinita.
+	\item \textbf{Espacio celular:} Von Neumann definió un espacio bidimensional como una cuadrícula regular de células, idealmente infinita.
 	
-	\item \textbf{Estados:} En su versión original, cada célula podía adoptar uno de 29 estados posibles que permiten distinguir células en reposo, células en transmisión de “señal”, células constructoras, etc. 
+	\item \textbf{Estados:} En su versión original, cada célula podía adoptar uno de 29 estados posibles que permiten distinguir células en reposo, células en transmisión de ``señal'', células constructoras, etc. 
 
-	\item \textbf{Vecindad:} Utiliza la vecindad que más tarde se denominaría ``vecindad de von Neumann''  \cite{weisstein2002_neumann}.
+	\item \textbf{Vecindad:} Utiliza la vecindad que más tarde se denominaría ``vecindad de von Neumann'' \cite{weisstein2002_neumann}.
 	
 	\item \textbf{Función de transición:} Todas las células actualizan su estado de forma síncrona, de acuerdo con una regla común que depende del estado actual de la propia célula y de los estados de sus vecinos. En el modelo de von Neumann, esta regla está diseñada de modo que permita que ciertas configuraciones de células funcionen como un constructor universal capaz de autorreplicarse.
 	
@@ -371,15 +371,15 @@ Su objetivo era demostrar de manera formal que se puede crear un autómata celul
 
 \subsection{El juego de la vida}
 
-El juego de la vida es un autómata celular propuesto por el matemático John Horton Conway en 1970. Consiste en una cuadrícula de celdas que pueden estar en uno de dos estados posibles: vivas o muertas. A lo largo del tiempo, las celdas evolucionan de acuerdo con un conjunto de reglas locales que determinan su supervivencia, muerte o nacimiento, en función del número de vecinos vivos que posean \cite{thoma2020_life}.
+El juego de la vida es un autómata celular propuesto por el matemático John Horton Conway en 1970. Consiste en una cuadrícula de células que pueden estar en uno de dos estados posibles: vivas o muertas. A lo largo del tiempo, las células evolucionan de acuerdo con un conjunto de reglas locales que determinan su supervivencia, muerte o nacimiento, en función del número de vecinos vivos que posean \cite{thoma2020_life}.
 
-Siguiendo la definición formal de un autómata celular, el \textit{Juego de la Vida} se caracteriza por los siguientes elementos:
+Siguiendo la definición formal de un autómata celular, el juego de la vida se caracteriza por los siguientes elementos:
 
 \begin{itemize}
 	\item \textbf{Espacio celular}: Se define sobre una cuadrícula bidimensional regular, teóricamente infinita. 
 	\item \textbf{Estados}: Cada célula puede encontrarse en un estado $\{ \text{muerto}, \text{vivo} \}$, representados comúnmente como $\{0, 1\}$.
 	
-	\item \textbf{Vecindad}: Se utiliza una vecindad de Moore semitotalística, la cual incluye las ocho celdas adyacentes a la célula central.
+	\item \textbf{Vecindad}: Se utiliza una vecindad de Moore semitotalística, la cual incluye las ocho células adyacentes a la célula central.
 	
 	\item \textbf{Función de transición}: El estado futuro de cada célula depende de su estado actual y del número de vecinos vivos, siguiendo las reglas:
 	
@@ -419,7 +419,7 @@ Dentro de este sistema emergen patrones característicos, que se agrupan en tres
 		\caption{Ejemplos de configuraciones de naturaleza muerta.}
 		\label{fig:still_life}
 	\end{figure}
-	\item \textbf{Osciladores}: Patrones que repiten su configuración después de un número finito de iteraciones, manteniendo su posición en la cuadrícula.
+	\item \textbf{Osciladores}: Patrones que repiten su configuración después de un número finito de pasos, manteniendo su posición en la cuadrícula.
 	\begin{figure}[H]
 		\centering
 		\begin{subfigure}[b]{0.18\textwidth}
@@ -465,7 +465,7 @@ Dentro de este sistema emergen patrones característicos, que se agrupan en tres
 	\end{figure}
 \end{itemize}
 
-Paul Rendell \cite{sipper2017_rendell_life} demostró que, a partir de una configuración inicial apropiada, el \textit{Juego de la Vida} es Turing completo, es decir, tiene la capacidad de realizar cualquier cálculo computable mediante la simulación de una máquina de Turing. La figura \ref{fig:conway_turing} muestra la configuración inicial del autómata celular diseñado por Paul Rendell.
+Paul Rendell \cite{sipper2017_rendell_life} demostró que, a partir de una configuración inicial apropiada, el juego de la vida es Turing completo, es decir, tiene la capacidad de realizar cualquier cálculo computable mediante la simulación de una máquina de Turing. La figura \ref{fig:conway_turing} muestra la configuración inicial del autómata celular diseñado por Paul Rendell.
 
 \begin{figure}[!htbp]
 	
@@ -473,7 +473,7 @@ Paul Rendell \cite{sipper2017_rendell_life} demostró que, a partir de una confi
 	
 	\includegraphics[width=0.85\textwidth]{img/gol_turing.png}
 	
-	\caption{Máquina de Turing implementada en el \textit{Juego de la Vida} \cite{rendell2000_turing_life}.}
+	\caption{Máquina de Turing implementada en el juego de la vida \cite{rendell2000_turing_life}.}
 	\label{fig:conway_turing}
 \end{figure}
 
@@ -534,9 +534,9 @@ Stephen Wolfram propuso una versión más simple de los autómatas celulares, ll
 
 \begin{itemize}
 	
-	\item \textbf{Espacio celular}: Está formado por una cadena unidimensional de celdas dispuestas linealmente.
+	\item \textbf{Espacio celular}: Está formado por una cadena unidimensional de células dispuestas linealmente.
 	\item \textbf{Estados}: Cada célula puede encontrarse en uno de dos estados posibles, $\{0, 1\}$.
-	\item \textbf{Vecindad}: Se define mediante un radio $r$ que determina cuántas celdas adyacentes influyen en la evolución de cada célula. En el caso del autómata celular elemental, el radio es $r = 1$, por lo que la vecindad está compuesta por la célula central y un vecino a cada lado.
+	\item \textbf{Vecindad}: Se define mediante un radio $r$ que determina cuántas células adyacentes influyen en la evolución de cada célula. En el caso del autómata celular elemental, el radio es $r = 1$, por lo que la vecindad está compuesta por la célula central y un vecino a cada lado.
 	\item \textbf{Función de transición}: Wolfram no propuso una única regla de evolución, sino el conjunto completo de funciones de transición posibles bajo estas condiciones.
 \end{itemize}
 
@@ -620,14 +620,14 @@ A continuación, se presentan tres reglas representativas por su relevancia teó
 
 \subsection{Otros sistemas complejos}
 
-Los autómatas celulares no son las únicas herramientas que pueden representar sistemas complejos. A continuación se presentan dos sistemas complejos adicionales que, aunque no son autómatas celulares, si pueden ser representados mediante uno. Esos sistemas son el modelo de \textit{sandpile} y la hormiga de Langton.
+Los autómatas celulares no son las únicas herramientas que pueden representar sistemas complejos. A continuación se presentan dos sistemas complejos adicionales que, aunque no son autómatas celulares, sí pueden ser representados mediante uno. Esos sistemas son el modelo de \textit{sandpile} y la hormiga de Langton.
 
 \subsubsection{Sandpile}
 
 Modelo de criticalidad autoorganizada propuesto por Bak, Tang y Wiesenfeld \cite{bak1987}, también conocido como modelo de arena abeliana; simula el comportamiento de avalanchas provocadas al apilar cantidades de arena en diferentes posiciones. Este sistema arroja cantidades de arena en un sitio y, cuando alcanza un umbral crítico, se derrumba sobre sus vecinos; si sus vecinos alcanzan el umbral, estos también se derrumban, generando un efecto en cadena \cite{dhar1999abelian, socsim_btw_2019}. Este comportamiento no es exclusivo de dos dimensiones y guarda mucha similitud con un autómata celular:
 
 \begin{definition}
-	Un sistema \emph{sandpile} es una 5-tupla $(\mathcal{L}, \mathcal{S}, \mathcal{N}, z_c, \mathcal{F})$ donde:
+	Un sistema \textit{sandpile} es una 5-tupla $(\mathcal{L}, \mathcal{S}, \mathcal{N}, z_c, \mathcal{F})$ donde:
 	\begin{itemize}
 		\item $\mathcal{L} \subseteq \mathbb{Z}^D$ es el espacio $D$-dimensional. Cada sitio $\vec{i} \in \mathcal{L}$ se define como un vector $D$-dimensional que representa su posición en el espacio.
 		\item $\mathcal{S} \subseteq \mathbb{N}_0$ es el conjunto de estados. El estado de cada sitio representa la cantidad de granos de arena acumulados en él:
@@ -663,7 +663,7 @@ La hormiga de Langton, creada por Chris Langton en 1986, es un modelo computacio
 \begin{definition}
 	Una hormiga de Langton es una 5-tupla $(\mathcal{L}, \mathcal{C}, \mathcal{D}, \mathcal{R}, \mathcal{F})$ donde:
 	\begin{itemize}
-		\item $\mathcal{L}$ es el espacio D-dimensional, teóricamente infinito. Cada sitio $\vec{i} \in \mathcal{L}$ se define como un vector que representa su posición en el espacio.
+		\item $\mathcal{L}$ es el espacio $D$-dimensional, teóricamente infinito. Cada sitio $\vec{i} \in \mathcal{L}$ se define como un vector que representa su posición en el espacio.
 		\item $\mathcal{C} = \{0, 1, \dots, n-1\}$ es el conjunto de los $n$ colores. Cada sitio tiene un color:
 		\[
 		c_{\vec{i}}(t) \in \mathcal{C},\; \forall \vec{i} \in \mathcal{L}
@@ -732,7 +732,7 @@ Stephen Wolfram realiza una clasificación basada en el comportamiento que exhib
 		\caption{Clase IV: Regla 106}
 		\label{fig:c4}
 	\end{subfigure}
-	\caption{Clasificación de Wolfram. Las figuras evolucionan 50 pasos con la misma configuración inicial y con condición de frontera cíclica.}
+	\caption{Clasificación de Wolfram. Las figuras evolucionan 50 pasos con la misma configuración inicial y con condición de frontera periódica.}
 	
 	\label{fig:clasificacion}
 	
@@ -774,7 +774,7 @@ Li y Packard ofrecen otra clasificación que considera seis clases para categori
 	\item Conduce a estructuras largas y estructuras complejas.
 \end{enumerate}
 
-Por otro lado, Culick y Yu \cite{genaro2013_class, culik1988_class} proponen una clasificación que sigue las siguientes limitaciones: 
+Por otro lado, Culik y Yu \cite{genaro2013_class, culik1988_class} proponen una clasificación que sigue las siguientes limitaciones: 
 
 \begin{itemize}
 	\item Esta clasificación es para autómatas celulares no totalísticos. 
@@ -794,7 +794,7 @@ Por otro lado, Culick y Yu \cite{genaro2013_class, culik1988_class} proponen una
 	
 	\item Un autómata celular es de clase III si existe un estado estable $s \in \mathcal{S}$ tal que para cualquier par de configuraciones $s$-finitas $C_1$ y $C_2$, es decidible si $C_1$ evoluciona a $C_2$.
 	
-	Es decir, si podemos determinar en tiempo finito si el CA evoluciona de $C_1$ a $C_2$, entonces pertenece a clase III. En caso contrario, pertenece a la clase IV, la cual contiene a todos los autómatas celulares \cite{culik1988_class}.
+	Es decir, si podemos determinar en tiempo finito si el autómata celular evoluciona de $C_1$ a $C_2$, entonces pertenece a clase III. En caso contrario, pertenece a la clase IV, la cual contiene a todos los autómatas celulares \cite{culik1988_class}.
 	
 	\item Todos los autómatas celulares pertenecen a la clase IV.	
 \end{enumerate}

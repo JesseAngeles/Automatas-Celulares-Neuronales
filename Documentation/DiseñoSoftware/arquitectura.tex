@@ -11,11 +11,11 @@ La arquitectura del sistema se basa en el patrón de diseño modelo vista contro
 \end{itemize}
 
 \subsection{Vista}
-La vista está implementada en \textit{Python} utilizando el framework \textbf{PyQt5}. Esta capa proporciona la interfaz gráfica principal del simulador, permitiendo visualizar y controlar el espacio celular y entrenar el autómata celular neuronal.
+La vista está implementada en Python utilizando el \textit{framework} \textbf{PyQt5}. Esta capa proporciona la interfaz gráfica principal del simulador, permitiendo visualizar y controlar el espacio celular y entrenar el autómata celular neuronal.
 
 \subsection{Modelo}
 
-El modelo encapsula la lógica del autómata celular. Esta capa está implementada en \textit{C++} y CUDA con el fin de optimizar el rendimiento en las operaciones de actualización de celdas y el procesamiento paralelo. El modelo gestiona la estructura del espacio celular, los estados, la topología de la vecindad, las condiciones de frontera y la regla de transición.
+El modelo encapsula la lógica del autómata celular. Esta capa está implementada en C++ y CUDA con el fin de optimizar el rendimiento en las operaciones de actualización de celdas y el procesamiento paralelo. El modelo gestiona la estructura del espacio celular, los estados, la topología de la vecindad, las condiciones de frontera y la regla de transición.
 
 \subsection{Controlador}
 

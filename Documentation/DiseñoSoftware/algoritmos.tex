@@ -1,12 +1,12 @@
-\section{Diseño de Algoritmos}
+\section{Diseño de algoritmos}
 
-Dentro del simulador existen seis algoritmos no triviales que determinan el correcto funcionamiento de todos los modulos. estos algoritmos son: indexación de la regla semitotalística, el paso de evolución del autómata celular clásico, el manejo de las condiciones de frontera, el \textit{forward pass} del autómata celular neuronal, el entrenamiento del modelo neuronal y el prefetch asíncrono. En esta sección se presentan los pseudocódigos de dichos algoritmos junto con sus decisiones de diseño.
+Dentro del simulador existen seis algoritmos no triviales que determinan el correcto funcionamiento de todos los módulos. Estos algoritmos son: indexación de la regla semitotalística, el paso de evolución del autómata celular clásico, el manejo de las condiciones de frontera, el \textit{forward pass} del autómata celular neuronal, el entrenamiento del modelo neuronal y el \textit{prefetch} asíncrono. En esta sección se presentan los pseudocódigos de dichos algoritmos junto con sus decisiones de diseño.
 
 Para homogeneizar los algoritmos, todos se rigen bajo las siguientes convenciones:
 \begin{itemize}
     \item Los arreglos se indexan desde cero.
     \item \texttt{H} y \texttt{W} son alto y ancho del espacio celular.
-    \item Para acceder a la posición de espacio celular en su forma unidimensional se realiza mediante el siguiente calculo: \texttt{A[y\,$\cdot$\,W + x]}.
+    \item Para acceder a la posición de espacio celular en su forma unidimensional se realiza mediante el siguiente cálculo: \texttt{A[y\,$\cdot$\,W + x]}.
     \item \texttt{states} es el número de estados permitidos por celda.
     \item \texttt{n\_groups} y \texttt{group\_sizes[]} describen la partición en grupos de la vecindad.
 \end{itemize}
@@ -39,9 +39,9 @@ En el juego de la vida existen dos grupos: los 8 vecinos de Moore y la célula c
 
 \subsection{Paso de evolución del autómata celular clásico}
 
-En cada paso evolutivo el kernel CUDA gestiona los hilos responsables de calcular el nuevo estado de exactamente todas las celdas. La grilla se mapea a una topología bidimensional de bloques: cada bloque cubre $16 \times 16$ celdas, y los bloques se organizan en un grid de tamaño $\lceil W/16 \rceil \times \lceil H/16 \rceil$.
+En cada paso evolutivo el \textit{kernel} CUDA gestiona los hilos responsables de calcular el nuevo estado de exactamente todas las celdas. La grilla se mapea a una topología bidimensional de bloques: cada bloque cubre $16 \times 16$ celdas, y los bloques se organizan en un \textit{grid} de tamaño $\lceil W/16 \rceil \times \lceil H/16 \rceil$.
 
-Para cada celda, el hilo recorre la vecindad agrupada, acumula la suma de estados por grupo, calcula el índice de la regla y escribe el resultado en el búfer destino. Tras el kernel, los punteros \texttt{A\_d} y \texttt{B\_d} se intercambian (\textit{ping-pong}), evitando copias entre pasos.
+Para cada celda, el hilo recorre la vecindad agrupada, acumula la suma de estados por grupo, calcula el índice de la regla y escribe el resultado en el búfer destino. Tras el \textit{kernel}, los punteros \texttt{A\_d} y \texttt{B\_d} se intercambian (\textit{ping-pong}), evitando copias entre pasos.
 
 \begin{algorithm}[H]
 \caption{stepKernel$\langle$\texttt{BoundaryMode}$\rangle$: un paso de evolución del autómata celular}
@@ -68,7 +68,7 @@ Para cada celda, el hilo recorre la vecindad agrupada, acumula la suma de estado
 \end{algorithmic}
 \end{algorithm}
 
-El parámetro \texttt{BoundaryMode} es un argumento de plantilla, no un parámetro en tiempo de ejecución. El compilador genera cuatro versiones del kernel (una por modo de frontera) y el \texttt{if constexpr} dentro de \textsc{ApplyBoundary} elimina toda ramificación condicional en el GPU lo que evita la divergencia de \textit{warps} en celdas cercanas al borde.
+El parámetro \texttt{BoundaryMode} es un argumento de plantilla, no un parámetro en tiempo de ejecución. El compilador genera cuatro versiones del \textit{kernel} (una por modo de frontera) y el \texttt{if constexpr} dentro de \textsc{ApplyBoundary} elimina toda ramificación condicional en la GPU, lo que evita la divergencia de \textit{warps} en celdas cercanas al borde.
 
 \textbf{Complejidad}: $\mathcal{O}(\texttt{n\_size})$ por celda, $\mathcal{O}(H \cdot W \cdot \texttt{n\_size})$ por paso.
 
@@ -115,9 +115,9 @@ Las cuatro condiciones de frontera modifican la coordenada de un vecino que cae 
 
 \subsection{Forward pass del autómata celular neuronal}
 
-El autómata celular neuronal, a diferencia del clasico utiliza un perceptrón multicapa que se evalúa de forma independiente sobre cada celda. El kernel CUDA mantiene la misma estructura que el autómata celular ejecutando un hilo por cada celda. Sin embargo, en lugar de un acceso a la tabla, se ejecuta una secuencia de productos matriz-vector con activaciones intercaladas.
+El autómata celular neuronal, a diferencia del clásico, utiliza un perceptrón multicapa que se evalúa de forma independiente sobre cada celda. El \textit{kernel} CUDA mantiene la misma estructura que el autómata celular ejecutando un hilo por cada celda. Sin embargo, en lugar de un acceso a la tabla, se ejecuta una secuencia de productos matriz-vector con activaciones intercaladas.
 
-Los pesos y sesgos de las capas residen en un dos arreglos planos \texttt{weights[]} y \texttt{biases[]}, cada uno con su vector \texttt{w\_offsets[]} que apunta al inicio de cada matriz $W^{(l)}$. 
+Los pesos y sesgos de las capas residen en dos arreglos planos \texttt{weights[]} y \texttt{biases[]}, cada uno con su vector \texttt{w\_offsets[]} que apunta al inicio de cada matriz $W^{(l)}$. 
 
 \begin{algorithm}[H]
 \caption{ncaKernel: \textit{forward pass} del MLP por celda}
@@ -150,7 +150,7 @@ Los pesos y sesgos de las capas residen en un dos arreglos planos \texttt{weight
 \end{algorithmic}
 \end{algorithm}
 
-Se evita el uso de \texttt{std::function} u otros punteros a función, ya que no son compatibles con kernels CUDA.
+Se evita el uso de \texttt{std::function} u otros punteros a función, ya que no son compatibles con \textit{kernels} CUDA.
 
 \textbf{Complejidad}: $\displaystyle \mathcal{O}\left(N_{size} + \sum_{l = 0}^{L - 1}(n_l \cdot n_{l+1})\right)$ por celda. 
 
@@ -203,16 +203,16 @@ A diferencia del aprendizaje supervisado tradicional sobre imágenes, aquí cada
 
 Además del límite \texttt{epochs\_max}, se detiene el entrenamiento si la pérdida acumulada cae por debajo de \texttt{loss\_target}. 
 
-\textbf{Complejidad}: La primera fase $\mathcal{O}(T \cdot H \cdot W \cdot N_{vec})$. La segunda fase $\mathcal{O}(E \cdot T \cdot H \cdot W \cdot P)$, donde $E$ es el número de épocas y $P$ representa la cantidad total de parámetros del percentrón muticapa ($\sum n_l \cdot n_{l+1}$).
+\textbf{Complejidad}: La primera fase $\mathcal{O}(T \cdot H \cdot W \cdot N_{vec})$. La segunda fase $\mathcal{O}(E \cdot T \cdot H \cdot W \cdot P)$, donde $E$ es el número de épocas y $P$ representa la cantidad total de parámetros del perceptrón multicapa ($\sum n_l \cdot n_{l+1}$).
 
 \subsection{Prefetch asíncrono con invalidación por generación}
 
-La GUI debe sostener una reproducción visualmente fluida sin bloquear el hilo principal de Qt, incluso cuando el cómputo de un paso es computacionalmente complejo (grillas grandes o autómatas celulares neuronales profundos). Para ello, un \textit{worker} en un hilo del \texttt{QThreadPool} precomputa hasta \texttt{PREFETCH\_SIZE} frames y los entrega al \texttt{future\_record} del controlador.
+La GUI debe sostener una reproducción visualmente fluida sin bloquear el hilo principal de Qt, incluso cuando el cómputo de un paso es computacionalmente complejo (grillas grandes o autómatas celulares neuronales profundos). Para ello, un \textit{worker} en un hilo del \texttt{QThreadPool} precomputa hasta \texttt{PREFETCH\_SIZE} \textit{frames} y los entrega al \texttt{future\_record} del controlador.
 
-Si el usuario cambia la regla, la vecindad o el estado mientras el \textit{worker} está corriendo, los frames precomputados ya no corresponden a la configuración activa y deben descartarse. La solución es un contador entero \texttt{\_generation} que el controlador incrementa ante cualquier cambio; el \textit{worker} captura su valor al lanzarse y verifica coincidencia antes de publicar resultados.
+Si el usuario cambia la regla, la vecindad o el estado mientras el \textit{worker} está corriendo, los \textit{frames} precomputados ya no corresponden a la configuración activa y deben descartarse. La solución es un contador entero \texttt{\_generation} que el controlador incrementa ante cualquier cambio; el \textit{worker} captura su valor al lanzarse y verifica coincidencia antes de publicar resultados.
 
 \begin{algorithm}[H]
-\caption{PrefetchWorker.run: producción asíncrona de frames}
+\caption{PrefetchWorker.run: producción asíncrona de \textit{frames}}
 \label{alg:prefetch}
 \begin{algorithmic}[1]
 \Require \texttt{automata}, \texttt{gen} (generación capturada al instanciar), \texttt{controller}, $N = \texttt{PREFETCH\_SIZE}$
@@ -234,8 +234,8 @@ Si el usuario cambia la regla, la vecindad o el estado mientras el \textit{worke
 \end{algorithmic}
 \end{algorithm}
 
-La comprobación dentro del bucle permite abortar tempranamente y liberar el hilo del pool; la comprobación final antes de publicar evita que la generación cambie justo después del último \texttt{step()} pero antes de la respuesta.
+La comprobación dentro del bucle permite abortar tempranamente y liberar el hilo del \textit{pool}; la comprobación final antes de publicar evita que la generación cambie justo después del último \texttt{step()} pero antes de la respuesta.
 
-Cuando el usuario retrocede, los frames se consumen desde \texttt{past\_record}; cuando avanza más allá de lo registrado, se consumen desde \texttt{future\_record}. Si este último se vacía, se dispara un nuevo \texttt{PrefetchWorker} con la generación actual.
+Cuando el usuario retrocede, los \textit{frames} se consumen desde \texttt{past\_record}; cuando avanza más allá de lo registrado, se consumen desde \texttt{future\_record}. Si este último se vacía, se dispara un nuevo \texttt{PrefetchWorker} con la generación actual.
 
 \textbf{Complejidad}: $\mathcal{O}(N\cdot H\cdot W\cdot c)$, donde $N=\texttt{PREFETCH\_SIZE}$ y $c$ es el costo por celda del paso evolutivo subyacente ($\texttt{n\_size}$ para CA, $N_{size}+\sum_\ell n_\ell  n_{\ell+1}$ para NCA).

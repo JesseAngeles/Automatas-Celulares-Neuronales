@@ -1,10 +1,10 @@
 \subsection{Hormiga de Langton}
 
-El ultimo experimento de esta sección busca imitar el comportamiento de la hormiga de Langton, un agente reactivo que vive en un espacio bidimensional. Este sistema no fue concebido como un autómata celular en un sentido estricto, pero a diferencia de \textit{sandpile}, si se puede definir como uno sin necesidad de manipular su comportamiento. 
+El último experimento de esta sección busca imitar el comportamiento de la hormiga de Langton, un agente reactivo que vive en un espacio bidimensional. Este sistema no fue concebido como un autómata celular en un sentido estricto, pero a diferencia de \textit{sandpile}, sí se puede definir como uno sin necesidad de manipular su comportamiento. 
 
-Originalmente, la hormiga de Langton realiza un par de acciones según el estado de la célula que este pisando, estas incluyen cambiar el color y cambiar de dirección. La representación mediante un autómata celular pone el foco en cada célula, donde la mayoría esta en un estado de naturaleza muerta hasta que tienen un vecino que contiene una hormiga a punto de caminar encima de ella.
+Originalmente, la hormiga de Langton realiza un par de acciones según el estado de la célula que esté pisando, estas incluyen cambiar el color y cambiar de dirección. La representación mediante un autómata celular pone el foco en cada célula, donde la mayoría está en un estado de naturaleza muerta hasta que tienen un vecino que contiene una hormiga a punto de caminar encima de ella.
 
-Para este experimento se considera la convención original en un cuadricula, cada una con 2 estados y una hormiga con 2 instrucciones, girar izquierda con blancos y girar derecha con negros. Ademas, para representar la posición de la hormiga se requieren dos conjuntos de estados que incluyen las cuatro direcciones para blanco y negro. 
+Para este experimento se considera la convención original en una cuadrícula, cada una con 2 estados y una hormiga con 2 instrucciones, girar izquierda con blancos y girar derecha con negros. Además, para representar la posición de la hormiga se requieren dos conjuntos de estados que incluyen las cuatro direcciones para blanco y negro. 
 
 Es necesario considerar la dirección por cada color. Considerando la célula del centro en el siguiente escenario:
 \[
@@ -25,18 +25,18 @@ Es necesario considerar la dirección por cada color. Considerando la célula de
 0 & 0& 0 \\
 \end{matrix}  \right]
 \]
-En el primer paso, la información que recibe de sus vecinos y de si misma es que una hormiga caminara sobre el y cambiara su dirección. En el siguiente paso, sabe que tiene que dejar de ser una hormiga y convertirse en un estado, pero el sistema no tiene memoria, es decir, no recuerda que estado era antes de ser la dirección de la hormiga, por lo que pierde el contexto de la situación.
+En el primer paso, la información que recibe de sus vecinos y de sí misma es que una hormiga caminará sobre él y cambiará su dirección. En el siguiente paso, sabe que tiene que dejar de ser una hormiga y convertirse en un estado, pero el sistema no tiene memoria, es decir, no recuerda qué estado era antes de ser la dirección de la hormiga, por lo que pierde el contexto de la situación.
 
-El vector de regla tiene un tamaño de $10^{5} = 100000$, y la hormiga de Langton es una regla entre $10^{100000}$. Otra limitación de este sistema es la cantidad de información que presenta, pues los únicos cambios existen cuando una hormiga esta cerca. Tratar a la hormiga como un autómata celular es computacionalmente mas complejo, pero este experimento busca la extracción de sistemas con poca información. 
+El vector de regla tiene un tamaño de $10^{5} = 100000$, y la hormiga de Langton es una regla entre $10^{100000}$. Otra limitación de este sistema es la cantidad de información que presenta, pues los únicos cambios existen cuando una hormiga está cerca. Tratar a la hormiga como un autómata celular es computacionalmente más complejo, pero este experimento busca la extracción de sistemas con poca información. 
 
-En un espacio de $100 \times 100$ si evolucionamos el sistema por 11000 pasos con una configuración inicial vaciá obtenemos la distribución de estados de la figura \ref{fig:langton_RL_100x100_proporcion}, donde se observa el problema de distribución de clases. Por otro lado, si consideramos múltiples condiciones iniciales aleatorias pero una única hormiga, obtenemos los datos de la figura \ref{fig:langton_RL_aleatorias_proporcion}, donde la única diferencia es la distribución entre ceros y unos. 
+En un espacio de $100 \times 100$ si evolucionamos el sistema por 11000 pasos con una configuración inicial vacía obtenemos la distribución de estados de la figura \ref{fig:langton_RL_100x100_proporcion}, donde se observa el problema de distribución de clases. Por otro lado, si consideramos múltiples condiciones iniciales aleatorias pero una única hormiga, obtenemos los datos de la figura \ref{fig:langton_RL_aleatorias_proporcion}, donde la única diferencia es la distribución entre ceros y unos. 
 
 \begin{figure}[htbp]
 	\centering
 	\begin{subfigure}[b]{0.45\textwidth}
 		\centering
 		\includegraphics[width=0.9\linewidth]{img/langton_RL_100x100_proporcion.png}
-		\caption{11000 pasos con una configuración inicial vaciá. }
+		\caption{11000 pasos con una configuración inicial vacía. }
 		\label{fig:langton_RL_100x100_proporcion}
 	\end{subfigure}
 	\hfill 
@@ -52,7 +52,7 @@ En un espacio de $100 \times 100$ si evolucionamos el sistema por 11000 pasos co
 
 \subsubsection{Capacidad de replicación}
 
-Con una red neuronal dada por 2:8:ReLU \& 10:Linear, una tasa de aprendizaje de 0.001 y una pérdida objetivo de 0.0001 pudo replicar el comportamiento de una hormiga en el espacio a la perfección en tan solo 36 épocas usando \textit{one-hot encoding}. En las figuras \ref{fig:langton_RL_paso_11000} se muestra el paso de las hormigas desde el simulador y del autómata celular neuronal, y su coincidencia en el mismo punto.
+Con una red neuronal dada por 2:8:ReLU \& 10:Linear, una tasa de aprendizaje de 0.001 y una pérdida objetivo de 0.0001 pudo replicar el comportamiento de una hormiga en el espacio a la perfección en tan solo 36 épocas usando \textit{one-hot encoding}. En la figura \ref{fig:langton_RL_paso_11000} se muestra el paso de las hormigas desde el simulador y del autómata celular neuronal, y su coincidencia en el mismo punto.
 
 \begin{figure}[htbp]
 	\centering
@@ -69,13 +69,13 @@ Con una red neuronal dada por 2:8:ReLU \& 10:Linear, una tasa de aprendizaje de 
 		\caption{Evolución del autómata celular neuronal originado en el simulador.}
 		\label{fig:langton_RL_nca_100x100_paso_11000}
 	\end{subfigure}
-	\caption{Comparativa del agente Langton y el automata célular neuronal entrenado despues de 11000 pasos con la misma configuración inicial. }
+	\caption{Comparativa del agente Langton y el autómata celular neuronal entrenado después de 11000 pasos con la misma configuración inicial. }
 	\label{fig:langton_RL_paso_11000}
 \end{figure}
 
 \subsubsection{Colisión de múltiples hormigas}
 
-Al colocar dos hormigas con la misma regla en el mismo espacio, su comportamiento suele ser independiente y ocurre sin errores hasta que se aproximan entre ellas. En la figura \ref{fig:langton_RL_nca_patrones_multi} se muestran los posibles patrones de dos hormigas donde una apunta a otra, en todos ellos, se realiza la sustitución correcta. El autómata celular neuronal extrapolo su conocimiento con una única hormiga para satisfacer estas condiciones. 
+Al colocar dos hormigas con la misma regla en el mismo espacio, su comportamiento suele ser independiente y ocurre sin errores hasta que se aproximan entre ellas. En la figura \ref{fig:langton_RL_nca_patrones_multi} se muestran los posibles patrones de dos hormigas donde una apunta a otra, en todos ellos, se realiza la sustitución correcta. El autómata celular neuronal extrapoló su conocimiento con una única hormiga para satisfacer estas condiciones. 
 
 \begin{figure}[H]
 	\centering
@@ -95,13 +95,13 @@ Adicionalmente, en la figura \ref{fig:langton_RL_nca_patrones_combi} se muestran
 
 Las simulaciones con múltiples hormigas deben de tener una regla adicional que defina el comportamiento cuando hay colisiones, algunas opciones son:
 \begin{itemize}
-	\item Las hormigas son independientes: Cada hormiga ignora a las otras hormigas y solo le interesa el estado de la célula. Esta solución requiere incrementar el numero de estados de manera proporcional al número de hormigas. Por lo que se requeriría definir el comportamiento de cuando hasta 4 hormigas colisionan en el mismo punto, situaciones menos probables que dependerían de preparar escenarios manuales para fomentar su aparición.
-	\item Rotar sin avanzar: Es decir, si dos hormigas van a colisionar, se define una regla que ninguna ocupara ese espacio y en su lugar, cada una de ellas rota sobre su eje. Esta solución resuelve el problema pero agrega un comportamiento adicional a la hormiga. 
-	\item Actualización asíncrona: las hormigas tienen un orden de prioridad, si se define se incrementa el numero de estados, sino, rompe la definición de automata celular.
-	\item Combinación de hormigas: Solo una de ellas sobrevive cuando colisionan, resultado que fue inferido por el automata celular neuronal.
+	\item Las hormigas son independientes: Cada hormiga ignora a las otras hormigas y solo le interesa el estado de la célula. Esta solución requiere incrementar el número de estados de manera proporcional al número de hormigas. Por lo que se requeriría definir el comportamiento de cuando hasta 4 hormigas colisionan en el mismo punto, situaciones menos probables que dependerían de preparar escenarios manuales para fomentar su aparición.
+	\item Rotar sin avanzar: Es decir, si dos hormigas van a colisionar, se define una regla que ninguna ocupará ese espacio y en su lugar, cada una de ellas rota sobre su eje. Esta solución resuelve el problema, pero agrega un comportamiento adicional a la hormiga. 
+	\item Actualización asíncrona: las hormigas tienen un orden de prioridad, si se define se incrementa el número de estados, si no, rompe la definición de autómata celular.
+	\item Combinación de hormigas: Solo una de ellas sobrevive cuando colisionan, resultado que fue inferido por el autómata celular neuronal.
 \end{itemize}
 
-Esta discrepancia se origina porque no existe una definición formal de cual debe ser el comportamiento de múltiples hormigas en el mismo espacio, pues la idea fue concebida para una única hormiga.
+Esta discrepancia se origina porque no existe una definición formal de cuál debe ser el comportamiento de múltiples hormigas en el mismo espacio, pues la idea fue concebida para una única hormiga.
 
 \subsubsection{Crecimiento de estados}
 
@@ -109,7 +109,7 @@ Para finalizar, se explora el crecimiento del número de estados. La hormiga de 
 
 Para cada número de colores se generó un conjunto de datos con dos hormigas en un espacio de $30 \times 30$ con frontera periódica durante 10000 pasos. Para cada $n$ se eligió la regla que distribuye los colores de forma más uniforme, ignorando aquellas que repiten una más corta (por ejemplo, RRLRRL se comporta como RRL). La vecindad es un rombo de radio 2 (13 células), pues una célula necesita saber si otra hormiga a dos células de distancia también apunta hacia ella. Todas las redes tienen la forma 4:64:ReLU \& $5n$:Linear con \textit{one-hot encoding}, una tasa de aprendizaje inicial de 0.001 que se reduce a la mitad cuando la pérdida no mejora en 20 épocas, una pérdida objetivo de $1 \times 10^{-7}$ y semilla 42.
 
-En la tabla \ref{tab:langton_colores} se observa que el número de estados casi no afecta el entrenamiento: todas las configuraciones alcanzaron la pérdida objetivo en menos de 90 épocas y menos de 100 segundos. Ademas, el número de épocas no crece de forma monótona con el número de colores. A partir de 8 colores la tasa de aprendizaje se redujo una vez, a 0.0005. Ocho de las nueve redes reproducen los 10000 pasos de su evolución sin errores. La excepción es la regla RRRLLL (6 colores), que tiene un único error en 9 millones de células, en un paso donde las hormigas colisionan, lo que hace que la evolución diverja en el paso 7028.
+En la tabla \ref{tab:langton_colores} se observa que el número de estados casi no afecta el entrenamiento: todas las configuraciones alcanzaron la pérdida objetivo en menos de 90 épocas y menos de 100 segundos. Además, el número de épocas no crece de forma monótona con el número de colores. A partir de 8 colores la tasa de aprendizaje se redujo una vez, a 0.0005. Ocho de las nueve redes reproducen los 10000 pasos de su evolución sin errores. La excepción es la regla RRRLLL (6 colores), que tiene un único error en 9 millones de células, en un paso donde las hormigas colisionan, lo que hace que la evolución diverja en el paso 7028.
 
 \begin{table}[H]
 	\centering
@@ -132,21 +132,21 @@ En la tabla \ref{tab:langton_colores} se observa que el número de estados casi 
 	\label{tab:langton_colores}
 \end{table}
 
-Sin embargo, reproducir la evolución de entrenamiento no implica haber aprendido la regla. Con la regla de 10 colores, una única hormiga en el centro de un espacio de $100 \times 100$ con frontera periódica, evoluciona sin errores hasta el paso 12455, donde la hormiga se divide en dos. La hormiga gira y avanza correctamente, pero la célula que deja no cambia de color y conserva una hormiga girada, como si hubiera estado bloqueada por otra. Es decir, el autómata celular neuronal aplica la regla de colisión aprendida de los datos con dos hormigas en un patrón que nunca vio durante el entrenamiento, aunque no haya otra hormiga cerca.
+Sin embargo, reproducir la evolución de entrenamiento no implica haber aprendido la regla. Con la regla de 10 colores, una única hormiga en el centro de un espacio de $100 \times 100$ con frontera periódica evoluciona sin errores hasta el paso 12455, donde la hormiga se divide en dos. La hormiga gira y avanza correctamente, pero la célula que deja no cambia de color y conserva una hormiga girada, como si hubiera estado bloqueada por otra. Es decir, el autómata celular neuronal aplica la regla de colisión aprendida de los datos con dos hormigas en un patrón que nunca vio durante el entrenamiento, aunque no haya otra hormiga cerca.
 
-Con este ultimo experimento reafirmamos la robustez del autómata celular neuronal para replicar comportamientos complejos y extraer la función de transición. El sistema tradicional pudo ser replicado con exactitud y no hubo duplicación de hormigas hasta 10, el cual considera 50 estados, lo que significa $50^5$ patrones y $50^{50^5}$ reglas totales.
+Con este último experimento reafirmamos la robustez del autómata celular neuronal para replicar comportamientos complejos y extraer la función de transición. El sistema tradicional pudo ser replicado con exactitud y no hubo duplicación de hormigas hasta 10, el cual considera 50 estados, lo que significa $50^5$ patrones y $50^{50^5}$ reglas totales.
 
-Ademas, se pudo generalizar el comportamiento de una hacia dos hormigas cuando no colisionan pero si son vecinas, comportamiento que no estuvo presente durante el entrenamiento.  Finalmente, aplico la eliminación de hormigas que, aunque pudo haber utilizado cualquier función para definir ese comportamiento, fue constante en todas las combinaciones donde colisionaban.
+Además, se pudo generalizar el comportamiento de una hacia dos hormigas cuando no colisionan pero sí son vecinas, comportamiento que no estuvo presente durante el entrenamiento. Finalmente, aplicó la eliminación de hormigas que, aunque pudo haber utilizado cualquier función para definir ese comportamiento, fue constante en todas las combinaciones donde colisionaban.
 
 Esta serie de tres experimentos (juego de la vida, modelo de \textit{sandpile} y hormiga de Langton) ayudaron no solo a probar las capacidades de replicación de la red neuronal al momento de experimentar con sistemas complejos, sino que adicionalmente ayudaron a 
 \begin{itemize}
-	\item Definir la mejor estructura de la red neuronal: Se encontró que ReLU en las capas ocultas y Linear en la capa de salida suele tener los mejores resultados. Ademas, no es necesario tener redes muy profundas, en su lugar, es recomendado tener pocas capas con mayor numero de neuronas cada una. 
+	\item Definir la mejor estructura de la red neuronal: Se encontró que ReLU en las capas ocultas y Linear en la capa de salida suele tener los mejores resultados. Además, no es necesario tener redes muy profundas, en su lugar, es recomendado tener pocas capas con mayor número de neuronas cada una. 
 
-	\item Seleccionar hiperparametros: Comparando métodos de reducción de tasa de aprendizaje, se concluyo que una reducción dinámica es una opción viable cuando la pérdida empieza a tener un comportamiento oscilatorio. 
+	\item Seleccionar hiperparámetros: Comparando métodos de reducción de tasa de aprendizaje, se concluyó que una reducción dinámica es una opción viable cuando la pérdida empieza a tener un comportamiento oscilatorio. 
 
 	\item Definir la capa de entrada: Esto mediante una codificación \textit{one-hot} que elimina la linealidad entre los datos y agiliza el entrenamiento de la red neuronal drásticamente. 
 	
-	\item Comprender la generalización de comportamientos: Como se adapta ante escenarios nunca antes vistos o muy poco frecuentes pero manteniendo su dinámica principal.
+	\item Comprender la generalización de comportamientos: Cómo se adapta ante escenarios nunca antes vistos o muy poco frecuentes pero manteniendo su dinámica principal.
 \end{itemize}
 
 Estas tareas ayudaron a implementar mejoras dentro del simulador así como configurar el autómata celular neuronal para los próximos experimentos, en donde se busca imitar el comportamiento de sistemas complejos que se encuentren en la naturaleza.

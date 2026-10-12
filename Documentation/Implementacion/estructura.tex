@@ -28,7 +28,7 @@ Contiene la implementación de bajo nivel del autómata celular y del autómata 
         \textbf{Archivo} & \textbf{Responsabilidad} \\ \hline
         \texttt{ca.h} / \texttt{ca.cu} & Definición e implementación del autómata celular clásico en CUDA. \\ \hline
         \texttt{nca.h} / \texttt{nca.cu} & Definición e implementación del autómata celular neuronal. \\ \hline
-        \texttt{bindings/python\_module.cpp} & Capa Pybind11 que expone las clases \texttt{CA} y \texttt{NCA} al intérprete de Python. \\ \hline
+        \texttt{bindings/python\_module.cpp} & Capa pybind11 que expone las clases \texttt{CA} y \texttt{NCA} al intérprete de Python. \\ \hline
         \texttt{CMakeLists.txt} & Configuración del \textit{build} con CMake. \\ \hline
         \texttt{bind.sh} & \textit{Script} de automatización. \\ \hline
         \texttt{requirements.txt} & Dependencia única: \texttt{pybind11}. \\ \hline
@@ -48,7 +48,7 @@ Implementa la aplicación gráfica completa siguiendo el patrón Modelo-Vista-Co
         \hline
         \textbf{Ruta} & \textbf{Responsabilidad} \\ \hline
         \texttt{main.py} & Instancia \texttt{QApplication} y \texttt{MainWindow}. \\ \hline
-        \texttt{models/}  \texttt{cellularAutomaton.py} & \textit{Wrapper} de Python sobre la clase \texttt{CA} expuesta por Pybind11. \\ \hline
+        \texttt{models/}  \texttt{cellularAutomaton.py} & \textit{Wrapper} de Python sobre la clase \texttt{CA} expuesta por pybind11. \\ \hline
         \texttt{models/}  \texttt{neuralCellularAutomaton.py} & \textit{Wrapper} de Python sobre la clase \texttt{NCA}. \\ \hline
         \texttt{controllers/}  \texttt{SimulationController.py} & Controlador principal. Coordina los \textit{widgets}, el modelo y el \textit{prefetch} asíncrono. \\ \hline
         \texttt{controllers/}  \texttt{SimulationConfig.py} & Encapsulamiento de la configuración del autómata. \\ \hline

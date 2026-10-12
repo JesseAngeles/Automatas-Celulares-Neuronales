@@ -2,7 +2,7 @@
 
 Para este experimento, se utiliza principalmente la regla B3/S23, de la cual fueron evolucionadas 100 condiciones iniciales aleatorias en un espacio de $100 \times 100$ durante 100 pasos evolutivos para analizar su comportamiento.  
 
-De acuerdo con la figura \ref{fig:life_state_distribution}, la regla B3/S23 produce el estado uno un $16.5\%$ de las veces. La mayoría de los datos se agrupa entre $12.3\%$ y $20.7\%$, donde los porcentajes más grandes corresponden a las configuraciones iniciales aleatorias. Esto se demuestra en la figura \ref{fig:life_all_steps} donde la proporción del estado uno de todas las evoluciones a través del tiempo decrece hasta estabilizarse, comportamiento característico del atractor  de dicha regla.
+De acuerdo con la figura \ref{fig:life_state_distribution}, la regla B3/S23 produce el estado uno un $16.5\%$ de las veces. La mayoría de los datos se agrupa entre $12.3\%$ y $20.7\%$, donde los porcentajes más grandes corresponden a las configuraciones iniciales aleatorias. Esto se demuestra en la figura \ref{fig:life_all_steps} donde la proporción del estado uno de todas las evoluciones a través del tiempo decrece hasta estabilizarse, comportamiento característico del atractor de dicha regla.
 
 \begin{figure}[htbp]
 	\centering
@@ -24,7 +24,7 @@ De acuerdo con la figura \ref{fig:life_state_distribution}, la regla B3/S23 prod
 
 Por otro lado, dado que la salida de cada paso evolutivo es la entrada del siguiente, también se analiza el desbalanceo de entradas, es decir, la frecuencia con la que aparecen diferentes patrones. Para esto, utilizaremos la nomenclatura $CxNy$ que cuenta el número de unos que aparecen en el centro ($C$) y en el exterior ($N$).
 
-En la figura \ref{fig:life_pattern_count} se muestran las frecuencias de aparición de todos los patrones en el mismo conjunto de datos. La regla B3/S23 no genera mucha vida dentro de las comunidades, lo que causa un desbalanceo de entradas.  Los patrones con menor frecuencia de aparición son $C1N8$ y $C0N8$ sumando menos del $0.02\%$, lo que causa un problema de representación o sesgo de muestra.
+En la figura \ref{fig:life_pattern_count} se muestran las frecuencias de aparición de todos los patrones en el mismo conjunto de datos. La regla B3/S23 no genera mucha vida dentro de las comunidades, lo que causa un desbalanceo de entradas. Los patrones con menor frecuencia de aparición son $C1N8$ y $C0N8$ sumando menos del $0.02\%$, lo que causa un problema de representación o sesgo de muestra.
 
 \begin{figure}[H]
 	\centering
@@ -64,7 +64,7 @@ En la tabla \ref{tab:nca_gol_funciones_1} se observan los resultados. La falta d
 		1:4:ReLU & 2:Sigmoid & 1000 & 0.374756 & 37.55 s \\
 		\bottomrule
 	\end{tabular}
-	\caption{Comparativa de rendimiento con múltiples hiperparámetros de la regla B3/S23: Pérdida objetivo 0.0001, límite de épocas: 1000, 
+	\caption{Comparativa de rendimiento con múltiples hiperparámetros de la regla B3/S23: pérdida objetivo 0.0001, límite de épocas: 1000,
 		tamaño del lote: 8192, tasa de aprendizaje: 0.001, semilla aleatoria: 42.}
 	\label{tab:nca_gol_funciones_1}
 \end{table}
@@ -89,7 +89,7 @@ Al incrementar el número de capas ocultas y de neuronas, se observa en la tabla
 		4:8:ReLU & 2:Sigmoid & 1000 & 0.374756 \\
 		\bottomrule
 	\end{tabular}
-	\caption{Comparativa de rendimiento con múltiples hiperparámetros de la regla B3/S23: Pérdida objetivo 0.0001, límite de épocas: 1000, 
+	\caption{Comparativa de rendimiento con múltiples hiperparámetros de la regla B3/S23: pérdida objetivo 0.0001, límite de épocas: 1000,
 		tamaño del lote: 8192, tasa de aprendizaje: 0.001, semilla aleatoria: 42.}
 	\label{tab:nca_gol_funciones_2}
 \end{table}
@@ -105,7 +105,7 @@ Queda demostrado que un autómata celular neuronal puede aprender el comportamie
 
 \subsubsection{Aprendizaje de reglas similares}
 
-De acuerdo con la figura \ref{fig:life_pattern_count}, la probabilidad de aparición de los patrones $C0N8$ y $C1N8$ son menores que $0.02\%$. La siguiente prueba busca identificar la relación entre la pérdida objetivo y la regla aprendida. Para esto, se entrena la regla B3/S23 con diferentes pérdidas objetivo y se identifica cómo esos patrones infrecuentes afectan el aprendizaje.
+De acuerdo con la figura \ref{fig:life_pattern_count}, las probabilidades de aparición de los patrones $C0N8$ y $C1N8$ son menores que $0.02\%$. La siguiente prueba busca identificar la relación entre la pérdida objetivo y la regla aprendida. Para esto, se entrena la regla B3/S23 con diferentes pérdidas objetivo y se identifica cómo esos patrones infrecuentes afectan el aprendizaje.
 
 Cabe mencionar que aunque las reglas del juego de la vida son semitotalísticas, existe la posibilidad de que la regla aprendida no lo sea, es decir, el autómata celular neuronal sí haga distinción entre dos patrones que conduzcan al mismo comportamiento. Por ejemplo, podemos generar de ocho formas diferentes el patrón $C0N1$:
 \[
@@ -124,7 +124,7 @@ Las reglas arbitrarias y las semitotalísticas son subconjuntos mutuos. Para ver
 	\label{fig:test}
 \end{figure}
 
-Los autómatas celulares neuronales que utilizaron la pérdida objetivo de 0.2 y 0.3 aprendieron la regla 0 (ver figura \ref{fig:b3s23_loss}).  Podemos concluir que esta configuración es estable porque, aunque existan patrones de baja frecuencia como $C0N8$ y $C1N8$,  sigue siendo capaz de replicar el comportamiento con una pérdida objetivo de $0.1$. Una hipótesis es que la red neuronal se inicializa para generar ceros, al no recibir nunca esas entradas, siempre se mantienen en ese valor. 
+Los autómatas celulares neuronales que utilizaron la pérdida objetivo de 0.2 y 0.3 aprendieron la regla 0 (ver figura \ref{fig:b3s23_loss}). Podemos concluir que esta configuración es estable porque, aunque existan patrones de baja frecuencia como $C0N8$ y $C1N8$, sigue siendo capaz de replicar el comportamiento con una pérdida objetivo de $0.1$. Una hipótesis es que la red neuronal se inicializa para generar ceros, al no recibir nunca esas entradas, siempre se mantienen en ese valor. 
 
 \begin{figure}[H]
 	\centering
@@ -136,7 +136,7 @@ Los autómatas celulares neuronales que utilizaron la pérdida objetivo de 0.2 y
 
 A continuación, se replica el experimento para las siguientes reglas \textit{life-like}: B3/S238, B38/S238 y B3/S236.
 
-La regla B3/S238 (Figura \ref{fig:b3s238_loss}) aprende una regla que difiere únicamente en un elemento (con una pérdida objetivo entre 0.03 y 0.1). Esta diferencia corresponde al patrón $C1N8$ el cual solo tiene una posible representación:
+La regla B3/S238 (figura \ref{fig:b3s238_loss}) aprende una regla que difiere únicamente en un elemento (con una pérdida objetivo entre 0.03 y 0.1). Esta diferencia corresponde al patrón $C1N8$, el cual solo tiene una posible representación:
 \[
 \left[
 \begin{matrix}
@@ -163,7 +163,7 @@ Como la regla aprendida considera todas las permutaciones del patrón $C1N8$, si
 	\label{fig:b3s238_vector} 
 \end{figure}
 
-La regla B38/S238 (Figura \ref{fig:b38s238_loss}) aprende 2 comportamientos diferentes: B3/S238 y B3/S23, como se observa en la figura \ref{fig:b38s238_vector}.
+La regla B38/S238 (figura \ref{fig:b38s238_loss}) aprende 2 comportamientos diferentes: B3/S238 y B3/S23, como se observa en la figura \ref{fig:b38s238_vector}.
 
 \begin{figure}[H]
 	\centering
@@ -175,11 +175,11 @@ La regla B38/S238 (Figura \ref{fig:b38s238_loss}) aprende 2 comportamientos dife
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=.8\linewidth]{img/b38s238_vector.png}
-	\caption{Últimos 50 elementos de los vectores de regla de B38/S238, B3/S23, B3/S238  y los aprendidos por el autómata celular neuronal.}
+	\caption{Últimos 50 elementos de los vectores de regla de B38/S238, B3/S23, B3/S238 y los aprendidos por el autómata celular neuronal.}
 	\label{fig:b38s238_vector} 
 \end{figure}
 
-En la regla B3/S236 (Figura \ref{fig:b3s236_loss}) con 0.2 difieren 32 elementos, de los cuales 28 sustituyeron el 1 por 0 (figura \ref{fig:b3s236_02_10}) y 4 al revés (figura \ref{fig:b3s236_02_01}). El primer conjunto corresponde al patrón $C1N6$, mientras que los 4 restantes necesitan otros 4 patrones adicionales para capturar a $C1N7$. Por esta razón, la regla aprendida no es semitotalística, porque hace distinción entre elementos de su vecindad.
+En la regla B3/S236 (figura \ref{fig:b3s236_loss}) con 0.2 difieren 32 elementos, de los cuales 28 sustituyeron el 1 por 0 (figura \ref{fig:b3s236_02_10}) y 4 al revés (figura \ref{fig:b3s236_02_01}). El primer conjunto corresponde al patrón $C1N6$, mientras que los 4 restantes necesitan otros 4 patrones adicionales para capturar a $C1N7$. Por esta razón, la regla aprendida no es semitotalística, porque hace distinción entre elementos de su vecindad.
 
 \begin{figure}[H]
 	\centering
@@ -193,7 +193,7 @@ En la regla B3/S236 (Figura \ref{fig:b3s236_loss}) con 0.2 difieren 32 elementos
 	\begin{subfigure}[b]{0.5\textwidth}
 		\centering
 		\includegraphics[width=0.7\linewidth]{img/b3s236_02_10.png}
-		\caption{Se intercambió 1 por 0 en $C1N6$}
+		\caption{Se intercambió 1 por 0 en $C1N6$.}
 		\label{fig:b3s236_02_10} 
 	\end{subfigure}%
 	\hfill % Añade espacio horizontal flexible entre las figuras
@@ -213,14 +213,14 @@ El resto de reglas aprendidas erróneamente diferencian los patrones de las figu
 	\begin{subfigure}[b]{0.5\textwidth}
 		\centering
 		\includegraphics[width=0.7\linewidth]{img/b3s236_03_10.png}
-		\caption{Se intercambió 0 por 1 en $C1N7$}
+		\caption{Se intercambió 0 por 1 en $C1N7$.}
 		\label{fig:b3s236_03_10} 
 	\end{subfigure}%
 	\hfill % Añade espacio horizontal flexible entre las figuras
 	\begin{subfigure}[b]{0.5\textwidth}
 		\centering
 		\includegraphics[width=0.17\linewidth]{img/b3s236_03_01.png}
-		\caption{Se intercambió 0 por 1 en $C1N8$}
+		\caption{Se intercambió 0 por 1 en $C1N8$.}
 		\label{fig:b3s236_03_01}
 	\end{subfigure}
 	\caption{Patrones que difieren entre B3/S236 y el autómata celular neuronal con una pérdida objetivo de 0.1.}
@@ -261,7 +261,7 @@ La vecindad semitotalística se divide en dos subvecindades, el centro y los bor
 
 Como se mencionó anteriormente, con una pérdida objetivo de 0.1 la red neuronal aún replica B3/S23; en este caso ninguna configuración baja de 0.12, por lo que la red neuronal no pudo replicar el comportamiento. Todas las configuraciones del barrido sin el vecino noroeste (de 1:4 a 16:16, con las cuatro combinaciones de funciones de activación) aprenden la misma regla, que difiere en 98 de 512 elementos ($19\%$). La regla aprendida no genera osciladores, sino únicamente produce naturaleza muerta. 
 
-Si ignoramos la célula central (Tabla \ref{tab:vecindad_centro}) observamos que ninguna de las configuraciones tuvo una pérdida menor a 0.07, mucho menor que eliminando un vecino del exterior. Es una bella casualidad cómo mediante este experimento, se demuestra una vez más que existe una mayor dependencia de los estados vecinos que del propio. La regla aprendida tiende a eliminar todos los estados 1 y genera pocas configuraciones estáticas y cíclicas en menos de 50 pasos, tal como se muestra en la figura \ref{fig:b3s23_c0n8}.
+Si ignoramos la célula central (tabla \ref{tab:vecindad_centro}) observamos que ninguna de las configuraciones tuvo una pérdida menor a 0.07, mucho menor que eliminando un vecino del exterior. Es una bella casualidad cómo mediante este experimento, se demuestra una vez más que existe una mayor dependencia de los estados vecinos que del propio. La regla aprendida tiende a eliminar todos los estados 1 y genera pocas configuraciones estáticas y cíclicas en menos de 50 pasos, tal como se muestra en la figura \ref{fig:b3s23_c0n8}.
 
 \begin{table}[H]
 	\centering
@@ -314,7 +314,7 @@ Si ignoramos la célula central (Tabla \ref{tab:vecindad_centro}) observamos que
 	\begin{subfigure}[b]{0.5\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{img/b3s23_reduction_changes.png}
-		\caption{Porcentaje nacimientos, muertes y células sin cambios en cada paso evolutivo.}
+		\caption{Porcentaje de nacimientos, muertes y células sin cambios en cada paso evolutivo.}
 		\label{fig:b3s23_reduction_changes}
 	\end{subfigure}
 	\caption{Proporciones de estados y cambios de estados en 10 evoluciones con condiciones iniciales aleatorias durante 50 pasos con el autómata celular neuronal obtenido por 16:16:ReLU \& 1:Sigmoid.}
@@ -347,7 +347,7 @@ Por otro lado, el incremento de la vecindad no afecta la replicación del compor
 	\label{tab:vecindad_ampliada}
 \end{table}
 
-Para finalizar, se realiza la sustitución, es decir, se elimina un elemento de la vecindad pero se compensa con un incremento de vecinos circundantes en ese punto faltante. Esto con el objetivo de analizar si la información adicional es útil o es únicamente ruido.
+Para finalizar, se realiza la sustitución, es decir, se elimina un elemento de la vecindad, pero se compensa con un incremento de vecinos circundantes en ese punto faltante. Esto con el objetivo de analizar si la información adicional es útil o es únicamente ruido.
 
 En la tabla \ref{tab:vecindad_reducida_ampliada} se experimenta con vecindades de $7 \times 7$ y $9 \times 9$ ignorando en cada caso un vecino: la esquina noroeste $(-1,-1)$ o el centro $(0,0)$. Se aprecia que el incremento de la vecindad reduce parcialmente la pérdida. Para el centro, pasamos de un 0.078650 a un 0.065987, y para el borde de 0.121294 a 0.097587.
 

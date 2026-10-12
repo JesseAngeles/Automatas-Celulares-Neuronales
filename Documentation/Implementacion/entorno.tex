@@ -1,7 +1,7 @@
 \chapter{Implementación}
 
 
-Durante el siguiente capítulo se explora el proceso de implementación de software. Se describe como fueron usadas las tecnologías, las versiones requeridas de las herramientas utilizadas, la estructura del proyecto, el proceso de entrenamiento de la red neuronal y termina con la validación del software, analizando las evoluciones obtenidas.
+Durante el siguiente capítulo se explora el proceso de implementación de software. Se describe cómo fueron usadas las tecnologías, las versiones requeridas de las herramientas utilizadas, la estructura del proyecto, el proceso de entrenamiento de la red neuronal y termina con la validación del software, analizando las evoluciones obtenidas.
 
 \section{Entorno de desarrollo}
 
@@ -16,7 +16,7 @@ El simulador se construyó mediante tres entornos de ejecución independientes; 
 	
 \end{itemize}
 
-El sistema fue desarrollado y probado en \textit{Fedora Linux 44 Workstation Edition} con una GPU \textit{NVIDIA} compatible con CUDA. Adicionalmente, en la tabla \ref{table:entorno_global} se describen las versiones requeridas de las herramientas utilizadas.
+El sistema fue desarrollado y probado en Fedora Linux 44 Workstation Edition con una GPU NVIDIA compatible con CUDA. Adicionalmente, en la tabla \ref{table:entorno_global} se describen las versiones requeridas de las herramientas utilizadas.
 
 \begin{table}[H]
     \centering
@@ -28,7 +28,7 @@ El sistema fue desarrollado y probado en \textit{Fedora Linux 44 Workstation Edi
         CUDA Toolkit & 13.2 \\ \hline
         CMake & $\geq$ 3.15 \\ \hline
         Python & 3.14 \\ \hline
-        Pybind11 & última versión estable \\ \hline
+        pybind11 & última versión estable \\ \hline
         PyQt5 & 5.15 \\ \hline
         NumPy & $\geq$ 1.24 \\ \hline
         SciPy & $\geq$ 1.10 \\ \hline
@@ -44,12 +44,12 @@ El módulo de \textit{core} implementa ambos autómatas celulares en C++17 y CUD
 
 \begin{itemize}
     \item \textbf{Lenguajes}: C++17 para la lógica y los \textit{bindings}. CUDA C++17 para los \textit{kernels} del dispositivo.
-    \item \textbf{Sistema de \textit{build}}: CMake (El compilador para \texttt{nvcc} se fija a GCC 15, ya que HCC 16 no es compatible con CUDA 13.2).
+    \item \textbf{Sistema de \textit{build}}: CMake (el compilador para \texttt{nvcc} se fija a GCC 15, ya que GCC 16 no es compatible con CUDA 13.2).
     \item \textbf{Dependencias}: \texttt{pybind11} (instalado en un entorno virtual local), \texttt{CUDAToolkit} y encabezados de Python.
     \item \textbf{Arquitectura GPU}: la opción \texttt{CMAKE\_CUDA\_ARCHITECTURES native} permite que el compilador detecte la \textit{Compute Capability} de la GPU presente al momento de la compilación.
 \end{itemize}
 
-El proceso de compilación y exportación del binding al directorio GUI se automatiza mediante el código \texttt{core/bind.sh}. Este \textit{script} activa el entorno virtual, ejecuta CMake, invoca \texttt{make} y copia el artefacto en el directorio de la GUI.
+El proceso de compilación y exportación del \textit{binding} al directorio GUI se automatiza mediante el código \texttt{core/bind.sh}. Este \textit{script} activa el entorno virtual, ejecuta CMake, invoca \texttt{make} y copia el artefacto en el directorio de la GUI.
 
 \subsection{GUI}
 

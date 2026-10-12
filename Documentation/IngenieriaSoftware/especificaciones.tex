@@ -2,7 +2,7 @@
 
 \subsection{Controles de simulación}
 
-Los siguientes casos de uso permiten al usuario controlar la evolución del autómata celular. Esto implica evolucionar la sistema hacia adelante, hacia atrás y definiendo velocidades.
+Los siguientes casos de uso permiten al usuario controlar la evolución del autómata celular. Esto implica evolucionar el sistema hacia adelante, hacia atrás y definiendo velocidades.
 
 \subsubsection*{UC01 Iniciar simulación}
 
@@ -121,15 +121,15 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 				\item Desde mouse \SLD{velocidad}.
 			\end{itemize}
 			\\ \hline
-			\textbf{Salidas} & Ninguna \\ \hline
+			\textbf{Salidas} & Ninguna. \\ \hline
 			\textbf{Precondición} & 
-				Ninguna
+				Ninguna.
 			\\ \hline
 			\textbf{Postcondición} & \begin{itemize}[noitemsep, nosep]
 				\item Cambia la velocidad de simulación.
 			\end{itemize}  \\ \hline
 			\textbf{Errores} & 
-				Ninguno \\ \hline
+				Ninguno. \\ \hline
 			\end{tabular}
 	\end{center}
 \end{table}
@@ -209,7 +209,7 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 			\textbf{Actor} & \textbf{Sistema} \\
 			\hline
 			\begin{enumerate}[noitemsep, nosep]
-			\item[1.1.] Presiona el botón \BTN{paso_adelante} desde \UI{control_ui} cuando la simulación esta activa y la velocidad esta en la velocidad máxima.
+			\item[1.1.] Presiona el botón \BTN{paso_adelante} desde \UI{control_ui} cuando la simulación está activa y la velocidad está en la velocidad máxima.
 			\end{enumerate} 
 				& 
 			\begin{enumerate}[noitemsep, nosep]
@@ -297,7 +297,7 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 		\begin{tabular}{| p{0.2\textwidth} | p{0.7\textwidth} |}
 			\hline 
 			\textbf{Actor} & Usuario. \\ \hline
-			\textbf{Descripción} & Restablece la simulación a su estado inicial (todas las celdas vacías). \\ \hline
+			\textbf{Descripción} & Restablece la simulación a su estado inicial (todas las células vacías). \\ \hline
 			\textbf{Tipo} & Secundario. \\ \hline
 			\textbf{Entradas} &
 			\begin{itemize}[noitemsep, nosep]
@@ -373,7 +373,7 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 			\end{enumerate} 
 			& 
 			\begin{enumerate}[noitemsep, nosep]
-				\item[2.] La configuración del espacio celular adquiere valores aleatorios según el numero de estados definidos.
+				\item[2.] La configuración del espacio celular adquiere valores aleatorios según el número de estados definidos.
 				\item[3.] Elimina el historial de evoluciones.
 				\item[4.] Actualiza \UI{simulacion_ui}.
 			\end{enumerate} \\
@@ -406,7 +406,7 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 				\item El sistema carga la simulación y la muestra en \UI{simulacion_ui}.
 			\end{itemize}  \\ \hline
 			\textbf{Errores} & \begin{itemize}[noitemsep, nosep]
-				\item Formato invalido: El archivo no coincide.
+				\item Formato inválido: El archivo no coincide.
 				\item Tamaño no compatible: El tamaño no coincide.
 			\end{itemize}  \\ \hline
 		\end{tabular}
@@ -439,17 +439,17 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 	\begin{center}
 		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
 			\hline
-			\multicolumn{2}{|c|}{\textbf{Flujo alterno 1: Formato invalido}} \\ \hline
+			\multicolumn{2}{|c|}{\textbf{Flujo alterno 1: Formato inválido}} \\ \hline
 			\textbf{Actor} & \textbf{Sistema} \\
 			\hline
 			\begin{enumerate}[noitemsep, nosep]
-				\item[1.1] Presiona el botón \BTN{importar} desde \UI{control_ui}.
-				\item[1.3. ]   Selecciona un archivo ``npy'' invalido u otro tipo de archivo.
+				\item[1.1.] Presiona el botón \BTN{importar} desde \UI{control_ui}.
+				\item[1.3. ]   Selecciona un archivo ``npy'' inválido u otro tipo de archivo.
 			\end{enumerate}
 			& 
 			\begin{enumerate}[noitemsep, nosep]
 				\item[1.2.] Abre el explorador de archivos.
-				\item[1.4.] No realiza ningún cambia y muestra \MSG{formato_incorrecto}.
+				\item[1.4.] No realiza ningún cambio y muestra \MSG{formato_incorrecto}.
 			\end{enumerate} \\
 			\hline
 		\end{tabular} 
@@ -465,7 +465,7 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 			\hline
 			\begin{enumerate}[noitemsep, nosep]
 				\item[2.1.] Presiona el botón \BTN{importar} desde \UI{control_ui}.
-				\item[2.3. ] Selecciona el archivo ``npy'' que contenga una evolución con un tamaño diferentes a \UI{simulacion_ui}.
+				\item[2.3. ] Selecciona el archivo ``npy'' que contenga una evolución con un tamaño diferente a \UI{simulacion_ui}.
 			\end{enumerate}
 			& 
 			\begin{enumerate}[noitemsep, nosep]
@@ -490,7 +490,7 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 			\textbf{Entradas} &
 			\begin{itemize}[noitemsep, nosep]
 				\item Desde mouse \BTN{grabar_evolucion}.
-				\item Desde teclado \IN{grabar_pasos}
+				\item Desde teclado \IN{grabar_pasos}.
 			\end{itemize}
 			\\ \hline
 			\textbf{Salidas} & Ninguna. \\ \hline
@@ -513,13 +513,13 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 			\hline
 			\begin{enumerate}[noitemsep, nosep]
 				\item Presiona el botón \BTN{grabar_evolucion} desde \UI{control_ui}.
-				\item[3. ] Elige un numero con \IN{grabar_pasos}.
+				\item[3. ] Elige un número con \IN{grabar_pasos}.
 			\end{enumerate} 
 			& 
 			\begin{enumerate}[noitemsep, nosep]
-				\item[2.] Abre una ventana preguntando el numero de pasos a evolucionar.
-				\item[4.] Evoluciona en sistema el numero de pasos.
-				\item[5.] Muestra en \UI{simulacion_ui} el ultimo paso.
+				\item[2.] Abre una ventana preguntando el número de pasos a evolucionar.
+				\item[4.] Evoluciona el sistema el número de pasos.
+				\item[5.] Muestra en \UI{simulacion_ui} el último paso.
 			\end{enumerate} \\
 			\hline
 		\end{tabular} \\
@@ -615,7 +615,7 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 				\item Habilita el botón \BTN{cambiar_ca_nca}.
 			\end{itemize}  \\ \hline
 			\textbf{Errores} & \begin{itemize}[noitemsep, nosep]
-				\item Formato invalido: El archivo no coincide.
+				\item Formato inválido: El archivo no coincide.
 			\end{itemize}  \\ \hline
 		\end{tabular}
 	\end{center}
@@ -636,7 +636,7 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 			\begin{enumerate}[noitemsep, nosep]
 				\item[2.] Abre el explorador de archivos.
 				\item[4.] Carga los pesos del autómata celular neuronal.
-				\item[5.] habilita el botón \BTN{cambiar_ca_nca}.
+				\item[5.] Habilita el botón \BTN{cambiar_ca_nca}.
 			\end{enumerate} \\
 			\hline
 		\end{tabular} \\
@@ -647,17 +647,17 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 	\begin{center}
 		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
 			\hline
-			\multicolumn{2}{|c|}{\textbf{Flujo alterno 1: Formato invalido}} \\ \hline
+			\multicolumn{2}{|c|}{\textbf{Flujo alterno 1: Formato inválido}} \\ \hline
 			\textbf{Actor} & \textbf{Sistema} \\
 			\hline
 			\begin{enumerate}[noitemsep, nosep]
 				\item[1.1.] Presiona el botón \BTN{cargar_pesos} desde \UI{control_ui}.
-				\item[1.3.]  Selecciona un archivo ``npz'' invalido u otro tipo de archivo.
+				\item[1.3.]  Selecciona un archivo ``npz'' inválido u otro tipo de archivo.
 			\end{enumerate}
 			& 
 			\begin{enumerate}[noitemsep, nosep]
 				\item[1.2.] Abre el explorador de archivos.
-				\item[1.4.] No realiza ningún cambia y muestra \MSG{formato_incorrecto}.
+				\item[1.4.] No realiza ningún cambio y muestra \MSG{formato_incorrecto}.
 			\end{enumerate} \\
 			\hline
 		\end{tabular} 
@@ -709,7 +709,7 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 
 \subsection{Configuración del autómata celular}
 
-Estos casos de uso definen las características generales del autómata celular, tales como el numero de estados, vecindad, comportamiento de frontera y la función de transición.
+Estos casos de uso definen las características generales del autómata celular, tales como el número de estados, vecindad, comportamiento de frontera y la función de transición.
 
 \subsubsection*{UC13 Definir vecindad}
 
@@ -739,7 +739,7 @@ Estos casos de uso definen las características generales del autómata celular,
 					\item Simulación en pausa.
 				\end{itemize} \\ \hline
 				\textbf{Errores} & \begin{itemize}[noitemsep, nosep]
-					\item Vecindad vaciá: No se selecciono ningún elemento en \IN{espacio_vecindad}.
+					\item Vecindad vacía: No se seleccionó ningún elemento en \IN{espacio_vecindad}.
 				\end{itemize} \\ \hline
 			\end{tabular}
 		\end{center}
@@ -777,7 +777,7 @@ Estos casos de uso definen las características generales del autómata celular,
 				\textbf{Actor} & \textbf{Sistema} \\
 				\hline
 				\begin{enumerate}[noitemsep, nosep] 
-					\item[1.2.] Selecciona el grupo vació.
+					\item[1.2.] Selecciona el grupo vacío.
 					\item[1.4.] Presiona el botón \BTN{def_vecindad}.
 				\end{enumerate} 
 				& 
@@ -798,11 +798,11 @@ Estos casos de uso definen las características generales del autómata celular,
 				\textbf{Actor} & \textbf{Sistema} \\
 				\hline
 				\begin{enumerate}[noitemsep, nosep]
-					\item[2.1] Presiona el botón \BTN{añadir_grupo}.
+					\item[2.1.] Presiona el botón \BTN{añadir_grupo}.
 				\end{enumerate} 
 				& 
 				\begin{enumerate}[noitemsep, nosep]
-					\item[2.2] Añade un nuevo \IN{grupo_vecindad}.
+					\item[2.2.] Añade un nuevo \IN{grupo_vecindad}.
 				\end{enumerate} \\
 				\hline
 			\end{tabular} 
@@ -817,12 +817,12 @@ Estos casos de uso definen las características generales del autómata celular,
 				\textbf{Actor} & \textbf{Sistema} \\
 				\hline
 				\begin{enumerate}[noitemsep, nosep]
-					\item[3.1] Presiona el botón \BTN{eliminar_grupo}.
+					\item[3.1.] Presiona el botón \BTN{eliminar_grupo}.
 				\end{enumerate} 
 				& 
 				\begin{enumerate}[noitemsep, nosep]
-					\item[3.2.] Borra todas las celdas en \IN{espacio_vecindad} asignadas al ultimo \IN{grupo_vecindad}.
-					\item[3.3.] Elimina el ultimo \IN{grupo_vecindad}.
+					\item[3.2.] Borra todas las celdas en \IN{espacio_vecindad} asignadas al último \IN{grupo_vecindad}.
+					\item[3.3.] Elimina el último \IN{grupo_vecindad}.
 				\end{enumerate} \\
 				\hline
 			\end{tabular} 
@@ -836,7 +836,7 @@ Estos casos de uso definen las características generales del autómata celular,
 			\begin{tabular}{| p{0.2\textwidth} | p{0.7\textwidth} |}
 				\hline 
 				\textbf{Actor} & Usuario. \\ \hline
-				\textbf{Descripción} & Se define el numero de estados.  \\ \hline
+				\textbf{Descripción} & Se define el número de estados.  \\ \hline
 				\textbf{Tipo} & Secundario. \\ \hline
 				\textbf{Entradas} &
 				\begin{itemize}[noitemsep, nosep]
@@ -855,7 +855,7 @@ Estos casos de uso definen las características generales del autómata celular,
 					\item Botones de estados añadidos.
 				\end{itemize} \\ \hline
 				\textbf{Errores} &  \begin{itemize}[noitemsep, nosep]
-					\item Invalido: El numero de estados ingresados es invalido.
+					\item Inválido: El número de estados ingresados es inválido.
 				\end{itemize} \\ \hline
 			\end{tabular}
 		\end{center}
@@ -869,7 +869,7 @@ Estos casos de uso definen las características generales del autómata celular,
 				\textbf{Actor} & \textbf{Sistema} \\
 				\hline
 				\begin{enumerate}[noitemsep, nosep]
-					\item[1. ] Ingresa el numero de estados en \IN{estados} en \UI{configuracion_ui} y presiona el botón \BTN{def_estados}.
+					\item[1. ] Ingresa el número de estados en \IN{estados} en \UI{configuracion_ui} y presiona el botón \BTN{def_estados}.
 				\end{enumerate} 
 				& 
 				\begin{enumerate}[noitemsep, nosep] 
@@ -887,15 +887,15 @@ Estos casos de uso definen las características generales del autómata celular,
 		\begin{center}
 			\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
 				\hline
-				\multicolumn{2}{|c|}{\textbf{Flujo alterno 1: invalido}} \\ \hline
+				\multicolumn{2}{|c|}{\textbf{Flujo alterno 1: Inválido}} \\ \hline
 				\textbf{Actor} & \textbf{Sistema} \\
 				\hline
 				\begin{enumerate}[noitemsep, nosep]
-					\item[1.1. ] Ingresa el numero de estados en \IN{estados} invalido.
+					\item[1.1. ] Ingresa el número de estados en \IN{estados} inválido.
 				\end{enumerate} 
 				& 
 				\begin{enumerate}[noitemsep, nosep] 
-					\item[1.2.] Corrige el numero al valor mas cercano posible.
+					\item[1.2.] Corrige el número al valor más cercano posible.
 				\end{enumerate} \\
 				\hline
 			\end{tabular} 
@@ -975,7 +975,7 @@ Estos casos de uso definen las características generales del autómata celular,
 				\end{itemize}   \\ \hline
 				\textbf{Errores} & 
 				\begin{itemize}[noitemsep, nosep]
-					\item Invalido: La regla establecida está fuera del rango. 
+					\item Inválido: La regla establecida está fuera del rango. 
 				\end{itemize}\\ \hline
 			\end{tabular}
 		\end{center}
@@ -1027,7 +1027,7 @@ Estos casos de uso definen las características generales del autómata celular,
 		\begin{center}
 			\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
 				\hline
-				\multicolumn{2}{|c|}{\textbf{Flujo alterno 2: Invalido}} \\ \hline
+				\multicolumn{2}{|c|}{\textbf{Flujo alterno 2: Inválido}} \\ \hline
 				\textbf{Actor} & \textbf{Sistema} \\
 				\hline
 				\begin{enumerate}[noitemsep, nosep]
@@ -1072,7 +1072,7 @@ Estos casos de uso definen las características generales del autómata celular,
 				\item Todas las células con ese estado actualizan su color en \UI{simulacion_ui}.
 				\item La configuración de color queda almacenada.
 			\end{itemize}  \\ \hline
-			\textbf{Errores} & Ninguno \\ \hline
+			\textbf{Errores} & Ninguno. \\ \hline
 		\end{tabular}
 	\end{center}
 \end{table}
@@ -1102,7 +1102,7 @@ Estos casos de uso definen las características generales del autómata celular,
 
 \subsection{Interacción con el espacio celular}
 
-El usuario puede interactuar con el espacio celular para cambiar valores, colores o vecindades. Los siguientes casos de uso están diseñado para mejorar la visibilidad del espacio celular.
+El usuario puede interactuar con el espacio celular para cambiar valores, colores o vecindades. Los siguientes casos de uso están diseñados para mejorar la visibilidad del espacio celular.
 
 \subsubsection*{UC18 Cambiar estado de una célula}
 \begin{table}[H]
@@ -1165,7 +1165,7 @@ El usuario puede interactuar con el espacio celular para cambiar valores, colore
 			\textbf{Actor} & \textbf{Sistema} \\
 			\hline
 			\begin{enumerate}[noitemsep, nosep]
-				\item[1.1] Selecciona una célula desde \UI{simulacion_ui} sin haber seleccionado un \BTN{estado}.
+				\item[1.1.] Selecciona una célula desde \UI{simulacion_ui} sin haber seleccionado un \BTN{estado}.
 			\end{enumerate} 
 			& 
 			\begin{enumerate}[noitemsep, nosep]
@@ -1189,7 +1189,7 @@ Los casos de uso siguientes permiten entrenar y definir la red neuronal del aut�
 		\begin{tabular}{| p{0.2\textwidth} | p{0.7\textwidth} |}
 			\hline 
 			\textbf{Actor} & Usuario. \\ \hline
-			\textbf{Descripción} & El usuario carga la evolución, define la vecindad, la configuración de la red neuronal, los hiperparametros de entrenamiento y la ruta de guardado.  \\ \hline
+			\textbf{Descripción} & El usuario carga la evolución, define la vecindad, la configuración de la red neuronal, los hiperparámetros de entrenamiento y la ruta de guardado.  \\ \hline
 			\textbf{Tipo} & Primario. \\ \hline
 			\textbf{Entradas} & \begin{enumerate}[noitemsep, nosep]
 				\item Desde mouse \BTN{cargar_evolucion}
@@ -1224,8 +1224,8 @@ Los casos de uso siguientes permiten entrenar y definir la red neuronal del aut�
 			\\ \hline
 			\textbf{Postcondición} & Ninguna.  \\ \hline
 			\textbf{Errores} & \begin{enumerate}[noitemsep, nosep]
-				\item Formato invalido: El archivo de evolución no coincide.
-				\item Entrenamiento fallido: El entrenamiento no se completo debido a un error de ejecución.
+				\item Formato inválido: El archivo de evolución no coincide.
+				\item Entrenamiento fallido: El entrenamiento no se completó debido a un error de ejecución.
 			\end{enumerate} 
 			\\ \hline
 		\end{tabular}
@@ -1244,15 +1244,15 @@ Los casos de uso siguientes permiten entrenar y definir la red neuronal del aut�
 				\item[3.] Selecciona la evolución en el archivo ``npy''.
 				\item[5.] Presiona el botón \BTN{definir_guardado}.
 				\item[6.] Selecciona la ruta de guardado de los pesos ``npz''. 
-				\item[8.] Selecciona la vecindad con \IN{entrenamiento_vecindad}
+				\item[8.] Selecciona la vecindad con \IN{entrenamiento_vecindad}.
 				\item[9.] Define la configuración de la red neuronal con las siguientes entradas: \IN{capas_ocultas}, \IN{neuronas}, \IN{relu}, \IN{sigmoid}, \IN{tanh}, \IN{lineal}, \IN{salida} y \IN{funcion_salida}.
-				\item[10.] Define los hiperparametros de entrenamiento: \IN{epocas}, \IN{tamaño_lote}, \IN{tasa_aprendizaje}, \IN{perdida_objetivo}, \IN{imprimir}.
+				\item[10.] Define los hiperparámetros de entrenamiento: \IN{epocas}, \IN{tamaño_lote}, \IN{tasa_aprendizaje}, \IN{perdida_objetivo}, \IN{imprimir}.
 				\item[11.] Presiona el botón \BTN{entrenar}.
 			\end{enumerate} 
 			& 
 			\begin{enumerate}[noitemsep, nosep]
 				\item[2.] Abre el explorador de archivos.
-				\item[4.] Muestra la ruta en \OUT{ruta_in}
+				\item[4.] Muestra la ruta en \OUT{ruta_in}.
 				\item[5.] Abre el explorador de archivos.
 				\item[7.] Muestra la ruta en \OUT{ruta_out}.
 				\item[12.] Borra el contenido de \OUT{consola}.
@@ -1268,7 +1268,7 @@ Los casos de uso siguientes permiten entrenar y definir la red neuronal del aut�
 	\begin{center}
 		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
 			\hline
-			\multicolumn{2}{|c|}{\textbf{Flujo alterno 1: Formato invalido}} \\ \hline
+			\multicolumn{2}{|c|}{\textbf{Flujo alterno 1: Formato inválido}} \\ \hline
 			\textbf{Actor} & \textbf{Sistema} \\
 			\hline
 			\begin{enumerate}[noitemsep, nosep]
@@ -1299,15 +1299,15 @@ Los casos de uso siguientes permiten entrenar y definir la red neuronal del aut�
 				\item[2.3.] Selecciona la evolución en el archivo ``npy''.
 				\item[2.5.] Presiona el botón \BTN{definir_guardado}.
 				\item[2.6.] Selecciona la ruta de guardado de los pesos ``npz''. 
-				\item[2.8.] Selecciona la vecindad con \IN{entrenamiento_vecindad}
+				\item[2.8.] Selecciona la vecindad con \IN{entrenamiento_vecindad}.
 				\item[2.9.] Define la configuración de la red neuronal con las siguientes entradas: \IN{capas_ocultas}, \IN{neuronas}, \IN{relu}, \IN{sigmoid}, \IN{tanh}, \IN{lineal}, \IN{salida} y \IN{funcion_salida}.
-				\item[2.10.] Define los hiperparametros de entrenamiento: \IN{epocas}, \IN{tamaño_lote}, \IN{tasa_aprendizaje}, \IN{perdida_objetivo}, \IN{imprimir}.
+				\item[2.10.] Define los hiperparámetros de entrenamiento: \IN{epocas}, \IN{tamaño_lote}, \IN{tasa_aprendizaje}, \IN{perdida_objetivo}, \IN{imprimir}.
 				\item[2.11.] Presiona el botón \BTN{entrenar}.
 			\end{enumerate} 
 			& 
 			\begin{enumerate}[noitemsep, nosep]
 				\item[2.2.] Abre el explorador de archivos.
-				\item[2.4.] Muestra la ruta en \OUT{ruta_in}
+				\item[2.4.] Muestra la ruta en \OUT{ruta_in}.
 				\item[2.5.] Abre el explorador de archivos.
 				\item[2.7.] Muestra la ruta en \OUT{ruta_out}.
 				\item[2.12.] Borra el contenido de \OUT{consola}.

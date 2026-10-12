@@ -18,7 +18,7 @@ La inteligencia artificial fue definida por primera vez por John McCarthy en 195
 
 Una de las ramas de la inteligencia artificial es el aprendizaje automático, el cual se centra en desarrollar sistemas con la capacidad de aprender en función de los datos \cite{oracle2025_ml}. Esto permite reconocer patrones y realizar predicciones a partir de grandes cantidades de datos \cite{google_ml}.
 
-Por lo que, con base en \cite{oracle2025_ml, ibm_ml} podemos definir al aprendizaje automático como:
+Por lo que, con base en \cite{oracle2025_ml, ibm_ml}, podemos definir al aprendizaje automático como:
 
 \begin{definition}
 	El aprendizaje automático es la disciplina que permite a las computadoras mejorar su desempeño en una tarea mediante la experiencia con datos, sin necesidad de instrucciones explícitas.
@@ -51,9 +51,9 @@ IBM \cite{ibm_ml} menciona algunos de los algoritmos más comunes de aprendizaje
 	\item \textbf{Redes neuronales:} Simulan el funcionamiento del cerebro humano, con un gran número de nodos de procesamiento conectados entre sí, llamados neuronas.
 \end{enumerate}
 
-Las redes neuronales presentan ventajas que pueden llegar a agilizar y optimizar recursos de las organizaciones que lo implementan \cite{adobe_ml}: mejora la productividad, reduce el error humano, mejora la disponibilidad de servicios, reduce tareas repetitivas, descubre patrones ocultos a simple vista, entre otros.
+Las redes neuronales presentan ventajas que pueden llegar a agilizar y optimizar recursos de las organizaciones que las implementan \cite{adobe_ml}: mejora la productividad, reduce el error humano, mejora la disponibilidad de servicios, reduce tareas repetitivas, descubre patrones ocultos a simple vista, entre otros.
 
-Para comprender cómo las redes neuronales logran estas capacidades, es necesario explorar primero los fundamentos que inspiraron el desarrollo. En particular su diseño es una abstracción de las neuronas biológicas, cuya estructura y funcionamiento ofrecen una analogía para el procesamiento de la información.
+Para comprender cómo las redes neuronales logran estas capacidades, es necesario explorar primero los fundamentos que inspiraron el desarrollo. En particular, su diseño es una abstracción de las neuronas biológicas, cuya estructura y funcionamiento ofrecen una analogía para el procesamiento de la información.
 
 \section{Neurona biológica}
 
@@ -77,7 +77,7 @@ Cada neurona se compone (principalmente) de tres elementos, como se muestra en l
 	
 	\includegraphics[width=0.6\linewidth]{img/neurona.png}
 	
-	\caption{Representación de una neurona \cite{brgfx_neurona}. Se encuentran señaladas las dendritas, el núcleo y el axón, encargado de recibir, procesar y transmitir la información, respectivamente.}
+	\caption{Representación de una neurona \cite{brgfx_neurona}. Se encuentran señaladas las dendritas, el núcleo y el axón, encargados de recibir, procesar y transmitir la información, respectivamente.}
 	
 	\label{fig:neurona}
 	
@@ -154,7 +154,7 @@ Aunque la topología de la red puede ser arbitraria, en la práctica las redes s
 	\label{fig:ann_multicapa}
 \end{figure}
 
-La red en su conjunto implementa una función parametrizada.
+La red en su conjunto implementa una función parametrizada
 \[F_\theta: \mathbb{R}^n \to \mathbb{R}^m\] 
 
 donde $n$ es el número de datos de entrada, $m$ el número de datos de salida y $\theta$ el conjunto de parámetros entrenables. El entrenamiento de una red neuronal consiste en ajustar $\theta$.
@@ -180,7 +180,7 @@ f(x) =
 	0 & \text{si } x < 0.
 \end{cases}
 \]
-Produce salidas discretas (0/1) y fue utilizada en perceptrones tempranos como función de decisión. No es diferenciable en el punto de umbral y su derivada es nula en casi todas partes, por lo que no es adecuada para entrenamiento mediante gradiente (backpropagation). Aun así, se usa conceptualmente para tomar decisiones discretas o como capa de postprocesado/umbral en modelos ya entrenados.
+Produce salidas discretas (0/1) y fue utilizada en perceptrones tempranos como función de decisión. No es diferenciable en el punto de umbral y su derivada es nula en casi todas partes, por lo que no es adecuada para entrenamiento mediante gradiente (\textit{backpropagation}). Aun así, se usa conceptualmente para tomar decisiones discretas o como capa de postprocesado/umbral en modelos ya entrenados.
 \begin{figure}[!htbp]
 	\centering
 	\includegraphics[width=0.5\textwidth]{img/binary.png}
@@ -219,7 +219,7 @@ Comprime la entrada en el intervalo $(0,1)$, por lo que es apropiada para modela
 	\label{fig:sigmoid}
 \end{figure}
 
-\subsubsection{tanh (hiperbólica)}
+\subsubsection{Tangente hiperbólica (tanh)}
 
 La tangente hiperbólica se define como:
 \[
@@ -241,7 +241,7 @@ La función ReLU se define por partes:
 \[
 f(x) = \max(0, x).
 \]
-Activa linealmente las entradas positivas y pone a cero las negativas. Es sencillo y computacionalmente eficiente, favorece la esparcidad de activaciones y reduce en la práctica el problema del gradiente desvanecido en redes profundas. Muy utilizada en capas ocultas de arquitecturas modernas. Tiene la desventaja de poder provocar neuronas ``muertas'' (gradiente cero para entradas negativas), problema que funciones como Leaky ReLU intentan corregir.
+Activa linealmente las entradas positivas y pone a cero las negativas. Es sencilla y computacionalmente eficiente, favorece la esparcidad de activaciones y reduce en la práctica el problema del gradiente desvanecido en redes profundas. Muy utilizada en capas ocultas de arquitecturas modernas. Tiene la desventaja de poder provocar neuronas ``muertas'' (gradiente cero para entradas negativas), problema que funciones como Leaky ReLU intentan corregir.
 \begin{figure}[!htbp]
 	\centering
 	\includegraphics[width=0.5\textwidth]{img/relu.png}
@@ -257,7 +257,7 @@ En los primeros modelos, la actualización de los pesos se realizaba a partir de
 \[
 	\Delta w_j = - \alpha(c- a)x_j
 \]
-Donde $a$ representa la activación y $\alpha$ la tasa de aprendizaje. Este método permitió superar la no diferenciabilidad de la función escalón en los perceptrones originales \cite{matich2001_ann}.
+donde $a$ representa la activación y $\alpha$ la tasa de aprendizaje. Este método permitió superar la no diferenciabilidad de la función escalón en los perceptrones originales \cite{matich2001_ann}.
 
 \subsubsection{Función de pérdida}
 
@@ -269,7 +269,7 @@ La función de pérdida se usa para medir el rendimiento del modelo. Calcula la 
 	\[
 	\mathcal{L}: \mathbb{R}^m \times \mathbb{R}^m \to \mathbb{R}_{\geq 0}
 	\]
-	Tal que mide la discrepancia entre la predicción del modelo y la salida real:
+	tal que mide la discrepancia entre la predicción del modelo y la salida real:
 	\[
 	\mathcal{L} (F_\theta (x^{(i)}, y^{(i)}))
 	\]
@@ -301,13 +301,13 @@ Esto se puede conseguir mediante diferentes técnicas, siendo el descenso del gr
 \]
 donde $\eta >0$ es la tasa de aprendizaje. Una tasa de aprendizaje alta puede divergir en la solución, mientras que una tasa baja puede tener una convergencia lenta \cite{matich2001_ann}. 
 
-En la práctica, es común iniciar el entrenamiento con una tasa de aprendizaje relativamente alta y luego reducirla gradualmente a medida que el modelo converge. También se suele incorporar un término de \textit{momentum }para acelerar la convergencia y reducir oscilaciones \cite{matich2001_ann}.
+En la práctica, es común iniciar el entrenamiento con una tasa de aprendizaje relativamente alta y luego reducirla gradualmente a medida que el modelo converge. También se suele incorporar un término de \textit{momentum} para acelerar la convergencia y reducir oscilaciones \cite{matich2001_ann}.
 
 \subsubsection{Entrenamiento}
 
 Antes del entrenamiento, las variables de entrada deben normalizarse para ajustarse al rango de activación de la red (por ejemplo, $[0,1]$ o $[-1,1]$). Este paso evita que una variable con valores grandes domine la función de agregación y mejora la estabilidad del entrenamiento. Es importante que la normalización preserve la distribución original de los datos y la proporción entre atributos \cite{matich2001_ann}.
 
-Finalmente, el entrenamiento consiste en ajustar todos los parámetros $\theta = \{ W^{(l)}, b^{(l)}\}$ para minimizar la función de costos $J(\theta)$ en un conjunto de datos de entrenamiento. Este proceso se compone de las siguientes etapas:
+Finalmente, el entrenamiento consiste en ajustar todos los parámetros $\theta = \{ W^{(l)}, b^{(l)}\}$ para minimizar la función de costo $J(\theta)$ en un conjunto de datos de entrenamiento. Este proceso se compone de las siguientes etapas:
 
 \begin{enumerate}
 	
@@ -376,7 +376,7 @@ El elemento clave es su operación de convolución: un filtro (o \textit{kernel}
 \[
 Y = f(X * K + b)
 \]
-Donde $X$ es el volumen de entrada, $K$ es el filtro (o filtros) de convolución, $b$ es el sesgo y $f$ es una función de activación. A continuación pueden seguir operaciones de \textit{pooling} y capas totalmente conectadas para producir la salida final \cite{amidi2025_cnn}.
+donde $X$ es el volumen de entrada, $K$ es el filtro (o filtros) de convolución, $b$ es el sesgo y $f$ es una función de activación. A continuación pueden seguir operaciones de \textit{pooling} y capas totalmente conectadas para producir la salida final \cite{amidi2025_cnn}.
 
 Se aplica principalmente en clasificación de imágenes, segmentación, reconocimiento de video y procesamiento de audio. En el contexto de los autómatas celulares, se puede ver que el filtro de la red neuronal convolucional es similar a la vecindad del autómata. Esto permite entenderlo como una operación de actualización local que se repite en un espacio organizado, igual que en un autómata celular.
 
@@ -391,9 +391,9 @@ Una red neuronal recurrente trabaja con una serie de entradas $(x_1, x_2, \dots,
 	y_t = g(W_{hy} h_t + b_y),
 \end{gather*}
 
-Donde $W_{xh}$, $W_{hh}$ y $W_{hy}$ son matrices de pesos, $b_h$ y $b_y$ son sesgos, y $f$, $g$ son funciones de activación.
+donde $W_{xh}$, $W_{hh}$ y $W_{hy}$ son matrices de pesos, $b_h$ y $b_y$ son sesgos, y $f$, $g$ son funciones de activación.
 
-La red funciona en una secuencia de tiempo, donde cada momento puede verse como una "capa virtual" o una repetición del autómata. En cada instante $t$, el estado oculto $h_t$ muestra la "memoria" o el contexto acumulado hasta ese momento.
+La red funciona en una secuencia de tiempo, donde cada momento puede verse como una ``capa virtual'' o una repetición del autómata. En cada instante $t$, el estado oculto $h_t$ muestra la ``memoria'' o el contexto acumulado hasta ese momento.
 
 La vecindad temporal está dada por la conexión de la unidad de tiempo $t$ con la anterior $t-1$ (y en variantes bidireccionales, también con $t+1$). Es decir, la salida de un paso se inserta como parte de la entrada del siguiente paso.
 
