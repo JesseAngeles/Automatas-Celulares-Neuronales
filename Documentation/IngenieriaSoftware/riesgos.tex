@@ -7,13 +7,13 @@ El análisis de riesgos se realiza tomando en cuenta el tiempo estimado de desar
 \subsubsection{Riesgos técnicos}
 
 \begin{enumerate}[label*=RT\arabic*]
-	\item Incompatibilidad entre diferentes lenguajes de programación: los módulos desarrollados en Python, C++ y CUDA generan errores de integración al intercambiar información y sincronizar procesos.
+	\item Incompatibilidad entre diferentes lenguajes de programación: Los módulos desarrollados en Python, C++ y CUDA generan errores de integración al intercambiar información y sincronizar procesos.
 	
-	\item Indisponibilidad de hardware: La tarjeta gráfica no tiene el rendimiento suficiente.
+	\item Indisponibilidad de \textit{hardware}: La tarjeta gráfica no tiene el rendimiento suficiente.
 	
-	\item Incompatibilidad entre tecnologías: El sistema operativo, los lenguajes de programación y los elementos de hardware no son compatibles para el desarrollo y ejecución.
+	\item Incompatibilidad entre tecnologías: El sistema operativo, los lenguajes de programación y los elementos de \textit{hardware} no son compatibles para el desarrollo y ejecución.
 	
-	\item Dependencias de librerías: La instalación y configuración de diferentes librerías varía según el sistema operativo.
+	\item Dependencias de bibliotecas: La instalación y configuración de diferentes bibliotecas varía según el sistema operativo.
 	
 	\item Mala visualización: El renderizado de los componentes gráficos es incorrecto o está mal optimizado.
 \end{enumerate}
@@ -54,7 +54,7 @@ Siguiendo la tabla \ref{table:matriz_riesgos}, a continuación se enlistan los n
 	\begin{tabular}{|p{0.13\textwidth}|p{0.12\textwidth}|p{0.12\textwidth}|p{0.12\textwidth}|p{0.12\textwidth}|p{0.12\textwidth}|p{0.12\textwidth}|}
 		\cline{3-7}
 		\multicolumn{2}{p{0.12\textwidth}}{} & \multicolumn{5}{|c|}{\textbf{Probabilidad}} \\ \cline{3-7}
-		\multicolumn{2}{p{0.12\textwidth}|}{} & Nada probable $10\%$ & Levemente probable $30\%$ & Poco probable $50\%$ & Probable $70\%$ & Muy probable $90\%$ \\ \cline{1-7}
+		\multicolumn{2}{p{0.12\textwidth}|}{} & Muy poco probable $10\%$ & Poco probable $30\%$ & Modera\-da\-men\-te probable $50\%$ & Probable $70\%$ & Muy probable $90\%$ \\ \cline{1-7}
 		\multirow{5}{*}{\textbf{Severidad}} 
 		& Nula & \cellcolor{green!30}Bajo & \cellcolor{green!30}Bajo & \cellcolor{green!30}Bajo & \cellcolor{yellow!40}Medio & \cellcolor{yellow!40}Medio \\ \cline{2-7}
 		& Menor & \cellcolor{green!30}Bajo & \cellcolor{green!30}Bajo & \cellcolor{yellow!40}Medio & \cellcolor{yellow!40}Medio & \cellcolor{yellow!40}Medio \\ \cline{2-7}
@@ -73,11 +73,11 @@ Siguiendo la tabla \ref{table:matriz_riesgos}, a continuación se enlistan los n
 	\begin{tabular}{|p{0.42\textwidth}|p{0.18\textwidth}|p{0.17\textwidth}|p{0.15\textwidth}|}
 		\hline
 		\textbf{Riesgo técnico} & \textbf{Probabilidad} & \textbf{Impacto} & \textbf{Nivel de riesgo} \\ \hline
-		Incompatibilidad entre diferentes lenguajes de programación & Poco probable & Crítico & Alto \\ \hline
-		Indisponibilidad de hardware & Levemente probable & Moderado & Medio \\ \hline
+		Incompatibilidad entre diferentes lenguajes de programación & Modera\-da\-men\-te probable & Crítico & Alto \\ \hline
+		Indisponibilidad de \textit{hardware} & Poco probable & Moderado & Medio \\ \hline
 		Incompatibilidad entre tecnologías & Probable & Fatal & Muy alto \\ \hline
-		Dependencias de librerías & Levemente probable & Menor & Bajo\\ \hline
-		Mala visualización & Poco probable & Menor & Medio \\ \hline
+		Dependencias de bibliotecas & Poco probable & Menor & Bajo\\ \hline
+		Mala visualización & Modera\-da\-men\-te probable & Menor & Medio \\ \hline
 	\end{tabular}
 	\caption{Nivel de riesgos técnicos}
 	\label{table:riesgos_tecnicos}
@@ -91,7 +91,7 @@ Siguiendo la tabla \ref{table:matriz_riesgos}, a continuación se enlistan los n
 		\hline
 		\textbf{Riesgo operativo} & \textbf{Probabilidad} & \textbf{Impacto} & \textbf{Nivel de riesgo} \\ \hline
 		Documentación deficiente & Probable & Moderado & Alto \\ \hline
-		Problemas personales & Poco probable & Crítico & Alto \\ \hline
+		Problemas personales & Modera\-da\-men\-te probable & Crítico & Alto \\ \hline
 		Curva de aprendizaje elevada & Muy probable & Moderado & Alto \\ \hline
 	\end{tabular}
 	\caption{Nivel de riesgos operativos}
@@ -105,7 +105,7 @@ Siguiendo la tabla \ref{table:matriz_riesgos}, a continuación se enlistan los n
 	\begin{tabular}{|p{0.42\textwidth}|p{0.18\textwidth}|p{0.17\textwidth}|p{0.15\textwidth}|}
 		\hline
 		\textbf{Riesgo de requerimientos} & \textbf{Probabilidad} & \textbf{Impacto} & \textbf{Nivel de riesgo} \\ \hline
-		Requerimientos ambiguos & Levemente probable & Menor & Bajo \\ \hline
+		Requerimientos ambiguos & Poco probable & Menor & Bajo \\ \hline
 	\end{tabular}
 	\caption{Nivel de riesgos de requerimientos}
 	\label{table:riesgos_requerimientos}
@@ -131,7 +131,7 @@ Siguiendo la tabla \ref{table:matriz_riesgos}, a continuación se enlistan los n
 	\begin{tabular}{|p{0.42\textwidth}|p{0.18\textwidth}|p{0.17\textwidth}|p{0.15\textwidth}|}
 		\hline
 		\textbf{Riesgo de alcance} & \textbf{Probabilidad} & \textbf{Impacto} & \textbf{Nivel de riesgo} \\ \hline 
-		 Limitación del alcance funcional & Poco probable & Moderado & Medio \\ \hline
+		 Limitación del alcance funcional & Modera\-da\-men\-te probable & Moderado & Medio \\ \hline
 		 Carga de trabajo imprevista & Probable & Crítico & Alto \\ \hline
 	\end{tabular}
 	\caption{Nivel de riesgos de alcance}
@@ -148,9 +148,9 @@ Siguiendo la tabla \ref{table:matriz_riesgos}, a continuación se enlistan los n
 		\hline
 		\multicolumn{2}{|c|}{\textbf{Riesgos técnicos}} \\ \hline
 		Incompatibilidad entre diferentes lenguajes & Verificar la documentación de compatibilidad entre los lenguajes de programación y realizar pruebas de transferencia de datos y sincronización previas al desarrollo. \\ \hline
-		Indisponibilidad de hardware & Asegurar la disponibilidad de equipos de respaldo o entornos virtuales alternativos para continuar el desarrollo en caso de fallos de hardware. \\ \hline
-		Incompatibilidad entre tecnologías & Realizar pruebas de compatibilidad del hardware y software en diferentes sistemas operativos y versiones antes de la integración. \\ \hline
-		Dependencias de librerías & Documentar y verificar las versiones de librerías utilizadas, además de considerar alternativas equivalentes que garanticen continuidad en caso de incompatibilidad. \\ \hline
+		Indisponibilidad de \textit{hardware} & Asegurar la disponibilidad de equipos de respaldo o entornos virtuales alternativos para continuar el desarrollo en caso de fallos de \textit{hardware}. \\ \hline
+		Incompatibilidad entre tecnologías & Realizar pruebas de compatibilidad del \textit{hardware} y \textit{software} en diferentes sistemas operativos y versiones antes de la integración. \\ \hline
+		Dependencias de bibliotecas & Documentar y verificar las versiones de bibliotecas utilizadas, además de considerar alternativas equivalentes que garanticen continuidad en caso de incompatibilidad. \\ \hline
 		Mala visualización & Realizar pruebas de usabilidad y ajustar la interfaz de acuerdo con las resoluciones de pantalla y dispositivos objetivo. \\ \hline
 	\end{tabular}
 	\caption{Plan de mitigación de riesgos técnicos}
@@ -179,7 +179,7 @@ Siguiendo la tabla \ref{table:matriz_riesgos}, a continuación se enlistan los n
 	\begin{tabular}{|p{0.3\textwidth}|p{0.6\textwidth}|}
 		\hline
 		\multicolumn{2}{|c|}{\textbf{Riesgos de requerimientos}} \\ \hline
-		Requerimientos ambiguos & Realizar reuniones periódicas con los usuarios o \textit{stakeholders} para aclarar requerimientos y validar el entendimiento del equipo de desarrollo. \\ \hline
+		Requerimientos ambiguos & Revisar periódicamente los requerimientos para aclararlos y validar el entendimiento del equipo de desarrollo. \\ \hline
 	\end{tabular}
 	\caption{Plan de mitigación de riesgos de requerimientos}
 	\label{table:mitigacion_requerimiento}
@@ -214,7 +214,7 @@ Siguiendo la tabla \ref{table:matriz_riesgos}, a continuación se enlistan los n
 
 \subsection{Plan de contingencia}
 
-A continuación se describen los planes de contingencia para los riesgos de nivel fatal:
+A continuación se describen los planes de contingencia para los riesgos de nivel muy alto:
 \begin{itemize}
 	\item[RT3] Incompatibilidad entre tecnologías.
 	\item[RE1] Subestimación del tiempo de desarrollo. 
@@ -266,9 +266,9 @@ A continuación se describen los planes de contingencia para los riesgos de nive
 
 \section{Estudio de factibilidad}
 
-El proyecto cuenta con los recursos de hardware necesarios para llevar a cabo simulaciones de alto nivel computacional. El equipo de cómputo disponible permite implementar técnicas de paralelización, asegurando la capacidad de realizar múltiples inferencias en tiempos razonables. Adicionalmente, se dispone de herramientas tecnológicas de alto rendimiento que brindan la ventaja computacional requerida para ejecutar la simulación de manera eficiente.
+El proyecto cuenta con los recursos de \textit{hardware} necesarios para llevar a cabo simulaciones de alto nivel computacional. El equipo de cómputo disponible permite implementar técnicas de paralelización, asegurando la capacidad de realizar múltiples inferencias en tiempos razonables. Adicionalmente, se dispone de herramientas tecnológicas de alto rendimiento que brindan la ventaja computacional requerida para ejecutar la simulación de manera eficiente.
 
-En cuanto a la factibilidad económica, la mayor parte del software utilizado es de libre acceso, incluyendo Python, C++, Visual Studio Code y TeXstudio. Se utiliza también Wolfram Mathematica, que requiere una licencia anual de 195 dólares, la cual se encuentra disponible de manera gratuita para estudiantes del IPN, garantizando así la viabilidad financiera del proyecto.
+En cuanto a la factibilidad económica, la mayor parte del \textit{software} utilizado es de libre acceso, incluyendo Python, C++, Visual Studio Code y TeXstudio. Se utiliza también Wolfram Mathematica, que requiere una licencia anual de 195 dólares, la cual se encuentra disponible de manera gratuita para estudiantes del IPN, garantizando así la viabilidad financiera del proyecto.
 
 Desde el punto de vista operativo, el diseño de la interfaz facilita la definición de reglas y la ejecución de simulaciones, optimizando el flujo de trabajo del grupo de investigadores. Esto permite acelerar significativamente el proceso de experimentación y análisis de resultados, maximizando la eficiencia del equipo durante el desarrollo del proyecto.
 

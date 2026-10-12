@@ -12,7 +12,7 @@ El diseño experimental es un método sistemático para planificar, ejecutar y a
 
 De acuerdo con su nivel de control, los diseños experimentales se clasifican en tres tipos: preexperimentos, cuasiexperimentos y experimentos puros. En el presente trabajo se adopta un diseño cuasiexperimental por las características propias del entorno de simulación y la naturaleza del objeto de estudio.
 
-El diseño experimental resulta apropiado en este contexto. Se manipula una variable independiente (la definición de la función de transición mediante una red neuronal) para observar sus efectos sobre el comportamiento del sistema simulado. Esto se hace sin que exista una asignación aleatoria ni un grupo control en un sentido estricto. 
+El diseño experimental resulta apropiado en este contexto. Se manipula una variable independiente (la definición de la función de transición mediante una red neuronal) para observar sus efectos sobre el comportamiento del sistema simulado. Esto se hace sin que exista una asignación aleatoria ni un grupo de control en un sentido estricto. 
 
 \subsubsection{Diseño cuasiexperimental}
 
@@ -22,7 +22,7 @@ En el caso de esta investigación, el estudio se desarrolla en un entorno comput
 
 \section{Enfoque de la investigación}
 
-Este proyecto utiliza un enfoque cuantitativo, que se basa en recoger y analizar datos numéricos para describir fenómenos a través de métodos estadísticos y matemáticos \cite{jaen_cuantitativa}. Este enfoque prioriza la objetividad y medición precisa para relacionar causales entre las variables observadas.
+Este proyecto utiliza un enfoque cuantitativo, que se basa en recoger y analizar datos numéricos para describir fenómenos a través de métodos estadísticos y matemáticos \cite{jaen_cuantitativa}. Este enfoque prioriza la objetividad y medición precisa para establecer relaciones causales entre las variables observadas.
 
 A diferencia de los enfoques cualitativos o mixtos, este no requiere de estudiar percepciones, significados ni experiencias humanas, por lo que es adecuado para investigaciones donde las variables pueden ser definidas, controladas y medidas \cite{cueva2023_mixto}.
 
@@ -46,13 +46,13 @@ Para esta investigación se realiza un muestreo no probabilístico intencional, 
 
 Con base en los objetivos, esta investigación se considera aplicada. La investigación aplicada, también conocida como práctica o empírica, se caracteriza porque busca poner en práctica o utilizar los conocimientos adquiridos. En este tipo, las consecuencias prácticas son un interés primordial del investigador \cite{veracruz_aplicada}.
 
-Además, se utiliza un diseño cuasiexperimental, porque se cambian variables independientes para ver cómo afectan los resultados de la simulación, sin tener un grupo control o asignar condiciones experimentales de forma aleatoria. 
+Además, se utiliza un diseño cuasiexperimental, porque se cambian variables independientes para ver cómo afectan los resultados de la simulación, sin tener un grupo de control o asignar condiciones experimentales de forma aleatoria. 
 
 Este tipo de investigación es útil porque ayuda a encontrar relaciones de causa y efecto entre los elementos del modelo y los comportamientos que surgen en el sistema, mientras se mantiene un entorno computacional que es controlado y se puede repetir.
 
 \section{Técnicas e instrumentos de recolección de datos}
 
-La recolección de datos se realiza a partir de las simulaciones computacionales realizadas. Dado que se trata de un enfoque cuantitativo, no es necesario usar técnicas de observación como encuestas, sino procedimientos de registro automatizado para su posterior análisis numérico. 
+La recolección de datos se realiza a partir de las simulaciones computacionales realizadas. Dado que se trata de un enfoque cuantitativo, no es necesario usar técnicas como la observación o las encuestas, sino procedimientos de registro automatizado para su posterior análisis numérico. 
 
 \subsection{Técnicas de recolección de datos}
 
@@ -62,7 +62,7 @@ La recolección de datos se realiza a partir de las simulaciones computacionales
 	
 	\item Registro automático de datos: Datos generados por la simulación, como el historial evolutivo, patrones y métricas de estabilidad, error y desempeño.
 	
-	\item Análisis estadístico: Se aplican métricas cuantitativas que permiten comparar configuraciones para evaluar la efectividad del modelo. Métricas como precisión, convergencia, tasa de error y comportamiento temporal de los patrones.
+	\item Análisis estadístico: Se aplican métricas cuantitativas que permiten comparar configuraciones para evaluar la efectividad del modelo, como la exactitud, la convergencia, la tasa de error y el comportamiento temporal de los patrones.
 	
 \end{itemize}
 
@@ -72,11 +72,11 @@ Se consideran los siguientes instrumentos para obtener y analizar los datos:
 
 \begin{itemize}
 	
-	\item Simulador desarrollado: Herramienta computacional implementada en Python que permite ejecutar y visualizar el comportamiento de los autómatas celulares neuronales.
+	\item Simulador desarrollado: Herramienta computacional implementada en C++/CUDA, con una interfaz en Python, que permite ejecutar y visualizar el comportamiento de los autómatas celulares neuronales.
 	
 	\item Códigos de registro y procesamiento: Conjunto de programas auxiliares que capturan las métricas numéricas de cada simulación y las almacenan en archivos.
 	
-	\item Herramientas de análisis estadístico y visualización: Librerías y herramientas que permiten obtener representaciones gráficas con los datos obtenidos. 
+	\item Herramientas de análisis estadístico y visualización: Bibliotecas y herramientas que permiten obtener representaciones gráficas con los datos obtenidos. 
 	
 \end{itemize}
 
@@ -90,9 +90,9 @@ El desarrollo metodológico de la investigación se llevará a cabo en diversas 
 	
 	\item \textbf{Diseño, desarrollo e integración del módulo de red neuronal artificial}: Se implementa un módulo adicional que permite entrenar una red neuronal artificial para aprender el comportamiento de autómatas celulares existentes. La salida de este módulo es la función de transición aprendida. Además, este módulo se integra dentro del simulador principal para permitir la experimentación directa.
 	
-	\item \textbf{Imitación de patrones conocidos}: Se diseñan y ejecutan experimentos para evaluar la capacidad del modelo neuronal de imitar el comportamiento de autómatas celulares clásicos, como el juego de la vida. Se busca, además, medir la precisión del aprendizaje y la estabilidad de las configuraciones generadas. 
+	\item \textbf{Imitación de patrones conocidos}: Se diseñan y ejecutan experimentos para evaluar la capacidad del modelo neuronal de imitar el comportamiento de autómatas celulares clásicos, como el juego de la vida. Se busca, además, medir la exactitud del aprendizaje y la estabilidad de las configuraciones generadas. 
 	
-	\item \textbf{Simulación de otros sistemas complejos:} Una vez validado el funcionamiento del modelo neuronal, se aplican las mismas técnicas a simulaciones que representen otros sistemas complejos. Se busca probar diferentes configuraciones iniciales y parámetros para analizar la capacidad de generalizar la aparición de nuevos patrones.
+	\item \textbf{Simulación de otros sistemas complejos}: Una vez validado el funcionamiento del modelo neuronal, se aplican las mismas técnicas a simulaciones que representen otros sistemas complejos. Se busca probar diferentes configuraciones iniciales y parámetros para analizar la capacidad de generalizar la aparición de nuevos patrones.
 	
 \end{itemize}
 
@@ -107,9 +107,9 @@ Una vez recolectados los datos provenientes de las simulaciones computacionales,
 Los datos cuantitativos se obtienen de las ejecuciones del simulador, donde se registran variables como número de pasos, estados promedio de las células, métricas de error y estabilidad de los patrones emergentes durante un periodo determinado. Posteriormente, estos datos se organizan, procesan y analizan mediante herramientas estadísticas y de visualización.
 
 \begin{itemize}
-	\item \textbf{Análisis estadístico descriptivo:} Se calculan medidas de tendencia central y de dispersión con el fin de describir cuantitativamente el comportamiento de las variables analizadas y detectar posibles irregularidades o tendencias \cite{question2023_estadistico}.
+	\item \textbf{Análisis estadístico descriptivo}: Se calculan medidas de tendencia central y de dispersión con el fin de describir cuantitativamente el comportamiento de las variables analizadas y detectar posibles irregularidades o tendencias \cite{question2023_estadistico}.
 	
-	\item \textbf{Visualización de datos:} Se elaboran gráficos de barras, histogramas y diagramas de dispersión para representar visualmente los resultados obtenidos, facilitando la comprensión de la dinámica del sistema y la comparación entre diferentes configuraciones experimentales.
+	\item \textbf{Visualización de datos}: Se elaboran gráficos de barras, histogramas y diagramas de dispersión para representar visualmente los resultados obtenidos, facilitando la comprensión de la dinámica del sistema y la comparación entre diferentes configuraciones experimentales.
 \end{itemize}
 
 El procesamiento y análisis de los datos se lleva a cabo utilizando herramientas computacionales. Los resultados obtenidos servirán como base para la interpretación y discusión en las etapas posteriores de la investigación.
@@ -124,7 +124,7 @@ Con el fin de proporcionar una visión clara y comprensiva de las bases técnica
 
 \subsection{Fundamentos y contexto de las tecnologías}
 
-Un lenguaje de programación es una herramienta que permite el desarrollo de software y programas para computadora. Son empleados para diseñar programas encargados de definir el comportamiento físico y lógico de una computadora \cite{uapa2025_lenguajes}.
+Un lenguaje de programación es una herramienta que permite el desarrollo de \textit{software} y programas para computadora. Son empleados para diseñar programas encargados de definir el comportamiento físico y lógico de una computadora \cite{uapa2025_lenguajes}.
 
 Debido a que la elección del entorno y lenguaje de programación resulta crítica para el éxito de cualquier proyecto, es importante considerar las metas y alcances del mismo, puesto que no todos los lenguajes son óptimos para resolver ciertos tipos de problemas \cite{clickpanda2023_entorno}.
 
@@ -132,17 +132,15 @@ Entre los factores clave para la elección de un lenguaje de programación se en
 
 Es por esto que, como lenguajes de programación, se decidió utilizar C++/CUDA para el núcleo de simulación y cálculos pesados en paralelo, y Python para la interfaz, visualización, control de simulación y diseño de redes neuronales. 
 
-A continuación se presentan las definiciones pertinentes de los lenguajes de programación, \textit{frameworks} y librerías utilizadas para el desarrollo de la aplicación móvil.
+A continuación se presentan las definiciones pertinentes de los lenguajes de programación, \textit{frameworks} y bibliotecas utilizadas para el desarrollo del simulador.
 
 \subsubsection{C++}
 
-C++ es un lenguaje de programación compilado y multiparadigma desarrollado como una extensión de C \cite{valladolid_c}. Se considera un lenguaje de bajo nivel, ya que permite manipular directamente la memoria, lo que lo convierte en un lenguaje versátil. Es orientado a objetos, permite la creación de clases y objetos y es ampliamente utilizado para aplicaciones que requieren un alto rendimiento.
+C++ es un lenguaje de programación compilado y multiparadigma desarrollado como una extensión de C \cite{valladolid_c}. Se considera un lenguaje de nivel medio, ya que permite manipular directamente la memoria, lo que lo convierte en un lenguaje versátil. Es orientado a objetos, permite la creación de clases y objetos y es ampliamente utilizado para aplicaciones que requieren un alto rendimiento.
 
-Es utilizado en motores de videojuegos, software de sistemas, aplicaciones en tiempo real, simulaciones científicas y cálculo numérico \cite{msmk2025_c}. Para esta investigación, se utilizarán las siguientes bibliotecas de C++:
+Es utilizado en motores de videojuegos, \textit{software} de sistemas, aplicaciones en tiempo real, simulaciones científicas y cálculo numérico \cite{msmk2025_c}. Para esta investigación, se utilizarán las siguientes bibliotecas de C++:
 
 \begin{itemize}
-	\item \textbf{pybind11}: facilita la integración de código C++ con Python, permitiendo exponer funciones y clases para análisis y visualización \cite{pybind_pybind}.
-	
 	\item \textbf{iostream}: Declara objetos que controlan la lectura y escritura de datos de un programa en C++ \cite{microsoft2025_iostream}.
 	
 	\item \textbf{algorithm}: Contiene funciones que realizan algoritmos comunes \cite{microsoft2025_algorithm}.
@@ -154,7 +152,7 @@ Es utilizado en motores de videojuegos, software de sistemas, aplicaciones en ti
 
 CUDA es una plataforma de computación paralela y un modelo de programación desarrollado por NVIDIA que permite utilizar la GPU para cálculos de propósito general. Se emplea para acelerar operaciones matemáticas y simulaciones que requieren grandes cantidades de procesamiento paralelo \cite{cuda}, como el entrenamiento de redes neuronales o la simulación de autómatas celulares.
 
-Se requiere de la librería \textbf{cuda\_runtime}, la cual le permite a un programa escrito en C/C++ usar los núcleos CUDA de una tarjeta gráfica de NVIDIA \cite{cuda_runtime}. Esto permite gestionar la memoria, controlar los núcleos, manejar errores y dispositivos.
+Se requiere de la biblioteca \textbf{cuda\_runtime}, la cual le permite a un programa escrito en C/C++ usar los núcleos CUDA de una tarjeta gráfica de NVIDIA \cite{cuda_runtime}. Esto permite gestionar la memoria, controlar los núcleos, manejar errores y dispositivos.
 
 \subsubsection{Python}
 
@@ -174,32 +172,32 @@ Además de ser gratuito, se puede integrar bien en todos los equipos y sistemas.
 	\item Se puede trasladar a través de diferentes sistemas operativos de computadora.
 \end{itemize}
 
-En adición a lo anterior, cuenta con una amplia colección de librerías y \textit{frameworks} diseñados para tareas que resultaron muy convenientes en el desarrollo de simuladores. Se detallan tanto librerías como \textit{frameworks} a utilizar a continuación.
+En adición a lo anterior, cuenta con una amplia colección de bibliotecas y \textit{frameworks} diseñados para tareas que resultaron muy convenientes en el desarrollo de simuladores. Se detallan tanto bibliotecas como \textit{frameworks} a utilizar a continuación.
 
 \begin{itemize}
-	\item\textbf{NumPy} es una librería de Python especializada en el cálculo numérico y el análisis de datos. Es ideal para el manejo de grandes volúmenes de datos \cite{alfaro_numpy}.
+	\item\textbf{NumPy} es una biblioteca de Python especializada en el cálculo numérico y el análisis de datos. Es ideal para el manejo de grandes volúmenes de datos \cite{alfaro_numpy}.
 	
 	Puede hacer operaciones hasta 50 veces más rápido que las listas normales usando un objeto llamado arreglo que permite representar colecciones de datos en varias dimensiones \cite{alfaro_numpy}.
 	
-	\item\textbf{PyTorch} es una biblioteca de tensores optimizada para el aprendizaje profundo utilizando GPU y CPU \cite{pytorch_1}. Se emplea para crear redes neuronales, combinando la biblioteca de ML de Torch con una API de alto nivel basada en Python. 
+	\item\textbf{PyTorch} es una biblioteca de tensores optimizada para el aprendizaje profundo utilizando GPU y CPU \cite{pytorch_1}. Se emplea para crear redes neuronales, combinando la biblioteca de aprendizaje automático (ML, \textit{machine learning}) de Torch con una API de alto nivel basada en Python. 
 	
 	Es uno de los marcos de ML destinados a comunidades académicas y de investigación por su flexibilidad y sencillez de uso, además de admitir una amplia variedad de estructuras de redes neuronales \cite{pytorch_2}.
 	
-	\item \textbf{PyQt5 / PySide6} son herramientas que permiten usar Python como un lenguaje alternativo de desarrollo de aplicaciones a C++ en todas las plataformas soportadas \cite{qt_1}. PyQt5 también puede integrarse en aplicaciones basadas en C++ para permitir a los usuarios de dicho software configurar o mejorar la funcionalidad de las mismas, mientras que PySide6 ofrece compatibilidad oficial con las bibliotecas Qt desarrolladas por The Qt Company \cite{qt_2}.
+	\item \textbf{PyQt5 / PySide6} son herramientas que permiten usar Python como un lenguaje alternativo de desarrollo de aplicaciones a C++ en todas las plataformas soportadas \cite{qt_1}. PyQt5 también puede integrarse en aplicaciones basadas en C++ para permitir a los usuarios de dicho \textit{software} configurar o mejorar la funcionalidad de las mismas, mientras que PySide6 ofrece compatibilidad oficial con las bibliotecas Qt desarrolladas por The Qt Company \cite{qt_2}.
 	
 	\item \textbf{pybind11} es una biblioteca de C++ diseñada para exponer tipos y funciones de C++ en Python y viceversa, facilitando la creación de extensiones de Python basadas en código C++ \cite{pybind_pybind}. Puede generar enlaces entre ambos lenguajes de manera compacta, eficiente y con un código más simple, posibilitando así integrar cálculos de alto rendimiento escritos en C++ dentro de entornos Python.
 	
-	\item\textbf{Matplotlib} De acuerdo con \cite{alferez_matplotlib}, Matplotlib es una librería de Python especializada en la creación de gráficos en dos dimensiones.
+	\item\textbf{Matplotlib} es una biblioteca de Python especializada en la creación de gráficos en dos dimensiones \cite{alferez_matplotlib}.
 	
 	Además, mencionan que permite crear y personalizar los gráficos más comunes, entre los que se encuentran:
 	\begin{itemize}
 		\item Diagramas de barras.
-		\item Histograma.
+		\item Histogramas.
 		\item Diagramas de sectores.
 		\item Diagramas de caja y bigotes.
 	\end{itemize}
 	
-	\item \textbf{Scikit-learn} es una librería que cuenta con algoritmos de clasificación, regresión, \textit{clustering} y reducción de dimensionalidad, etc. Es compatible con otras librerías de Python \cite{mds_scikitlearn}.
+	\item \textbf{Scikit-learn} es una biblioteca que cuenta con algoritmos de clasificación, regresión, \textit{clustering} y reducción de dimensionalidad, etc. Es compatible con otras bibliotecas de Python \cite{mds_scikitlearn}.
 \end{itemize}
 
 \subsubsection{Wolfram Mathematica}
@@ -229,7 +227,7 @@ Con el fin de cubrir las distintas etapas del proyecto, desde la implementación
 	
 	Aunque su nombre puede sugerir una relación directa con Visual Studio, en realidad Visual Studio Code es una aplicación independiente, construida desde cero con tecnologías diferentes. Mientras Visual Studio se orienta principalmente a tecnologías propias de Microsoft, VSCode destaca por su flexibilidad y capacidad de adaptarse a prácticamente cualquier lenguaje de programación \cite{garcia2024vscode}.
 	
-	\item\textbf{GitHub} es una plataforma basada en la nube donde puedes almacenar, compartir, trabajar y versionar junto con otros usuarios para escribir código \cite{github2025about}. En adición a lo anterior, también permite realizar lo siguiente:
+	\item\textbf{GitHub} es una plataforma basada en la nube donde se puede almacenar, compartir, versionar y escribir código junto con otros usuarios \cite{github2025about}. En adición a lo anterior, también permite realizar lo siguiente:
 	
 	\begin{itemize}
 		\item Presentar o compartir el trabajo.
@@ -238,13 +236,13 @@ Con el fin de cubrir las distintas etapas del proyecto, desde la implementación
 		\item Colaborar en un proyecto compartido, sin preocuparse de que los cambios afecten al trabajo de los colaboradores antes de que esté listo para integrarlos.
 	\end{itemize}
 	
-	El versionamiento, una de las características fundamentales de GitHub, es posible gracias al software de código abierto Git, en el que se basa GitHub \cite{github2025about}.
+	El versionamiento, una de las características fundamentales de GitHub, es posible gracias al \textit{software} de código abierto Git, en el que se basa GitHub \cite{github2025about}.
 	
-	\item\textbf{Canva} fue lanzada en 2013, Canva es una herramienta de diseño y publicación \textit{online} que tiene como misión poner el poder del diseño al alcance de todo el mundo, para que cualquier persona pueda crear lo que quiera y publicarlo donde quiera \cite{canva2025about}.
+	\item\textbf{Canva} es una herramienta de diseño y publicación \textit{online}, lanzada en 2013, que tiene como misión poner el poder del diseño al alcance de todo el mundo, para que cualquier persona pueda crear lo que quiera y publicarlo donde quiera \cite{canva2025about}.
 	
 	\item\textbf{TeXstudio} es un entorno de escritura integrado para la creación de documentos LaTeX. Cuenta con numerosas características como resaltado de sintaxis, visor integrado, comprobación de referencias y varios asistentes. TeXstudio es de código abierto y está disponible para todos los principales sistemas operativos \cite{texstudio}.
 	
-	\item \textbf{draw.io} es una herramienta de software gratuita diseñada para la creación de diagramas. Se utiliza para modelado UML, documentación de proyectos y gestión de flujos \cite{drawio2024}.
+	\item \textbf{draw.io} es una herramienta de \textit{software} gratuita diseñada para la creación de diagramas. Se utiliza para modelado UML, documentación de proyectos y gestión de flujos \cite{drawio2024}.
 	
 \end{itemize}
 

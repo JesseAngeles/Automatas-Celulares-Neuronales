@@ -22,9 +22,9 @@ De acuerdo con la figura \ref{fig:life_state_distribution}, la regla B3/S23 prod
 	\caption{Resultados estadísticos del conjunto de pruebas para la regla B3/S23.}
 \end{figure}
 
-Por otro lado, dado que la salida de cada paso evolutivo es la entrada del siguiente, también se analiza el desbalanceo de entradas, es decir, la frecuencia con la que aparecen diferentes patrones. Para esto, utilizaremos la nomenclatura $CxNy$ que cuenta el número de unos que aparecen en el centro ($C$) y en el exterior ($N$).
+Por otro lado, dado que la salida de cada paso evolutivo es la entrada del siguiente, también se analiza el desbalance de entradas, es decir, la frecuencia con la que aparecen diferentes patrones. Para esto, utilizaremos la nomenclatura $CxNy$ que cuenta el número de unos que aparecen en el centro ($C$) y en el exterior ($N$).
 
-En la figura \ref{fig:life_pattern_count} se muestran las frecuencias de aparición de todos los patrones en el mismo conjunto de datos. La regla B3/S23 no genera mucha vida dentro de las comunidades, lo que causa un desbalanceo de entradas. Los patrones con menor frecuencia de aparición son $C1N8$ y $C0N8$ sumando menos del $0.02\%$, lo que causa un problema de representación o sesgo de muestra.
+En la figura \ref{fig:life_pattern_count} se muestran las frecuencias de aparición de todos los patrones en el mismo conjunto de datos. La regla B3/S23 no genera mucha vida dentro de las comunidades, lo que causa un desbalance de entradas. Los patrones con menor frecuencia de aparición son $C1N8$ y $C0N8$ sumando menos del $0.02\%$, lo que causa un problema de representación o sesgo de muestra.
 
 \begin{figure}[H]
 	\centering
@@ -43,7 +43,7 @@ Se usa la siguiente nomenclatura:
 \]
 para especificar la composición de la red neuronal. 
 
-Fueron probadas 10 combinaciones de funciones de activación, de las cuales una sola converge en menos de 1000 épocas. 
+Fueron probadas 10 combinaciones de funciones de activación, de las cuales una sola converge en menos de 1,000 épocas. 
 En la tabla \ref{tab:nca_gol_funciones_1} se observan los resultados. La falta de convergencia puede deberse al tamaño de la red neuronal o la pérdida objetivo utilizada. 
 
 \begin{table}[h]
@@ -53,19 +53,19 @@ En la tabla \ref{tab:nca_gol_funciones_1} se observan los resultados. La falta d
 		\textbf{Capa Oculta} & \textbf{Capa Salida} & \textbf{Épocas} & \textbf{Pérdida} & \textbf{Tiempo} \\
 		\midrule
 		1:4:ReLU & 2:Linear & 122 & 0.000098 & 4.64 s \\
-		1:4:TanH & 1:Sigmoid & 1000 & 0.052895 & 40.19 s\\
-		1:4:TanH & 2:Linear & 1000 & 0.079425 & 36.52 s \\
-		1:4:Sigmoid & 2:Linear & 1000 & 0.159343 & 36.71 s \\
-		1:4:Sigmoid & 1:Sigmoid & 1000 & 0.159343 & 39.37 s \\
-		1:4:ReLU & 2:TanH & 1000 &  0.179589 & 38.65 s \\
-		1:4:ReLU & 1:Sigmoid & 1000 & 0.269196 & 38.16 s\\
-		1:4:Linear & 1:Sigmoid & 1000 & 0.297529 & 39.12 s \\
-		1:4:Linear & 2:Linear & 1000 & 0.297529 & 34.75 s  \\
-		1:4:ReLU & 2:Sigmoid & 1000 & 0.374756 & 37.55 s \\
+		1:4:TanH & 1:Sigmoid & 1,000 & 0.052895 & 40.19 s\\
+		1:4:TanH & 2:Linear & 1,000 & 0.079425 & 36.52 s \\
+		1:4:Sigmoid & 2:Linear & 1,000 & 0.159343 & 36.71 s \\
+		1:4:Sigmoid & 1:Sigmoid & 1,000 & 0.159343 & 39.37 s \\
+		1:4:ReLU & 2:TanH & 1,000 &  0.179589 & 38.65 s \\
+		1:4:ReLU & 1:Sigmoid & 1,000 & 0.269196 & 38.16 s\\
+		1:4:Linear & 1:Sigmoid & 1,000 & 0.297529 & 39.12 s \\
+		1:4:Linear & 2:Linear & 1,000 & 0.297529 & 34.75 s  \\
+		1:4:ReLU & 2:Sigmoid & 1,000 & 0.374756 & 37.55 s \\
 		\bottomrule
 	\end{tabular}
-	\caption{Comparativa de rendimiento con múltiples hiperparámetros de la regla B3/S23: pérdida objetivo 0.0001, límite de épocas: 1000,
-		tamaño del lote: 8192, tasa de aprendizaje: 0.001, semilla aleatoria: 42.}
+	\caption{Comparativa de rendimiento con múltiples hiperparámetros de la regla B3/S23: pérdida objetivo 0.0001, límite de épocas: 1,000,
+		tamaño del lote: 8,192, tasa de aprendizaje: 0.001, semilla aleatoria: 42.}
 	\label{tab:nca_gol_funciones_1}
 \end{table}
 
@@ -81,23 +81,23 @@ Al incrementar el número de capas ocultas y de neuronas, se observa en la tabla
 		4:8:TanH & 1:Sigmoid & 51 & 0.000097 \\
 		4:8:TanH & 2:Linear & 35 & 0.000097 \\
 		4:8:Sigmoid & 2:Linear & 79 & 0.000095 \\
-		4:8:Sigmoid & 1:Sigmoid & 1000 & 0.159342 \\
-		4:8:ReLU & 2:TanH & 1000 & 0.126928 \\
+		4:8:Sigmoid & 1:Sigmoid & 1,000 & 0.159342 \\
+		4:8:ReLU & 2:TanH & 1,000 & 0.126928 \\
 		4:8:ReLU & 1:Sigmoid & 133 & 0.000096 \\
-		4:8:Linear & 1:Sigmoid & 1000 & 0.297542 \\
-		4:8:Linear & 2:Linear & 1000 & 0.297544 \\
-		4:8:ReLU & 2:Sigmoid & 1000 & 0.374756 \\
+		4:8:Linear & 1:Sigmoid & 1,000 & 0.297542 \\
+		4:8:Linear & 2:Linear & 1,000 & 0.297544 \\
+		4:8:ReLU & 2:Sigmoid & 1,000 & 0.374756 \\
 		\bottomrule
 	\end{tabular}
-	\caption{Comparativa de rendimiento con múltiples hiperparámetros de la regla B3/S23: pérdida objetivo 0.0001, límite de épocas: 1000,
-		tamaño del lote: 8192, tasa de aprendizaje: 0.001, semilla aleatoria: 42.}
+	\caption{Comparativa de rendimiento con múltiples hiperparámetros de la regla B3/S23: pérdida objetivo 0.0001, límite de épocas: 1,000,
+		tamaño del lote: 8,192, tasa de aprendizaje: 0.001, semilla aleatoria: 42.}
 	\label{tab:nca_gol_funciones_2}
 \end{table}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.75\linewidth]{img/gol_funciones_2.png}
-	\caption{Registro de pérdida obtenida en los primeros 12 pasos de las configuraciones sin convergencia de la tabla \ref{tab:nca_gol_funciones_2}.}
+	\caption{Registro de pérdida obtenida en las primeras 12 épocas de las configuraciones sin convergencia de la tabla \ref{tab:nca_gol_funciones_2}.}
 	\label{fig:gol_funciones_2}
 \end{figure}
 
@@ -115,7 +115,7 @@ Cabe mencionar que aunque las reglas del juego de la vida son semitotalísticas,
 \]
  pero a falta de exposición de todas las posibles configuraciones, la red neuronal puede distinguir patrones, convirtiendo a la regla en una arbitraria.
  
-Las reglas arbitrarias y las semitotalísticas son subconjuntos mutuos. Para verificar que la regla aprendida coincida con todas las posibles configuraciones de los patrones, se diseñó la configuración inicial de la figura \ref{fig:test}, la cual se evoluciona un paso y se comparan los centros de cada subespacio de $3 \times 3$. 
+Las reglas semitotalísticas son un subconjunto de las reglas arbitrarias. Para verificar que la regla aprendida coincida con todas las posibles configuraciones de los patrones, se diseñó la configuración inicial de la figura \ref{fig:test}, la cual se evoluciona un paso y se comparan los centros de cada subespacio de $3 \times 3$. 
 
 \begin{figure}[H]
 	\centering
@@ -124,12 +124,12 @@ Las reglas arbitrarias y las semitotalísticas son subconjuntos mutuos. Para ver
 	\label{fig:test}
 \end{figure}
 
-Los autómatas celulares neuronales que utilizaron la pérdida objetivo de 0.2 y 0.3 aprendieron la regla 0 (ver figura \ref{fig:b3s23_loss}). Podemos concluir que esta configuración es estable porque, aunque existan patrones de baja frecuencia como $C0N8$ y $C1N8$, sigue siendo capaz de replicar el comportamiento con una pérdida objetivo de $0.1$. Una hipótesis es que la red neuronal se inicializa para generar ceros, al no recibir nunca esas entradas, siempre se mantienen en ese valor. 
+Los autómatas celulares neuronales que utilizaron la pérdida objetivo de 0.2 y 0.3 aprendieron la regla 0 (ver figura \ref{fig:b3s23_loss}). Podemos concluir que esta configuración es estable porque, aunque existan patrones de baja frecuencia como $C0N8$ y $C1N8$, sigue siendo capaz de replicar el comportamiento con una pérdida objetivo de $0.1$. Una hipótesis es que la red neuronal se inicializa generando ceros y, como casi nunca recibe esas entradas, sus salidas para ellas se mantienen en ese valor. 
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.6\linewidth]{img/b3s23_loss.png}
-	\caption{Distancia Manhattan de los vectores de regla de múltiples pérdidas objetivo comparadas con B3/S23.}
+	\caption{Distancia Manhattan de los vectores de regla de múltiples pérdidas objetivo comparados con B3/S23.}
 	\label{fig:b3s23_loss}
 \end{figure}
 
@@ -150,7 +150,7 @@ La regla B3/S238 (figura \ref{fig:b3s238_loss}) aprende una regla que difiere ú
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=.6\linewidth]{img/b3s238_loss.png}
-	\caption{Distancia Manhattan de los vectores de regla de múltiples pérdidas objetivo comparadas con B3/S238.}
+	\caption{Distancia Manhattan de los vectores de regla de múltiples pérdidas objetivo comparados con B3/S238.}
 	\label{fig:b3s238_loss} 
 \end{figure}
 
@@ -168,7 +168,7 @@ La regla B38/S238 (figura \ref{fig:b38s238_loss}) aprende 2 comportamientos dife
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=.6\linewidth]{img/b38s238_loss.png}
-	\caption{Distancia Manhattan de los vectores de regla de múltiples pérdidas objetivo comparadas con B38/S238.}
+	\caption{Distancia Manhattan de los vectores de regla de múltiples pérdidas objetivo comparados con B38/S238.}
 	\label{fig:b38s238_loss} 
 \end{figure}
 
@@ -184,7 +184,7 @@ En la regla B3/S236 (figura \ref{fig:b3s236_loss}) con 0.2 difieren 32 elementos
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=.75\linewidth]{img/b3s236_loss.png}
-	\caption{Distancia Manhattan de los vectores de regla de múltiples pérdidas objetivo comparadas con B3/S236.}
+	\caption{Distancia Manhattan de los vectores de regla de múltiples pérdidas objetivo comparados con B3/S236.}
 	\label{fig:b3s236_loss} 
 \end{figure}
 
@@ -206,7 +206,7 @@ En la regla B3/S236 (figura \ref{fig:b3s236_loss}) con 0.2 difieren 32 elementos
 	\caption{Patrones que difieren entre B3/S236 y el autómata celular neuronal con una pérdida objetivo de 0.2.}
 \end{figure}
 
-El resto de reglas aprendidas erróneamente diferencian los patrones de las figuras \ref{fig:b3s236_03_10} y \ref{fig:b3s236_03_01}. Ambos patrones se encuentran completos ($C1N7$ y $C1N8$), por lo que sobrevive con 7 y 8 vecinos, es decir, aprendió la regla B3/S23678.
+El resto de reglas aprendidas erróneamente (con pérdidas objetivo de 0.02 a 0.1) diferencian los patrones de las figuras \ref{fig:b3s236_03_10} y \ref{fig:b3s236_03_01}. Ambos patrones se encuentran completos ($C1N7$ y $C1N8$), por lo que sobrevive con 7 y 8 vecinos, es decir, aprendió la regla B3/S23678.
 
 \begin{figure}[htbp]
 	\centering
@@ -223,7 +223,7 @@ El resto de reglas aprendidas erróneamente diferencian los patrones de las figu
 		\caption{Se intercambió 0 por 1 en $C1N8$.}
 		\label{fig:b3s236_03_01}
 	\end{subfigure}
-	\caption{Patrones que difieren entre B3/S236 y el autómata celular neuronal con una pérdida objetivo de 0.1.}
+	\caption{Patrones que difieren entre B3/S236 y el autómata celular neuronal con pérdidas objetivo de 0.02 a 0.1.}
 \end{figure}
 
 \subsubsection{Efecto del tamaño de la vecindad}
@@ -242,17 +242,17 @@ La vecindad semitotalística se divide en dos subvecindades, el centro y los bor
 		& & \textbf{ReLU} & \textbf{TanH} & \textbf{TanH} & \textbf{ReLU} &  \\
 		\textbf{Tasa} & \textbf{Lote} & \textbf{2:Linear }&  \textbf{1:Sigmoid }& \textbf{2:Linear  }& \textbf{1:Sigmoid} & \textbf{Segundos}  \\
 		\midrule
-		0.0003 & 1024 & 0.121595 & 0.121808 & 0.121824 & 0.121536 & 216 \\
-		0.0003 & 4096 & 0.121675 & 0.122049 & 0.122123 & 0.121576 & 58 \\
-		0.0003 & 8192 & 0.121774 & 0.122444 & 0.122367 & 0.121747 & 40 \\
+		0.0003 & 1,024 & 0.121595 & 0.121808 & 0.121824 & 0.121536 & 216 \\
+		0.0003 & 4,096 & 0.121675 & 0.122049 & 0.122123 & 0.121576 & 58 \\
+		0.0003 & 8,192 & 0.121774 & 0.122444 & 0.122367 & 0.121747 & 40 \\
 		\midrule
-		0.001 & 1024 & 0.121590 & 0.121645 & 0.121871 & 0.121605 & 213 \\
-		0.001 & 4096 & 0.121546 & 0.121790 & 0.121768 & 0.121580 & 58 \\
-		0.001 & 8192 & 0.121794 & 0.121946 & 0.122043 & 0.121604 & 42 \\
+		0.001 & 1,024 & 0.121590 & 0.121645 & 0.121871 & 0.121605 & 213 \\
+		0.001 & 4,096 & 0.121546 & 0.121790 & 0.121768 & 0.121580 & 58 \\
+		0.001 & 8,192 & 0.121794 & 0.121946 & 0.122043 & 0.121604 & 42 \\
 		\midrule
-		0.003 & 1024 & 0.121685 & 0.414336 & 0.414441 & 0.486924 & 210 \\
-		0.003 & 4096 & 0.121647 & 0.230796 & 0.318269 & 0.121626 & 58 \\
-		0.003 & 8192 & 0.192933 & 0.122014 & 0.122387 & 0.121660 & 35 \\
+		0.003 & 1,024 & 0.121685 & 0.414336 & 0.414441 & 0.486924 & 210 \\
+		0.003 & 4,096 & 0.121647 & 0.230796 & 0.318269 & 0.121626 & 58 \\
+		0.003 & 8,192 & 0.192933 & 0.122014 & 0.122387 & 0.121660 & 35 \\
 		\bottomrule
 	\end{tabular}
 	\caption{Pérdida final de cada configuración. Vecindad de $3 \times 3$ sin el vecino noroeste, 100 épocas, semilla 42, red de tamaño 16:16. Pérdida mínima alcanzable: 0.121294.}
@@ -298,7 +298,7 @@ Si ignoramos la célula central (tabla \ref{tab:vecindad_centro}) observamos que
 			16:16:ReLU & 1:Sigmoid & 0.078671 \\
 			\bottomrule
 		\end{tabular}
-		\caption{Regla B3/S23 sin la célula central. Pérdida objetivo 0.001, límite de épocas: 500, tamaño del lote: 4096, tasa de aprendizaje: 0.001, semilla aleatoria: 42. Pérdida mínima alcanzable: 0.078650.}
+		\caption{Regla B3/S23 sin la célula central. Pérdida objetivo 0.001, límite de épocas: 500, tamaño del lote: 4,096, tasa de aprendizaje: 0.001, semilla aleatoria: 42. Pérdida mínima alcanzable: 0.078650.}
 		\label{tab:vecindad_centro}
 	\end{table}
 
@@ -343,7 +343,7 @@ Por otro lado, el incremento de la vecindad no afecta la replicación del compor
 		& 16:16:ReLU & 1:Sigmoid & 0.000156 \\
 		\bottomrule
 	\end{tabular}
-	\caption{Las tres configuraciones con menor pérdida de la regla B3/S23 al aumentar la vecindad. Pérdida objetivo 0.001, límite de épocas: 500, tamaño del lote: 4096, tasa de aprendizaje: 0.001, semilla aleatoria: 42. La vecindad de $8\times8$ abarca los desplazamientos $-4$ a $3$ en cada eje.}
+	\caption{Las tres configuraciones con menor pérdida de la regla B3/S23 al aumentar la vecindad. Pérdida objetivo 0.001, límite de épocas: 500, tamaño del lote: 4,096, tasa de aprendizaje: 0.001, semilla aleatoria: 42. La vecindad de $8\times8$ abarca los desplazamientos $-4$ a $3$ en cada eje.}
 	\label{tab:vecindad_ampliada}
 \end{table}
 
@@ -379,7 +379,7 @@ En la tabla \ref{tab:vecindad_reducida_ampliada} se experimenta con vecindades d
 		& 16:16:ReLU & 1:Sigmoid & 0.067197 \\
 		\bottomrule
 	\end{tabular}
-	\caption{Regla B3/S23 con vecindades de $7\times7$ y $9\times9$ sin un vecino. Pérdida objetivo 0.001, límite de épocas: 500, tamaño del lote: 4096, tasa de aprendizaje: 0.001, semilla aleatoria: 42.}
+	\caption{Regla B3/S23 con vecindades de $7\times7$ y $9\times9$ sin un vecino. Pérdida objetivo 0.001, límite de épocas: 500, tamaño del lote: 4,096, tasa de aprendizaje: 0.001, semilla aleatoria: 42.}
 	\label{tab:vecindad_reducida_ampliada}
 \end{table}
 

@@ -28,7 +28,7 @@ Los autómatas celulares neuronales son entonces un tipo de autómatas celulares
 	
 \end{definition}
 
-La figura \ref{fig:nca} muestra la relación existente entre estas dos tecnologías. En el paso $N$ se tiene una configuración bidimensional con vecindad de von Neumann. El estado de cada elemento dentro de la vecindad funciona como valor de entrada para la red neuronal entrenada y devuelve un único resultado. Este resultado corresponde a la salida de la célula central, es decir, a la cual se le está aplicando.
+La figura \ref{fig:nca} muestra la relación existente entre estas dos tecnologías. En el paso $t$ se tiene una configuración bidimensional con vecindad de von Neumann. El estado de cada elemento dentro de la vecindad funciona como valor de entrada para la red neuronal entrenada y devuelve un único resultado. Este resultado corresponde a la salida de la célula central, es decir, a la cual se le está aplicando.
 
 \begin{figure}[!htbp]
 	
@@ -36,7 +36,7 @@ La figura \ref{fig:nca} muestra la relación existente entre estas dos tecnolog�
 	
 	\includegraphics[width=0.8\textwidth]{img/NCA.png}
 	
-	\caption{Representación gráfica de la red neuronal.}
+	\caption{Representación gráfica del autómata celular neuronal.}
 	
 	\label{fig:nca}
 	
@@ -70,7 +70,7 @@ Esta mezcla de comportamiento que aparece por sí mismo y la habilidad de aprend
 
 Los autómatas celulares neuronales surgen de la necesidad de definir funciones de transición más precisas que permitan mejorar la simulación de sistemas complejos, como por ejemplo la propagación del fuego. 
 
-Consideremos un autómata celular bidimensional con tres posibles estados: $\{ materia \; viva, fuego, materia\; quemada \}$, una vecindad de Moore y una función de transición definida por las siguientes reglas: si una célula en estado de materia viva se encuentra adyacente a una célula en estado de fuego, entonces se quema; y si una célula en estado de fuego está rodeada principalmente de materia quemada, entonces se apaga.
+Consideremos un autómata celular bidimensional con tres posibles estados: $\{ \text{materia viva}, \text{fuego}, \text{materia quemada} \}$, una vecindad de Moore y una función de transición definida por las siguientes reglas: si una célula en estado de materia viva se encuentra adyacente a una célula en estado de fuego, entonces se quema; y si una célula en estado de fuego está rodeada principalmente de materia quemada, entonces se apaga.
 
 Sin embargo, esta formulación que se basa en reglas claras es una simplificación excesiva que reduce la capacidad del modelo para imitar comportamientos que se ven en sistemas reales. Para superar esta limitación, los autómatas celulares neuronales incorporan mecanismos de aprendizaje automático que permiten definir la función de transición de manera adaptativa. 
 
@@ -84,7 +84,7 @@ Un primer avance en esta línea fue presentado por Gilpin \cite{gilpin2019_nca},
 
 En particular, Gilpin entrenó una red neuronal convolucional con un \textit{kernel} de $3 \times 3$ (mismo tamaño que la vecindad de Moore) para imitar el comportamiento del \textit{Glider}\footnote{Una de las configuraciones más importantes por su capacidad de moverse en el espacio} en el juego de la vida de John Conway. Este trabajo estableció una conexión entre los autómatas celulares y las redes neuronales convolucionales, mostrando que estas redes artificiales pueden actuar como mecanismos de transición local aprendidos.
 
-Posteriormente, esta línea de investigación fue extendida por Mordvintsev et al. \cite{mordvintsev2020_nca}, quienes exploraron representaciones continuas para morfogénesis artificial; y por Niklasson et al. \cite{niklasson2021_nca}, que aplicaron el enfoque a la generación de texturas dinámicas sobre superficies tridimensionales. Otros autores también han sugerido usar autómatas celulares neuronales en robótica, clasificación de patrones y simulación de sistemas fotónicos. Esto ha fortalecido su papel como herramienta para modelar sistemas que se autoorganizan.
+Posteriormente, esta línea de investigación fue extendida por Mordvintsev et al. \cite{mordvintsev2020_nca}, quienes exploraron representaciones continuas para morfogénesis artificial; y por Pajouheshgar et al. \cite{mordvintsev2024_mesh_nca}, que aplicaron el enfoque a la generación de texturas dinámicas sobre superficies tridimensionales. Otros autores también han sugerido usar autómatas celulares neuronales en robótica, clasificación de patrones y simulación de sistemas fotónicos. Esto ha fortalecido su papel como herramienta para modelar sistemas que se autoorganizan.
 
 \subsection{Morfogénesis}
 
@@ -103,11 +103,11 @@ El autómata celular neuronal diseñado tiene las siguientes características (l
 	
 	\item El vector de cada célula (cada valor en un rango de $[0,1]$) incluye los canales RGB y un canal $\alpha$ que funciona como umbral para definir si una célula está viva o muerta (establece el resto de valores del vector a $0$ si $\alpha \leq 0.1$). 
 	
-	Considerando las dimensiones $(\text{largo}, \text{ancho}, 16)$ y un \textit{kernel} de $3 \times 3$ y se calcula el gradiente en las dos direcciones ($x$ y $y$) usando un filtro Sobel. Esto genera un nuevo vector que se utilizará como entrada para la red neuronal.
+	Considerando las dimensiones $(\text{largo}, \text{ancho}, 16)$ y un \textit{kernel} de $3 \times 3$, se calcula el gradiente en las dos direcciones ($x$ y $y$) usando un filtro Sobel. Esto genera un nuevo vector que se utilizará como entrada para la red neuronal.
 	\[ 
 	16 (\text{estado propio}) + 16 (\text{gradiente en } x) + 16 (\text{gradiente en } y) = 48 
 	\]
-	\item Se usaron convoluciones de $1 \times 1$ con una función ReLU y alrededor de $8000$ parámetros entrenables y devuelve un $\delta$ que se suma al estado actual de célula antes del siguiente paso. 
+	\item Se usaron convoluciones de $1 \times 1$ con una función ReLU y alrededor de $8{,}000$ parámetros entrenables y devuelve un $\delta$ que se suma al estado actual de la célula antes del siguiente paso. 
 	
 	
 	
@@ -115,7 +115,7 @@ El autómata celular neuronal diseñado tiene las siguientes características (l
 	
 \end{itemize}
 
-Eyvind Niklasson et al. \cite{niklasson2021_nca} compararon el rendimiento del modelo en \cite{mordvintsev2020_nca} con actualización síncrona y asíncrona. Donde, tras haber llevado a cabo pruebas con diferentes tamaños de paso, concluyeron que la función de pérdida crece exponencialmente cuando la actualización es síncrona. Sin embargo, esto ocurre únicamente cuando el tamaño de paso es mayor que uno.
+Eyvind Niklasson et al. \cite{niklasson2021_nca} compararon el rendimiento del modelo en \cite{mordvintsev2020_nca} con actualización síncrona y asíncrona. Tras llevar a cabo pruebas con diferentes tamaños de paso, concluyeron que la función de pérdida crece exponencialmente cuando la actualización es síncrona. Sin embargo, esto ocurre únicamente cuando el tamaño de paso es mayor que uno.
 
 Una hipótesis de este comportamiento es que, al tener células que se actualizan en diferentes periodos de tiempo, cada célula puede conocer parte del contexto de su vecindad. Esto no se logra únicamente conociendo los valores actuales de cada vecino.
 
@@ -135,14 +135,14 @@ Se realizaron los siguientes experimentos en \cite{mordvintsev2020_nca}:
 	
 	
 	
-	\item Rotaron la figura objetivo. Dado que los filtros de Sobel funcionan como direcciones ortogonales, se puede aplicar una rotación mediante: 
+	\item Rotar la figura objetivo. Dado que los filtros de Sobel funcionan como direcciones ortogonales, se puede aplicar una rotación mediante: 
 	\[ \begin{bmatrix}
 		K_x & K_y
 	\end{bmatrix} = \begin{bmatrix}
-		cos \theta & -sin \theta \\
-		sin \theta & cos \theta
+		\cos \theta & -\sin \theta \\
+		\sin \theta & \cos \theta
 	\end{bmatrix} \cdot \begin{bmatrix}
-		Sobel_x & Sobel_y
+		\text{Sobel}_x & \text{Sobel}_y
 	\end{bmatrix} \]
 	para modificar el ángulo sin necesidad de reentrenar el modelo.
 	
@@ -162,7 +162,7 @@ K_{lap} = \begin{bmatrix}
 	1 & 2 & 1 	
 \end{bmatrix}
 \]
-el cual se concatena al vector de cada célula y alimenta a una red neuronal artificial de $9408$ parámetros. 
+el cual se concatena al vector de cada célula y alimenta a una red neuronal artificial de $9{,}408$ parámetros. 
 
 A continuación, se describen los resultados obtenidos con dos diferentes enfoques:
 \begin{enumerate}
@@ -170,7 +170,7 @@ A continuación, se describen los resultados obtenidos con dos diferentes enfoqu
 	
 	\item Estrategia de una única semilla: Se modifica la función de pérdida para que sea invariante ante rotaciones y reflejos. Para evitar comparar la figura resultante con todas las rotaciones posibles, se mapean ambas figuras a coordenadas polares y, para cada posible ángulo de rotación, se calcula la diferencia. Para disminuir la complejidad computacional, se aplica la transformada rápida de Fourier y se hace uso del teorema de la convolución:
 	\[
-	s * t = \mathcal{F}^{-1} (\mathcal{F}(S) \cdot \mathcal{F}(T)) 
+	S * T = \mathcal{F}^{-1} (\mathcal{F}(S) \cdot \mathcal{F}(T)) 
 	\]
 	Se obtienen todas las diferencias únicamente como una multiplicación de transformadas.
 	
@@ -182,7 +182,7 @@ A continuación, se describen los resultados obtenidos con dos diferentes enfoqu
 
 \subsubsection{Autoclasificación}
 
-En \cite{mordvintsev2020_mnist} Mordvintsev utiliza los autómatas celulares neuronales para la autoclasificación de MNIST\footnote{Conjunto de datos de imágenes $28 \times 28$ de números en el rango $[0,9]$} las cuales fueron binarizadas con un umbral de $0.1$. 
+En \cite{mordvintsev2020_mnist} Mordvintsev utiliza los autómatas celulares neuronales para la autoclasificación de MNIST\footnote{Conjunto de datos de imágenes $28 \times 28$ de números en el rango $[0,9]$}, cuyas imágenes fueron binarizadas con un umbral de $0.1$. 
 
 El objetivo es que, a partir de una configuración inicial de células vivas, el sistema pueda reconocer la forma solo usando reglas locales. En este caso, se trata de identificar los números de MNIST.
 
@@ -199,7 +199,7 @@ Estos son los cambios del autómata celular MNIST respecto al modelo original \c
 
 Con el nuevo modelo, Mordvintsev pudo realizar clasificaciones con una exactitud del $95.3\%$ con una función de pérdida $L_2$ y ruido añadido. Este experimento demostró que los autómatas celulares neuronales no solo pueden generar patrones y autorregenerarse, sino también realizar tareas de clasificación distribuidas sin una capa de decisión global.
 
-Aunque los modelos en \cite{mordvintsev2020_nca} y \cite{mordvintsev2020_mnist} son robustos frente a diferentes tipos de perturbaciones, su comportamiento se puede ver afectado por estados individuales de las células, parámetros del modelo y el campo perceptivo (la manera en cómo las células perciben su vecindad).
+Aunque los modelos en \cite{mordvintsev2020_nca} y \cite{mordvintsev2020_mnist} son robustos frente a diferentes tipos de perturbaciones, su comportamiento se puede ver afectado por estados individuales de las células, parámetros del modelo y el campo perceptivo (la manera en que las células perciben su vecindad).
 
 Es por esto que Randazzo et al. \cite{mordvintsev2021_a_nca} buscan enfrentar estrategias adversarias en el mismo espacio celular para estudiar la reprogramación de los autómatas celulares mediante dos experimentos:
 \begin{enumerate}
@@ -212,11 +212,11 @@ Para la inyección de adversarios se utilizan dos modelos: el modelo original de
 
 Sin embargo, al aplicar el mismo procedimiento para \cite{mordvintsev2020_nca}, los resultados no tuvieron el mismo rendimiento. Probaron modificar la morfología de la imagen de una lagartija sin cola y con otro color, pero ninguna estrategia fue capaz de invadir por completo el modelo original. 
 
-Una hipótesis es que para MNIST no necesita cambiar completamente su valor para producir algo diferente de lo que generaba antes, ya que el estado de la mutación es un estado que el modelo original ya tenía en cuenta. Por otro lado, al cambiar el color y la forma en \cite{mordvintsev2020_nca}, se están explorando configuraciones nunca antes vistas por el modelo original.
+Una hipótesis es que, para MNIST, el modelo no necesita cambiar completamente su valor para producir algo diferente de lo que generaba antes, ya que el estado de la mutación es un estado que el modelo original ya tenía en cuenta. Por otro lado, al cambiar el color y la forma en \cite{mordvintsev2020_nca}, se están explorando configuraciones nunca antes vistas por el modelo original.
 
 Para el segundo experimento (perturbación de estados), se sigue la línea de modificar el color y la forma de la imagen de una lagartija. Se aplica una perturbación global de estados cada paso de tiempo con el objetivo de identificar la perturbación específica que dé como resultado un patrón estable.
 
-En cada paso evolutivo, se multiplica el vector de cada célula por una matriz simétrica $A$ de $16 \times 16$ \cite{mordvintsev2020_nca}. Para definir los valores de la matriz, se inicia con una matriz simétrica $I$ y, a diferencia del modelo original, la configuración inicial se establece como la figura objetivo del mismo.
+En cada paso evolutivo, se multiplica el vector de cada célula por una matriz simétrica $A$ de $16 \times 16$ \cite{mordvintsev2020_nca}. Para definir los valores de la matriz, se inicia con la matriz identidad $I$ y, a diferencia del modelo original, la configuración inicial se establece como la figura objetivo del mismo.
 
 Esta configuración permite crecer un sistema con perturbaciones, alterar su forma y color una vez crecido y modificar el impacto y el número de perturbaciones posibles. Al manejar matrices simétricas, se puede representar como 
 \[A = Q \Lambda Q^T\] 
@@ -236,7 +236,7 @@ donde:
 
 \begin{itemize}
 	
-	\item $A$ es la matriz original.
+	\item $A_k$ es la matriz perturbada con el factor de escala $k$.
 	
 	\item $k$ es el factor de escala.
 	
@@ -279,13 +279,13 @@ Durante el entrenamiento, se utilizan secuencias ligeramente distintas a las cad
 
 Este enfoque es una aportación importante a la morfogénesis computacional, ya que muestra que las reglas locales que se autoorganizan pueden aplicarse a estructuras 3D complejas utilizando redes neuronales adaptadas.
 
-En \cite{zhang2021_gca}, se muestra que la autoorganización local se puede escalar a tres dimensiones. Por otro lado, Shyam Sudhakaran et al. \cite{sudhakaran2021_nca_3d} amplían el trabajo de \cite{mordvintsev2020_nca} a tres dimensiones, usando el juego de Minecraft como espacio celular\footnote{En Minecraft, se pueden crear estructuras estáticas (como árboles) y dinámicas (como máquinas voladoras)}. El autómata celular neuronal entrenado puede crear estructuras de hasta 3584 bloques utilizando 50 bloques diferentes, manteniendo las propiedades de regeneración de su versión en 2D.
+En \cite{zhang2021_gca}, se muestra que la autoorganización local se puede escalar a tres dimensiones. Por otro lado, Shyam Sudhakaran et al. \cite{sudhakaran2021_nca_3d} amplían el trabajo de \cite{mordvintsev2020_nca} a tres dimensiones, usando el juego de Minecraft como espacio celular\footnote{En Minecraft, se pueden crear estructuras estáticas (como árboles) y dinámicas (como máquinas voladoras)}. El autómata celular neuronal entrenado puede crear estructuras de hasta 3,584 bloques utilizando 50 bloques diferentes, manteniendo las propiedades de regeneración de su versión en 2D.
 
-Una entidad en Minecraft se representa como una red 3D donde cada elemento es un vector que almacena (1) el tipo de bloque (incrustado en un vector \textit{one-hot}), (2) su estatus (replicando el comportamiento del canal $\alpha$ de \cite{mordvintsev2020_nca}) y (3) estados ocultos.
+Una entidad en Minecraft se representa como una red 3D donde cada elemento es un vector que almacena (1) el tipo de bloque (codificado con \textit{one-hot encoding}), (2) su estatus (replicando el comportamiento del canal $\alpha$ de \cite{mordvintsev2020_nca}) y (3) estados ocultos.
 
 Se utilizan convoluciones para permitir la generación y manipulación de estructuras 3D. Además, se sustituye el uso de filtros de Sobel por una red de percepción aprendible con un \textit{kernel} de $3 \times 3 \times 3$, \textit{stride}\footnote{Cuántas posiciones se desplaza el \textit{kernel} sobre la entrada en cada operación de convolución} de 1 y canales de salida equivalentes a tres veces el número de canales del estado celular. Esta red permite que el sistema aprenda activamente a percibir su entorno local, adaptando sus filtros durante el entrenamiento y capturando patrones espaciales relevantes de manera dinámica.
 
-Se utiliza una actualización estocástica y un umbral de activación similar a \cite{mordvintsev2020_nca}. Finalmente, todos los modelos se inicializan con una distribución normal estándar, con media cero y desviación estándar en el rango de $0.0001$ a $0.1$, lo que proporciona un punto de partida estable para el entrenamiento y la evolución del sistema. Este sistema hereda las propiedades regenerativas de su versión 2D.
+Se utiliza una actualización estocástica y un umbral de activación similar a \cite{mordvintsev2020_nca}. Finalmente, todos los modelos se inicializan con una distribución normal con media cero y desviación estándar en el rango de $0.0001$ a $0.1$, lo que proporciona un punto de partida estable para el entrenamiento y la evolución del sistema. Este sistema hereda las propiedades regenerativas de su versión 2D.
 
 Finalmente, Horibe et al. \cite{horibe2021_softrobot} llevan las propiedades regenerativas al mundo físico. Se implementa el enfoque regenerativo en robots blandos mediante autómatas celulares neuronales. Cada robot tiene un conjunto de volúmenes de reposo para cada vóxel\footnote{Unidad básica de un espacio tridimensional, similar a un píxel en imágenes 2D, pero con volumen}. Estos volúmenes se activan con una señal global que tiene forma de onda sinusoidal, lo que causa que se expandan y se contraigan. Esta dinámica permite simular locomoción a través de ciclos de actuación, evaluando el desplazamiento del centro de masa como métrica de \textit{fitness}. Los robots blandos se componen de distintos tipos de vóxeles: músculos en fase y contrafase, huesos rígidos y flexibles, cada uno con un rol en la locomoción.
 
@@ -303,7 +303,7 @@ Otra forma de implementar los autómatas celulares neuronales en 3D es mediante 
 
 Niklasson et al. \cite{mordvintsev2021_mnca} y Mordvintsev et al. \cite{mordvintsev2021_mnca2} \cite{mordvintsev2021_unca} introducen el concepto de texturas autoorganizadas, cuyo objetivo es reproducir la apariencia global de una textura de referencia sin generar copias exactas. Para esto, entrenan un autómata celular neuronal utilizando la misma estructura neuronal que se propuso en \cite{mordvintsev2020_nca}, para que pueda reconocer y crear patrones distintivos como tableros de ajedrez, líneas o mosaicos. Aunque este enfoque tiene un carácter demostrativo, constituye una evidencia significativa de que los autómatas celulares neuronales pueden aprender y generalizar comportamientos visuales locales en lugar de memorizar imágenes específicas.
 
-Niklasson et al. proponen los autómatas celulares neuronales en mallas \cite{mordvintsev2024_mesh_nca}, que es un método creado para crear texturas en movimiento en superficies en 3D. A diferencia de los experimentos en cuadrículas de dos dimensiones, los autómatas celulares neuronales en mallas aplican el mecanismo de autoorganización a mallas de cualquier forma, incluso si están en movimiento. El modelo es consistente en diferentes situaciones, es resistente a cambios externos y permite ajustar características como la densidad, la dirección y la rotación de los patrones que aparecen. Además, varios autómatas celulares neuronales en redes pueden combinarse, creando cambios suaves entre texturas sin interrupciones.
+Pajouheshgar et al. proponen los autómatas celulares neuronales en mallas \cite{mordvintsev2024_mesh_nca}, que es un método creado para crear texturas en movimiento en superficies en 3D. A diferencia de los experimentos en cuadrículas de dos dimensiones, los autómatas celulares neuronales en mallas aplican el mecanismo de autoorganización a mallas de cualquier forma, incluso si están en movimiento. El modelo es consistente en diferentes situaciones, es resistente a cambios externos y permite ajustar características como la densidad, la dirección y la rotación de los patrones que aparecen. Además, varios autómatas celulares neuronales en mallas pueden combinarse, creando cambios suaves entre texturas sin interrupciones.
 
 \begin{figure}[!htbp]
 	
@@ -311,7 +311,7 @@ Niklasson et al. proponen los autómatas celulares neuronales en mallas \cite{mo
 	
 	\includegraphics[width=0.75\linewidth]{img/mesh.png}
 	
-	\caption{El entrenamiento se realiza sobre un poliedro simétrico y el autómata celular neuronal puede ser extrapolado a cualquier objeto tridimensional \cite{mordvintsev2020_nca}.}
+	\caption{El entrenamiento se realiza sobre un poliedro simétrico y el autómata celular neuronal puede ser extrapolado a cualquier objeto tridimensional \cite{mordvintsev2024_mesh_nca}.}
 	
 	\label{fig:mesh}
 	
@@ -319,7 +319,7 @@ Niklasson et al. proponen los autómatas celulares neuronales en mallas \cite{mo
 
 Sin embargo, este enfoque presenta un reto de escalabilidad. El número de células involucradas suele encontrarse en el rango de $10^4 \sim 10^5$, lo que limita la resolución alcanzable a entre $64 \times 64$ y $256 \times 256$ píxeles. Como el tiempo de entrenamiento escala de forma cuadrática con respecto al número de células, el aumento de resolución conlleva un cuello de botella en la propagación de información a lo largo de la malla.
 
-Para solucionar esta limitación, Niklasson et al. sugieren en \cite{mordvintsev2024_mesh_nca2} un modelo híbrido que une autómatas celulares neuronales con representaciones neuronales implícitas. La idea central es desacoplar el tamaño de la cuadrícula de los autómatas celulares neuronales de la resolución final, delegando el renderizado detallado a un decodificador ligero denominado red local de producción de patrones. De este modo, el autómata celular neuronal mantiene una cuadrícula explícita y relativamente pequeña que evoluciona de manera local, mientras que la red local de producción de patrones se encarga de producir el color en cualquier punto del espacio continuo a partir de información interpolada de las células vecinas.
+Para solucionar esta limitación, Pajouheshgar et al. sugieren en \cite{mordvintsev2024_mesh_nca2} un modelo híbrido que une autómatas celulares neuronales con representaciones neuronales implícitas. La idea central es desacoplar el tamaño de la cuadrícula de los autómatas celulares neuronales de la resolución final, delegando el renderizado detallado a un decodificador ligero denominado red local de producción de patrones. De este modo, el autómata celular neuronal mantiene una cuadrícula explícita y relativamente pequeña que evoluciona de manera local, mientras que la red local de producción de patrones se encarga de producir el color en cualquier punto del espacio continuo a partir de información interpolada de las células vecinas.
 
 En términos formales, para cada punto de muestreo $p$, la red local de producción de patrones recibe dos entradas: una es un estado celular promedio $s(p)$, obtenido mediante interpolación de las células cercanas en un primitivo geométrico; la otra es un vector de coordenadas locales $u(p)$, que codifica la posición relativa de $p$ dentro de dicho primitivo. Dependiendo de cómo se divida el espacio, estas formas básicas pueden ser rectángulos, cubos, triángulos o polígonos en general. Estas formas están definidas por coordenadas $\lambda_i(p)$ que deben cumplir con ciertas propiedades, como ser una partición unitaria y no ser negativas. Para asegurar una continuidad en el espacio, se cambian las coordenadas usando funciones sinusoidales en cuadrículas cartesianas o en redes triangulares, creando así campos posicionales suaves.
 
@@ -335,7 +335,7 @@ El colector de autómatas celulares neuronales usa un modelo de convoluciones di
 
 Un elemento destacable de la arquitectura propuesta es un parámetro entrenable llamado \textit{Leak Factor} (LF) que mejora la estabilidad durante el entrenamiento. Este parámetro regula la cantidad de información que se filtra en cada paso del modelo; por ejemplo, un valor bajo retiene el conocimiento acumulado. Este valor se incrementa durante el entrenamiento a medida que mejora el rendimiento.
 
-La arquitectura también emplea convoluciones dinámicas. Los \textit{kernels} se generan a partir del \textit{embedding} de cada instancia, permitiendo adaptabilidad sin modificar la estructura del autómata celular neuronal. El colector de autómatas celulares neuronales inicia desde una imagen semilla y actualiza cada célula mediante percepciones locales (filtros Sobel $+$ normalización) y capas densas por píxel, moduladas por el LF. Se exploran actualizaciones estocásticas y sincrónicas, siendo esta última más precisa y estable, tal como en \cite{niklasson2021_nca}.
+La arquitectura también emplea convoluciones dinámicas. Los \textit{kernels} se generan a partir del \textit{embedding} de cada instancia, permitiendo adaptabilidad sin modificar la estructura del autómata celular neuronal. El colector de autómatas celulares neuronales inicia desde una imagen semilla y actualiza cada célula mediante percepciones locales (filtros Sobel $+$ normalización) y capas densas por píxel, moduladas por el LF. Se exploran actualizaciones estocásticas (asíncronas) y síncronas, siendo la estocástica más precisa y estable, tal como en \cite{niklasson2021_nca}.
 
 Los experimentos muestran que la codificación y la actualización simultáneamente mejoran la calidad de la reconstrucción, incluso sin mecanismos de enmascaramiento. También se observa que aumentar la dimensionalidad del \textit{embedding} mejora significativamente los resultados.
 
@@ -343,15 +343,15 @@ Por otro lado, Kevin Frans en \cite{frans2021_stampca} propone un modelo llamado
 
 Dado un diseño deseado, una red de codificador lo comprime en un \textit{embedding}, el cual se utiliza como condición inicial en el autómata celular neuronal, que luego itera para crecer en la figura objetivo; esto permite crear nuevas configuraciones.
 
-Utilizando un \textit{dataset} con aproximadamente 3000 \textit{emojis} de $32 \times 32$ píxeles, fue capaz de entrenar a un autómata celular neuronal condicional utilizando el mismo método de \cite{mordvintsev2020_nca} para poder dibujar todos los \textit{emojis} con un único autómata celular neuronal.
+Utilizando un \textit{dataset} con aproximadamente 3,000 \textit{emojis} de $32 \times 32$ píxeles, fue capaz de entrenar a un autómata celular neuronal condicional utilizando el mismo método de \cite{mordvintsev2020_nca} para poder dibujar todos los \textit{emojis} con un único autómata celular neuronal.
 
 Para generar números de MNIST, se adopta un enfoque tipo red adversarial generativa, donde el objetivo es crecer dígitos desde ruido aleatorio. Dado que entrenar directamente un autómata celular neuronal como generador de red adversarial generativa resultó inestable, se utilizó una estrategia en dos etapas: (1) se entrena primero un generador tradicional (\textit{feedforward}) para mapear vectores aleatorios a dígitos MNIST y (2) el autómata celular neuronal se entrena para imitar la salida de ese generador, logrando una generación más estable.
 
 Este enfoque permite que el autómata celular neuronal genere dígitos sin necesidad de un \textit{dataset} explícito, aprendiendo directamente a partir del objetivo de la red adversarial generativa. Además, se observa un patrón de crecimiento distintivo: mientras los \textit{emojis} crecen en ondas desde el centro, los dígitos MNIST se desarrollan siguiendo la forma del trazo.
 
-Mingxiang Chen et al. \cite{chen2020_vaenca} combinan los principios de codificador automático variacional con autómata celular neuronal. Utilizan un \textit{encoder} que transforma una imagen en una distribución de probabilidad, las cuales forman un \textit{embedding}, el cual funciona como condición inicial del autómata celular neuronal. Después, Rasmus Berg Palm et al. \cite{rasmus2022_vnca} llaman a este modelo ``autómatas celulares neuronales variacionales''. También afirman que ninguno de los otros modelos mencionados (\cite{mordvintsev2020_nca}, \cite{hernandez2021_ncam}, \cite{zhang2021_gca}, \cite{horibe2021_softrobot} y \cite{frans2021_stampca}) es realmente generativo.
+Mingxiang Chen et al. \cite{chen2020_vaenca} combinan los principios de codificador automático variacional con autómata celular neuronal. Utilizan un \textit{encoder} que transforma una imagen en una distribución de probabilidad, de la que se obtiene un \textit{embedding}, el cual funciona como condición inicial del autómata celular neuronal. Después, Rasmus Berg Palm et al. \cite{rasmus2022_vnca} llaman a este modelo ``autómatas celulares neuronales variacionales''. También afirman que ninguno de los otros modelos mencionados (\cite{mordvintsev2020_nca}, \cite{hernandez2021_ncam}, \cite{zhang2021_gca}, \cite{horibe2021_softrobot} y \cite{frans2021_stampca}) es realmente generativo.
 
-El autómata celular neuronal variacional aprende una distribución de probabilidad que codifica los datos observados. A partir de esta representación, el \textit{encoder} genera imágenes mediante un autómata celular neuronal que simula el crecimiento espacial desde una semilla. A diferencia del codificador automático variacional, que decodifica la imagen directamente, el autómata celular neuronal variacional utiliza el \textit{embedding} como configuración inicial de una cuadrícula de células que evolucionan siguiendo las reglas definidas por una red neuronal convolucional. 
+El autómata celular neuronal variacional aprende una distribución de probabilidad que codifica los datos observados. A partir de esta representación, el decodificador genera imágenes mediante un autómata celular neuronal que simula el crecimiento espacial desde una semilla. A diferencia del codificador automático variacional, que decodifica la imagen directamente, el autómata celular neuronal variacional utiliza el \textit{embedding} como configuración inicial de una cuadrícula de células que evolucionan siguiendo las reglas definidas por una red neuronal convolucional. 
 
 Por otra parte, este modelo incorpora mecanismos de duplicación celular inspirados en la mitosis. Cada $M$ pasos, las células se duplican hacia la derecha y hacia abajo, permitiendo a la imagen crecer de manera autoorganizada. 
 
@@ -365,15 +365,15 @@ Finalmente, se explora la resiliencia de los autómatas celulares neuronales var
 
 Hasta ahora, muchos de los estudios sobre autómatas celulares neuronales se han enfocado en la morfogénesis, que es el proceso de formación de formas, y en su habilidad para crear estructuras visuales que se organizan solas. Sin embargo, también han surgido enfoques que amplían el marco conceptual hacia nuevas formas de representación y aplicaciones en dominios específicos. A continuación, se presentan algunas de estas variantes.
 
-Mattie Tesfaldet et al. \cite{Tesfaldet2022_vitca} extienden los autómatas celulares neuronales mediante mecanismos de atención inspirados en arquitecturas de \textit{transformers}, dando lugar a autómatas celulares con \textit{transformers} de visión. Esta arquitectura híbrida permite que las interacciones locales tengan acceso contextual a regiones más amplias a través de \textit{self-attention}, lo que habilita organización global sin incurrir en la complejidad cuadrática típica de la atención completa. Los autómatas celulares con \textit{transformers} de visión adaptan el proceso de los \textit{transformers} de visión tradicionales, que dividen una imagen en parches y los convierten en secuencias de \textit{tokens}, al formato de una cuadrícula de células, donde cada célula almacena información visual, posicional y oculta. En lugar de aplicar atención global, restringe el cálculo a vecindarios locales, manteniendo así la naturaleza distribuida del sistema y reduciendo el costo computacional. El entrenamiento se realiza de forma iterativa, alternando entre inyectar entradas corruptas y actualizar parcialmente los estados celulares hasta reconstruir la imagen. De este modo, los autómatas celulares con \textit{transformers} de visión combinan eficiencia, capacidad de autoorganización y organización espacial coherente.
+Mattie Tesfaldet et al. \cite{Tesfaldet2022_vitca} extienden los autómatas celulares neuronales mediante mecanismos de atención inspirados en arquitecturas de \textit{transformers}, dando lugar a autómatas celulares con \textit{transformers} de visión. Esta arquitectura híbrida permite que las interacciones locales tengan acceso contextual a regiones más amplias a través de \textit{self-attention}, lo que habilita organización global sin incurrir en la complejidad cuadrática típica de la atención completa. Los autómatas celulares con \textit{transformers} de visión adaptan el proceso de los \textit{transformers} de visión tradicionales, que dividen una imagen en parches y los convierten en secuencias de \textit{tokens}, al formato de una cuadrícula de células, donde cada célula almacena información visual, posicional y oculta. En lugar de aplicar atención global, restringen el cálculo a vecindades locales, manteniendo así la naturaleza distribuida del sistema y reduciendo el costo computacional. El entrenamiento se realiza de forma iterativa, alternando entre inyectar entradas corruptas y actualizar parcialmente los estados celulares hasta reconstruir la imagen. De este modo, los autómatas celulares con \textit{transformers} de visión combinan eficiencia, capacidad de autoorganización y organización espacial coherente.
 
-En un ámbito distinto, Jian Tang et al. \cite{Jian2023_nca} emplean una red neuronal convolucional para simular el desarrollo de microestructuras en la solidificación de metales. Cada célula del dominio contiene un estado de fase $P\in[0,1]$ (donde $p=0$ representa líquido y $p=1$ sólido), tres ángulos de Euler $\theta=(\alpha_1,\alpha_2,\alpha_3)$ que definen su orientación cristalográfica y la magnitud de subenfriamiento $\Delta T=T_{melting}-T$. La evolución se modela con un autómata celular neuronal que aplica recurrentemente una red neuronal convolucional para predecir los incrementos en fase, orientación y estados ocultos. Estos canales ocultos facilitan el aprendizaje de patrones temporales complejos sin necesidad de reglas explícitas. Con ello, el modelo reproduce fenómenos como crecimiento competitivo o direcciones preferentes, con una eficiencia computacional sustancialmente mayor que la de muchos autómatas celulares tradicionales y con capacidad de generalización fuera del rango de entrenamiento.
+En un ámbito distinto, Jian Tang et al. \cite{Jian2023_nca} emplean una red neuronal convolucional para simular el desarrollo de microestructuras en la solidificación de metales. Cada célula del dominio contiene un estado de fase $p \in [0,1]$ (donde $p=0$ representa líquido y $p=1$ sólido), tres ángulos de Euler $\theta=(\alpha_1,\alpha_2,\alpha_3)$ que definen su orientación cristalográfica y la magnitud de subenfriamiento $\Delta T=T_{melting}-T$. La evolución se modela con un autómata celular neuronal que aplica recurrentemente una red neuronal convolucional para predecir los incrementos en fase, orientación y estados ocultos. Estos canales ocultos facilitan el aprendizaje de patrones temporales complejos sin necesidad de reglas explícitas. Con ello, el modelo reproduce fenómenos como crecimiento competitivo o direcciones preferentes, con una eficiencia computacional sustancialmente mayor que la de muchos autómatas celulares tradicionales y con capacidad de generalización fuera del rango de entrenamiento.
 
-Por otro lado, Gordon H. Y. Li et al. \cite{li2024_pnca} proponen el modelo de autómatas celulares neuronales fotónicos, que aprovecha la velocidad y la interconexión masiva de la fotónica para implementar autómata celular neuronal en hardware óptico. A diferencia de arquitecturas convencionales basadas en perceptrón multicapa o red neuronal convolucional, difíciles de trasladar a entornos fotónicos por sus conexiones densas, el autómata celular neuronal fotónico utiliza reglas locales aprendidas mediante técnicas de aprendizaje profundo. Esto permite realizar clasificación de imágenes en sistemas ópticos, donde la actualización celular se implementa mediante interferencia lineal de luz y activaciones ópticas no lineales. Los autores demuestran clasificación binaria con alta precisión utilizando un número muy reducido de parámetros fotónicos programables, mostrando además robustez frente a datos fuera de distribución. El autómata celular neuronal fotónico representa una vía prometedora para llevar el aprendizaje autoorganizado a plataformas fotónicas escalables.
+Por otro lado, Gordon H. Y. Li et al. \cite{li2024_pnca} proponen el modelo de autómatas celulares neuronales fotónicos, que aprovecha la velocidad y la interconexión masiva de la fotónica para implementar autómata celular neuronal en \textit{hardware} óptico. A diferencia de arquitecturas convencionales basadas en perceptrón multicapa o red neuronal convolucional, difíciles de trasladar a entornos fotónicos por sus conexiones densas, el autómata celular neuronal fotónico utiliza reglas locales aprendidas mediante técnicas de aprendizaje profundo. Esto permite realizar clasificación de imágenes en sistemas ópticos, donde la actualización celular se implementa mediante interferencia lineal de luz y activaciones ópticas no lineales. Los autores demuestran clasificación binaria con alta precisión utilizando un número muy reducido de parámetros fotónicos programables, mostrando además robustez frente a datos fuera de distribución. El autómata celular neuronal fotónico representa una vía prometedora para llevar el aprendizaje autoorganizado a plataformas fotónicas escalables.
 
 En el ámbito de la biología computacional, Caitlin Grasso y Josh Bongard \cite{grasso2022_enca} introducen los autómatas celulares neuronales potenciados. Esta es una extensión que incorpora el concepto de \textit{empowerment}, la cantidad de control que una célula puede ejercer sobre su entorno, formalizado mediante medidas de información mutua entre acciones pasadas y estados sensoriales futuros. Incluir \textit{empowerment} como un objetivo adicional en las tareas de morfogénesis mejora la capacidad de evolución y genera patrones de crecimiento más fuertes y adaptables. Esto permite que cada célula actúe como un agente independiente dentro de un sistema distribuido y facilita el estudio de la coordinación y comunicación celular desde una perspectiva computacional.
 
-Finalmente, mientras que modelos como autómatas celulares con \textit{transformers} de visión, autómata celular neuronal fotónico o autómatas celulares neuronales potenciados amplían las capacidades arquitectónicas y las plataformas de aplicación de los autómatas celulares neuronales, Richardson et al. \cite{richardson2024_nca} utilizan los autómatas celulares neuronales como herramienta para modelar fenómenos dinámicos complejos. Entrenando autómata celular neuronal mediante optimización basada en gradientes para reproducir trayectorias espacio-temporales generadas por ecuaciones diferenciales parciales (por ejemplo, Gray–Scott), este enfoque captura tanto estructuras transitorias como patrones estacionarios, incluyendo la formación de patrones tipo Turing, y aborda el problema inverso de inferir reglas locales a partir de comportamiento emergente. Con una complejidad de red mínima, los autores muestran capacidad de generalización, respeto por simetrías y robustez frente a perturbaciones, posicionando a los autómatas celulares neuronales como un marco explicativo y eficiente para sistemas biológicos y físicos.
+Finalmente, mientras que modelos como autómatas celulares con \textit{transformers} de visión, autómata celular neuronal fotónico o autómatas celulares neuronales potenciados amplían las capacidades arquitectónicas y las plataformas de aplicación de los autómatas celulares neuronales, Richardson et al. \cite{richardson2024_nca} utilizan los autómatas celulares neuronales como herramienta para modelar fenómenos dinámicos complejos. Entrenando autómata celular neuronal mediante optimización basada en gradientes para reproducir trayectorias espaciotemporales generadas por ecuaciones diferenciales parciales (por ejemplo, Gray–Scott), este enfoque captura tanto estructuras transitorias como patrones estacionarios, incluyendo la formación de patrones tipo Turing, y aborda el problema inverso de inferir reglas locales a partir de comportamiento emergente. Con una complejidad de red mínima, los autores muestran capacidad de generalización, respeto por simetrías y robustez frente a perturbaciones, posicionando a los autómatas celulares neuronales como un marco explicativo y eficiente para sistemas biológicos y físicos.
 
 Se observa que los autómatas celulares neuronales han evolucionado desde sus primeras aplicaciones en morfogénesis, donde se exploró su capacidad de generar estructuras complejas partiendo de una única célula activa, hacia modelos que buscan una mayor versatilidad generativa, capaces de producir dinámicas visuales, texturas, comportamientos adaptativos e incluso manipular estrategias, muchos de ellos inspirados en la definición de Mordvintsev. Además, se han desarrollado arquitecturas híbridas que no generan un autómata celular neuronal individual, sino que modelan un espacio de autómatas semejantes, así como configuraciones generativas y bioinspiradas.
 

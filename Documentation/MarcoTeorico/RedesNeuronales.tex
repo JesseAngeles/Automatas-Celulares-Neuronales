@@ -1,8 +1,8 @@
 \chapter{Marco teórico: Inteligencia artificial y redes neuronales}
 
-Las redes neuronales artificiales son una herramienta de inteligencia artificial inspirada en el pensamiento humano, más específicamente, en cómo un conjunto de neuronas interconectadas comparten información para realizar inferencias. 	
+Las redes neuronales artificiales son una herramienta de inteligencia artificial inspirada en el pensamiento humano, más específicamente, en cómo un conjunto de neuronas interconectadas comparte información para realizar inferencias. 	
 
-Las redes neuronales tienen su origen en 1943, donde McCulloch y Pitts propusieron un modelo que establecería las bases del perceptrón. Posteriormente, en 1957, Rosenblatt formalizó su implementación computacional, pero no fue hasta los años ochenta donde tuvo un impacto en su implementación gracias al surgimiento de la retropropagación y de las redes recurrentes \cite{matich2001_ann}.
+Las redes neuronales tienen su origen en 1943, cuando McCulloch y Pitts propusieron un modelo que establecería las bases del perceptrón. Posteriormente, en 1957, Rosenblatt formalizó su implementación computacional, pero no fue hasta los años ochenta cuando tuvo un impacto en su implementación gracias al surgimiento de la retropropagación y de las redes recurrentes \cite{matich2001_ann}.
 
 Las redes neuronales artificiales son un conjunto de neuronas o módulos computacionales interconectados que realizan cálculos y transmiten información para llevar a cabo una operación, imitando el comportamiento del cerebro.
 
@@ -28,7 +28,7 @@ Esta tecnología funciona trabajando a través del entrenamiento de algoritmos e
 
 El entrenamiento se refiere al proceso de enseñarle a un modelo de inteligencia artificial a realizar una o varias tareas mediante la exposición a grandes cantidades de datos \cite{main2023_training}. Este proceso facilita a los humanos el proceso de análisis de extensos volúmenes, especialmente en la era actual, donde se generan más datos que nunca en la historia \cite{oracle2024_big_data}.
 
-Dentro del aprendizaje automático se definen tres métodos en cómo una computadora puede aprender. Estos métodos son aprendizaje supervisado, no supervisado y por refuerzo.
+Dentro del aprendizaje automático se definen tres métodos mediante los cuales una computadora puede aprender. Estos métodos son aprendizaje supervisado, no supervisado y por refuerzo.
 
 \begin{itemize}
 	\item El aprendizaje supervisado se caracteriza por el uso de conjuntos de datos etiquetados para entrenar algoritmos que clasifiquen datos o predigan resultados con precisión. Durante el proceso de entrenamiento, el modelo recibe entradas junto con las salidas correctas, lo que le permite al modelo ajustar sus parámetros hasta que sea capaz de realizar predicciones precisas sobre nuevos datos \cite{ibm_ml}. 
@@ -44,7 +44,7 @@ IBM \cite{ibm_ml} menciona algunos de los algoritmos más comunes de aprendizaje
 \begin{enumerate}
 	\item \textbf{Regresión lineal:} Predice valores numéricos, con base en una relación lineal entre diferentes valores.
 	
-	\item \textbf{Agrupación en clústeres:} Identifican patrones en los datos y los agrupan en centroides.
+	\item \textbf{Agrupación en clústeres:} Identifica patrones en los datos y los agrupa en centroides.
 	
 	\item \textbf{Árboles de decisión:} Utilizan una secuencia ramificada de decisiones vinculadas que se representan con un diagrama de árbol.
 	
@@ -145,7 +145,7 @@ Una neurona únicamente puede realizar una operación. Para aumentar la capacida
 	
 \end{definition}
 
-Aunque la topología de la red puede ser arbitraria, en la práctica las redes se organizan en tres conjuntos de capas. Esto se muestra en la figura \ref{fig:ann_multicapa}, las cuales son (1) una de entrada que recibe los datos, (2) una o varias ocultas y (3) una de salida que devuelve el resultado. Adicionalmente, suelen diseñarse redes neuronales completamente conectadas, es decir, todas las neuronas tienen una relación con todas las de la siguiente capa, pero no es una restricción \cite{ibm2021_ann}. 
+Aunque la topología de la red puede ser arbitraria, en la práctica las redes se organizan en tres conjuntos de capas, que se muestran en la figura \ref{fig:ann_multicapa}: (1) una de entrada que recibe los datos, (2) una o varias ocultas y (3) una de salida que devuelve el resultado. Adicionalmente, suelen diseñarse redes neuronales completamente conectadas, es decir, todas las neuronas tienen una relación con todas las de la siguiente capa, pero no es una restricción \cite{ibm2021_ann}. 
 
 \begin{figure}[!htbp]
 	\centering
@@ -170,7 +170,7 @@ La capacidad de $F_\theta$ para modelar relaciones no lineales depende de las fu
 
 En esta sección se presentan las funciones de activación más comunes utilizadas en redes neuronales. Para cada función se muestra su definición matemática, una breve descripción de su comportamiento práctico y una figura ilustrativa.
 
-\subsubsection{Binary step (escalón binario)}
+\subsubsection{\textit{Binary step} (escalón binario)}
 
 La función escalón binario se define por partes:
 \[
@@ -211,7 +211,7 @@ Tiene la propiedad de:
 \[
 \sigma'(x) = \sigma(x)\,(1 - \sigma(x)).
 \]
-Comprime la entrada en el intervalo $(0,1)$, por lo que es apropiada para modelar probabilidades y se ha usado históricamente en la salida de clasificadores binarios. Sufre saturación cuando los valores son grandes, lo que provoca gradientes pequeños (esto se llama el problema del gradiente desvanecido) y una salida que no está centrada (es positiva). Por eso, en las capas ocultas modernas, a menudo se reemplaza por ReLU o tanh.
+Comprime la entrada en el intervalo $(0,1)$, por lo que es apropiada para modelar probabilidades y se ha usado históricamente en la salida de clasificadores binarios. Sufre saturación cuando los valores son grandes, lo que provoca gradientes pequeños (esto se llama el problema del gradiente desvanecido) y una salida que no está centrada (es positiva). Por eso, en las capas ocultas modernas, a menudo se reemplaza por ReLU o por la tangente hiperbólica (tanh).
 \begin{figure}[!htbp]
 	\centering
 	\includegraphics[width=0.5\textwidth]{img/sigmoid.png}
@@ -235,13 +235,13 @@ Es una versión centrada en cero de la sigmoide, lo que facilita el aprendizaje 
 	\label{fig:tanh}
 \end{figure}
 
-\subsubsection{ReLU (Rectified Linear Unit)}
+\subsubsection{ReLU (\textit{Rectified Linear Unit})}
 
 La función ReLU se define por partes:
 \[
 f(x) = \max(0, x).
 \]
-Activa linealmente las entradas positivas y pone a cero las negativas. Es sencilla y computacionalmente eficiente, favorece la esparcidad de activaciones y reduce en la práctica el problema del gradiente desvanecido en redes profundas. Muy utilizada en capas ocultas de arquitecturas modernas. Tiene la desventaja de poder provocar neuronas ``muertas'' (gradiente cero para entradas negativas), problema que funciones como Leaky ReLU intentan corregir.
+Activa linealmente las entradas positivas y pone a cero las negativas. Es sencilla y computacionalmente eficiente, favorece activaciones dispersas y reduce en la práctica el problema del gradiente desvanecido en redes profundas. Muy utilizada en capas ocultas de arquitecturas modernas. Tiene la desventaja de poder provocar neuronas ``muertas'' (gradiente cero para entradas negativas), problema que funciones como Leaky ReLU intentan corregir.
 \begin{figure}[!htbp]
 	\centering
 	\includegraphics[width=0.5\textwidth]{img/relu.png}
@@ -251,13 +251,13 @@ Activa linealmente las entradas positivas y pone a cero las negativas. Es sencil
 
 \subsection{Aprendizaje en redes neuronales}
 
-Dada una red neuronal artificial con los parámetros entrenables totalmente configurados, es capaz de realizar su clasificación o predicción de manera correcta. Sin embargo, resulta imposible configurar estos pesos manualmente, por lo que requiere de un ``entrenamiento'' que ayude a definir los pesos sinápticos. A continuación se define la función de pérdida, optimización y entrenamiento, elementos necesarios para obtener esa configuración específica.
+Una red neuronal artificial con los parámetros entrenables totalmente configurados es capaz de realizar su clasificación o predicción de manera correcta. Sin embargo, resulta imposible configurar estos pesos manualmente, por lo que requiere de un ``entrenamiento'' que ayude a definir los pesos sinápticos. A continuación se define la función de pérdida, optimización y entrenamiento, elementos necesarios para obtener esa configuración específica.
 
 En los primeros modelos, la actualización de los pesos se realizaba a partir del error cuadrático del valor de activación. La regla de actualización se expresaba como:
 \[
-	\Delta w_j = - \alpha(c- a)x_j
+	\Delta w_j = \eta (c - a) x_j
 \]
-donde $a$ representa la activación y $\alpha$ la tasa de aprendizaje. Este método permitió superar la no diferenciabilidad de la función escalón en los perceptrones originales \cite{matich2001_ann}.
+donde $c$ representa la salida esperada, $a$ la activación y $\eta$ la tasa de aprendizaje. Este método permitió superar la no diferenciabilidad de la función escalón en los perceptrones originales \cite{matich2001_ann}.
 
 \subsubsection{Función de pérdida}
 
@@ -271,13 +271,13 @@ La función de pérdida se usa para medir el rendimiento del modelo. Calcula la 
 	\]
 	tal que mide la discrepancia entre la predicción del modelo y la salida real:
 	\[
-	\mathcal{L} (F_\theta (x^{(i)}, y^{(i)}))
+	\mathcal{L} (F_\theta (x^{(i)}), y^{(i)})
 	\]
 \end{definition}
 
-Es importante que la función de pérdida sea diferenciable. El gradiente de la función de pérdida permite conocer la dirección hacia la cual debe moverse para disminuir la pérdida.
+Es importante que la función de pérdida sea diferenciable. El gradiente de la función de pérdida permite conocer la dirección hacia la cual deben moverse los parámetros para disminuir la pérdida.
 
-Las funciones de pérdida se pueden utilizar para regresión y para clasificación. La primera mide el error en valores continuos y se utiliza para estimar valores contables como el precio, tamaño y tiempo. La segunda mide los errores en valores discretos, como la clasificación o la categoría.
+Las funciones de pérdida se pueden utilizar para regresión y para clasificación. La primera mide el error en valores continuos y se utiliza para estimar magnitudes como el precio, el tamaño y el tiempo. La segunda mide los errores en valores discretos, como la clasificación o la categoría.
 
 Distintas funciones de pérdida priorizan diferentes tipos de error; la elección de la función de pérdida dependerá de la tarea que se desea realizar. Además, la función de pérdida únicamente se aplica a una muestra; para una población de muestras, se utiliza la función de costo, que se define a continuación \cite{bergmann_funcion_perdida, ultralytics2025_funcion_perdida}:
 
@@ -295,9 +295,9 @@ El entrenamiento de una red consiste en ajustar los parámetros entrenables $\th
 \[
 \theta^* = \arg \min_{\theta} J(\theta)
 \]
-Esto se puede conseguir mediante diferentes técnicas, siendo el descenso del gradiente la más común. Este método actualiza los parámetros en la dirección opuesta al gradiente de la función de pérdida:
+Esto se puede conseguir mediante diferentes técnicas, siendo el descenso del gradiente la más común. Este método actualiza los parámetros en la dirección opuesta al gradiente de la función de costo:
 \[
-\theta_{t + 1} = \theta_{(t)} - \eta  \nabla_\theta J(\theta^{(t)})
+\theta^{(t + 1)} = \theta^{(t)} - \eta \nabla_\theta J(\theta^{(t)})
 \]
 donde $\eta >0$ es la tasa de aprendizaje. Una tasa de aprendizaje alta puede divergir en la solución, mientras que una tasa baja puede tener una convergencia lenta \cite{matich2001_ann}. 
 
@@ -319,9 +319,9 @@ Finalmente, el entrenamiento consiste en ajustar todos los parámetros $\theta =
 	
 	\item Se calculan los gradientes propagando la información hacia atrás o \textit{backpropagation} utilizando la regla de la cadena.	
 	\[
-	\nabla_\theta J(\theta) = \frac{1}{N} \sum_{i = 1}^{N} \nabla_\theta \mathcal{L} (F_ \theta(x^{(i)}, y ^{(i)}))
+	\nabla_\theta J(\theta) = \frac{1}{n} \sum_{i = 1}^{n} \nabla_\theta \mathcal{L} (F_\theta(x^{(i)}), y^{(i)})
 	\]
-	Se actualizan los parámetros mediante la función de optimización: $\theta_{t + 1} = \theta_{(t)} - \eta  \nabla_\theta \mathcal{L}(\theta^{(t)})$
+	Se actualizan los parámetros mediante la función de optimización: $\theta^{(t + 1)} = \theta^{(t)} - \eta \nabla_\theta J(\theta^{(t)})$
 
 	\item Se repite este proceso sobre un \textit{dataset} hasta la convergencia de la solución o hasta alcanzar un criterio de parada \cite{matich2001_ann}.
 	
@@ -348,7 +348,7 @@ En resumen, el entrenamiento de la red neuronal es un proceso iterativo de optim
 	
 	\item Comparar la salida con el valor real usando una función de pérdida.
 	
-	\item Propagar el error hacia atrás permite obtener gradientes.
+	\item Propagar el error hacia atrás para obtener los gradientes.
 	
 	\item Actualizar los parámetros con un algoritmo de optimización.
 	
@@ -401,7 +401,7 @@ Como se mostró más arriba, la actualización recursiva del estado oculto actú
 
 Estas redes se utilizan frecuentemente en el procesamiento de lenguaje natural, reconocimiento de voz, series temporales, traducción automática y otras tareas en las que el orden temporal de los datos es esencial \cite{amidi2025_rnn}.
 
-Dado que un autómata celular evoluciona en pasos discretos de tiempo y cada uno puede depender del estado previo del sistema, las redes neuronales recurrentes aportan un modelo natural para capturar dependencias temporales entre estados sucesivos del autómata. Esto resulta especialmente útil si la regla del autómata celular tiene memoria o se desea que aprenda dinámicas espacio-temporales.
+Dado que un autómata celular evoluciona en pasos discretos de tiempo y cada uno puede depender del estado previo del sistema, las redes neuronales recurrentes aportan un modelo natural para capturar dependencias temporales entre estados sucesivos del autómata. Esto resulta especialmente útil si la regla del autómata celular tiene memoria o se desea que aprenda dinámicas espaciotemporales.
 
 En conclusión, mientras que las redes neuronales convolucionales capturan la estructura espacial y la vecindad local del sistema, las redes neuronales recurrentes modelan su evolución y persistencia temporal. La integración de ambas capacidades permite que un autómata celular neuronal no solo emule reglas estables, sino que aprenda dinámicas complejas a partir de datos, superando las limitaciones de las reglas de transición diseñadas manualmente.
 

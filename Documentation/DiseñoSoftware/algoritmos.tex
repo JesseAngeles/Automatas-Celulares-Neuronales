@@ -6,7 +6,7 @@ Para homogeneizar los algoritmos, todos se rigen bajo las siguientes convencione
 \begin{itemize}
     \item Los arreglos se indexan desde cero.
     \item \texttt{H} y \texttt{W} son alto y ancho del espacio celular.
-    \item Para acceder a la posición de espacio celular en su forma unidimensional se realiza mediante el siguiente cálculo: \texttt{A[y\,$\cdot$\,W + x]}.
+    \item El acceso a una posición del espacio celular en su forma unidimensional se realiza mediante el siguiente cálculo: \texttt{A[y\,$\cdot$\,W + x]}.
     \item \texttt{states} es el número de estados permitidos por celda.
     \item \texttt{n\_groups} y \texttt{group\_sizes[]} describen la partición en grupos de la vecindad.
 \end{itemize}
@@ -39,7 +39,7 @@ En el juego de la vida existen dos grupos: los 8 vecinos de Moore y la célula c
 
 \subsection{Paso de evolución del autómata celular clásico}
 
-En cada paso evolutivo el \textit{kernel} CUDA gestiona los hilos responsables de calcular el nuevo estado de exactamente todas las celdas. La grilla se mapea a una topología bidimensional de bloques: cada bloque cubre $16 \times 16$ celdas, y los bloques se organizan en un \textit{grid} de tamaño $\lceil W/16 \rceil \times \lceil H/16 \rceil$.
+En cada paso evolutivo el \textit{kernel} CUDA gestiona los hilos responsables de calcular el nuevo estado de exactamente todas las celdas. La cuadrícula se mapea a una topología bidimensional de bloques: cada bloque cubre $16 \times 16$ celdas, y los bloques se organizan en un \textit{grid} de tamaño $\lceil W/16 \rceil \times \lceil H/16 \rceil$.
 
 Para cada celda, el hilo recorre la vecindad agrupada, acumula la suma de estados por grupo, calcula el índice de la regla y escribe el resultado en el búfer destino. Tras el \textit{kernel}, los punteros \texttt{A\_d} y \texttt{B\_d} se intercambian (\textit{ping-pong}), evitando copias entre pasos.
 
@@ -80,18 +80,18 @@ Las cuatro condiciones de frontera modifican la coordenada de un vecino que cae 
 \caption{ApplyBoundary: cuatro variantes especializadas en compilación}
 \label{alg:frontera}
 \begin{algorithmic}[1]
-\Function{ApplyBoundary}{OPEN}{$x, y, W, H$}
+\Function{ApplyBoundary}{OPEN, $x, y, W, H$}
     \If{$x < 0$ \textbf{or} $x \geq W$ \textbf{or} $y < 0$ \textbf{or} $y \geq H$}
         \State \Return $(0, 0, \texttt{false})$
     \EndIf
     \State \Return $(x, y, \texttt{true})$
 \EndFunction
 \Statex
-\Function{ApplyBoundary}{PERIODIC}{$x, y, W, H$}
+\Function{ApplyBoundary}{PERIODIC, $x, y, W, H$}
     \State \Return $((x \bmod W + W) \bmod W,\; (y \bmod H + H) \bmod H,\; \texttt{true})$
 \EndFunction
 \Statex
-\Function{ApplyBoundary}{REFLECTIVE}{$x, y, W, H$}
+\Function{ApplyBoundary}{REFLECTIVE, $x, y, W, H$}
     \Comment{La frontera actúa como un espejo}
     \If{$x < 0$} \State $x \gets -x - 1$ \EndIf
     \If{$x \geq W$} \State $x \gets 2W - x - 1$ \EndIf
@@ -100,7 +100,7 @@ Las cuatro condiciones de frontera modifican la coordenada de un vecino que cae 
     \State \Return $(x, y, \texttt{true})$
 \EndFunction
 \Statex
-\Function{ApplyBoundary}{REFLEXIVE}{$x, y, W, H$}
+\Function{ApplyBoundary}{REFLEXIVE, $x, y, W, H$}
     \Comment{El borde se trata como una celda real}
     \If{$x < 0$} \State $x \gets -x$ \EndIf
     \If{$x \geq W$} \State $x \gets 2W - x - 2$ \EndIf
@@ -113,11 +113,11 @@ Las cuatro condiciones de frontera modifican la coordenada de un vecino que cae 
 
 \textbf{Complejidad}: $\mathcal{O}(\texttt{1})$.
 
-\subsection{Forward pass del autómata celular neuronal}
+\subsection{\textit{Forward pass} del autómata celular neuronal}
 
 El autómata celular neuronal, a diferencia del clásico, utiliza un perceptrón multicapa que se evalúa de forma independiente sobre cada celda. El \textit{kernel} CUDA mantiene la misma estructura que el autómata celular ejecutando un hilo por cada celda. Sin embargo, en lugar de un acceso a la tabla, se ejecuta una secuencia de productos matriz-vector con activaciones intercaladas.
 
-Los pesos y sesgos de las capas residen en dos arreglos planos \texttt{weights[]} y \texttt{biases[]}, cada uno con su vector \texttt{w\_offsets[]} que apunta al inicio de cada matriz $W^{(l)}$. 
+Los pesos y sesgos de las capas residen en dos arreglos planos \texttt{weights[]} y \texttt{biases[]}, con los vectores \texttt{w\_offsets[]} y \texttt{b\_offsets[]}, que apuntan al inicio de cada matriz $W_\ell$ y de cada vector de sesgos $b_\ell$. 
 
 \begin{algorithm}[H]
 \caption{ncaKernel: \textit{forward pass} del MLP por celda}
@@ -152,7 +152,7 @@ Los pesos y sesgos de las capas residen en dos arreglos planos \texttt{weights[]
 
 Se evita el uso de \texttt{std::function} u otros punteros a función, ya que no son compatibles con \textit{kernels} CUDA.
 
-\textbf{Complejidad}: $\displaystyle \mathcal{O}\left(N_{size} + \sum_{l = 0}^{L - 1}(n_l \cdot n_{l+1})\right)$ por celda. 
+\textbf{Complejidad}: $\displaystyle \mathcal{O}\left(\texttt{n\_size} + \sum_{\ell = 0}^{L - 1}(n_\ell \cdot n_{\ell+1})\right)$ por celda. 
 
 \subsection{Entrenamiento del autómata celular neuronal}
 
@@ -183,7 +183,7 @@ A diferencia del aprendizaje supervisado tradicional sobre imágenes, aquí cada
 \Statex
 \State $\texttt{modelo} \gets \textsc{ConstruirMLP}(\texttt{arq}, \texttt{act})$
 \State $\texttt{optim} \gets \textsc{Adam}(\texttt{modelo.parametros}, \texttt{lr})$
-\State $\texttt{criterio} \gets \textsc{MSE}$
+\State $\texttt{criterio} \gets$ \textsc{BCE} si \texttt{out\_size} $= 1$; \textsc{EntropíaCruzada} en otro caso
 \Statex
 \For{$e \gets 0$ \textbf{to} $\texttt{epochs\_max} - 1$}
     \State $L_{\text{acum}} \gets 0$
@@ -195,19 +195,21 @@ A diferencia del aprendizaje supervisado tradicional sobre imágenes, aquí cada
         \State $\texttt{optim.step}()$
         \State $L_{\text{acum}} \gets L_{\text{acum}} + L$
     \EndFor
-    \If{$L_{\text{acum}} < \texttt{loss\_target}$} \State \textbf{break} \EndIf
+    \State $L_{\text{época}} \gets L_{\text{acum}} / n_{\text{lotes}}$
+    \If{$L_{\text{época}} < \texttt{loss\_target}$} \State \textbf{break} \EndIf
+    \State ajustar \texttt{lr} según \texttt{lr\_schedule}
 \EndFor
 \State \Return pesos y sesgos del \texttt{modelo}
 \end{algorithmic}
 \end{algorithm}
 
-Además del límite \texttt{epochs\_max}, se detiene el entrenamiento si la pérdida acumulada cae por debajo de \texttt{loss\_target}. 
+Además del límite \texttt{epochs\_max}, se detiene el entrenamiento si la pérdida promedio por lote de la época cae por debajo de \texttt{loss\_target}. Al final de cada época, la tasa de aprendizaje se ajusta según \texttt{lr\_schedule}. 
 
-\textbf{Complejidad}: La primera fase $\mathcal{O}(T \cdot H \cdot W \cdot N_{vec})$. La segunda fase $\mathcal{O}(E \cdot T \cdot H \cdot W \cdot P)$, donde $E$ es el número de épocas y $P$ representa la cantidad total de parámetros del perceptrón multicapa ($\sum n_l \cdot n_{l+1}$).
+\textbf{Complejidad}: La primera fase $\mathcal{O}(T \cdot H \cdot W \cdot \texttt{n\_size})$. La segunda fase $\mathcal{O}(E \cdot T \cdot H \cdot W \cdot P)$, donde $E$ es el número de épocas y $P$ representa la cantidad total de parámetros del perceptrón multicapa ($\sum_\ell n_\ell \cdot n_{\ell+1}$).
 
-\subsection{Prefetch asíncrono con invalidación por generación}
+\subsection{\textit{Prefetch} asíncrono con invalidación por generación}
 
-La GUI debe sostener una reproducción visualmente fluida sin bloquear el hilo principal de Qt, incluso cuando el cómputo de un paso es computacionalmente complejo (grillas grandes o autómatas celulares neuronales profundos). Para ello, un \textit{worker} en un hilo del \texttt{QThreadPool} precomputa hasta \texttt{PREFETCH\_SIZE} \textit{frames} y los entrega al \texttt{future\_record} del controlador.
+La GUI debe sostener una reproducción visualmente fluida sin bloquear el hilo principal de Qt, incluso cuando el cómputo de un paso es computacionalmente complejo (cuadrículas grandes o autómatas celulares neuronales profundos). Para ello, un \textit{worker} en un hilo del \texttt{QThreadPool} precomputa hasta \texttt{PREFETCH\_SIZE} \textit{frames} y los entrega al \texttt{future\_record} del controlador.
 
 Si el usuario cambia la regla, la vecindad o el estado mientras el \textit{worker} está corriendo, los \textit{frames} precomputados ya no corresponden a la configuración activa y deben descartarse. La solución es un contador entero \texttt{\_generation} que el controlador incrementa ante cualquier cambio; el \textit{worker} captura su valor al lanzarse y verifica coincidencia antes de publicar resultados.
 
@@ -234,8 +236,8 @@ Si el usuario cambia la regla, la vecindad o el estado mientras el \textit{worke
 \end{algorithmic}
 \end{algorithm}
 
-La comprobación dentro del bucle permite abortar tempranamente y liberar el hilo del \textit{pool}; la comprobación final antes de publicar evita que la generación cambie justo después del último \texttt{step()} pero antes de la respuesta.
+La comprobación dentro del bucle permite abortar tempranamente y liberar el hilo del \textit{pool}; la comprobación final antes de publicar evita entregar \textit{frames} obsoletos si la generación cambia justo después del último \texttt{step()}, pero antes de la respuesta.
 
 Cuando el usuario retrocede, los \textit{frames} se consumen desde \texttt{past\_record}; cuando avanza más allá de lo registrado, se consumen desde \texttt{future\_record}. Si este último se vacía, se dispara un nuevo \texttt{PrefetchWorker} con la generación actual.
 
-\textbf{Complejidad}: $\mathcal{O}(N\cdot H\cdot W\cdot c)$, donde $N=\texttt{PREFETCH\_SIZE}$ y $c$ es el costo por celda del paso evolutivo subyacente ($\texttt{n\_size}$ para CA, $N_{size}+\sum_\ell n_\ell  n_{\ell+1}$ para NCA).
+\textbf{Complejidad}: $\mathcal{O}(N\cdot H\cdot W\cdot c)$, donde $N=\texttt{PREFETCH\_SIZE}$ y $c$ es el costo por celda del paso evolutivo subyacente ($\texttt{n\_size}$ para CA, $\texttt{n\_size}+\sum_\ell n_\ell  n_{\ell+1}$ para NCA).

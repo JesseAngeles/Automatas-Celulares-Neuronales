@@ -2,7 +2,7 @@
 
 \subsection{Controles de simulación}
 
-Los siguientes casos de uso permiten al usuario controlar la evolución del autómata celular. Esto implica evolucionar el sistema hacia adelante, hacia atrás y definiendo velocidades.
+Los siguientes casos de uso permiten al usuario controlar la evolución del autómata celular. Esto implica evolucionar el sistema hacia adelante y hacia atrás, y definir su velocidad.
 
 \subsubsection*{UC01 Iniciar simulación}
 
@@ -327,7 +327,7 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 			\end{enumerate} 
 			& 
 			\begin{enumerate}[noitemsep, nosep]
-				\item[2.] Regresa la configuración a la última versión modificada mientras estaba en pausa. 
+				\item[2.] Asigna el estado 0 a todas las células (configuración nula). 
 				\item[3.] Elimina el historial de evoluciones.
 				\item[4.] Actualiza \UI{simulacion_ui}.
 			\end{enumerate} \\
@@ -563,7 +563,7 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 			\hline
 			\begin{enumerate}[noitemsep, nosep]
 				\item Presiona el botón \BTN{exportar} desde \UI{control_ui}.
-				\item[3. ] Selecciona la ruta de guardado archivo.
+				\item[3. ] Selecciona la ruta de guardado del archivo.
 			\end{enumerate} 
 			& 
 			\begin{enumerate}[noitemsep, nosep]
@@ -777,13 +777,13 @@ Estos casos de uso definen las características generales del autómata celular,
 				\textbf{Actor} & \textbf{Sistema} \\
 				\hline
 				\begin{enumerate}[noitemsep, nosep] 
-					\item[1.2.] Selecciona el grupo vacío.
-					\item[1.4.] Presiona el botón \BTN{def_vecindad}.
+					\item[1.1.] Selecciona el grupo vacío.
+					\item[1.3.] Presiona el botón \BTN{def_vecindad}.
 				\end{enumerate} 
 				& 
 				\begin{enumerate}[noitemsep, nosep]
-					\item[1.3.] Asigna el grupo a todos los elementos de \IN{espacio_vecindad}.
-					\item[1.5.] No detiene la animación ni actualiza la vecindad.
+					\item[1.2.] Asigna el grupo a todos los elementos de \IN{espacio_vecindad}.
+					\item[1.4.] No detiene la animación ni actualiza la vecindad.
 				\end{enumerate} \\
 				\hline
 			\end{tabular} 
@@ -1006,7 +1006,7 @@ Estos casos de uso definen las características generales del autómata celular,
 			\begin{center}
 				\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
 					\hline
-					\multicolumn{2}{|c|}{\textbf{Flujo alterno 1}} \\ \hline
+					\multicolumn{2}{|c|}{\textbf{Flujo alterno 1: Regla mediante código}} \\ \hline
 					\textbf{Actor} & \textbf{Sistema} \\
 					\hline
 					\begin{enumerate}[noitemsep, nosep]
@@ -1086,11 +1086,11 @@ Estos casos de uso definen las características generales del autómata celular,
 			\hline
 			\begin{enumerate}[noitemsep, nosep]
 				\item Presiona dos veces un \BTN{estado} en \UI{configuracion_ui}.
-				\item[2. ] Selecciona un color.
+				\item[3.] Selecciona un color.
 			\end{enumerate} 
 			& 
 			\begin{enumerate}[noitemsep, nosep]
-				\item[3.] Abre un panel de colores. 
+				\item[2.] Abre un panel de colores.
 				\item[4.] Asigna ese color a ese estado.
 				\item[5.] Cambia el color de todas las células con ese estado en \UI{simulacion_ui}.
 			\end{enumerate} \\
@@ -1102,7 +1102,7 @@ Estos casos de uso definen las características generales del autómata celular,
 
 \subsection{Interacción con el espacio celular}
 
-El usuario puede interactuar con el espacio celular para cambiar valores, colores o vecindades. Los siguientes casos de uso están diseñados para mejorar la visibilidad del espacio celular.
+El usuario puede interactuar con el espacio celular para cambiar el estado de sus células. El siguiente caso de uso describe esta interacción.
 
 \subsubsection*{UC18 Cambiar estado de una célula}
 \begin{table}[H]
@@ -1112,25 +1112,25 @@ El usuario puede interactuar con el espacio celular para cambiar valores, colore
 			\textbf{Actor} & Usuario. \\ \hline
 			\textbf{Descripción} & Se cambia manualmente la configuración del espacio celular, seleccionando el estado de cada célula.  \\ \hline
 			\textbf{Tipo} & Secundario. \\ \hline
-			\textbf{Entradas} & \begin{enumerate}[noitemsep, nosep]
+			\textbf{Entradas} & \begin{itemize}[noitemsep, nosep]
 				\item Desde mouse \BTN{estado}.
 				\item Desde mouse \IN{espacio}.
-			\end{enumerate} 
+			\end{itemize} 
 			\\ \hline
-			\textbf{Salidas} & \begin{enumerate}[noitemsep, nosep]
+			\textbf{Salidas} & \begin{itemize}[noitemsep, nosep]
 				\item Actualización del espacio \UI{simulacion_ui}.
-			\end{enumerate}
+			\end{itemize}
 			\\ \hline
-			\textbf{Precondición} & \begin{enumerate}[noitemsep, nosep]
+			\textbf{Precondición} & \begin{itemize}[noitemsep, nosep]
 				\item Haber seleccionado un \BTN{estado}.
-			\end{enumerate} 
+			\end{itemize} 
 			\\ \hline
-			\textbf{Postcondición} & \begin{enumerate}[noitemsep, nosep]
+			\textbf{Postcondición} & \begin{itemize}[noitemsep, nosep]
 				\item La célula cambia de estado.
-			\end{enumerate}  \\ \hline
-			\textbf{Errores} & \begin{enumerate}[noitemsep, nosep]
+			\end{itemize}  \\ \hline
+			\textbf{Errores} & \begin{itemize}[noitemsep, nosep]
 				\item Sin estado: No se ha seleccionado un estado.
-			\end{enumerate} 
+			\end{itemize} 
 			\\ \hline
 		\end{tabular}
 	\end{center}
@@ -1149,7 +1149,7 @@ El usuario puede interactuar con el espacio celular para cambiar valores, colore
 			\end{enumerate} 
 			& 
 			\begin{enumerate}[noitemsep, nosep]
-				\item[3.] La célula se le asigna el estado seleccionado.
+				\item[3.] A la célula se le asigna el estado seleccionado.
 				\item[4.] Se actualiza \UI{simulacion_ui}.
 			\end{enumerate} \\
 			\hline
@@ -1191,42 +1191,42 @@ Los casos de uso siguientes permiten entrenar y definir la red neuronal del aut�
 			\textbf{Actor} & Usuario. \\ \hline
 			\textbf{Descripción} & El usuario carga la evolución, define la vecindad, la configuración de la red neuronal, los hiperparámetros de entrenamiento y la ruta de guardado.  \\ \hline
 			\textbf{Tipo} & Primario. \\ \hline
-			\textbf{Entradas} & \begin{enumerate}[noitemsep, nosep]
-				\item Desde mouse \BTN{cargar_evolucion}
-				\item Desde mouse \BTN{definir_guardado}
+			\textbf{Entradas} & \begin{itemize}[noitemsep, nosep]
+				\item Desde mouse \BTN{cargar_evolucion}.
+				\item Desde mouse \BTN{definir_guardado}.
 				
-				\item Desde mouse \IN{entrenamiento_vecindad}
+				\item Desde mouse \IN{entrenamiento_vecindad}.
 				
-				\item Desde teclado \IN{capas_ocultas}
-				\item Desde teclado \IN{neuronas}
-				\item Desde teclado \IN{relu}
-				\item Desde teclado \IN{sigmoid}
-				\item Desde teclado \IN{tanh}
-				\item Desde teclado \IN{lineal}
-				\item Desde teclado \IN{salida}
-				\item Desde teclado \IN{funcion_salida}
-				\item Desde teclado \IN{epocas}
-				\item Desde teclado \IN{tamaño_lote}
-				\item Desde teclado \IN{tasa_aprendizaje}
-				\item Desde teclado \IN{perdida_objetivo}
-				\item Desde teclado \IN{imprimir}
-				\item Desde mouse \BTN{entrenar}
-			\end{enumerate} 
+				\item Desde teclado \IN{capas_ocultas}.
+				\item Desde teclado \IN{neuronas}.
+				\item Desde teclado \IN{relu}.
+				\item Desde teclado \IN{sigmoid}.
+				\item Desde teclado \IN{tanh}.
+				\item Desde teclado \IN{lineal}.
+				\item Desde teclado \IN{salida}.
+				\item Desde teclado \IN{funcion_salida}.
+				\item Desde teclado \IN{epocas}.
+				\item Desde teclado \IN{tamaño_lote}.
+				\item Desde teclado \IN{tasa_aprendizaje}.
+				\item Desde teclado \IN{perdida_objetivo}.
+				\item Desde teclado \IN{imprimir}.
+				\item Desde mouse \BTN{entrenar}.
+			\end{itemize} 
 			\\ \hline
-			\textbf{Salidas} & \begin{enumerate}[noitemsep, nosep]
-				\item \OUT{ruta_in}
-				\item \OUT{ruta_out}
-				\item \OUT{entrenamiento_vecindad_mapa}
-				\item \OUT{consola}
-			\end{enumerate} 
+			\textbf{Salidas} & \begin{itemize}[noitemsep, nosep]
+				\item \OUT{ruta_in}.
+				\item \OUT{ruta_out}.
+				\item \OUT{entrenamiento_vecindad_mapa}.
+				\item \OUT{consola}.
+			\end{itemize} 
 			\\ \hline
 			\textbf{Precondición} & Ninguna.
 			\\ \hline
 			\textbf{Postcondición} & Ninguna.  \\ \hline
-			\textbf{Errores} & \begin{enumerate}[noitemsep, nosep]
+			\textbf{Errores} & \begin{itemize}[noitemsep, nosep]
 				\item Formato inválido: El archivo de evolución no coincide.
 				\item Entrenamiento fallido: El entrenamiento no se completó debido a un error de ejecución.
-			\end{enumerate} 
+			\end{itemize} 
 			\\ \hline
 		\end{tabular}
 	\end{center}
@@ -1243,21 +1243,21 @@ Los casos de uso siguientes permiten entrenar y definir la red neuronal del aut�
 				\item Presiona el botón \BTN{cargar_evolucion} desde \UI{training_ui}.
 				\item[3.] Selecciona la evolución en el archivo ``npy''.
 				\item[5.] Presiona el botón \BTN{definir_guardado}.
-				\item[6.] Selecciona la ruta de guardado de los pesos ``npz''. 
-				\item[8.] Selecciona la vecindad con \IN{entrenamiento_vecindad}.
-				\item[9.] Define la configuración de la red neuronal con las siguientes entradas: \IN{capas_ocultas}, \IN{neuronas}, \IN{relu}, \IN{sigmoid}, \IN{tanh}, \IN{lineal}, \IN{salida} y \IN{funcion_salida}.
-				\item[10.] Define los hiperparámetros de entrenamiento: \IN{epocas}, \IN{tamaño_lote}, \IN{tasa_aprendizaje}, \IN{perdida_objetivo}, \IN{imprimir}.
-				\item[11.] Presiona el botón \BTN{entrenar}.
+				\item[7.] Selecciona la ruta de guardado de los pesos ``npz''. 
+				\item[9.] Selecciona la vecindad con \IN{entrenamiento_vecindad}.
+				\item[10.] Define la configuración de la red neuronal con las siguientes entradas: \IN{capas_ocultas}, \IN{neuronas}, \IN{relu}, \IN{sigmoid}, \IN{tanh}, \IN{lineal}, \IN{salida} y \IN{funcion_salida}.
+				\item[11.] Define los hiperparámetros de entrenamiento: \IN{epocas}, \IN{tamaño_lote}, \IN{tasa_aprendizaje}, \IN{perdida_objetivo}, \IN{imprimir}.
+				\item[12.] Presiona el botón \BTN{entrenar}.
 			\end{enumerate} 
 			& 
 			\begin{enumerate}[noitemsep, nosep]
 				\item[2.] Abre el explorador de archivos.
 				\item[4.] Muestra la ruta en \OUT{ruta_in}.
-				\item[5.] Abre el explorador de archivos.
-				\item[7.] Muestra la ruta en \OUT{ruta_out}.
-				\item[12.] Borra el contenido de \OUT{consola}.
-				\item[13.] Llama la función de entrenamiento con todos los parámetros definidos y muestra los resultados en \OUT{consola}.
-				\item[14.] Guarda la evolución en la ruta definida en \OUT{ruta_out}.
+				\item[6.] Abre el explorador de archivos.
+				\item[8.] Muestra la ruta en \OUT{ruta_out}.
+				\item[13.] Borra el contenido de \OUT{consola}.
+				\item[14.] Llama a la función de entrenamiento con todos los parámetros definidos y muestra los resultados en \OUT{consola}.
+				\item[15.] Guarda los pesos en la ruta definida en \OUT{ruta_out}.
 			\end{enumerate} \\
 			\hline
 		\end{tabular} \\
@@ -1298,21 +1298,21 @@ Los casos de uso siguientes permiten entrenar y definir la red neuronal del aut�
 				\item[2.1.] Presiona el botón \BTN{cargar_evolucion}.
 				\item[2.3.] Selecciona la evolución en el archivo ``npy''.
 				\item[2.5.] Presiona el botón \BTN{definir_guardado}.
-				\item[2.6.] Selecciona la ruta de guardado de los pesos ``npz''. 
-				\item[2.8.] Selecciona la vecindad con \IN{entrenamiento_vecindad}.
-				\item[2.9.] Define la configuración de la red neuronal con las siguientes entradas: \IN{capas_ocultas}, \IN{neuronas}, \IN{relu}, \IN{sigmoid}, \IN{tanh}, \IN{lineal}, \IN{salida} y \IN{funcion_salida}.
-				\item[2.10.] Define los hiperparámetros de entrenamiento: \IN{epocas}, \IN{tamaño_lote}, \IN{tasa_aprendizaje}, \IN{perdida_objetivo}, \IN{imprimir}.
-				\item[2.11.] Presiona el botón \BTN{entrenar}.
+				\item[2.7.] Selecciona la ruta de guardado de los pesos ``npz''. 
+				\item[2.9.] Selecciona la vecindad con \IN{entrenamiento_vecindad}.
+				\item[2.10.] Define la configuración de la red neuronal con las siguientes entradas: \IN{capas_ocultas}, \IN{neuronas}, \IN{relu}, \IN{sigmoid}, \IN{tanh}, \IN{lineal}, \IN{salida} y \IN{funcion_salida}.
+				\item[2.11.] Define los hiperparámetros de entrenamiento: \IN{epocas}, \IN{tamaño_lote}, \IN{tasa_aprendizaje}, \IN{perdida_objetivo}, \IN{imprimir}.
+				\item[2.12.] Presiona el botón \BTN{entrenar}.
 			\end{enumerate} 
 			& 
 			\begin{enumerate}[noitemsep, nosep]
 				\item[2.2.] Abre el explorador de archivos.
 				\item[2.4.] Muestra la ruta en \OUT{ruta_in}.
-				\item[2.5.] Abre el explorador de archivos.
-				\item[2.7.] Muestra la ruta en \OUT{ruta_out}.
-				\item[2.12.] Borra el contenido de \OUT{consola}.
-				\item[2.13.] Llama la función de entrenamiento con todos los parámetros definidos y muestra los resultados en \OUT{consola}.
-				\item[2.14.] Algún elemento de la configuración, la cantidad de datos usados o limitaciones de hardware impidieron que se completara el entrenamiento. Muestra el mensaje \MSG{entrenamiento_incompleto} en \OUT{consola} y no guarda nada. 
+				\item[2.6.] Abre el explorador de archivos.
+				\item[2.8.] Muestra la ruta en \OUT{ruta_out}.
+				\item[2.13.] Borra el contenido de \OUT{consola}.
+				\item[2.14.] Llama a la función de entrenamiento con todos los parámetros definidos y muestra los resultados en \OUT{consola}.
+				\item[2.15.] Algún elemento de la configuración, la cantidad de datos usados o limitaciones de \textit{hardware} impidieron que se completara el entrenamiento. Muestra el mensaje \MSG{entrenamiento_incompleto} en \OUT{consola} y no guarda nada. 
 			\end{enumerate} \\
 			\hline
 		\end{tabular} \\
@@ -1328,17 +1328,17 @@ Los casos de uso siguientes permiten entrenar y definir la red neuronal del aut�
 			\textbf{Actor} & Usuario. \\ \hline
 			\textbf{Descripción} & El usuario detiene el entrenamiento de la red neuronal.  \\ \hline
 			\textbf{Tipo} & Secundario. \\ \hline
-			\textbf{Entradas} & \begin{enumerate}[noitemsep, nosep]
+			\textbf{Entradas} & \begin{itemize}[noitemsep, nosep]
 				\item Desde mouse \BTN{detener}.
-			\end{enumerate} 
+			\end{itemize} 
 			\\ \hline
-			\textbf{Salidas} & \begin{enumerate}[noitemsep, nosep]
+			\textbf{Salidas} & \begin{itemize}[noitemsep, nosep]
 				\item \OUT{consola}.
-			\end{enumerate} 
+			\end{itemize} 
 			\\ \hline
-			\textbf{Precondición} & \begin{enumerate}[noitemsep, nosep]
-				\item UC18 Iniciar entrenamiento.
-			\end{enumerate} 
+			\textbf{Precondición} & \begin{itemize}[noitemsep, nosep]
+				\item UC19 Iniciar entrenamiento.
+			\end{itemize} 
 			\\ \hline
 			\textbf{Postcondición} & Ninguna.  \\ \hline
 			\textbf{Errores} & Ninguno. 
@@ -1377,9 +1377,9 @@ Los casos de uso siguientes permiten entrenar y definir la red neuronal del aut�
 			\textbf{Actor} & Usuario. \\ \hline
 			\textbf{Descripción} & El usuario elimina la salida de la consola.  \\ \hline
 			\textbf{Tipo} & Secundario. \\ \hline
-			\textbf{Entradas} & \begin{enumerate}[noitemsep, nosep]
+			\textbf{Entradas} & \begin{itemize}[noitemsep, nosep]
 				\item Desde mouse \BTN{borrar_consola}.
-			\end{enumerate} 
+			\end{itemize} 
 			\\ \hline
 			\textbf{Salidas} & Ninguna.
 			\\ \hline
