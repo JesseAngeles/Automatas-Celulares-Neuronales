@@ -26,7 +26,7 @@ Estas son algunas de las razones por las cuales se opta por este modelo:
 \end{itemize}
 
 \begin{itemize}
-	\item Simulador funcional del cualquier autómata celular en dos dimensiones en un espacio celular finito.
+	\item Simulador funcional de cualquier autómata celular en dos dimensiones en un espacio celular finito.
 	
 	\item Personalización de la vecindad, conjunto de estados, condición de frontera y función de transición.
 	
@@ -35,15 +35,15 @@ Estas son algunas de las razones por las cuales se opta por este modelo:
 	\item Controles de simulación para avanzar, retroceder, reiniciar y manipular la velocidad de la animación.
 \end{itemize}
 
-Para mayor detalle de esta primer etapa, mas adelante se especifican los casos de uso.
+Para mayor detalle de esta primera etapa, más adelante se especifican los casos de uso.
 
 \section{Reglas de negocio}
 
 \begin{enumerate}[label*=RN\arabic*]
 	
-	\item El estado de una celda en el tiempo $t + 1$ depende únicamente de su estado actual y de los estados de sus vecinos.
+	\item El estado de una célula en el tiempo $t + 1$ depende únicamente de su estado actual y de los estados de sus vecinos.
 	
-	\item Para iniciar la simulación es necesario que el conjunto de estados, la topología de la vecindad, la condición de frontera y la función de transición hayan sido definidas. 
+	\item Para iniciar la simulación es necesario que el conjunto de estados, la topología de la vecindad, la condición de frontera y la función de transición hayan sido definidos.
 	
 	\item Cuando la simulación está en curso, no se puede cambiar el conjunto de estados, la topología de la vecindad ni la función de transición.
 	
@@ -69,7 +69,7 @@ Los requerimientos funcionales describen las capacidades que el sistema debe ofr
 	
 	\item El sistema debe mostrar una cuadrícula regular y finita que represente el espacio celular.
 	
-	\item El sistema debe permitir al usuario interactuar con el espacio celular, asignando o modificando los estados de las celdas.
+	\item El sistema debe permitir al usuario interactuar con el espacio celular, asignando o modificando los estados de las células.
 	
 	\item El sistema debe permitir al usuario definir el conjunto de estados, la topología de la vecindad local y las condiciones de frontera del espacio celular.
 	
@@ -93,7 +93,7 @@ Los requerimientos no funcionales especifican las condiciones de calidad, desemp
 	
 	\item El sistema debe poder ejecutarse en Fedora 42 sin requerir modificaciones en el código fuente.
 	
-	\item El sistema debe ser capaz de procesar al menos 10,000 celdas o registros por segundo utilizando una GPU NVIDIA RTX 5080.
+	\item El sistema debe ser capaz de procesar al menos 10,000 células o registros por segundo utilizando una GPU NVIDIA RTX 5080.
 	
 	\item El sistema debe garantizar disponibilidad continua durante la ejecución, sin fallos o interrupciones críticas.
 	

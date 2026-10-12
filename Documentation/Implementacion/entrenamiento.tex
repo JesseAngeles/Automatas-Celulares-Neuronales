@@ -2,7 +2,7 @@
 
 El entrenamiento del autómata celular neuronal consiste en ajustar los pesos y sesgos del perceptrón multicapa para que, dado el vector de estados en la vecindad de una celda en el instante $t$, produzca como salida el estado de esa misma celda en el instante $t+1$. 
 
-Esta sección describe la implementación concreta del pipeline de entrenamiento: la preparación del conjunto de datos, la construcción dinámica del modelo, el ciclo de optimización, la persistencia de los pesos y la integración con la interfaz gráfica.
+Esta sección describe la implementación concreta del \textit{pipeline} de entrenamiento: la preparación del conjunto de datos, la construcción dinámica del modelo, el ciclo de optimización, la persistencia de los pesos y la integración con la interfaz gráfica.
 
 \subsection{Preparación del conjunto de datos}
 
@@ -19,13 +19,13 @@ Esta vectorización transforma una evolución de $T$ pasos sobre una grilla $H \
 
 \subsection{Construcción dinámica del modelo}
 
-La arquitectura del perceptron multicapa no está fijada en el código: se determina en tiempo de ejecución a partir de los argumentos de la línea de comandos (o de la pestaña de entrenamiento de la GUI). El \textit{script} \texttt{training/scripts/main.py} acepta los parámetros resumidos en la tabla \ref{tab:cli-entrenamiento}.
+La arquitectura del perceptrón multicapa no está fijada en el código: se determina en tiempo de ejecución a partir de los argumentos de la línea de comandos (o de la pestaña de entrenamiento de la GUI). El \textit{script} \texttt{training/scripts/main.py} acepta los parámetros resumidos en la tabla \ref{tab:cli-entrenamiento}.
 
 \begin{table}[H]
     \centering
     \begin{tabular}{l|l|p{0.42\linewidth}}
         \hline
-        \textbf{Argumento} & \textbf{Default} & \textbf{Descripción} \\ \hline
+        \textbf{Argumento} & \textbf{\textit{Default}} & \textbf{Descripción} \\ \hline
         \texttt{--data} & --- & Archivo \texttt{.npy} con la evolución de entrada. \\ \hline
         \texttt{--output} & \texttt{weights.npz} & Archivo de salida con los pesos entrenados. \\ \hline
         \texttt{--neighbourhood} & --- & Lista de pares \texttt{"dx,dy"} separados por espacio. \\ \hline
@@ -51,7 +51,7 @@ A partir de estos argumentos se construye un \texttt{torch.nn.Sequential} concat
 El entrenamiento sigue un esquema de optimización por descenso de gradiente estocástico con minilotes:
 
 \begin{itemize}
-    \item \textbf{Optimizador}: \texttt{torch.optim.Adam} con la tasa de aprendizaje configurada. Se eligió \textit{Adam} por su robustez frente a la elección inicial de hiperparámetros y por su comportamiento estable en presencia de gradientes ruidosos.
+    \item \textbf{Optimizador}: \texttt{torch.optim.Adam} con la tasa de aprendizaje configurada. Se eligió Adam por su robustez frente a la elección inicial de hiperparámetros y por su comportamiento estable en presencia de gradientes ruidosos.
     \item \textbf{Función de pérdida}: error cuadrático medio (\texttt{MSELoss}). Aunque el objetivo es discreto en los autómatas celulares clásicos, el MLP produce salidas continuas y se interpreta el valor de salida mediante umbralización al momento de inferencia.
     \item \textbf{Detención temprana}: el ciclo se interrumpe cuando la pérdida acumulada por época cae por debajo de \texttt{loss\_target}, evitando épocas adicionales innecesarias una vez que el modelo ha convergido.
     \item \textbf{\textit{Logging}}: cada \texttt{print\_every} épocas se imprime el número de época, la pérdida acumulada. Este \textit{log} se captura en tiempo real por la GUI cuando el entrenamiento se lanza desde \texttt{TrainingPane}.

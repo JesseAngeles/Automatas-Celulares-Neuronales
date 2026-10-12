@@ -1,19 +1,19 @@
-\section{Diseño de Datos}
+\section{Diseño de datos}
 
 El simulador maneja seis estructuras de datos principales: el espacio celular, la vecindad, la regla de transición, la configuración del autómata celular, la configuración del autómata celular neuronal y el historial de las evoluciones. A continuación se definen estas variables y cómo evolucionan en las diferentes capas del sistema.
 
-La información dentro de CUDA, también llamado \textit{device}, no puede almacenar arreglos multidimensionales. Por esta razón, almacena matrices y tensores como un único arreglo unidimensional continuo y se accede a los indices de forma manual. Resulta necesario hacer un mapeo entre Python, también \textit{host}, con el \textit{device}.
+La información dentro de CUDA, también llamado \textit{device}, no puede almacenar arreglos multidimensionales. Por esta razón, almacena matrices y tensores como un único arreglo unidimensional continuo y se accede a los índices de forma manual. Resulta necesario hacer un mapeo entre Python, también \textit{host}, con el \textit{device}.
 
-\subsection{Espacio Celular}
+\subsection{Espacio celular}
 
 Se define como una matriz bidimensional de dimensiones $H \times W$ con valores enteros de 8~bits, permitiendo representar hasta 256 estados distintos por celda.
 
 \begin{itemize}
-	\item \textbf{Host}: Implementado como un \texttt{numpy.ndarray} de \textit{shape} $(H, W)$ y \texttt{dtype=uint8}. Para maximizar el rendimiento, este arreglo se comparte mediante punteros, sin realizar copias, entre el \textit{widget} de renderizado, el controlador de simulación y el \textit{wrapper} de CUDA.
+	\item \textbf{\textit{Host}}: Implementado como un \texttt{numpy.ndarray} de \textit{shape} $(H, W)$ y \texttt{dtype=uint8}. Para maximizar el rendimiento, este arreglo se comparte mediante punteros, sin realizar copias, entre el \textit{widget} de renderizado, el controlador de simulación y el \textit{wrapper} de CUDA.
 	
-	\item \textbf{Device}: Utiliza dos búferes (\texttt{A\_d} y \texttt{B\_d}) de tipo \texttt{uint8\_t*} en la memoria global. Tienen un esquema de \textit{ping-pong buffering}, donde tras cada iteración del kernel, se intercambian los punteros de lectura y escritura, eliminando la necesidad de copiar datos entre pasos de evolución.
+	\item \textbf{\textit{Device}}: Utiliza dos búferes (\texttt{A\_d} y \texttt{B\_d}) de tipo \texttt{uint8\_t*} en la memoria global. Tienen un esquema de \textit{ping-pong buffering}, donde tras cada iteración del \textit{kernel}, se intercambian los punteros de lectura y escritura, eliminando la necesidad de copiar datos entre pasos de evolución.
 	
-	\item \textbf{Sincronización perezosa}: El \textit{host} no se sincroniza tras cada paso del kernel. Una bandera \texttt{host\_dirty} indica si el búfer del \textit{host} está desactualizado respecto al \textit{device}; la copia \textit{device-to-host} se ejecuta únicamente cuando se invoca una operación de lectura (\texttt{getSpace}, \texttt{getCell}) o al exportar.
+	\item \textbf{Sincronización perezosa}: El \textit{host} no se sincroniza tras cada paso del \textit{kernel}. Una bandera \texttt{host\_dirty} indica si el búfer del \textit{host} está desactualizado respecto al \textit{device}; la copia \textit{device-to-host} se ejecuta únicamente cuando se invoca una operación de lectura (\texttt{getSpace}, \texttt{getCell}) o al exportar.
 \end{itemize}
 
 \subsection{Vecindad}
@@ -21,14 +21,14 @@ Se define como una matriz bidimensional de dimensiones $H \times W$ con valores 
 La vecindad define el conjunto de celdas que influyen en la transición de una celda objetivo. Se modela bajo un esquema semitotalístico organizado en grupos de desplazamientos relativos.
 
 \begin{itemize}
-	\item \textbf{Host}: Una estructura \texttt{list[list[list[int]]]} donde el nivel externo enumera los grupos, el intermedio las posiciones relativas, y el interno los componentes $[dx, dy]$ del desplazamiento.
+	\item \textbf{\textit{Host}}: Una estructura \texttt{list[list[list[int]]]} donde el nivel externo enumera los grupos, el intermedio las posiciones relativas, y el interno los componentes $[dx, dy]$ del desplazamiento.
 	
-	\item \textbf{Device}: La vecindad se define mediante dos arreglos: (1) \texttt{neighbourhood[]} que contiene los vectores de desplazamiento concatenados y (2) \texttt{group\_sizes[]} que almacena los tamaños de los grupos. 
+	\item \textbf{\textit{Device}}: La vecindad se define mediante dos arreglos: (1) \texttt{neighbourhood[]} que contiene los vectores de desplazamiento concatenados y (2) \texttt{group\_sizes[]} que almacena los tamaños de los grupos. 
 	
 	\item \textbf{Cotas técnicas}: Se establece un límite de $n_{\text{size}} \leq 64$ desplazamientos totales y $n_{\text{groups}} \leq 64$ grupos para cumplir con las restricciones de la memoria constante.
 \end{itemize}
 
-\subsection{Regla de Transición (CA Clásico)}
+\subsection{Regla de transición (CA clásico)}
 
 La regla es de naturaleza semitotalística: el nuevo estado depende del conteo de estados dentro de cada grupo de la vecindad. El tamaño total $r_{\text{size}}$ se determina por el producto de las combinaciones posibles de cada grupo:
 \[
@@ -39,12 +39,12 @@ donde $|g|$ es la cardinalidad del grupo y \texttt{states} el número de estados
 El acceso a la regla se realiza mediante una suma posicional de las contribuciones de cada grupo de vecindad, calculando un índice lineal único para cada configuración de conteos.
 
 \begin{itemize}
-	\item \textbf{Host}: \texttt{numpy.ndarray} de \texttt{uint8}, tamaño $r_{\text{size}}$.
+	\item \textbf{\textit{Host}}: \texttt{numpy.ndarray} de \texttt{uint8}, tamaño $r_{\text{size}}$.
 	
-	\item \textbf{Device}: Debido a que $r_{\text{size}}$ puede alcanzar hasta $16,777,216$ entradas, la tabla reside en la memoria global del dispositivo (\texttt{rule\_d}).
+	\item \textbf{\textit{Device}}: Debido a que $r_{\text{size}}$ puede alcanzar hasta $16,777,216$ entradas, la tabla reside en la memoria global del dispositivo (\texttt{rule\_d}).
 \end{itemize}
 
-\subsection{Configuración del Autómata Celular (CA)}
+\subsection{Configuración del autómata celular (CA)}
 
 Esta estructura encapsula los parámetros estáticos que definen el comportamiento de un autómata clásico:
 
@@ -62,30 +62,30 @@ Esta estructura encapsula los parámetros estáticos que definen el comportamien
 	\end{tabular}
 \end{center}
 
-\subsection{Configuración del Autómata Celular Neuronal (NCA)}
+\subsection{Configuración del autómata celular neuronal (NCA)}
 
-El modelo neuronal sustituye la tabla de reglas por un Perceptrón Multicapa (MLP) que procesa la información de la vecindad.
+El modelo neuronal sustituye la tabla de reglas por un perceptrón multicapa (MLP) que procesa la información de la vecindad.
 
 \begin{itemize}
 	\item \textbf{Topología del MLP}: Se define mediante \texttt{layer\_in} (entradas según vecindad), \texttt{layer\_out} (neuronas de salida), \texttt{hidden\_layers[]} (arquitectura oculta) y \texttt{activations[]} (códigos: \texttt{0=ReLU}, \texttt{1=Sigmoid}, \texttt{2=Tanh}, \texttt{3=Linear}).
 	
-	\item \textbf{Pesos y Sesgos}: Se organizan en un arreglo plano de tipo \texttt{float} con un vector de desplazamientos (\textit{offsets}). Esta estructura lineal favorece el acceso coalescente en la GPU y minimiza la fragmentación de memoria.
+	\item \textbf{Pesos y sesgos}: Se organizan en un arreglo plano de tipo \texttt{float} con un vector de desplazamientos (\textit{offsets}). Esta estructura lineal favorece el acceso coalescente en la GPU y minimiza la fragmentación de memoria.
 	
-	\item \textbf{Formato de Intercambio}: La persistencia se realiza en archivos \texttt{.npz} (NumPy) que contienen los tensores de pesos, sesgos y los metadatos de la topología, permitiendo una carga directa en la interfaz gráfica.
+	\item \textbf{Formato de intercambio}: La persistencia se realiza en archivos \texttt{.npz} (NumPy) que contienen los tensores de pesos, sesgos y los metadatos de la topología, permitiendo una carga directa en la interfaz gráfica.
 \end{itemize}
 
-\subsection{Historial de Evoluciones}
+\subsection{Historial de evoluciones}
 
 El historial gestiona el estado temporal de la simulación mediante búferes en memoria y persistencia en disco.
 
 \begin{itemize}
-	\item \textbf{Gestión de Memoria}: 
+	\item \textbf{Gestión de memoria}: 
 	\begin{itemize}
 		\item \texttt{past\_record}: Lista de instantáneas \texttt{ndarray} para permitir el retroceso cronológico.
 		\item \texttt{future\_record}: Un \texttt{collections.deque} que almacena estados precomputados asíncronamente por un \texttt{PrefetchWorker}.
 	\end{itemize}
 	
-	\item \textbf{Grabación de Alto Rendimiento}: Se utiliza memoria \textit{pinned} (fija) reservada con \texttt{cudaHostAlloc}. Esto permite que el flujo de datos dispositivo--anfitrión sea asíncrono y no se vea penalizado por la paginación del sistema operativo.
+	\item \textbf{Grabación de alto rendimiento}: Se utiliza memoria \textit{pinned} (fija) reservada con \texttt{cudaHostAlloc}. Esto permite que el flujo de datos dispositivo--anfitrión sea asíncrono y no se vea penalizado por la paginación del sistema operativo.
 	
-	\item \textbf{Formatos de Salida}: Los datos se exportan simultáneamente en \texttt{.npy} (para re-entrenamiento en Python) y \texttt{.mat} (para análisis y validación en Wolfram Mathematica).
+	\item \textbf{Formatos de salida}: Los datos se exportan simultáneamente en \texttt{.npy} (para reentrenamiento en Python) y \texttt{.mat} (para análisis y validación en Wolfram Mathematica).
 \end{itemize}

@@ -54,7 +54,7 @@ Existen $|\mathcal{S}| = 17$ estados y una vecindad de von Neumann (el centro y 
 
 Con esta definición propuesta, fueron generadas 100 condiciones aleatorias con cuatro generadores en un espacio de $50 \times 50$ durante 1500 pasos. 
 
-De acuerdo con la figura \ref{fig:sp_proportion} existen estados, como $8_i$ que tiene una probabilidad de aparición muy baja. Sin embargo, esta probabilidad está determinada porque solo se consideran cuatro de 2500 células. 
+De acuerdo con la figura \ref{fig:sp_proportion} existen estados, como $8_i$, que tienen una probabilidad de aparición muy baja. Sin embargo, esta probabilidad está determinada porque solo se consideran cuatro de 2500 células. 
 
 Por otro lado, si consideramos la evolución tradicional con el espacio vacío, con una única célula generadora, obtenemos las proporciones de la figura \ref{fig:sp_0_porportion}, donde aún existe la presencia de todos los estados pero con una diferente dispersión. Recordando que esta es la probabilidad de aparición de los estados y no la probabilidad de aparición de los patrones.
 
@@ -156,7 +156,7 @@ Los datos de entrenamiento pudieron haber tenido condiciones iniciales aleatoria
 
 \subsubsection{Reducción de la tasa de aprendizaje}
 
-El autómata celular neuronal pudo replicar el comportamiento exacto de la evolución con la que fue entrenada, una única célula generadora en el centro. Sin embargo, esa configuración no fue capaz de generalizar el comportamiento. Esto se observa cuando existen múltiples células generadoras, lo que causa la generación de más de ellas o de la eliminación de las mismas (ver figura \ref{fig:sp_nca_err_1}).
+El autómata celular neuronal pudo replicar el comportamiento exacto de la evolución con la que fue entrenado, una única célula generadora en el centro. Sin embargo, esa configuración no fue capaz de generalizar el comportamiento. Esto se observa cuando existen múltiples células generadoras, lo que causa la generación de más de ellas o de la eliminación de las mismas (ver figura \ref{fig:sp_nca_err_1}).
 
 \begin{figure}[htbp]
 	\centering
@@ -195,7 +195,7 @@ El autómata celular neuronal pudo replicar el comportamiento exacto de la evolu
 
 Además, la red fue entrenada con datos de frontera abierta, donde la arena que cae fuera de los bordes desaparece. Por esta razón el sistema no puede replicar el escenario en donde la arena llena el espacio. En la figura \ref{fig:sp_nca_step_2080} las generadoras se propagan cuando hay mucha arena en el sistema. El mismo efecto ocurre cuando existen generadoras muy juntas. 
 
-Para solucionar el problema de la eliminación de células generadoras, se entrena con una configuración inicial que contiene cuatro células generadoras en un espacio de $25 \times 25$ (2000 pasos cada una). Este nuevo experimento permite que coexistan varias (sin tocarse) pero revela un comportamiento oscilatorio en la pérdida de la red neuronal. De acuerdo con la figura \ref{fig:sp_4generadores_loss}, esta decrece de forma limpia hasta cerca de 150 épocas y continúa de forma errática. 
+Para solucionar el problema de la eliminación de células generadoras, se entrena con una configuración inicial que contiene cuatro células generadoras en un espacio de $25 \times 25$ (2000 pasos cada una). Este nuevo experimento permite que coexistan varias (sin tocarse), pero revela un comportamiento oscilatorio en la pérdida de la red neuronal. De acuerdo con la figura \ref{fig:sp_4generadores_loss}, esta decrece de forma limpia hasta cerca de 150 épocas y continúa de forma errática. 
 
 \begin{figure}[H]
 	\centering
@@ -243,11 +243,11 @@ Se proponen dos soluciones: disminución exponencial y disminución dinámica de
 
 Todas fueron entrenadas con una pérdida objetivo exigente (0.000001) y tuvieron una exactitud del 100\%. Recordando que la exactitud mide qué tantas predicciones fueron correctas y la pérdida, la seguridad de dicha decisión. Además, al evolucionar un generador en el centro de un espacio de $25 \times 25$ con frontera abierta, las tres rompen la simetría: la reducción exponencial en el paso 2615, el resto en el 3241. Solo la reducción dinámica genera un segundo generador, en el paso 4045, y llena casi todo el espacio con generadores (85\%) en el 4266; las otras dos no generan generadores adicionales en 6000 pasos.
 
-\subsubsection{Capa de entrada con One-hot encoding}
+\subsubsection{Capa de entrada con \textit{one-hot encoding}}
 
-La capa de entrada de la red neuronal para B3/S23 consiste de nueve células, cada una con un valor de cero o uno. Sin embargo, en \textit{sandpile} existen solo cinco células pero cada una de ellas puede adquirir un valor entre 17. Esta falta de normalización dificulta la tarea de predicción. 
+La capa de entrada de la red neuronal para B3/S23 consiste de nueve células, cada una con un valor de cero o uno. Sin embargo, en \textit{sandpile} existen solo cinco células, pero cada una de ellas puede adquirir un valor entre 17. Esta falta de normalización dificulta la tarea de predicción. 
 
-Una red neuronal es un proceso que combina números mediante funciones de agregación en cada neurona. Al tratar los datos de manera secuencial estamos indicando que existe la misma relación entre cada par de valores con la misma distancia. Para \textit{sandpile}, del estado 0 al 7 corresponde a las alturas posibles de arena y del estado 8 al 16 corresponde a las alturas de 0 a 8 para las generadoras. Sin embargo, al escoger una escala lineal estamos indicando que la relación que existe entre el estado 0 y el 1 o el 9 y el 10 es la misma que el 7 y 8. Es por esto que Menchaca en  \cite{MenchacaMendez2022} sugiere el uso de \textit{one-hot encoding}, una técnica de codificación de datos binaria.
+Una red neuronal es un proceso que combina números mediante funciones de agregación en cada neurona. Al tratar los datos de manera secuencial estamos indicando que existe la misma relación entre cada par de valores con la misma distancia. Para \textit{sandpile}, del estado 0 al 7 corresponde a las alturas posibles de arena y del estado 8 al 16 corresponde a las alturas de 0 a 8 para las generadoras. Sin embargo, al escoger una escala lineal estamos indicando que la relación que existe entre el estado 0 y el 1 o el 9 y el 10 es la misma que el 7 y 8. Es por esto que Menchaca en \cite{MenchacaMendez2022} sugiere el uso de \textit{one-hot encoding}, una técnica de codificación de datos binaria.
 
 En este caso, la capa de entrada pasa de tener 5 neuronas con valores entre 0 y 16 a $17 \times 5 = 85$ neuronas con valores de 0 o 1.
 
@@ -265,7 +265,7 @@ Entrenando con un único generador (tabla \ref{tab:sp_onehot_1gen}), con \textit
 		One-hot & 40 & 0.000001 & 4.92 & 100.000 & 100.000 \\
 		\bottomrule
 	\end{tabular}
-	\caption{Regla \textit{sandpile} con un generador, con capas: 2:64:ReLU \& 17:Linear, pérdida objetivo 0.000001, límite de épocas: 1200, tamaño del lote: 4096, tasa de aprendizaje inicial: 0.001 con reducción \textit{plateau}, semilla aleatoria: 42. La red sin one-hot terminó por límite de épocas.}
+	\caption{Regla \textit{sandpile} con un generador, con capas: 2:64:ReLU \& 17:Linear, pérdida objetivo 0.000001, límite de épocas: 1200, tamaño del lote: 4096, tasa de aprendizaje inicial: 0.001 con reducción \textit{plateau}, semilla aleatoria: 42. La red sin \textit{one-hot} terminó por límite de épocas.}
 	\label{tab:sp_onehot_1gen}
 \end{table}
 

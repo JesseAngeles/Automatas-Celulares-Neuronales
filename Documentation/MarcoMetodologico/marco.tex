@@ -32,7 +32,7 @@ El enfoque cuantitativo se justifica porque el análisis se realiza a partir de 
 
 La población de estudio se define como un conjunto cerrado, finito y accesible de casos (personas, animales, expedientes, objetos, etc.), los cuales cumplen con un criterio de inclusión y que sirven como base para la investigación \cite{arias2016_poblacion}. En otras palabras, es un conjunto conformado por todos los elementos a los que se pretende generalizar los resultados del estudio.
 
-En este trabajo, la población que se estudia está formada por todos los autómatas celulares finitos que se encuentran en un espacio bidimensional con una distribución de cuadrícula regular. Se consideran condiciones de frontera un conjunto de estados finito y cualquier función que pueda mapear de $\mathbb{R}^{|\mathcal{N}|} \to \mathbb{R}$.
+En este trabajo, la población que se estudia está formada por todos los autómatas celulares finitos que se encuentran en un espacio bidimensional con una distribución de cuadrícula regular. Se consideran condiciones de frontera, un conjunto de estados finito y cualquier función que pueda mapear de $\mathbb{R}^{|\mathcal{N}|} \to \mathbb{R}$.
 
 \section{Muestra y muestreo}
 
@@ -52,7 +52,7 @@ Este tipo de investigación es útil porque ayuda a encontrar relaciones de caus
 
 \section{Técnicas e instrumentos de recolección de datos}
 
-La recolección de datos se realiza a partir de las simulaciones computacionales realizadas. Dado que se trata de enfoque cuantitativo, no es necesario usar técnicas de observación como encuestas, sino procedimientos de registro automatizado para su posterior análisis numérico. 
+La recolección de datos se realiza a partir de las simulaciones computacionales realizadas. Dado que se trata de un enfoque cuantitativo, no es necesario usar técnicas de observación como encuestas, sino procedimientos de registro automatizado para su posterior análisis numérico. 
 
 \subsection{Técnicas de recolección de datos}
 
@@ -60,7 +60,7 @@ La recolección de datos se realiza a partir de las simulaciones computacionales
 	
 	\item Simulación computacional: Ejecución del modelo del autómata celular bajo diferentes configuraciones de vecindad, estados y arquitectura de la red neuronal artificial.
 	
-	\item Registro automático de datos: Datos generados por la simulación. Como el historial evolutivo, patrones y métricas de estabilidad, error y desempeño.
+	\item Registro automático de datos: Datos generados por la simulación, como el historial evolutivo, patrones y métricas de estabilidad, error y desempeño.
 	
 	\item Análisis estadístico: Se aplican métricas cuantitativas que permiten comparar configuraciones para evaluar la efectividad del modelo. Métricas como precisión, convergencia, tasa de error y comportamiento temporal de los patrones.
 	
@@ -88,7 +88,7 @@ El desarrollo metodológico de la investigación se llevará a cabo en diversas 
 	
 	\item \textbf{Diseño, desarrollo e implementación del simulador}: Se construye una herramienta computacional capaz de simular autómatas celulares bidimensionales. Aunque el fin último es estudiar los autómatas celulares neuronales, este simulador debe poder aceptar configuraciones clásicas. Esto debido a que, para las siguientes fases, es necesario conocer el comportamiento de configuraciones conocidas.
 	
-	\item \textbf{Diseño, desarrollo e integración del módulo red neuronal artificial}: Se implementa un módulo adicional que permite entrenar una red neuronal artificial para aprender el comportamiento de autómatas celulares existentes. La salida de este módulo es la función de transición aprendida. Además, este módulo se integra dentro del simulador principal para permitir la experimentación directa.
+	\item \textbf{Diseño, desarrollo e integración del módulo de red neuronal artificial}: Se implementa un módulo adicional que permite entrenar una red neuronal artificial para aprender el comportamiento de autómatas celulares existentes. La salida de este módulo es la función de transición aprendida. Además, este módulo se integra dentro del simulador principal para permitir la experimentación directa.
 	
 	\item \textbf{Imitación de patrones conocidos}: Se diseñan y ejecutan experimentos para evaluar la capacidad del modelo neuronal de imitar el comportamiento de autómatas celulares clásicos, como el juego de la vida. Se busca, además, medir la precisión del aprendizaje y la estabilidad de las configuraciones generadas. 
 	
@@ -104,7 +104,7 @@ Una vez recolectados los datos provenientes de las simulaciones computacionales,
 
 \subsection{Procesamiento de datos cuantitativos}
 
-Los datos cuantitativos se obtienen de las ejecuciones del simulador, donde se registran variables como número de iteraciones, estados promedio de las celdas, métricas de error y estabilidad de los patrones emergentes durante un periodo determinado. Posteriormente, estos datos se organizan, procesan y analizan mediante herramientas estadísticas y de visualización.
+Los datos cuantitativos se obtienen de las ejecuciones del simulador, donde se registran variables como número de pasos, estados promedio de las células, métricas de error y estabilidad de los patrones emergentes durante un periodo determinado. Posteriormente, estos datos se organizan, procesan y analizan mediante herramientas estadísticas y de visualización.
 
 \begin{itemize}
 	\item \textbf{Análisis estadístico descriptivo:} Se calculan medidas de tendencia central y de dispersión con el fin de describir cuantitativamente el comportamiento de las variables analizadas y detectar posibles irregularidades o tendencias \cite{question2023_estadistico}.
@@ -132,7 +132,7 @@ Entre los factores clave para la elección de un lenguaje de programación se en
 
 Es por esto que, como lenguajes de programación, se decidió utilizar C++/CUDA para el núcleo de simulación y cálculos pesados en paralelo, y Python para la interfaz, visualización, control de simulación y diseño de redes neuronales. 
 
-A continuación se presentan las definiciones pertinentes de los lenguajes de programación, frameworks y librerías utilizadas para el desarrollo de la aplicación móvil.
+A continuación se presentan las definiciones pertinentes de los lenguajes de programación, \textit{frameworks} y librerías utilizadas para el desarrollo de la aplicación móvil.
 
 \subsubsection{C++}
 
@@ -154,7 +154,7 @@ Es utilizado en motores de videojuegos, software de sistemas, aplicaciones en ti
 
 CUDA es una plataforma de computación paralela y un modelo de programación desarrollado por NVIDIA que permite utilizar la GPU para cálculos de propósito general. Se emplea para acelerar operaciones matemáticas y simulaciones que requieren grandes cantidades de procesamiento paralelo \cite{cuda}, como el entrenamiento de redes neuronales o la simulación de autómatas celulares.
 
-Se requiere de la librería \textbf{cuda\_runtime} la cual le permite a un programa escrito en C/C++ usar los núcleos CUDA de una tarjeta grafica de NVIDIA \cite{cuda_runtime}. Esto permite gestionar la memoria, controlar los núcleos, manejar errores y dispositivos.
+Se requiere de la librería \textbf{cuda\_runtime}, la cual le permite a un programa escrito en C/C++ usar los núcleos CUDA de una tarjeta gráfica de NVIDIA \cite{cuda_runtime}. Esto permite gestionar la memoria, controlar los núcleos, manejar errores y dispositivos.
 
 \subsubsection{Python}
 
@@ -185,7 +185,7 @@ En adición a lo anterior, cuenta con una amplia colección de librerías y \tex
 	
 	Es uno de los marcos de ML destinados a comunidades académicas y de investigación por su flexibilidad y sencillez de uso, además de admitir una amplia variedad de estructuras de redes neuronales \cite{pytorch_2}.
 	
-	\item \textbf{PyQt5 / PySide6} son herramientas que permiten usar Python como un lenguaje alternativo de desarrollo de aplicaciones a C++ en todas las plataformas soportadas \cite{qt_1}. PyQt5 también puede integrarse en aplicaciones basadas en C++ para permitir a los usuarios de dichas software configurar o mejorar la funcionalidad de las mismas, mientras que PySide6 ofrece compatibilidad oficial con las bibliotecas Qt desarrolladas por The Qt Company \cite{qt_2}.
+	\item \textbf{PyQt5 / PySide6} son herramientas que permiten usar Python como un lenguaje alternativo de desarrollo de aplicaciones a C++ en todas las plataformas soportadas \cite{qt_1}. PyQt5 también puede integrarse en aplicaciones basadas en C++ para permitir a los usuarios de dicho software configurar o mejorar la funcionalidad de las mismas, mientras que PySide6 ofrece compatibilidad oficial con las bibliotecas Qt desarrolladas por The Qt Company \cite{qt_2}.
 	
 	\item \textbf{pybind11} es una biblioteca de C++ diseñada para exponer tipos y funciones de C++ en Python y viceversa, facilitando la creación de extensiones de Python basadas en código C++ \cite{pybind_pybind}. Puede generar enlaces entre ambos lenguajes de manera compacta, eficiente y con un código más simple, posibilitando así integrar cálculos de alto rendimiento escritos en C++ dentro de entornos Python.
 	
@@ -199,21 +199,21 @@ En adición a lo anterior, cuenta con una amplia colección de librerías y \tex
 		\item Diagramas de caja y bigotes.
 	\end{itemize}
 	
-	\item \textbf{Scikit-learn} es una librería que cuenta con algoritmos de clasificación, regresión, clustering y reducción de dimensionalidad, etc. Es compatible con otras librerías de Python \cite{mds_scikitlearn}.
+	\item \textbf{Scikit-learn} es una librería que cuenta con algoritmos de clasificación, regresión, \textit{clustering} y reducción de dimensionalidad, etc. Es compatible con otras librerías de Python \cite{mds_scikitlearn}.
 \end{itemize}
 
 \subsubsection{Wolfram Mathematica}
 
-Es un sistema de computación cientifica que sigue el paradigma de programación simbolica. Fue desarrollado por Wolfram Research y se especializa en manejar matemáticas complejos, algoritmos de visualización y manipulación de datos de forma nativa \cite{mathematica_2024}. Algunas de sus funcionalidades son:
+Es un sistema de computación científica que sigue el paradigma de programación simbólica. Fue desarrollado por Wolfram Research y se especializa en manejar matemáticas complejas, algoritmos de visualización y manipulación de datos de forma nativa \cite{mathematica_2024}. Algunas de sus funcionalidades son:
 \begin{itemize}
 	\item Visualización: Genera gráficos en 2D y 3D, mapas y diagramas dinámicos.
 	
-	\item Procesamiento de Datos: Herramientas para aprendizaje automático, procesamiento de imágenes y señales.
+	\item Procesamiento de datos: Herramientas para aprendizaje automático, procesamiento de imágenes y señales.
 	
-	\item Documentos Interactivos: Se trabaja en cuadernos, los cuales mezclan código ejecutable, texto enriquecido, imágenes y modelos interactivos.
+	\item Documentos interactivos: Se trabaja en cuadernos, los cuales mezclan código ejecutable, texto enriquecido, imágenes y modelos interactivos.
 \end{itemize}
 
-Adicionalmente, en Wolfram Mathematica existen funciones nativas para construir, evolucionar, manipular y analizar autómatas celulares. Por lo que su uso como medio de referencia en la construcción del simulador y como herramienta de análisis de datos resulta fundamental (Wolfram Mathematica no tiene interacción directa con el simulador, unicamente se usa para el estudio de los resultados obtenidos mediante el simulador).
+Adicionalmente, en Wolfram Mathematica existen funciones nativas para construir, evolucionar, manipular y analizar autómatas celulares. Por lo que su uso como medio de referencia en la construcción del simulador y como herramienta de análisis de datos resulta fundamental (Wolfram Mathematica no tiene interacción directa con el simulador, únicamente se usa para el estudio de los resultados obtenidos mediante el simulador).
 
 \subsection{Entornos de trabajo}
 
@@ -221,28 +221,28 @@ El desarrollo del presente proyecto requiere de un entorno flexible y bien estru
 
 \subsubsection{Plataformas de desarrollo}
 
-Con el fin de cubrir las distintas etapas del proyecto, desde la implementación hasta la comunicación de resultados. Las siguientes plataformas han sido clave para mantener un flujo de trabajo continuo y bien coordinado.
+Con el fin de cubrir las distintas etapas del proyecto, desde la implementación hasta la comunicación de resultados, las siguientes plataformas han sido clave para mantener un flujo de trabajo continuo y bien coordinado.
 
 \begin{itemize}	
 	
-	\item\textbf{Visual Studio Code} Es un editor de código gratuito, de código abierto y compatible con múltiples sistemas operativos. Fue creado por Microsoft, empresa con amplia trayectoria en el desarrollo de entornos integrados (IDE), lo que se refleja en la eficiencia y funcionalidad que ofrece esta herramienta, muy valorada por la comunidad de desarrolladores \cite{cimas2024vscode}.
+	\item\textbf{Visual Studio Code} es un editor de código gratuito, de código abierto y compatible con múltiples sistemas operativos. Fue creado por Microsoft, empresa con amplia trayectoria en el desarrollo de entornos integrados (IDE), lo que se refleja en la eficiencia y funcionalidad que ofrece esta herramienta, muy valorada por la comunidad de desarrolladores \cite{cimas2024vscode}.
 	
 	Aunque su nombre puede sugerir una relación directa con Visual Studio, en realidad Visual Studio Code es una aplicación independiente, construida desde cero con tecnologías diferentes. Mientras Visual Studio se orienta principalmente a tecnologías propias de Microsoft, VSCode destaca por su flexibilidad y capacidad de adaptarse a prácticamente cualquier lenguaje de programación \cite{garcia2024vscode}.
 	
-	\item\textbf{Github} Es una plataforma basada en la nube donde puedes almacenar, compartir, trabajar y versionar junto con otros usuarios para escribir código \cite{github2025about}. En adición a lo anterior, también permite realizar lo siguiente:
+	\item\textbf{GitHub} es una plataforma basada en la nube donde puedes almacenar, compartir, trabajar y versionar junto con otros usuarios para escribir código \cite{github2025about}. En adición a lo anterior, también permite realizar lo siguiente:
 	
 	\begin{itemize}
 		\item Presentar o compartir el trabajo.
 		\item Seguir y administrar los cambios en el código a lo largo del tiempo.
 		\item Dejar que otros usuarios revisen el código y realicen sugerencias para mejorarlo.
-		\item Colaborar en un proyecto compartido, sin preocuparse de que los cambios afectarán al trabajo de los colaboradores antes de que esté listo para integrarlos.
+		\item Colaborar en un proyecto compartido, sin preocuparse de que los cambios afecten al trabajo de los colaboradores antes de que esté listo para integrarlos.
 	\end{itemize}
 	
 	El versionamiento, una de las características fundamentales de GitHub, es posible gracias al software de código abierto Git, en el que se basa GitHub \cite{github2025about}.
 	
-	\item\textbf{Canva} fue lanzada en 2013, Canva es una herramienta de diseño y publicación online que tiene como misión poner el poder del diseño al alcance de todo el mundo, para que cualquier persona pueda crear lo que quiera y publicarlo donde quiera \cite{canva2025about}.
+	\item\textbf{Canva} fue lanzada en 2013, Canva es una herramienta de diseño y publicación \textit{online} que tiene como misión poner el poder del diseño al alcance de todo el mundo, para que cualquier persona pueda crear lo que quiera y publicarlo donde quiera \cite{canva2025about}.
 	
-	\item\textbf{TexStudio} es un entorno de escritura integrado para la creación de documentos LaTeX. Cuenta con numerosas características como resaltado de sintaxis, visor integrado, comprobación de referencias y varios asistentes. TeXstudio es de código abierto y está disponible para todos los principales sistemas operativos \cite{texstudio}.
+	\item\textbf{TeXstudio} es un entorno de escritura integrado para la creación de documentos LaTeX. Cuenta con numerosas características como resaltado de sintaxis, visor integrado, comprobación de referencias y varios asistentes. TeXstudio es de código abierto y está disponible para todos los principales sistemas operativos \cite{texstudio}.
 	
 	\item \textbf{draw.io} es una herramienta de software gratuita diseñada para la creación de diagramas. Se utiliza para modelado UML, documentación de proyectos y gestión de flujos \cite{drawio2024}.
 	
