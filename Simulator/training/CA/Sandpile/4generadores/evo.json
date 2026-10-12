@@ -1,0 +1,91 @@
+{
+	"simulation":"sandpile",
+	"rule":"sincrona; el generador agrega un grano solo si no se derrumba",
+	"shape":[
+		2001,
+		25,
+		25
+	],
+	"size":25,
+	"steps":2000,
+	"generators":[
+		[
+			18,
+			12
+		],
+		[
+			6,
+			6
+		],
+		[
+			3,
+			11
+		],
+		[
+			8,
+			18
+		]
+	],
+	"generators_seed":"SeedRandom[42]; RandomSample[Tuples[Range[25], 2], 4]",
+	"threshold":4,
+	"grains_per_toppling":4,
+	"boundary":"open",
+	"state_encoding":"altura en celdas normales; altura + 8 en celdas generadoras",
+	"states":[
+		"0: 0 granos",
+		"1: 1 grano",
+		"2: 2 granos",
+		"3: 3 granos",
+		"4: 4 granos",
+		"5: 5 granos",
+		"6: 6 granos",
+		"7: 7 granos",
+		"8: generador, 0 granos",
+		"9: generador, 1 grano",
+		"10: generador, 2 granos",
+		"11: generador, 3 granos",
+		"12: generador, 4 granos",
+		"13: generador, 5 granos",
+		"14: generador, 6 granos",
+		"15: generador, 7 granos",
+		"16: generador, 8 granos"
+	],
+	"colors_hex":[
+		"#f0efec",
+		"#2a78d6",
+		"#eb6834",
+		"#1baf7a",
+		"#eda100",
+		"#e34948",
+		"#8f5bd6",
+		"#3d3d3a",
+		"#848382",
+		"#174276",
+		"#81391d",
+		"#0f6043",
+		"#825900",
+		"#7d2828",
+		"#4f3276",
+		"#222220",
+		"#6b0d32"
+	],
+	"state_fraction":[
+		0.2593303348325837,
+		0.13959420289855073,
+		0.22112463768115942,
+		0.2807780109945027,
+		7.304747626186907e-2,
+		1.75768115942029e-2,
+		2.0357821089455274e-3,
+		1.1274362818590705e-4,
+		8.579710144927536e-4,
+		1.170614692653673e-3,
+		7.884057971014492e-4,
+		1.010694652673663e-3,
+		1.4760619690154923e-3,
+		8.451774112943529e-4,
+		1.951024487756122e-4,
+		4.1579210394802596e-5,
+		1.43928035982009e-5
+	]
+}

@@ -1,0 +1,5 @@
+act,out_act,lr,lote,loss_target,epocas,epocas_corridas,final,exactitud,exactitud_generador,patrones_mal,segundos,salida,error
+relu,linear,0.003,4096,0.001,500,500,0.7098898201986076,0.6902624,0.0,4493,443.17251770299845,NCA/Sandpile/ajuste/32x32/lr0.003/32-32-relu_17-linear.npz,
+relu,linear,0.001,4096,0.001,500,500,0.012163979817011387,0.9967904,0.8975,1124,442.55951750500026,NCA/Sandpile/ajuste/32x32/lr0.001/32-32-relu_17-linear.npz,
+relu,linear,0.0001,4096,0.001,500,500,0.02512063445170331,0.99104,0.799,1949,442.17188451499896,NCA/Sandpile/ajuste/32x32/lr0.0001/32-32-relu_17-linear.npz,
+relu,linear,3e-05,4096,0.001,500,500,0.0267550908637787,0.9920744,0.6915,1825,441.77322310599993,NCA/Sandpile/ajuste/32x32/lr3e-05/32-32-relu_17-linear.npz,

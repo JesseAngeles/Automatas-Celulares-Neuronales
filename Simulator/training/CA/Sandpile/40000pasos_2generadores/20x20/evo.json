@@ -1,0 +1,82 @@
+{
+	"simulation":"sandpile",
+	"rule":"sincrona; el generador agrega un grano solo si no se derrumba",
+	"shape":[
+		40001,
+		20,
+		20
+	],
+	"size":20,
+	"steps":40000,
+	"generators":[
+		[
+			11,
+			11
+		],
+		[
+			11,
+			12
+		]
+	],
+	"threshold":4,
+	"grains_per_toppling":4,
+	"boundary":"open",
+	"state_encoding":"altura en celdas normales; altura + 8 en celdas generadoras",
+	"states":[
+		"0: 0 granos",
+		"1: 1 grano",
+		"2: 2 granos",
+		"3: 3 granos",
+		"4: 4 granos",
+		"5: 5 granos",
+		"6: 6 granos",
+		"7: 7 granos",
+		"8: generador, 0 granos",
+		"9: generador, 1 grano",
+		"10: generador, 2 granos",
+		"11: generador, 3 granos",
+		"12: generador, 4 granos",
+		"13: generador, 5 granos",
+		"14: generador, 6 granos",
+		"15: generador, 7 granos",
+		"16: generador, 8 granos"
+	],
+	"colors_hex":[
+		"#f0efec",
+		"#2a78d6",
+		"#eb6834",
+		"#1baf7a",
+		"#eda100",
+		"#e34948",
+		"#8f5bd6",
+		"#3d3d3a",
+		"#848382",
+		"#174276",
+		"#81391d",
+		"#0f6043",
+		"#825900",
+		"#7d2828",
+		"#4f3276",
+		"#222220",
+		"#6b0d32"
+	],
+	"state_fraction":[
+		0.11519849503762405,
+		0.16917883302917427,
+		0.2758153546161346,
+		0.35934039149021274,
+		5.943607659808505e-2,
+		1.414227144321392e-2,
+		1.774830629234269e-3,
+		1.1374715632109197e-4,
+		1.453713657158571e-4,
+		5.759231019224519e-4,
+		1.0111622209444764e-3,
+		7.305442363940901e-4,
+		5.076123096922577e-4,
+		8.306667333316667e-4,
+		7.901052473688158e-4,
+		3.554286142846429e-4,
+		5.318617034574135e-5
+	]
+}

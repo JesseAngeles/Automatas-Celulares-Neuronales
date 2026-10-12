@@ -44,11 +44,15 @@ public:
     float getCell(int x, int y) const;
     int *getNeighbourhood() const;
     int getNSize() const;
+    int getBoundary() const;
+    int getOneHot() const;
 
     // Setters
     void setSpace(float *);
     void setCell(int, int, float);
     void setNeighbourhood(int *, int);
+    void setBoundary(int mode);   // 0=abierta, 1=periódica, 2=reflectiva, 3=reflexiva (igual que CA)
+    void setOneHot(int states);   // 0 = entrada cruda; > 0 = cada vecino en one-hot con ese número de estados
 
 private:
     int width;
@@ -57,6 +61,9 @@ private:
 
     int *neighbourhood;
     int n_size;
+    int boundary_mode;
+    int one_hot_states;
+    int first_layer_in;
 
     // CUDA
     float *weights_d;
@@ -79,4 +86,5 @@ private:
     dim3 blocks;
 
     void freeNN();
+    void launch();   // lanza el kernel con la frontera especializada en compile-time
 };

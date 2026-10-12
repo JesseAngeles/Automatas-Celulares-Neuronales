@@ -560,17 +560,17 @@ A continuación, se presentan tres reglas representativas por su relevancia teó
 	
 	\begin{figure}[!htbp]
 		\centering
-		\begin{subfigure}[b]{0.75\textwidth}
+		\begin{subfigure}[b]{0.5\textwidth}
 			\includegraphics[width=\textwidth]{img/r30a.png}
 			\caption{50 evoluciones.}
 			\label{fig:30_1}
 		\end{subfigure}
-		\begin{subfigure}[b]{0.75\textwidth}
+		\begin{subfigure}[b]{0.5\textwidth}
 			\includegraphics[width=\textwidth]{img/r30b.png}
 			\caption{350 evoluciones.}
 			\label{fig:30_2}
 		\end{subfigure}
-		\begin{subfigure}[b]{0.75\textwidth}
+		\begin{subfigure}[b]{0.5\textwidth}
 			\includegraphics[width=\textwidth]{img/r30.png}
 			\caption{Función de transición}
 			\label{fig:30_rule}
@@ -585,12 +585,12 @@ A continuación, se presentan tres reglas representativas por su relevancia teó
 	
 	\begin{figure}[!htbp]
 		\centering
-		\begin{subfigure}[b]{0.75\textwidth}
+		\begin{subfigure}[b]{0.5\textwidth}
 			\includegraphics[width=\textwidth]{img/r110a.png}
 			\caption{500 evoluciones.}
 			\label{fig:110_1}
 		\end{subfigure}
-		\begin{subfigure}[b]{0.75\textwidth}
+		\begin{subfigure}[b]{0.5\textwidth}
 			\includegraphics[width=\textwidth]{img/r110.png}
 			\caption{Función de transición}
 			\label{fig:110_rule}
@@ -603,12 +603,12 @@ A continuación, se presentan tres reglas representativas por su relevancia teó
 	
 	\begin{figure}[!htbp]
 		\centering
-		\begin{subfigure}[b]{0.75\textwidth}
+		\begin{subfigure}[b]{0.5\textwidth}
 			\includegraphics[width=\textwidth]{img/r90a.png}
 			\caption{1025 evoluciones.}
 			\label{fig:90_1}
 		\end{subfigure}
-		\begin{subfigure}[b]{0.75\textwidth}
+		\begin{subfigure}[b]{0.5\textwidth}
 			\includegraphics[width=\textwidth]{img/r90.png}
 			\caption{Función de transición}
 			\label{fig:90_rule}
@@ -617,6 +617,85 @@ A continuación, se presentan tres reglas representativas por su relevancia teó
 		\label{fig:regla_90}
 	\end{figure}
 \end{itemize}
+
+\subsection{Otros sistemas complejos}
+
+Los autómatas celulares no son las únicas herramientas que pueden representar sistemas complejos. A continuación se presentan dos sistemas complejos adicionales que, aunque no son autómatas celulares, si pueden ser representados mediante uno. Esos sistemas son el modelo de \textit{sandpile} y la hormiga de Langton.
+
+\subsubsection{Sandpile}
+
+Modelo de criticalidad autoorganizada propuesto por Bak, Tang y Wiesenfeld \cite{bak1987}, también conocido como modelo de arena abeliana; simula el comportamiento de avalanchas provocadas al apilar cantidades de arena en diferentes posiciones. Este sistema arroja cantidades de arena en un sitio y, cuando alcanza un umbral crítico, se derrumba sobre sus vecinos; si sus vecinos alcanzan el umbral, estos también se derrumban, generando un efecto en cadena \cite{dhar1999abelian, socsim_btw_2019}. Este comportamiento no es exclusivo de dos dimensiones y guarda mucha similitud con un autómata celular:
+
+\begin{definition}
+	Un sistema \emph{sandpile} es una 5-tupla $(\mathcal{L}, \mathcal{S}, \mathcal{N}, z_c, \mathcal{F})$ donde:
+	\begin{itemize}
+		\item $\mathcal{L} \subseteq \mathbb{Z}^D$ es el espacio $D$-dimensional. Cada sitio $\vec{i} \in \mathcal{L}$ se define como un vector $D$-dimensional que representa su posición en el espacio.
+		\item $\mathcal{S} \subseteq \mathbb{N}_0$ es el conjunto de estados. El estado de cada sitio representa la cantidad de granos de arena acumulados en él:
+		\[
+		\sigma_{\vec{i}}(t) \in \mathcal{S},\; \forall \vec{i} \in \mathcal{L}
+		\]
+		donde $\sigma_{\vec{i}}(t)$ es la cantidad de arena en el sitio $\vec{i}$ en el tiempo $t$.
+		\item $\mathcal{N} = (\vec{v}_1, \vec{v}_2, \dots, \vec{v}_m)$ es el conjunto de los $m$ vectores de desplazamiento que definen la vecindad de un sitio. Así, los vecinos del sitio $\vec{i} \in \mathcal{L}$ se encuentran en las posiciones $\vec{i} + \vec{v},\; \forall \vec{v} \in \mathcal{N}$, y son los sitios hacia los cuales se dispersa la arena.
+		\item $z_c \in \mathcal{S}$ es el umbral crítico. Un sitio $\vec{i}$ es estable si $\sigma_{\vec{i}}(t) < z_c$ e inestable si $\sigma_{\vec{i}}(t) \geq z_c$.
+		\item $\mathcal{F}$ es la función de transición (o regla de derrumbe), que define cómo un sitio inestable redistribuye su arena entre sus vecinos. Cuando $\sigma_{\vec{i}}(t) \geq z_c$, el sitio $\vec{i}$ pierde $m$ granos de arena y cada uno de sus vecinos $\vec{i} + \vec{v}$ recibe uno, conservándose la cantidad total de arena salvo en la frontera.
+	\end{itemize}
+	Usualmente se considera una frontera abierta, de modo que la arena que sale de $\mathcal{L}$ se pierde y el sistema no se satura. Todos los sitios inestables se actualizan de manera paralela.
+
+\end{definition}
+
+Una configuración común usa una cuadrícula bidimensional que añade granos de arena en el centro y, cuando un sitio alcanza el umbral de $z_c = 4$, distribuye 4 granos, uno a cada uno de sus cuatro vecinos ortogonales más cercanos \cite{dhar1999abelian}. En la figura \ref{fig:sandpile} se muestran algunos patrones sobre cómo evoluciona este sistema.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.75\linewidth]{img/sandpile_espacios.png}
+	\caption{Evolución de \textit{sandpile} con un solo generador en el centro y frontera abierta en un espacio de $50 \times 50$. De izquierda a derecha y de arriba abajo: pasos 100, 500, 1000, 2500, 5000 y 10000.}
+	\label{fig:sandpile} 
+\end{figure}
+
+Este sistema presenta criticalidad autoorganizada: en un momento, añadir un grano de arena no representa más que cambiar únicamente el sitio del centro y, en otros escenarios, ese único cambio es capaz de modificar casi todo el sistema por las avalanchas.
+
+Su definición tiene similitudes con un autómata celular: espacio, vecindad, estados y función de transición. Sin embargo, la principal diferencia es que \textit{sandpile} es un sistema abierto que recibe granos de arena, mientras que la evolución de un autómata celular depende únicamente de su configuración inicial, sin entradas externas. Una posible representación como un autómata celular sería definiendo sitios generadores de arena dentro de la configuración inicial.
+
+\subsubsection{Hormiga de Langton}
+
+La hormiga de Langton, creada por Chris Langton en 1986, es un modelo computacional sencillo que genera comportamientos emergentes y patrones complejos a partir de reglas simples. Una hormiga se desplaza sobre una cuadrícula bidimensional y, según el color del sitio en el que se encuentra, gira, cambia el color de ese sitio y avanza. Este modelo ejemplifica la transición del orden al caos y del caos al orden \cite{wikipedia2024_langton, freire2024_langton}:
+
+\begin{definition}
+	Una hormiga de Langton es una 5-tupla $(\mathcal{L}, \mathcal{C}, \mathcal{D}, \mathcal{R}, \mathcal{F})$ donde:
+	\begin{itemize}
+		\item $\mathcal{L}$ es el espacio D-dimensional, teóricamente infinito. Cada sitio $\vec{i} \in \mathcal{L}$ se define como un vector que representa su posición en el espacio.
+		\item $\mathcal{C} = \{0, 1, \dots, n-1\}$ es el conjunto de los $n$ colores. Cada sitio tiene un color:
+		\[
+		c_{\vec{i}}(t) \in \mathcal{C},\; \forall \vec{i} \in \mathcal{L}
+		\]
+		donde $c_{\vec{i}}(t)$ es el color del sitio $\vec{i}$ en el tiempo $t$.
+		\item $\mathcal{D}$ es el conjunto de direcciones, cada una representada por un vector unitario. La hormiga se describe por su posición $\vec{p}(t) \in \mathcal{L}$ y su dirección $\vec{d}(t) \in \mathcal{D}$.
+		\item $\mathcal{R} = r_0 r_1 \cdots r_{n-1}$ es la regla, una cadena de $n$ instrucciones. Cada elemento indica un giro de $90^\circ$ en una dirección cuando se encuentra sobre un sitio de color $k$.
+		\item $\mathcal{F}$ es la función de transición, que en cada paso, con $k = c_{\vec{p}(t)}(t)$ el color del sitio donde se encuentra la hormiga:
+		\begin{enumerate}
+			\item Gira según la instrucción $r_k$, obteniendo su nueva dirección $\vec{d}(t+1)$.
+			\item Cambia el color del sitio al siguiente: $c_{\vec{p}(t)}(t+1) = (k + 1) \bmod n$.
+			\item Avanza un sitio en su nueva dirección: $\vec{p}(t+1) = \vec{p}(t) + \vec{d}(t+1)$.
+		\end{enumerate}
+		Los demás sitios conservan su color.
+	\end{itemize}
+	Usualmente el espacio inicia con todos los sitios en el color 0 y una única hormiga.
+\end{definition}
+
+La definición considera una única hormiga. Si se desea agregar más hormigas al mismo espacio, se tiene que definir el comportamiento cuando van a colisionar, es decir, cuando dos o más hormigas intentan ocupar el mismo sitio, pues la definición original no contempla ese escenario.
+
+La regla original es RL: sobre un sitio de color 0 la hormiga gira a la derecha y sobre uno de color 1 gira a la izquierda; en ambos casos el sitio cambia al otro color \cite{freire2024_langton}. Bajo esta estructura pueden definirse múltiples reglas, como LLR, donde la hormiga gira a la izquierda en los colores 0 y 1, a la derecha en el color 2, y los colores cambian en el ciclo $0 \rightarrow 1 \rightarrow 2 \rightarrow 0$. En la figura \ref{fig:langton} se muestra cómo evoluciona la regla RL.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\linewidth]{img/langton_espacios.png}
+	\caption{Evolución de la hormiga de Langton RL iniciando en el centro de un espacio vacío de $100 \times 100$. De izquierda a derecha y de arriba abajo: pasos 100, 1000, 5000, 9000, 10500 y 11000.}
+	\label{fig:langton}
+\end{figure}
+
+Durante los primeros cientos de pasos, la hormiga genera patrones simples y simétricos; después, su comportamiento se vuelve caótico y, alrededor del paso 10000, construye una carretera: un patrón de 104 pasos que se repite indefinidamente y se desplaza en diagonal \cite{wikipedia2024_langton}. En la simulación de la figura \ref{fig:langton}, la carretera comienza en el paso 9976.
+
+La hormiga de Langton puede catalogarse como un agente, es decir, una entidad autónoma que toma decisiones individuales basadas en ciertas reglas \cite{wikipedia2024_agente}. Sin embargo, su comportamiento también puede replicarse con un autómata celular \cite{weisstein2002_ca}. La principal diferencia es que en un autómata celular todos los sitios se actualizan a partir de su vecindad, mientras que la hormiga únicamente modifica el sitio en el que se encuentra. 
 
 \section{Clasificación}
 
@@ -719,6 +798,7 @@ Por otro lado, Culick y Yu \cite{genaro2013_class, culik1988_class} proponen una
 	
 	\item Todos los autómatas celulares pertenecen a la clase IV.	
 \end{enumerate}
+
 
 \section{Extensiones y cambios de la definición}
 

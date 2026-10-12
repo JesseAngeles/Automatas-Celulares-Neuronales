@@ -1,0 +1,55 @@
+{
+	"simulation":"langton_ant",
+	"rule":"RL",
+	"colors_count":2,
+	"shape":[
+		1001,
+		50,
+		50
+	],
+	"size":50,
+	"steps":1000,
+	"start":[
+		25,
+		25
+	],
+	"direction":0,
+	"boundary":"periodic",
+	"state_encoding":"color + n*(direction + 1) en la celda de la hormiga; direction 0 arriba, 1 derecha, 2 abajo, 3 izquierda",
+	"states":[
+		"0: color 0 (R)",
+		"1: color 1 (L)",
+		"2: hormiga ↑, color 0",
+		"3: hormiga ↑, color 1",
+		"4: hormiga →, color 0",
+		"5: hormiga →, color 1",
+		"6: hormiga ↓, color 0",
+		"7: hormiga ↓, color 1",
+		"8: hormiga ←, color 0",
+		"9: hormiga ←, color 1"
+	],
+	"colors_hex":[
+		"#f0efec",
+		"#2a78d6",
+		"#60605e",
+		"#113056",
+		"#60605e",
+		"#113056",
+		"#60605e",
+		"#113056",
+		"#60605e",
+		"#113056"
+	],
+	"state_fraction":[
+		0.9732151848151848,
+		2.6384815184815186e-2,
+		5.714285714285714e-5,
+		4.4355644355644353e-5,
+		5.6343656343656344e-5,
+		4.515484515484516e-5,
+		5.3946053946053945e-5,
+		4.475524475524475e-5,
+		5.5944055944055945e-5,
+		4.235764235764236e-5
+	]
+}
