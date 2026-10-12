@@ -1,0 +1,322 @@
+GUÍA DE TÉRMINOS Y FORMATO DEL REPORTE DE TT
+Simulación de sistemas complejos mediante autómatas celulares neuronales
+Generada el 2026-10-11 a partir de main.pdf (228 páginas) y de las 25 fuentes .tex que incluye main.tex.
+
+Esta guía es el contexto común para los agentes que corrijan ortografía. Cada agente debe leerla
+completa antes de editar su archivo.
+
+
+===================================================================================================
+1. REGLAS PARA LOS AGENTES
+===================================================================================================
+
+Qué SÍ corregir
+  - Acentos, ortografía, erratas, letras repetidas ("que que", "paralelelo").
+  - Puntuación evidente (coma antes de "pero", punto final faltante, espacios dobles).
+  - Concordancia de género y número ("los células" -> "las células", "sitio ... vecinas" -> "vecinos").
+  - Variantes de un término que esta guía marca como "evitar" (sección 3), cambiándolas por la forma canónica.
+  - Mayúsculas: "figura \ref" en minúscula a mitad de oración, nombres propios con su forma correcta.
+
+Qué NO tocar
+  - El contenido ni el estilo: el autor redacta. No reescribir oraciones, no resumir, no agregar texto,
+    no cambiar el orden de párrafos. Si una oración está mal en contenido, reportarla, no corregirla.
+  - Números, valores de tablas, pasos, épocas, pérdidas, tiempos, porcentajes.
+  - Matemáticas ($...$, \[...\], ecuaciones), salvo texto en español dentro de \text{...}.
+  - \label, \ref, \cite, \includegraphics, rutas, nombres de archivo, \texttt{...}, código, listados.
+  - Macros de la especificación: \NewBTN, \NewIN, \NewOUT, \NewMSG, \NewUI, \NewSLD y sus usos \BTN{...},
+    \IN{...}, etc. (sus etiquetas internas no llevan acentos a propósito, p. ej. "evolucion_vacia").
+  - Textos que reproducen literalmente la GUI o el código (por ejemplo la opción "Tanh" del panel Training).
+  - Archivos fuera de los asignados. Cada agente edita solo sus archivos.
+  - Partes comentadas (líneas con %) y bloques \begin{comment}...\end{comment}.
+
+Al terminar, cada agente debe:
+  - Compilar o, si no puede, revisar que no rompió llaves ni comandos.
+  - Entregar una lista de los cambios hechos y, por separado, de lo que encontró y NO corrigió
+    (contenido dudoso, frases ambiguas, posibles errores de datos).
+
+
+===================================================================================================
+2. FORMATO DE LAS DEFINICIONES
+===================================================================================================
+
+Entorno: \begin{definition} ... \end{definition}  (se imprime como "Definición N.M").
+
+Las definiciones de sistemas se escriben como n-tuplas, con conjuntos en caligráfica y viñetas:
+
+  \begin{definition}
+      Un <sistema> es una <n>-tupla $(\mathcal{L}, \mathcal{S}, \mathcal{N}, \dots)$ donde:
+      \begin{itemize}
+          \item $\mathcal{L} \subseteq \mathbb{Z}^D$ es el espacio ... $D$-dimensional. Cada <célula|sitio>
+                $\vec{i} \in \mathcal{L}$ se define como un vector $D$-dimensional que representa su posición
+                en el espacio.
+          \item ...
+      \end{itemize}
+      <Comentario general opcional al final, fuera del itemize.>
+  \end{definition}
+
+Reglas de formato:
+  - "n-tupla" con el número en cifra: "4-tupla", "5-tupla". El número debe coincidir con los elementos.
+  - "$D$-dimensional" siempre con la D en modo matemático (no "D-dimensional").
+  - Cada viñeta empieza con el símbolo en matemáticas, seguido de "es ..." en minúscula.
+  - Cuando una viñeta introduce una fórmula, la fórmula va en \[ ... \] y la explicación sigue con "donde ...".
+  - Las definiciones breves (sistema, sistema complejo, simulación, inteligencia artificial, aprendizaje
+    automático) son una sola oración, sin viñetas.
+
+Notación canónica (no cambiar en ningún capítulo):
+
+  Autómata celular (cap. 3), 4-tupla (L, S, N, R)
+    \mathcal{L}              espacio celular, \mathcal{L} \subseteq \mathbb{Z}^D
+    \vec{i}                  célula (posición) en el espacio
+    \mathcal{S}              conjunto de k estados {s_0, ..., s_{k-1}}
+    \sigma_{\vec{i}}(t)      estado de la célula \vec{i} en el tiempo t
+    \mathcal{N}              vecindad, m vectores de desplazamiento (\vec{v}_1, ..., \vec{v}_m)
+    \mathcal{R}              regla local, \mathcal{R}: \mathcal{S}^m \to \mathcal{S}
+    \mathcal{C}              conjunto de configuraciones; \vec{\sigma} una configuración
+    k, m, D                  número de estados, de vecinos y de dimensiones
+
+  Sandpile (cap. 3), 5-tupla (L, S, N, z_c, F)
+    "sitio" en lugar de "célula" (decisión del autor, solo en esta subsección)
+    z_c                      umbral crítico; estable si \sigma < z_c, inestable si \sigma \geq z_c
+    \mathcal{F}              función de transición (regla de derrumbe)
+
+  Hormiga de Langton (cap. 3), 5-tupla (L, C, D, R, F)
+    "sitio" en lugar de "célula"
+    \mathcal{C}              colores {0, ..., n-1};  c_{\vec{i}}(t) color del sitio
+    \mathcal{D}              direcciones {\uparrow, \rightarrow, \downarrow, \leftarrow}
+    \vec{p}(t), \vec{d}(t)   posición y dirección de la hormiga
+    \mathcal{R} = r_0 r_1 \cdots r_{n-1},  r_k \in {\mathrm{R}, \mathrm{L}}
+    \mathcal{F}              función de transición
+    Ojo: en esta subsección \mathcal{C} y \mathcal{D} significan colores y direcciones, no configuraciones
+    ni conjunto de datos. Es intencional; no unificar.
+
+  Redes neuronales (cap. 4) y autómata celular neuronal (cap. 5)
+    F_\theta                 red neuronal, F_\theta: \mathbb{R}^n \to \mathbb{R}^m
+    \theta = {w_{uv}, b_v}   parámetros entrenables
+    G = (V, E)               grafo de la red
+    \mathcal{D} = {(x^{(i)}, y^{(i)})}_{i=1}^n   conjunto de datos de entrenamiento
+    \mathcal{L}              función de pérdida (en el cap. 4; en el cap. 3 \mathcal{L} es el espacio celular)
+    \phi                     función de activación
+
+
+===================================================================================================
+3. TÉRMINOS CANÓNICOS
+===================================================================================================
+Formato:  USAR  <-  evitar   (nota)
+
+3.1 Autómatas celulares
+  autómata celular / autómatas celulares       <- automata celular, autómata célular, automatas
+  autómata celular neuronal                    <- automata celular neuronal, autómata célular neuronal
+      En marco teórico y experimentación se escribe completo. Las siglas NCA y CA solo en los capítulos de
+      software (7 a 9), donde nombran clases, módulos o pantallas. No introducir siglas nuevas (ACN, etc.).
+  célula / células                             <- celda (en el contexto de autómatas), celula
+      En el capítulo 3 hay párrafos que mezclan "celdas" y "célula" (p. ej. "las ocho celdas adyacentes a la
+      célula central"): unificar a "célula". "celda" solo se conserva para celdas de una tabla o de la
+      cuadrícula de la interfaz gráfica.
+  sitio / sitios                               solo en las subsecciones Sandpile y Hormiga de Langton del cap. 3
+  espacio celular                              <- espacio de células, malla celular
+  cuadrícula                                   <- cuadricula, rejilla (si se refiere al espacio 2D)
+  configuración / configuración inicial        (correcto con tilde; plural "configuraciones" sin tilde)
+  evolución / evoluciones                      (paso a paso del sistema)
+  paso / pasos                                 <- generación, iteración (como unidad de evolución)
+      Excepción: "generación" en "invalidación por generación" (prefetch, cap. 8) y en modelos generativos.
+  regla local                                  para \mathcal{R} en la definición formal
+  función de transición                        sinónimo aceptado en prosa ("función de transición local")
+  regla de transición                          aceptado en software; no cambiar
+  vector de regla                              (tabla de salida de la regla para todos los patrones)
+  regla semitotalística / semitotalísticas     <- semi-totalística, semitotalistica
+  totalística                                  <- totalistica
+  autómata celular elemental                   (Wolfram, radio uno, 256 reglas)
+  estado inactivo, estado estable              (definiciones del cap. 3)
+  naturaleza muerta                            (still life del juego de la vida; no "vida estática")
+  osciladores, naves espaciales                (en español); nombres de patrones en inglés en cursiva:
+                                               \textit{Glider}, \textit{Toad}, \textit{Loaf}, \textit{Blinker}
+  autoorganización / autoorganizado            <- autorganizado, auto-organización
+  criticalidad autoorganizada                  (sandpile)
+
+3.2 Vecindad y frontera
+  vecindad de von Neumann                      <- vecindad de Von Neumann, vecindad de Neumann
+      "von" en minúscula siempre, incluso en títulos ("John von Neumann"), salvo al inicio de oración.
+  vecindad de Moore
+  rombo de radio 2                             (vecindad de 13 células usada con dos hormigas)
+  frontera periódica                           <- frontera cíclica, frontera toroidal (cuando es la condición
+                                               de frontera del autómata)
+  frontera abierta                             (la arena o el estado que sale se pierde)
+  condición de frontera / condiciones de frontera   <- condición de contorno
+
+3.3 Juego de la vida
+  juego de la vida                             en minúscula en prosa; "El juego de la vida" en títulos.
+      <- Juego de la Vida, \textit{Juego de la Vida}, Game of Life
+      Nota: hay 7 apariciones de "Juego de la Vida" con mayúsculas (cap. 1, 3 y 5); unificar a minúscula
+      y sin cursiva. Conservar las comillas solo si el autor las usa para nombrar el término la primera vez.
+  John Horton Conway (primera mención) / Conway
+  B3/S23, B3/S236, B3/S238, B38/S23, B38/S238  (sin espacios, S mayúscula)
+  notación Birth/Survival                      \textit{Birth/Survival}
+  C1N7, C0N2 ...                               ($C1N7$: célula central viva con 7 vecinos vivos)
+
+3.4 Sandpile
+  \textit{sandpile}                            siempre en cursiva y en minúscula, salvo en títulos
+      <- sandpile sin cursiva, \emph{sandpile} (usar \textit)
+  pila de arena de Bak–Tang–Wiesenfeld         (título de la sección 10.1.2; guion largo –)
+  modelo de arena abeliana
+  célula generadora / generador / generadores  (estados 8 a 16; notación 0_i ... 8_i)
+  derrumbe, derrumbarse, umbral, avalancha
+
+3.5 Hormiga de Langton
+  hormiga de Langton                           <- Hormiga de Langton (solo en títulos), hormiga de langton
+  regla RL, LLR, RLRLL ...                     (letras R y L en mayúscula, sin espacios)
+  carretera                                    (la estructura periódica de 104 pasos; no "autopista")
+  rotar sin avanzar                            (regla de colisión elegida para dos hormigas)
+  agente                                       (Langton como agente reactivo)
+
+3.6 Redes neuronales y entrenamiento
+  red neuronal / red neuronal artificial
+  neurona artificial, función de activación
+  capa oculta, capa de salida, capa de entrada
+  pérdida                                      <- perdida, error (cuando significa el valor de la función
+                                               de pérdida), loss
+      "error" se conserva cuando significa una predicción incorrecta ("1 error en 9 millones de células").
+  pérdida objetivo                             (criterio de paro del entrenamiento)
+  pérdida final
+  función de pérdida, función de costo         (cap. 4, definiciones distintas: costo = promedio de pérdidas)
+  tasa de aprendizaje                          <- learning rate, lr (en prosa; en fórmulas se usa \mathrm{lr})
+  reducción exponencial / reducción dinámica (plateau)   \textit{plateau} en cursiva
+  época / épocas                               <- epoca, epocas, epoch
+  tamaño del lote / lote                       <- batch (en prosa; "batch" solo dentro de \texttt o código)
+  semilla aleatoria / semilla                  <- seed
+  hiperparámetros                              <- hiperparametros, metaparámetros, metaparametros
+  parámetros entrenables
+  conjunto de datos / datos de entrenamiento   <- dataset (si aparece, en cursiva: \textit{dataset})
+  exactitud                                    (proporción de predicciones correctas, accuracy)
+  precisión                                    (solo en sentido numérico o de métrica distinta; no como
+                                               sinónimo de exactitud)
+  \textit{one-hot encoding} la primera vez en cada sección; después \textit{one-hot}
+      <- one-hot sin cursiva, "One-hot" a mitad de oración, one hot
+      En encabezados de tabla se acepta "One-hot" sin cursiva.
+  retropropagación / \textit{backpropagation}
+  generalizar, generalización
+
+3.7 Notación de arquitecturas (experimentación)
+  <capas>:<neuronas>:<activación> para las capas ocultas y <neuronas>:<activación> para la salida,
+  unidas con " \& ":  16:16:ReLU \& 2:Linear,  2:64:ReLU \& 17:Linear,  4:64:ReLU \& $5n$:Linear
+      "16:16:ReLU" significa 16 capas ocultas de 16 neuronas cada una.
+  Nombres de activación en la notación: ReLU, Sigmoid, TanH, Linear  (con esas mayúsculas)
+      <- reLU, Relu, Tanh, tanh, sigmoid, linear (dentro de la notación)
+  En prosa del cap. 4: ReLU, función sigmoide, tangente hiperbólica (tanh), función lineal, softmax.
+  En capítulos de software: conservar lo que muestra la GUI ("Tanh") y lo que está en \texttt.
+
+3.8 Software y herramientas (nombres propios, sin cursiva)
+  Python, C++, CUDA, PyTorch, NumPy, PyQt5, Qt, pybind11, Mathematica, Wolfram, NVIDIA, GPU, CPU, GUI
+      <- numpy, pytorch, \textit{Python}, \textit{NVIDIA}
+  interfaz gráfica (en prosa) / GUI (como nombre del módulo o directorio)
+  simulador
+
+3.9 Nombres propios y citas
+  John von Neumann, John Horton Conway, Stephen Wolfram, Chris Langton, Per Bak, Mordvintsev et al.
+  "et al." con punto, sin cursiva.
+
+
+===================================================================================================
+4. ANGLICISMOS Y CURSIVAS
+===================================================================================================
+Regla: un término en inglés sin traducción va en \textit{...}. Los nombres propios, marcas, siglas y
+lenguajes no van en cursiva. Lo que está en \texttt{...} no se toca.
+
+Ya se usan en cursiva (mantener y aplicar donde falte):
+  kernel, kernels, script, scripts, bindings, worker, host, device, device-to-host, forward pass, build,
+  wrapper, widget, widgets, shape, repaint, prefetch, pooling, frameworks, frame, frames, encoder,
+  embedding, transformers, self-attention, tokens, stride, offsets, pinned, ping-pong buffering, momentum,
+  backpropagation, feedforward, driver, plateau, one-hot, one-hot encoding, dataset, notebooks, flag, log,
+  sample pool, empowerment, emojis, Glider, Toad, Loaf, life-like, Birth/Survival.
+Detectados sin cursiva en al menos un lugar (revisar):
+  kernel (15 apariciones, 9 en cursiva), batch (4, ninguna en cursiva), loss (5), epochs (4), dataset.
+  Si están dentro de pseudocódigo o \texttt, no cambiar.
+Mayúscula inicial solo al inicio de oración: \textit{framework} (no \textit{Framework} a mitad de oración),
+  \textit{script}, \textit{widget}, \textit{notebooks}.
+
+
+===================================================================================================
+5. CONVENCIONES TIPOGRÁFICAS
+===================================================================================================
+  Referencias:   "la figura \ref{...}", "las figuras \ref{a} y \ref{b}", "la tabla \ref{...}",
+                 "la sección \ref{...}", "el capítulo \ref{...}". En minúscula a mitad de oración.
+                 Hay 5 casos de "Figura \ref" y 1 de "Tabla \ref" a mitad de oración (cap. 2 y gol.tex).
+  Comillas:      ``texto'' de LaTeX. Evitar comillas rectas "texto" en prosa (RedesNeuronales.tex,
+                 línea ~396) y comillas tipográficas “ ”.
+  Decimales:     punto decimal (0.001, 99.417). No usar coma decimal.
+  Miles:         la forma dominante es sin separador (10000, 11000, 1419857). Hay excepciones con coma
+                 (262,144; 10,000; 16,777,216) y con \, en la tabla de pruebas.tex. NO cambiar sin
+                 instrucción del autor; solo reportarlas.
+  Porcentajes:   99.417\% (sin espacio antes de \%).
+  Dimensiones:   $100 \times 100$, $3 \times 3$ en modo matemático.
+  Potencias:     $10^{5}$, $17^5$, $1 \times 10^{-7}$; los valores pequeños pueden aparecer como 0.000001;
+                 no convertir de un formato a otro.
+  Tiempo:        "25.6 s", "5.67" en columnas tituladas "Tiempo (s)".
+  Rangos:        "de 2 a 10", "pasos 100, 500, 1000".
+  Títulos:       solo mayúscula inicial y nombres propios ("Capacidad de replicación",
+                 "Hormiga de Langton", "El juego de la vida").
+
+
+===================================================================================================
+6. ERRORES FRECUENTES DETECTADOS (palabras sin tilde y erratas)
+===================================================================================================
+Conteo en las fuentes, con los archivos donde más aparecen:
+  numero / numeros -> número(s)        17   especificaciones (10), langton (3), ui (2), casos_de_uso
+  automata(s) -> autómata(s)            9   duplicacion (3), langton (3), introduccion, casos_de_uso,
+                                            AutomataCelular
+  ademas -> además                      6   langton (4), ui, pruebas
+  ultimo / ultima -> último / última    6   especificaciones (3), langton (2), casos_de_uso
+  hiperparametros -> hiperparámetros    5   especificaciones (3), ui, langton
+  unicamente -> únicamente              2   marco, ui
+  perdida -> pérdida                    2   casos_de_uso, ui     (ojo: "perdida" participio puede ser válido)
+  cuadricula -> cuadrícula              2   duplicacion, langton
+  epocas -> épocas                      4   especificaciones (3), casos_de_uso
+  optima -> óptima                      1   ui
+  capitulo, analisis, metaparametros, despues, autorganizado, paralelelo   (introduccion, duplicacion, langton)
+  célular -> celular                        langton (pie de figura 10.21)
+  vaciá -> vacía                            langton (2)
+  expencial -> logarítmica (es contenido: el eje está en escala logarítmica)   langton
+  grafica: revisar caso por caso (verbo "grafica" sin tilde es correcto; sustantivo "gráfica" lleva tilde)
+Otras que conviene buscar en todos los archivos:
+  mas/más, esta/está, este/esté, si/sí, el/él, solo (sin tilde, correcto), aun/aún, que/qué, como/cómo,
+  cual/cuál en interrogativas indirectas, segun, tambien, funcion, informacion, dinamica, periodica,
+  caotico, estadistica, parametro, util, unico, especifico, basico, grafico, tecnica, metodo, practica.
+
+
+===================================================================================================
+7. PROBLEMAS QUE NO SON DE ORTOGRAFÍA (para el autor; los agentes no los corrigen)
+===================================================================================================
+Referencias rotas en main.pdf
+  - [?] en Introducción (Introduccion.tex:83): \cite{computationalBiology2016} no existe en referencias.bib.
+  - RESUELTO: "IN??" en "Eliminar grupo" (ahora \IN{grupo_vecindad}) y "MSG??" en "Detener entrenamiento"
+    (se agregó \NewMSG{entrenamiento_detenido}{Entrenamiento detenido} como MSG5 en casos_de_uso.tex).
+
+Inconsistencias de términos que requieren decisión
+  - Título de subsección "John Von Neumann" (AutomataCelular.tex:352) -> "John von Neumann".
+  - "vecindad de Neumann" (AutomataCelularNeuronal.tex) -> "vecindad de von Neumann".
+  - "condición de frontera cíclica" en el pie de la clasificación de Wolfram -> "periódica".
+  - Definición de la hormiga de Langton: "$\mathcal{L}$ es el espacio D-dimensional" -> "$D$-dimensional"
+    (y la definición habla de cuadrícula bidimensional; decidir si se deja general o $\mathbb{Z}^2$).
+
+Contenido ya reportado en langton.tex (revisión del 2026-10-11)
+  - L7 y diagrama L10-27: la convención de giro está invertida respecto a RL (derecha en 0, izquierda en 1).
+  - L46: "100 pruebas durante 100 pasos" -> son 1000 pasos por prueba.
+  - L135: falta la orientación inicial de la hormiga (izquierda: paso 12455; derecha: 9918; arriba y
+    abajo sin errores).
+  - L137: contradice L135 ("no hubo duplicación") y $50^5$ debe ser $50^{13}$ (rombo de 13 células).
+  - L110: falta mencionar que los datos usan la regla "rotar sin avanzar".
+
+
+===================================================================================================
+8. REPARTO SUGERIDO PARA LOS AGENTES (líneas de cada archivo)
+===================================================================================================
+  NO REVISAR: Introduccion/Introduccion.tex (el autor la reescribe al final).
+  Agente 1  MarcoTeorico/SistemasComplejos.tex (437)
+  Agente 2  MarcoTeorico/AutomataCelular.tex (827)
+  Agente 3  MarcoTeorico/RedesNeuronales.tex (407), MarcoTeorico/AutomataCelularNeuronal.tex (379)
+  Agente 4  MarcoMetodologico/marco.tex (251), IngenieriaSoftware/metodologia_requerimientos.tex (139),
+            IngenieriaSoftware/riesgos.tex (277), IngenieriaSoftware/casos_de_uso.tex (109)
+  Agente 5  IngenieriaSoftware/especificaciones.tex (1411)
+  Agente 6  IngenieriaSoftware/secuencia.tex (96), DiseñoSoftware/*.tex (447),
+            Implementacion/*.tex (338)
+  Agente 7  Experimentacion/introduccion.tex (11), duplicacion.tex (8), gol.tex (397),
+            sandpile.tex (311), langton.tex (152)

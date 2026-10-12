@@ -1,0 +1,66 @@
+{
+	"simulation":"langton_ant",
+	"rule":"RL",
+	"colors_count":2,
+	"ants":2,
+	"shape":[
+		10001,
+		30,
+		30
+	],
+	"size":30,
+	"steps":10000,
+	"ants_start":[
+		{
+			"row":15,
+			"col":10,
+			"direction":1
+		},
+		{
+			"row":15,
+			"col":20,
+			"direction":3
+		}
+	],
+	"boundary":"periodic",
+	"update":"sincrona",
+	"exclusion":"cada hormiga gira segun su celda; si su destino esta ocupado por otra hormiga o si otra hormiga va al mismo destino, queda bloqueada: solo gira, sin cambiar el color ni avanzar. Las demas cambian el color de su celda y avanzan.",
+	"blocked_moves":46,
+	"state_encoding":"color + n*(direction + 1) en las celdas con hormiga; direction 0 arriba, 1 derecha, 2 abajo, 3 izquierda",
+	"states":[
+		"0: color 0 (R)",
+		"1: color 1 (L)",
+		"2: hormiga ↑, color 0",
+		"3: hormiga ↑, color 1",
+		"4: hormiga →, color 0",
+		"5: hormiga →, color 1",
+		"6: hormiga ↓, color 0",
+		"7: hormiga ↓, color 1",
+		"8: hormiga ←, color 0",
+		"9: hormiga ←, color 1"
+	],
+	"colors_hex":[
+		"#FFFFFF",
+		"#C5C5C5",
+		"#72AAE6",
+		"#F080AA",
+		"#3378C8",
+		"#DC4682",
+		"#154C96",
+		"#AD1457",
+		"#0A285A",
+		"#6E0A37"
+	],
+	"state_fraction":[
+		0.7598506815985068,
+		0.23792709617927096,
+		2.8341610283416104e-4,
+		2.72083902720839e-4,
+		2.81638502816385e-4,
+		2.73972602739726e-4,
+		2.8341610283416104e-4,
+		2.72083902720839e-4,
+		2.81638502816385e-4,
+		2.73972602739726e-4
+	]
+}

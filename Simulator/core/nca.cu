@@ -26,6 +26,7 @@ __device__ float activate(float x, int type)
     return x;           // linear
 }
 
+template <int BM>
 __global__ void NCA_GPU(
     const float *__restrict__ A,
     float *__restrict__ B,
@@ -42,7 +43,8 @@ __global__ void NCA_GPU(
     int n_layers,
     float *temp,
     int max_layer_size,
-    int out_size)
+    int out_size,
+    int one_hot)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
     int idy = blockIdx.y * blockDim.y + threadIdx.y;
@@ -54,16 +56,58 @@ __global__ void NCA_GPU(
     float *cur = &temp[cell_id * 2 * max_layer_size];
     float *nxt = cur + max_layer_size;
 
-    // Valores del vecindario
+    // Valores del vecindario, con la misma frontera que CA_GPU_T
     for (int i = 0; i < n_size; i++)
     {
-        int nx = (idx + c_neighbourhood[i * 2] + width) % width;
-        int ny = (idy + c_neighbourhood[i * 2 + 1] + height) % height;
-        cur[i] = A[ny * width + nx];
+        int raw_nx = idx + c_neighbourhood[i * 2];
+        int raw_ny = idy + c_neighbourhood[i * 2 + 1];
+        bool fuera = raw_nx < 0 || raw_nx >= width || raw_ny < 0 || raw_ny >= height;
+
+        if constexpr (BM == 1) {
+            // Periódica (toroidal)
+            int nx = ((raw_nx % width)  + width)  % width;
+            int ny = ((raw_ny % height) + height) % height;
+            cur[i] = A[ny * width + nx];
+        } else if constexpr (BM == 2) {
+            // Reflectiva: fuera → celda origen
+            cur[i] = fuera ? A[idy * width + idx] : A[raw_ny * width + raw_nx];
+        } else if constexpr (BM == 3) {
+            // Reflexiva: fuera → clamp
+            int nx = max(0, min(raw_nx, width  - 1));
+            int ny = max(0, min(raw_ny, height - 1));
+            cur[i] = A[ny * width + nx];
+        } else {
+            // Abierta: fuera → 0
+            cur[i] = fuera ? 0.0f : A[raw_ny * width + raw_nx];
+        }
+    }
+
+    // Con one-hot la primera capa es una tabla: la entrada del vecino i con estado s es i * one_hot + s,
+    // así que cada neurona suma la columna de su estado en vez de multiplicar las n_size * one_hot entradas
+    int l0 = 0;
+    if (one_hot > 0)
+    {
+        int in = layer_in[0];
+        int out = layer_out[0];
+        for (int j = 0; j < out; j++)
+        {
+            float sum = biases[j];
+            for (int i = 0; i < n_size; i++)
+            {
+                int s = __float2int_rn(cur[i]);
+                if (s >= 0 && s < one_hot)
+                    sum += weights[j * in + i * one_hot + s];
+            }
+            nxt[j] = activate(sum, activations[0]);
+        }
+        float *tmp = cur;
+        cur = nxt;
+        nxt = tmp;
+        l0 = 1;
     }
 
     // Forward pass
-    for (int l = 0; l < n_layers; l++)
+    for (int l = l0; l < n_layers; l++)
     {
         const float *W = &weights[w_offsets[l]];
         const float *b = &biases[b_offsets[l]];
@@ -107,6 +151,9 @@ NCA::NCA(
     : width(in_width),
       height(in_height),
       n_size(in_n_size),
+      boundary_mode(1),
+      one_hot_states(0),
+      first_layer_in(0),
       n_layers(0),
       max_layer_size(0),
       out_size(1),
@@ -155,19 +202,34 @@ void NCA::step()
 {
     if (!nn_ready)
         throw std::runtime_error("Weights not loaded. Call setWeights() first.");
+    int esperado = one_hot_states > 0 ? n_size * one_hot_states : n_size;
+    if (first_layer_in != esperado)
+        throw std::runtime_error("La primera capa tiene " + std::to_string(first_layer_in) + " entradas y se esperaban " +
+                                 std::to_string(esperado) + " (" + std::to_string(n_size) + " vecinos" +
+                                 (one_hot_states > 0 ? " x " + std::to_string(one_hot_states) + " estados one-hot)" : ")"));
 
-    NCA_GPU<<<blocks, threads>>>(
-        A_d, B_d, width, height, n_size,
-        weights_d, biases_d,
-        w_offsets_d, b_offsets_d,
-        layer_in_d, layer_out_d,
-        activation_d, n_layers,
-        temp_d, max_layer_size, out_size);
+    launch();
 
     cudaMemcpy(space, B_d, size, cudaMemcpyDeviceToHost);
     float *tmp = A_d;
     A_d = B_d;
     B_d = tmp;
+}
+
+void NCA::launch()
+{
+#define NCA_LAUNCH(BM) NCA_GPU<BM><<<blocks, threads>>>(                    \
+        A_d, B_d, width, height, n_size, weights_d, biases_d,               \
+        w_offsets_d, b_offsets_d, layer_in_d, layer_out_d, activation_d,    \
+        n_layers, temp_d, max_layer_size, out_size, one_hot_states)
+    switch (boundary_mode)
+    {
+        case 0:  NCA_LAUNCH(0); break;
+        case 2:  NCA_LAUNCH(2); break;
+        case 3:  NCA_LAUNCH(3); break;
+        default: NCA_LAUNCH(1); break;
+    }
+#undef NCA_LAUNCH
 }
 
 void NCA::print()
@@ -192,6 +254,7 @@ void NCA::setWeights(
     freeNN();
     this->n_layers = n_layers;
     this->out_size = layer_out[n_layers - 1];
+    first_layer_in = layer_in[0];
     max_layer_size = 0;
 
     // Calcular offsets y tamaños totales
@@ -252,6 +315,8 @@ int NCA::getHeight() const { return height; }
 float *NCA::getSpace() const { return space; }
 int *NCA::getNeighbourhood() const { return neighbourhood; }
 int NCA::getNSize() const { return n_size; }
+int NCA::getBoundary() const { return boundary_mode; }
+int NCA::getOneHot() const { return one_hot_states; }
 float NCA::getCell(int x, int y) const { return space[y * width + x]; }
 
 // Setters
@@ -260,6 +325,9 @@ void NCA::setSpace(float *new_space)
     std::memcpy(space, new_space, size);
     cudaMemcpy(A_d, space, size, cudaMemcpyHostToDevice);
 }
+
+void NCA::setBoundary(int mode) { boundary_mode = mode; }
+void NCA::setOneHot(int states) { one_hot_states = states; }
 
 void NCA::setCell(int x, int y, float value)
 {

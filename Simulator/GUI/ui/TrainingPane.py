@@ -128,6 +128,17 @@ class TrainingPane(QWidget):
         self._seed_edit = QLineEdit()
         self._seed_edit.setPlaceholderText("Random")
 
+        self._open_boundary_check = QCheckBox("Open boundary")
+        self._open_boundary_check.setToolTip(
+            "Frontera abierta: los vecinos fuera del espacio valen 0 (sin marcar: periódica)"
+        )
+
+        self._one_hot_check = QCheckBox("One-hot input")
+        self._one_hot_check.setToolTip(
+            "Codifica cada vecino en one-hot: vecinos × estados entradas en la primera capa.\n"
+            "Los estados se toman de la evolución (máximo + 1); los datos no cambian"
+        )
+
         self._copy_paste_check = QCheckBox("Copy and Paste")
         self._copy_paste_check.setToolTip(
             "Exporta un CSV (epoch, loss) con el mismo nombre que el output.npz"
@@ -276,6 +287,9 @@ class TrainingPane(QWidget):
             row.addWidget(widget)
             right_col.addLayout(row)
 
+        right_col.addWidget(self._open_boundary_check)
+        right_col.addWidget(self._one_hot_check)
+
         cp_row = QHBoxLayout()
         cp_row.setSpacing(6)
         cp_row.addWidget(self._copy_paste_check)
@@ -422,6 +436,12 @@ class TrainingPane(QWidget):
                 self._log(f"Error: '{seed_text}' is not a valid seed (must be an integer)\n")
                 return None
             cmd += ["--seed", str(seed_val)]
+
+        if self._open_boundary_check.isChecked():
+            cmd += ["--open-boundary"]
+
+        if self._one_hot_check.isChecked():
+            cmd += ["--one-hot"]
 
         if self._copy_paste_check.isChecked():
             suffix   = self._copy_paste_suffix_edit.text().strip()

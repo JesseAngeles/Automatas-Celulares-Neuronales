@@ -157,6 +157,8 @@ PYBIND11_MODULE(CA, m)
         .def("get_width", &NCA::getWidth)
         .def("get_height", &NCA::getHeight)
         .def("get_n_size", &NCA::getNSize)
+        .def("get_boundary", &NCA::getBoundary)
+        .def("get_one_hot", &NCA::getOneHot)
         .def("get_cell", &NCA::getCell)
 
         .def("get_neighbourhood", [](NCA &self)
@@ -176,6 +178,8 @@ PYBIND11_MODULE(CA, m)
             self.setSpace(new_space.mutable_data()); })
 
         .def("set_cell", &NCA::setCell)
+        .def("set_boundary", &NCA::setBoundary)
+        .def("set_one_hot", &NCA::setOneHot)
 
         .def("set_neighbourhood", [](NCA &self, py::array_t<int, py::array::c_style | py::array::forcecast> new_neighbourhood)
              {

@@ -2,7 +2,7 @@
 
 import random
 from PyQt5.QtWidgets import (QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QGridLayout,
-                              QLabel, QSpinBox, QFrame, QScrollArea, QColorDialog)
+                              QLabel, QSpinBox, QFrame, QScrollArea, QColorDialog, QFileDialog, QMessageBox)
 from PyQt5.QtGui import QColor
 from PyQt5.QtCore import pyqtSignal, Qt
 
@@ -21,6 +21,24 @@ LIFE_GROUP_COLORS = [QColor(50, 120, 220), QColor(210, 120, 40)]
 
 def _rand_color() -> QColor:
     return QColor(random.randint(60, 210), random.randint(60, 210), random.randint(60, 210))
+
+
+def _read_color_csv(path: str) -> list[QColor]:
+    """Un color por renglón, en orden de estado: '#rrggbb' o 'r,g,b' (0–255)."""
+    colors = []
+    with open(path) as f:
+        for n, line in enumerate(f, 1):
+            text = line.strip()
+            if not text:
+                continue
+            parts = [p.strip() for p in text.split(",")]
+            if len(parts) == 1 and QColor(text).isValid():
+                colors.append(QColor(text))
+            elif len(parts) == 3 and all(p.isdigit() and int(p) <= 255 for p in parts):
+                colors.append(QColor(*(int(p) for p in parts)))
+            else:
+                raise ValueError(f"Renglón {n}: '{text}' no es un color (#rrggbb o r,g,b)")
+    return colors
 
 
 def _separator() -> QFrame:
@@ -70,6 +88,8 @@ class ConfigPane(QWidget):
         self.states_button   = QPushButton("Apply")
         self.rule_button     = QPushButton("Apply")
         self.states_button.setObjectName("ghost")
+        self.colors_button   = QPushButton("Load colors (CSV)")
+        self.colors_button.setObjectName("ghost")
         self.rule_button.setObjectName("ghost")
 
         # ── Inputs ────────────────────────────────────────────────────
@@ -164,6 +184,7 @@ class ConfigPane(QWidget):
         states_layout.addWidget(self.states_spin)
         states_layout.addWidget(self.states_button)
         layout.addLayout(states_layout)
+        layout.addWidget(self.colors_button)
         layout.addWidget(self._states_container)
         layout.addWidget(_separator())
 
@@ -181,6 +202,7 @@ class ConfigPane(QWidget):
 
         # ── Conexiones internas ───────────────────────────────────────
         self.states_button.clicked.connect(self._on_states_button)
+        self.colors_button.clicked.connect(self._on_colors_button)
         self.rule_button.clicked.connect(self._on_rule_button)
 
         # ── Valores iniciales: Life ───────────────────────────────────
@@ -458,6 +480,25 @@ class ConfigPane(QWidget):
 
         self._rebuild_states_panel()
         self.states_applied.emit(new_n, list(self._state_colors))
+
+    def _on_colors_button(self):
+        path, _ = QFileDialog.getOpenFileName(self, "Load state colors", "", "CSV files (*.csv);;All files (*)")
+        if not path:
+            return
+        try:
+            colors = _read_color_csv(path)
+        except (OSError, UnicodeDecodeError, ValueError) as e:
+            QMessageBox.critical(self, "Error loading colors", str(e))
+            return
+        if not colors:
+            QMessageBox.warning(self, "Error loading colors", f"No se encontró ningún color en {path}")
+            return
+        # Se asignan a los estados que existen; si faltan colores, el resto se llena con colores aleatorios
+        n = len(self._state_colors)
+        self._state_colors = colors[:n] + [_rand_color() for _ in range(n - len(colors))]
+        self._rebuild_states_panel()
+        self._rebuild_rule_table()
+        self.state_colors_changed.emit(list(self._state_colors))
 
     # ------------------------------------------------------------------
     # Frontera

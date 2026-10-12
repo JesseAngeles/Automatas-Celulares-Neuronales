@@ -269,6 +269,8 @@ class SimulationController:
         self.automaton.setSpace(self.simulation_widget.grid)
         self._clear_history()
         self.automaton.setBoundary(mode)
+        if self._nca is not None:
+            self._nca.set_boundary(mode)
 
     def on_neighbourhood_change(self, neighbourhood):
         # Sincronizar el autómata al frame visible ANTES de limpiar el historial,
@@ -350,6 +352,18 @@ class SimulationController:
         np.save(base + ".npy", arr)
         scipy.io.savemat(base + ".mat", {"evolution": arr})
 
+    def on_screenshot_button(self):
+        from PyQt5.QtWidgets import QFileDialog, QMessageBox
+        path, _ = QFileDialog.getSaveFileName(
+            None, "Screenshot", f"step_{self.current_step}.png", "PNG images (*.png)"
+        )
+        if not path:
+            return
+        if not path.lower().endswith(".png"):
+            path += ".png"
+        if not self.simulation_widget.render_image().save(path, "PNG"):
+            QMessageBox.critical(None, "Error saving screenshot", f"No se pudo guardar {path}")
+
     def on_import_button(self):
         from PyQt5.QtWidgets import QFileDialog, QMessageBox
         path, _ = QFileDialog.getOpenFileName(
@@ -427,6 +441,8 @@ class SimulationController:
             grid_float = self.simulation_widget.grid.astype(np.float32)
 
             self._nca = NCA_CUDA(n, n, grid_float, neighbourhood, n_size)
+            self._nca.set_boundary(self.automaton.getBoundary())   # la frontera elegida antes de cargar la NCA
+            self._nca.set_one_hot(int(data["one_hot_states"]) if "one_hot_states" in data else 0)
             self._nca.set_weights(
                 [data[f"weights_{i}"] for i in range(n_layers)],
                 [data[f"biases_{i}"]  for i in range(n_layers)],

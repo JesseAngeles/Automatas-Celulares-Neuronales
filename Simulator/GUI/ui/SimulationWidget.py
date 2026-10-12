@@ -118,6 +118,18 @@ class SimulationWidget(QWidget):
         self._color_table = self._build_color_table()
         self.update()
 
+    def render_image(self) -> QImage:
+        # Solo la matriz, con el tamaño de celda que se ve en pantalla
+        if not self.grid.flags["C_CONTIGUOUS"]:
+            self.grid = np.ascontiguousarray(self.grid)
+        h, w = self.grid.shape
+        img = QImage(self.grid.data, w, h, self.grid.strides[0], QImage.Format_Indexed8)
+        img.setColorTable(self._color_table)
+        cs = max(1, self._cell_size_cached)
+        return img.scaled(w * cs, h * cs, Qt.IgnoreAspectRatio, Qt.FastTransformation).convertToFormat(
+            QImage.Format_RGB32
+        )
+
     def update_grid(self, grid):
         # Acepta ndarray o list-of-lists. Convierte a uint8 C-contiguo si hace falta.
         arr = np.asarray(grid)
