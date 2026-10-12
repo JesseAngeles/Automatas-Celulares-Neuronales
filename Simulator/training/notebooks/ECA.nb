@@ -30,7 +30,7 @@ Cell[BoxData[
 Cell[BoxData[
  RowBox[{
   RowBox[{"Export", "[", 
-   RowBox[{"\"\</home/rediax/Documents/ESCOM/TT_A114/Documentation/img/ex2_\
+   RowBox[{"\"\</home/rediax/Documents/ESCOM/TT_A114/Documentation/img/marcoTeorico/ex2_\
 eca90.png\>\"", ",", "eca90"}], "]"}], ";"}]], "Input",
  CellChangeTimes->{{3.988980285938094*^9, 3.9889803358566*^9}},
  CellLabel->"In[4]:=",ExpressionUUID->"32db13f6-2e6e-44b5-90d9-6129f2293e2c"]

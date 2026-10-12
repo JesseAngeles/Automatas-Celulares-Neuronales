@@ -619,7 +619,7 @@ Cell[BoxData[{
     RowBox[{
      RowBox[{"Export", "[", 
       RowBox[{
-       RowBox[{"\"\</home/rediax/Documents/ESCOM/TT_A114/Documentation/img/ex_\
+       RowBox[{"\"\</home/rediax/Documents/ESCOM/TT_A114/Documentation/img/experimentacion/duplicacion/gol/ex_\
 \>\"", "<>", "ex", "<>", "\"\<_\>\"", "<>", "#1", "<>", "\"\<.png\>\""}], ",",
         "#2"}], "]"}], "&"}], ",", 
     RowBox[{"{", 
@@ -7150,7 +7150,7 @@ entre muestras)\>\""}], ",",
         RowBox[{"{", 
          RowBox[{"30", ",", "10"}], "}"}]}], "}"}]}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{"Export", "[", 
-  RowBox[{"\"\<./../../../Documentation/img/life_pattern_count.png\>\"", ",", 
+  RowBox[{"\"\<./../../../Documentation/img/experimentacion/duplicacion/gol/life_pattern_count.png\>\"", ",", 
    "fplot"}], "]"}]}], "Input",
  CellChangeTimes->{{3.997581895857645*^9, 3.997581895857657*^9}, {
   3.9975819348224297`*^9, 3.997581992588801*^9}, {3.997582224384973*^9, 
@@ -7159,7 +7159,7 @@ entre muestras)\>\""}], ",",
  CellLabel->
   "In[461]:=",ExpressionUUID->"a4c2cf76-1058-41be-869f-01ca63a4a330"],
 
-Cell[BoxData["\<\"./../../../Documentation/img/life_pattern_count.png\"\>"], \
+Cell[BoxData["\<\"./../../../Documentation/img/experimentacion/duplicacion/gol/life_pattern_count.png\"\>"], \
 "Output",
  CellChangeTimes->{{3.9975823889163027`*^9, 3.997582491274497*^9}},
  CellLabel->
@@ -8403,37 +8403,37 @@ Cell[BoxData[{
  RowBox[{
   RowBox[{"Export", "[", 
    RowBox[{
-    RowBox[{"\"\</home/rediax/Documents/ESCOM/TT_A114/Documentation/img/\>\"",
+    RowBox[{"\"\</home/rediax/Documents/ESCOM/TT_A114/Documentation/img/experimentacion/duplicacion/gol/\>\"",
       "<>", "\"\<perdida_objetivo\>\"", "<>", "\"\<.png\>\""}], ",", 
     "plot1"}], "]"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
    RowBox[{
-    RowBox[{"\"\</home/rediax/Documents/ESCOM/TT_A114/Documentation/img/\>\"",
+    RowBox[{"\"\</home/rediax/Documents/ESCOM/TT_A114/Documentation/img/experimentacion/duplicacion/gol/\>\"",
       "<>", "\"\<rule_b3_s23\>\"", "<>", "\"\<.png\>\""}], ",", "plot2"}], 
    "]"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
    RowBox[{
-    RowBox[{"\"\</home/rediax/Documents/ESCOM/TT_A114/Documentation/img/\>\"",
+    RowBox[{"\"\</home/rediax/Documents/ESCOM/TT_A114/Documentation/img/experimentacion/duplicacion/gol/\>\"",
       "<>", "\"\<rule_b3_s236\>\"", "<>", "\"\<.png\>\""}], ",", "plot3"}], 
    "]"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
    RowBox[{
-    RowBox[{"\"\</home/rediax/Documents/ESCOM/TT_A114/Documentation/img/\>\"",
+    RowBox[{"\"\</home/rediax/Documents/ESCOM/TT_A114/Documentation/img/experimentacion/duplicacion/gol/\>\"",
       "<>", "\"\<b3_s236_proportion\>\"", "<>", "\"\<.png\>\""}], ",", 
     "plot4"}], "]"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
    RowBox[{
-    RowBox[{"\"\</home/rediax/Documents/ESCOM/TT_A114/Documentation/img/\>\"",
+    RowBox[{"\"\</home/rediax/Documents/ESCOM/TT_A114/Documentation/img/experimentacion/duplicacion/gol/\>\"",
       "<>", "\"\<r73952\>\"", "<>", "\"\<.png\>\""}], ",", "plot5"}], "]"}], 
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
    RowBox[{
-    RowBox[{"\"\</home/rediax/Documents/ESCOM/TT_A114/Documentation/img/\>\"",
+    RowBox[{"\"\</home/rediax/Documents/ESCOM/TT_A114/Documentation/img/experimentacion/duplicacion/gol/\>\"",
       "<>", "\"\<nca003\>\"", "<>", "\"\<.png\>\""}], ",", "plot6"}], "]"}], 
   ";"}]}], "Input",
  CellChangeTimes->{{3.988877367586632*^9, 3.988877386861636*^9}, {

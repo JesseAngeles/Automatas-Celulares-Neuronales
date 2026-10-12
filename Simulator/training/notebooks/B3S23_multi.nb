@@ -4948,13 +4948,13 @@ Cell[BoxData[{
   RowBox[{"SetDirectory", "[", 
    RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{"Export", "[", 
-  RowBox[{"\"\<./../../../Documentation/img/life_pattern_count.png\>\"", ",", 
+  RowBox[{"\"\<./../../../Documentation/img/experimentacion/duplicacion/gol/life_pattern_count.png\>\"", ",", 
    "fplot"}], "]"}], "\[IndentingNewLine]"}], "Input",
  CellChangeTimes->{{3.997628520053855*^9, 3.9976285206908617`*^9}, {
   3.997628564236309*^9, 3.99762857801939*^9}},
  CellLabel->"In[56]:=",ExpressionUUID->"c851ed7a-a077-46bc-8fd8-d21ef1638dee"],
 
-Cell[BoxData["\<\"./../../../Documentation/img/life_pattern_count.png\"\>"], \
+Cell[BoxData["\<\"./../../../Documentation/img/experimentacion/duplicacion/gol/life_pattern_count.png\"\>"], \
 "Output",
  CellChangeTimes->{3.9976285210129538`*^9, 3.997628579427958*^9},
  CellLabel->"Out[57]=",ExpressionUUID->"c37c7d56-10b9-4da7-bd9f-bfb86ee1c3c0"]
@@ -5961,14 +5961,14 @@ Cell[BoxData[{
   RowBox[{"SetDirectory", "[", 
    RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{"Export", "[", 
-  RowBox[{"\"\<./../../../Documentation/img/life_state_distribution.png\>\"", ",",
+  RowBox[{"\"\<./../../../Documentation/img/experimentacion/duplicacion/gol/life_state_distribution.png\>\"", ",",
     "fplot"}], "]"}], "\[IndentingNewLine]"}], "Input",
  CellChangeTimes->{{3.997697466339787*^9, 3.9976974711587973`*^9}, {
   3.997697510919573*^9, 3.997697540087042*^9}},
  CellLabel->
   "In[420]:=",ExpressionUUID->"f11fbb81-7f2b-4522-89e7-1642fc10de91"],
 
-Cell[BoxData["\<\"./../../../Documentation/img/life_state_distribution.png\"\>"],\
+Cell[BoxData["\<\"./../../../Documentation/img/experimentacion/duplicacion/gol/life_state_distribution.png\"\>"],\
  "Output",
  CellChangeTimes->{
   3.997697321029757*^9, 3.9976973700928183`*^9, 3.997697432463346*^9, {
@@ -6086,7 +6086,7 @@ Cell[BoxData[{
    RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
-   RowBox[{"\"\<./../../../Documentation/img/life_all_steps.png\>\"", ",", 
+   RowBox[{"\"\<./../../../Documentation/img/experimentacion/duplicacion/gol/life_all_steps.png\>\"", ",", 
     "fplot"}], "]"}], ";"}]}], "Input",
  CellChangeTimes->{{3.997697466339787*^9, 3.9976974711587973`*^9}, {
   3.997697510919573*^9, 3.997697540087042*^9}, {3.99770004626336*^9, 

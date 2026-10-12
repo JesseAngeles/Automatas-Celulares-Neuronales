@@ -2802,12 +2802,12 @@ Cell["Exportar", "Section",ExpressionUUID->"97a5d0ad-ff2c-4efa-9e84-e5f4e63a3984
 Cell[BoxData[{
  RowBox[{
   RowBox[{"Export", "[", 
-   RowBox[{"\"\<../../../Documentation/img/b3s23_reduction_1s.png\>\"", ",", 
+   RowBox[{"\"\<../../../Documentation/img/experimentacion/duplicacion/gol/b3s23_reduction_1s.png\>\"", ",", 
     "graficaProporciones", ",", 
     RowBox[{"ImageResolution", "->", "200"}]}], "]"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
-   RowBox[{"\"\<../../../Documentation/img/b3s23_reduction_changes.png\>\"", ",",
+   RowBox[{"\"\<../../../Documentation/img/experimentacion/duplicacion/gol/b3s23_reduction_changes.png\>\"", ",",
      "graficaCambios", ",", 
     RowBox[{"ImageResolution", "->", "200"}]}], "]"}], ";"}]}], "Input",
  CellLabel->

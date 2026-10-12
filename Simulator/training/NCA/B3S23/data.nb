@@ -131,7 +131,7 @@ Cell[BoxData[{
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
-   RowBox[{"\"\<./../../../../Documentation/img/gol_funciones_2.png\>\"", ",", 
+   RowBox[{"\"\<./../../../../Documentation/img/experimentacion/duplicacion/gol/gol_funciones_2.png\>\"", ",", 
     "plot"}], "]"}], ";"}]}], "Input",
  CellChangeTimes->{{3.997575552785572*^9, 3.997575650066144*^9}, {
   3.997575721610333*^9, 3.997575729866941*^9}, {3.997575814428185*^9, 

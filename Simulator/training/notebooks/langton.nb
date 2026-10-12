@@ -2830,12 +2830,12 @@ estado. Tambi\[EAcute]n se exportan la animaci\[OAcute]n (un cuadro cada ",
  " \[Times] ",
  StyleBox["escala", "TI"],
  " p\[IAcute]xeles) y las gr\[AAcute]ficas para el documento en ",
- Cell[BoxData[Cell["Documentation/img/langton_<regla>_<lado>x<lado>_*.png",
+ Cell[BoxData[Cell["Documentation/img/experimentacion/duplicacion/langton/langton_<regla>_<lado>x<lado>_*.png",
    Background->None,ExpressionUUID->"a695df8d-b8ea-4074-b75a-f8b4d0975bb8"]], 
   "InlineCode",ExpressionUUID->"f34b7233-d417-44ce-bdf1-14d7012d3b7e"],
  ". La gr\[AAcute]fica de las evoluciones aleatorias va en ",
  Cell[BoxData[
- Cell["Documentation/img/langton_<regla>_aleatorias_proporcion.png",
+ Cell["Documentation/img/experimentacion/duplicacion/langton/langton_<regla>_aleatorias_proporcion.png",
    Background->None,ExpressionUUID->"e40f2788-1dfa-4383-980c-814db4c5fbb8"]], 
   "InlineCode",ExpressionUUID->"ebf55790-3915-4650-9acc-1a051d16e003"],
  "."
@@ -2969,7 +2969,7 @@ Cell[BoxData[{
   RowBox[{"Quiet", "@", 
    RowBox[{"CreateDirectory", "[", "salida", "]"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{"img", "=", "\"\<../../../Documentation/img\>\""}], ";", " ", 
+  RowBox[{"img", "=", "\"\<../../../Documentation/img/experimentacion/duplicacion/langton\>\""}], ";", " ", 
   RowBox[{"base", "=", 
    RowBox[{"\"\<langton_\>\"", " ", "<>", " ", "nombre"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{

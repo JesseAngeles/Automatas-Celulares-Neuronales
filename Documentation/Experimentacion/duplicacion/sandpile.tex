@@ -1,0 +1,311 @@
+\subsection{Pila de arena de Bak–Tang–Wiesenfeld}\label{sec:exp1_sandpile}
+
+El siguiente experimento tiene el objetivo de replicar el comportamiento del sistema autoorganizado llamado \textit{sandpile} \cite{bak1987}. Es un sistema bidimensional que agrega granos de arena a una célula que, cuando alcanza un umbral, pierde sus granos y los distribuye en sus vecinos.
+
+En un sentido estricto, el modelo de \textit{sandpile} no es un autómata celular, porque el sistema recibe constantemente una entrada (el grano de arena en el centro) que depende de la salida del sistema (cuando está en equilibrio). 
+
+Para representar este sistema mediante un autómata celular se agrega un nuevo subconjunto de estados que representan el flujo constante de arena en cada paso evolutivo, salvo cuando la célula generadora se derrumba. 
+
+Sea el conjunto $\mathcal{S}_b = \{0,1,2,3,4, 5, 6, 7\}$ los estados que definen la altura y sea $\mathcal{S}_i = \{ 0_i, 1_i, 2_i, 3_i, 4_i, 5_i, 6_i, 7_i, 8_i\}$ los estados que definen la altura y que añaden granos, definimos entonces $\mathcal{S} = \mathcal{S}_b \cup \mathcal{S}_i$ como el conjunto completo de estados. 
+
+Aunque el umbral de dispersión es de cuatro granos, se definen ocho alturas (de 0 a 7) para incluir todos los escenarios posibles. Por ejemplo: 
+\[
+\left[\begin{matrix}
+	0 & 4 & 0 \\
+	4 & 3 & 4 \\
+	0 & 4 & 0
+\end{matrix}\right] \rightarrow
+\left[\begin{matrix}
+	2 & 0 & 2 \\
+	0 & 7 & 0 \\
+	2 & 0 & 2
+\end{matrix}\right] \rightarrow
+\left[\begin{matrix}
+	2 & 1 & 2 \\
+	1 & 3 & 1 \\
+	2 & 1 & 2
+\end{matrix}\right]
+\]
+Del mismo modo, los estados generadores incluyen un estado adicional. Derivado del ejemplo anterior, si una célula generadora recibe el máximo de granos de sus vecinos, en el mismo paso recibe además su propio grano, lo que causa una nueva dispersión. Cuando la célula generadora se derrumba, no agrega su grano:
+\[
+\left[\begin{matrix}
+	0 & 4 & 0 \\
+	4 & 3_i & 4 \\
+	0 & 4 & 0
+\end{matrix}\right] \rightarrow
+\left[\begin{matrix}
+	2 & 0 & 2 \\
+	0 & 8_i & 0 \\
+	2 & 0 & 2
+\end{matrix}\right] \rightarrow
+\left[\begin{matrix}
+	2 & 1 & 2 \\
+	1 & 4_i & 1 \\
+	2 & 1 & 2
+\end{matrix}\right] \rightarrow
+\left[\begin{matrix}
+	2 & 2 & 2 \\
+	2 & 0_i & 2 \\
+	2 & 2 & 2
+\end{matrix}\right]
+\]
+
+Existen $|\mathcal{S}| = 17$ estados y una vecindad de von Neumann (el centro y sus 4 vecinos). El vector de regla tiene un tamaño de $17^5 = 1{,}419{,}857$, y la regla del autómata celular que replica \textit{sandpile} es una entre $17^{1419857}$ posibles reglas. Su orden de complejidad es mucho mayor comparado con B3/S23. Es por esto que el objetivo del autómata celular neuronal será descifrar la regla que imite este comportamiento.
+
+Con esta definición propuesta, fueron generadas 100 condiciones aleatorias con cuatro generadores en un espacio de $50 \times 50$ durante 1,500 pasos. 
+
+De acuerdo con la figura \ref{fig:sp_proportion} existen estados, como $8_i$, que tienen una probabilidad de aparición muy baja. Sin embargo, esta probabilidad está determinada porque solo se consideran cuatro de 2,500 células. 
+
+Por otro lado, si consideramos la evolución tradicional con el espacio vacío, con una única célula generadora, obtenemos las proporciones de la figura \ref{fig:sp_0_proportion}, donde aún existe la presencia de todos los estados pero con una diferente dispersión. Recordando que esta es la probabilidad de aparición de los estados y no la probabilidad de aparición de los patrones.
+
+\begin{figure}[htbp!]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{img/experimentacion/duplicacion/sandpile/sp_proportion.png}
+		\caption{Distribuciones de probabilidad con múltiples condiciones iniciales.}
+		\label{fig:sp_proportion}
+	\end{subfigure}
+	\hfill % Añade espacio horizontal flexible entre las figuras
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{img/experimentacion/duplicacion/sandpile/sp_0_proportion.png}
+		\caption{Distribuciones de probabilidad con un único generador.}
+		\label{fig:sp_0_proportion}
+	\end{subfigure}
+	\caption{Distribución de probabilidad de aparición de todos los estados en la regla \textit{sandpile}. Azul para los estados normales y naranja para los generadores. }
+	\label{fig:sp_proporciones}
+\end{figure}
+
+\subsubsection{Capacidad de replicación}
+
+En la tabla \ref{tab:sp_activaciones} se muestran 5 diferentes pruebas para encontrar la mejor combinación de funciones de activación. Fue entrenada con un único generador en el centro y fue 16:16:ReLU \& 17:Linear quien da mejores resultados con una pérdida de 0.009935 durante 500 épocas. 
+
+\begin{table}[H]
+	\centering
+	\footnotesize
+	\begin{tabular}{llrrr}
+		\toprule
+		\textbf{Capa Oculta} & \textbf{Capa Salida} & \textbf{Pérdida} & \textbf{Exactitud (\%)} & \textbf{\shortstack{Exactitud\\generador (\%)}} \\
+		\midrule
+		16:16:ReLU & \multirow{3}{*}{17:Linear} & 0.009935 & 99.417 & 91.600 \\
+		16:16:Sigmoid & & 1.252780 & 55.318 & 0.000 \\
+		16:16:TanH & & 0.011293 & 99.604 & 58.350 \\
+		\midrule
+		\multirow{3}{*}{16:16:ReLU} & 17:Linear & 0.009935 & 99.417 & 91.600 \\
+		 & 17:Sigmoid & 2.200967 & 55.318 & 0.000 \\
+		 & 17:TanH & 1.754721 & 55.318 & 0.000 \\
+		\bottomrule
+	\end{tabular}
+	\caption{Regla \textit{sandpile} con múltiples funciones de activación en la capa oculta y en la capa de salida: pérdida objetivo 0.001, límite de épocas: 500, tamaño del lote: 4,096, tasa de aprendizaje: 0.0003, semilla aleatoria: 42.}
+	\label{tab:sp_activaciones}
+\end{table}
+
+Posteriormente, fue probada la mejor combinación de funciones de activación (ReLU y Linear) con diferentes tamaños de red, tasas de aprendizaje y pérdidas objetivo (ver tabla \ref{tab:sp_arquitecturas}). Incrementar el número de capas no proporciona mejores resultados; en su lugar, es preferible el uso de más neuronas por capa. La tasa de aprendizaje de 0.001 es la que da mejores resultados, y con ella se reproduce el 100\% de los datos de entrenamiento si se configura la red neuronal con 2:64:ReLU \& 17:Linear.  
+
+\begin{table}[H]
+	\centering
+	\footnotesize
+	\setlength{\tabcolsep}{4pt}
+	\begin{tabular}{lrrrrrr}
+		\toprule
+		\textbf{Capa Oculta} & \textbf{\shortstack{Tasa de\\aprendizaje}} & \textbf{\shortstack{Pérdida\\objetivo}} & \textbf{Épocas} & \textbf{Pérdida} & \textbf{\shortstack{Exactitud\\(\%)}} & \textbf{\shortstack{Exactitud\\generador (\%)}} \\
+		\midrule
+		16:16:ReLU & 0.0003 & 0.001 & 500 & 0.009935 & 99.417 & 91.600 \\
+		\midrule
+		\multirow{5}{*}{32:32:ReLU} & 0.003 & 0.001 & 500 & 0.709890 & 69.026 & 0.000 \\
+		 & 0.001 & 0.001 & 500 & 0.012164 & 99.679 & 89.750 \\
+		 & 0.0003 & 0.001 & 500 & 0.022682 & 99.234 & 50.850 \\
+		 & 0.0001 & 0.001 & 500 & 0.025121 & 99.104 & 79.900 \\
+		 & 0.00003 & 0.001 & 500 & 0.026755 & 99.207 & 69.150 \\
+		\midrule
+		\multirow{2}{*}{8:32:ReLU} & 0.001 & 0.001 & 202 & 0.000989 & 99.970 & 94.100 \\
+		 & 0.001 & 0.0001 & 476 & 0.000093 & 99.996 & 100.000 \\
+		\midrule
+		8:16:ReLU & 0.001 & 0.0001 & 1,256 & 0.000086 & 99.998 & 99.950 \\
+		4:32:ReLU & 0.001 & 0.0001 & 392 & 0.000098 & 99.998 & 100.000 \\
+		2:64:ReLU & 0.001 & 0.0001 & 351 & 0.000099 & 99.999 & 100.000 \\
+		2:32:ReLU & 0.001 & 0.0001 & 1,333 & 0.000079 & 99.999 & 100.000 \\
+		 2:64:ReLU & 0.001 & 0.00001 & 630 & 0.000010 & 100.000 & 100.000 \\
+		\bottomrule
+	\end{tabular}
+	\caption{Regla \textit{sandpile} con capa de salida 17:Linear y distintos tamaños de red. Tasa de aprendizaje constante, límite de épocas: 500 en 16:16:ReLU y 32:32:ReLU, tamaño del lote: 4,096, semilla aleatoria: 42.}
+	\label{tab:sp_arquitecturas}
+\end{table}
+
+Los datos de entrenamiento pudieron haber tenido condiciones iniciales aleatorias, pero en este experimento se busca acercarse más al escenario en donde no se conoce la regla, por lo que se busca experimentar sin la posibilidad de generar todos los escenarios ideales que favorezcan la replicación del comportamiento. De esta forma, queda demostrado que el autómata celular neuronal puede aprender el comportamiento de \textit{sandpile} una vez que se representa como un autómata celular. La figura \ref{fig:sp_nca} muestra la misma configuración en el paso 1,000 entre \textit{sandpile} y el autómata celular neuronal.
+
+\begin{figure}[htbp!]
+	\centering
+	\begin{subfigure}[b]{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.65\linewidth]{img/experimentacion/duplicacion/sandpile/sp_1000.png}
+		\caption{Evolución de \textit{sandpile} original generada en Mathematica.}
+		\label{fig:sp_1000} 
+	\end{subfigure}%
+	\hfill % Añade espacio horizontal flexible entre las figuras
+	\begin{subfigure}[b]{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.6\linewidth]{img/experimentacion/duplicacion/sandpile/sp_nca_1000.png}
+		\caption{Evolución del autómata celular neuronal originado en el simulador.}
+		\label{fig:sp_nca_1000}
+	\end{subfigure}
+	\caption{Comparativa de simulaciones entre el sistema original (figura \ref{fig:sp_1000}) y la regla aprendida (figura \ref{fig:sp_nca_1000}). Células generadoras en tonos azules. }
+	\label{fig:sp_nca}
+\end{figure}
+
+\subsubsection{Reducción de la tasa de aprendizaje}
+
+El autómata celular neuronal pudo replicar el comportamiento exacto de la evolución con la que fue entrenado, una única célula generadora en el centro. Sin embargo, esa configuración no fue capaz de generalizar el comportamiento. Esto se observa cuando existen múltiples células generadoras, lo que causa la generación de más de ellas o de la eliminación de las mismas (ver figura \ref{fig:sp_nca_err_1}).
+
+\begin{figure}[htbp]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=0.45\linewidth]{img/experimentacion/duplicacion/sandpile/sp_nca_step_1928.png}
+		\caption{Evolución en el paso 1,928.}
+		\label{fig:sp_nca_step_1928} 
+	\end{subfigure}%
+	\hfill % Añade espacio horizontal flexible entre las figuras
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=0.5\linewidth]{img/experimentacion/duplicacion/sandpile/sp_nca_step_2080.png}
+		\caption{Evolución en el paso 2,080.}
+		\label{fig:sp_nca_step_2080}
+	\end{subfigure}
+
+	\vspace{1em}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=0.45\linewidth]{img/experimentacion/duplicacion/sandpile/sp_nca_2_step_9.png}
+		\caption{Evolución en el paso 9.}
+		\label{fig:sp_nca_2_step_9} 
+	\end{subfigure}
+	\hfill 
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=0.45\linewidth]{img/experimentacion/duplicacion/sandpile/sp_nca_2_step_246.png}
+		\caption{Evolución en el paso 246.}
+		\label{fig:sp_nca_2_step_246}
+	\end{subfigure}
+	\caption{Célula generadora en $(0, 0)$ con frontera periódica (figuras \ref{fig:sp_nca_step_1928} y \ref{fig:sp_nca_step_2080}) y dos células generadoras separadas por ocho células (figuras \ref{fig:sp_nca_2_step_9} y \ref{fig:sp_nca_2_step_246}).}
+	\label{fig:sp_nca_err_1}
+\end{figure}
+
+
+Además, la red fue entrenada con datos de frontera abierta, donde la arena que cae fuera de los bordes desaparece. Por esta razón el sistema no puede replicar el escenario en donde la arena llena el espacio. En la figura \ref{fig:sp_nca_step_2080} las generadoras se propagan cuando hay mucha arena en el sistema. El mismo efecto ocurre cuando existen generadoras muy juntas. 
+
+Para solucionar el problema de la eliminación de células generadoras, se entrena con dos evoluciones en un espacio de $25 \times 25$ y 2,000 pasos cada una: la de una célula generadora y otra con cuatro células generadoras. Este nuevo experimento permite que coexistan varias (sin tocarse), pero revela un comportamiento oscilatorio en la pérdida de la red neuronal. De acuerdo con la figura \ref{fig:sp_4generadores_loss}, esta decrece de forma limpia hasta cerca de 150 épocas y continúa de forma errática. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/experimentacion/duplicacion/sandpile/sp_4generadores_loss.png}
+	\caption{Pérdida de la red neuronal al entrenar \textit{sandpile} con 4 generadores, tasa de aprendizaje constante de 0.001 y pérdida objetivo de 0.000001.}
+	\label{fig:sp_4generadores_loss}
+\end{figure}
+
+
+Se proponen dos soluciones: disminución exponencial y disminución dinámica de la tasa de aprendizaje:
+
+\begin{itemize}
+	\item La reducción exponencial calcula la tasa de aprendizaje de la siguiente forma:	
+	\[
+	\mathrm{lr}(e) = \mathrm{lr}_{0} \left( \frac{\mathrm{lr}_{\min}}{\mathrm{lr}_{0}} \right)^{\frac{e}{E - 1}}
+	\]
+	donde $\mathrm{lr}_{0} = 0.001$ es la tasa inicial, $\mathrm{lr}_{\min} = 0.000001$ la tasa final, $e = 0,1, \dots, E - 1$ es la época actual y $E = 2{,}000$ es el total de épocas.
+	Aunque su curva está más suavizada, la tasa le impide alcanzar la pérdida objetivo y terminó por límite de épocas con una pérdida de 0.000015 (ver figura \ref{fig:sp_4generadores_loss_exp}).
+	
+	\item La reducción dinámica o de \textit{plateau} divide la tasa a la mitad cada vez que se estanca mediante la siguiente fórmula:
+	\[
+	\mathrm{lr}(e) = \max\left( \mathrm{lr}_{0} \cdot f^{n(e)},\ \mathrm{lr}_{\min} \right)
+	\]
+	donde $f = 0.5$ es el factor de reducción y $n(e)$ es el número de veces que la pérdida dejó de mejorar durante $p = 20$ épocas seguidas antes de la época $e$. Con esta reducción se alcanza la pérdida objetivo pero en 1,319 épocas (figura \ref{fig:sp_4generadores_loss_plateau}).
+\end{itemize}
+
+\begin{figure}[htbp]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{img/experimentacion/duplicacion/sandpile/sp_4generadores_loss_exp.png}
+		\caption{Decrecimiento de la tasa de aprendizaje mediante reducción exponencial.}
+		\label{fig:sp_4generadores_loss_exp}
+	\end{subfigure}
+	\hfill 
+		\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{img/experimentacion/duplicacion/sandpile/sp_4generadores_loss_plateau.png}
+		\caption{Decrecimiento de la tasa de aprendizaje mediante reducción por \textit{plateau}.}
+		\label{fig:sp_4generadores_loss_plateau}
+	\end{subfigure}
+	\caption{Pérdida de la red neuronal al entrenar \textit{sandpile} con cuatro generadores y una pérdida objetivo de 0.000001 con las técnicas de reducción de tasa de aprendizaje exponencial (figura \ref{fig:sp_4generadores_loss_exp}) y dinámica (figura \ref{fig:sp_4generadores_loss_plateau}). }
+	\label{fig:sp_4generadores_loss_red}
+\end{figure}
+
+Todas fueron entrenadas con una pérdida objetivo exigente (0.000001) y tuvieron una exactitud del 100\%. Recordando que la exactitud mide qué tantas predicciones fueron correctas y la pérdida, la seguridad de dicha decisión. Además, al evolucionar un generador en el centro de un espacio de $25 \times 25$ con frontera abierta, las tres rompen la simetría: la reducción exponencial en el paso 2,615, el resto en el 3,241. Solo la reducción dinámica genera un segundo generador, en el paso 4,045, y llena casi todo el espacio con generadores (85\%) en el 4,266; las otras dos no generan generadores adicionales en 6,000 pasos.
+
+\subsubsection{Capa de entrada con \textit{one-hot encoding}}
+
+La capa de entrada de la red neuronal para B3/S23 consiste en nueve células, cada una con un valor de cero o uno. Sin embargo, en \textit{sandpile} existen solo cinco células, pero cada una de ellas puede adquirir uno de 17 valores. Esta falta de normalización dificulta la tarea de predicción. 
+
+Una red neuronal es un proceso que combina números mediante funciones de agregación en cada neurona. Al tratar los datos de manera secuencial estamos indicando que existe la misma relación entre cada par de valores con la misma distancia. Para \textit{sandpile}, del estado 0 al 7 corresponde a las alturas posibles de arena y del estado 8 al 16 corresponde a las alturas de 0 a 8 para las generadoras. Sin embargo, al escoger una escala lineal estamos indicando que la relación que existe entre el estado 0 y el 1 o el 9 y el 10 es la misma que el 7 y 8. Es por esto que Menchaca en \cite{MenchacaMendez2022} sugiere el uso de \textit{one-hot encoding}, una técnica de codificación de datos binaria.
+
+En este caso, la capa de entrada pasa de tener 5 neuronas con valores entre 0 y 16 a $17 \times 5 = 85$ neuronas con valores de 0 o 1.
+
+Entrenando con un único generador (tabla \ref{tab:sp_onehot_1gen}), con \textit{one-hot} sobrevive 5,149 pasos antes de romper la simetría, 3,106 pasos más que sin \textit{one-hot} (2,043). Sin embargo, sigue siendo incapaz de evolucionar junto con otro generador.
+
+\begin{table}[H]
+	\centering
+	\footnotesize
+	\setlength{\tabcolsep}{4pt}
+	\begin{tabular}{lrrrrr}
+		\toprule
+		\textbf{Entrada} & \textbf{Épocas} & \textbf{Pérdida} & \textbf{\shortstack{Tiempo\\(s)}} & \textbf{\shortstack{Exactitud\\(\%)}} & \textbf{\shortstack{Exactitud\\generador (\%)}} \\
+		\midrule
+		Sin one-hot & 1,200 & 0.000003 & 140.97 & 100.000 & 100.000 \\
+		One-hot & 40 & 0.000001 & 4.92 & 100.000 & 100.000 \\
+		\bottomrule
+	\end{tabular}
+	\caption{Regla \textit{sandpile} con un generador, con capas: 2:64:ReLU \& 17:Linear, pérdida objetivo 0.000001, límite de épocas: 1,200, tamaño del lote: 4,096, tasa de aprendizaje inicial: 0.001 con reducción \textit{plateau}, semilla aleatoria: 42. La red sin \textit{one-hot} terminó por límite de épocas.}
+	\label{tab:sp_onehot_1gen}
+\end{table}
+
+Por otro lado, en la tabla \ref{tab:sp_onehot} se entrena con cuatro generadores, en donde utilizando \textit{one-hot} converge en 63 veces menos épocas y 53 veces menos tiempo. Además, esta configuración sobrevive al menos 10,000 pasos en la configuración tradicional y 2,985 con frontera periódica antes de romper la simetría. 
+
+\begin{table}[H]
+	\centering
+	\footnotesize
+	\setlength{\tabcolsep}{4pt}
+	\begin{tabular}{lrrrrr}
+		\toprule
+		\textbf{Entrada} & \textbf{Épocas} & \textbf{Pérdida} & \textbf{\shortstack{Tiempo\\(s)}} & \textbf{\shortstack{Exactitud\\(\%)}} & \textbf{\shortstack{Exactitud\\generador (\%)}} \\
+		\midrule
+		Sin one-hot & 1,319 & 0.000001 & 301.47 & 100.000 & 100.000 \\
+		One-hot & 21 & 0.000001 & 5.67 & 100.000 & 100.000 \\
+		\bottomrule
+	\end{tabular}
+	\caption{Regla \textit{sandpile} con un generador y con 4 generadores (dos evoluciones de $25\times25$ con 2,000 pasos), con capas: 2:64:ReLU \& 17:Linear, pérdida objetivo 0.000001, tamaño del lote: 4,096, tasa de aprendizaje inicial: 0.001 con reducción \textit{plateau}, semilla aleatoria: 42.}
+	\label{tab:sp_onehot}
+\end{table}
+
+Adicionalmente, este nuevo autómata celular neuronal replicó parcialmente un comportamiento que nunca se le había presentado: dos generadores contiguos. Si iniciamos el sistema con dos generadores contiguos en el centro de un espacio de $25 \times 25$, ambas evoluciones coinciden durante 1,882 pasos y en el siguiente se rompe la similitud, tal como se muestra en la figura \ref{fig:sp_2gen}. El error ocurre en la célula generadora con 5 granos contigua a la otra generadora, un patrón que no aparece en los datos de entrenamiento. En espacios de $20 \times 20$ y $50 \times 50$ el primer error aparece en los pasos 1,270 y 6,265, respectivamente, y en $100 \times 100$ no hay errores en 10,000 pasos.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/experimentacion/duplicacion/sandpile/sp_2gen_step_1883.png}
+		\caption{Evolución de \textit{sandpile} original generada en Mathematica.}
+		\label{fig:sp_2gen_original}
+	\end{subfigure}
+	\hfill 
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=0.67\linewidth]{img/experimentacion/duplicacion/sandpile/sp_nca_2gen_step_1883.png}
+		\caption{Evolución del autómata celular neuronal originado en el simulador.}
+		\label{fig:sp_2gen_nca}
+	\end{subfigure}
+	\caption{Comparativa de simulaciones entre el sistema original (figura \ref{fig:sp_2gen_original}) y la regla aprendida (figura \ref{fig:sp_2gen_nca}) con 2 células generadoras contiguas en el centro después de 1,883 pasos. }
+	\label{fig:sp_2gen}
+\end{figure}
+
+La forma de representar \textit{sandpile} como un autómata celular nos permitió explorar y definir mejoras en la definición de la red neuronal. Aunque el sistema no pudo extrapolar el comportamiento con una célula generadora a múltiples, sí pudo generalizar parcialmente hacia generadoras contiguas. Este descubrimiento nos indica que la red neuronal se acerca al comportamiento de sumas que se presenta al derribar las torres, tanto para las células normales como para las generadoras, aunque sigue fallando en patrones que no aparecen en los datos de entrenamiento. Esto gracias a la codificación \textit{one-hot} que no crea relaciones lineales entre los datos, fenómeno que pasó desapercibido con dos estados en las reglas del juego de la vida ya que era codificación binaria. 

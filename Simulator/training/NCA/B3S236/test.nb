@@ -988,7 +988,7 @@ Cell[BoxData[{RowBox[{RowBox[{"SetDirectory", "[",
          RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";"}], 
      "\[IndentingNewLine]", 
      RowBox[{RowBox[{"Export", "[", RowBox[
-          {"\"./../../../../Documentation/img/b3s236_loss.png\"", ",", 
+          {"\"./../../../../Documentation/img/experimentacion/duplicacion/gol/b3s236_loss.png\"", ",", 
            "fplot"}], "]"}], ";"}]}], "Input", 
    CellChangeTimes -> {{3.997575096371223*^9, 3.997575103264924*^9}, 
      3.9977116603455667*^9, {3.997711691997509*^9, 3.9977117070259657*^9}, 
@@ -1659,7 +1659,7 @@ Cell[BoxData[{RowBox[{RowBox[{"SetDirectory", "[",
          RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";"}], 
      "\[IndentingNewLine]", 
      RowBox[{RowBox[{"Export", "[", RowBox[
-          {"\"../../../../Documentation/img/b38s238_vector.png\"", ",", 
+          {"\"../../../../Documentation/img/experimentacion/duplicacion/gol/b38s238_vector.png\"", ",", 
            "fplotc"}], "]"}], ";"}]}], "Input", 
    CellChangeTimes -> {{3.997748091802018*^9, 3.9977481211609898*^9}, 
      {3.997748478046083*^9, 3.9977485146802187*^9}, 3.997749488368388*^9}, 
@@ -1720,7 +1720,7 @@ Cell[BoxData[{
           RowBox[{"-", "2"}], ",", "diff"}], "]"}], "]"}]}], "}"}], "]"}]}], 
    ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
  RowBox[{"Export", "[", 
-  RowBox[{"\"\<../../../../Documentation/img/b3s236_02_10.png\>\"", ",", 
+  RowBox[{"\"\<../../../../Documentation/img/experimentacion/duplicacion/gol/b3s236_02_10.png\>\"", ",", 
    RowBox[{"Grid", "[", 
     RowBox[{
      RowBox[{"Partition", "[", "\[IndentingNewLine]", 
@@ -1744,7 +1744,7 @@ Cell[BoxData[{
       RowBox[{"{", 
        RowBox[{"0", ",", " ", "0"}], "}"}]}]}], "]"}]}], "]"}], "\[IndentingNewLine]", 
  RowBox[{"Export", "[", 
-  RowBox[{"\"\<../../../../Documentation/img/b3s236_02_01.png\>\"", ",", 
+  RowBox[{"\"\<../../../../Documentation/img/experimentacion/duplicacion/gol/b3s236_02_01.png\>\"", ",", 
    "\[IndentingNewLine]", 
    RowBox[{"Grid", "[", 
     RowBox[{
@@ -2042,7 +2042,7 @@ Cell[BoxData[
  CellLabel->
   "Out[211]=",ExpressionUUID->"eeb163b1-70f7-44b1-8d4a-f6eb9b76cdcc"],
 
-Cell[BoxData["\<\"../../../../Documentation/img/b3s236_02_10.png\"\>"], "Output",
+Cell[BoxData["\<\"../../../../Documentation/img/experimentacion/duplicacion/gol/b3s236_02_10.png\"\>"], "Output",
  CellChangeTimes->{{3.99775100706875*^9, 3.997751216148868*^9}, {
    3.997751248614781*^9, 3.997751291601693*^9}, {3.997751339084198*^9, 
    3.997751359235298*^9}, 3.997751396419105*^9, {3.997751660167584*^9, 
@@ -2052,7 +2052,7 @@ Cell[BoxData["\<\"../../../../Documentation/img/b3s236_02_10.png\"\>"], "Output"
  CellLabel->
   "Out[213]=",ExpressionUUID->"d4f7f434-4726-4e54-9a45-aa324246ccfd"],
 
-Cell[BoxData["\<\"../../../../Documentation/img/b3s236_02_01.png\"\>"], "Output",
+Cell[BoxData["\<\"../../../../Documentation/img/experimentacion/duplicacion/gol/b3s236_02_01.png\"\>"], "Output",
  CellChangeTimes->{{3.99775100706875*^9, 3.997751216148868*^9}, {
    3.997751248614781*^9, 3.997751291601693*^9}, {3.997751339084198*^9, 
    3.997751359235298*^9}, 3.997751396419105*^9, {3.997751660167584*^9, 
@@ -2219,7 +2219,7 @@ Cell[CellGroupData[{
 
 Cell[BoxData[{
  RowBox[{"Export", "[", 
-  RowBox[{"\"\<../../../../Documentation/img/b3s236_03_10.png\>\"", ",", 
+  RowBox[{"\"\<../../../../Documentation/img/experimentacion/duplicacion/gol/b3s236_03_10.png\>\"", ",", 
    RowBox[{"Grid", "[", 
     RowBox[{
      RowBox[{"Partition", "[", "\[IndentingNewLine]", 
@@ -2242,7 +2242,7 @@ Cell[BoxData[{
       RowBox[{"{", 
        RowBox[{"0", ",", " ", "0"}], "}"}]}]}], "]"}]}], "]"}], "\[IndentingNewLine]", 
  RowBox[{"Export", "[", 
-  RowBox[{"\"\<../../../../Documentation/img/b3s236_03_01.png\>\"", ",", 
+  RowBox[{"\"\<../../../../Documentation/img/experimentacion/duplicacion/gol/b3s236_03_01.png\>\"", ",", 
    "\[IndentingNewLine]", 
    RowBox[{"Grid", "[", 
     RowBox[{
@@ -2280,13 +2280,13 @@ Cell[BoxData[{
  CellLabel->
   "In[282]:=",ExpressionUUID->"898fe1c3-eb9d-481c-bea5-b0942a44423c"],
 
-Cell[BoxData["\<\"../../../../Documentation/img/b3s236_03_10.png\"\>"], "Output",
+Cell[BoxData["\<\"../../../../Documentation/img/experimentacion/duplicacion/gol/b3s236_03_10.png\"\>"], "Output",
  CellChangeTimes->{{3.997752753946381*^9, 3.997752774664295*^9}, {
    3.997752995801531*^9, 3.997753023111208*^9}, 3.9977531527517567`*^9},
  CellLabel->
   "Out[282]=",ExpressionUUID->"4b6048c3-7dc5-4a72-bc40-633151f5ffa5"],
 
-Cell[BoxData["\<\"../../../../Documentation/img/b3s236_03_01.png\"\>"], "Output",
+Cell[BoxData["\<\"../../../../Documentation/img/experimentacion/duplicacion/gol/b3s236_03_01.png\"\>"], "Output",
  CellChangeTimes->{{3.997752753946381*^9, 3.997752774664295*^9}, {
    3.997752995801531*^9, 3.997753023111208*^9}, 3.997753152764242*^9},
  CellLabel->

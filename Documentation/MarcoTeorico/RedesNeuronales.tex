@@ -75,7 +75,7 @@ Cada neurona se compone (principalmente) de tres elementos, como se muestra en l
 	
 	\centering
 	
-	\includegraphics[width=0.6\linewidth]{img/neurona.png}
+	\includegraphics[width=0.6\linewidth]{img/marcoTeorico/neurona.png}
 	
 	\caption{Representación de una neurona \cite{brgfx_neurona}. Se encuentran señaladas las dendritas, el núcleo y el axón, encargados de recibir, procesar y transmitir la información, respectivamente.}
 	
@@ -102,7 +102,7 @@ La cual se suele representar como en la figura \ref{fig:neurona_artificial}.
 	
 	\centering
 	
-	\includegraphics[width=0.6\linewidth]{img/neurona_artificial.png}
+	\includegraphics[width=0.6\linewidth]{img/marcoTeorico/neurona_artificial.png}
 	
 	\caption{Representación gráfica de una neurona artificial. Contiene las entradas ($x_1, x_2, \dots, x_n$), los pesos sinápticos ($w_1, w_2, \dots, w_n$), el sesgo ($w_0$ o $b$), la función de agregación ($\Sigma$), la función de activación ($f$) y la salida.}
 	\label{fig:neurona_artificial}
@@ -149,7 +149,7 @@ Aunque la topología de la red puede ser arbitraria, en la práctica las redes s
 
 \begin{figure}[!htbp]
 	\centering
-	\includegraphics[width=0.5\textwidth]{img/ANN_multicapa.png}
+	\includegraphics[width=0.5\textwidth]{img/marcoTeorico/ANN_multicapa.png}
 	\caption{Red neuronal de tres capas: tres entradas, una capa oculta y tres salidas.}
 	\label{fig:ann_multicapa}
 \end{figure}
@@ -183,7 +183,7 @@ f(x) =
 Produce salidas discretas (0/1) y fue utilizada en perceptrones tempranos como función de decisión. No es diferenciable en el punto de umbral y su derivada es nula en casi todas partes, por lo que no es adecuada para entrenamiento mediante gradiente (\textit{backpropagation}). Aun así, se usa conceptualmente para tomar decisiones discretas o como capa de postprocesado/umbral en modelos ya entrenados.
 \begin{figure}[!htbp]
 	\centering
-	\includegraphics[width=0.5\textwidth]{img/binary.png}
+	\includegraphics[width=0.5\textwidth]{img/marcoTeorico/binary.png}
 	\caption{Función de activación escalón binario.}
 	\label{fig:binary}
 \end{figure}
@@ -196,7 +196,7 @@ f(x) = ax + b \quad \lor \quad f(x)=x.
 Produce una salida proporcional a la entrada y mantiene la linealidad en la red. Se utiliza principalmente en la capa de salida para tareas de regresión donde se requiere predecir valores continuos. No es adecuada para capas ocultas cuando se desea que la red aprenda transformaciones no lineales.
 \begin{figure}[!htbp]
 	\centering
-	\includegraphics[width=0.5\textwidth]{img/lineal.png}
+	\includegraphics[width=0.5\textwidth]{img/marcoTeorico/lineal.png}
 	\caption{Función de activación lineal.}
 	\label{fig:linear}
 \end{figure}
@@ -214,7 +214,7 @@ Tiene la propiedad de:
 Comprime la entrada en el intervalo $(0,1)$, por lo que es apropiada para modelar probabilidades y se ha usado históricamente en la salida de clasificadores binarios. Sufre saturación cuando los valores son grandes, lo que provoca gradientes pequeños (esto se llama el problema del gradiente desvanecido) y una salida que no está centrada (es positiva). Por eso, en las capas ocultas modernas, a menudo se reemplaza por ReLU o por la tangente hiperbólica (tanh).
 \begin{figure}[!htbp]
 	\centering
-	\includegraphics[width=0.5\textwidth]{img/sigmoid.png}
+	\includegraphics[width=0.5\textwidth]{img/marcoTeorico/sigmoid.png}
 	\caption{Función de activación sigmoide.}
 	\label{fig:sigmoid}
 \end{figure}
@@ -230,7 +230,7 @@ Su rango es $(-1, 1)$ y su derivada puede expresarse en función de sí misma.
 Es una versión centrada en cero de la sigmoide, lo que facilita el aprendizaje (gradientes con medias cercanas a cero). Se usa en capas ocultas cuando se necesita una salida limitada y centrada. Era una opción común en problemas secuenciales y en redes neuronales tradicionales antes de que se popularizaran arquitecturas y funciones de activación más modernas.
 \begin{figure}[!htbp]	
 	\centering
-	\includegraphics[width=0.5\textwidth]{img/tanh.png}
+	\includegraphics[width=0.5\textwidth]{img/marcoTeorico/tanh.png}
 	\caption{Función de activación \texttt{tanh}.}
 	\label{fig:tanh}
 \end{figure}
@@ -244,7 +244,7 @@ f(x) = \max(0, x).
 Activa linealmente las entradas positivas y pone a cero las negativas. Es sencilla y computacionalmente eficiente, favorece activaciones dispersas y reduce en la práctica el problema del gradiente desvanecido en redes profundas. Muy utilizada en capas ocultas de arquitecturas modernas. Tiene la desventaja de poder provocar neuronas ``muertas'' (gradiente cero para entradas negativas), problema que funciones como Leaky ReLU intentan corregir.
 \begin{figure}[!htbp]
 	\centering
-	\includegraphics[width=0.5\textwidth]{img/relu.png}
+	\includegraphics[width=0.5\textwidth]{img/marcoTeorico/relu.png}
 	\caption{Función de activación ReLU.}
 	\label{fig:relu}
 \end{figure}

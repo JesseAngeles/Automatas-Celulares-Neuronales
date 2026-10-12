@@ -870,7 +870,7 @@ Cell[BoxData[{
    RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
-   RowBox[{"\"\<./../../../../Documentation/img/b38s238_loss.png\>\"", ",", 
+   RowBox[{"\"\<./../../../../Documentation/img/experimentacion/duplicacion/gol/b38s238_loss.png\>\"", ",", 
     "fplot"}], "]"}], ";"}]}], "Input",
  CellChangeTimes->{{3.997575096371223*^9, 3.997575103264924*^9}, 
    3.9977116603455667`*^9, {3.997711691997509*^9, 3.9977117070259657`*^9}, {
@@ -1182,7 +1182,7 @@ Cell[BoxData[{
    RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
-   RowBox[{"\"\<../../../../Documentation/img/b38s238_vector.png\>\"", ",", 
+   RowBox[{"\"\<../../../../Documentation/img/experimentacion/duplicacion/gol/b38s238_vector.png\>\"", ",", 
     "fplotc"}], "]"}], ";"}]}], "Input",
  CellChangeTimes->{{3.997748091802018*^9, 3.9977481211609898`*^9}, {
    3.997748478046083*^9, 3.9977485146802187`*^9}, 3.997749488368388*^9},
