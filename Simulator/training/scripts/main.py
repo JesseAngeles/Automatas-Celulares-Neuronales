@@ -248,19 +248,21 @@ def main():
                                            else f" → {args.lr_min:g} ({args.lr_schedule})"))
     n_batches = (N + args.batch - 1) // args.batch
 
+    # Los datos van a la GPU si caben en la VRAM libre (no la total) dejando OVERHEAD para el modelo y los lotes.
+    # Cada lote se toma con X[perm[s:s+b]], así no se copia el arreglo completo en cada época.
     on_gpu     = False
     data_bytes = X.nbytes + Y.nbytes
     OVERHEAD   = 2 * 1024 ** 3
     if device.type == "cuda":
-        total_vram = torch.cuda.get_device_properties(device).total_memory
-        if data_bytes * 2 + OVERHEAD < total_vram:
+        free_vram, total_vram = torch.cuda.mem_get_info(device)
+        if data_bytes + OVERHEAD < free_vram:
             X, Y   = X.to(device), Y.to(device)
             on_gpu = True
             print(f"Datos en GPU  ({data_bytes/1e9:.2f} GB)")
         else:
             X, Y = X.pin_memory(), Y.pin_memory()
             print(f"Datos en CPU/pin_memory  ({data_bytes/1e9:.2f} GB, "
-                  f"VRAM total: {total_vram/1e9:.2f} GB)")
+                  f"VRAM libre: {free_vram/1e9:.2f} de {total_vram/1e9:.2f} GB)")
 
     csv_file = csv_writer = None
     if args.log_csv:
@@ -273,18 +275,16 @@ def main():
     try:
         for epoch in range(args.epochs):
             if on_gpu:
-                perm   = torch.randperm(N, device=device)
-                X_shuf = X[perm]
-                Y_shuf = Y[perm]
+                perm = torch.randperm(N, device=device)
                 def get_batch(s):
-                    return X_shuf[s:s+args.batch], Y_shuf[s:s+args.batch]
+                    idx = perm[s:s+args.batch]
+                    return X[idx], Y[idx]
             else:
-                perm   = torch.randperm(N)
-                X_shuf = X[perm]
-                Y_shuf = Y[perm]
+                perm = torch.randperm(N)
                 def get_batch(s):
-                    return (X_shuf[s:s+args.batch].to(device, non_blocking=True),
-                            Y_shuf[s:s+args.batch].to(device, non_blocking=True))
+                    idx = perm[s:s+args.batch]
+                    return (X[idx].pin_memory().to(device, non_blocking=True),
+                            Y[idx].pin_memory().to(device, non_blocking=True))
 
             epoch_loss = 0.0
             for start in range(0, N, args.batch):
