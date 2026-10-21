@@ -11,6 +11,12 @@ Hay dos procesos:
 | Script | Entrada | Estado |
 |---|---|---|
 | [`celsius_to_evolution.py`](celsius_to_evolution.py) | GeoTIFF radiométricos en **°C** | **Recomendado.** Aplicado a plot 1 (§2–§3) |
+| [`align_tiff.py`](align_tiff.py) | GeoTIFF radiométricos en **°C** | Estabiliza la secuencia antes de `celsius_to_evolution.py` (§2.1) |
+| [`crop_square.py`](crop_square.py) | GeoTIFF alineados | Recorta el cuadrado válido más grande de todo el escenario (§2.1) |
+| [`downsample_tiff.py`](downsample_tiff.py) | GeoTIFF cuadrados | Reduce a n×n con el kernel de §2.3 (§2.1) |
+| [`cluster_states.py`](cluster_states.py) | GeoTIFF n×n | Número de estados por K-Means 1D y método del codo (§2.1) |
+| [`render_states.py`](render_states.py) | GeoTIFF n×n | JPG ×10 de estados con 5 divisiones de temperatura, solo para comparar (§2.1) |
+| [`tiff_to_states.py`](tiff_to_states.py) | GeoTIFF n×n | **Datos de entrenamiento**: estados con cortes logarítmicos comunes (§2.1) |
 | [`thermal_to_evolution.py`](thermal_to_evolution.py) | JPG en pseudocolor | Primera versión; afectado por el AGC de la cámara (§4) |
 
 ## 1. Datos de origen
@@ -20,7 +26,7 @@ Hay dos procesos:
 | Dataset | [FLAME 3 – Nadir Thermal Plot Subset](https://www.kaggle.com/datasets/brycehopkins/flame-3-nadir-thermal-plot-subset) (`extract_data.py`) |
 | Sitio | Hanna Hammock, quema prescrita del 2023-02-28 |
 | Cámara | Autel Robotics XT709 (dron), 640×512 |
-| Copias locales | `Dataset/plot_N/raw_thermal_jpg`, `Dataset/plot_1/geo_thermal_tiff_celsius` |
+| Copias locales | `Dataset/<escenario>/raw_thermal_jpg` y `Dataset/<escenario>/geo_thermal_tiff_celsius`, con `flame_plot_1` (plot 1, `IRX_0533`–`0824`), `flame_plot_2` (plot 2 parte 1, `IRX_0825`–`1147`) y `flame_plot_3` (plot 2 parte 2, `IRX_1170`–`1346`); se descargan con `extract_data.py` |
 
 | Escenario | JPG | GeoTIFF °C | Inicio → fin | Δt mediana | Huecos > 10 s |
 |---|---|---|---|---|---|
@@ -38,8 +44,86 @@ numeración. Los GeoTIFF no traen fecha; se toma del JPG con el mismo número `I
 Cada `IRX_XXXX_ref_geo.TIFF` es un raster `float32` de 654×531 en **°C absolutos**,
 georreferenciado en EPSG:26916 (UTM 16N) con resolución de 0.153 m × 0.162 m por píxel.
 **Todos los frames comparten exactamente la misma malla** (mismo `transform`), así que el
-movimiento del dron ya está corregido: el píxel (i, j) es el mismo punto del terreno en
-todos los frames. El script verifica esto y se detiene si algún frame no coincide.
+movimiento del dron está corregido en gran parte. Aun así queda una deriva residual que se mide
+con `align_tiff.py`: hasta 8.6 px en `flame_plot_1`, 5.3 px en `flame_plot_2` y 9.3 px en
+`flame_plot_3` (≈ 1–2 celdas en 100×100). `celsius_to_evolution.py` verifica que todos los frames
+compartan la malla y se detiene si alguno no coincide.
+
+`align_tiff.py Dataset/<escenario>` mide la traslación subpíxel entre pares de frames a
+distancias 1, 2, 4, …, 128 (correlación de fase sobre la textura del suelo frío, < 50 °C, con
+12 px de margen alrededor del fuego; más pares a distancia 1, 2 y 4 sobre log(°C) con peso bajo
+para los frames que el fuego cubre casi por completo) y resuelve la posición de todos los frames
+por mínimos cuadrados robustos (Huber), con el primero fijo. Encadenar solo frames consecutivos
+acumulaba hasta 5 px de error en plot 2; con este ajuste la posición coincide a < 0.2 px con la
+medida directa contra el primer frame. Escribe `geo_thermal_tiff_celsius_aligned/`,
+`raw_thermal_jpg_aligned/` (pseudocolor inferno con escala logarítmica fija, para revisión
+visual) y `shifts.csv` (corrección aplicada a cada frame, en px).
+
+`crop_square.py Dataset/<escenario>` toma el cuadrado más grande con dato en **todos** los
+frames alineados (programación dinámica; entre empates, el más cercano al centro de la zona
+válida) y escribe `geo_thermal_tiff_celsius_aligned_<lado>/` (transform ajustado) y
+`raw_thermal_jpg_aligned_<lado>/`:
+
+| Escenario | Cuadrado | Filas | Columnas | Píxeles > 100 °C que conserva | Frames con fuego |
+|---|---|---|---|---|---|
+| `flame_plot_1` | 416×416 | 79:495 | 119:535 | 87 % | 100 % |
+| `flame_plot_2` | 477×477 | 32:509 | 149:626 | 58 % | 69 % |
+| `flame_plot_3` | 496×496 | 16:512 | 118:614 | 86 % | 100 % |
+
+`downsample_tiff.py Dataset/<escenario>` reduce el cuadrado a `--size` × `--size` (100 por
+default) con el kernel gaussiano de §2.3 y escribe `geo_thermal_tiff_celsius_aligned_<n>/`
+(transform escalado, misma extensión en el terreno) y `raw_thermal_jpg_aligned_<n>/`. En 100×100
+cada celda junta 4.16, 4.77 y 4.96 px (plots 1, 2 y 3) y la temperatura media no cambia.
+Con `--zoom 10` escribe además `raw_thermal_jpg_aligned_<n>_x10/`: los mismos JPG ampliados 10 veces
+por vecino más cercano (1000×1000, cada celda un bloque de 10×10 px), solo para revisión visual.
+
+`cluster_states.py Dataset/<escenario>` aplica el procedimiento de §2.4 a los GeoTIFF 100×100
+de todo el escenario (muestra de 200 000 valores, k = 2 … 10, codo por Kneedle) y guarda
+`clusters_100.png` (codo con el k elegido marcado y silueta) y `clusters_100.json` (curva, k,
+centroides, umbrales y fracción de celdas por estado):
+
+| Escenario | k | Centroides (°C) | Umbrales (°C) | Celdas por estado |
+|---|---|---|---|---|
+| `flame_plot_1` | 4 | 36.4, 82.2, 168.9, 306.8 | 59.3, 125.6, 237.9 | 83.3, 11.4, 3.9, 1.5 % |
+| `flame_plot_2` | 4 | 29.7, 91.4, 184.1, 353.5 | 60.5, 137.7, 268.8 | 99.3, 0.5, 0.2, 0.04 % |
+| `flame_plot_3` | 4 | 48.2, 108.6, 211.0, 365.7 | 78.4, 159.8, 288.4 | 65.8, 21.0, 8.9, 4.3 % |
+
+Con `--k 10` se fija k (el codo se sigue reportando) y se escribe `clusters_100_k10.png/.json`:
+
+| Escenario | Umbrales (°C) con k = 10 | Celdas por estado (%) |
+|---|---|---|
+| `flame_plot_1` | 36.2, 47.8, 64.7, 88.5, 119.1, 157.6, 205.2, 262.7, 332.0 | 50.0, 24.4, 11.1, 5.4, 3.3, 2.2, 1.5, 1.0, 0.7, 0.4 |
+| `flame_plot_2` | 30.0, 38.8, 60.4, 91.0, 128.0, 173.4, 227.7, 295.7, 383.2 | 71.6, 27.1, 0.6, 0.3, 0.2, 0.1, 0.06, 0.03, 0.02, 0.01 |
+| `flame_plot_3` | 45.2, 65.4, 91.1, 124.1, 165.1, 215.2, 274.0, 340.3, 414.7 | 31.0, 25.3, 15.6, 9.2, 6.3, 4.5, 3.2, 2.3, 1.8, 0.9 |
+
+`render_states.py Dataset/<escenario> … --k K` escribe en cada escenario
+`raw_thermal_jpg_aligned_100_x10_<método><K>/` (estados en paleta turbo discreta, frío → caliente,
+más `_leyenda.png` con el rango de °C de cada estado) para comparar cuatro divisiones: `kmeans`
+(umbrales de `cluster_states.py --k K`, propios de cada escenario) y, con el mínimo y máximo de los
+escenarios dados, `ancho` (mismo ancho en °C), `cuantil` (mismo número de celdas) y `log` (mismo ancho
+en log °C). Con K = 15 en `flame_plot_3` (22.3–604.6 °C):
+
+| Método | Cortes (°C) | Celdas por estado (%) |
+|---|---|---|
+| `kmeans15` | 39, 53, 67, 85, 105, 129, 155, 184, 217, 254, 295, 340, 390, 451 | 20.5, 21.7, 15.8, 11.1, 7.5, 5.4, 4.2, 3.3, 2.6, 2.1, 1.7, 1.5, 1.3, 1.0, 0.3 |
+| `ancho15` | 61, 100, 139, 178, 216, 255, 294, 333, 372, 411, 449, 488, 527, 566 | 52.2, 22.7, 8.9, 5.0, 3.2, 2.2, 1.6, 1.3, 1.0, 0.9, 0.6, 0.2, 0.1, 0.0, 0.0 |
+| `cuantil15` | 31, 36, 39, 43, 47, 51, 56, 62, 70, 80, 95, 119, 159, 238 | 6.7 cada uno |
+| `log15` | 28, 35, 43, 54, 67, 83, 104, 130, 161, 201, 251, 312, 389, 485 | 2.0, 9.8, 15.5, 16.5, 13.9, 10.8, 7.7, 6.0, 4.8, 3.9, 3.1, 2.5, 2.1, 1.3, 0.1 |
+
+Se eligió `log15`. `tiff_to_states.py Dataset/flame_plot_1 Dataset/flame_plot_2 Dataset/flame_plot_3`
+toma 15 cortes iguales en log(°C) entre el mínimo y el máximo de los tres escenarios (22.26 y
+604.60 °C, factor 1.246 entre cortes: 27.7, 34.6, 43.1, 53.7, 66.9, 83.4, 103.9, 129.5, 161.4,
+201.1, 250.7, 312.4, 389.3 y 485.1 °C) y escribe en `CA/FLAME3/<escenario>/`, con la misma
+estructura que el resto de `CA/`: `evo.npy` / `evo.mat` (variable `evolution`, int32 T×100×100),
+`evo_celsius.npy`, `evo.json` (metadatos, rango de °C de cada estado, Δt = 5 s), `evo.gif` y
+`evo_final.png`. También escribe la paleta de la GUI `GUI/colores/flame_log15.csv` (turbo en 15
+pasos, los mismos colores que los JPG de `render_states.py`).
+
+| Escenario | Shape | Celdas por estado (%) | Celdas en estado 14 | Huecos > 10 s |
+|---|---|---|---|---|
+| `flame_plot_1` | 292×100×100 | 1.1, 44.2, 21.5, 13.2, 6.2, 3.8, 2.7, 2.1, 1.6, 1.2, 0.9, 0.7, 0.5, 0.1, 0.002 | 48 | 26 s entre `IRX_0554` y `0555` |
+| `flame_plot_2` | 322×100×100 | 2.4, 95.8, 0.9, 0.3, 0.2, 0.1, 0.1, 0.1, 0.1, 0.1, 0.04, 0.02, 0.02, 0.01, 0.0004 | 13 | — |
+| `flame_plot_3` | 176×100×100 | 2.0, 9.8, 15.5, 16.5, 13.9, 10.8, 7.7, 6.0, 4.8, 3.9, 3.1, 2.5, 2.1, 1.3, 0.1 | 2 152 | — |
 
 ### 2.2 Recorte de la región válida
 
@@ -175,7 +259,7 @@ Dependencias (en `GUI/venv`): `numpy`, `scipy`, `pillow`, `scikit-learn`, `matpl
 
 ```bash
 ../GUI/venv/bin/python preprocessing/thermal_to_evolution.py Dataset/plot_1/raw_thermal_jpg CA/FLAME3/flame3_plot1_100
-../GUI/venv/bin/python preprocessing/thermal_to_evolution.py Dataset/plot_2/raw_thermal_jpg CA/FLAME3/flame3_plot2_100
+../GUI/venv/bin/python preprocessing/thermal_to_evolution.py Dataset/plot_2/raw_thermal_jpg CA/FLAME3/flame3_plot2_100  # plot_2 completo, antes de dividirlo en 2a y 2b
 ```
 
 1. **Escalado:** cada JPG de 640×512 se lleva a 100×100 estirando, con `PIL` y filtro BOX
