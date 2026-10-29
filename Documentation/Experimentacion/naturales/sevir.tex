@@ -1,0 +1,117 @@
+\subsection{Simulación de tormentas}
+
+El segundo sistema natural es el movimiento de las tormentas. A diferencia del fuego, que solo avanza sobre el terreno que no se ha quemado, una tormenta se desplaza con el viento, crece, se debilita y puede aparecer en zonas donde antes no llovía.
+
+Este experimento se alimenta del conjunto de datos SEVIR (\textit{Storm EVent ImagRy}) \cite{veillette2020sevir}, que reúne más de 10,000 eventos meteorológicos registrados en los Estados Unidos entre 2017 y 2019. Cada evento cubre una zona de $384 \times 384$ km durante 4 horas y contiene imágenes de radar y de satélite. De todas ellas, solo se utiliza el VIL (\textit{vertically integrated liquid}), que mide la cantidad de agua líquida en la columna de aire sobre cada kilómetro cuadrado: un valor alto indica lluvia intensa o granizo. Cada evento tiene 49 imágenes de $384 \times 384$ píxeles (1 km por píxel), una cada 5 minutos.
+
+Del conjunto completo se descargaron los 19,093 eventos que tienen VIL completo: 3,536 corresponden a tormentas registradas en la base de datos de eventos severos y 15,557 a eventos aleatorios. En este experimento solo se utilizan las tormentas.
+
+\subsubsection{Preprocesamiento de los datos}
+
+Para la limpieza del conjunto de datos, se procedió de la siguiente manera:
+
+\begin{enumerate}
+	\item Escalado de la evolución: Cada imagen se reduce de $384 \times 384$ a $96 \times 96$ células promediando bloques de $4 \times 4$ píxeles, por lo que cada célula representa 4 km. Con esta escala, una tormenta avanza alrededor de una célula por paso, lo que permite capturar su movimiento con una vecindad pequeña.
+
+	\item Discretización: Se utilizan los 6 umbrales de VIL que proponen los autores de SEVIR para evaluar pronósticos (16, 74, 133, 160, 181 y 219, en la escala de 0 a 255 del conjunto de datos), lo que da 7 estados: el estado 0 indica que no hay lluvia y el estado 6, la lluvia más intensa (tabla \ref{tab:sevir_estados}). En adelante, se considera que una célula tiene tormenta si su estado es 2 o mayor, es decir, si su VIL es de al menos 74. La figura \ref{fig:sevir_preprocesamiento} muestra el resultado de ambos pasos.
+
+	\item Selección de eventos: Para que la red no aprenda que las tormentas aparecen de la nada, se eligen al azar eventos en los que al menos el 2\% de las células tienen tormenta desde la primera imagen. El conjunto de entrenamiento tiene 40 tormentas de 2018 y el de prueba, 20 tormentas de 2019, por lo que la red se prueba con tormentas de otro año que nunca vio.
+\end{enumerate}
+
+\begin{table}[htbp]
+	\centering
+	\footnotesize
+	\begin{tabular}{cccc}
+		\toprule
+		& & \textbf{Porcentaje en} & \textbf{Porcentaje en} \\
+		\textbf{Estado} & \textbf{VIL} & \textbf{entrenamiento} & \textbf{prueba} \\ \midrule
+		0 & 0--16 & 70.76 & 68.01 \\
+		1 & 16--74 & 12.63 & 15.19 \\
+		2 & 74--133 & 11.33 & 12.41 \\
+		3 & 133--160 & 3.15 & 2.52 \\
+		4 & 160--181 & 1.09 & 0.90 \\
+		5 & 181--219 & 0.87 & 0.75 \\
+		6 & 219--255 & 0.17 & 0.21 \\
+		\bottomrule
+	\end{tabular}
+	\caption{Estados de SEVIR según el VIL de cada célula y su porcentaje en los conjuntos de entrenamiento (40 tormentas de 2018) y prueba (20 tormentas de 2019).}
+	\label{tab:sevir_estados}
+\end{table}
+
+\definecolor{sevir0}{HTML}{F2F2F2}\definecolor{sevir1}{HTML}{9BE39B}\definecolor{sevir2}{HTML}{2E9E3A}
+\definecolor{sevir3}{HTML}{F5D90A}\definecolor{sevir4}{HTML}{F28C1E}\definecolor{sevir5}{HTML}{D7191C}
+\definecolor{sevir6}{HTML}{B10DC9}
+\newcommand{\estadosevir}[2][black]{\fcolorbox{gray}{sevir#2}{\makebox[1.1em]{\textcolor{#1}{#2}}}}
+\newcommand{\leyendasevir}{%
+	\par\medskip
+	{\footnotesize\setlength{\fboxsep}{1pt}%
+	Estado: \estadosevir{0}\estadosevir{1}\estadosevir[white]{2}\estadosevir{3}\estadosevir{4}%
+	\estadosevir[white]{5}\estadosevir[white]{6}\par}}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.8\linewidth]{img/experimentacion/naturales/SEVIR/preprocesamiento.png}
+	\leyendasevir
+	\caption{Primera imagen de una tormenta del conjunto de prueba (27 de mayo de 2019): VIL original y sus 7 estados después del escalado.}
+	\label{fig:sevir_preprocesamiento}
+\end{figure}
+
+\subsubsection{Capacidad de replicación}
+
+Se probaron 4 configuraciones: vecindad de $5 \times 5$ (25 vecinos) o de $9 \times 9$ (81 vecinos), y capas ocultas de 2:32:ReLU o 3:64:ReLU, con capa de salida 7:Linear. Todas usan \textit{one-hot}, por lo que la capa de entrada tiene $25 \times 7 = 175$ entradas con la vecindad de $5 \times 5$ y $81 \times 7 = 567$ con la de $9 \times 9$. Todas se entrenaron durante 30 épocas con entropía cruzada como función de pérdida, una tasa de aprendizaje inicial de 0.001 con reducción exponencial hasta 0.00001, un tamaño del lote de 8,192, frontera abierta y semilla aleatoria 42. El conjunto de entrenamiento tiene 17,694,720 muestras (40 tormentas, 48 pasos y $96 \times 96$ células); a diferencia de FLAME~3, cada entrenamiento tardó menos de un minuto.
+
+Al igual que en FLAME~3, las redes se comparan con la predicción sin cambio, que supone que la siguiente imagen es igual a la actual. Se usan dos medidas:
+
+\begin{enumerate}
+	\item La exactitud es el porcentaje de células con el estado correcto.
+	\item El área con tormenta indica qué tanto se parecen las células con tormenta (estado 2 o mayor) de la simulación a las reales. Un valor de 100\% significa que son idénticas.
+\end{enumerate}
+
+Ambas medidas se calculan de dos formas: prediciendo un solo paso desde cada imagen real de las 20 tormentas de prueba, y en la simulación libre, en la que la red parte de la primera imagen y evoluciona sola con sus propias predicciones durante 4 horas.
+
+La tabla \ref{tab:sevir_resultados} muestra los resultados. Las 4 configuraciones superan a la predicción sin cambio en todas las medidas, aunque por poco: en un paso aciertan entre el 89.30 y el 89.37\% de las células, contra el 87.64\% de la predicción sin cambio, y en la simulación libre su área con tormenta se parece a la real entre un 4 y un 5\% más que la de la predicción sin cambio a los 30, 60 y 120 minutos. Las diferencias entre configuraciones son muy pequeñas: aumentar la vecindad o el tamaño de la red reduce la pérdida, pero no mejora la simulación libre.
+
+\begin{table}[htbp]
+	\centering
+	\footnotesize
+	\setlength{\tabcolsep}{4pt}
+	\begin{tabular}{@{}cccccccc@{}}
+		\toprule
+		& & & & & \multicolumn{3}{c}{\textbf{Área con tormenta en}} \\
+		& & & \multicolumn{2}{c}{\textbf{Un paso}} & \multicolumn{3}{c}{\textbf{la simulación libre}} \\
+		\cmidrule(lr){4-5} \cmidrule(l){6-8}
+		& & & & \textbf{Área con} & & & \\
+		\textbf{Vecindad} & \textbf{Capas} & \textbf{Pérdida} & \textbf{Exactitud} & \textbf{tormenta} & \textbf{30 min} & \textbf{60 min} & \textbf{120 min} \\ \midrule
+		\multicolumn{3}{c}{Predicción sin cambio} & 87.64\% & 76.93\% & 45.52\% & 32.43\% & 19.93\% \\ \midrule
+		\multirow{2}{*}{$5 \times 5$} & 2:32 & 0.2266 & 89.30\% & 79.83\% & 50.24\% & 37.00\% & 23.77\% \\
+		& 3:64 & 0.2245 & 89.31\% & 79.90\% & 50.22\% & 36.86\% & 23.38\% \\
+		\multirow{2}{*}{$9 \times 9$} & 2:32 & 0.2226 & 89.35\% & 79.91\% & 50.02\% & 36.79\% & 23.55\% \\
+		& 3:64 & 0.2192 & 89.37\% & 80.03\% & 49.94\% & 36.88\% & 23.28\% \\
+		\bottomrule
+	\end{tabular}
+	\caption{Resultados en las 20 tormentas de prueba (2019) de las redes entrenadas con 40 tormentas de 2018.}
+	\label{tab:sevir_resultados}
+\end{table}
+
+Sin embargo, la figura \ref{fig:sevir_comparacion} muestra que la simulación libre no se parece a una tormenta real. Las redes sí desplazan las tormentas, pero en pocos pasos las suavizan: las zonas de lluvia pierden sus detalles y se convierten en manchas uniformes, y las células más intensas se unen en bloques que dejan de moverse. Además, las redes nunca crean tormentas nuevas, mientras que en la evolución real aparecen nuevas líneas de tormenta y entran otras desde fuera del espacio.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.8\linewidth]{img/experimentacion/naturales/SEVIR/comparacion.png}
+	\leyendasevir
+	\caption{Evolución real de la tormenta de la figura \ref{fig:sevir_preprocesamiento}, predicción sin cambio y simulación libre de las 4 configuraciones a los 0, 30, 60 y 120 minutos.}
+	\label{fig:sevir_comparacion}
+\end{figure}
+
+Esto también se observa en la figura \ref{fig:sevir_area}: en las tormentas de prueba, el área con tormenta real crece del 12.3 al 19.7\% del espacio durante las 4 horas, mientras que en la simulación libre de todas las redes se reduce hasta un 9 o 10\%. Es decir, las redes aprendieron a mover y a debilitar las tormentas, pero no a formarlas ni a intensificarlas.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.75\linewidth]{img/experimentacion/naturales/SEVIR/area.png}
+	\caption{Porcentaje del espacio con tormenta (estado 2 o mayor) durante la simulación libre, promedio de las 20 tormentas de prueba.}
+	\label{fig:sevir_area}
+\end{figure}
+
+Este comportamiento tiene una explicación: cuando la red no puede saber si una célula va a llover más o menos, elige el estado más probable según los datos de entrenamiento, que casi siempre es uno de menos lluvia. Paso a paso, esta elección borra los detalles y debilita las tormentas. Al igual que en FLAME~3, la dinámica depende de variables que no están en las imágenes, como la temperatura, la humedad o el viento a distintas alturas, por lo que la vecindad no contiene toda la información necesaria para predecir el siguiente paso.
+
+De este experimento podemos concluir que el autómata celular neuronal sí aprende parte de la dinámica de las tormentas a partir de su evolución, ya que supera a la predicción sin cambio en tormentas de un año que nunca vio. Sin embargo, con 7 estados y una sola variable, la simulación libre pierde las tormentas en pocas horas.

@@ -1,0 +1,115 @@
+\section{Spectral Moments with Attractor Mass: A Similarity Index for One-Dimensional Cellular Automata}
+
+La regla B3/S23, que define el Juego de la Vida, es solo una de las $2^{18}$ reglas que comparten su estructura: dos estados, vecindad semitotalística de Moore y una transición que depende únicamente del estado de la celda y del número de vecinos vivos. Existe una familia de reglas llamada \textit{life-like} \cite{lifewiki_life} que presentan un comportamiento similar al de la regla \textit{Life} (B3/S23) con pequeñas diferencias. Sin embargo, ¿cómo se decide qué reglas son similares? Las clasificaciones existentes, pero su respuesta es siempre binaria: dos reglas son o no iguales. Surge entonces una segunda pregunta: ¿qué tan similares son? Esta pregunta dio pie a la investigación realizada con Sukanta Das \cite{angeles2027spectral}, donde fue definido el método de momentos espectrales con masa de atractor que define un grado de similitud entre dos reglas dadas, incluso si tienen distinto número de estados o de vecinos. 
+
+\subsection{Relaciones exactas entre reglas}
+
+El primer paso fue identificar las relaciones exactas entre las reglas aplicando cuatro criterios de equivalencia. Para ello se define \textit{dominio} de una regla a la terna formada por la dimensión, los estados y los vecinos. Decimos que dos reglas pertenecen al mismo dominio si comparten los tres elementos. 
+
+Dos de los criterios, la permutación de estados y las reglas espejo, son bien conocidos en la literatura y fueron revisados por Martinez \cite{Martinez2013note}; con ellos, las 256 reglas de los autómatas celulares elementales se reducen a 88 clases. Los otros dos son propuestos y comparan reglas con distinto número de estados y con distinto número de vecinos, por lo que se denominan reducción de estados y reducción de vecinos, respectivamente. Con ellos es posible mapear relaciones entre distintos espacios de reglas. Si $(x_1, \dots, x_m)$ es el estado de la vecindad y $\mathcal{R}$ la regla local, los cuatro criterios son:
+
+\begin{itemize}
+	\item \textbf{Permutación de estados.} Existe una biyección $\pi$ sobre el conjunto de estados tal que
+	\[
+	\mathcal{R}_2(x_1, \dots, x_m) = \pi\bigl(\mathcal{R}_1(\pi^{-1}(x_1), \dots, \pi^{-1}(x_m))\bigr),
+	\]
+	es decir, reetiquetar los estados deja la estructura sin cambios. En el caso binario, la única permutación no trivial es $\pi(x) = 1 - x$.
+	
+	\item \textbf{Reglas espejo.} Si $M(x_1, \dots, x_m) = (x_m, \dots, x_1)$ es la reflexión de la vecindad, entonces $\mathcal{R}_2 = \mathcal{R}_1 \circ M$: reflejar la configuración inicial, evolucionarla con la primera regla y reflejar el resultado produce la evolución de la segunda.
+	
+	\item \textbf{Reducción de estados.} Si un estado $a$ nunca es producido por la regla y toda vecindad que lo contiene produce siempre el mismo estado $b$, entonces $a$ solo puede aparecer en la condición inicial y desaparece en el primer paso. La evolución coincide con la de la regla restringida a los estados restantes. Inversamente, toda regla de $q$ estados puede extenderse a $q + 1$ estados añadiendo un estado que nunca se produce.
+	
+	\item \textbf{Reducción de vecinos.} Si existe un vecino cuyo estado no afecta la transición, este puede eliminarse de la vecindad. Si no se encuentra en uno de los extremos, la vecindad se reajusta para que sea contigua, bajo la hipótesis de que la distancia entre vecinos solo transforma el espacio de la evolución y no el comportamiento. Esta reducción es la responsable de agrupar comportamientos y reducir de 88 a 81 clases.
+\end{itemize}
+
+Al aplicar iterativamente estas cuatro relaciones se construye un grafo de relaciones entre reglas de distintos dominios, cuyas componentes conexas son las clases de equivalencia. Se reducen de 88 a 81 clases. Aunque esta clasificación sigue siendo binaria, sirve como referencia para validar los métodos siguientes.
+
+\subsection{Comparación estructural del grafo de transiciones}
+
+Estas relaciones dependen únicamente del vector de la regla. Como alternativa, se analizó el comportamiento evolutivo que tienen todas las configuraciones iniciales en un espacio con frontera periódica de $n$ células. Cada configuración representa un nodo que evoluciona y se dirige a otro, creando un grafo funcional. Cada componente conexa tiene exactamente un ciclo o atractor del cual cuelgan árboles transitorios. Ambos generan la \textit{cuenca de atracción}. Para cada configuración $x$ se definen su periodo $p(x)$, la longitud del ciclo que alcanza, y su altura $h(x)$, el número mínimo de pasos necesario para alcanzarlo ($h(x) = 0$ si $x$ es periódica). Además, como la función global conmuta con las traslaciones del anillo, se construye el \textit{grafo cociente por traslaciones}, en el que todas las rotaciones de una configuración forman un solo nodo.
+
+Decimos entonces que dos reglas tienen el mismo comportamiento si sus grafos de transiciones son isomorfos, lo cual se verifica de forma eficiente comparando sus formas canónicas. En los ECA, el grafo completo distingue hasta 85 de las 88 clases (con $n = 6$) y el grafo cociente también hasta 85 (con $n = 10$). Usando ambos sobre el mismo espacio se distinguen las 88 clases con solo 6 celdas. No obstante, esta comparación sigue siendo binaria, se limita a reglas del mismo dominio y su resultado depende del tamaño $n$ del espacio.
+
+\subsection{Métodos espectrales}
+
+Para obtener una medida gradual, cada regla se representa mediante un vector numérico (\textit{embedding}) derivado del grafo de transiciones, de modo que la distancia coseno entre vectores funcione como índice de similitud. Se exploraron tres representaciones:
+
+\subsubsection{Eigenvalores}
+
+Se utilizan los eigenvalores ordenados de la matriz de adyacencia del grafo de transiciones. Este método tiene dos limitaciones. Por un lado, es ciego a los transitorios: los árboles solo aportan eigenvalores nulos, por lo que el espectro depende únicamente de los atractores. Por ejemplo, las reglas 0 y 8 tienen un único atractor y, aunque lo alcanzan en a lo más 1 y 2 pasos respectivamente, sus espectros son idénticos. Por otro lado, el número de eigenvalores es igual al número de configuraciones, por lo que solo pueden compararse reglas con el mismo número de estados sobre el mismo espacio.
+	
+\subsubsection{Momentos espectrales}
+
+Para eliminar la dependencia del dominio, en lugar del espectro completo se mide, para cada paso $k = 1, \dots, K$, la proporción de configuraciones que regresan a sí mismas tras $k$ pasos:
+\begin{equation}
+	m_k = \frac{| \{ x \in \mathcal{C} : F^k(x) = x \} |}{N},
+\end{equation}
+donde $\mathcal{C}$ es el conjunto de configuraciones y $F$ la función global. La longitud del vector depende solo de la ventana $K$, por lo que es posible comparar reglas con distinto número de estados, de vecinos o de celdas. Sin embargo, como $m_k$ depende solo de los eigenvalores, hereda la ceguera a los transitorios.
+
+\subsubsection{Momentos espectrales con masa de atractor} 
+
+Para distinguir reglas como la 0 y la 8 es necesario medir, además de los atractores, con qué fuerza atraen al resto de las configuraciones, es decir, cuántas configuraciones llegan a cada atractor y en cuántos pasos. Cada ciclo se sigue activando cada $p$ pasos, como en los momentos espectrales, pero en cada activación se suman también las configuraciones que ya lo han alcanzado. Utilizando la altura y el periodo de cada configuración, se define
+\begin{equation}
+	\tilde{m}_k = \frac{| \{ x \in \mathcal{C} : p(x) \mid k \mbox{ y } h(x) \le k - p(x) \} |}{N}, \qquad k = 1, \dots, K.
+\end{equation}
+Es decir, una configuración cuenta en el paso $k$ si su atractor se activa en ese paso y la configuración ya lo había alcanzado antes de la activación previa: los nodos del ciclo ($h = 0$) cuentan desde la primera activación ($k = p$), los nodos con $1 \le h \le p$ desde la segunda ($k = 2p$), y así sucesivamente. Como toda configuración periódica cumple la condición cuando $p \mid k$, el vector se descompone como $\tilde{m}_k = m_k + t_k$, donde $t_k$ es la proporción de configuraciones transitorias que cuentan en el paso $k$. Así, el nuevo vector extiende los momentos espectrales con la información de las cuencas y conserva una longitud $K$ independiente del dominio, con la limitación de que un ciclo con $p > K$ nunca se activa.
+	
+Por ejemplo, con 5 celdas ($N = 32$), la regla 0 envía toda configuración al cero en un paso ($h \le 1$), mientras que en la regla 8 cada bloque de unos deja un 1 aislado que desaparece en el siguiente paso ($h \le 2$). De las 32 configuraciones, solo 12 llegan al cero en a lo más un paso. Sus vectores, $\tilde{m}^{(0)} = \frac{1}{32}(1, 32, 32, \dots)$ y $\tilde{m}^{(8)} = \frac{1}{32}(1, 12, 32, \dots)$, ya no son iguales, aunque sus momentos espectrales sí lo son.
+
+\subsection{Resultados}
+
+La Tabla \ref{tab:clases-metodos} resume el número máximo de clases que distingue cada método entre las 88 reglas representativas de los ECA, para tamaños $n = 1, \dots, 29$. La forma canónica es el método que más clases distingue, pero los momentos espectrales con masa de atractor son el segundo mejor: con $K = 60$ y $n \ge 6$, el grafo completo distingue entre 79 y 83 clases. Combinando $n = 3$ y $n = 6$ alcanza 86 y, junto con el cociente sobre el mismo tamaño, 87. Solo permanecen juntos los pares $\{1, 19\}$, cuyas alturas exactas son distintas pero caen en el mismo intervalo de $p$ pasos, y $\{4, 12\}$, que coinciden en la distribución de altura y periodo y difieren solo en la forma de los árboles. Los eigenvalores y los momentos espectrales simples, en cambio, se detienen en 77 clases.
+
+\begin{table}[htbp]
+	\centering
+	\caption{Número máximo de clases distinguidas entre las 88 reglas representativas de los ECA. ``Un tamaño'': mejor $n$, ``Todos'': combina los 29 tamaños, ``Completo + cociente'': ambos grafos sobre el mismo tamaño.}
+	\label{tab:clases-metodos}
+	\small
+	\setlength{\tabcolsep}{4pt}
+	\begin{tabular}{lccccc}
+		\hline
+		& \multicolumn{2}{c}{Grafo completo} & \multicolumn{2}{c}{Cociente} & Completo \\
+		Método & Un tamaño & Todos & Un tamaño & Todos & + cociente \\
+		\hline
+		Forma canónica        & 85 & 88 & 85 & 85 & 88 \\
+		Eigenvalores          & 74 & 77 & 63 & 68 & 77 \\
+		Momentos espectrales  & 74 & 77 & 63 & 68 & 77 \\
+		Masa de atractor      & 83 & 86 & 80 & 81 & 87 \\
+		\hline
+	\end{tabular}
+\end{table}
+
+Para evaluar el método como índice de similitud se utilizó la distancia coseno
+\begin{equation}
+	d(u, v) = 1 - \frac{u \cdot v}{\| u \| \, \| v \|}
+\end{equation}
+con $K = 60$, de la que se obtuvieron tres resultados principales.
+
+\begin{itemize}
+	\item \textbf{Una regla en espacios de distinto tamaño}: Al comparar cada ECA consigo mismo en tamaños $n \neq n'$ con $n, n' \in \{8, \dots, 29\}$, la mediana de la distancia es 0.098 en el grafo completo y 0.001 en el cociente, frente a 0.47 y 0.23 entre reglas distintas del mismo tamaño. Sin embargo, como muchas reglas tienen vecinos muy cercanos, una regla solo se identifica consigo misma en el 25\,\% de los casos en el grafo completo y en el 33\,\% en el cociente. La comparación entre tamaños distintos solo es confiable para reglas cuyos atractores no dependen de $n$, como la negación (51) y la identidad (204). Las reglas de desplazamiento nunca se identifican en el grafo completo, porque la longitud de sus ciclos depende de los divisores de $n$, y las reglas caóticas y aditivas casi nunca se identifican. Por ello, en general es preferible comparar sobre el mismo tamaño.
+	
+	\item \textbf{Agrupamiento de los ECA}: Con $n = 12$ y $K = 60$, el mejor agrupamiento de las 88 reglas representativas se obtuvo con $k$-medoides y 4 grupos (silueta de 0.70). Los grupos quedan separados por el periodo dominante de sus atractores (Tabla \ref{tab:clusters}): reglas que envían casi todas las configuraciones a puntos fijos, reglas cuyos atractores se desplazan, con ciclos de periodo $n$ o $2n$, reglas con atractores de periodo 2, como la negación y las reglas aditivas, y reglas con ciclos largos. Las reglas caóticas no forman un grupo propio: en algunas, la mayoría de las configuraciones alcanza ciclos con periodo mayor que $K$, que nunca se activan, y como la distancia coseno descarta la magnitud del vector, terminan en el grupo de punto fijo (por ejemplo, la regla 30). En otras, la mayoría de las configuraciones sí alcanza un punto fijo (por ejemplo, las reglas 22 y 106).
+\end{itemize}
+
+\begin{table}[htbp]
+	\centering
+	\caption{Agrupamiento de los 88 ECA representativos por masa de atractor ($n = 12$, $K = 60$, $k$-medoides con 4 grupos). Periodo: periodo dominante, es decir, el que reúne más configuraciones dentro de la ventana y, entre paréntesis, el número de reglas del grupo en las que domina.}
+	\label{tab:clusters}
+	\begin{tabular}{l c p{0.55\textwidth}}
+		\hline
+		Grupo & Periodo & Reglas \\
+		\hline
+		Punto fijo (30)     & 1 (29)  & 0, 4, 8, 12, 13, 22, 30, 32, 36, 40, 44, 72, 76, 77, 78, 94, 104, 106, 108, 128, 132, 136, 140, 160, 164, 168, 172, 200, 204, 232 \\
+		Periodo $n$ (30)    & 12 (27) & 2, 6, 9, 10, 11, 14, 15, 24, 25, 26, 34, 38, 41, 42, 43, 45, 46, 54, 56, 60, 74, 130, 134, 138, 142, 152, 154, 162, 170, 184 \\
+		Periodo 2 (22)      & 2 (16)  & 1, 5, 7, 18, 19, 23, 28, 29, 33, 37, 50, 51, 57, 73, 90, 105, 122, 126, 146, 150, 156, 178 \\
+		Periodos largos (6) & 24 (3)  & 3, 27, 35, 58, 62, 110 \\
+		\hline
+	\end{tabular}
+\end{table}
+
+
+\subsection{Conclusiones}
+
+Las cuatro relaciones de herencia conectan reglas de distintos dominios y reducen los 256 ECA a 81 clases, mientras que la forma canónica del grafo de transiciones distingue exactamente las 88 clases bajo permutación y espejo con un solo espacio de 6 celdas, aunque de forma binaria y solo entre reglas del mismo dominio. Los eigenvalores y los momentos espectrales solo observan los atractores, por lo que no separan reglas que difieren en sus transitorios y se detienen en 77 clases. Los momentos espectrales con masa de atractor conservan una longitud fija, añaden la información de las cuencas, distinguen 86 de las 88 clases (87 junto con el cociente) y asignan distancia cero a las relaciones que preservan el grafo de transiciones. Sus principales limitaciones son que no identifican la reducción de estados, que dependen del tamaño del espacio y que no registran los ciclos más largos que la ventana $K$, por lo que las reglas caóticas quedan dispersas.
+
+Esta investigación se realizó en colaboración con Sukanta Das, en el marco del curso \textit{Workshop on Logic and Automata: Cultivating the Roots of Computing}, organizado por el grupo de investigación \textit{Cellular Automata India}, adscrito al \textit{Department of Information Technology} del \textit{Indian Institute of Engineering Science and Technology} (IIEST), Shibpur, India, como parte de la \textit{Indian Summer School on Cellular Automata 2026}. El trabajo fue enviado para su publicación en el \textit{Asian Symposium on Cellular Automata Technology} (ASCAT 2027).

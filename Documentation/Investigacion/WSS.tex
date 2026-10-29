@@ -1,0 +1,60 @@
+\section{Adaptive Evolution in Totalistic Cellular Automaton}
+\label{sec:evolucion-adaptativa}
+
+En biología existen patrones de vida que crecen de forma indefinida y descontrolada, otros que mueren de inmediato bajo ciertas condiciones, y otros que persisten solo durante un número finito de pasos. Estos comportamientos también están presentes en reglas de autómatas celulares. En esta investigación \cite{angeles2025adaptive}, se estudiaron las reglas de autómatas celulares totalísticos unidimensionales capaces de generar formas de vida finitas \cite{hurtado2024finite}, es decir, reglas que, partiendo de una única célula activa, evolucionan un número de pasos antes de extinguirse. Posteriormente, el trabajo se amplió para su presentación en la \textit{Wolfram Technology Conference} 2025 \cite{angeles2025wtc}, con un filtro adicional y nuevas estrategias de búsqueda.
+
+\subsection{Reducción del espacio de reglas}
+
+Realizar una búsqueda exhaustiva de estas formas resulta computacionalmente inviable, ya que el número de reglas se incrementa de forma exponencial en función del número de estados y el tamaño de la vecindad. Para reducir el espacio de búsqueda, se aplican los siguientes cuatro filtros:
+
+\begin{itemize}
+	\item \textbf{Vida espontánea}: Se descartan las reglas que asignan un estado distinto de cero a la suma cero. Esta corresponde a la última posición del vector de la regla, pues generan actividad a partir de una vecindad completamente inactiva, es decir, solo se conservan las reglas cuyo número es múltiplo de $k$.
+	
+	\item \textbf{Muerte espontánea}: Si la penúltima posición vale 0, el patrón desaparece en el primer paso, por lo que esta posición debe ser distinta de cero.
+	
+	\item \textbf{Crecimiento infinito en triángulo}: Si la penúltima posición vale 1, las celdas de los extremos siempre ven una vecindad con suma 1 y reproducen el estado inicial, de modo que el patrón crece indefinidamente como un triángulo.
+	
+	\item \textbf{Crecimiento infinito completo}: El filtro anterior no elimina todos los triángulos infinitos. Un patrón crece como \textit{triángulo completo} si en el paso $t$ tiene un ancho de $2tr + 1$ celdas, y este crecimiento depende únicamente del \textit{vector intermedio}, formado por las posiciones $-k$ a $-2$ del vector de la regla, es decir, por las salidas de las sumas $k-1$ a $1$. Basta entonces probar cada vector intermedio con el resto de la regla en cero, y se conservan solo los que contienen a lo más un valor distinto de cero o no producen un triángulo completo. El resto del vector también influye en la evolución, pero con este filtro se evitan todos los triángulos completos.
+\end{itemize}
+
+Con los cuatro filtros basta estudiar alrededor del $8\%$ del total de reglas, y el número de reglas restantes puede aproximarse a partir del número $D_k$ de vectores intermedios aceptables. Aun con estos filtros, la búsqueda exhaustiva solo es viable en espacios pequeños, de hasta unos dos millones de reglas, como el de $k = 3$ y $r = 2.5$, con $3^{13} = 1{,}594{,}323$ reglas. 
+
+\subsection{Estrategias de búsqueda}
+
+Sobre el espacio filtrado se exploraron tres estrategias. En todas, la aptitud de una regla se define como el tiempo de vida de la forma que produce, es decir, el número de pasos hasta que el patrón desaparece:
+
+\subsubsection{Búsqueda por fuerza bruta} 
+
+Cada regla se trata como un nodo de un grafo. Sus vecinos son mutaciones de un solo dígito del vector de la regla. La búsqueda parte de la regla nula (regla 0), que puede convertirse en una forma de vida finita con una sola mutación, y explora su vecindad en anchura hasta alcanzar un número dado de nodos visitados. El resultado es un grafo de mutaciones. En él, todas las reglas que producen formas de vida finitas forman una componente conexa. Esto convierte la búsqueda en un problema de optimización: recorrer el grafo hacia las regiones con patrones más longevos.
+
+\subsubsection{Algoritmo genético}
+
+Para explorar espacios más grandes se aplicó un algoritmo genético, que mantiene una población de reglas candidatas y la hace evolucionar mediante selección, cruza, mutación y reemplazo. Se parte de una población aleatoria de $M$ reglas (por ejemplo, $M = 20$) y en cada generación se aplican cuatro pasos:
+	
+\begin{itemize}
+	\item \textbf{Selección por torneo}: Se eligen al azar $n$ reglas de la población y la de mayor aptitud pasa a la población de padres hasta alcanzar el mismo tamaño que la población inicial.
+	
+	\item \textbf{Cruza uniforme}: Para cada par de padres se genera una máscara binaria: con 0, el primer hijo toma el gen del primer padre y el segundo hijo el del segundo. Si vale 1, se intercambian. 
+	
+	\item \textbf{Mutación aleatoria}: Se eligen hijos al azar y se cambia el valor de una posición de su vector de reglas.
+	
+	\item \textbf{Reemplazo elitista}: Se unen la población inicial y la de hijos, se ordenan por aptitud y se conservan las mejores $M$ reglas para la siguiente generación.
+\end{itemize}
+	
+El proceso se repite hasta alcanzar la evolución más larga posible o un número dado de iteraciones. Se observó que las reglas más longevas comparten subconjuntos específicos de dígitos en su vector, que se comportan como motivos genéticos que mejoran la supervivencia, y que, generación tras generación, la población converge hacia regiones prometedoras del espacio de reglas. Sin embargo, el método es computacionalmente costoso, porque evalúa muchas reglas a la vez.
+	
+\subsubsection{Recocido simulado con distribución de Poisson}
+
+El recocido simulado parte de una solución aleatoria y una temperatura alta. En cada paso propone una solución vecina y la acepta si es mejor. Si es peor, la acepta con una probabilidad que depende de la temperatura, la cual disminuye gradualmente hasta que el sistema se ``congela'' o se alcanza una condición de paro. Aceptar soluciones peores permite escapar de máximos locales, aunque, una vez congelado el sistema, es difícil salir de ellos.
+	
+Sobre esta idea, y en la línea del modelo mínimo de evolución biológica propuesto por Wolfram \cite{wolfram2024evolution}, se diseñó un algoritmo de evolución adaptativa. La búsqueda parte de la regla nula (regla 0) y calcula su tiempo de vida. En cada iteración se generan todas las mutaciones puntuales de la regla actual y se evalúa el tiempo de vida de cada una. Las mutaciones inválidas o degeneradas se descartan. El siguiente paso se elige al azar entre estas mutaciones, ponderadas por una distribución de Poisson con parámetro $\lambda$: cuando $\lambda$ es bajo, todos los vecinos tienen una probabilidad similar, lo que promueve una exploración amplia. Cuando es alto, los vecinos con mayor tiempo de vida son más probables, lo que promueve un refinamiento local. El parámetro $\lambda$ aumenta en cada iteración, de forma análoga al enfriamiento del recocido simulado. Cada vez que se encuentra una regla con un tiempo de vida mayor que el máximo registrado, esta se guarda y $\lambda$ se reduce temporalmente para explorar con amplitud la vecindad de la nueva regla, y luego vuelve a aumentar gradualmente. La búsqueda termina cuando $\lambda$ supera 5. En la práctica, incrementos de $\lambda$ menores que 0.5 dieron mejores resultados.
+
+\subsection{Resultados y conclusiones}
+
+La forma de vida finita más larga encontrada por búsqueda exhaustiva dura 109,521 pasos y se obtuvo con $k = 3$, $r = 2.5$, estado inicial 2 y un espacio de 699 celdas. Con $k = 3$ y $r = 1$, la forma de vida más larga dura 88 pasos, y en el grafo de mutaciones aparecen regiones de reglas que producen la misma evolución. En general, las formas de vida cortas son producidas por muchas reglas y están ampliamente distribuidas en el espacio de reglas, mientras que las largas son producidas por pocas reglas y se encuentran aisladas. En el grafo de mutaciones, las reglas que producen formas de vida similares forman grupos densamente conectados, mientras que las formas más largas y complejas aparecen en la periferia, con pocas conexiones. Por esta razón, las caminatas aleatorias son una estrategia débil.
+
+En las ejecuciones del recocido simulado con distribución de Poisson desde la regla nula y con $r = 1$, la búsqueda alcanzó formas de vida de 88 pasos con $k = 3$ y de $1{,}800$ pasos con $k = 5$. Aceptar temporalmente reglas peores resultó necesario para explorar el espacio. Aun así, con $k = 4$ la búsqueda se estanca en configuraciones específicas, y con $k = 5$ es difícil pasar de un pico a otro, porque no existe un camino directo de mejoras sucesivas. Algoritmos más simples, como el ascenso de colinas (\textit{hill climbing}), no funcionaron bien porque se estancan muy rápido.
+
+En conjunto, esta metodología permitió descubrir formas de vida finitas y proporcionó un marco para estudiar la estructura del espacio de reglas, la robustez de las formas de vida y los caminos evolutivos entre configuraciones. Además, al agrupar reglas por su comportamiento, el grafo de mutaciones se relaciona con la pregunta que motivó el segundo proyecto: qué tan similares son dos reglas.
+
+Este proyecto se realizó en la \textit{Wolfram Summer School} 2025, en Bentley University, Massachusetts, EUA, bajo la mentoría de Willem Nielsen y a partir de una propuesta de Stephen Wolfram. Los resultados se publicaron en \textit{Wolfram Community} \cite{angeles2025adaptive}, donde fueron seleccionados para la columna \textit{Staff Picks}, y posteriormente se presentaron en la \textit{Wolfram Technology Conference} 2025 \cite{angeles2025wtc}. Este trabajo contribuyó a la publicación \textit{What's Special about Life? Bulk Orchestration and the Rulial Ensemble in Biology and Beyond}, de Stephen Wolfram \cite{wolfram2025life}, en cuyos agradecimientos se reconoce la ayuda del autor como afiliado del \textit{Wolfram Institute}.
