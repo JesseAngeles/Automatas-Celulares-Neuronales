@@ -1,10 +1,8 @@
 \subsection{Simulación de tormentas}
 
-El segundo sistema natural es el movimiento de las tormentas. A diferencia del fuego, que solo avanza sobre el terreno que no se ha quemado, una tormenta se desplaza con el viento, crece, se debilita y puede aparecer en zonas donde antes no llovía.
+El segundo sistema natural es el movimiento de tormentas. A diferencia del fuego, que unicamente se desplaza sobre terreno que no haya sido quemado, una tormenta des desplaza con e viento, crece, se debilita e incluso puede aparecer en zonas donde antes no existía.
 
-Este experimento se alimenta del conjunto de datos SEVIR (\textit{Storm EVent ImagRy}) \cite{veillette2020sevir}, que reúne más de 10,000 eventos meteorológicos registrados en los Estados Unidos entre 2017 y 2019. Cada evento cubre una zona de $384 \times 384$ km durante 4 horas y contiene imágenes de radar y de satélite. De todas ellas, solo se utiliza el VIL (\textit{vertically integrated liquid}), que mide la cantidad de agua líquida en la columna de aire sobre cada kilómetro cuadrado: un valor alto indica lluvia intensa o granizo. Cada evento tiene 49 imágenes de $384 \times 384$ píxeles (1 km por píxel), una cada 5 minutos.
-
-Del conjunto completo se descargaron los 19,093 eventos que tienen VIL completo: 3,536 corresponden a tormentas registradas en la base de datos de eventos severos y 15,557 a eventos aleatorios. En este experimento solo se utilizan las tormentas.
+Para entrenar el autómata celular neurona, se utiliza el conjunto de datos SEVIR (\textit{Storm EVent ImagRy}) que contiene mas de $10{,}000$ eventos meteorológicos registrados en Estados Unidos entre 2017 y 2019. Cada evento tiene 49 imágenes que capturan un área de $384 \times 384$ km cada 5 minutos por periodos de 4 horas. Contiene imágenes de radar y satelital, de las cuales se hace uso unicamente de las imágenes VIL (\textit{vertically integrated liquid}) que mide la cantidad de agua líquida en la columna de aire, es decir, miden la cantidad de lluvia por región fuerte la lluvia. 
 
 \subsubsection{Preprocesamiento de los datos}
 
@@ -13,30 +11,10 @@ Para la limpieza del conjunto de datos, se procedió de la siguiente manera:
 \begin{enumerate}
 	\item Escalado de la evolución: Cada imagen se reduce de $384 \times 384$ a $96 \times 96$ células promediando bloques de $4 \times 4$ píxeles, por lo que cada célula representa 4 km. Con esta escala, una tormenta avanza alrededor de una célula por paso, lo que permite capturar su movimiento con una vecindad pequeña.
 
-	\item Discretización: Se utilizan los 6 umbrales de VIL que proponen los autores de SEVIR para evaluar pronósticos (16, 74, 133, 160, 181 y 219, en la escala de 0 a 255 del conjunto de datos), lo que da 7 estados: el estado 0 indica que no hay lluvia y el estado 6, la lluvia más intensa (tabla \ref{tab:sevir_estados}). En adelante, se considera que una célula tiene tormenta si su estado es 2 o mayor, es decir, si su VIL es de al menos 74. La figura \ref{fig:sevir_preprocesamiento} muestra el resultado de ambos pasos.
+	\item Discretización: Se utilizan 6 umbrales propuesto por los autores para evaluar pronósticos (16, 74, 133, 160, 181 y 219, en la escala de 0 a 255 del conjunto de datos), lo que da 7 estados: el estado 0 indica que no hay lluvia y el estado 6, la lluvia más intensa. Se considera que una célula tiene tormenta si su estado es 2 o mayor, es decir, si su VIL es de al menos 74. La figura \ref{fig:sevir_preprocesamiento} muestra el resultado de ambos pasos.
 
-	\item Selección de eventos: Para que la red no aprenda que las tormentas aparecen de la nada, se eligen al azar eventos en los que al menos el 2\% de las células tienen tormenta desde la primera imagen. El conjunto de entrenamiento tiene 40 tormentas de 2018 y el de prueba, 20 tormentas de 2019, por lo que la red se prueba con tormentas de otro año que nunca vio.
+	\item Selección de eventos: Se eligen al azar solo los eventos que tengan al menos 2\% de tormenta desde la primera imagen. El conjunto de entrenamiento tiene 40 tormentas y el de prueba 20.
 \end{enumerate}
-
-\begin{table}[htbp]
-	\centering
-	\footnotesize
-	\begin{tabular}{cccc}
-		\toprule
-		& & \textbf{Porcentaje en} & \textbf{Porcentaje en} \\
-		\textbf{Estado} & \textbf{VIL} & \textbf{entrenamiento} & \textbf{prueba} \\ \midrule
-		0 & 0--16 & 70.76 & 68.01 \\
-		1 & 16--74 & 12.63 & 15.19 \\
-		2 & 74--133 & 11.33 & 12.41 \\
-		3 & 133--160 & 3.15 & 2.52 \\
-		4 & 160--181 & 1.09 & 0.90 \\
-		5 & 181--219 & 0.87 & 0.75 \\
-		6 & 219--255 & 0.17 & 0.21 \\
-		\bottomrule
-	\end{tabular}
-	\caption{Estados de SEVIR según el VIL de cada célula y su porcentaje en los conjuntos de entrenamiento (40 tormentas de 2018) y prueba (20 tormentas de 2019).}
-	\label{tab:sevir_estados}
-\end{table}
 
 \definecolor{sevir0}{HTML}{F2F2F2}\definecolor{sevir1}{HTML}{9BE39B}\definecolor{sevir2}{HTML}{2E9E3A}
 \definecolor{sevir3}{HTML}{F5D90A}\definecolor{sevir4}{HTML}{F28C1E}\definecolor{sevir5}{HTML}{D7191C}
@@ -52,41 +30,30 @@ Para la limpieza del conjunto de datos, se procedió de la siguiente manera:
 	\centering
 	\includegraphics[width=0.8\linewidth]{img/experimentacion/naturales/SEVIR/preprocesamiento.png}
 	\leyendasevir
-	\caption{Primera imagen de una tormenta del conjunto de prueba (27 de mayo de 2019): VIL original y sus 7 estados después del escalado.}
+	\caption{Imagen original y su discretización a 7 estados después del escalado.}
 	\label{fig:sevir_preprocesamiento}
 \end{figure}
 
 \subsubsection{Capacidad de replicación}
 
-Se probaron 4 configuraciones: vecindad de $5 \times 5$ (25 vecinos) o de $9 \times 9$ (81 vecinos), y capas ocultas de 2:32:ReLU o 3:64:ReLU, con capa de salida 7:Linear. Todas usan \textit{one-hot}, por lo que la capa de entrada tiene $25 \times 7 = 175$ entradas con la vecindad de $5 \times 5$ y $81 \times 7 = 567$ con la de $9 \times 9$. Todas se entrenaron durante 30 épocas con entropía cruzada como función de pérdida, una tasa de aprendizaje inicial de 0.001 con reducción exponencial hasta 0.00001, un tamaño del lote de 8,192, frontera abierta y semilla aleatoria 42. El conjunto de entrenamiento tiene 17,694,720 muestras (40 tormentas, 48 pasos y $96 \times 96$ células); a diferencia de FLAME~3, cada entrenamiento tardó menos de un minuto.
+Se probaron 4 configuraciones: vecindad de $5 \times 5$ (25 vecinos) o de $9 \times 9$ (81 vecinos) con capas ocultas de 2:32:ReLU o 3:64:ReLU y 7:Linear en la capa de salida. Todas usan \textit{one-hot encoding} y fueron entrenadas durante 30 épocas con entropía cruzada como función de pérdida, una tasa de aprendizaje inicial de 0.001 con reducción exponencial hasta 0.00001, un tamaño del lote de 8,192, frontera abierta y semilla aleatoria 42. El conjunto de entrenamiento contiene 17,694,720 muestras.
 
-Al igual que en FLAME~3, las redes se comparan con la predicción sin cambio, que supone que la siguiente imagen es igual a la actual. Se usan dos medidas:
+Al igual que en FLAME3, las redes se comparan con la predicción sin cambio, es decir, la imagen igual a la actual y se mide mediante: (1) La exactitud: porcentaje de células con el estado correcto; y (2) el area de tormenta: similitud entre el área con tormenta entre la simulación y la real.
 
-\begin{enumerate}
-	\item La exactitud es el porcentaje de células con el estado correcto.
-	\item El área con tormenta indica qué tanto se parecen las células con tormenta (estado 2 o mayor) de la simulación a las reales. Un valor de 100\% significa que son idénticas.
-\end{enumerate}
-
-Ambas medidas se calculan de dos formas: prediciendo un solo paso desde cada imagen real de las 20 tormentas de prueba, y en la simulación libre, en la que la red parte de la primera imagen y evoluciona sola con sus propias predicciones durante 4 horas.
-
-La tabla \ref{tab:sevir_resultados} muestra los resultados. Las 4 configuraciones superan a la predicción sin cambio en todas las medidas, aunque por poco: en un paso aciertan entre el 89.30 y el 89.37\% de las células, contra el 87.64\% de la predicción sin cambio, y en la simulación libre su área con tormenta se parece a la real entre un 4 y un 5\% más que la de la predicción sin cambio a los 30, 60 y 120 minutos. Las diferencias entre configuraciones son muy pequeñas: aumentar la vecindad o el tamaño de la red reduce la pérdida, pero no mejora la simulación libre.
+La tabla \ref{tab:sevir_resultados} muestra los resultados. Las 4 configuraciones superan a la predicción sin cambio en todas las medidas, aunque por poco: en un paso aciertan entre el 89.30 y el 89.37\% de las células, contra el 87.64\% de la predicción sin cambio. En la simulación libre, el área con tormenta se parece a la real entre un 4 y un 5\% más que la de la predicción sin cambio a los 30, 60 y 120 minutos. Las diferencias entre configuraciones son muy pequeñas: aumentar la vecindad o el tamaño de la red reduce la pérdida, pero no mejora la simulación libre.
 
 \begin{table}[htbp]
 	\centering
 	\footnotesize
 	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{@{}cccccccc@{}}
-		\toprule
-		& & & & & \multicolumn{3}{c}{\textbf{Área con tormenta en}} \\
-		& & & \multicolumn{2}{c}{\textbf{Un paso}} & \multicolumn{3}{c}{\textbf{la simulación libre}} \\
-		\cmidrule(lr){4-5} \cmidrule(l){6-8}
-		& & & & \textbf{Área con} & & & \\
-		\textbf{Vecindad} & \textbf{Capas} & \textbf{Pérdida} & \textbf{Exactitud} & \textbf{tormenta} & \textbf{30 min} & \textbf{60 min} & \textbf{120 min} \\ \midrule
-		\multicolumn{3}{c}{Predicción sin cambio} & 87.64\% & 76.93\% & 45.52\% & 32.43\% & 19.93\% \\ \midrule
-		\multirow{2}{*}{$5 \times 5$} & 2:32 & 0.2266 & 89.30\% & 79.83\% & 50.24\% & 37.00\% & 23.77\% \\
-		& 3:64 & 0.2245 & 89.31\% & 79.90\% & 50.22\% & 36.86\% & 23.38\% \\
-		\multirow{2}{*}{$9 \times 9$} & 2:32 & 0.2226 & 89.35\% & 79.91\% & 50.02\% & 36.79\% & 23.55\% \\
-		& 3:64 & 0.2192 & 89.37\% & 80.03\% & 49.94\% & 36.88\% & 23.28\% \\
+	\begin{tabular}{ccccc}
+		& & & & \textbf{Área con} \\
+		\textbf{Vecindad} & \textbf{Capas} & \textbf{Pérdida} & \textbf{Exactitud} & \textbf{tormenta} \\ \midrule
+		\multicolumn{3}{c}{Predicción sin cambio} & 87.64\% & 76.93\%   \\ \midrule
+		\multirow{2}{*}{$5 \times 5$} & 2:32 & 0.2266 & 89.30\% & 79.83\% \\
+		& 3:64 & 0.2245 & 89.31\% & 79.90\%  \\
+		\multirow{2}{*}{$9 \times 9$} & 2:32 & 0.2226 & 89.35\% & 79.91\% \\
+		& 3:64 & 0.2192 & 89.37\% & 80.03\% \\
 		\bottomrule
 	\end{tabular}
 	\caption{Resultados en las 20 tormentas de prueba (2019) de las redes entrenadas con 40 tormentas de 2018.}
@@ -103,7 +70,7 @@ Sin embargo, la figura \ref{fig:sevir_comparacion} muestra que la simulación li
 	\label{fig:sevir_comparacion}
 \end{figure}
 
-Esto también se observa en la figura \ref{fig:sevir_area}: en las tormentas de prueba, el área con tormenta real crece del 12.3 al 19.7\% del espacio durante las 4 horas, mientras que en la simulación libre de todas las redes se reduce hasta un 9 o 10\%. Es decir, las redes aprendieron a mover y a debilitar las tormentas, pero no a formarlas ni a intensificarlas.
+Esto también se observa en la figura \ref{fig:sevir_area}, donde el área de las tormentas de prueba crece del 12.3 al 19.7\% del espacio durante las 4 horas, mientras que en la simulación libre de todas las redes se reduce hasta un 9 o 10\%. Es decir, las redes aprendieron a mover y a debilitar las tormentas, pero no a formarlas ni a intensificarlas.
 
 \begin{figure}[htbp]
 	\centering
@@ -112,17 +79,17 @@ Esto también se observa en la figura \ref{fig:sevir_area}: en las tormentas de 
 	\label{fig:sevir_area}
 \end{figure}
 
-Este comportamiento tiene una explicación: cuando la red no puede saber si una célula va a llover más o menos, elige el estado más probable según los datos de entrenamiento, que casi siempre es uno de menos lluvia. Paso a paso, esta elección borra los detalles y debilita las tormentas. Al igual que en FLAME~3, la dinámica depende de variables que no están en las imágenes, como la temperatura, la humedad o el viento a distintas alturas, por lo que la vecindad no contiene toda la información necesaria para predecir el siguiente paso.
+Este comportamiento tiene una explicación: cuando la red no puede saber si una célula va a llover más o menos, elige el estado más probable según los datos de entrenamiento, que casi siempre es uno de menos lluvia. Paso a paso, esta elección borra los detalles y debilita las tormentas. Al igual que en FLAME 3, la dinámica depende de variables que no están en las imágenes, como la temperatura, la humedad o el viento a distintas alturas, por lo que la vecindad no contiene toda la información necesaria para predecir el siguiente paso.
 
 \subsubsection{Barrido de configuraciones}
 
-Para saber si el resultado anterior se debe a la poca cantidad de datos o a la configuración de la red, se realizó un barrido con más tormentas, redes más grandes y más vecindades. Se utilizaron las 1,996 tormentas que cumplen la condición de selección para entrenar (1,286 de 2018 y 710 de 2017) y 200 tormentas de 2019 para la prueba, entre las que están las 20 del experimento anterior. Los 7 estados no cambian.
+Fueron realizados entrenamientos adicionales con el objetivo de descartar limitaciones en la configuración de la red neuronal. Se realizaron barridos con más tormentas, redes mas grandes y mas vecindades. Fueron seleccionadas 1,996 tormentas que cumplen la condición de selección para entrenar y 200 tormentas de 2019 para la prueba.
 
 El programa de entrenamiento guarda en memoria la vecindad de cada célula de cada paso, por lo que 40 tormentas completas con la vecindad de $11 \times 11$ ya ocupan cerca de 9 GB. Para usar más tormentas sin rebasar ese límite, de cada tormenta se toman solo algunas transiciones, es decir, pares de imágenes consecutivas, elegidas al azar.
 
 Todas las redes se entrenaron igual que en el experimento anterior (30 épocas, entropía cruzada, tasa de aprendizaje de 0.001 a 0.00001 con reducción exponencial, lote de 8,192 y semilla aleatoria 42) y con frontera abierta: fuera del espacio todas las células están en el estado 0. Una tormenta que entra desde el borde no está en la imagen anterior, por lo que con una frontera periódica la red aprendería que las tormentas aparecen de la nada.
 
-Se probaron 8 vecindades (figura \ref{fig:sevir_vecindades}): 3 cuadradas, 3 circulares y 2 dispersas, la de FLAME~3 y una en forma de estrella, con un núcleo de $5 \times 5$ y 8 rayos que llegan hasta 11 células (44 km) de distancia. Todas tienen como máximo 128 vecinos, por lo que se pueden usar en el simulador. Las capas ocultas fueron 2:32:ReLU, 3:64:ReLU, 8:64:ReLU, 16:64:ReLU y 16:128:ReLU, con capa de salida 7:Linear, y la entrada fue lineal (el estado de cada vecino como un número) o con \textit{one-hot}.
+Se probaron las 8 vecindades de la figura \ref{fig:sevir_vecindades}. Todas tienen como máximo 128 vecinos, por lo que se pueden usar en el simulador. Las capas ocultas fueron 2:32:ReLU, 3:64:ReLU, 8:64:ReLU, 16:64:ReLU y 16:128:ReLU, con capa de salida 7:Linear, y la entrada fue lineal (el estado de cada vecino como un número) o con \textit{one-hot}.
 
 \begin{figure}[htbp]
 	\centering
@@ -134,7 +101,7 @@ Se probaron 8 vecindades (figura \ref{fig:sevir_vecindades}): 3 cuadradas, 3 cir
 El barrido se dividió en tres fases:
 
 \begin{enumerate}
-	\item Pruebas pequeñas: las 80 combinaciones de vecindad, capas ocultas y entrada, con las mismas 40 tormentas completas del experimento anterior. Se eligieron las 4 mejores según el área con tormenta en un paso y en la simulación libre a los 60 y 120 minutos, y según qué tan parecida es la cantidad de tormenta simulada a la real a los 120 minutos.
+	\item Pruebas pequeñas: las 80 combinaciones de vecindad, capas ocultas y entrada, con las mismas 40 tormentas completas del experimento anterior. Se escogen las 4 mejores según el área con tormenta en un paso y en la simulación libre a los 60 y 120 minutos, y según qué tan parecida es la cantidad de tormenta simulada a la real a los 120 minutos.
 	\item Más tormentas: las 4 mejores se entrenaron con 400 tormentas de 5 transiciones cada una (casi el mismo número de transiciones que con 40 tormentas completas, pero más variadas) y con 1,000 tormentas de 2 o 3 transiciones.
 	\item Estabilidad: la mejor configuración se entrenó con las semillas aleatorias 1 y 2, con 100 épocas y con 4 estados en lugar de 7.
 \end{enumerate}
@@ -197,29 +164,29 @@ En la segunda fase (tabla \ref{tab:sevir_barrido_tormentas}), las 4 redes mejora
 	\centering
 	\footnotesize
 	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{@{}cccccccc@{}}
+	\begin{tabular}{@{}ccccccc@{}}
 		\toprule
-		& & & \textbf{Transiciones} & \textbf{Un paso} & \multicolumn{3}{c}{\textbf{Área con tormenta en}} \\
-		& & & \textbf{por} & \textbf{Área con} & \multicolumn{3}{c}{\textbf{la simulación libre}} \\
-		\cmidrule(l){6-8}
-		\textbf{Vecindad} & \textbf{Capas} & \textbf{Tormentas} & \textbf{tormenta} & \textbf{tormenta} & \textbf{60 min} & \textbf{120 min} & \textbf{240 min} \\ \midrule
-		\multicolumn{4}{c}{Predicción sin cambio} & 77.98\% & 31.78\% & 20.02\% & 10.78\% \\ \midrule
-		\multirow{4}{*}{Circular, radio 5} & \multirow{4}{*}{16:128} & 40 & 48 & 82.34\% & 41.57\% & 29.20\% & 17.07\% \\
-		& & 400 & 5 & 82.65\% & 41.67\% & 28.41\% & 15.66\% \\
-		& & 400 & 7 & 82.59\% & 41.31\% & 28.04\% & 15.62\% \\
-		& & 1,000 & 3 & 82.62\% & 41.52\% & 28.44\% & 15.82\% \\ \midrule
-		\multirow{3}{*}{$11 \times 11$} & \multirow{3}{*}{16:64} & 40 & 48 & 82.36\% & 41.23\% & 28.43\% & 16.55\% \\
-		& & 400 & 5 & \textbf{82.67\%} & \textbf{41.83\%} & \textbf{28.84\%} & 16.08\% \\
-		& & 1,000 & 2 & 82.55\% & 40.49\% & 27.13\% & 14.17\% \\ \midrule
-		\multirow{3}{*}{Circular, radio 6} & \multirow{3}{*}{16:128} & 40 & 48 & 82.40\% & 41.42\% & 28.44\% & 15.85\% \\
-		& & 400 & 5 & 82.66\% & 41.68\% & 28.24\% & 15.15\% \\
-		& & 1,000 & 2 & 82.56\% & 40.31\% & 26.82\% & 14.34\% \\ \midrule
-		\multirow{3}{*}{$11 \times 11$} & \multirow{3}{*}{16:128} & 40 & 48 & 82.34\% & 41.38\% & 28.76\% & 16.88\% \\
-		& & 400 & 5 & \textbf{82.67\%} & 41.68\% & 28.18\% & 15.51\% \\
-		& & 1,000 & 2 & 82.57\% & 40.23\% & 26.82\% & 14.16\% \\
+		& & & \textbf{Transiciones} & \textbf{Un paso} & \multicolumn{2}{c}{\textbf{Área con tormenta en}} \\
+		& & & \textbf{por} & \textbf{Área con} & \multicolumn{2}{c}{\textbf{la simulación libre}} \\
+		\cmidrule(l){6-7}
+		\textbf{Vecindad} & \textbf{Capas} & \textbf{Tormentas} & \textbf{tormenta} & \textbf{tormenta} & \textbf{60 min} & \textbf{120 min} \\ \midrule
+		\multicolumn{4}{c}{Predicción sin cambio} & 77.98\% & 31.78\% & 20.02\%  \\ \midrule
+		\multirow{4}{*}{Circular, radio 5} & \multirow{4}{*}{16:128} & 40 & 48 & 82.34\% & 41.57\% & 29.20\%  \\
+		& & 400 & 5 & 82.65\% & 41.67\% & 28.41\% \\
+		& & 400 & 7 & 82.59\% & 41.31\% & 28.04\% \\
+		& & 1,000 & 3 & 82.62\% & 41.52\% & 28.44\%  \\ \midrule
+		\multirow{3}{*}{$11 \times 11$} & \multirow{3}{*}{16:64} & 40 & 48 & 82.36\% & 41.23\% & 28.43\% \\
+		& & 400 & 5 & \textbf{82.67\%} & \textbf{41.83\%} & \textbf{28.84\%}  \\
+		& & 1,000 & 2 & 82.55\% & 40.49\% & 27.13\%  \\ \midrule
+		\multirow{3}{*}{Circular, radio 6} & \multirow{3}{*}{16:128} & 40 & 48 & 82.40\% & 41.42\% & 28.44\% \\
+		& & 400 & 5 & 82.66\% & 41.68\% & 28.24\%  \\
+		& & 1,000 & 2 & 82.56\% & 40.31\% & 26.82\%  \\ \midrule
+		\multirow{3}{*}{$11 \times 11$} & \multirow{3}{*}{16:128} & 40 & 48 & 82.34\% & 41.38\% & 28.76\%  \\
+		& & 400 & 5 & \textbf{82.67\%} & 41.68\% & 28.18\% \\
+		& & 1,000 & 2 & 82.57\% & 40.23\% & 26.82\%  \\
 		\bottomrule
 	\end{tabular}
-	\caption{Segunda fase del barrido: las 4 mejores redes de la primera fase (entrada lineal) entrenadas con más tormentas. Con 48 transiciones se usa la tormenta completa. Con la vecindad circular de radio 5 caben 7 transiciones de 400 tormentas y 3 de 1,000; con las demás, solo 5 y 2.}
+	\caption{Segunda fase del barrido: las 4 mejores redes de la primera fase (entrada lineal) entrenadas con más tormentas. Con 48 transiciones se usa la tormenta completa. Con la vecindad circular de radio 5 caben 7 transiciones de 400 tormentas y 3 de 1,000, con las demás, solo 5 y 2.}
 	\label{tab:sevir_barrido_tormentas}
 \end{table}
 
@@ -243,53 +210,9 @@ En la tercera fase (tabla \ref{tab:sevir_barrido_estabilidad}), las semillas ale
 		4 estados & 0.1798 & 92.36\% & 82.58\% & 42.24\% & 29.27\% & 76.76\% \\
 		\bottomrule
 	\end{tabular}
-	\caption{Tercera fase del barrido: vecindad de $11 \times 11$, 16:64:ReLU, entrada lineal y 400 tormentas de 5 transiciones. Con 4 estados, la predicción sin cambio tiene una exactitud de 90.26\%; su área con tormenta es la misma que con 7 estados, porque la tormenta sigue siendo el VIL de al menos 74.}
+	\caption{Tercera fase del barrido: vecindad de $11 \times 11$, 16:64:ReLU, entrada lineal y 400 tormentas de 5 transiciones. Con 4 estados, la predicción sin cambio tiene una exactitud de 90.26\%. Su área con tormenta es la misma que con 7 estados, porque la tormenta sigue siendo el VIL de al menos 74.}
 	\label{tab:sevir_barrido_estabilidad}
 \end{table}
-
-\subsubsection{Vecindades de anillos}
-
-Por último, se probaron dos vecindades dispersas circulares formadas por anillos (figura \ref{fig:sevir_vecindades}), con la configuración de la mejor red: la célula central, el anillo de radio 1 completo y anillos con 12 a 20 puntos repartidos a la misma distancia. La primera llega a 6 células de distancia con 53 vecinos y la segunda, a 11 células con 81 vecinos. Cada una se entrenó con las semillas aleatorias 42, 1 y 2.
-
-La tabla \ref{tab:sevir_anillos} muestra que ambas dan prácticamente el mismo resultado que la vecindad de $11 \times 11$, con menos de la mitad de los vecinos en el caso de la de radio 6. Ver más lejos no mejora la simulación libre: la vecindad de radio 11 tiene el área con tormenta en un paso más alta y la menor variación entre semillas, pero conserva un poco menos de tormenta.
-
-\begin{table}[htbp]
-	\centering
-	\footnotesize
-	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{@{}cccccccc@{}}
-		\toprule
-		& & \multicolumn{2}{c}{\textbf{Un paso}} & \multicolumn{3}{c}{\textbf{Área con tormenta en}} & \textbf{Tormenta simulada} \\
-		\cmidrule(lr){3-4}
-		& & & \textbf{Área con} & \multicolumn{3}{c}{\textbf{la simulación libre}} & \textbf{respecto a la real} \\
-		\cmidrule(lr){5-7}
-		\textbf{Vecindad} & \textbf{Vecinos} & \textbf{Exactitud} & \textbf{tormenta} & \textbf{60 min} & \textbf{120 min} & \textbf{240 min} & \textbf{a los 120 min} \\ \midrule
-		\multicolumn{2}{c}{Predicción sin cambio} & 87.79\% & 77.98\% & 31.78\% & 20.02\% & 10.78\% & -- \\ \midrule
-		$11 \times 11$ & 121 & 90.34\% & 82.64\% & 41.35\% & 27.93\% & 15.14\% & 67.53\% \\
-		Anillos, radio 6 & 53 & 90.31\% & 82.59\% & 41.18\% & 27.61\% & 14.77\% & 65.99\% \\
-		Anillos, radio 11 & 81 & 90.36\% & 82.68\% & 41.24\% & 27.69\% & 14.73\% & 64.49\% \\
-		\bottomrule
-	\end{tabular}
-	\caption{Vecindades de anillos contra la de $11 \times 11$, con 16:64:ReLU, entrada lineal y 400 tormentas de 5 transiciones. Promedio de las semillas aleatorias 42, 1 y 2.}
-	\label{tab:sevir_anillos}
-\end{table}
-
-Las figuras \ref{fig:sevir_barrido_comparacion} y \ref{fig:sevir_barrido_area} muestran que el comportamiento del experimento anterior no cambia con más tormentas ni con otras vecindades. Las redes conservan la forma general y la dirección de las tormentas, pero las convierten en manchas uniformes, y el área con tormenta de la simulación libre se queda entre el 11 y el 12\% del espacio, mientras que la real crece del 12.6 al 17.6\%.
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.8\linewidth]{img/experimentacion/naturales/SEVIR/barrido_comparacion.png}
-	\leyendasevir
-	\caption{Evolución real de la tormenta de la figura \ref{fig:sevir_preprocesamiento}, predicción sin cambio y simulación libre de la mejor red del barrido ($11 \times 11$) y de las vecindades de anillos, todas con 16:64:ReLU y 400 tormentas, a los 0, 60, 120 y 240 minutos.}
-	\label{fig:sevir_barrido_comparacion}
-\end{figure}
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.75\linewidth]{img/experimentacion/naturales/SEVIR/barrido_area.png}
-	\caption{Porcentaje del espacio con tormenta (estado 2 o mayor) durante la simulación libre, promedio de las 200 tormentas de prueba. Todas las redes usan 16:64:ReLU y entrada lineal.}
-	\label{fig:sevir_barrido_area}
-\end{figure}
 
 \subsubsection{Desplazamiento de las tormentas}
 
