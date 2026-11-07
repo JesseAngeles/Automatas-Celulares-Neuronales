@@ -8,13 +8,13 @@ En biología existen patrones de vida que crecen de forma indefinida y descontro
 Realizar una búsqueda exhaustiva de estas formas resulta computacionalmente inviable, ya que el número de reglas se incrementa de forma exponencial en función del número de estados y el tamaño de la vecindad. Para reducir el espacio de búsqueda, se aplican los siguientes cuatro filtros:
 
 \begin{itemize}
-	\item \textbf{Vida espontánea}: Se descartan las reglas que asignan un estado distinto de cero a la suma cero. Esta corresponde a la última posición del vector de la regla, pues generan actividad a partir de una vecindad completamente inactiva, es decir, solo se conservan las reglas cuyo número es múltiplo de $k$.
+	\item \textbf{Vida espontánea}: Se descartan las reglas que asignan un estado distinto de cero a la suma cero, pues generan actividad a partir de una vecindad completamente inactiva. La suma cero corresponde a la última posición del vector de la regla, de modo que solo se conservan las reglas cuyo número es múltiplo de $k$.
 	
 	\item \textbf{Muerte espontánea}: Si la penúltima posición vale 0, el patrón desaparece en el primer paso, por lo que esta posición debe ser distinta de cero.
 	
-	\item \textbf{Crecimiento infinito en triángulo}: Si la penúltima posición vale 1, las celdas de los extremos siempre ven una vecindad con suma 1 y reproducen el estado inicial, de modo que el patrón crece indefinidamente como un triángulo.
+	\item \textbf{Crecimiento infinito en triángulo}: Si la penúltima posición vale 1, las células de los extremos siempre ven una vecindad con suma 1 y reproducen el estado inicial, de modo que el patrón crece indefinidamente como un triángulo.
 	
-	\item \textbf{Crecimiento infinito completo}: El filtro anterior no elimina todos los triángulos infinitos. Un patrón crece como \textit{triángulo completo} si en el paso $t$ tiene un ancho de $2tr + 1$ celdas, y este crecimiento depende únicamente del \textit{vector intermedio}, formado por las posiciones $-k$ a $-2$ del vector de la regla, es decir, por las salidas de las sumas $k-1$ a $1$. Basta entonces probar cada vector intermedio con el resto de la regla en cero, y se conservan solo los que contienen a lo más un valor distinto de cero o no producen un triángulo completo. El resto del vector también influye en la evolución, pero con este filtro se evitan todos los triángulos completos.
+	\item \textbf{Crecimiento infinito completo}: El filtro anterior no elimina todos los triángulos infinitos. Un patrón crece como \textit{triángulo completo} si en el paso $t$ tiene un ancho de $2tr + 1$ células, y este crecimiento depende únicamente del \textit{vector intermedio}, formado por las posiciones $-k$ a $-2$ del vector de la regla, es decir, por las salidas de las sumas $k-1$ a $1$. Basta entonces probar cada vector intermedio con el resto de la regla en cero, y se conservan solo los que contienen a lo más un valor distinto de cero o no producen un triángulo completo. El resto del vector también influye en la evolución, pero con este filtro se evitan todos los triángulos completos.
 \end{itemize}
 
 Con los cuatro filtros basta estudiar alrededor del $8\%$ del total de reglas, y el número de reglas restantes puede aproximarse a partir del número $D_k$ de vectores intermedios aceptables. Aun con estos filtros, la búsqueda exhaustiva solo es viable en espacios pequeños, de hasta unos dos millones de reglas, como el de $k = 3$ y $r = 2.5$, con $3^{13} = 1{,}594{,}323$ reglas. 
@@ -34,9 +34,9 @@ Para explorar espacios más grandes se aplicó un algoritmo genético, que manti
 \begin{itemize}
 	\item \textbf{Selección por torneo}: Se eligen al azar $n$ reglas de la población y la de mayor aptitud pasa a la población de padres hasta alcanzar el mismo tamaño que la población inicial.
 	
-	\item \textbf{Cruza uniforme}: Para cada par de padres se genera una máscara binaria: con 0, el primer hijo toma el gen del primer padre y el segundo hijo el del segundo. Si vale 1, se intercambian. 
+	\item \textbf{Cruza uniforme}: Para cada par de padres se genera una máscara binaria. Si una posición vale 0, el primer hijo toma el gen del primer padre y el segundo hijo el del segundo; si vale 1, se intercambian. 
 	
-	\item \textbf{Mutación aleatoria}: Se eligen hijos al azar y se cambia el valor de una posición de su vector de reglas.
+	\item \textbf{Mutación aleatoria}: Se eligen hijos al azar y se cambia el valor de una posición de su vector de regla.
 	
 	\item \textbf{Reemplazo elitista}: Se unen la población inicial y la de hijos, se ordenan por aptitud y se conservan las mejores $M$ reglas para la siguiente generación.
 \end{itemize}
@@ -51,7 +51,7 @@ Sobre esta idea, y en la línea del modelo mínimo de evolución biológica prop
 
 \subsection{Resultados y conclusiones}
 
-La forma de vida finita más larga encontrada por búsqueda exhaustiva dura 109,521 pasos y se obtuvo con $k = 3$, $r = 2.5$, estado inicial 2 y un espacio de 699 celdas. Con $k = 3$ y $r = 1$, la forma de vida más larga dura 88 pasos, y en el grafo de mutaciones aparecen regiones de reglas que producen la misma evolución. En general, las formas de vida cortas son producidas por muchas reglas y están ampliamente distribuidas en el espacio de reglas, mientras que las largas son producidas por pocas reglas y se encuentran aisladas. En el grafo de mutaciones, las reglas que producen formas de vida similares forman grupos densamente conectados, mientras que las formas más largas y complejas aparecen en la periferia, con pocas conexiones. Por esta razón, las caminatas aleatorias son una estrategia débil.
+La forma de vida finita más larga encontrada por búsqueda exhaustiva dura 109,521 pasos y se obtuvo con $k = 3$, $r = 2.5$, estado inicial 2 y un espacio de 699 células. Con $k = 3$ y $r = 1$, la forma de vida más larga dura 88 pasos, y en el grafo de mutaciones aparecen regiones de reglas que producen la misma evolución. En general, las formas de vida cortas son producidas por muchas reglas y están ampliamente distribuidas en el espacio de reglas, mientras que las largas son producidas por pocas reglas y se encuentran aisladas. En el grafo de mutaciones, las reglas que producen formas de vida similares forman grupos densamente conectados, mientras que las formas más largas y complejas aparecen en la periferia, con pocas conexiones. Por esta razón, las caminatas aleatorias son una estrategia débil.
 
 En las ejecuciones del recocido simulado con distribución de Poisson desde la regla nula y con $r = 1$, la búsqueda alcanzó formas de vida de 88 pasos con $k = 3$ y de $1{,}800$ pasos con $k = 5$. Aceptar temporalmente reglas peores resultó necesario para explorar el espacio. Aun así, con $k = 4$ la búsqueda se estanca en configuraciones específicas, y con $k = 5$ es difícil pasar de un pico a otro, porque no existe un camino directo de mejoras sucesivas. Algoritmos más simples, como el ascenso de colinas (\textit{hill climbing}), no funcionaron bien porque se estancan muy rápido.
 

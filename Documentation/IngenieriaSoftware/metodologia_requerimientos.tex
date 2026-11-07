@@ -1,6 +1,6 @@
 \chapter{Análisis de software}
 
-Hasta el momento conocemos la metodología utilizada para la investigación completa; sin embargo, es necesario especificar el desarrollo del \textit{software}, ya que es necesario garantizar el correcto diseño e implementación del simulador para poder realizar las pruebas adecuadas con el menor número de errores. Es por esto que en este capítulo se detalla el proceso de desarrollo del simulador, lo que incluye la especificación de la metodología utilizada, requerimientos del sistema y modelado, diseño e implementación de cada una de las entregas.
+Hasta el momento conocemos la metodología utilizada para la investigación completa; sin embargo, es necesario especificar el desarrollo del \textit{software}, ya que se debe garantizar el correcto diseño e implementación del simulador para poder realizar las pruebas adecuadas con el menor número de errores. Es por esto que en este capítulo se detalla el proceso de desarrollo del simulador, lo que incluye la especificación de la metodología utilizada, requerimientos del sistema y modelado, diseño e implementación de cada una de las entregas.
 
 \section{Metodología de desarrollo}
 
@@ -9,7 +9,7 @@ Para el desarrollo de \textit{software} se utiliza un modelo de entrega por etap
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.75\linewidth]{img/ingenieriaSoftware/modelo_etapas.png}
-	\caption{Representación gráfica del modelo de entrega por etapas para el desarrollo del \textit{software}}
+	\caption{Representación gráfica del modelo de entrega por etapas para el desarrollo del \textit{software}.}
 	\label{fig:modelo_etapas}
 \end{figure}
 
@@ -20,7 +20,7 @@ Estas son algunas de las razones por las cuales se opta por este modelo:
 	
 	\item No existe un cliente: El desarrollo de este producto de \textit{software} es únicamente un medio para el proceso experimental.
 	
-	\item No es un producto comercial: No se planea monetizar dado que no existe un cliente. Por lo que en la ingeniería de requisitos se consideran los requerimientos necesarios propuestos por el equipo de investigación para satisfacer las necesidades tecnológicas.
+	\item No es un producto comercial: No se planea monetizar dado que no existe un cliente, por lo que en la ingeniería de requisitos se consideran los requerimientos necesarios propuestos por el equipo de investigación para satisfacer las necesidades tecnológicas.
 	
 	\item No hay procesos iterativos: Al no tener cliente, no es necesario tener una validación externa, ni cambios significativos en los requerimientos del \textit{software}. 
 \end{itemize}
@@ -40,6 +40,8 @@ En una primera etapa, el \textit{software} debe cubrir las siguientes funciones:
 Para mayor detalle de esta primera etapa, más adelante se especifican los casos de uso.
 
 \section{Reglas de negocio}
+
+Las reglas de negocio son las restricciones y políticas que gobiernan el comportamiento del sistema independientemente de cómo se implemente; describen lo que siempre debe cumplirse durante una simulación y, por lo tanto, delimitan los requerimientos que se definen más adelante \cite{ingenieria_1}. A cada regla se le asigna el código RN seguido de un número consecutivo.
 
 \begin{enumerate}[label*=RN\arabic*]
 	
@@ -62,6 +64,8 @@ Para mayor detalle de esta primera etapa, más adelante se especifican los casos
 \end{enumerate}
 
 \section{Requerimientos}
+
+Los requerimientos describen los servicios que el sistema debe proporcionar y las restricciones bajo las cuales debe operar \cite{ingenieria_1}. Se dividen en funcionales (RF), no funcionales (RNF) y de sistema, los cuales se presentan a continuación.
 
 \subsection{Requerimientos funcionales}
 
@@ -105,6 +109,8 @@ Los requerimientos no funcionales especifican las condiciones de calidad, desemp
 
 \subsection{Requerimientos de sistema}
 
+Los requerimientos de sistema describen el \textit{hardware} y el \textit{software} sobre los que se ejecuta el simulador. Se distingue entre la configuración recomendada, en la que se desarrolló y evaluó el simulador, y la configuración mínima.
+
 \subsubsection{Recomendado}
 
 Los siguientes requerimientos describen el entorno principal y recomendado de ejecución, en el cual el sistema garantiza un rendimiento óptimo y estabilidad durante los procesos de simulación:
@@ -127,7 +133,7 @@ Los siguientes requerimientos describen el entorno principal y recomendado de ej
 
 \subsubsection{Mínimo}
 
-También se establecen los requisitos mínimos necesarios para usar el simulador, teniendo en cuenta que el rendimiento y la velocidad de procesamiento dependerán de las capacidades del \textit{hardware} disponible.
+También se establece una configuración mínima. Esta no corresponde a lo indispensable para que el simulador funcione, sino a la configuración más baja en la que se ha probado con efectividad, teniendo en cuenta que el rendimiento y la velocidad de procesamiento dependerán de las capacidades del \textit{hardware} disponible.
 
 \begin{itemize}
 	

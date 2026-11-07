@@ -6,7 +6,7 @@ La validación del simulador se realiza en tres partes: primero se comprueba el 
 
 El autómata celular se valida reproduciendo reglas ampliamente documentadas en la literatura y comparando visual y numéricamente la evolución obtenida con la esperada.
 
-Para esto se establece la misma condición inicial en dos diferentes simuladores y se evolucionan bajo las mismas condiciones. Si la diferencia de las evoluciones en cada paso evolutivo es $0$, se infiere que el comportamiento es el mismo, pues sus trayectorias en el espacio de evoluciones son equivalentes.
+Para esto se establece la misma condición inicial en dos simuladores diferentes y se evolucionan bajo las mismas condiciones. Si la diferencia de las evoluciones en cada paso evolutivo es $0$, se infiere que el comportamiento es el mismo, pues sus trayectorias en el espacio de evoluciones son equivalentes.
 
 \subsection{Validación del autómata celular neuronal}
 
@@ -19,11 +19,11 @@ El criterio de validación del entrenamiento es la capacidad del modelo entrenad
     \item Ejecutar una nueva evolución partiendo de la misma configuración inicial y comparar.
 \end{enumerate}
 
-La métrica principal es el porcentaje de celdas coincidentes entre las dos evoluciones a lo largo de los $T$ pasos. Una coincidencia superior al 99\% en una vecindad completa se interpreta como que el autómata celular neuronal fue capaz de replicar exitosamente la regla.
+La métrica principal es el porcentaje de células coincidentes entre las dos evoluciones a lo largo de los $T$ pasos. Una coincidencia superior al 99\% en una vecindad completa indica que el autómata celular neuronal fue capaz de replicar exitosamente la regla.
 
 \subsection{Pruebas de rendimiento}
 
-Para las pruebas de rendimiento en la simulación se utilizó la regla B3/S23 con una población aleatoria del 50\% de células vivas. El rendimiento se analiza dentro del método \texttt{step()}, que es quien ejecuta el paso evolutivo y se sincroniza con la GPU, y el método \texttt{run()}, que ejecuta $N$ pasos consecutivos.
+Para las pruebas de rendimiento en la simulación se utilizó la regla B3/S23 con una población aleatoria del 50\% de células vivas. El rendimiento se analiza en el método \texttt{step()}, que ejecuta el paso evolutivo y se sincroniza con la GPU, y en el método \texttt{run()}, que ejecuta $N$ pasos consecutivos.
 
 \begin{table}[H]
     \centering
@@ -39,7 +39,7 @@ Para las pruebas de rendimiento en la simulación se utilizó la regla B3/S23 co
     \label{tab:perf-evolucion}
 \end{table}
 
-La caída de \texttt{run()} respecto a \texttt{step()} cuantifica el costo de la transferencia \textit{device-to-host}: en cuadrículas de $2{,}000 \times 2{,}000$ la transferencia domina por encima del cómputo.
+La caída de \texttt{run()} respecto a \texttt{step()} cuantifica el costo de la transferencia \textit{device-to-host}: en cuadrículas de $2{,}000 \times 2{,}000$ la transferencia domina sobre el cómputo.
 
 \subsubsection{Velocidad de renderizado}
 
@@ -67,7 +67,7 @@ Las pruebas de la interfaz gráfica se realizaron de forma manual siguiendo guio
 
 \begin{itemize}
     \item Configuración de una regla desde cero: definir estados, vecindad multigrupo y tabla de regla, y verificar la evolución resultante.
-    \item Edición interactiva del espacio celular: pintar con el mouse, borrar y aleatorizar, comprobando que la grilla mostrada coincide con el estado interno del autómata.
+    \item Edición interactiva del espacio celular: pintar con el mouse, borrar y aleatorizar, comprobando que la cuadrícula mostrada coincide con el estado interno del autómata.
     \item Importación y exportación de evoluciones: grabar una evolución, exportarla a \texttt{.npy} y \texttt{.mat}, reimportarla y verificar que la secuencia reproducida es idéntica.
     \item Carga de un modelo NCA entrenado y conmutación entre los modos CA y NCA durante la simulación.
     \item Lanzamiento del subproceso de entrenamiento desde la pestaña correspondiente, verificando la captura de la salida en tiempo real y la correcta finalización del archivo \texttt{.npz}.
@@ -79,9 +79,9 @@ A lo largo del desarrollo se identificaron y resolvieron algunos errores:
 
 \begin{itemize}
     \item \textbf{Errores de CUDA silenciosos}: todas las llamadas a la API de CUDA se envuelven en una macro \texttt{CUDA\_CHECK} que verifica el código de retorno y aborta con un mensaje descriptivo, evitando fallos de segmentación retardados que dificultan la depuración. La macro se omite deliberadamente en los destructores para no propagar excepciones durante la destrucción de los objetos.
-    \item \textbf{Tamaño de tabla excesivo}: cambios en \texttt{states} o en \texttt{group\_sizes} pueden generar tablas de regla que excederían los límites técnicos del dispositivo. La capa de \textit{bindings} prevalida $r_{\text{size}} \leq 16{,}777{,}216$ antes de aplicar cualquier cambio.
+    \item \textbf{Tamaño de tabla excesivo}: cambios en \texttt{states} o en \texttt{group\_sizes} pueden generar tablas de regla que excederían los límites técnicos del dispositivo. La capa de \textit{bindings} verifica que $r_{\text{size}} \leq 16{,}777{,}216$ antes de aplicar cualquier cambio.
     \item \textbf{Invalidación del \textit{prefetch}}: el contador \texttt{\_generation} en el controlador descarta de forma segura los \textit{frames} precomputados cuyo trabajo ha quedado obsoleto, evitando inconsistencias visuales.
-    \item \textbf{\textit{Mismatch} entre el \textit{driver} y la biblioteca de CUDA}: Incidentes documentados durante el desarrollo recomendaron reiniciar el sistema tras actualizaciones parciales del \textit{driver} NVIDIA.
+    \item \textbf{\textit{Mismatch} entre el \textit{driver} y la biblioteca de CUDA}: por incidentes documentados durante el desarrollo, se recomienda reiniciar el sistema tras actualizaciones parciales del \textit{driver} NVIDIA.
 \end{itemize}
 
 \subsection{Cambios}
@@ -89,7 +89,7 @@ A lo largo del desarrollo se identificaron y resolvieron algunos errores:
 Durante el desarrollo de la investigación, estos fueron los cambios requeridos en el \textit{software} que no fueron contemplados:
 
 \begin{itemize}
-	\item Se añadió un campo opcional en el módulo de entrenamiento que es la semilla, esto para poder replicar experimentos y, además, para poder realizar múltiples pruebas con diferentes semillas aleatorias.
+	\item Se añadió un campo opcional en el módulo de entrenamiento, la semilla, para poder replicar experimentos y, además, realizar múltiples pruebas con diferentes semillas aleatorias.
 	\item Se agregó la reducción de la tasa de aprendizaje durante el entrenamiento (\texttt{--lr-schedule}): exponencial, coseno o por estancamiento (\textit{plateau}), debido a que con una tasa constante la pérdida oscilaba sin alcanzar la pérdida objetivo.
 	\item Se agregó la codificación \textit{one-hot} de la capa de entrada (\texttt{--one-hot}). El número de estados se guarda en el archivo de pesos (\texttt{one\_hot\_states}) y lo interpretan tanto el \textit{kernel} del autómata celular neuronal como la GUI.
 	\item Se agregó la frontera abierta en el entrenamiento (\texttt{--open-boundary}) para sistemas como \textit{sandpile}, en los que lo que sale del espacio se pierde.

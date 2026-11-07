@@ -3,11 +3,11 @@
 
 La investigación de los sistemas complejos es un reto actual de la ciencia moderna. Estos sistemas, caracterizados por la interacción entre múltiples componentes locales, son capaces de generar comportamientos emergentes y, a veces, caóticos. Para entender esta complejidad necesitamos herramientas que puedan capturar la esencia de la autoorganización, y aquí los autómatas celulares surgen como un modelo computacional clave para simular fenómenos tanto naturales como artificiales.
 
-En este capítulo se definen los fundamentos matemáticos y estructurales de un autómata celular. Este se entiende como un sistema dinámico discreto, que combina un conjunto de células interconectadas y que pueden producir patrones complejos a partir de reglas locales. Se mencionarán sus elementos esenciales, tales como:
+En este capítulo se definen los fundamentos matemáticos y estructurales de un autómata celular. Este se entiende como un sistema dinámico discreto, que combina un conjunto de células interconectadas, capaces de producir patrones complejos a partir de reglas locales. Se definirán sus elementos esenciales, tales como:
 
 \begin{itemize}
 	
-	\item El vecindario: El subconjunto de células que afecta el cambio de una unidad.
+	\item La vecindad: El subconjunto de células que afecta el cambio de una unidad.
 	
 	\item El conjunto de estados: Los valores finitos que puede tomar cada célula.
 	
@@ -17,15 +17,15 @@ En este capítulo se definen los fundamentos matemáticos y estructurales de un 
 	
 \end{itemize}
 
-Se revisan, asimismo, ejemplos que han sido de una importancia capital para el desarrollo de esta disciplina, tales como el juego de la vida de John Horton Conway y los autómatas celulares elementales de Stephen Wolfram.
+Se revisan, asimismo, ejemplos que han sido de una importancia capital para el desarrollo de esta disciplina, tales como el juego de la vida de John Horton Conway, los autómatas celulares elementales de Stephen Wolfram e incluso otros sistemas que pueden ser simulados mediante autómatas celulares, como la hormiga de Langton o la pila de arena de Bak, Tang y Wiesenfeld.
 
 Finalmente, el capítulo amplía la definición clásica hacia terrenos más avanzados. Se presentan autómatas celulares que operan en espacios no euclidianos y se examinan extensiones recientes que incluyen estados continuos, reglas de probabilidad o actualizaciones asíncronas. Estas variaciones hacen que los autómatas celulares continúen siendo, décadas después de ser concebidos por von Neumann, una herramienta de vanguardia en campos tan diversos como la biología teórica, la criptografía y la física de partículas.
 
 \section{Autómata celular}
 
-Los autómatas celulares, concebidos por John von Neumann en 1948 \cite{damerow2010_neumann}, son una colección de células donde cada una de ellas puede adquirir un estado y se agrupan en una red. Además, estas células evolucionan en intervalos y cada una de ellas actualiza su estado en función del estado de sus células vecinas \cite{weisstein2002_ca, wolfram1982_ca, fsancho2016_ca}. 
+Los autómatas celulares, concebidos por John von Neumann en 1948 \cite{damerow2010_neumann}, son una colección de células agrupadas en una red, donde cada una de ellas puede adquirir un estado. Además, estas células evolucionan en intervalos y cada una de ellas actualiza su estado en función del estado de sus células vecinas \cite{weisstein2002_ca, wolfram1982_ca, fsancho2016_ca}. 
 
-Siguiendo de manera general a \cite{bhattacharjee2019_ca, sayama2024_ca, Ilachinski2001_ca}, y considerando una red regular de células, un conjunto finito de estados y evoluciones en pasos discretos de tiempo, se define a un autómata celular como:
+Siguiendo de manera general a \cite{bhattacharjee2019_ca, sayama2024_ca, Ilachinski2001_ca}, y considerando una red regular de células, un conjunto finito de estados y evoluciones en pasos discretos de tiempo, se define un autómata celular como:
 
 \begin{definition}
 	Un autómata celular es una 4-tupla ($\mathcal{L}, \mathcal{S}, \mathcal{N}, \mathcal{R}$) donde:
@@ -36,9 +36,9 @@ Siguiendo de manera general a \cite{bhattacharjee2019_ca, sayama2024_ca, Ilachin
 		\[
 		\sigma_{\vec{i}}(t) \in \mathcal{S} \equiv \{ s_0, s_1,s_2, \dots, s_{k - 1} \},\; \forall \vec{i} \in \mathcal{L}
 		\]
-		donde $\vec{i} \in \mathcal{L}$ es una célula en el espacio celular, $\sigma_{\vec{i}} (t)$ es el estado de la i-ésima célula en el tiempo $t$ y $\mathcal{S}$ es un anillo conmutativo finito, como un intervalo de números enteros, que generalmente se define por los enteros módulo $k$ ($\mathbb{Z}_k$).
+		donde $\vec{i} \in \mathcal{L}$ es una célula en el espacio celular, $\sigma_{\vec{i}} (t)$ es el estado de la $i$-ésima célula en el tiempo $t$ y $\mathcal{S}$ es un anillo conmutativo finito, como un intervalo de números enteros, que generalmente se define por los enteros módulo $k$ ($\mathbb{Z}_k$).
 			
-		\item $\mathcal{N} = (\vec{v}_1, \vec{v}_2, \dots, \vec{v}_m )$ es el conjunto de los $m$ vectores de desplazamiento que definen la vecindad de una célula en $\mathcal{L}$. Así, los vecinos de las células ubicadas en $\vec{i} \in \mathcal{L}$ se encuentran en las posiciones $\vec{i} + \vec{v}, \forall \vec{v} \in \mathcal{N}$.
+		\item $\mathcal{N} = (\vec{v}_1, \vec{v}_2, \dots, \vec{v}_m )$ es el conjunto de los $m$ vectores de desplazamiento que definen la vecindad de una célula en $\mathcal{L}$. Así, los vecinos de la célula ubicada en $\vec{i} \in \mathcal{L}$ se encuentran en las posiciones $\vec{i} + \vec{v}, \forall \vec{v} \in \mathcal{N}$.
 
 		\item $\mathcal{R} : \mathcal{S}^m \to \mathcal{S}$ es la regla local del autómata:
 		\[
@@ -55,9 +55,9 @@ Como ya se mencionó, la vecindad es el conjunto de vectores de desplazamiento, 
 \[
 	\mathcal{N} = ((0, -1), (-1, 0), (0, 0), (1, 0), (0, 1))
 \]
-La cual se puede representar como en la figura \ref{fig:N_neumann}. 
+Esta vecindad se puede representar como en la figura \ref{fig:N_neumann}. 
 
-Por otro lado, Moore añade los cuatro vecinos diagonales más cercanos a la vecindad de von Neumann, dando una vecindad de nueve elementos \cite{Kwon2015_moore}. Esta vecindad, representada por la figura \ref{fig:N_moore}, fue utilizada por John Conway en el ``juego de la vida'' \cite{lifewiki_life}.
+Por otro lado, Moore añade los cuatro vecinos diagonales más cercanos a la vecindad de von Neumann, dando una vecindad de nueve elementos \cite{Kwon2015_moore}. Esta vecindad, representada por la figura \ref{fig:N_moore}, fue utilizada por Conway en el juego de la vida \cite{lifewiki_life}.
 
 Otro ejemplo se encuentra en la figura \ref{fig:N_wolfram}, la cual representa una vecindad de radio uno en un espacio unidimensional, es decir, todas aquellas células a una distancia menor o igual a uno, incluyéndose a sí misma. Fue utilizada por Stephen Wolfram para definir los autómatas celulares elementales \cite{Wolfram2002_nks}.
 
@@ -125,18 +125,18 @@ Cada célula adquiere un único estado $s$ en cada paso de tiempo, donde $s$ per
 
 Por otro lado, el juego de la vida se compone de dos estados que Conway denominó ``vivas'' y ``muertas'' \cite{lifewiki_life}. De igual forma, Stephen Wolfram utiliza dos estados en los autómatas celulares elementales \cite{Wolfram2002_nks}.
 
-Idealmente, el espacio celular $\mathcal{L}$ es infinito, lo que permitiría infinitas combinaciones de estados. Sin embargo, esto es inviable computacionalmente. Para esto, se requiere establecer una restricción de finitud, como lo marca \cite{bhattacharjee2019_ca}.
+Idealmente, el espacio celular $\mathcal{L}$ es infinito, lo que permitiría infinitas combinaciones de estados. Sin embargo, esto es inviable computacionalmente. Por ello, se requiere establecer una restricción de finitud, como lo marca \cite{bhattacharjee2019_ca}.
  
- Supóngase un espacio discreto unidimensional infinito. Idealmente, conocemos el estado de las infinitas células, pero computacionalmente no podemos almacenar ni procesar toda esa información. Por lo que se restringe a los valores que únicamente nos interesan. 
+ Supóngase un espacio discreto unidimensional infinito. Idealmente, conocemos el estado de las infinitas células, pero computacionalmente no podemos almacenar ni procesar toda esa información, por lo que se restringe únicamente a los valores que nos interesan. 
  
- A todas aquellas células que son de interés se les define con un estado activo, el cual puede ser cualquier $s \in \mathcal{S}$; por otro lado, las que no son de interés se les define con un estado inactivo $\sigma_q$:
+ A todas aquellas células que son de interés se les define con un estado activo, el cual puede ser cualquier $s \in \mathcal{S}$; por otro lado, a las que no son de interés se les define con un estado inactivo $\sigma_q$:
  
 \begin{definition}
 	Sea $\mathcal{R}$ la regla local de un autómata celular. Un estado $\sigma_q \in \mathcal{S}$ es inactivo si $\mathcal{R}(\sigma_q, \sigma_q, \dots, \sigma_q) = \sigma_q$.
 	\label{def:estado_inactivo}
 \end{definition}
 
-Es decir, si una célula y todos sus vecinos están en estado inactivo, la célula permanece inactiva tras aplicar $\mathcal{R}$. Cabe notar que todos los vecinos deben estar en dicho estado, por lo que, si alguno cambia a cualquier estado $s$, entonces se activa. Este evento ocurre cuando el espacio en donde evoluciona el autómata celular incrementa. 
+Es decir, si una célula y todos sus vecinos están en estado inactivo, la célula permanece inactiva tras aplicar $\mathcal{R}$. Cabe notar que todos los vecinos deben estar en dicho estado, por lo que, si alguno cambia a cualquier estado $s$, entonces la célula se activa. Este evento ocurre cuando el espacio en donde evoluciona el autómata celular incrementa. 
 
 Para trabajar computacionalmente, \cite{bhattacharjee2019_ca} define las configuraciones finitas de la siguiente manera:
 
@@ -144,7 +144,7 @@ Para trabajar computacionalmente, \cite{bhattacharjee2019_ca} define las configu
 	Sea $\sigma_q \in \mathcal{S}$ un estado inactivo, $\sigma_p \neq \sigma_q \in \mathcal{S}$ un estado no inactivo y sea $\mathcal{L}$ un espacio celular infinito. Se considera que un autómata celular tiene configuración finita si solo un número finito de células están en estados activos $\sigma_p$.
 \end{definition}
 
-Si la configuración inicial es finita, la propiedad de finitud se preserva en cada paso de tiempo, como se observa en la tabla \ref{tab:CA_finito}. Imaginemos un autómata celular en $\mathbb{Z}^1$ con una vecindad de radio 1 y una sola célula activa en la posición $n$ con estado $\sigma_p$, mientras que el resto de infinitas células tienen estado inactivo $\sigma_q$. 
+Si la configuración inicial es finita, la propiedad de finitud se preserva en cada paso de tiempo, como se observa en la tabla \ref{tab:CA_finito}. Imaginemos un autómata celular en $\mathbb{Z}^1$ con una vecindad de radio 1 y una sola célula activa en la posición $n$ con estado $\sigma_p$, mientras que el resto de las infinitas células tienen estado inactivo $\sigma_q$. 
 
 En el tiempo $t + 1$ las células en $n - 1$ y en $n + 1$ tienen un vecino que no es inactivo, por lo que pasan a ser activas por la definición \ref{def:estado_inactivo}. Dado que este incremento está acotado por el tamaño de la vecindad, la configuración resultante sigue siendo finita. Por inducción, este proceso se repite para cualquier tiempo $t + m$; por lo tanto, mientras el tiempo de la evolución no tienda a infinito ($t \not\to \infty $) el autómata celular mantendrá una configuración finita, garantizando su viabilidad computacional.
 
@@ -186,7 +186,7 @@ Idealmente, los autómatas celulares pueden evolucionar en espacios infinitos; s
 Un autómata celular finito siempre tiene fronteras en los límites de su espacio. A la forma en como se comporta la frontera se le conoce como condición de frontera, la cual suele ser abierta o periódica \cite{ponce2015_ca}.
 
 \begin{itemize}
-	\item \textbf{Condición de frontera abierta}: Se les asigna un estado fijo a todos aquellos vecinos faltantes en las células de la frontera. 
+	\item \textbf{Condición de frontera abierta}: Se les asigna un estado fijo a todos aquellos vecinos faltantes en las células de la frontera. Convencionalmente es el estado 0.
 	\item \textbf{Condición de frontera periódica}: Los vecinos faltantes de las células en la frontera son otras células en la frontera. La figura \ref{fig:B_periodica} muestra cómo se conectan las células de la frontera en un espacio unidimensional.
 \end{itemize}
 
@@ -219,9 +219,9 @@ Un autómata infinito que tiene una configuración periódica equivale a un aut�
 	donde $T_i^{n_i}$ denota un desplazamiento de $n_i$ posiciones en la dimensión $i$.
 \end{definition}
 
-Definimos entonces a $\mathcal{C}_P \subset \mathcal{C}$ como el conjunto de todas las configuraciones periódicas. Estas configuraciones preservan la condición de frontera periódica en cada traslación \cite{bhattacharjee2019_ca}. 
+Definimos entonces $\mathcal{C}_P \subset \mathcal{C}$ como el conjunto de todas las configuraciones periódicas. Estas configuraciones preservan la condición de frontera periódica en cada traslación \cite{bhattacharjee2019_ca}. 
 
-La frontera no solo puede ser abierta o periódica; existen diferentes comportamientos como la reflectiva y la reflexiva. La frontera reflectiva asigna a los vecinos faltantes el mismo estado de la célula en la frontera (figura \ref{fig:B_reflectiva}), por lo que son vecinas de sí mismas. La frontera reflexiva, en cambio, genera una doble relación de vecindad en los extremos (figura \ref{fig:B_reflexiva}) \cite{bhattacharjee2019_ca, ponce2015_ca}.
+La frontera no solo puede ser abierta o periódica; existen diferentes comportamientos, como la reflectiva y la reflexiva. La frontera reflectiva asigna a los vecinos faltantes el mismo estado de la célula en la frontera (figura \ref{fig:B_reflectiva}), por lo que son vecinas de sí mismas. La frontera reflexiva, en cambio, genera una doble relación de vecindad en los extremos (figura \ref{fig:B_reflexiva}) \cite{bhattacharjee2019_ca, ponce2015_ca}.
 
 \begin{figure}[!htbp]
 	\centering
@@ -258,9 +258,9 @@ Un ejemplo de regla local es el juego de la vida \cite{lifewiki_life}. En este c
 \[
 \mathcal{R}: \{ 0, 1 \}^9 \to \{ 0, 1\}
 \]
-Ya que la vecindad de Moore en 2D involucra 8 vecinos más la propia célula, es decir, $m = 9$. 
+ya que la vecindad de Moore en 2D involucra 8 vecinos más la propia célula, es decir, $m = 9$. 
 
-El juego de la vida sigue las siguientes tres reglas:
+El juego de la vida se rige por las siguientes tres reglas:
 
 \begin{itemize}
 	
@@ -277,11 +277,11 @@ Esta se conoce como regla semitotalística, ya que la transición depende de la 
 
 Por otro lado, una regla es totalística si la transición depende únicamente de la suma de los estados en todos los vecinos, sin distinguir posiciones \cite{weisstein2002_totalistic}. Para un autómata celular unidimensional con $|\mathcal{S}| = 3$ estados y radio $r = 1$, solo hay $(|\mathcal{S}|-1) |\mathcal{N}|+1 = (3-1) \cdot 3 + 1 = 7$ posibles valores de suma.
 
-Finalmente, una regla local es arbitraria si distingue las posiciones de cada elemento en la vecindad. Cabe mencionar que las reglas arbitrarias contienen todas las posibles combinaciones de reglas, incluyendo las semitotalísticas, las cuales incluyen a su vez las totalísticas:
+Finalmente, una regla local es arbitraria si distingue las posiciones de cada elemento en la vecindad. Cabe mencionar que las reglas arbitrarias y las semitotalísticas son el mismo conjunto. Esto se debe a que una vecindad semitotalística puede diferenciar cada célula como una subvecindad de tamaño 1, lo que sería el equivalente de no crear subvecindades y tratarla como una regla arbitraria:
 \[
-	\mathcal{R}_{\text{totalísticas}} \subset \mathcal{R}_{\text{semitotalísticas}} \subset \mathcal{R}_{\text{arbitrarias}}
+	\mathcal{R}_{\text{totalísticas}} \subset \mathcal{R}_{\text{semitotalísticas}} = \mathcal{R}_{\text{arbitrarias}}
 \]
-El objetivo de las reglas semitotalísticas y totalísticas será entonces simplificar ciertos comportamientos.
+Ambas pueden representar a las reglas totalísticas, pero las semitotalísticas permiten simplificar comportamientos.
 
 La configuración dada para el autómata celular elemental considera $k = 2$ (es decir, $\sigma_i \in \{0, 1\}$), un radio $r = 1$ ($|\mathcal{N}| = 3$) y la regla $\mathcal{R}: \{0,1\}^3 \rightarrow \{0,1\}$ que se define como:
 \[
@@ -311,7 +311,7 @@ Esta dinámica está dada por las posibles configuraciones que las tres células
 
 Estas reglas se pueden representar de forma tabular y también como un número decimal. La tabla \ref{tab:ECA_rules} muestra la asociación entre la forma tabular y la regla decimal.
 
-Nótese que la regla decimal solo aplica cuando las condiciones son las mismas. Es decir, cuando el número de vecinos $|\mathcal{N}|$ y estados $|\mathcal{S}|$ son invariantes; a cada regla se le puede asociar un entero único, pero dos reglas que difieren en vecindad o estados pueden compartir el número decimal. Por ejemplo, considerando la regla $10$ con $|\mathcal{N}| = 2$ y $|\mathcal{S}| = 2$ es $1010$, la cual es completamente diferente cuando $|\mathcal{N}| = 3$ y $|\mathcal{S}| = 2$, lo que da como resultado $00001010$.
+Nótese que la regla decimal solo aplica cuando las condiciones son las mismas. Es decir, cuando el número de vecinos $|\mathcal{N}|$ y estados $|\mathcal{S}|$ son invariantes; a cada regla se le puede asociar un entero único, pero dos reglas que difieren en vecindad o estados pueden compartir el número decimal. Por ejemplo, la regla $10$ con $|\mathcal{N}| = 2$ y $|\mathcal{S}| = 2$ es $1010$, la cual es completamente diferente cuando $|\mathcal{N}| = 3$ y $|\mathcal{S}| = 2$, lo que da como resultado $00001010$.
 
 \begin{table}
 	
@@ -377,9 +377,9 @@ Siguiendo la definición formal de un autómata celular, el juego de la vida se 
 
 \begin{itemize}
 	\item \textbf{Espacio celular}: Se define sobre una cuadrícula bidimensional regular, teóricamente infinita. 
-	\item \textbf{Estados}: Cada célula puede encontrarse en un estado $\{ \text{muerto}, \text{vivo} \}$, representados comúnmente como $\{0, 1\}$.
+	\item \textbf{Estados}: Cada célula puede encontrarse en uno de los estados $\{ \text{muerto}, \text{vivo} \}$, representados comúnmente como $\{0, 1\}$.
 	
-	\item \textbf{Vecindad}: Se utiliza una vecindad de Moore semitotalística, la cual incluye las ocho células adyacentes a la célula central.
+	\item \textbf{Vecindad}: Se utiliza una vecindad de Moore semitotalística, la cual incluye las ocho células adyacentes y la célula central.
 	
 	\item \textbf{Función de transición}: El estado futuro de cada célula depende de su estado actual y del número de vecinos vivos, siguiendo las reglas:
 	
@@ -393,7 +393,7 @@ Siguiendo la definición formal de un autómata celular, el juego de la vida se 
 \end{itemize}
 Estas reglas pueden modificarse para crear variantes del autómata, cambiando las condiciones de nacimiento o supervivencia. En \cite{lifewiki_life} se analizan distintas funciones de transición y configuraciones espaciales.
 
-Una notación común es \textit{Birth/Survival}, que especifica los números de vecinos vivos requeridos para cada caso. El juego de la vida tradicional corresponde a la configuración $B3/S23$: una célula muerta nace con tres vecinos vivos, y una viva sobrevive si tiene dos o tres vecinos vivos \cite{lifewiki_life}.
+Una notación común es \textit{Birth/Survival}, que especifica los números de vecinos vivos requeridos para cada caso. El juego de la vida tradicional corresponde a la configuración $B3/S23$: una célula muerta nace con tres vecinos vivos, y una viva sobrevive si tiene dos o tres vecinos vivos; en cualquier otro caso, la célula muere \cite{lifewiki_life}.
 
 Dentro de este sistema emergen patrones característicos, que se agrupan en tres categorías principales:
 
@@ -477,25 +477,7 @@ Paul Rendell \cite{sipper2017_rendell_life} demostró que, a partir de una confi
 	\label{fig:conway_turing}
 \end{figure}
 
-Debido a su naturaleza semitotalística, la vecindad puede dividirse en dos conjuntos, y con ello determinar el número de posibles estados que puede adoptar cada uno:
-
-\begin{table}[!htbp] 
-	
-	\centering 
-	
-	\begin{tabular}{c|c|c}
-		
-		\hline \textbf{Vecindad} & \textbf{Estados} & \textbf{Total} \\ \hline 
-		
-		Frontera & $\{ 0,1,2,3,4,5,6,7,8 \}$ & 9 \\ 
-		
-		Centro & $\{ 0, 1 \}$ & 2 
-		
-	\end{tabular} 
-	
-\end{table}
-
-Así, puede definirse un vector de 18 elementos que representa la función de transición, como se muestra en la tabla \ref{tab:life}.
+Debido a su naturaleza semitotalística, la vecindad puede dividirse en dos conjuntos, lo que permite determinar el número de posibles estados que puede adoptar cada uno: la frontera, formada por las ocho células vecinas, puede tener de 0 a 8 células vivas (9 valores posibles), y el centro puede estar vivo o muerto (2 valores posibles). Así, puede definirse un vector de $9 \times 2 = 18$ elementos que representa la función de transición, como se muestra en la tabla \ref{tab:life}.
 
 \begin{table}[!htbp] 
 	
@@ -521,17 +503,16 @@ Así, puede definirse un vector de 18 elementos que representa la función de tr
 	
 \end{table}
 
-De manera general, el tamaño del vector que define una regla semitotalística puede calcularse mediante la ecuación \ref{eq:semitotalistica}. En este caso, dicho vector tiene tamaño 18, por lo que existen $|\mathcal{S}|^{18} = 2^{18} = 262{,}144$ posibles reglas.
-
+De manera general, el tamaño del vector que define una regla semitotalística puede calcularse mediante la ecuación \ref{eq:semitotalistica}.
 \begin{equation}
 	\prod_{g \in \mathcal{G}} \left( (|\mathcal{S}| - 1)\,|g| + 1 \right)
 	\label{eq:semitotalistica}
 \end{equation}
-donde $\mathcal{G}$ es una partición de la vecindad $\mathcal{N}$ en grupos $g$ cuyos estados se suman. En el juego de la vida, la célula central forma un grupo con $|g| = 1$ y sus ocho vecinas otro con $|g| = 8$, por lo que el vector tiene $\left( (2 - 1) \cdot 1 + 1 \right) \left( (2 - 1) \cdot 8 + 1 \right) = 2 \times 9 = 18$ elementos.
+donde $\mathcal{G}$ es una partición de la vecindad $\mathcal{N}$ en grupos $g$ cuyos estados se suman. En el juego de la vida, la célula central forma un grupo con $|g| = 1$ y sus ocho vecinas otro con $|g| = 8$, por lo que el vector tiene $\left( (2 - 1) \cdot 1 + 1 \right) \left( (2 - 1) \cdot 8 + 1 \right) = 2 \times 9 = 18$ elementos. Por lo tanto, existen $|\mathcal{S}|^{18} = 2^{18} = 262{,}144$ posibles reglas.
 
 \subsection{Autómata celular elemental}
 
-Stephen Wolfram propuso una versión más simple de los autómatas celulares, llamada autómata celular elemental. En esta versión, se disminuye la dimensionalidad del espacio celular y, por lo tanto, se reduce el tamaño de la vecindad. A continuación se detallan sus características según la definición formal de autómata celular:
+Stephen Wolfram propuso una simplificación del sistema de John Conway, a la que llamó autómata celular elemental. En esta versión, se disminuye la dimensionalidad del espacio celular y, por lo tanto, se reduce el tamaño de la vecindad. A continuación se detallan sus características:
 
 \begin{itemize}
 	
@@ -549,7 +530,7 @@ A continuación, se presentan tres reglas representativas por su relevancia teó
 
 \begin{itemize}
 	
-	\item \textbf{Regla 30}: La regla 30 pertenece a la clase de comportamiento caótico. A partir de una configuración inicial simple, genera patrones altamente complejos y aparentemente aleatorios \cite{weisstein2002_rule30} como se muestra en la figura \ref{fig:regla_30}.
+	\item \textbf{Regla 30}: La regla 30 pertenece a la clase de comportamiento caótico. A partir de una configuración inicial simple, genera patrones altamente complejos y aparentemente aleatorios \cite{weisstein2002_rule30}, como se muestra en la figura \ref{fig:regla_30}.
 
 	Esta regla plantea tres interrogantes fundamentales sobre la naturaleza del caos y la computabilidad:
 	
@@ -580,7 +561,7 @@ A continuación, se presentan tres reglas representativas por su relevancia teó
 		\label{fig:regla_30}
 	\end{figure}
 	
-	\item \textbf{Regla 110}: La Regla 110 exhibe un comportamiento mixto: combina regiones periódicas y caóticas que interactúan entre sí de manera compleja. A partir de una única célula activa, genera estructuras móviles y patrones que pueden coexistir en el tiempo \cite{weisstein2002_rule110}.
+	\item \textbf{Regla 110}: La regla 110 exhibe un comportamiento mixto: combina regiones periódicas y caóticas que interactúan entre sí de manera compleja. A partir de una única célula activa, genera estructuras móviles y patrones que pueden coexistir en el tiempo \cite{weisstein2002_rule110}.
 	
 	Lo más notable de esta regla es su universalidad computacional. Wolfram y Matthew Cook demostraron que la regla 110 es Turing completa, es decir, capaz de simular cualquier máquina de Turing y, por tanto, realizar cualquier cómputo posible en un sistema discreto determinista \cite{weisstein2002_rule110}. Su evolución se muestra en la figura \ref{fig:regla_110}.
 	
@@ -600,7 +581,7 @@ A continuación, se presentan tres reglas representativas por su relevancia teó
 		\label{fig:regla_110}
 	\end{figure}
 	
-	\item \textbf{Regla 90}: La regla 90 se distingue por generar estructuras fractales. Iniciando desde una única célula activa, produce el conocido triángulo de Sierpiński como se muestra en la figura \ref{fig:regla_90}, el cual es un patrón autosimilar que aparece en múltiples sistemas naturales y matemáticos \cite{weisstein2002_rule90}.
+	\item \textbf{Regla 90}: La regla 90 se distingue por generar estructuras fractales. Iniciando desde una única célula activa, produce el conocido triángulo de Sierpiński, como se muestra en la figura \ref{fig:regla_90}, el cual es un patrón autosimilar que aparece en múltiples sistemas naturales y matemáticos \cite{weisstein2002_rule90}.
 	
 	\begin{figure}[!htbp]
 		\centering
@@ -625,7 +606,7 @@ Los autómatas celulares no son las únicas herramientas que pueden representar 
 
 \subsubsection{Sandpile}
 
-Modelo de criticalidad autoorganizada propuesto por Bak, Tang y Wiesenfeld \cite{bak1987}, también conocido como modelo de arena abeliana; simula el comportamiento de avalanchas provocadas al apilar cantidades de arena en diferentes posiciones. Este sistema arroja cantidades de arena en un sitio y, cuando alcanza un umbral crítico, se derrumba sobre sus vecinos; si sus vecinos alcanzan el umbral, estos también se derrumban, generando un efecto en cadena \cite{dhar1999abelian, socsim_btw_2019}. Este comportamiento no es exclusivo de dos dimensiones y guarda mucha similitud con un autómata celular:
+El \textit{sandpile} es un modelo de criticalidad autoorganizada propuesto por Bak, Tang y Wiesenfeld \cite{bak1987}, también conocido como modelo de arena abeliana, que simula el comportamiento de avalanchas provocadas al apilar cantidades de arena en diferentes posiciones. Este sistema arroja cantidades de arena en un sitio y, cuando alcanza un umbral crítico, se derrumba sobre sus vecinos; si sus vecinos alcanzan el umbral, estos también se derrumban, generando un efecto en cadena \cite{dhar1999abelian, socsim_btw_2019}. Este comportamiento no es exclusivo de dos dimensiones y guarda mucha similitud con un autómata celular:
 
 \begin{definition}
 	Un sistema \textit{sandpile} es una 5-tupla $(\mathcal{L}, \mathcal{S}, \mathcal{N}, z_c, \mathcal{F})$ donde:
@@ -644,7 +625,7 @@ Modelo de criticalidad autoorganizada propuesto por Bak, Tang y Wiesenfeld \cite
 
 \end{definition}
 
-Una configuración común usa una cuadrícula bidimensional que añade granos de arena en el centro y, cuando un sitio alcanza el umbral de $z_c = 4$, distribuye 4 granos, uno a cada uno de sus cuatro vecinos ortogonales más cercanos \cite{dhar1999abelian}. En la figura \ref{fig:sandpile} se muestran algunos patrones sobre cómo evoluciona este sistema.
+Una configuración común usa una cuadrícula bidimensional en la que se añaden granos de arena en el centro y, cuando un sitio alcanza el umbral de $z_c = 4$, distribuye 4 granos, uno a cada uno de sus cuatro vecinos ortogonales más cercanos \cite{dhar1999abelian}. En la figura \ref{fig:sandpile} se muestran algunos patrones sobre cómo evoluciona este sistema.
 
 \begin{figure}[htbp]
 	\centering
@@ -653,9 +634,9 @@ Una configuración común usa una cuadrícula bidimensional que añade granos de
 	\label{fig:sandpile} 
 \end{figure}
 
-Este sistema presenta criticalidad autoorganizada: en un momento, añadir un grano de arena no representa más que cambiar únicamente el sitio del centro y, en otros escenarios, ese único cambio es capaz de modificar casi todo el sistema por las avalanchas.
+Este sistema presenta criticalidad autoorganizada: en algunos casos, añadir un grano de arena no representa más que cambiar el sitio del centro y, en otros, ese único cambio es capaz de modificar casi todo el sistema por las avalanchas.
 
-Su definición tiene similitudes con un autómata celular: espacio, vecindad, estados y función de transición. Sin embargo, la principal diferencia es que \textit{sandpile} es un sistema abierto que recibe granos de arena, mientras que la evolución de un autómata celular depende únicamente de su configuración inicial, sin entradas externas. Una posible representación como un autómata celular sería definiendo sitios generadores de arena dentro de la configuración inicial.
+Su definición tiene similitudes con un autómata celular: espacio, vecindad, estados y función de transición. Sin embargo, la principal diferencia es que \textit{sandpile} es un sistema abierto que recibe granos de arena, mientras que la evolución de un autómata celular depende únicamente de su configuración inicial, sin entradas externas. Una posible representación como un autómata celular sería definir sitios generadores de arena dentro de la configuración inicial.
 
 \subsubsection{Hormiga de Langton}
 
@@ -671,7 +652,7 @@ La hormiga de Langton, creada por Chris Langton en 1986, es un modelo computacio
 		\]
 		donde $c_{\vec{i}}(t)$ es el color del sitio $\vec{i}$ en el tiempo $t$.
 		\item $\mathcal{D}$ es el conjunto de direcciones, cada una representada por un vector unitario. La hormiga se describe por su posición $\vec{p}(t) \in \mathcal{L}$ y su dirección $\vec{d}(t) \in \mathcal{D}$.
-		\item $\mathcal{R} = r_0 r_1 \cdots r_{n-1}$ es la regla, una cadena de $n$ instrucciones. Cada elemento indica un giro de $90^\circ$ en una dirección cuando se encuentra sobre un sitio de color $k$.
+		\item $\mathcal{R} = r_0 r_1 \cdots r_{n-1}$ es la regla, una cadena de $n$ instrucciones. Cada elemento indica un giro de $90^\circ$ en una dirección cuando la hormiga se encuentra sobre un sitio de color $k$.
 		\item $\mathcal{F}$ es la función de transición, que en cada paso, con $k = c_{\vec{p}(t)}(t)$ el color del sitio donde se encuentra la hormiga:
 		\begin{enumerate}
 			\item Gira según la instrucción $r_k$, obteniendo su nueva dirección $\vec{d}(t+1)$.
@@ -700,7 +681,7 @@ La hormiga de Langton puede catalogarse como un agente, es decir, una entidad au
 
 \section{Clasificación}
 
-Los autómatas celulares elementales fueron utilizados por diferentes autores por representar la máxima simplicidad y mínima configuración que un autómata puede adquirir y que tenga un amplio rango de comportamientos. Múltiples autores han intentado definir una clasificación; a continuación se muestran algunas clasificaciones propuestas por diferentes autores. 
+Los autómatas celulares elementales fueron utilizados por diferentes autores porque representan la máxima simplicidad y la mínima configuración que un autómata puede adquirir y, aun así, tienen un amplio rango de comportamientos. Múltiples autores han intentado definir una clasificación; a continuación se muestran algunas de las clasificaciones propuestas. 
 
 Stephen Wolfram realiza una clasificación basada en el comportamiento que exhiben las reglas a partir de configuraciones iniciales aleatorias, el cual es independiente de la configuración inicial particular. Es por esto que define las siguientes clases de comportamiento, ilustradas en la figura \ref{fig:clasificacion}:
 
@@ -775,7 +756,7 @@ Li y Packard ofrecen otra clasificación que considera seis clases para categori
 	\item Conduce a estructuras largas y estructuras complejas.
 \end{enumerate}
 
-Por otro lado, Culik y Yu \cite{Martinez2013note, culik1988_class} proponen una clasificación que sigue las siguientes limitaciones: 
+Por otro lado, Culik y Yu \cite{Martinez2013note, culik1988_class} proponen una clasificación que presenta las siguientes limitaciones: 
 
 \begin{itemize}
 	\item Esta clasificación es para autómatas celulares no totalísticos. 
@@ -785,7 +766,7 @@ Por otro lado, Culik y Yu \cite{Martinez2013note, culik1988_class} proponen una 
 \begin{enumerate}[label*=CY \Roman*]
 	\item Un autómata celular es de clase I si existe un estado estable $s \in \mathcal{S}$ tal que todas las configuraciones finitas evolucionan a una configuración homogénea de $s$.
 	
-	Es decir, dada cualquier configuración inicial en un autómata celular finito, todas las células adquieren el estado $s$ tras cierto número de pasos evolutivos. Esto se aplica a todas las finitas configuraciones iniciales.
+	Es decir, dada cualquier configuración inicial en un autómata celular finito, todas las células adquieren el estado $s$ tras cierto número de pasos evolutivos. Esto se aplica a todas las configuraciones iniciales finitas.
 	
 	\item Un autómata celular es de clase II si existe un estado estable $s \in \mathcal{S}$ tal que todas las configuraciones finitas evolucionan a una configuración periódica.
 	
@@ -822,6 +803,6 @@ Otra clasificación considera extensiones o modificaciones en la definición que
 	\end{itemize}
 \end{itemize}
 
-Estas variantes no son exclusivas y además han ampliado el uso de los autómatas celulares. Sin embargo, un problema que se repite es definir correctamente las reglas de transición para lograr un fenómeno específico. Este desafío ha llevado a la creación de autómatas celulares neuronales. En estos, la función de transición no se define de manera clara, sino que se aprende a través de una red neuronal artificial. Pero antes de adentrarse en la definición, es necesario comprender qué son las redes neuronales.
+Estas variantes no son excluyentes y además han ampliado el uso de los autómatas celulares. Sin embargo, un problema que se repite es definir correctamente las reglas de transición para lograr un fenómeno específico. Este desafío ha llevado a la creación de autómatas celulares neuronales. En estos, la función de transición no se define de manera explícita, sino que se aprende a través de una red neuronal artificial. Pero antes de adentrarse en la definición, es necesario comprender qué son las redes neuronales.
 
 \clearpage

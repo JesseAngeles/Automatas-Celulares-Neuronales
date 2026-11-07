@@ -4,18 +4,22 @@ El análisis de riesgos se realiza tomando en cuenta el tiempo estimado de desar
 
 \subsection{Identificación de riesgos}
 
+Los riesgos se agrupan en cinco categorías según su origen: técnicos, operativos, de requerimientos, de estimación y de alcance. A cada riesgo se le asigna un código formado por las iniciales de su categoría y un número consecutivo, el cual se utiliza en el resto del análisis.
+
 \subsubsection{Riesgos técnicos}
 
 \begin{enumerate}[label*=RT\arabic*]
 	\item Incompatibilidad entre diferentes lenguajes de programación: Los módulos desarrollados en Python, C++ y CUDA generan errores de integración al intercambiar información y sincronizar procesos.
 	
-	\item Indisponibilidad de \textit{hardware}: La tarjeta gráfica no tiene el rendimiento suficiente.
+	\item Indisponibilidad de \textit{hardware}: La tarjeta gráfica, el procesador u otros componentes no tienen el rendimiento suficiente.
 	
 	\item Incompatibilidad entre tecnologías: El sistema operativo, los lenguajes de programación y los elementos de \textit{hardware} no son compatibles para el desarrollo y ejecución.
 	
 	\item Dependencias de bibliotecas: La instalación y configuración de diferentes bibliotecas varía según el sistema operativo.
 	
 	\item Mala visualización: El renderizado de los componentes gráficos es incorrecto o está mal optimizado.
+	
+	\item Indisponibilidad de \textit{software} con licencia: Las herramientas que requieren una licencia, como Wolfram Mathematica, dejan de estar disponibles durante el desarrollo por la cancelación o el vencimiento de la licencia.
 \end{enumerate}
 
 \subsubsection{Riesgos operativos}
@@ -24,7 +28,7 @@ El análisis de riesgos se realiza tomando en cuenta el tiempo estimado de desar
 	
 	\item Problemas personales: Falta de motivación o problemas de salud física o mental se presentan durante el desarrollo.
 	
-	\item Curva de aprendizaje elevada: Se encuentra una curva de aprendizaje elevada y se carece de experiencias con la tecnología a utilizar.
+	\item Curva de aprendizaje elevada: Se encuentra una curva de aprendizaje elevada y se carece de experiencia con la tecnología a utilizar.
 \end{enumerate}
 \subsubsection{Riesgos de requerimientos}
 \begin{enumerate}[label*=RR\arabic*]
@@ -45,13 +49,13 @@ El análisis de riesgos se realiza tomando en cuenta el tiempo estimado de desar
 
 \subsection{Probabilidad e impacto}
 
-Siguiendo la tabla \ref{table:matriz_riesgos}, a continuación se enlistan los niveles de riesgo para cada riesgo identificado.
+El nivel de cada riesgo se obtiene a partir de dos factores. La probabilidad es la posibilidad de que el riesgo ocurra durante el desarrollo y se clasifica en cinco niveles: muy poco probable (10\%), poco probable (30\%), moderadamente probable (50\%), probable (70\%) y muy probable (90\%). El impacto, o severidad, es la magnitud del daño que causaría al proyecto en caso de ocurrir y se clasifica en nulo, menor, moderado, crítico y fatal. La matriz de riesgos de la tabla \ref{table:matriz_riesgos} combina ambos factores y asigna a cada riesgo un nivel bajo, medio, alto o muy alto \cite{matriz_riesgos}. Siguiendo dicha tabla, en las tablas \ref{table:riesgos_tecnicos} a \ref{table:riesgos_alcance} se enlistan los niveles de riesgo para cada riesgo identificado.
 
 \begin{table}[H]
 	\centering
 	\renewcommand{\arraystretch}{1.2}
-	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{|p{0.13\textwidth}|p{0.12\textwidth}|p{0.12\textwidth}|p{0.12\textwidth}|p{0.12\textwidth}|p{0.12\textwidth}|p{0.12\textwidth}|}
+	\setlength{\tabcolsep}{3pt}
+	\begin{tabular}{|p{0.14\textwidth}|p{0.135\textwidth}|p{0.12\textwidth}|p{0.12\textwidth}|p{0.12\textwidth}|p{0.12\textwidth}|p{0.12\textwidth}|}
 		\cline{3-7}
 		\multicolumn{2}{p{0.12\textwidth}}{} & \multicolumn{5}{|c|}{\textbf{Probabilidad}} \\ \cline{3-7}
 		\multicolumn{2}{p{0.12\textwidth}|}{} & Muy poco probable $10\%$ & Poco probable $30\%$ & Modera\-da\-men\-te probable $50\%$ & Probable $70\%$ & Muy probable $90\%$ \\ \cline{1-7}
@@ -70,14 +74,15 @@ Siguiendo la tabla \ref{table:matriz_riesgos}, a continuación se enlistan los n
 	\centering
 	\renewcommand{\arraystretch}{1.2}
 	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{|p{0.42\textwidth}|p{0.18\textwidth}|p{0.17\textwidth}|p{0.15\textwidth}|}
+	\begin{tabular}{|p{0.40\textwidth}|p{0.19\textwidth}|p{0.17\textwidth}|p{0.15\textwidth}|}
 		\hline
 		\textbf{Riesgo técnico} & \textbf{Probabilidad} & \textbf{Impacto} & \textbf{Nivel de riesgo} \\ \hline
-		Incompatibilidad entre diferentes lenguajes de programación & Modera\-da\-men\-te probable & Crítico & Alto \\ \hline
-		Indisponibilidad de \textit{hardware} & Poco probable & Moderado & Medio \\ \hline
-		Incompatibilidad entre tecnologías & Probable & Fatal & Muy alto \\ \hline
-		Dependencias de bibliotecas & Poco probable & Menor & Bajo\\ \hline
-		Mala visualización & Modera\-da\-men\-te probable & Menor & Medio \\ \hline
+		RT1 Incompatibilidad entre diferentes lenguajes de programación & Modera\-da\-men\-te probable & Crítico & Alto \\ \hline
+		RT2 Indisponibilidad de \textit{hardware} & Poco probable & Moderado & Medio \\ \hline
+		RT3 Incompatibilidad entre tecnologías & Probable & Fatal & Muy alto \\ \hline
+		RT4 Dependencias de bibliotecas & Poco probable & Menor & Bajo\\ \hline
+		RT5 Mala visualización & Modera\-da\-men\-te probable & Menor & Medio \\ \hline
+		RT6 Indisponibilidad de \textit{software} con licencia & Muy probable & Crítico & Muy alto \\ \hline
 	\end{tabular}
 	\caption{Nivel de riesgos técnicos}
 	\label{table:riesgos_tecnicos}
@@ -87,12 +92,12 @@ Siguiendo la tabla \ref{table:matriz_riesgos}, a continuación se enlistan los n
 	\centering
 	\renewcommand{\arraystretch}{1.2}
 	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{|p{0.42\textwidth}|p{0.18\textwidth}|p{0.17\textwidth}|p{0.15\textwidth}|}
+	\begin{tabular}{|p{0.40\textwidth}|p{0.19\textwidth}|p{0.17\textwidth}|p{0.15\textwidth}|}
 		\hline
 		\textbf{Riesgo operativo} & \textbf{Probabilidad} & \textbf{Impacto} & \textbf{Nivel de riesgo} \\ \hline
-		Documentación deficiente & Probable & Moderado & Alto \\ \hline
-		Problemas personales & Modera\-da\-men\-te probable & Crítico & Alto \\ \hline
-		Curva de aprendizaje elevada & Muy probable & Moderado & Alto \\ \hline
+		RO1 Documentación deficiente & Probable & Moderado & Alto \\ \hline
+		RO2 Problemas personales & Modera\-da\-men\-te probable & Crítico & Alto \\ \hline
+		RO3 Curva de aprendizaje elevada & Muy probable & Moderado & Alto \\ \hline
 	\end{tabular}
 	\caption{Nivel de riesgos operativos}
 	\label{table:riesgos_operativos}
@@ -102,10 +107,10 @@ Siguiendo la tabla \ref{table:matriz_riesgos}, a continuación se enlistan los n
 	\centering
 	\renewcommand{\arraystretch}{1.2}
 	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{|p{0.42\textwidth}|p{0.18\textwidth}|p{0.17\textwidth}|p{0.15\textwidth}|}
+	\begin{tabular}{|p{0.40\textwidth}|p{0.19\textwidth}|p{0.17\textwidth}|p{0.15\textwidth}|}
 		\hline
 		\textbf{Riesgo de requerimientos} & \textbf{Probabilidad} & \textbf{Impacto} & \textbf{Nivel de riesgo} \\ \hline
-		Requerimientos ambiguos & Poco probable & Menor & Bajo \\ \hline
+		RR1 Requerimientos ambiguos & Poco probable & Menor & Bajo \\ \hline
 	\end{tabular}
 	\caption{Nivel de riesgos de requerimientos}
 	\label{table:riesgos_requerimientos}
@@ -115,10 +120,10 @@ Siguiendo la tabla \ref{table:matriz_riesgos}, a continuación se enlistan los n
 	\centering
 	\renewcommand{\arraystretch}{1.2}
 	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{|p{0.42\textwidth}|p{0.18\textwidth}|p{0.17\textwidth}|p{0.15\textwidth}|}
+	\begin{tabular}{|p{0.40\textwidth}|p{0.19\textwidth}|p{0.17\textwidth}|p{0.15\textwidth}|}
 		\hline
 		\textbf{Riesgo de estimación} & \textbf{Probabilidad} & \textbf{Impacto} & \textbf{Nivel de riesgo} \\ \hline
-		 Subestimación del tiempo de desarrollo & Probable & Fatal & Muy alto \\ \hline
+		RE1 Subestimación del tiempo de desarrollo & Probable & Fatal & Muy alto \\ \hline
 	\end{tabular}
 	\caption{Nivel de riesgos de estimación}
 	\label{table:riesgos_estimacion}
@@ -128,11 +133,11 @@ Siguiendo la tabla \ref{table:matriz_riesgos}, a continuación se enlistan los n
 	\centering
 	\renewcommand{\arraystretch}{1.2}
 	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{|p{0.42\textwidth}|p{0.18\textwidth}|p{0.17\textwidth}|p{0.15\textwidth}|}
+	\begin{tabular}{|p{0.40\textwidth}|p{0.19\textwidth}|p{0.17\textwidth}|p{0.15\textwidth}|}
 		\hline
 		\textbf{Riesgo de alcance} & \textbf{Probabilidad} & \textbf{Impacto} & \textbf{Nivel de riesgo} \\ \hline 
-		 Limitación del alcance funcional & Modera\-da\-men\-te probable & Moderado & Medio \\ \hline
-		 Carga de trabajo imprevista & Probable & Crítico & Alto \\ \hline
+		RA1 Limitación del alcance funcional & Modera\-da\-men\-te probable & Moderado & Medio \\ \hline
+		RA2 Carga de trabajo imprevista & Probable & Crítico & Alto \\ \hline
 	\end{tabular}
 	\caption{Nivel de riesgos de alcance}
 	\label{table:riesgos_alcance}
@@ -140,18 +145,21 @@ Siguiendo la tabla \ref{table:matriz_riesgos}, a continuación se enlistan los n
 
 \subsection{Plan de mitigación}
 
+El plan de mitigación define, para cada riesgo identificado, las acciones preventivas que se realizan durante el desarrollo para reducir la probabilidad de que ocurra o su impacto. Las tablas \ref{table:mitigacion_tecnico} a \ref{table:mitigacion_alcance} presentan, por categoría, el código y el nombre de cada riesgo junto con su plan de mitigación.
+
 \begin{table}[H]
 	\centering
 	\renewcommand{\arraystretch}{1.2}
 	\setlength{\tabcolsep}{4pt}
 	\begin{tabular}{|p{0.3\textwidth}|p{0.6\textwidth}|}
 		\hline
-		\multicolumn{2}{|c|}{\textbf{Riesgos técnicos}} \\ \hline
-		Incompatibilidad entre diferentes lenguajes & Verificar la documentación de compatibilidad entre los lenguajes de programación y realizar pruebas de transferencia de datos y sincronización previas al desarrollo. \\ \hline
-		Indisponibilidad de \textit{hardware} & Asegurar la disponibilidad de equipos de respaldo o entornos virtuales alternativos para continuar el desarrollo en caso de fallos de \textit{hardware}. \\ \hline
-		Incompatibilidad entre tecnologías & Realizar pruebas de compatibilidad del \textit{hardware} y \textit{software} en diferentes sistemas operativos y versiones antes de la integración. \\ \hline
-		Dependencias de bibliotecas & Documentar y verificar las versiones de bibliotecas utilizadas, además de considerar alternativas equivalentes que garanticen continuidad en caso de incompatibilidad. \\ \hline
-		Mala visualización & Realizar pruebas de usabilidad y ajustar la interfaz de acuerdo con las resoluciones de pantalla y dispositivos objetivo. \\ \hline
+		\textbf{Riesgo técnico} & \textbf{Plan de mitigación} \\ \hline
+		RT1 Incompatibilidad entre diferentes lenguajes de programación & Verificar la documentación de compatibilidad entre los lenguajes de programación y realizar pruebas de transferencia de datos y sincronización previas al desarrollo. \\ \hline
+		RT2 Indisponibilidad de \textit{hardware} & Asegurar la disponibilidad de equipos de respaldo o entornos virtuales alternativos para continuar el desarrollo en caso de fallos de \textit{hardware}. \\ \hline
+		RT3 Incompatibilidad entre tecnologías & Realizar pruebas de compatibilidad del \textit{hardware} y \textit{software} en diferentes sistemas operativos y versiones antes de la integración. \\ \hline
+		RT4 Dependencias de bibliotecas & Documentar y verificar las versiones de bibliotecas utilizadas, además de considerar alternativas equivalentes que garanticen continuidad en caso de incompatibilidad. \\ \hline
+		RT5 Mala visualización & Realizar pruebas de usabilidad y ajustar la interfaz de acuerdo con las resoluciones de pantalla y dispositivos objetivo. \\ \hline
+		RT6 Indisponibilidad de \textit{software} con licencia & Verificar la vigencia de las licencias al inicio del proyecto, limitar el uso de las herramientas con licencia a tareas que no formen parte del simulador y mantener alternativas de \textit{software} libre, como Python, para las tareas de análisis. \\ \hline
 	\end{tabular}
 	\caption{Plan de mitigación de riesgos técnicos}
 	\label{table:mitigacion_tecnico}
@@ -163,10 +171,10 @@ Siguiendo la tabla \ref{table:matriz_riesgos}, a continuación se enlistan los n
 	\setlength{\tabcolsep}{4pt}
 	\begin{tabular}{|p{0.3\textwidth}|p{0.6\textwidth}|}
 		\hline
-		\multicolumn{2}{|c|}{\textbf{Riesgos operativos}} \\ \hline
-		Documentación deficiente & Establecer un estándar de documentación y realizar revisiones periódicas del avance para garantizar la calidad y completitud de los registros técnicos. \\ \hline
-		Problemas personales & Definir roles de respaldo o distribuir responsabilidades para minimizar el impacto de ausencias o contratiempos personales. \\ \hline
-		Curva de aprendizaje elevada & Programar capacitaciones iniciales y establecer un periodo de adaptación con apoyo técnico y materiales de referencia. \\ \hline
+		\textbf{Riesgo operativo} & \textbf{Plan de mitigación} \\ \hline
+		RO1 Documentación deficiente & Establecer un estándar de documentación y realizar revisiones periódicas del avance para garantizar la calidad y completitud de los registros técnicos. \\ \hline
+		RO2 Problemas personales & Definir roles de respaldo o distribuir responsabilidades para minimizar el impacto de ausencias o contratiempos personales. \\ \hline
+		RO3 Curva de aprendizaje elevada & Programar capacitaciones iniciales y establecer un periodo de adaptación con apoyo técnico y materiales de referencia. \\ \hline
 	\end{tabular}
 	\caption{Plan de mitigación de riesgos operativos}
 	\label{table:mitigacion_operativo}
@@ -178,8 +186,8 @@ Siguiendo la tabla \ref{table:matriz_riesgos}, a continuación se enlistan los n
 	\setlength{\tabcolsep}{4pt}
 	\begin{tabular}{|p{0.3\textwidth}|p{0.6\textwidth}|}
 		\hline
-		\multicolumn{2}{|c|}{\textbf{Riesgos de requerimientos}} \\ \hline
-		Requerimientos ambiguos & Revisar periódicamente los requerimientos para aclararlos y validar el entendimiento del equipo de desarrollo. \\ \hline
+		\textbf{Riesgo de requerimientos} & \textbf{Plan de mitigación} \\ \hline
+		RR1 Requerimientos ambiguos & Revisar periódicamente los requerimientos para aclararlos y validar el entendimiento del equipo de desarrollo. \\ \hline
 	\end{tabular}
 	\caption{Plan de mitigación de riesgos de requerimientos}
 	\label{table:mitigacion_requerimiento}
@@ -191,8 +199,8 @@ Siguiendo la tabla \ref{table:matriz_riesgos}, a continuación se enlistan los n
 	\setlength{\tabcolsep}{4pt}
 	\begin{tabular}{|p{0.3\textwidth}|p{0.6\textwidth}|}
 		\hline
-		\multicolumn{2}{|c|}{\textbf{Riesgos de estimación}} \\ \hline
-		Subestimación del tiempo de desarrollo & Dividir el proyecto en fases pequeñas y manejables, aplicando seguimiento semanal y reajuste de cronograma según los resultados obtenidos. \\ \hline
+		\textbf{Riesgo de estimación} & \textbf{Plan de mitigación} \\ \hline
+		RE1 Subestimación del tiempo de desarrollo & Dividir el proyecto en fases pequeñas y manejables, aplicando seguimiento semanal y reajuste de cronograma según los resultados obtenidos. \\ \hline
 	\end{tabular}
 	\caption{Plan de mitigación de riesgos de estimación}
 	\label{table:mitigacion_estimacion}
@@ -204,9 +212,9 @@ Siguiendo la tabla \ref{table:matriz_riesgos}, a continuación se enlistan los n
 	\setlength{\tabcolsep}{4pt}
 	\begin{tabular}{|p{0.3\textwidth}|p{0.6\textwidth}|}
 		\hline
-		\multicolumn{2}{|c|}{\textbf{Riesgos de alcance}} \\ \hline
-		Limitación del alcance funcional & Definir claramente los objetivos y alcances desde el inicio, con aprobación formal de los responsables del proyecto antes de iniciar nuevas funcionalidades. \\ \hline
-		Carga de trabajo imprevista & Implementar revisiones periódicas del plan de trabajo y ajustar el alcance en función de los recursos disponibles y los resultados obtenidos. \\ \hline
+		\textbf{Riesgo de alcance} & \textbf{Plan de mitigación} \\ \hline
+		RA1 Limitación del alcance funcional & Definir claramente los objetivos y alcances desde el inicio, con aprobación formal de los responsables del proyecto antes de iniciar nuevas funcionalidades. \\ \hline
+		RA2 Carga de trabajo imprevista & Implementar revisiones periódicas del plan de trabajo y ajustar el alcance en función de los recursos disponibles y los resultados obtenidos. \\ \hline
 	\end{tabular}
 	\caption{Plan de mitigación de riesgos de alcance}
 	\label{table:mitigacion_alcance}
@@ -214,53 +222,91 @@ Siguiendo la tabla \ref{table:matriz_riesgos}, a continuación se enlistan los n
 
 \subsection{Plan de contingencia}
 
-A continuación se describen los planes de contingencia para los riesgos de nivel muy alto:
+El plan de contingencia define las acciones que se ejecutan cuando un riesgo se materializa a pesar de las medidas de mitigación. Se elabora únicamente para los riesgos de nivel muy alto, que son los siguientes:
 \begin{itemize}
 	\item[RT3] Incompatibilidad entre tecnologías.
+	\item[RT6] Indisponibilidad de \textit{software} con licencia.
 	\item[RE1] Subestimación del tiempo de desarrollo. 
 \end{itemize}
 
-\begin{table}[H]
-	\centering
-	\renewcommand{\arraystretch}{1.2}
-	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{r|p{0.6\textwidth}}
-		\hline
-		\textbf{Nombre del riesgo} & \textbf{Incompatibilidad entre tecnologías} \\ \hline
-		\textbf{Probabilidad} & Probable \\ \hline
-		\textbf{Impacto} & Fatal \\ \hline
-		\textbf{Plan de evasión} & 
-		Realizar pruebas de integración tempranas entre las distintas tecnologías implicadas. 
-		Documentar las versiones, dependencias y configuraciones utilizadas para garantizar compatibilidad.
-		Establecer un entorno de desarrollo unificado que minimice diferencias entre plataformas. \\ \hline
-		\textbf{Mitigación} & 
-		Sustituir o actualizar los componentes que generen incompatibilidad. 
-		Implementar adaptadores o módulos intermedios que permitan la interoperabilidad entre sistemas. 
-		Reasignar recursos técnicos para resolver los conflictos de integración y evitar retrasos prolongados. \\ 
-	\end{tabular}
-	\caption{Plan de contingencia para incompatibilidad entre tecnologías}
-	\label{table:contingencia_incompatibilidad}
-\end{table}
+Para cada uno se indican su probabilidad, su impacto, el plan de evasión (acciones para evitar que el riesgo ocurra) y las acciones de contingencia (qué hacer cuando ocurre).
+
+\subsubsection{RT3 Incompatibilidad entre tecnologías}
 
 \begin{table}[H]
 	\centering
 	\renewcommand{\arraystretch}{1.2}
 	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{r|p{0.6\textwidth}}
+	\begin{tabular}{|p{0.25\textwidth}|p{0.65\textwidth}|}
 		\hline
-		\textbf{Nombre del riesgo} & \textbf{Subestimación del tiempo de desarrollo} \\ \hline
-		\textbf{Probabilidad} & Probable \\ \hline
-		\textbf{Impacto} & Fatal \\ \hline
-		\textbf{Plan de evasión} & 
+		\textbf{Elemento} & \textbf{Descripción} \\ \hline
+		Código y nombre & RT3 Incompatibilidad entre tecnologías \\ \hline
+		Probabilidad & Probable (70\%) \\ \hline
+		Impacto & Fatal \\ \hline
+		Nivel de riesgo & Muy alto \\ \hline
+		Plan de evasión & 
+		Realizar pruebas de integración tempranas entre las distintas tecnologías implicadas. 
+		Documentar las versiones, dependencias y configuraciones utilizadas para garantizar compatibilidad.
+		Establecer un entorno de desarrollo unificado que minimice diferencias entre plataformas. \\ \hline
+		Acciones de contingencia & 
+		Sustituir o actualizar los componentes que generen incompatibilidad. 
+		Implementar adaptadores o módulos intermedios que permitan la interoperabilidad entre sistemas. 
+		Reasignar recursos técnicos para resolver los conflictos de integración y evitar retrasos prolongados. \\ \hline
+	\end{tabular}
+	\caption{Plan de contingencia para RT3 Incompatibilidad entre tecnologías}
+	\label{table:contingencia_incompatibilidad}
+\end{table}
+
+\subsubsection{RT6 Indisponibilidad de software con licencia}
+
+\begin{table}[H]
+	\centering
+	\renewcommand{\arraystretch}{1.2}
+	\setlength{\tabcolsep}{4pt}
+	\begin{tabular}{|p{0.25\textwidth}|p{0.65\textwidth}|}
+		\hline
+		\textbf{Elemento} & \textbf{Descripción} \\ \hline
+		Código y nombre & RT6 Indisponibilidad de \textit{software} con licencia \\ \hline
+		Probabilidad & Muy probable (90\%) \\ \hline
+		Impacto & Crítico \\ \hline
+		Nivel de riesgo & Muy alto \\ \hline
+		Plan de evasión & 
+		Verificar al inicio del proyecto la vigencia y las condiciones de renovación de cada licencia.
+		Mantener el simulador independiente de las herramientas con licencia, de modo que estas solo se usen para el análisis de resultados.
+		Preparar alternativas de \textit{software} libre (NumPy, Matplotlib y Scikit-learn) para las tareas de análisis. \\ \hline
+		Acciones de contingencia & 
+		Adquirir una licencia individual por el tiempo restante del proyecto.
+		Migrar los cuadernos de análisis a las alternativas de \textit{software} libre si no es posible adquirir la licencia.
+		Reajustar el cronograma para absorber el tiempo de migración. \\ \hline
+		Estado & Este riesgo se materializó durante el desarrollo: la licencia institucional de Wolfram Mathematica con la que se contaba fue cancelada, por lo que se adquirió una licencia de estudiante con vigencia de un año para terminar el proyecto. \\ \hline
+	\end{tabular}
+	\caption{Plan de contingencia para RT6 Indisponibilidad de \textit{software} con licencia}
+	\label{table:contingencia_licencia}
+\end{table}
+
+\subsubsection{RE1 Subestimación del tiempo de desarrollo}
+
+\begin{table}[H]
+	\centering
+	\renewcommand{\arraystretch}{1.2}
+	\setlength{\tabcolsep}{4pt}
+	\begin{tabular}{|p{0.25\textwidth}|p{0.65\textwidth}|}
+		\hline
+		\textbf{Elemento} & \textbf{Descripción} \\ \hline
+		Código y nombre & RE1 Subestimación del tiempo de desarrollo \\ \hline
+		Probabilidad & Probable (70\%) \\ \hline
+		Impacto & Fatal \\ \hline
+		Nivel de riesgo & Muy alto \\ \hline
+		Plan de evasión & 
 		Realizar estimaciones realistas basadas en experiencias previas y tareas medibles. 
 		Incluir márgenes de tiempo de reserva en el cronograma para absorber imprevistos. 
 		Efectuar reuniones de seguimiento semanales para detectar desviaciones tempranas. \\ \hline
-		\textbf{Mitigación} & 
+		Acciones de contingencia & 
 		Reasignar recursos o personal adicional para recuperar el tiempo perdido. 
 		Reducir temporalmente el alcance funcional o posponer características no críticas. 
-		Reajustar el cronograma de entregas y comunicar los cambios al equipo y partes interesadas. \\ 
+		Reajustar el cronograma de entregas y comunicar los cambios al equipo y partes interesadas. \\ \hline
 	\end{tabular}
-	\caption{Plan de contingencia para subestimación del tiempo de desarrollo}
+	\caption{Plan de contingencia para RE1 Subestimación del tiempo de desarrollo}
 	\label{table:contingencia_subestimacion}
 \end{table}
 
@@ -268,7 +314,7 @@ A continuación se describen los planes de contingencia para los riesgos de nive
 
 El proyecto cuenta con los recursos de \textit{hardware} necesarios para llevar a cabo simulaciones de alto nivel computacional. El equipo de cómputo disponible permite implementar técnicas de paralelización, asegurando la capacidad de realizar múltiples inferencias en tiempos razonables. Adicionalmente, se dispone de herramientas tecnológicas de alto rendimiento que brindan la ventaja computacional requerida para ejecutar la simulación de manera eficiente.
 
-En cuanto a la factibilidad económica, la mayor parte del \textit{software} utilizado es de libre acceso, incluyendo Python, C++, Visual Studio Code y TeXstudio. Se utiliza también Wolfram Mathematica, que requiere una licencia anual de 195 dólares, la cual se encuentra disponible de manera gratuita para estudiantes del IPN, garantizando así la viabilidad financiera del proyecto.
+En cuanto a la factibilidad económica, la mayor parte del \textit{software} utilizado es de libre acceso, incluyendo Python, C++, Visual Studio Code y TeXstudio. Se utiliza también Wolfram Mathematica, que requiere una licencia anual de 195 dólares, la cual se encontraba disponible de manera gratuita para estudiantes del IPN al inicio del proyecto. Al cancelarse dicha licencia se adquirió una licencia de estudiante por un año (ver el plan de contingencia del riesgo RT6), un costo que no compromete la viabilidad financiera del proyecto.
 
 Desde el punto de vista operativo, el diseño de la interfaz facilita la definición de reglas y la ejecución de simulaciones, optimizando el flujo de trabajo del grupo de investigadores. Esto permite acelerar significativamente el proceso de experimentación y análisis de resultados, maximizando la eficiencia del equipo durante el desarrollo del proyecto.
 

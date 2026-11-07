@@ -5,7 +5,7 @@ A continuación se muestran las interfaces desarrolladas en PyQt5. Se busca mant
 \begin{itemize}
 	\item \textbf{Pestaña de simulación}
 
-	La pestaña de simulación permite configurar y controlar la evolución de los autómatas celulares como se observa en la figura \ref{fig:ui_main}. Se divide en tres secciones: 
+	La pestaña de simulación permite configurar y controlar la evolución de los autómatas celulares, como se observa en la figura \ref{fig:ui_main}. Se divide en tres secciones: 
 	
 	\begin{figure}[H]
 		\centering
@@ -15,7 +15,7 @@ A continuación se muestran las interfaces desarrolladas en PyQt5. Se busca mant
 	\end{figure}
 	
 	\begin{enumerate}
-		\item Los controles de evolución, situados del lado izquierdo (ver figura \ref{fig:ui_main_simulator}), manipulan la evolución del autómata celular (iniciar, pausar, reiniciar, avanzar, retroceder o cambiar velocidad), además, permiten importar y exportar evoluciones y cargar modelos del autómata celular neuronal.
+		\item Los controles de evolución, situados del lado izquierdo (ver figura \ref{fig:ui_main_simulator}), manipulan la evolución del autómata celular (iniciar, pausar, reiniciar, avanzar, retroceder o cambiar velocidad); además, permiten grabar un número de pasos, tomar capturas, importar y exportar evoluciones y cargar modelos del autómata celular neuronal.
 		\item El área central es el espacio de evolución definido por una red regular cuadrada.
 		\item La configuración del autómata celular, localizada del lado derecho (ver figura \ref{fig:ui_main_config}), define la vecindad, los estados, la condición de frontera y la regla de transición.
 	\end{enumerate}
@@ -38,7 +38,7 @@ A continuación se muestran las interfaces desarrolladas en PyQt5. Se busca mant
 	
 	\item \textbf{Pestaña de entrenamiento}
 	
-	Esta pestaña permite al usuario entrenar al autómata celular neuronal dado un conjunto de datos, tal como se muestra en la figura \ref{fig:ui_training}. 
+	Esta pestaña permite al usuario entrenar el autómata celular neuronal dado un conjunto de datos, tal como se muestra en la figura \ref{fig:ui_training}. 
 	
 	\begin{figure}[H]
 		\centering
@@ -47,11 +47,11 @@ A continuación se muestran las interfaces desarrolladas en PyQt5. Se busca mant
 		\label{fig:ui_training}
 	\end{figure}
 	
-	La primera sección permite realizar la configuración, la cual incluye la vecindad, número de capas ocultas y funciones de activación en cada capa, así como definición de hiperparámetros como número de épocas, tasa de aprendizaje y pérdida objetivo (ver figura \ref{fig:ui_training_config}). La segunda parte muestra únicamente los registros del entrenamiento. 
+	La primera sección permite realizar la configuración, que incluye los datos de entrenamiento (una o varias evoluciones y el archivo de pesos), la vecindad y la condición de frontera, el número de capas ocultas y las funciones de activación de cada capa, así como la definición de hiperparámetros como el número de épocas, el tamaño del lote, la tasa de aprendizaje y su reducción, la pérdida objetivo y la semilla (ver figura \ref{fig:ui_training_config}). La segunda parte muestra únicamente los registros del entrenamiento. 
 	
 		\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.4\linewidth]{img/disenoSoftware/ui_training_config.png}
+		\includegraphics[width=0.8\linewidth]{img/disenoSoftware/ui_training_config.png}
 		\caption{Controles de definición de entrenamiento.}
 		\label{fig:ui_training_config}
 	\end{figure}

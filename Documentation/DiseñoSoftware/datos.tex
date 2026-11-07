@@ -6,19 +6,19 @@ La memoria de CUDA, también llamada \textit{device}, no puede almacenar arreglo
 
 \subsection{Espacio celular}
 
-Se define como una matriz bidimensional de dimensiones $H \times W$ con valores enteros de 8~bits, permitiendo representar hasta 256 estados distintos por celda.
+Se define como una matriz bidimensional de dimensiones $H \times W$ con valores enteros de 8~bits, permitiendo representar hasta 256 estados distintos por célula.
 
 \begin{itemize}
 	\item \textbf{\textit{Host}}: Implementado como un \texttt{numpy.ndarray} de \textit{shape} $(H, W)$ y \texttt{dtype=uint8}. Para maximizar el rendimiento, este arreglo se comparte mediante punteros, sin realizar copias, entre el \textit{widget} de renderizado, el controlador de simulación y el \textit{wrapper} de CUDA.
 	
-	\item \textbf{\textit{Device}}: Utiliza dos búferes (\texttt{A\_d} y \texttt{B\_d}) de tipo \texttt{uint8\_t*} en la memoria global. Tienen un esquema de \textit{ping-pong buffering}, donde, tras cada paso evolutivo del \textit{kernel}, se intercambian los punteros de lectura y escritura, eliminando la necesidad de copiar datos entre pasos de evolución.
+	\item \textbf{\textit{Device}}: Utiliza dos búferes (\texttt{A\_d} y \texttt{B\_d}) de tipo \texttt{uint8\_t*} en la memoria global. Tienen un esquema de \textit{ping-pong buffering} donde, tras cada paso evolutivo del \textit{kernel}, se intercambian los punteros de lectura y escritura. Esto elimina la necesidad de copiar datos, pues \texttt{A\_d} evoluciona a \texttt{B\_d} y viceversa, asignándose los pasos pares e impares, respectivamente.
 	
 	\item \textbf{Sincronización perezosa}: El \textit{host} no se sincroniza tras cada paso del \textit{kernel}. Una bandera \texttt{host\_dirty} indica si el búfer del \textit{host} está desactualizado respecto al \textit{device}; la copia \textit{device-to-host} se ejecuta únicamente cuando se invoca una operación de lectura (\texttt{getSpace}, \texttt{getCell}) o al exportar.
 \end{itemize}
 
 \subsection{Vecindad}
 
-La vecindad define el conjunto de celdas que influyen en la transición de una celda objetivo. Se modela bajo un esquema semitotalístico organizado en grupos de desplazamientos relativos.
+La vecindad define el conjunto de células que influyen en la transición de una célula objetivo. Se modela bajo un esquema semitotalístico organizado en grupos de desplazamientos relativos.
 
 \begin{itemize}
 	\item \textbf{\textit{Host}}: Una estructura \texttt{list[list[list[int]]]} donde el nivel externo enumera los grupos, el intermedio las posiciones relativas, y el interno los componentes $[dx, dy]$ del desplazamiento.
@@ -30,7 +30,7 @@ La vecindad define el conjunto de celdas que influyen en la transición de una c
 
 \subsection{Regla de transición (CA clásico)}
 
-La regla es de naturaleza semitotalística: el nuevo estado depende del conteo de estados dentro de cada grupo de la vecindad. El tamaño total $r_{\text{size}}$ se determina por el producto de las combinaciones posibles de cada grupo:
+La regla es de naturaleza semitotalística: el nuevo estado depende del conteo de estados dentro de cada grupo de la vecindad. El tamaño total $r_{\text{size}}$ se determina mediante la ecuación \ref{eq:semitotalistica}, es decir, por el producto de las combinaciones posibles de cada grupo:
 \[
 r_{\text{size}} = \prod_{g \in \text{grupos}} \big((\text{states}-1)\cdot |g| + 1\big)
 \]
@@ -46,10 +46,11 @@ El acceso a la regla se realiza mediante una suma posicional de las contribucion
 
 \subsection{Configuración del autómata celular (CA)}
 
-Esta estructura encapsula los parámetros estáticos que definen el comportamiento de un autómata clásico:
+Esta estructura encapsula los parámetros estáticos que definen el comportamiento de un autómata clásico, los cuales se describen en la tabla \ref{tab:config_ca}.
 
-\begin{center}
-	\begin{tabular}{c|c | p{0.42\linewidth}}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{c|c | p{0.40\linewidth}}
 		\hline
 		\textbf{Campo} & \textbf{Tipo} & \textbf{Descripción} \\
 		\hline 
@@ -60,7 +61,9 @@ Esta estructura encapsula los parámetros estáticos que definen el comportamien
 		\texttt{boundary\_mode} & \texttt{enum} & Modos: \texttt{OPEN}, \texttt{PERIODIC}, \texttt{REFLECTIVE}, \texttt{REFLEXIVE}. \\ \hline 
 		\texttt{colors} & \texttt{list[QColor]} & Mapeo de estados a colores para el renderizado. \\
 	\end{tabular}
-\end{center}
+	\caption{Campos de la configuración del autómata celular.}
+	\label{tab:config_ca}
+\end{table}
 
 \subsection{Configuración del autómata celular neuronal (NCA)}
 

@@ -1,4 +1,7 @@
 \section{Especificaciones de casos de uso}
+\label{sec:especificaciones}
+
+A continuación se especifica cada caso de uso mediante dos tablas. La primera describe el actor, el tipo de caso de uso, las entradas, las salidas, las precondiciones, las postcondiciones y los errores posibles; la segunda detalla el flujo básico de acciones entre el actor y el sistema y, cuando existen, los flujos alternos. Los casos de uso se agrupan según la parte del simulador con la que interactúa el usuario.
 
 \subsection{Controles de simulación}
 
@@ -209,7 +212,7 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 			\textbf{Actor} & \textbf{Sistema} \\
 			\hline
 			\begin{enumerate}[noitemsep, nosep]
-			\item[1.1.] Presiona el botón \BTN{paso_adelante} desde \UI{control_ui} cuando la simulación está activa y la velocidad está en la velocidad máxima.
+			\item[1.1.] Presiona el botón \BTN{paso_adelante} desde \UI{control_ui} cuando la simulación está activa a la velocidad máxima.
 			\end{enumerate} 
 				& 
 			\begin{enumerate}[noitemsep, nosep]
@@ -245,7 +248,7 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 			\end{itemize}  \\ \hline
 			\textbf{Errores} & 
 			\begin{itemize}[noitemsep, nosep]
-				\item Configuración inicial: El usuario intenta retroceder la simulación de la configuración inicial.
+				\item Configuración inicial: El usuario intenta retroceder la simulación desde la configuración inicial.
 			\end{itemize}\\ \hline
 		\end{tabular}
 	\end{center}
@@ -279,7 +282,7 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 			\textbf{Actor} & \textbf{Sistema} \\
 			\hline
 			\begin{enumerate}[noitemsep, nosep]
-				\item[1.1.] Presiona el botón \BTN{paso_atras} desde \UI{control_ui} estando en la configuración inicial (no hay más configuraciones antes).  
+				\item[1.1.] Presiona el botón \BTN{paso_atras} desde \UI{control_ui} estando en la configuración inicial (no hay configuraciones anteriores).  
 			\end{enumerate}
 			& 
 			\begin{enumerate}[noitemsep, nosep]
@@ -465,7 +468,7 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 			\hline
 			\begin{enumerate}[noitemsep, nosep]
 				\item[2.1.] Presiona el botón \BTN{importar} desde \UI{control_ui}.
-				\item[2.3. ] Selecciona el archivo ``npy'' que contenga una evolución con un tamaño diferente a \UI{simulacion_ui}.
+				\item[2.3. ] Selecciona el archivo ``npy'' que contenga una evolución con un tamaño diferente al de \UI{simulacion_ui}.
 			\end{enumerate}
 			& 
 			\begin{enumerate}[noitemsep, nosep]
@@ -517,8 +520,8 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 			\end{enumerate} 
 			& 
 			\begin{enumerate}[noitemsep, nosep]
-				\item[2.] Abre una ventana preguntando el número de pasos a evolucionar.
-				\item[4.] Evoluciona el sistema el número de pasos.
+				\item[2.] Abre una ventana que pregunta el número de pasos a evolucionar.
+				\item[4.] Evoluciona el sistema el número de pasos indicado.
 				\item[5.] Muestra en \UI{simulacion_ui} el último paso.
 			\end{enumerate} \\
 			\hline
@@ -583,7 +586,7 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 			\textbf{Actor} & \textbf{Sistema} \\
 			\hline
 			\begin{enumerate}[noitemsep, nosep]
-				\item[1.1.] Presiona el botón \BTN{exportar} desde \UI{control_ui} sin haber una evolución.
+				\item[1.1.] Presiona el botón \BTN{exportar} desde \UI{control_ui} sin que haya una evolución.
 			\end{enumerate}
 			& 
 			\begin{enumerate}[noitemsep, nosep]
@@ -709,7 +712,7 @@ Los siguientes casos de uso permiten al usuario controlar la evolución del aut�
 
 \subsection{Configuración del autómata celular}
 
-Estos casos de uso definen las características generales del autómata celular, tales como el número de estados, vecindad, comportamiento de frontera y la función de transición.
+Estos casos de uso definen las características generales del autómata celular, tales como el número de estados, la vecindad, la condición de frontera y la función de transición.
 
 \subsubsection*{UC13 Definir vecindad}
 
@@ -855,7 +858,7 @@ Estos casos de uso definen las características generales del autómata celular,
 					\item Botones de estados añadidos.
 				\end{itemize} \\ \hline
 				\textbf{Errores} &  \begin{itemize}[noitemsep, nosep]
-					\item Inválido: El número de estados ingresados es inválido.
+					\item Inválido: El número de estados ingresado es inválido.
 				\end{itemize} \\ \hline
 			\end{tabular}
 		\end{center}
@@ -891,7 +894,7 @@ Estos casos de uso definen las características generales del autómata celular,
 				\textbf{Actor} & \textbf{Sistema} \\
 				\hline
 				\begin{enumerate}[noitemsep, nosep]
-					\item[1.1. ] Ingresa el número de estados en \IN{estados} inválido.
+					\item[1.1. ] Ingresa un número de estados inválido en \IN{estados}.
 				\end{enumerate} 
 				& 
 				\begin{enumerate}[noitemsep, nosep] 
@@ -1031,12 +1034,12 @@ Estos casos de uso definen las características generales del autómata celular,
 				\textbf{Actor} & \textbf{Sistema} \\
 				\hline
 				\begin{enumerate}[noitemsep, nosep]
-					\item[2.1.] Ingresa la regla fuera del rango de reglas en el campo \IN{regla} en \UI{configuracion_ui}.
+					\item[2.1.] Ingresa una regla fuera del rango en el campo \IN{regla} en \UI{configuracion_ui}.
 					\item[2.2.] Presiona el botón \BTN{def_regla} mientras la simulación está activa.
 				\end{enumerate} 
 				& 
 				\begin{enumerate}[noitemsep, nosep]
-					\item[2.3.] La regla no es compatible, se ajusta a la configuración del CA.
+					\item[2.3.] La regla no es compatible, por lo que se ajusta a la configuración del CA.
 					\item[2.4.] Actualiza la regla.
 				\end{enumerate} \\
 				\hline
