@@ -6,6 +6,8 @@ Este capítulo se dividirá en secciones que definan la estructura del marco met
 
 \section{Diseño de la investigación}
 
+El diseño de la investigación establece la estrategia general con la que se responde a la pregunta de investigación. En este trabajo se adopta un diseño experimental, cuya variante cuasiexperimental se detalla a continuación.
+
 \subsection{Diseño experimental}
 
 El diseño experimental es un método sistemático para planificar, ejecutar y analizar experimentos, con el objetivo de identificar relaciones causales entre variables. En otras palabras, se manipula una variable independiente para observar su efecto sobre la variable dependiente \cite{unam2025_experimental}.
@@ -52,7 +54,7 @@ Este tipo de investigación es útil porque ayuda a encontrar relaciones de caus
 
 \section{Técnicas e instrumentos de recolección de datos}
 
-La recolección de datos se realiza a partir de las simulaciones computacionales realizadas. Dado que se trata de un enfoque cuantitativo, no es necesario usar técnicas como la observación o las encuestas, sino procedimientos de registro automatizado para su posterior análisis numérico. 
+La recolección de datos se realiza a partir de las simulaciones computacionales ejecutadas. Dado que se trata de un enfoque cuantitativo, no es necesario usar técnicas como la observación o las encuestas, sino procedimientos de registro automatizado para su posterior análisis numérico. 
 
 \subsection{Técnicas de recolección de datos}
 
@@ -86,7 +88,7 @@ El desarrollo metodológico de la investigación se llevará a cabo en diversas 
 
 \begin{itemize}
 	
-	\item \textbf{Diseño, desarrollo e implementación del simulador}: Se construye una herramienta computacional capaz de simular autómatas celulares bidimensionales. Aunque el fin último es estudiar los autómatas celulares neuronales, este simulador debe poder aceptar configuraciones clásicas. Esto debido a que, para las siguientes fases, es necesario conocer el comportamiento de configuraciones conocidas.
+	\item \textbf{Diseño, desarrollo e implementación del simulador}: Se construye una herramienta computacional capaz de simular autómatas celulares bidimensionales. Aunque el fin último es estudiar los autómatas celulares neuronales, este simulador debe poder aceptar configuraciones clásicas. Esto se debe a que, para las siguientes fases, es necesario conocer el comportamiento de configuraciones conocidas.
 	
 	\item \textbf{Diseño, desarrollo e integración del módulo de red neuronal artificial}: Se implementa un módulo adicional que permite entrenar una red neuronal artificial para aprender el comportamiento de autómatas celulares existentes. La salida de este módulo es la función de transición aprendida. Además, este módulo se integra dentro del simulador principal para permitir la experimentación directa.
 	
@@ -120,11 +122,11 @@ El desarrollo de un simulador de sistemas complejos mediante autómatas celulare
 
 La elección de estas tecnologías responde a criterios de compatibilidad, escalabilidad, facilidad de implementación y disposición de herramientas específicas para el procesamiento de datos e inteligencia artificial. 
 
-Con el fin de proporcionar una visión clara y comprensiva de las bases técnicas del proyecto, a continuación se presentan tanto el área de estudio, elementos clave para orientar el desarrollo del simulador y validarlo, como los fundamentos y el contexto de las tecnologías utilizadas, así como los entornos de trabajo que hacen posible este trabajo. 
+Con el fin de proporcionar una visión clara y completa de las bases técnicas del proyecto, a continuación se presentan el área de estudio (elementos clave para orientar el desarrollo del simulador y validarlo), los fundamentos y el contexto de las tecnologías utilizadas, y los entornos de trabajo que hacen posible este proyecto. 
 
 \subsection{Fundamentos y contexto de las tecnologías}
 
-Un lenguaje de programación es una herramienta que permite el desarrollo de \textit{software} y programas para computadora. Son empleados para diseñar programas encargados de definir el comportamiento físico y lógico de una computadora \cite{uapa2025_lenguajes}.
+Un lenguaje de programación es una herramienta que permite el desarrollo de \textit{software} y programas para computadora. Se emplea para diseñar programas encargados de definir el comportamiento físico y lógico de una computadora \cite{uapa2025_lenguajes}.
 
 Debido a que la elección del entorno y lenguaje de programación resulta crítica para el éxito de cualquier proyecto, es importante considerar las metas y alcances del mismo, puesto que no todos los lenguajes son óptimos para resolver ciertos tipos de problemas \cite{clickpanda2023_entorno}.
 
@@ -172,16 +174,16 @@ Además de ser gratuito, se puede integrar bien en todos los equipos y sistemas.
 	\item Se puede trasladar a través de diferentes sistemas operativos de computadora.
 \end{itemize}
 
-En adición a lo anterior, cuenta con una amplia colección de bibliotecas y \textit{frameworks} diseñados para tareas que resultaron muy convenientes en el desarrollo de simuladores. Se detallan tanto bibliotecas como \textit{frameworks} a utilizar a continuación.
+En adición a lo anterior, cuenta con una amplia colección de bibliotecas y \textit{frameworks} diseñados para tareas que resultaron muy convenientes en el desarrollo de simuladores. A continuación se detallan tanto las bibliotecas como los \textit{frameworks} a utilizar.
 
 \begin{itemize}
 	\item\textbf{NumPy} es una biblioteca de Python especializada en el cálculo numérico y el análisis de datos. Es ideal para el manejo de grandes volúmenes de datos \cite{alfaro_numpy}.
 	
 	Puede hacer operaciones hasta 50 veces más rápido que las listas normales usando un objeto llamado arreglo que permite representar colecciones de datos en varias dimensiones \cite{alfaro_numpy}.
 	
-	\item\textbf{PyTorch} es una biblioteca de tensores optimizada para el aprendizaje profundo utilizando GPU y CPU \cite{pytorch_1}. Se emplea para crear redes neuronales, combinando la biblioteca de aprendizaje automático (ML, \textit{machine learning}) de Torch con una API de alto nivel basada en Python. 
+	\item\textbf{PyTorch} es una biblioteca de tensores optimizada para el aprendizaje profundo utilizando GPU y CPU \cite{pytorch_1}. Se emplea para crear redes neuronales, combinando la biblioteca de aprendizaje automático de Torch con una API (\textit{Application Programming Interface}, interfaz de programación de aplicaciones) de alto nivel basada en Python. 
 	
-	Es uno de los marcos de ML destinados a comunidades académicas y de investigación por su flexibilidad y sencillez de uso, además de admitir una amplia variedad de estructuras de redes neuronales \cite{pytorch_2}.
+	Es uno de los marcos de aprendizaje automático destinados a comunidades académicas y de investigación por su flexibilidad y sencillez de uso, además de admitir una amplia variedad de estructuras de redes neuronales \cite{pytorch_2}.
 	
 	\item \textbf{PyQt5 / PySide6} son herramientas que permiten usar Python como un lenguaje alternativo de desarrollo de aplicaciones a C++ en todas las plataformas soportadas \cite{qt_1}. PyQt5 también puede integrarse en aplicaciones basadas en C++ para permitir a los usuarios de dicho \textit{software} configurar o mejorar la funcionalidad de las mismas, mientras que PySide6 ofrece compatibilidad oficial con las bibliotecas Qt desarrolladas por The Qt Company \cite{qt_2}.
 	
@@ -211,11 +213,11 @@ Es un sistema de computación científica que sigue el paradigma de programació
 	\item Documentos interactivos: Se trabaja en cuadernos, los cuales mezclan código ejecutable, texto enriquecido, imágenes y modelos interactivos.
 \end{itemize}
 
-Adicionalmente, en Wolfram Mathematica existen funciones nativas para construir, evolucionar, manipular y analizar autómatas celulares. Por lo que su uso como medio de referencia en la construcción del simulador y como herramienta de análisis de datos resulta fundamental (Wolfram Mathematica no tiene interacción directa con el simulador, únicamente se usa para el estudio de los resultados obtenidos mediante el simulador).
+Adicionalmente, en Wolfram Mathematica existen funciones nativas para construir, evolucionar, manipular y analizar autómatas celulares, por lo que su uso como medio de referencia en la construcción del simulador y como herramienta de análisis de datos resulta fundamental (Wolfram Mathematica no tiene interacción directa con el simulador, únicamente se usa para el estudio de los resultados obtenidos mediante el simulador).
 
 \subsection{Entornos de trabajo}
 
-El desarrollo del presente proyecto requiere de un entorno flexible y bien estructurado que facilite tanto la construcción como la validación de los distintos componentes del sistema. Para ello, se han seleccionado diversas plataformas que permiten organizar tareas, escribir y probar código, almacenar datos, así como documentar y presentar avances de manera clara y profesional.
+El desarrollo del presente proyecto requiere de un entorno flexible y bien estructurado que facilite tanto la construcción como la validación de los distintos componentes del sistema. Para ello, se han seleccionado diversas plataformas que permiten organizar tareas, escribir y probar código, almacenar datos, así como documentar y presentar avances.
 
 \subsubsection{Plataformas de desarrollo}
 

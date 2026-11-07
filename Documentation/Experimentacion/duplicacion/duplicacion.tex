@@ -1,9 +1,18 @@
-\section{Duplicación de reglas}
+\chapter{Replicación de comportamientos conocidos}
+
+Una vez construido, validado e implementado el simulador, el siguiente paso es la experimentación con el objetivo de replicar el comportamiento de sistemas complejos. 
+
+En este capítulo y en el siguiente se exponen seis experimentos realizados con el simulador para entrenar autómatas celulares neuronales, con un análisis paralelo mediante Mathematica. Los experimentos se dividen en dos series:
+
+\begin{enumerate}
+	\item \textbf{Replicación de comportamientos conocidos} (este capítulo). Se entrena el autómata celular neuronal con evoluciones de reglas bien conocidas (juego de la vida, \textit{sandpile} y hormiga de Langton) para medir su capacidad de recuperar la regla a partir de la evolución y la vecindad.
+	\item \textbf{Replicación de sistemas complejos naturales} (capítulo \ref{chap:naturales}). Se entrena con evoluciones obtenidas de sistemas reales sin una regla de transición conocida: la propagación de un incendio, el movimiento de tormentas y el crecimiento de un moho mucilaginoso. Cada sistema requiere su propio método de limpieza para llevar los datos al formato $(T, n, n)$ del simulador.
+\end{enumerate}
 
 El objetivo de esta primera serie de experimentos es replicar el comportamiento de evoluciones conocidas para identificar las capacidades y limitaciones del autómata celular neuronal en entornos controlados. 
 
 Primero se realizan experimentos sobre el juego de la vida de John Conway. Se usa como base la regla B3/S23, se caracteriza la regla y posteriormente se definen los hiperparámetros y las condiciones necesarias para que el autómata celular neuronal pueda replicar (o intentar replicar) el comportamiento de dicha regla. 
 
-Posteriormente se experimenta sobre \textit{sandpile}: un sistema autoorganizado que consiste en una cuadrícula y un generador de arena que cuando se llena dispersa la arena en sus vecinos cercanos. 
+Posteriormente se experimenta sobre \textit{sandpile}: un sistema autoorganizado que consiste en una cuadrícula y un generador de arena que, cuando se llena, dispersa la arena en sus vecinos cercanos. 
 
 Finalmente, se replica la hormiga de Langton mediante un autómata celular. La hormiga de Langton es un agente reactivo en un espacio bidimensional que sigue una serie de instrucciones según su posición.

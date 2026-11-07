@@ -1,19 +1,19 @@
-\subsection{Simulación de tormentas}
+\section{Simulación de tormentas}
 
-El segundo sistema natural es el movimiento de tormentas. A diferencia del fuego, que unicamente se desplaza sobre terreno que no haya sido quemado, una tormenta des desplaza con e viento, crece, se debilita e incluso puede aparecer en zonas donde antes no existía.
+El segundo sistema natural es el movimiento de tormentas. A diferencia del fuego, que únicamente se desplaza sobre terreno que no haya sido quemado, una tormenta se desplaza con el viento, crece, se debilita e incluso puede aparecer en zonas donde antes no existía.
 
-Para entrenar el autómata celular neurona, se utiliza el conjunto de datos SEVIR (\textit{Storm EVent ImagRy}) que contiene mas de $10{,}000$ eventos meteorológicos registrados en Estados Unidos entre 2017 y 2019. Cada evento tiene 49 imágenes que capturan un área de $384 \times 384$ km cada 5 minutos por periodos de 4 horas. Contiene imágenes de radar y satelital, de las cuales se hace uso unicamente de las imágenes VIL (\textit{vertically integrated liquid}) que mide la cantidad de agua líquida en la columna de aire, es decir, miden la cantidad de lluvia por región fuerte la lluvia. 
+Para entrenar el autómata celular neuronal, se utiliza el conjunto de datos SEVIR (\textit{Storm EVent ImagRy}), que contiene más de $10{,}000$ eventos meteorológicos registrados en Estados Unidos entre 2017 y 2019. Cada evento tiene 49 imágenes que capturan un área de $384 \times 384$ km cada 5 minutos por periodos de 4 horas. Contiene imágenes de radar y de satélite, de las cuales únicamente se usan las imágenes VIL (\textit{vertically integrated liquid}), que miden la cantidad de agua líquida en la columna de aire, es decir, miden la cantidad de lluvia por región fuerte la lluvia. 
 
-\subsubsection{Preprocesamiento de los datos}
+\subsection{Preprocesamiento de los datos}
 
 Para la limpieza del conjunto de datos, se procedió de la siguiente manera:
 
 \begin{enumerate}
 	\item Escalado de la evolución: Cada imagen se reduce de $384 \times 384$ a $96 \times 96$ células promediando bloques de $4 \times 4$ píxeles, por lo que cada célula representa 4 km. Con esta escala, una tormenta avanza alrededor de una célula por paso, lo que permite capturar su movimiento con una vecindad pequeña.
 
-	\item Discretización: Se utilizan 6 umbrales propuesto por los autores para evaluar pronósticos (16, 74, 133, 160, 181 y 219, en la escala de 0 a 255 del conjunto de datos), lo que da 7 estados: el estado 0 indica que no hay lluvia y el estado 6, la lluvia más intensa. Se considera que una célula tiene tormenta si su estado es 2 o mayor, es decir, si su VIL es de al menos 74. La figura \ref{fig:sevir_preprocesamiento} muestra el resultado de ambos pasos.
+	\item Discretización: Se utilizan 6 umbrales propuestos por los autores para evaluar pronósticos (16, 74, 133, 160, 181 y 219, en la escala de 0 a 255 del conjunto de datos), lo que da 7 estados: el estado 0 indica que no hay lluvia y el estado 6, la lluvia más intensa. Se considera que una célula tiene tormenta si su estado es 2 o mayor, es decir, si su VIL es de al menos 74. La figura \ref{fig:sevir_preprocesamiento} muestra el resultado de ambos pasos.
 
-	\item Selección de eventos: Se eligen al azar solo los eventos que tengan al menos 2\% de tormenta desde la primera imagen. El conjunto de entrenamiento tiene 40 tormentas y el de prueba 20.
+	\item Selección de eventos: Se eligen al azar solo los eventos que tengan al menos 2\% de tormenta desde la primera imagen. El conjunto de entrenamiento tiene 40 tormentas y el de prueba, 20.
 \end{enumerate}
 
 \definecolor{sevir0}{HTML}{F2F2F2}\definecolor{sevir1}{HTML}{9BE39B}\definecolor{sevir2}{HTML}{2E9E3A}
@@ -34,11 +34,11 @@ Para la limpieza del conjunto de datos, se procedió de la siguiente manera:
 	\label{fig:sevir_preprocesamiento}
 \end{figure}
 
-\subsubsection{Capacidad de replicación}
+\subsection{Capacidad de replicación}
 
 Se probaron 4 configuraciones: vecindad de $5 \times 5$ (25 vecinos) o de $9 \times 9$ (81 vecinos) con capas ocultas de 2:32:ReLU o 3:64:ReLU y 7:Linear en la capa de salida. Todas usan \textit{one-hot encoding} y fueron entrenadas durante 30 épocas con entropía cruzada como función de pérdida, una tasa de aprendizaje inicial de 0.001 con reducción exponencial hasta 0.00001, un tamaño del lote de 8,192, frontera abierta y semilla aleatoria 42. El conjunto de entrenamiento contiene 17,694,720 muestras.
 
-Al igual que en FLAME3, las redes se comparan con la predicción sin cambio, es decir, la imagen igual a la actual y se mide mediante: (1) La exactitud: porcentaje de células con el estado correcto; y (2) el area de tormenta: similitud entre el área con tormenta entre la simulación y la real.
+Al igual que en FLAME~3, las redes se comparan con la predicción sin cambio, es decir, suponer que la siguiente imagen es igual a la actual, y se miden mediante: (1) la exactitud: porcentaje de células con el estado correcto; y (2) el área con tormenta: similitud entre el área con tormenta de la simulación y la real.
 
 La tabla \ref{tab:sevir_resultados} muestra los resultados. Las 4 configuraciones superan a la predicción sin cambio en todas las medidas, aunque por poco: en un paso aciertan entre el 89.30 y el 89.37\% de las células, contra el 87.64\% de la predicción sin cambio. En la simulación libre, el área con tormenta se parece a la real entre un 4 y un 5\% más que la de la predicción sin cambio a los 30, 60 y 120 minutos. Las diferencias entre configuraciones son muy pequeñas: aumentar la vecindad o el tamaño de la red reduce la pérdida, pero no mejora la simulación libre.
 
@@ -79,11 +79,11 @@ Esto también se observa en la figura \ref{fig:sevir_area}, donde el área de la
 	\label{fig:sevir_area}
 \end{figure}
 
-Este comportamiento tiene una explicación: cuando la red no puede saber si una célula va a llover más o menos, elige el estado más probable según los datos de entrenamiento, que casi siempre es uno de menos lluvia. Paso a paso, esta elección borra los detalles y debilita las tormentas. Al igual que en FLAME 3, la dinámica depende de variables que no están en las imágenes, como la temperatura, la humedad o el viento a distintas alturas, por lo que la vecindad no contiene toda la información necesaria para predecir el siguiente paso.
+Este comportamiento tiene una explicación: cuando la red no puede saber si en una célula va a llover más o menos, elige el estado más probable según los datos de entrenamiento, que casi siempre es uno de menos lluvia. Paso a paso, esta elección borra los detalles y debilita las tormentas. Al igual que en FLAME~3, la dinámica depende de variables que no están en las imágenes, como la temperatura, la humedad o el viento a distintas alturas, por lo que la vecindad no contiene toda la información necesaria para predecir el siguiente paso.
 
-\subsubsection{Barrido de configuraciones}
+\subsection{Barrido de configuraciones}
 
-Fueron realizados entrenamientos adicionales con el objetivo de descartar limitaciones en la configuración de la red neuronal. Se realizaron barridos con más tormentas, redes mas grandes y mas vecindades. Fueron seleccionadas 1,996 tormentas que cumplen la condición de selección para entrenar y 200 tormentas de 2019 para la prueba.
+Fueron realizados entrenamientos adicionales con el objetivo de descartar limitaciones en la configuración de la red neuronal. Se realizaron barridos con más tormentas, redes más grandes y más vecindades. Fueron seleccionadas 1,996 tormentas que cumplen la condición de selección para entrenar y 200 tormentas de 2019 para la prueba.
 
 El programa de entrenamiento guarda en memoria la vecindad de cada célula de cada paso, por lo que 40 tormentas completas con la vecindad de $11 \times 11$ ya ocupan cerca de 9 GB. Para usar más tormentas sin rebasar ese límite, de cada tormenta se toman solo algunas transiciones, es decir, pares de imágenes consecutivas, elegidas al azar.
 
@@ -186,7 +186,7 @@ En la segunda fase (tabla \ref{tab:sevir_barrido_tormentas}), las 4 redes mejora
 		& & 1,000 & 2 & 82.57\% & 40.23\% & 26.82\%  \\
 		\bottomrule
 	\end{tabular}
-	\caption{Segunda fase del barrido: las 4 mejores redes de la primera fase (entrada lineal) entrenadas con más tormentas. Con 48 transiciones se usa la tormenta completa. Con la vecindad circular de radio 5 caben 7 transiciones de 400 tormentas y 3 de 1,000, con las demás, solo 5 y 2.}
+	\caption{Segunda fase del barrido: las 4 mejores redes de la primera fase (entrada lineal) entrenadas con más tormentas. Con 48 transiciones se usa la tormenta completa. Con la vecindad circular de radio 5 caben 7 transiciones de 400 tormentas y 3 de 1,000; con las demás, solo 5 y 2.}
 	\label{tab:sevir_barrido_tormentas}
 \end{table}
 
@@ -195,7 +195,7 @@ En la tercera fase (tabla \ref{tab:sevir_barrido_estabilidad}), las semillas ale
 \begin{table}[htbp]
 	\centering
 	\footnotesize
-	\setlength{\tabcolsep}{4pt}
+	\setlength{\tabcolsep}{2.5pt}
 	\begin{tabular}{@{}ccccccc@{}}
 		\toprule
 		& & \multicolumn{2}{c}{\textbf{Un paso}} & \multicolumn{2}{c}{\textbf{Área con tormenta en}} & \textbf{Tormenta simulada} \\
@@ -214,13 +214,14 @@ En la tercera fase (tabla \ref{tab:sevir_barrido_estabilidad}), las semillas ale
 	\label{tab:sevir_barrido_estabilidad}
 \end{table}
 
-\subsubsection{Desplazamiento de las tormentas}
+\subsection{Desplazamiento de las tormentas}
 
 Para saber qué aprendió la red, se midió cuánto se desplaza cada tormenta en 60 minutos, buscando el corrimiento de la primera imagen que mejor coincide con las células con tormenta a los 60 minutos. La tabla \ref{tab:sevir_desplazamiento} muestra que la red mueve casi todas las tormentas hacia el este, que es la dirección más común en los Estados Unidos, con mucha menos variación que las tormentas reales. La relación entre el desplazamiento de la red y el real es débil: la red se equivoca en promedio por unas 5 células, mientras que mover todas las tormentas con el desplazamiento promedio se equivoca por unas 6.
 
 \begin{table}[htbp]
 	\centering
 	\footnotesize
+	\setlength{\tabcolsep}{2pt}
 	\begin{tabular}{@{}cccc@{}}
 		\toprule
 		& \textbf{Desplazamiento promedio} & \textbf{Variación entre tormentas} & \textbf{Relación con el real} \\

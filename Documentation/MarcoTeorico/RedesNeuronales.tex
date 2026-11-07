@@ -2,15 +2,15 @@
 
 Las redes neuronales artificiales son una herramienta de inteligencia artificial inspirada en el pensamiento humano, más específicamente, en cómo un conjunto de neuronas interconectadas comparte información para realizar inferencias. 	
 
-Las redes neuronales tienen su origen en 1943, cuando McCulloch y Pitts propusieron un modelo que establecería las bases del perceptrón. Posteriormente, en 1957, Rosenblatt formalizó su implementación computacional, pero no fue hasta los años ochenta cuando tuvo un impacto en su implementación gracias al surgimiento de la retropropagación y de las redes recurrentes \cite{matich2001_ann}.
+Las redes neuronales tienen su origen en 1943, cuando McCulloch y Pitts propusieron un modelo que establecería las bases del perceptrón. Posteriormente, en 1957, Rosenblatt formalizó su implementación computacional, pero no fue hasta los años ochenta cuando su implementación tuvo impacto, gracias al surgimiento de la retropropagación y de las redes recurrentes \cite{matich2001_ann}.
 
 Las redes neuronales artificiales son un conjunto de neuronas o módulos computacionales interconectados que realizan cálculos y transmiten información para llevar a cabo una operación, imitando el comportamiento del cerebro.
 
-Sin embargo, para entender este modelo, es necesario tener los fundamentos de inteligencia artificial y la clasificación de aprendizaje supervisado. Es por esto que en este capítulo, se describen términos como inteligencia artificial, aprendizaje supervisado, la composición, estructura y comportamiento de las redes neuronales y algunos tipos de ellas. 
+Sin embargo, para entender este modelo, es necesario tener los fundamentos de inteligencia artificial y la clasificación de aprendizaje supervisado. Es por esto que en este capítulo se describen términos como inteligencia artificial, aprendizaje supervisado, la composición, estructura y comportamiento de las redes neuronales y algunos tipos de ellas. 
 
 \section{Inteligencia artificial}
 
-La inteligencia artificial fue definida por primera vez por John McCarthy en 1955 como \textit{la ciencia e ingeniería de hacer máquinas inteligentes} \cite{Manning2020_ai}. Es un término que ha ido evolucionando a lo largo de los años y con diferentes interpretaciones. Para el objetivo de esta investigación y siguiendo a \cite{Manning2020_ai, google2025_ai, mccarthy2007_ai}, se sigue la siguiente definición:
+La inteligencia artificial fue definida por primera vez por John McCarthy en 1955 como \textit{la ciencia e ingeniería de hacer máquinas inteligentes} \cite{Manning2020_ai}. Es un término que ha ido evolucionando a lo largo de los años y con diferentes interpretaciones. Para el objetivo de esta investigación, y con base en \cite{Manning2020_ai, google2025_ai, mccarthy2007_ai}, se adopta la siguiente definición:
 
 \begin{definition}
 	La inteligencia artificial es la ciencia que utiliza modelos computacionales para crear sistemas capaces de realizar tareas que, si fueran hechas por humanos, requerirían inteligencia.
@@ -24,14 +24,14 @@ Por lo que, con base en \cite{oracle2025_ml, ibm_ml}, podemos definir al aprendi
 	El aprendizaje automático es la disciplina que permite a las computadoras mejorar su desempeño en una tarea mediante la experiencia con datos, sin necesidad de instrucciones explícitas.
 \end{definition}
 
-Esta tecnología funciona trabajando a través del entrenamiento de algoritmos en conjuntos de datos para conseguir un resultado esperado. Es el proceso de optimizar el modelo para que pueda predecir la respuesta correcta. A mayor calidad en los datos de entrenamiento, mayor precisión se tendrá en el modelo \cite{google_ml}.
+Esta tecnología funciona mediante el entrenamiento de algoritmos en conjuntos de datos para conseguir un resultado esperado. Es el proceso de optimizar el modelo para que pueda predecir la respuesta correcta. A mayor calidad en los datos de entrenamiento, mayor precisión se tendrá en el modelo \cite{google_ml}.
 
-El entrenamiento se refiere al proceso de enseñarle a un modelo de inteligencia artificial a realizar una o varias tareas mediante la exposición a grandes cantidades de datos \cite{main2023_training}. Este proceso facilita a los humanos el proceso de análisis de extensos volúmenes, especialmente en la era actual, donde se generan más datos que nunca en la historia \cite{oracle2024_big_data}.
+El entrenamiento se refiere al proceso de enseñarle a un modelo de inteligencia artificial a realizar una o varias tareas mediante la exposición a grandes cantidades de datos \cite{main2023_training}. Este proceso facilita a los humanos el análisis de extensos volúmenes de datos, especialmente en la era actual, donde se generan más datos que nunca en la historia \cite{oracle2024_big_data}.
 
 Dentro del aprendizaje automático se definen tres métodos mediante los cuales una computadora puede aprender. Estos métodos son aprendizaje supervisado, no supervisado y por refuerzo.
 
 \begin{itemize}
-	\item El aprendizaje supervisado se caracteriza por el uso de conjuntos de datos etiquetados para entrenar algoritmos que clasifiquen datos o predigan resultados con precisión. Durante el proceso de entrenamiento, el modelo recibe entradas junto con las salidas correctas, lo que le permite al modelo ajustar sus parámetros hasta que sea capaz de realizar predicciones precisas sobre nuevos datos \cite{ibm_ml}. 
+	\item El aprendizaje supervisado se caracteriza por el uso de conjuntos de datos etiquetados para entrenar algoritmos que clasifiquen datos o predigan resultados con precisión. Durante el proceso de entrenamiento, el modelo recibe entradas junto con las salidas correctas, lo que le permite ajustar sus parámetros hasta que sea capaz de realizar predicciones precisas sobre nuevos datos \cite{ibm_ml}. 
 	
 	\item El aprendizaje no supervisado, a diferencia del supervisado, no necesita de un conjunto de datos etiquetados generados por el ser humano. Este tipo de aprendizaje puede descubrir patrones y estadísticas sin ninguna orientación o instrucción explícita \cite{google_u_ml}. 
 	
@@ -51,7 +51,7 @@ IBM \cite{ibm_ml} menciona algunos de los algoritmos más comunes de aprendizaje
 	\item \textbf{Redes neuronales:} Simulan el funcionamiento del cerebro humano, con un gran número de nodos de procesamiento conectados entre sí, llamados neuronas.
 \end{enumerate}
 
-Las redes neuronales presentan ventajas que pueden llegar a agilizar y optimizar recursos de las organizaciones que las implementan \cite{adobe_ml}: mejora la productividad, reduce el error humano, mejora la disponibilidad de servicios, reduce tareas repetitivas, descubre patrones ocultos a simple vista, entre otros.
+Las redes neuronales presentan ventajas que pueden llegar a agilizar y optimizar recursos de las organizaciones que las implementan \cite{adobe_ml}: mejoran la productividad, reducen el error humano, mejoran la disponibilidad de servicios, reducen tareas repetitivas, descubren patrones ocultos a simple vista, entre otras.
 
 Para comprender cómo las redes neuronales logran estas capacidades, es necesario explorar primero los fundamentos que inspiraron el desarrollo. En particular, su diseño es una abstracción de las neuronas biológicas, cuya estructura y funcionamiento ofrecen una analogía para el procesamiento de la información.
 
@@ -96,7 +96,7 @@ La neurona artificial se considera como una unidad de procesamiento de informaci
 	\item El cuerpo se sustituye por dos funciones: (1) una función de agregación que combina todos los datos de entrada (generalmente es una combinación lineal entre las entradas y los pesos sinápticos) y (2) una función de activación que determina si la neurona está activa y en qué grado. 
 \end{itemize}
 
-La cual se suele representar como en la figura \ref{fig:neurona_artificial}.
+La neurona artificial se suele representar como en la figura \ref{fig:neurona_artificial}.
 
 \begin{figure}[!htbp]
 	
@@ -241,7 +241,7 @@ La función ReLU se define por partes:
 \[
 f(x) = \max(0, x).
 \]
-Activa linealmente las entradas positivas y pone a cero las negativas. Es sencilla y computacionalmente eficiente, favorece activaciones dispersas y reduce en la práctica el problema del gradiente desvanecido en redes profundas. Muy utilizada en capas ocultas de arquitecturas modernas. Tiene la desventaja de poder provocar neuronas ``muertas'' (gradiente cero para entradas negativas), problema que funciones como Leaky ReLU intentan corregir.
+Activa linealmente las entradas positivas y pone a cero las negativas. Es sencilla y computacionalmente eficiente, favorece activaciones dispersas y reduce en la práctica el problema del gradiente desvanecido en redes profundas. Es muy utilizada en capas ocultas de arquitecturas modernas. Tiene la desventaja de poder provocar neuronas ``muertas'' (gradiente cero para entradas negativas), problema que funciones como Leaky ReLU, una función que asigna valores negativos pequeños cuando la entrada es menor que cero, intentan corregir.
 \begin{figure}[!htbp]
 	\centering
 	\includegraphics[width=0.5\textwidth]{img/marcoTeorico/relu.png}
@@ -251,13 +251,7 @@ Activa linealmente las entradas positivas y pone a cero las negativas. Es sencil
 
 \subsection{Aprendizaje en redes neuronales}
 
-Una red neuronal artificial con los parámetros entrenables totalmente configurados es capaz de realizar su clasificación o predicción de manera correcta. Sin embargo, resulta imposible configurar estos pesos manualmente, por lo que requiere de un ``entrenamiento'' que ayude a definir los pesos sinápticos. A continuación se define la función de pérdida, optimización y entrenamiento, elementos necesarios para obtener esa configuración específica.
-
-En los primeros modelos, la actualización de los pesos se realizaba a partir del error cuadrático del valor de activación. La regla de actualización se expresaba como:
-\[
-	\Delta w_j = \eta (c - a) x_j
-\]
-donde $c$ representa la salida esperada, $a$ la activación y $\eta$ la tasa de aprendizaje. Este método permitió superar la no diferenciabilidad de la función escalón en los perceptrones originales \cite{matich2001_ann}.
+Una red neuronal artificial con los parámetros entrenables totalmente configurados es capaz de realizar su clasificación o predicción de manera correcta. Sin embargo, resulta imposible configurar estos pesos manualmente, por lo que requiere de un ``entrenamiento'' que ayude a definir los pesos sinápticos. A continuación se definen la función de pérdida, la optimización y el entrenamiento, elementos necesarios para obtener esa configuración específica.
 
 \subsubsection{Función de pérdida}
 
@@ -279,6 +273,24 @@ Es importante que la función de pérdida sea diferenciable. El gradiente de la 
 
 Las funciones de pérdida se pueden utilizar para regresión y para clasificación. La primera mide el error en valores continuos y se utiliza para estimar magnitudes como el precio, el tamaño y el tiempo. La segunda mide los errores en valores discretos, como la clasificación o la categoría.
 
+Algunos ejemplos de funciones de pérdida, con $\hat{y} = F_\theta(x)$ la predicción de la red y $m$ el número de valores de salida, son los siguientes \cite{hastie2009_esl, goodfellow2016_dl}:
+
+\begin{itemize}
+	\item \textbf{Error cuadrático medio} (\textit{mean squared error}): promedia el cuadrado de las diferencias entre la predicción y la salida esperada, por lo que penaliza más los errores grandes. Se usa en regresión:
+	\[
+	\mathcal{L}_{\text{ECM}}(\hat{y}, y) = \frac{1}{m} \sum_{j = 1}^{m} (\hat{y}_j - y_j)^2
+	\]
+	\item \textbf{Error absoluto medio} (\textit{mean absolute error}): promedia el valor absoluto de las diferencias, por lo que es menos sensible a valores atípicos que el error cuadrático medio. También se usa en regresión:
+	\[
+	\mathcal{L}_{\text{EAM}}(\hat{y}, y) = \frac{1}{m} \sum_{j = 1}^{m} |\hat{y}_j - y_j|
+	\]
+	\item \textbf{Entropía cruzada}: compara la probabilidad que la red asigna a cada clase con la clase esperada, por lo que se usa en clasificación. En su forma binaria, con $y \in \{0, 1\}$ y $\hat{y} \in (0, 1)$:
+	\[
+	\mathcal{L}_{\text{EC}}(\hat{y}, y) = -\left[ y \log \hat{y} + (1 - y) \log (1 - \hat{y}) \right]
+	\]
+	Con $m$ clases se generaliza como $\mathcal{L}_{\text{EC}}(\hat{y}, y) = -\sum_{j = 1}^{m} y_j \log \hat{y}_j$, donde $y_j = 1$ únicamente para la clase esperada y $0$ para el resto.
+\end{itemize}
+
 Distintas funciones de pérdida priorizan diferentes tipos de error; la elección de la función de pérdida dependerá de la tarea que se desea realizar. Además, la función de pérdida únicamente se aplica a una muestra; para una población de muestras, se utiliza la función de costo, que se define a continuación \cite{bergmann_funcion_perdida, ultralytics2025_funcion_perdida}:
 
 \begin{definition}
@@ -299,31 +311,63 @@ Esto se puede conseguir mediante diferentes técnicas, siendo el descenso del gr
 \[
 \theta^{(t + 1)} = \theta^{(t)} - \eta \nabla_\theta J(\theta^{(t)})
 \]
-donde $\eta >0$ es la tasa de aprendizaje. Una tasa de aprendizaje alta puede divergir en la solución, mientras que una tasa baja puede tener una convergencia lenta \cite{matich2001_ann}. 
+donde $\eta >0$ es la tasa de aprendizaje. Una tasa de aprendizaje alta puede hacer que la solución diverja, mientras que una tasa baja puede tener una convergencia lenta \cite{matich2001_ann}. 
 
-En la práctica, es común iniciar el entrenamiento con una tasa de aprendizaje relativamente alta y luego reducirla gradualmente a medida que el modelo converge. También se suele incorporar un término de \textit{momentum} para acelerar la convergencia y reducir oscilaciones \cite{matich2001_ann}.
+Para ilustrar cómo se actualizan los pesos, considérese una red formada por una sola neurona con dos entradas y activación lineal, $\hat{y} = w_1 x_1 + w_2 x_2 + b$, que se entrena con una muestra $x = (x_1, x_2)$ cuya salida esperada es $y$, usando el error cuadrático $\mathcal{L} = (\hat{y} - y)^2$ como función de pérdida. Un paso del descenso del gradiente consta de las siguientes etapas:
+
+\begin{enumerate}
+	\item \textbf{Propagación hacia adelante}: con los parámetros actuales se calcula la predicción $\hat{y}$ a partir de la entrada.
+	\item \textbf{Evaluación de la pérdida}: se compara la predicción con la salida esperada mediante $\mathcal{L} = (\hat{y} - y)^2$; mientras mayor sea la diferencia entre ambas, mayor es la pérdida.
+	\item \textbf{Cálculo del gradiente}: se deriva la pérdida respecto a cada parámetro con la regla de la cadena. Como la pérdida depende de los parámetros únicamente a través de $\hat{y}$, cada derivada es el producto de $\partial \mathcal{L} / \partial \hat{y} = 2(\hat{y} - y)$ por la derivada de $\hat{y}$ respecto al parámetro, que es la entrada que multiplica a cada peso y $1$ para el sesgo:
+	\begin{gather*}
+		\frac{\partial \mathcal{L}}{\partial w_1} = 2(\hat{y} - y)\, x_1, \qquad
+		\frac{\partial \mathcal{L}}{\partial w_2} = 2(\hat{y} - y)\, x_2, \\
+		\frac{\partial \mathcal{L}}{\partial b} = 2(\hat{y} - y)
+	\end{gather*}
+	El signo de cada gradiente indica en qué dirección aumenta la pérdida y su magnitud, qué tanto influye ese parámetro en el error.
+	\item \textbf{Actualización}: cada parámetro se mueve en la dirección opuesta a su gradiente, escalado por la tasa de aprendizaje:
+	\[
+		w_i \leftarrow w_i - \eta\, \frac{\partial \mathcal{L}}{\partial w_i}, \qquad
+		b \leftarrow b - \eta\, \frac{\partial \mathcal{L}}{\partial b}
+	\]
+	Si la predicción fue menor que la salida esperada, los pesos asociados a entradas positivas aumentan y la siguiente predicción es mayor; si fue mayor, ocurre lo contrario.
+\end{enumerate}
+
+Al repetir estas etapas con los parámetros corregidos, la predicción se acerca a la salida esperada y la pérdida disminuye en cada paso. Con una tasa de aprendizaje mayor el avance es más rápido, pero la predicción puede sobrepasar el objetivo y oscilar alrededor de él; con una tasa menor, el avance es más lento pero estable.
+
+En la práctica, es común iniciar el entrenamiento con una tasa de aprendizaje relativamente alta y luego reducirla gradualmente a medida que el modelo converge. Algunas de las funciones para reducir la tasa de aprendizaje, desde un valor inicial $\eta_0$ hasta un valor mínimo $\eta_{\min}$ a lo largo de $T$ épocas, son las siguientes:
+
+\begin{itemize}
+	\item \textbf{Reducción exponencial}: la tasa se multiplica por un factor constante $\gamma \in (0, 1)$ en cada época, $\eta_t = \eta_0 \gamma^t$, de modo que decae de forma geométrica y alcanza $\eta_{\min}$ en la última época \cite{goodfellow2016_dl}.
+	\item \textbf{Reducción por coseno}: la tasa sigue medio periodo de una función coseno, $\eta_t = \eta_{\min} + \frac{1}{2} (\eta_0 - \eta_{\min}) \left( 1 + \cos \frac{\pi t}{T} \right)$, por lo que disminuye lentamente al inicio y al final del entrenamiento y más rápido a la mitad \cite{loshchilov2017_sgdr}.
+	\item \textbf{Reducción por meseta} (\textit{plateau}): la tasa se mantiene mientras la pérdida mejora y se multiplica por un factor (por ejemplo, $0.5$) cuando la pérdida no mejora durante un número dado de épocas, sin bajar de $\eta_{\min}$ \cite{pytorch_1}.
+\end{itemize}
+
+Además del descenso del gradiente básico, existen optimizadores que adaptan el tamaño del paso a cada parámetro. Uno de los más utilizados es Adam, que escala cada actualización con promedios móviles del gradiente y de su cuadrado, lo que lo hace robusto frente a la elección de la tasa de aprendizaje inicial y frente a gradientes ruidosos \cite{kingma2015_adam}.
 
 \subsubsection{Entrenamiento}
 
 Antes del entrenamiento, las variables de entrada deben normalizarse para ajustarse al rango de activación de la red (por ejemplo, $[0,1]$ o $[-1,1]$). Este paso evita que una variable con valores grandes domine la función de agregación y mejora la estabilidad del entrenamiento. Es importante que la normalización preserve la distribución original de los datos y la proporción entre atributos \cite{matich2001_ann}.
 
+Cuando una entrada es categórica, es decir, cuando sus valores son etiquetas sin un orden ni una distancia entre ellas (por ejemplo, los estados de un autómata celular), normalizarla como un número introduce relaciones que no existen, pues la red interpretaría que el valor $2$ está ``entre'' el $1$ y el $3$. En ese caso se utiliza la codificación \textit{one-hot encoding}: una variable con $k$ valores posibles se sustituye por un vector binario de tamaño $k$ con un $1$ en la posición del valor que toma y $0$ en el resto, de modo que todos los valores quedan a la misma distancia entre sí \cite{geron2019_hands_on}.
+
 Finalmente, el entrenamiento consiste en ajustar todos los parámetros $\theta = \{ W^{(l)}, b^{(l)}\}$ para minimizar la función de costo $J(\theta)$ en un conjunto de datos de entrenamiento. Este proceso se compone de las siguientes etapas:
 
 \begin{enumerate}
 	
-	\item Se inicializan los parámetros, generalmente de forma aleatoria: $\theta_0 \sim \mathcal{D}_{init}$
+	\item Se inicializan los parámetros, generalmente de forma aleatoria: $\theta_0 \sim \mathcal{D}_{init}$.
 
-	\item Se hace la propagación hacia adelante o \textit{forward pass}, es decir, para cada entrada $x^{(i)}$ se evalúa $\hat{y}^{(i)} = F_\theta(x^{(i)})$ 
+	\item Se hace la propagación hacia adelante o \textit{forward pass}, es decir, para cada entrada $x^{(i)}$ se evalúa $\hat{y}^{(i)} = F_\theta(x^{(i)})$. 
 
-	\item Se calcula la pérdida: $\mathcal{L}^{(i)} = \mathcal{L}(\hat{y}^{(i)}, y^{(i)})$
+	\item Se calcula la pérdida: $\mathcal{L}^{(i)} = \mathcal{L}(\hat{y}^{(i)}, y^{(i)})$.
 	
 	\item Se calculan los gradientes propagando la información hacia atrás o \textit{backpropagation} utilizando la regla de la cadena.	
 	\[
 	\nabla_\theta J(\theta) = \frac{1}{n} \sum_{i = 1}^{n} \nabla_\theta \mathcal{L} (F_\theta(x^{(i)}), y^{(i)})
 	\]
-	Se actualizan los parámetros mediante la función de optimización: $\theta^{(t + 1)} = \theta^{(t)} - \eta \nabla_\theta J(\theta^{(t)})$
+	Se actualizan los parámetros mediante la función de optimización: $\theta^{(t + 1)} = \theta^{(t)} - \eta \nabla_\theta J(\theta^{(t)})$.
 
-	\item Se repite este proceso sobre un \textit{dataset} hasta la convergencia de la solución o hasta alcanzar un criterio de parada \cite{matich2001_ann}.
+	\item Se repite este proceso sobre un conjunto de datos hasta la convergencia de la solución o hasta alcanzar un criterio de parada \cite{matich2001_ann}.
 	
 	Una vez entrenada la red, puede evaluarse la importancia relativa de las entradas mediante un análisis de sensibilidad. Este procedimiento consiste en:
 	
@@ -337,6 +381,43 @@ Finalmente, el entrenamiento consiste en ajustar todos los parámetros $\theta =
 	De esta manera, se identifica qué variables influyen más en el resultado, lo cual aporta interpretabilidad al modelo \cite{matich2001_ann}.
 	
 \end{enumerate}
+
+Para ilustrar cómo la retropropagación obtiene los gradientes de la etapa 4 \cite{rumelhart1986_backprop}, considérese una red con una entrada $x$, una neurona oculta con activación sigmoide y una neurona de salida con activación lineal:
+\[
+z = w_1 x + b_1, \qquad h = \sigma(z), \qquad \hat{y} = w_2 h + b_2
+\]
+con la pérdida $\mathcal{L} = (\hat{y} - y)^2$ para una muestra $x$ cuya salida esperada es $y$. El procedimiento es el siguiente:
+
+\begin{enumerate}
+	\item \textbf{Propagación hacia adelante}: se calculan y almacenan, capa por capa, los valores intermedios $z$, $h$ y $\hat{y}$, pues la retropropagación los reutiliza.
+	\item \textbf{Error en la salida}: se deriva la pérdida respecto a la predicción, $\delta_2 = \partial \mathcal{L} / \partial \hat{y} = 2(\hat{y} - y)$. Con este valor se obtienen los gradientes de la última capa: la derivada respecto a $w_2$ es $\delta_2$ multiplicado por la entrada de esa neurona, $h$, y la derivada respecto a $b_2$ es $\delta_2$:
+	\[
+		\frac{\partial \mathcal{L}}{\partial w_2} = \delta_2\, h, \qquad
+		\frac{\partial \mathcal{L}}{\partial b_2} = \delta_2
+	\]
+	\item \textbf{Propagación del error a la capa oculta}: el error de la salida se transmite hacia atrás a través del peso $w_2$ y se multiplica por la derivada de la función de activación evaluada en el valor almacenado, $\sigma'(z) = \sigma(z) (1 - \sigma(z))$:
+	\[
+		\delta_1 = \delta_2\, w_2\, \sigma'(z)
+	\]
+	Los gradientes de la primera capa se obtienen de la misma forma que los de la segunda, ahora con $\delta_1$ y la entrada de esa neurona:
+	\[
+		\frac{\partial \mathcal{L}}{\partial w_1} = \delta_1\, x, \qquad
+		\frac{\partial \mathcal{L}}{\partial b_1} = \delta_1
+	\]
+	\item \textbf{Actualización}: cada parámetro se corrige en la dirección opuesta a su gradiente, $\theta \leftarrow \theta - \eta\, \partial \mathcal{L} / \partial \theta$, como en el descenso del gradiente.
+\end{enumerate}
+
+Nótese que el gradiente de la primera capa reutiliza el valor $\delta_2$ ya calculado para la segunda, por lo que cada capa adicional solo agrega un producto más a la cadena: el error se propaga de la salida hacia la entrada pasando por los pesos y por las derivadas de las activaciones de cada capa. Al repetir la propagación hacia adelante con los parámetros corregidos, la predicción se acerca a la salida esperada y la pérdida disminuye.
+
+En la descripción anterior aparecen varios elementos que se fijan antes de entrenar y que no se aprenden durante el entrenamiento. Junto con la topología de la red (número de capas ocultas y de neuronas, y funciones de activación) y la tasa de aprendizaje, se conocen como hiperparámetros \cite{goodfellow2016_dl}:
+
+\begin{itemize}
+	\item \textbf{Época}: un recorrido completo del conjunto de datos de entrenamiento. El entrenamiento suele durar varias épocas, y el número máximo de épocas es uno de los criterios de parada más comunes.
+	\item \textbf{Tamaño del lote}: en lugar de calcular el gradiente con todo el conjunto de datos, cada actualización de los parámetros usa un subconjunto de muestras llamado lote; su tamaño determina cuántas actualizaciones ocurren por época y qué tan ruidoso es el gradiente. A esta variante se le llama descenso del gradiente estocástico.
+	\item \textbf{Criterio de parada}: además del número máximo de épocas, el entrenamiento puede detenerse cuando la pérdida promedio de una época cae por debajo de una pérdida objetivo o cuando deja de mejorar durante cierto número de épocas (detención temprana).
+	\item \textbf{Semilla aleatoria}: la inicialización de los parámetros y el orden de los lotes son aleatorios; fijar la semilla del generador de números aleatorios permite reproducir exactamente un entrenamiento.
+	\item \textbf{Registro del entrenamiento}: cada cierto número de épocas se guardan la época, la pérdida promedio y la tasa de aprendizaje, lo que permite graficar la curva de pérdida y detectar si el modelo converge, diverge o se estanca.
+\end{itemize}
 
 La elección de la topología de la red, en particular el número de neuronas ocultas, suele determinarse empíricamente. Una regla práctica consiste en comenzar con un número de neuronas ocultas similar al número de entradas y ajustar a partir del rendimiento obtenido. Otras heurísticas recomiendan iniciar con el doble de nodos de entrada y reducir gradualmente si se detecta sobreajuste \cite{matich2001_ann}.
 
@@ -358,27 +439,11 @@ En resumen, el entrenamiento de la red neuronal es un proceso iterativo de optim
 
 \section{Tipos de redes neuronales}
 
-Las redes neuronales pueden clasificarse atendiendo a diferentes criterios, ya sea por el número de capas, el tipo de conexiones, el grado de conectividad o la arquitectura general. En este trabajo se han seleccionado dos tipos principales, de manera enunciativa, mas no limitativa, que son especialmente relevantes para su eventual implementación en un autómata celular neuronal: las redes neuronales convolucionales y las recurrentes. La razón de esta elección es la siguiente:
+Las redes neuronales pueden clasificarse atendiendo a diferentes criterios, ya sea por el número de capas, el tipo de conexiones, el grado de conectividad o la arquitectura general. En este trabajo se han seleccionado dos tipos principales, de manera enunciativa, mas no limitativa, que son especialmente relevantes para su eventual implementación en un autómata celular neuronal: las redes neuronales recurrentes y las convolucionales. La razón de esta elección es la siguiente:
 
 Por un lado, las evoluciones de un autómata celular ocurren de forma secuencial en el tiempo, es decir, las entradas y salidas de la red corresponden a estados del espacio celular y, en algunos casos, las reglas pueden tener una relación temporal o reversible. De ahí que las redes recurrentes resulten particularmente apropiadas.
 
 Por otro lado, como se explicará más adelante, se ha demostrado que los autómatas celulares y las redes neuronales convolucionales tienen algunas similitudes, especialmente porque el \textit{kernel} de la red convolucional es similar a la vecindad del autómata celular.
-
-\subsection{Redes neuronales convolucionales}
-
-Las redes neuronales convolucionales constituyen una clase de redes profundas cuya estructura está diseñada para explotar la topología de los datos que tienen forma de rejilla. Por ejemplo, imágenes en dos dimensiones.
-
-Una red neuronal convolucional consta de una capa de entrada, varias capas ocultas (que pueden incluir capas de convolución, normalización, \textit{pooling}, activación, etc.) y una capa de salida.
-
-Se asume un volumen de entrada con dimensiones $(H \times W \times C)$, es decir, altura $H$, anchura $W$ y $C$ canales (por ejemplo, RGB en imágenes). La red maneja este volumen usando filtros deslizantes. Aunque normalmente no se describen en términos de estados discretos de autómatas, se puede entender que cada neurona de una capa representa un estado continuo real (por ejemplo, una activación $a \in \mathbb{R}$).
-
-El elemento clave es su operación de convolución: un filtro (o \textit{kernel}) de tamaño $k \times k$ se desliza sobre la entrada, compartiendo pesos y produciendo mapas de activación. Se puede ver como una vecindad local de la neurona que influye en su valor de activación que se aplica en cada capa de convolución:
-\[
-Y = f(X * K + b)
-\]
-donde $X$ es el volumen de entrada, $K$ es el filtro (o filtros) de convolución, $b$ es el sesgo y $f$ es una función de activación. A continuación pueden seguir operaciones de \textit{pooling} y capas totalmente conectadas para producir la salida final \cite{amidi2025_cnn}.
-
-Se aplica principalmente en clasificación de imágenes, segmentación, reconocimiento de video y procesamiento de audio. En el contexto de los autómatas celulares, se puede ver que el filtro de la red neuronal convolucional es similar a la vecindad del autómata. Esto permite entenderlo como una operación de actualización local que se repite en un espacio organizado, igual que en un autómata celular.
 
 \subsection{Redes neuronales recurrentes}
 
@@ -403,6 +468,22 @@ Estas redes se utilizan frecuentemente en el procesamiento de lenguaje natural, 
 
 Dado que un autómata celular evoluciona en pasos discretos de tiempo y cada uno puede depender del estado previo del sistema, las redes neuronales recurrentes aportan un modelo natural para capturar dependencias temporales entre estados sucesivos del autómata. Esto resulta especialmente útil si la regla del autómata celular tiene memoria o se desea que aprenda dinámicas espaciotemporales.
 
-En conclusión, mientras que las redes neuronales convolucionales capturan la estructura espacial y la vecindad local del sistema, las redes neuronales recurrentes modelan su evolución y persistencia temporal. La integración de ambas capacidades permite que un autómata celular neuronal no solo emule reglas estables, sino que aprenda dinámicas complejas a partir de datos, superando las limitaciones de las reglas de transición diseñadas manualmente.
+\subsection{Redes neuronales convolucionales}
+
+Las redes neuronales convolucionales constituyen una clase de redes profundas cuya estructura está diseñada para explotar la topología de los datos que tienen forma de cuadrícula, por ejemplo, imágenes en dos dimensiones.
+
+Una red neuronal convolucional consta de una capa de entrada, varias capas ocultas (que pueden incluir capas de convolución, normalización, \textit{pooling}\footnote{Operación que resume cada región pequeña de un mapa de activación en un solo valor, por ejemplo, el máximo o el promedio, lo que reduce su tamaño y hace la representación menos sensible a pequeños desplazamientos de la entrada \cite{goodfellow2016_dl}}, activación, etc.) y una capa de salida.
+
+Se asume un volumen de entrada con dimensiones $(H \times W \times C)$, es decir, altura $H$, anchura $W$ y $C$ canales (por ejemplo, RGB en imágenes). La red maneja este volumen usando filtros deslizantes. Aunque normalmente no se describen en términos de estados discretos de autómatas, se puede entender que cada neurona de una capa representa un estado continuo real (por ejemplo, una activación $a \in \mathbb{R}$).
+
+El elemento clave es su operación de convolución: un filtro (o \textit{kernel}) de tamaño $k \times k$ se desliza sobre la entrada, compartiendo pesos y produciendo mapas de activación. Se puede ver como una vecindad local de la neurona que influye en su valor de activación. Esta operación se aplica en cada capa de convolución:
+\[
+Y = f(X * K + b)
+\]
+donde $X$ es el volumen de entrada, $K$ es el filtro (o filtros) de convolución, $b$ es el sesgo y $f$ es una función de activación. A continuación pueden seguir operaciones de \textit{pooling} y capas totalmente conectadas para producir la salida final \cite{amidi2025_cnn}.
+
+Se aplica principalmente en clasificación de imágenes, segmentación, reconocimiento de video y procesamiento de audio. En el contexto de los autómatas celulares, se puede ver que el filtro de la red neuronal convolucional es similar a la vecindad del autómata. Esto permite entenderlo como una operación de actualización local que se repite en un espacio organizado, igual que en un autómata celular.
+
+En conclusión, mientras que las redes neuronales recurrentes modelan la evolución y la persistencia temporal del sistema, las redes neuronales convolucionales capturan su estructura espacial y la vecindad local. La integración de ambas capacidades permite que un autómata celular neuronal no solo emule reglas estables, sino que aprenda dinámicas complejas a partir de datos, superando las limitaciones de las reglas de transición diseñadas manualmente.
 
 \clearpage

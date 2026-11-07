@@ -20,7 +20,7 @@ Un sistema es un conjunto de partes o ``subsistemas'' interrelacionados que act�
 	\label{def_sistema}
 \end{definition}
 
-Es decir, un sistema es un modelo matemático cuyas funciones están limitadas por su estructura, la cual recibe una entrada, realiza una función y devuelve una salida. Un modelo es cualquier abstracción de un proceso realizado por el observador y un proceso es cualquier fenómeno presente en la naturaleza que tenga un objetivo. 
+Es decir, un sistema es un modelo matemático cuyas funciones están limitadas por su estructura, la cual recibe una entrada, realiza una función y devuelve una salida. Un modelo se crea cuando un observador abstrae cualquier proceso, y un proceso es cualquier fenómeno presente en la naturaleza que tenga un objetivo. 
 
 Los sistemas, y en general los modelos, son abstracciones inherentes al proceso original, es decir, un sistema puede referenciar múltiples procesos que tengan ciertas propiedades en común. Por ejemplo, el modelo que examina las fuerzas que interactúan en un objeto en caída libre no depende de especificaciones del objeto como su color o su forma. 
 
@@ -81,7 +81,7 @@ Un sistema estático o sin memoria es aquel que permanece en un estado constante
 	\item Simplicidad: Usualmente son más sencillos en diseño y operación, lo que facilita su implementación. 
 \end{itemize} 
 
-Por otro lado, un sistema dinámico o con memoria es aquel que cambia con el tiempo. Estos tienen la capacidad de adaptarse y responder ante diferentes condiciones de entrada. En otras palabras, es aquel cuya salida en un instante de tiempo depende tanto de entradas en otros como en ese mismo momento. Este se caracteriza por:
+Por otro lado, un sistema dinámico o con memoria es aquel que cambia con el tiempo. Estos tienen la capacidad de adaptarse y responder ante diferentes condiciones de entrada. En otras palabras, es aquel cuya salida en un instante de tiempo depende tanto de las entradas en ese mismo momento como de las entradas en otros instantes. Este se caracteriza por:
 
 \begin{itemize}
 	\item Cambio en el tiempo: Se adapta ante diferentes situaciones y entradas.
@@ -105,7 +105,7 @@ Por otro lado, este es un ejemplo de un sistema dinámico:
 	y[n] = x[n] + x[n-1]
 \end{equation*}
 
-Ya que el valor de $y[n]$ en el instante $n$ requiere conocer el valor actual $x[n]$ y el valor previo $x[n-1]$.
+Se considera dinámico porque el valor de $y[n]$ en el instante $n$ requiere conocer el valor actual $x[n]$ y el valor previo $x[n-1]$.
 
 La evolución de un sistema se lleva a cabo con base en estados: el sistema comienza en un estado $x_0$ y la evolución al estado siguiente depende del estado anterior; además, existe una ley que rige su evolución, y, conociendo esta ley, es posible determinar cualquier estado posterior \cite{Alberto2021_dinamico}.
 
@@ -232,7 +232,7 @@ La función de transición $\Delta$ se caracteriza por:
 
 De acuerdo con \cite{Simon2025_caos}, el caos trata con sistemas cuyo comportamiento es impredecible a largo plazo. Suele ser asociado a sistemas aleatorios o que no tienen un orden, pero en teoría del caos se refiere a todos aquellos sistemas deterministas cuya predicción en instantes de tiempo futuro se vuelve difícil de calcular. 
 
-Las condiciones iniciales suelen contener errores que incrementarán exponencialmente con el tiempo, lo que se conoce como sensibilidad a las condiciones iniciales, haciendo imposible la predicción a largo plazo. Estos se conocen como sistemas caóticos.
+Las condiciones iniciales suelen contener errores que se incrementarán exponencialmente con el tiempo, lo que se conoce como sensibilidad a las condiciones iniciales, haciendo imposible la predicción a largo plazo. Los sistemas con esta propiedad se conocen como sistemas caóticos.
 
 \begin{definition}
 	Sea $X$ un espacio métrico y sea $\phi: X \to X$ una aplicación continua. Se dice que un sistema es caótico si cumple las siguientes condiciones:
@@ -363,7 +363,7 @@ Los sistemas complejos tienen dos implicaciones fundamentales: (1) existe una in
 	Un sistema complejo es una entidad compuesta de partes interconectadas, de tal forma que el comportamiento colectivo es más que la suma de sus componentes individuales.
 \end{definition}
 
-Para entender el comportamiento de un sistema es necesario conocer los elementos y sus interacciones. Es decir, se requiere conocer los estados, valores instantáneos de todos los elementos; y sus transiciones, es decir, los cambios dinámicos en los estados.
+Para entender el comportamiento de un sistema es necesario conocer los elementos y sus interacciones. Es decir, se requiere conocer los estados (los valores instantáneos de todos los elementos) y sus transiciones (los cambios dinámicos en los estados).
 
 Los sistemas complejos se caracterizan principalmente por:
 
@@ -373,7 +373,7 @@ Los sistemas complejos se caracterizan principalmente por:
 
 	\item \textbf{Retroalimentación}: Las salidas pasadas influyen en las siguientes salidas. Este comportamiento hace alusión a la memoria del sistema \cite{Moriello2003_cs}. 
 	
-	\item \textbf{Orden espontáneo}: Existe un orden emergente resultado de las interacciones locales no coordinadas, el cual no puede ser descrito mediante sus interacciones locales \cite{Moriello2003_cs}.
+	\item \textbf{Orden espontáneo}: Existe un orden emergente, resultado de las interacciones locales no coordinadas, el cual no puede ser descrito mediante sus interacciones locales \cite{Moriello2003_cs}.
 	
 	\item \textbf{Aparición (\textit{emergence})}: Entidades, patrones, comportamientos y propiedades emergen de la interacción de entidades más pequeñas, las cuales no exhiben estos atributos \cite{Moriello2003_cs}.
 	
@@ -410,12 +410,12 @@ El proceso, de manera simplificada, se compone de tres fases, como se observa en
 
 %Definir que es simular
 
-Sin embargo, estos modelos suelen carecer de las herramientas necesarias que les permiten deducir las implicaciones lógicas necesarias. Es aquí donde la computación permite agilizar este proceso realizando simulaciones.
+Sin embargo, estos modelos suelen carecer de las herramientas que les permitan deducir las implicaciones lógicas necesarias. Es aquí donde la computación permite agilizar este proceso realizando simulaciones.
 
 Las computadoras permiten explorar y analizar modelos formales para resolver modelos matemáticos. Además, dado que un modelo computacional puede ser definido mediante un modelo matemático, el rol de la computación es simplificar este proceso. Dicho esto, \cite{gamco2024_simulacion} define a la simulación de la siguiente manera:
 
 \begin{definition}
-	Simulación es un proceso computacional que permite imitar el comportamiento de un sistema mediante la utilización de un modelo matemático.
+	La simulación es un proceso computacional que permite imitar el comportamiento de un sistema mediante la utilización de un modelo matemático.
 \end{definition}
 
 Los resultados de la simulación provienen del uso de reglas algorítmicas. Por eso, es necesario ampliar el proceso de abstracción y crear un modelo formal que será utilizado por la computadora, como se muestra en la figura \ref{fig:cs_computacional}.
@@ -432,7 +432,7 @@ Los resultados de la simulación provienen del uso de reglas algorítmicas. Por 
 	
 \end{figure}
 
-Se requiere de un experto en el sistema real que pueda abstraer el problema y un modelador que formalice dicha abstracción para ejecutarla en una computadora que infiera los resultados, mismos que utilizará nuevamente el experto en el sistema real para entablar la relación con el sistema real \cite{Izquierdo2008_modelado}.
+Se requiere de un experto en el sistema real que pueda abstraer el problema y un modelador que formalice dicha abstracción para ejecutarla en una computadora, la cual infiere los resultados. El experto en el sistema real utiliza nuevamente estos resultados para entablar la relación con el sistema real \cite{Izquierdo2008_modelado}.
 
-Para estudiar sistemas complejos hay varias herramientas de simulación. Una de ellas son los autómatas celulares \cite{Torres2025_complejo, sole1996_cs_caos, Hoekstra2010_cs_ca}, los cuales siguen la caracterización de los sistemas complejos: elementos idénticos con interacciones locales que pueden generar orden espontáneo, comportamientos emergentes e incluso retroalimentados. 
+Existen múltiples herramientas que permiten estudiar sistemas complejos; una de ellas son los autómatas celulares \cite{Torres2025_complejo, sole1996_cs_caos, Hoekstra2010_cs_ca}. Estos son sistemas cerrados que únicamente producen información, deterministas y dinámicos, y siguen la caracterización de los sistemas complejos: contienen elementos idénticos con interacciones locales que pueden generar orden espontáneo, comportamientos emergentes y retroalimentación. Estos se exploran en el próximo capítulo. 
 \clearpage

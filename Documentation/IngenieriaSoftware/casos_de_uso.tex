@@ -1,14 +1,20 @@
+% Revisión: la definición y el diagrama de casos de uso van en la misma página
+\clearpage
 \section{Casos de uso}
+
+Un caso de uso describe una interacción completa entre un actor (en este sistema, el usuario) y el sistema para alcanzar un objetivo concreto, como iniciar la simulación o definir la vecindad \cite{ingenieria_1}. La figura \ref{fig:uml_ucd} resume los casos de uso del simulador, agrupados en controles de simulación, configuración del autómata celular, interacción con el espacio celular y entrenamiento del autómata celular neuronal; cada uno se especifica en la sección \ref{sec:especificaciones}.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.95\linewidth]{img/ingenieriaSoftware/uml_ucd.png}
+	\includegraphics[width=0.72\linewidth]{img/ingenieriaSoftware/uml_ucd.png}
 	\caption{Diagrama de casos de uso}
 	\label{fig:uml_ucd}
 \end{figure}
 
 
 \section{Diccionario}
+
+El diccionario enumera y codifica los elementos de la interfaz con los que interactúa el usuario, de modo que las especificaciones de los casos de uso y los diagramas de secuencia puedan referirse a ellos sin ambigüedad. Cada elemento tiene un código formado por un prefijo y un número consecutivo: UI para las interfaces gráficas (los paneles o pestañas del simulador), BTN para los botones, SLD para los deslizadores (\textit{sliders}), IN para las entradas de datos que proporciona el usuario, OUT para las salidas que muestra el sistema y MSG para los mensajes de error o de aviso.
 
 \subsection{Interfaces gráficas}
 \begin{itemize}

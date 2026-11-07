@@ -1,10 +1,10 @@
-\subsection{Simulación de la propagación}
+\section{Simulación de la propagación}
 
 El presente experimento busca analizar la propagación del fuego. Una opción para simularlo pudiera ser mediante la definición manual de la regla que gobierne el sistema. Por ejemplo, podemos definir tres estados: vivo, quemado y quemándose, en donde toda célula viva que tenga un vecino quemándose se quema en el siguiente paso, y toda célula quemándose se apaga. Si bien esta definición podría mostrar dinámicas de propagación, no está definida mediante un sistema real, objetivo de esta investigación.
 
 Este experimento se alimenta del conjunto de datos FLAME~3 \cite{hopkins2024flame3datasetunleashing}, que captura la quema de Hanna Hammock en 2023. Sus autores utilizaron un dron que captura imágenes térmicas con vista cenital\footnote{Cenit: punto más alto en el cielo, ubicado a 90° por encima del observador \cite{plano_cenital}.} para la gestión de incendios forestales. Este conjunto de datos contiene tres carpetas de imágenes: en formato ``tiff'', que registran la temperatura, en ``jpg'' con vista térmica y en ``jpg'' regular.
 
-\subsubsection{Preprocesamiento de los datos}
+\subsection{Preprocesamiento de los datos}
 
 Para la limpieza del conjunto de datos, se procedió de la siguiente manera: 
 
@@ -18,7 +18,7 @@ Para la limpieza del conjunto de datos, se procedió de la siguiente manera:
 	
 	Estos rangos se caracterizan por mostrar la propagación del fuego de un $\sim 2\%$ a un $\sim 86\%$ del espacio en flame\_plot\_1 y de un $\sim 4\%$ a casi el $100\%$ en flame\_plot\_2. Iniciar con fuego dentro del sistema es esencial para que la red neuronal no infiera combustión espontánea. Además, se seleccionan estos rangos por ser los que incluyen una propagación con velocidad constante. 
 
-	\item Ajuste de posición: El dron se mueve por el viento, por lo que un desajuste de varios píxeles significa incrementar la vecindad en cada dirección para capturar el error. Para esto, se opta por la siguiente técnica que ajusta la imagen:
+	\item Ajuste de posición: El dron se mueve por el viento, por lo que un desajuste de varios píxeles obliga a incrementar la vecindad en cada dirección para capturar el error. Para esto, se opta por la siguiente técnica que ajusta la imagen:
 
 	\begin{enumerate}
 		\item Se mide el desplazamiento entre pares de imágenes mediante correlación de fase con precisión de $1/20$ de píxel. Para que el movimiento del fuego no se confunda con el movimiento de la cámara, solo se compara la textura del suelo frío (menos de 50 °C en ambas imágenes y a más de 12 píxeles del fuego).
@@ -31,7 +31,7 @@ Para la limpieza del conjunto de datos, se procedió de la siguiente manera:
 	
 	\item Eliminación de ruido residual: Al desplazar cada imagen, la zona que queda fuera de la imagen original se rellena con píxeles negros (sin dato). Para ello, se extrae de la imagen el cuadrado de mayor tamaño que no tenga ruido en ninguna imagen de la secuencia (esto para ambas secuencias), y se obtiene la imagen reducida, tal como se muestra en la figura \ref{fig:experimentacion:natuales:Flame3:clean_03}.
 	
-	\item Escalado de la evolución: Con la imagen reducida, se aplican operaciones de convolución con el objetivo de reducir el tamaño de la imagen a $100 \times 100$ píxeles y disminuir la complejidad de la dinámica. Sin embargo, aplicar este método tiene la consecuencia de reducir el conjunto de entrenamiento por reducir la cantidad de vecindades que podemos extraer. 
+	\item Escalado de la evolución: Con la imagen reducida, se aplican operaciones de convolución con el objetivo de reducir el tamaño de la imagen a $100 \times 100$ píxeles y disminuir la complejidad de la dinámica. Sin embargo, este método reduce el conjunto de entrenamiento, porque disminuye la cantidad de vecindades que podemos extraer. 
 	
 	 \item Discretización: El objetivo de este experimento es simular la propagación del fuego y no la propagación de la temperatura. Estos datos están estrechamente relacionados, pero si únicamente consideramos los registros de temperatura, ignoramos que el fuego no se puede propagar dos veces por el mismo terreno. Es por esto que el sistema debe conocer cuándo hay un incendio y distinguir si los registros corresponden a su temperatura antes o después del fuego. 
 	 
@@ -80,7 +80,7 @@ Para la limpieza del conjunto de datos, se procedió de la siguiente manera:
 	\label{tab:flame_states_proportion}
 \end{table}
 
-	El resultado se muestra en la figura \ref{fig:flame_clean_process}, que muestra la conversión de una imagen durante cada uno de los pasos ya mencionados. Cabe mencionar que este proceso no se realiza sobre las imágenes ``jpg'' sino sobre las ``tiff'', ya que las primeras ajustan los colores según los rangos de temperatura presentes, por lo que dos temperaturas pueden tener el mismo color asociado en diferentes imágenes, mientras que las ``tiff'' almacenan la temperatura de cada posición.
+	El resultado se muestra en la figura \ref{fig:flame_clean_process}, que presenta la conversión de una imagen durante cada uno de los pasos ya mencionados. Cabe mencionar que este proceso no se realiza sobre las imágenes ``jpg'', sino sobre las ``tiff'', ya que las primeras ajustan los colores según los rangos de temperatura presentes, por lo que dos temperaturas pueden tener el mismo color asociado en diferentes imágenes, mientras que las ``tiff'' almacenan la temperatura de cada posición.
 	
 	\begin{figure}[htbp]
 		\centering
@@ -135,7 +135,7 @@ Para la limpieza del conjunto de datos, se procedió de la siguiente manera:
 
 	Adicionalmente, se hace la distinción entre el error de cuantización y el error de la dinámica: el primero mide qué tanta información se pierde al convertir una temperatura en un estado; no está relacionado con la red neuronal, únicamente mide la pérdida de información al discretizar. El segundo se refiere al error que tiene la red neuronal en su predicción, es decir, compara los datos discretizados con lo que predice la red.
 
-	Por ejemplo, al discretizar en 15 estados con una escala logarítmica, tenemos un error de cuantización de 5.2 °C, es decir, en promedio cada célula difiere de su temperatura original por esa cantidad. A continuación, en la tabla \ref{tab:flame_experiments} se muestran múltiples configuraciones que ayudaron a obtener esta configuración final. El porcentaje de error en la predicción compara la red neuronal entrenada contra no hacer nada, es decir, contra que se quede el mismo estado. Por esto, si es menor al 100\%, significa que la red mejora en relación con no hacer nada; en el caso contrario, es peor que no hacer nada.
+	Por ejemplo, al discretizar en 15 estados con una escala logarítmica, tenemos un error de cuantización de 5.2 °C, es decir, en promedio cada célula difiere de su temperatura original por esa cantidad. A continuación, en la tabla \ref{tab:flame_experiments} se muestran múltiples configuraciones que ayudaron a obtener esta configuración final. El porcentaje de error en la predicción compara la red neuronal entrenada contra no hacer nada, es decir, contra suponer que cada célula conserva el mismo estado. Por esto, si es menor al 100\%, significa que la red mejora en relación con no hacer nada; en el caso contrario, es peor que no hacer nada.
 	
 
 	\begin{table}[htbp]
@@ -223,7 +223,7 @@ Para la limpieza del conjunto de datos, se procedió de la siguiente manera:
 		\label{tab:flame_onehot}
 	\end{table}
 
-	\subsubsection{Capacidad de replicación}
+	\subsection{Capacidad de replicación}
 
 	Con los 18 estados (12 de temperatura y 6 de quemado) se probaron 18 configuraciones: paso de 5, 15 o 30 s (1 \textit{frame} = 5 s); vecindad de $9 \times 9$ (81 vecinos) o dispersa (41 vecinos), y capas ocultas de 2:32:ReLU, 3:64:ReLU o 4:256:ReLU, con capa de salida 18:Linear. Todas usan \textit{one-hot}, por lo que la capa de entrada tiene $81 \times 18 = 1{,}458$ entradas con la vecindad de $9 \times 9$ y $41 \times 18 = 738$ con la dispersa. Cada configuración se entrenó con un conjunto y se probó en el otro: primero se entrena con flame\_plot\_2 y se prueba en flame\_plot\_1, y después al revés. En la prueba, la red parte de la primera imagen y evoluciona sola con sus propias predicciones (simulación libre) hasta el final de la secuencia.
 
@@ -248,7 +248,7 @@ Para la limpieza del conjunto de datos, se procedió de la siguiente manera:
 
 	Todas las configuraciones se entrenaron durante 200 épocas con entropía cruzada como función de pérdida, una tasa de aprendizaje inicial de 0.001 con reducción exponencial hasta 0.00001, un tamaño del lote de 8,192, frontera abierta y semilla aleatoria 42. Para aprovechar todas las imágenes, con un paso de 30 s cada conjunto se divide en 6 secuencias que empiezan en imágenes distintas (0, 6, 12, \dots; 1, 7, 13, \dots; y así hasta 5, 11, 17, \dots) y las 6 se usan para entrenar; con un paso de 15 s se forman 3 secuencias y con uno de 5 s, solo una.
 
-	Para comparar las configuraciones se usan cuatro medidas. Para el área quemada y el área con fuego, un valor de 100\% significa que la simulación libre es idéntica a la real. Para los dos errores, un valor de 100\% significa que la red se equivocó en la misma medida que la predicción sin cambio, menos de 100\% significa que la red es mejor y más de 100\%, que es peor. Por ejemplo, un error de 89\% indica que la red se equivoca 11\% menos que la predicción sin cambio, mientras que uno de 400\% indica que se equivoca cuatro veces más. 
+	Para comparar las configuraciones se usan cuatro medidas. Para el área quemada y el área con fuego, un valor de 100\% significa que la simulación libre es idéntica a la real. Para los dos errores, un valor de 100\% significa que la red se equivocó en la misma medida que la predicción sin cambio; menos de 100\% significa que la red es mejor y más de 100\%, que es peor. Por ejemplo, un error de 89\% indica que la red se equivoca 11\% menos que la predicción sin cambio, mientras que uno de 400\% indica que se equivoca cuatro veces más. 
 	
 	\begin{enumerate}
 		\item El área quemada indica qué tanto se parece el área quemada al final de la simulación libre a la real.
@@ -645,7 +645,7 @@ Para la limpieza del conjunto de datos, se procedió de la siguiente manera:
 
 	Otra consideración fue la dirección de la propagación. Aunque se probó rotar el sistema, las rotaciones añaden ruido, ya que la cámara está orientada hacia el norte y, en ambas pruebas, el viento apunta al este, por lo que las llamas, o las temperaturas, se mueven en esa dirección.
 
-	La red neuronal, a diferencia de los sistemas ya conocidos, no tuvo el mismo éxito al intentar replicar el comportamiento. Sin embargo, algunas de las configuraciones sí pueden utilizarse para mostrarlo. En este caso, la selección visual de los experimentos tuvo como objetivo recoger aquellas configuraciones que podrían simular la propagación del fuego y la colisión de diferentes frentes, con una velocidad constante, sin generación espontánea de fuego y sin que un mismo lugar se queme dos veces.
+	A diferencia de lo que ocurrió con los sistemas ya conocidos, la red neuronal no tuvo el mismo éxito al intentar replicar el comportamiento. Sin embargo, algunas de las configuraciones sí pueden utilizarse para mostrarlo. En este caso, la selección visual de los experimentos tuvo como objetivo recoger aquellas configuraciones que podrían simular la propagación del fuego y la colisión de diferentes frentes, con una velocidad constante, sin generación espontánea de fuego y sin que un mismo lugar se queme dos veces.
 
 	De este experimento podemos concluir que podría ser posible replicar estos sistemas con la cantidad de información suficiente para generalizarlos a cualquier entorno. Se pudieron diseñar autómatas celulares neuronales que propagan el fuego, pero basados únicamente en el registro de temperaturas y no en la geografía, que aportaría información específica para ayudar al sistema.
 	

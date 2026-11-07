@@ -1,42 +1,42 @@
-\subsection{Crecimiento de moho mucilaginoso}
+\clearpage
+\section{Crecimiento de moho mucilaginoso}
 
-El ultimo experimento analiza el crecimiento de moho mucilaginoso, llamado \textit{Physarum polycephalum}, un moho que tiene características excepcionales al ser capaz de resolver laberintos, recordar rutas, adaptarse a obstáculos sin siquiera poseer cerebro o sistema nervioso. 
+El último experimento analiza el crecimiento de moho mucilaginoso, llamado \textit{Physarum polycephalum}, un moho que tiene características excepcionales al ser capaz de resolver laberintos, recordar rutas o adaptarse a obstáculos sin siquiera poseer cerebro o sistema nervioso. 
 
-Este experimento utiliza el conjunto de datos de Harrington y Harrington \cite{harrington2026physarum}. Este incluye fotografias a color del \textit{Physarum polycephalum} creciendo en 24 cajas de Petri de 90 mm que contienen hojuelas de avena que les sirve como alimento.  
+Este experimento utiliza el conjunto de datos de Harrington y Harrington \cite{harrington2026physarum}, el cual incluye fotografías a color del \textit{Physarum polycephalum} creciendo en 24 cajas de Petri de 90 mm que contienen hojuelas de avena que sirven como alimento.  
 
-El conjunto de datos incluye 4 experimentos (001, 002, 008 y 009) de 6 cajas cada uno. Fueron fotografiadas cada 5 minutos (001 y 002) y cada 2 minutos (008 y 009) durante 63 y 141 horas respectivamente. A diferencia de las tormentas, la caja es completamente un sistema cerrado, por lo que no entra nada desde fuera y la condición inicial es la posición del moho y la avena.
+El conjunto de datos incluye 4 experimentos (001, 002, 008 y 009) de 6 cajas cada uno. Fueron fotografiadas cada 5 minutos (001 y 002) y cada 2 minutos (008 y 009) durante 63 y 141 horas, respectivamente. A diferencia de las tormentas, la caja es un sistema completamente cerrado, por lo que no entra nada desde fuera y la condición inicial es la posición del moho y la avena.
 
-
-\subsubsection{Preprocesamiento de los datos}
+\subsection{Preprocesamiento de los datos}
 
 Para la limpieza del conjunto de datos, se procedió de la siguiente manera:
 
 \begin{enumerate}
-	\item La camara se mantiene fija. Sin embargo, existe algunas imagenes que se desplazan hasta 36 pixeles. Para esto, se recortan todas las imagenes para que contengan el mismo círculo. Ademas, se usa unicamente el $90\%$ de la caja de Petri porque las paredes llegan a tener reflejos. 
+	\item La cámara se mantiene fija. Sin embargo, existen algunas imágenes que se desplazan hasta 36 píxeles. Para esto, se recortan todas las imágenes para que contengan el mismo círculo. Además, se usa únicamente el $90\%$ de la caja de Petri porque las paredes llegan a tener reflejos. 
 	
-	\item Cada imagen se convierte en la mediana de las imágenes de $\pm 5$ minutos, lo que elimina os reflejos momentáneos y corrige la iluminación para que el fondo tenga el mismo brillo en toda la caja.
+	\item Cada imagen se convierte en la mediana de las imágenes de $\pm 5$ minutos, lo que elimina los reflejos momentáneos y corrige la iluminación para que el fondo tenga el mismo brillo en toda la caja.
 
-	\item A cada célula se le asigna uno de 6 estados, los cuales corresponden al borde, fondo, avena y la intensidad del plasmodio, adicionalmente, a cada estado se le asignan uno de 4 valores para agregar ruido (se explica mas adelante). En la figura \ref{tab:physarum:states} se muestra la discretización:
+	\item A cada célula se le asigna uno de 6 estados, los cuales corresponden al borde, fondo, avena y la intensidad del plasmodio. Adicionalmente, a cada estado se le asigna uno de 4 valores para agregar ruido (se explica más adelante). En la tabla \ref{tab:physarum:states} se muestra la discretización:
 	
 	\begin{table}[H]
 		\centering
 		\begin{tabular}{c c l}
 			\hline
-			\textbf{Estado} & \textbf{subestados} & \textbf{Valor} \\ \hline
-			0 & 0-3 & Borde que corresponde fuera de la caja \\
+			\textbf{Estado} & \textbf{Subestados} & \textbf{Valor} \\ \hline
+			0 & 0-3 & Borde, que corresponde al exterior de la caja \\
 			1 & 4-7 & Fondo de la caja de Petri \\
 			2 & 8-11 & Avena \\
 			3 & 12-15 & Plasmodio tenue \\
 			4 & 16-19 & Plasmodio medio \\
 			5 & 20-24 & Plasmodio intenso
 		\end{tabular}
+		\caption{Definición de estados y subestados.}
 		\label{tab:physarum:states}
-		\caption{Definición de estados y subestados}
 	\end{table}
 
-	\item Cada imagen se reduce de $320 \times 320$ a $160 \times 160$ células tomando el estado más común de cada bloque de $2 \times 2$ píxeles, cada célula mide alrededor de 0.6 mm. Finalmente, un cambio de estado solo se acepta si dura al menos dos imágenes. Sin este filtro, el 28\% de los cambios se revierte en la imagen siguiente por errores de la discretización. La figura \ref{fig:physarum:preprocessing} muestra el resultado de cada paso.
+	\item Cada imagen se reduce de $320 \times 320$ a $160 \times 160$ células tomando el estado más común de cada bloque de $2 \times 2$ píxeles. Después, un cambio de estado solo se acepta si dura al menos dos imágenes. Sin este filtro, el 28\% de los cambios se revierte en la imagen siguiente por errores de la discretización. La figura \ref{fig:physarum:preprocessing} muestra el resultado de cada paso.
 
-	\item La caja 5 de cada experimento se reserva para la prueba (4 cajas) y las otras 20 son de entrenamiento.
+	\item Finalmente, la caja 5 de cada experimento se reserva para la prueba y las otras 20 son de entrenamiento.
 \end{enumerate}
 
 \begin{figure}[htbp]
@@ -75,20 +75,73 @@ Para la limpieza del conjunto de datos, se procedió de la siguiente manera:
 	\label{fig:physarum:preprocessing}
 \end{figure}
 
-\subsubsection{Simulación con el estado más probable}
+\subsection{Simulación con el estado más probable}
 
-Las primeras redes fueron entranadas con transiciones de 30 minutos. La exactitud en cada paso fue de 97.99\% similar a la predicción sin cambio, es decir, es muy poco indiferente entre la red neuronal y no hacer nada. Ademas, el crecimiento es incierto célula por célula: a las células que sí se vuelven plasmodio en los siguientes 30 minutos, la red les da una probabibilidad de 9\%, mientras que a las que no, de 0.7\%. El simulador siempre elige el estado más probable, por lo que ninguna célula cambia y la simulación libre se queda congelada, tal como ocurre en las figuras \ref{fig:physarum:ex_1}.
+Las primeras redes fueron entrenadas con transiciones de 30 minutos. La exactitud en cada paso fue de 97.99\%, similar a la predicción sin cambio, es decir, la red neuronal tiene casi el mismo resultado que no hacer nada. Además, el crecimiento es incierto: las células que se vuelven plasmodio en los siguientes 30 minutos tienen una probabilidad de 9\%, mientras que las que no, de 0.7\%. El simulador siempre elige el estado más probable, por lo que ninguna célula cambia y la simulación libre se queda congelada, tal como ocurre en la figura \ref{fig:physarum:sim_1}.
 
-Se proponen los siguientes ajustes para hacer crecer el plasmodio:
+\begin{figure}[htbp]
+	\centering
+	\begin{subfigure}[t]{0.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{img/experimentacion/naturales/Physarum/sim_1_original.png}
+		\caption{Evolución real}
+		\label{fig:physarum:sim_1_original}
+	\end{subfigure}%
+	\quad % Espacio controlado entre las dos columnas
+	\begin{subfigure}[t]{0.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{img/experimentacion/naturales/Physarum/sim_1_nca.png}
+		\caption{Autómata celular neuronal con el estado más probable}
+		\label{fig:physarum:sim_1_nca}
+	\end{subfigure}
+	
+	\caption{Caja 5 del experimento 008 a las 50 horas: evolución real y simulación libre de la red entrenada con transiciones de 30 minutos. }
+	\label{fig:physarum:sim_1}
+\end{figure}
+
+\subsubsection{Simulación con muestreo}
+
+Para evitar que la simulación se congele, se probó elegir el estado siguiente de cada célula de forma aleatoria, con las probabilidades que da la misma red, en lugar de elegir el más probable. A este método se le llama muestreo. Sin embargo, el simulador no puede hacerlo porque solo considera reglas deterministas, por lo que esta simulación se hizo fuera de él.
+
+Con muestreo, el plasmodio aparece en toda la caja casi de inmediato. Aunque la probabilidad de que una célula de fondo se vuelva plasmodio es pequeña, la caja tiene alrededor de 20,000 células, por lo que en cada paso algunas lo hacen: en el primer paso aparecen entre 14 y 18 células de plasmodio a más de 6 células del plasmodio existente, en la orilla de la caja y en zonas vacías, mientras que en los datos reales el 97.4\% del plasmodio nuevo aparece a 6 células o menos. Cada una de estas células hace crecer plasmodio a su alrededor, por lo que a las 6 horas el plasmodio cubre entre el 9 y el 13\% de la caja, contra el 1.5 y el 7.8\% en la realidad. A partir de las 12 horas, toda la caja se llena de ramas delgadas y puntos sueltos que cambian en cada paso y parecen venas, pero sin ningún orden (figura \ref{fig:physarum:sim_2}). Desde las 24 horas, la cantidad de plasmodio se queda entre el 26 y el 33\% de la caja hasta el final en las 4 cajas de prueba, mientras que en la realidad sigue creciendo y al final va del 17.5 al 63\%.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{subfigure}[t]{0.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{img/experimentacion/naturales/Physarum/sim_2_original.png}
+		\caption{Evolución real}
+		\label{fig:physarum:sim_2_original}
+	\end{subfigure}%
+	\quad
+	\begin{subfigure}[t]{0.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{img/experimentacion/naturales/Physarum/sim_2_nca.png}
+		\caption{Autómata celular neuronal con muestreo}
+		\label{fig:physarum:sim_2_nca}
+	\end{subfigure}
+
+	\caption{Caja 5 del experimento 008 a las 50 horas: evolución real y simulación libre con muestreo de la red entrenada con transiciones de 30 minutos.}
+	\label{fig:physarum:sim_2}
+\end{figure}
+
+La evolución probabilística en este escenario sí permite aumentar el crecimiento, pero genera mayores cantidades de ruido y los patrones generados no son similares al comportamiento real. Es posible que bajo diferentes configuraciones de la misma red probabilística se puedan obtener evoluciones más cercanas a lo real, pero es un autómata celular neuronal diferente que requeriría su estudio independiente.
+
+\subsection{Simulación con sesgo de crecimiento}
+
+Como el simulador siempre elige el estado más probable, el plasmodio debe crecer sin muestreo. Se proponen los siguientes ajustes para hacer crecer el plasmodio:
 \begin{enumerate}
 	\item Definir un sesgo de crecimiento: a las salidas de plasmodio de la red se les suma una constante, lo que equivale a cambiar el sesgo de la última capa. La constante se elige con la simulación libre de 8 cajas de entrenamiento.
 
 	\item Paso de tiempo largo: cada paso de la red equivale a varias horas en lugar de 30 minutos. En pasos largos el crecimiento es menos incierto y la red no tiene que acumular cientos de decisiones.
 \end{enumerate}
 
-Para medir la simulación libre se usa la coincidencia del plasmodio: en cada paso, la fracción de células con plasmodio en la simulación o en la realidad que tienen plasmodio en ambas, multiplicada por la cantidad de plasmodio de la que tiene menos entre la de la que tiene más. Vale 1 si la simulación es idéntica a la real y castiga tanto poner el plasmodio en otro lugar como poner de más o de menos. Como referencia, en las cajas de prueba la predicción sin cambio tiene una coincidencia de entre 0.04 y 0.06, según el paso de tiempo, y llenar toda la caja de plasmodio, de 0.07.
-
-% claude: agrega aqui la formula para medir la coincidencia del plasmodio
+Para medir la simulación libre se usa la coincidencia del plasmodio: en cada paso se multiplican dos números: (1) la fracción de plasmodio que se encuentra en ambas (la real y la simulada), la cual mide si está en el mismo lugar; y (2) la cantidad de plasmodio de la evolución que tiene menos dividida entre la de la que tiene más, que mide si hay la misma cantidad. Vale 1 si la simulación es idéntica a la real y baja tanto si el plasmodio está en otro lugar como si hay de más o de menos. Como referencia, en las cajas de prueba la predicción sin cambio tiene una coincidencia de entre $0.04$ y $0.06$, según el paso de tiempo, y llenar toda la caja de plasmodio da $0.07$. Se usa la siguiente fórmula:
+\begin{equation*}
+	C_t = \frac{|R_t \cap S_t|}{|R_t \cup S_t|} \cdot \frac{\min(|R_t|, |S_t|)}{\max(|R_t|, |S_t|)}
+	\label{eq:physarum:coincidencia}
+\end{equation*}
+donde $R_t$ y $S_t$ son los conjuntos de células con plasmodio (estados 3, 4 y 5) en el paso $t$ de la evolución real y de la simulación, respectivamente, y $|\cdot|$ es la cantidad de células. Si ninguna de las dos tiene plasmodio, $C_t = 1$. La coincidencia de una caja es el promedio de $C_t$ en todos los pasos de la simulación libre.
 
 Se entrenaron 122 redes con 4 y 6 estados, distintos pasos de tiempo, vecindades y tamaños de red. La tabla \ref{tab:physarum_paso} muestra que el paso de tiempo es lo más importante: la coincidencia sube de 0.120 con pasos de 30 minutos a 0.223 con pasos de 6 horas. La vecindad, el tamaño de la red y el número de niveles de plasmodio casi no cambian el resultado, mientras que quitar la avena lo hunde (0.134), es decir, la avena sí guía al plasmodio.
 
@@ -113,69 +166,104 @@ Se entrenaron 122 redes con 4 y 6 estados, distintos pasos de tiempo, vecindades
 	\label{tab:physarum_paso}
 \end{table}
 
-La mejor red con los 6 estados usa un paso de 6 horas, una vecindad circular de radio 6 (113 vecinos), 16:64:ReLU, 6:Linear, \textit{one-hot} y un sesgo de crecimiento de 2. Para entrenarla se usan todos los pares de imágenes separadas 6 horas (no solo los que empiezan en múltiplos de 6 horas) y las 8 rotaciones y reflejos de cada par. La figura \ref{fig:physarum_comparacion} muestra que esta red hace crecer el plasmodio desde el inóculo y la avena hacia la avena vecina, y que no lo hace aparecer en zonas vacías. Sin embargo, crece en manchas sólidas que avanzan de forma constante, y no forma las venas que unen la avena en la evolución real. Además, dentro de las manchas no hay movimiento: entre un paso y el siguiente casi ninguna célula de plasmodio cambia de nivel.
-
-\subsubsection{Simulación con dado}
-
-El brillo del plasmodio real cambia constantemente: cada 30 minutos, alrededor del 5\% del plasmodio cambia de nivel. Este cambio es aleatorio, porque conocer también el nivel de la imagen anterior no ayuda a predecir el siguiente (en ambos casos se acierta el 95.4\%). Una regla que siempre elige el estado más probable no puede reproducir algo aleatorio, y el simulador no tiene números aleatorios.
-
-Para resolverlo, cada célula lleva además un dado, un número del 0 al 3 que forma parte de su estado. El estado de cada célula es
-\[
-	\sigma = 4v + d,
-\]
-donde $v$ es el estado visible (0 a 5) y $d$ el dado, por lo que el autómata tiene 24 estados. Por ejemplo, el estado 17 es plasmodio medio ($v = 4$) con dado 1. En cada paso ocurren dos cosas:
-
-\begin{enumerate}
-	\item El dado cambia con una regla fija. El dado se escribe con dos bits $d = 2a + b$, y con $\oplus$ (o exclusivo) y $\lor$ (o):
-	\[
-		a' = a_{\text{izq}} \oplus (a \lor a_{\text{der}}) \oplus b, \qquad b' = b_{\text{arr}} \oplus (b \lor b_{\text{ab}}) \oplus a,
-	\]
-	donde los subíndices indican el vecino de la izquierda, derecha, arriba y abajo. Es una versión en dos dimensiones de la regla 30: aunque es determinista, los dados se comportan como si fueran aleatorios. Los 4 valores aparecen con la misma frecuencia, el dado de una célula no se parece al de sus vecinos ni al que tenía en el paso anterior, y no se repite en 400 pasos. La simulación debe empezar con dados al azar, porque si todos valen 0 se quedan en 0.
-
-	\item El estado visible se elige con los dados. Una red maestra, entrenada con los datos reales con paso de 30 minutos (53 vecinos, 16:64:ReLU, 6:Linear, \textit{one-hot}), da la probabilidad de cada estado visible. Con los dados de los $9 \times 9$ vecinos se calcula un número entre 0 y 1, dando más peso a los vecinos más cercanos, y ese número decide qué estado sale: si la probabilidad de pasar a plasmodio intenso es de 20\%, el plasmodio intenso sale en el 20\% de los casos. Como células vecinas comparten casi los mismos dados, cambian juntas, en manchas y no en puntos sueltos.
-\end{enumerate}
-
-Además, se agregó una regla de localidad: el plasmodio solo puede aparecer en una célula si hay plasmodio en su vecindad. En los datos reales, el 97.4\% del plasmodio nuevo aparece a 6 células o menos del plasmodio existente. Sin esta regla, el plasmodio brotaba desde el primer paso en la orilla de la caja y en zonas vacías.
-
-La red que se usa en el simulador aprende este procedimiento completo. Su vecindad tiene 97 vecinos (los 81 de $9 \times 9$, que necesita para los dados, más los 16 de la vecindad de la maestra que quedan fuera), 16:128:ReLU, 24:Linear y \textit{one-hot}. Se entrenó con 20 pares de imágenes reales por caja de entrenamiento, con dados al azar, y 20 pares de una simulación del procedimiento, con 30 épocas y los mismos hiperparámetros que en los experimentos anteriores. El objetivo de cada par no es la imagen real siguiente, sino el resultado del procedimiento, por lo que la red solo tiene que aprender una regla determinista.
-
-\definecolor{physarumd0}{HTML}{000000}\definecolor{physarumd1}{HTML}{1A1A1A}\definecolor{physarumd2}{HTML}{0E1626}\definecolor{physarumd3}{HTML}{24160E}
-\definecolor{physarumd4}{HTML}{2A2A30}\definecolor{physarumd5}{HTML}{3C3C46}\definecolor{physarumd6}{HTML}{283444}\definecolor{physarumd7}{HTML}{3E3230}
-\definecolor{physarumd8}{HTML}{E6CFA8}\definecolor{physarumd9}{HTML}{D4B482}\definecolor{physarumd10}{HTML}{F3E4C8}\definecolor{physarumd11}{HTML}{C8A47A}
-\definecolor{physarumd12}{HTML}{6E6A12}\definecolor{physarumd13}{HTML}{8C7E1A}\definecolor{physarumd14}{HTML}{55560A}\definecolor{physarumd15}{HTML}{76601E}
-\definecolor{physarumd16}{HTML}{D2AE00}\definecolor{physarumd17}{HTML}{E8920A}\definecolor{physarumd18}{HTML}{B49400}\definecolor{physarumd19}{HTML}{EAC424}
-\definecolor{physarumd20}{HTML}{FFF46A}\definecolor{physarumd21}{HTML}{FFDD3A}\definecolor{physarumd22}{HTML}{FFFAB4}\definecolor{physarumd23}{HTML}{FFC850}
-\newcommand{\estadodado}[2][black]{\fcolorbox{gray}{physarumd#2}{\makebox[1.3em]{\textcolor{#1}{#2}}}}
-
-La tabla \ref{tab:physarum_estados_dado} muestra los 24 estados. En el simulador, cada estado tiene su propio color, parecido al de los demás estados con el mismo estado visible, por lo que no hay estados ocultos: el dado se ve como una textura en toda la caja (figura \ref{fig:physarum_dado_colores}).
-
-\begin{table}[htbp]
-	\centering
-	\footnotesize
-	\setlength{\fboxsep}{1pt}
-	\begin{tabular}{@{}lcccc@{}}
-		\toprule
-		\textbf{Estado visible} & \textbf{Dado 0} & \textbf{Dado 1} & \textbf{Dado 2} & \textbf{Dado 3} \\ \midrule
-		Borde & \estadodado[white]{0} & \estadodado[white]{1} & \estadodado[white]{2} & \estadodado[white]{3} \\
-		Fondo & \estadodado[white]{4} & \estadodado[white]{5} & \estadodado[white]{6} & \estadodado[white]{7} \\
-		Avena & \estadodado{8} & \estadodado{9} & \estadodado{10} & \estadodado{11} \\
-		Plasmodio tenue & \estadodado[white]{12} & \estadodado[white]{13} & \estadodado[white]{14} & \estadodado[white]{15} \\
-		Plasmodio medio & \estadodado{16} & \estadodado{17} & \estadodado{18} & \estadodado{19} \\
-		Plasmodio intenso & \estadodado{20} & \estadodado{21} & \estadodado{22} & \estadodado{23} \\
-		\bottomrule
-	\end{tabular}
-	\caption{Los 24 estados de la simulación con dado ($\sigma = 4v + d$) y su color en el simulador.}
-	\label{tab:physarum_estados_dado}
-\end{table}
+La mejor red con los 6 estados usa un paso de 6 horas, una vecindad circular de radio 6 (113 vecinos), 16:64:ReLU, 6:Linear, \textit{one-hot} y un sesgo de crecimiento de 2. Para entrenarla se usan todos los pares de imágenes separadas por 6 horas (no solo los que empiezan en múltiplos de 6 horas) y las 8 rotaciones y reflejos de cada par. El plasmodio crece en manchas sólidas que avanzan de forma constante, y no forma las venas que unen la avena en la evolución real. Además, dentro de las manchas no hay movimiento: entre un paso y el siguiente casi ninguna célula de plasmodio cambia de nivel. La figura \ref{fig:physarum:sim_3} muestra la misma caja a las 48 horas, el paso más cercano a las 50 horas.
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.75\linewidth]{img/experimentacion/naturales/Physarum/dado_colores.png}
-	\caption{Simulación libre con dado de la caja 5 del experimento 008 a las 48 horas, con los colores del estado visible y con los 24 colores del simulador.}
-	\label{fig:physarum_dado_colores}
+	\begin{subfigure}[t]{0.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{img/experimentacion/naturales/Physarum/sim_3_original.png}
+		\caption{Evolución real}
+		\label{fig:physarum:sim_3_original}
+	\end{subfigure}%
+	\quad
+	\begin{subfigure}[t]{0.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{img/experimentacion/naturales/Physarum/sim_3_nca.png}
+		\caption{Autómata celular neuronal con sesgo de crecimiento}
+		\label{fig:physarum:sim_3_nca}
+	\end{subfigure}
+	\caption{Caja 5 del experimento 008 a las 48 horas: evolución real y simulación libre de la mejor red con sesgo de crecimiento (6 estados, paso de 6 horas).}
+	\label{fig:physarum:sim_3}
 \end{figure}
 
-La red aprendió el procedimiento casi sin errores: en un paso acierta el estado visible del 99.17\% de las células y el dado del 99.98\%, por lo que los dados siguen comportándose como aleatorios durante toda la simulación. En el simulador da exactamente el mismo resultado que en el entrenamiento.
+
+\subsection{Simulación con ruido}
+
+El brillo del plasmodio real cambia constantemente: cada 30 minutos, alrededor del 5\% del plasmodio cambia de nivel. Este cambio es aleatorio, porque conocer también el nivel de la imagen anterior no ayuda a predecir el siguiente (en ambos casos se acierta el 95.4\%). Una regla que siempre elige el estado más probable no puede reproducir algo aleatorio, y el simulador no tiene números aleatorios.
+
+Para resolverlo, cada célula lleva además un valor de ruido, un número del 0 al 3 que forma parte de su estado. El estado de cada célula es
+\[
+	\sigma = 4v + r,
+\]
+donde $v$ es el estado visible (0 a 5) y $r$ el valor de ruido, por lo que el autómata pasa a tener 24 estados. Por ejemplo, el estado 17 es plasmodio medio ($v = 4$) con ruido 1. En cada paso ocurren dos cosas, que se muestran con un ejemplo en la figura \ref{fig:physarum_ruido_regla}:
+
+\begin{enumerate}
+	\item El ruido cambia con una regla fija. El valor de ruido se escribe con dos bits, $r = 2a + b$ (por ejemplo, el 2 es $a = 1$ y $b = 0$), y la regla es
+	\[
+		a' = a_{\text{izq}} \oplus (a \lor a_{\text{der}}) \oplus b, \qquad b' = b_{\text{arr}} \oplus (b \lor b_{\text{ab}}) \oplus a,
+	\]
+	donde $\oplus$ es el ``o exclusivo'' (vale 1 si exactamente uno de los dos vale 1), $\lor$ es el ``o'' (vale 1 si al menos uno vale 1) y los subíndices indican el vecino de la izquierda, derecha, arriba y abajo. En el ejemplo de la figura \ref{fig:physarum_ruido_regla}a, la célula tiene ruido 2 ($a = 1$, $b = 0$), su vecino de la izquierda tiene ruido 1 ($a = 0$, $b = 1$) y los otros tres, ruido 0. Entonces
+	\[
+		a' = 0 \oplus (1 \lor 0) \oplus 0 = 1, \qquad b' = 0 \oplus (0 \lor 0) \oplus 1 = 1,
+	\]
+	y en el siguiente paso su ruido es $2 \cdot 1 + 1 = 3$.
+
+	Es una versión en dos dimensiones de la regla 30: aunque es determinista, el ruido se comporta como si fuera aleatorio. Los 4 valores aparecen con la misma frecuencia, el ruido de una célula no se parece al de sus vecinos (figura \ref{fig:physarum_ruido_manchas}a) ni al que tenía en el paso anterior, y no se repite en 400 pasos. La simulación debe empezar con ruido al azar, porque si todos los valores son 0 se quedan en 0.
+
+	\item El estado visible se elige con el ruido. Una red entrenada con los datos reales con paso de 30 minutos (53 vecinos, 16:64:ReLU, 6:Linear, \textit{one-hot}) da la probabilidad de cada estado visible. Estas probabilidades se acomodan una tras otra entre 0 y 1, y cada célula calcula un número entre 0 y 1 con el ruido de sus $9 \times 9$ vecinos; el estado que sale es el del tramo donde cae ese número. En el ejemplo de la figura \ref{fig:physarum_ruido_regla}b, la red da 70\% de fondo, 10\% de plasmodio tenue, 15\% de plasmodio medio y 5\% de plasmodio intenso; el número de la célula es 0.83, que cae en el tramo de 0.80 a 0.95, por lo que sale plasmodio medio. Así, un estado con probabilidad de 15\% sale en el 15\% de los casos.
+
+	El número de cada célula se calcula dando más peso a los vecinos más cercanos, por lo que células vecinas tienen números parecidos (figura \ref{fig:physarum_ruido_manchas}b) y cambian juntas, en manchas (figura \ref{fig:physarum_ruido_manchas}c). Si cada célula usara un número propio, el plasmodio aparecería en puntos sueltos (figura \ref{fig:physarum_ruido_manchas}d).
+\end{enumerate}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\linewidth]{img/experimentacion/naturales/Physarum/ruido_regla.png}
+	\caption{Ejemplo de un paso de la simulación con ruido. (a) La célula central tiene ruido 2 y, con la regla del ruido, pasa a 3. (b) La red da la probabilidad de cada estado visible y el número de la célula (0.83) elige plasmodio medio.}
+	\label{fig:physarum_ruido_regla}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\linewidth]{img/experimentacion/naturales/Physarum/ruido_manchas.png}
+	\caption{(a) Valores de ruido al azar en $40 \times 40$ células. (b) Número entre 0 y 1 de cada célula, calculado con el ruido de sus $9 \times 9$ vecinos (negro = 0, blanco = 1). (c) Células que pasan a plasmodio si la probabilidad es de 20\%, usando el número de (b). (d) Lo mismo, pero con un número independiente para cada célula.}
+	\label{fig:physarum_ruido_manchas}
+\end{figure}
+
+Además, se agregó una regla de localidad: el plasmodio solo puede aparecer en una célula si hay plasmodio en su vecindad. En los datos reales, el 97.4\% del plasmodio nuevo aparece a 6 células o menos del plasmodio existente. Sin esta regla, el plasmodio brotaba desde el primer paso en la orilla de la caja y en zonas vacías.
+
+La red que se usa en el simulador aprende este procedimiento completo. Su vecindad tiene 97 vecinos (los 81 de $9 \times 9$, que necesita para el ruido, más los 16 de la vecindad de la maestra que quedan fuera), 16:128:ReLU, 24:Linear y \textit{one-hot}. Se entrenó con 20 pares de imágenes reales por caja de entrenamiento, con ruido al azar, y 20 pares de una simulación del procedimiento, con 30 épocas y los mismos hiperparámetros que en los experimentos anteriores. El objetivo de cada par no es la imagen real siguiente, sino el resultado del procedimiento, por lo que la red solo tiene que aprender una regla determinista.
+
+En el simulador, cada estado tiene su propio color, parecido al de los demás estados con el mismo estado visible, por lo que no hay estados ocultos: el ruido se ve como una textura en toda la caja (figura \ref{fig:physarum_ruido_colores}).
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.75\linewidth]{img/experimentacion/naturales/Physarum/ruido_colores.png}
+	\caption{Simulación libre con ruido de la caja 5 del experimento 008 a las 48 horas, con los colores del estado visible y con los 24 colores del simulador.}
+	\label{fig:physarum_ruido_colores}
+\end{figure}
+
+La red aprendió el procedimiento casi sin errores: en un paso acierta el estado visible del 99.17\% de las células y el ruido del 99.98\%, por lo que el ruido sigue comportándose como aleatorio durante toda la simulación. En el simulador da exactamente el mismo resultado que en el entrenamiento. La figura \ref{fig:physarum:sim_4} muestra la simulación libre de la misma caja a las 50 horas, con los colores del estado visible.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{subfigure}[t]{0.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{img/experimentacion/naturales/Physarum/sim_4_original.png}
+		\caption{Evolución real}
+		\label{fig:physarum:sim_4_original}
+	\end{subfigure}%
+	\quad
+	\begin{subfigure}[t]{0.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{img/experimentacion/naturales/Physarum/sim_4_nca.png}
+		\caption{Autómata celular neuronal con ruido}
+		\label{fig:physarum:sim_4_nca}
+	\end{subfigure}
+
+	\caption{Caja 5 del experimento 008 a las 50 horas: evolución real y simulación libre de la red con ruido (24 estados, paso de 30 minutos), con los colores del estado visible.}
+	\label{fig:physarum:sim_4}
+\end{figure}
 
 Además de la coincidencia del plasmodio, se miden dos cosas para comparar la forma y el movimiento: (1) el borde del plasmodio, la fracción del plasmodio que toca una célula sin plasmodio, que es alta cuando el plasmodio forma ramas delgadas y baja cuando forma manchas sólidas; y (2) el cambio de brillo, la fracción del plasmodio que cambia de nivel de un paso al siguiente. Como la red con sesgo da pasos de 6 horas, todas las medidas de la tabla \ref{tab:physarum_comparacion} se toman cada 6 horas, y el cambio de brillo también cada 30 minutos.
 
@@ -189,29 +277,29 @@ Además de la coincidencia del plasmodio, se miden dos cosas para comparar la fo
 		\cmidrule(l){5-6}
 		& \textbf{del plasmodio} & \textbf{al final} & \textbf{plasmodio} & \textbf{Cada 6 h} & \textbf{Cada 30 min} \\ \midrule
 		Real & -- & 0.344 & 0.429 & 23.6\% & 4.7\% \\
-		NCA con sesgo & 0.225 & 0.353 & 0.154 & 0.8\% & -- \\
-		NCA con dado & 0.105 & 0.157 & 0.498 & 41.3\% & 6.5\% \\
+		Red con sesgo & 0.225 & 0.353 & 0.154 & 0.8\% & -- \\
+		Red con ruido & 0.105 & 0.157 & 0.498 & 41.3\% & 6.5\% \\
 		\bottomrule
 	\end{tabular}
-	\caption{Simulación libre en las 4 cajas de prueba de la mejor red con sesgo (6 estados, paso de 6 horas) y de la red con dado (24 estados, paso de 30 minutos). El borde y el cambio de brillo son el promedio de la segunda mitad de cada experimento.}
+	\caption{Simulación libre en las 4 cajas de prueba de la mejor red con sesgo (6 estados, paso de 6 horas) y de la red con ruido (24 estados, paso de 30 minutos). El borde y el cambio de brillo son el promedio de la segunda mitad de cada experimento.}
 	\label{tab:physarum_comparacion}
 \end{table}
 
-La red con dado reproduce la forma y el movimiento que a la red con sesgo le faltan: el borde del plasmodio pasa de 0.154 a 0.498 (0.429 en la realidad), es decir, el plasmodio forma ramas en lugar de manchas, y dentro de él el brillo cambia constantemente, con un 6.5\% del plasmodio cambiando de nivel cada 30 minutos contra un 4.7\% en la realidad. La figura \ref{fig:physarum_comparacion} muestra que el plasmodio crece desde el inóculo, avanza entre la avena con ramas irregulares y se mueve dentro de las zonas amarillas.
+La red con ruido reproduce la forma y el movimiento que a la red con sesgo le faltan: el borde del plasmodio pasa de 0.154 a 0.498 (0.429 en la realidad), es decir, el plasmodio forma ramas en lugar de manchas, y dentro de él el brillo cambia constantemente, con un 6.5\% del plasmodio cambiando de nivel cada 30 minutos contra un 4.7\% en la realidad. La figura \ref{fig:physarum_comparacion} muestra que el plasmodio crece desde el inóculo, avanza entre la avena con ramas irregulares y se mueve dentro de las zonas amarillas.
 
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=\linewidth]{img/experimentacion/naturales/Physarum/comparacion.png}
-	\caption{Evolución real de la caja 5 del experimento 008 y simulación libre de la red con sesgo y de la red con dado a las 0, 12, 24, 48 y 60 horas.}
+	\caption{Evolución real de la caja 5 del experimento 008 y simulación libre de la red con sesgo y de la red con ruido a las 0, 12, 24, 48 y 60 horas.}
 	\label{fig:physarum_comparacion}
 \end{figure}
 
-Sin embargo, la red con dado crece menos que la real: al final cubre el 15.7\% de la caja contra el 34.4\%, y su coincidencia del plasmodio (0.105) es menor que la de la red con sesgo (0.225). Esto es esperado, porque con dados la red no puede saber exactamente hacia dónde va a crecer cada rama, mientras que la red con sesgo crece en todas direcciones a la vez. Además, el plasmodio no forma las venas largas que unen la avena: crece en grupos ramificados que se desplazan por la caja (figura \ref{fig:physarum_finales}). La figura \ref{fig:physarum_area} muestra la cantidad de plasmodio en el tiempo de las 4 cajas de prueba.
+Sin embargo, la red con ruido crece menos que la real: al final cubre el 15.7\% de la caja contra el 34.4\%, y su coincidencia del plasmodio (0.105) es menor que la de la red con sesgo (0.225). Esto es esperado, porque con ruido la red no puede saber exactamente hacia dónde va a crecer cada rama, mientras que la red con sesgo crece en todas direcciones a la vez. Además, el plasmodio no forma las venas largas que unen la avena: crece en grupos ramificados que se desplazan por la caja (figura \ref{fig:physarum_finales}). La figura \ref{fig:physarum_area} muestra la cantidad de plasmodio en el tiempo de las 4 cajas de prueba.
 
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=\linewidth]{img/experimentacion/naturales/Physarum/finales.png}
-	\caption{Última imagen de las 4 cajas de prueba, real y con la simulación libre de la red con dado.}
+	\caption{Última imagen de las 4 cajas de prueba, real y con la simulación libre de la red con ruido.}
 	\label{fig:physarum_finales}
 \end{figure}
 
@@ -222,38 +310,38 @@ Sin embargo, la red con dado crece menos que la real: al final cubre el 15.7\% d
 	\label{fig:physarum_area}
 \end{figure}
 
-\subsubsection{Pruebas de mejora}
+\subsection{Pruebas de mejora}
 
-Para intentar mejorar la red con dado se entrenaron 20 redes más, cambiando una cosa a la vez: el número de épocas, el tamaño de la red, la reducción de la tasa de aprendizaje (exponencial o coseno), la mezcla de pares reales y simulados, y un empujón de crecimiento, que es una constante sumada a las salidas de plasmodio de la red maestra al generar los datos. Las más prometedoras se repitieron con las semillas aleatorias 1 y 2. La tabla \ref{tab:physarum_mejoras} muestra los resultados.
+Para intentar mejorar la red con ruido se entrenaron 20 redes más, cambiando una cosa a la vez: el número de épocas, el tamaño de la red, la reducción de la tasa de aprendizaje (exponencial o coseno), la mezcla de pares reales y simulados, y un empujón de crecimiento, que es una constante sumada a las salidas de plasmodio de la red maestra al generar los datos. Las más prometedoras se repitieron con las semillas aleatorias 1 y 2. La tabla \ref{tab:physarum_mejoras} muestra los resultados.
 
 \begin{table}[htbp]
 	\centering
 	\footnotesize
-	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{@{}lcccccc@{}}
+	\setlength{\tabcolsep}{3.5pt}
+	\begin{tabular}{@{}lccccc@{}}
 		\toprule
-		& & & \textbf{Coincidencia} & \textbf{Plasmodio} & \textbf{Borde del} & \textbf{Cambio de brillo} \\
-		\textbf{Prueba} & \textbf{Semillas} & \textbf{Pérdida} & \textbf{del plasmodio} & \textbf{al final} & \textbf{plasmodio} & \textbf{cada 30 min} \\ \midrule
-		Real & & & -- & 0.344 & 0.424 & 4.7\% \\ \midrule
-		Inicial & 3 & 0.0139 & 0.115 & 0.180 & 0.493 & 6.4\% \\
-		60 épocas & 1 & 0.0047 & 0.135 & 0.271 & 0.484 & 6.3\% \\
-		100 épocas & 1 & 0.0020 & 0.131 & 0.273 & 0.500 & 6.4\% \\
-		8:128:ReLU & 1 & 0.0087 & 0.139 & 0.288 & 0.468 & 6.0\% \\
-		24:128:ReLU & 1 & 0.0556 & 0.069 & 0.039 & 0.440 & 4.0\% \\
-		16:256:ReLU & 1 & 0.0088 & 0.119 & 0.232 & 0.490 & 6.2\% \\
-		Coseno & 3 & 0.0074 & 0.124 & 0.275 & 0.468 & 6.1\% \\
-		Coseno, 60 épocas & 1 & 0.0013 & 0.123 & 0.261 & 0.499 & 6.3\% \\
-		10 reales y 30 simulados & 1 & 0.0082 & 0.128 & 0.225 & 0.495 & 6.3\% \\
-		30 reales y 10 simulados & 1 & 0.0115 & 0.113 & 0.235 & 0.470 & 6.0\% \\
-		Empujón de 0.15 & 1 & 0.0136 & 0.124 & 0.393 & 0.417 & 5.5\% \\
-		Empujón de 0.15, coseno & 3 & 0.0088 & 0.128 & 0.373 & 0.434 & 5.7\% \\
-		Empujón de 0.25 & 3 & 0.0127 & 0.136 & 0.421 & 0.404 & 5.2\% \\
+		& & \textbf{Coincidencia} & \textbf{Plasmodio} & \textbf{Borde del} & \textbf{Cambio de} \\
+		\textbf{Prueba} & \textbf{Pérdida} & \textbf{del plasmodio} & \textbf{al final} & \textbf{plasmodio} & \textbf{brillo} \\ \midrule
+		Real & & -- & 0.344 & 0.424 & 4.7\% \\ \midrule
+		Inicial$^*$ & 0.0139 & 0.115 & 0.180 & 0.493 & 6.4\% \\
+		60 épocas & 0.0047 & 0.135 & 0.271 & 0.484 & 6.3\% \\
+		100 épocas & 0.0020 & 0.131 & 0.273 & 0.500 & 6.4\% \\
+		8:128:ReLU & 0.0087 & 0.139 & 0.288 & 0.468 & 6.0\% \\
+		24:128:ReLU & 0.0556 & 0.069 & 0.039 & 0.440 & 4.0\% \\
+		16:256:ReLU & 0.0088 & 0.119 & 0.232 & 0.490 & 6.2\% \\
+		Coseno$^*$ & 0.0074 & 0.124 & 0.275 & 0.468 & 6.1\% \\
+		Coseno, 60 épocas & 0.0013 & 0.123 & 0.261 & 0.499 & 6.3\% \\
+		10 reales y 30 simulados & 0.0082 & 0.128 & 0.225 & 0.495 & 6.3\% \\
+		30 reales y 10 simulados & 0.0115 & 0.113 & 0.235 & 0.470 & 6.0\% \\
+		Empujón de 0.15 & 0.0136 & 0.124 & 0.393 & 0.417 & 5.5\% \\
+		Empujón de 0.15, coseno$^*$ & 0.0088 & 0.128 & 0.373 & 0.434 & 5.7\% \\
+		Empujón de 0.25$^*$ & 0.0127 & 0.136 & 0.421 & 0.404 & 5.2\% \\
 		\bottomrule
 	\end{tabular}
-	\caption{Pruebas de mejora de la red con dado en las 4 cajas de prueba, con las medidas tomadas cada 30 minutos. La red inicial es la de la tabla \ref{tab:physarum_comparacion} (16:128:ReLU, 30 épocas, reducción exponencial, 20 pares reales y 20 simulados por caja y sin empujón); cada prueba cambia solo lo que indica. Con más de una semilla se muestra el promedio.}
+	\caption{Pruebas de mejora de la red con ruido en las 4 cajas de prueba, con las medidas tomadas cada 30 minutos. La red inicial es la de la tabla \ref{tab:physarum_comparacion} (16:128:ReLU, 30 épocas, reducción exponencial, 20 pares reales y 20 simulados por caja y sin empujón); cada prueba cambia solo lo que indica. Las pruebas marcadas con $^*$ son el promedio de 3 semillas aleatorias; las demás usan una sola.}
 	\label{tab:physarum_mejoras}
 \end{table}
 
 Entrenar más épocas, usar la reducción coseno o agregar el empujón de crecimiento hace que el plasmodio crezca más y sube la coincidencia de 0.115 a 0.136, sin perder el movimiento interno. La red de 24 capas no aprendió, y las semillas aleatorias cambian la coincidencia hasta en 0.02, más que la diferencia entre muchas de las pruebas. Sin embargo, al revisar las simulaciones, las redes que crecen más cubren toda la caja en los experimentos 008 y 009, donde el plasmodio real se queda alrededor de la avena, y ninguna forma las venas largas. Es decir, la mejora en la coincidencia viene de crecer más, no de crecer de una forma más parecida a la real, por lo que se conserva la red inicial.
 
-De este experimento podemos concluir que el autómata celular neuronal sí aprende el crecimiento del moho a partir de su evolución: el plasmodio crece desde el inóculo, la avena lo guía y no aparece en zonas vacías. Elegir siempre el estado más probable elimina la parte aleatoria del crecimiento, por lo que la simulación crece en manchas sólidas y sin movimiento; agregar un dado al estado de cada célula permite reproducir esa parte aleatoria con una regla determinista que el simulador ejecuta sin cambios, y con ella aparecen las ramas y el movimiento interno. Lo que la red no logra es formar las venas largas que unen la avena ni saber cuándo dejar de crecer. En los datos reales, el plasmodio que acaba de llegar a una célula se retira entre 4 y 6 veces más que el que lleva varias horas, por lo que estas venas probablemente dependen de lo que ocurrió durante horas, mientras que la red solo conoce el estado actual.
+De este experimento podemos concluir que el autómata celular neuronal sí aprende el crecimiento del moho a partir de su evolución: el plasmodio crece desde el inóculo, la avena lo guía y no aparece en zonas vacías. Elegir siempre el estado más probable elimina la parte aleatoria del crecimiento, por lo que la simulación crece en manchas sólidas y sin movimiento; agregar un valor de ruido al estado de cada célula permite reproducir esa parte aleatoria con una regla determinista que el simulador ejecuta sin cambios, y con ella aparecen las ramas y el movimiento interno. Lo que la red no logra es formar las venas largas que unen la avena ni saber cuándo dejar de crecer. En los datos reales, el plasmodio que acaba de llegar a una célula se retira entre 4 y 6 veces más que el que lleva varias horas, por lo que estas venas probablemente dependen de lo que ocurrió durante horas, mientras que la red solo conoce el estado actual.

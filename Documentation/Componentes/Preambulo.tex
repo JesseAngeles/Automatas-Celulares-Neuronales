@@ -1,3 +1,5 @@
+% Revisión: permite cortar las URL largas de la bibliografía también en los guiones
+\PassOptionsToPackage{hyphens}{url}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[spanish,es-tabla]{babel}
@@ -26,11 +28,25 @@
 \usepackage[edges]{forest}
 \usepackage{tabularx}
 
+% Revisión: pies de figura y tabla más angostos que el texto (no aplica a las subfiguras)
+\usepackage{caption}
+\captionsetup{margin=0.075\textwidth}
+\captionsetup[sub]{margin=0pt}
+% Revisión: ninguna figura o tabla aparece antes de su primera referencia (flafter) ni fuera de la
+% sección, subsección o subsubsección en la que se cita (placeins)
+\usepackage{flafter}
+\usepackage[section]{placeins}
+\usepackage{etoolbox}
+\pretocmd{\subsection}{\FloatBarrier}{}{}
+\pretocmd{\subsubsection}{\FloatBarrier}{}{}
+
 \newtheorem{definition}{Definición}
 \setlength{\parskip}{10pt}
 
 % Pendientes visibles en el PDF: \TODO{texto}
 \newcommand{\TODO}[1]{\par\noindent\fcolorbox{orange!70!black}{yellow!25}{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{\textbf{TODO:} #1}}\par}
+% Revisión: tercera pasada de TeX solo en los párrafos que de otro modo se salen del margen
+\setlength{\emergencystretch}{3em}
 
 % Configurar encabezados
 \pagestyle{fancy}
@@ -106,7 +122,6 @@
 	\textcolor{black}{UI\theUIcounter~\csname UItext@#1\endcsname}%
 }
 \newcommand{\UI}[1]{\hyperlink{#1}{\textcolor{black}{UI\ref{#1}~\csname UItext@#1\endcsname}}}
-
 
 \setlength{\headheight}{27.1pt} 
 \useforestlibrary{edges}
