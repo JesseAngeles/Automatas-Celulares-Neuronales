@@ -2,7 +2,7 @@
 
 Red 16:16 (16 capas de 16 neuronas) con activación oculta ReLU, Sigmoid o TanH y capa de salida de 17 neuronas
 con Linear, Sigmoid o TanH: 9 configuraciones. Vecindad de Von Neumann y frontera abierta (--open-boundary),
-igual que la simulación de notebooks/sandpile.nb.
+igual que la simulación de notebooks/Sandpile.nb.
 
 Uso (desde Simulator/training):
     python scripts/barrido_sandpile.py prueba        (ajuste corto de lr y objetivo de pérdida)

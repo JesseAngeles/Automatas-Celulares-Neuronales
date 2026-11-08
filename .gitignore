@@ -16,6 +16,7 @@
 Dataset/
 *.npy
 *.mat
+# Pesos de los modelos
 *.npz
 Simulator/training/CA/FLAME3/
 Simulator/training/CA/embryo/
@@ -23,3 +24,7 @@ Simulator/training/CA/embryo_states/
 Simulator/training/Models/
 Simulator/training/training_env/
 Simulator/training/similitud.nb
+
+# No versionados: entregables y paletas de colores de la GUI
+Entregables/
+Simulator/GUI/colors/

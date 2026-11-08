@@ -1,0 +1,25 @@
+18 configuraciones, 2 bloques (semilla × prueba): [('p2_a_p3', '42'), ('p3_a_p2', '42')]
+Nemenyi: q = 3.489, diferencia crítica = 18.62 lugares
+Friedman combinado: chi2 = 12.03, p = 7.98e-01
+Friedman area: chi2 = 19.26, p = 3.14e-01
+
+comb.   área
+ 5.50*  7.00* 30 s 9x9        2x32   error1 0.997 libre 1.223 iou_q 0.577 iou_f 0.411
+ 5.50*  4.00* 15 s dispersa41 3x64   error1 1.065 libre 2.577 iou_q 0.630 iou_f 0.540
+ 5.50*  6.00* 30 s dispersa41 3x64   error1 1.049 libre 1.202 iou_q 0.590 iou_f 0.479
+ 6.00*  5.50* 15 s 9x9        3x64   error1 1.107 libre 2.450 iou_q 0.637 iou_f 0.546
+ 6.25*  5.50*  5 s dispersa41 4x256  error1 1.181 libre 3.932 iou_q 0.717 iou_f 0.606
+ 7.50*  6.00* 15 s 9x9        4x256  error1 1.247 libre 2.075 iou_q 0.728 iou_f 0.645
+ 7.75*  6.50*  5 s 9x9        4x256  error1 1.221 libre 2.581 iou_q 0.678 iou_f 0.567
+ 8.00*  9.50* 30 s dispersa41 2x32   error1 1.011 libre 1.648 iou_q 0.544 iou_f 0.431
+10.00*  8.00* 15 s dispersa41 4x256  error1 1.221 libre 1.905 iou_q 0.639 iou_f 0.564
+10.00* 10.50* 30 s 9x9        4x256  error1 1.206 libre 2.835 iou_q 0.609 iou_f 0.551
+10.50* 11.00* 15 s dispersa41 2x32   error1 1.034 libre 2.350 iou_q 0.532 iou_f 0.296
+10.75* 11.00* 30 s dispersa41 4x256  error1 1.186 libre 2.378 iou_q 0.562 iou_f 0.507
+11.25*  9.00* 15 s 9x9        2x32   error1 1.044 libre 2.741 iou_q 0.539 iou_f 0.379
+11.50*  8.50* 30 s 9x9        3x64   error1 1.086 libre 1.360 iou_q 0.601 iou_f 0.489
+12.00* 15.00*  5 s 9x9        2x32   error1 1.048 libre 6.761 iou_q 0.451 iou_f 0.472
+12.75* 18.00*  5 s dispersa41 2x32   error1 1.024 libre 6.843 iou_q 0.412 iou_f 0.491
+15.00* 15.50*  5 s dispersa41 3x64   error1 1.041 libre 6.538 iou_q 0.474 iou_f 0.446
+15.25* 14.50*  5 s 9x9        3x64   error1 1.083 libre 5.176 iou_q 0.503 iou_f 0.476
+* = no se distingue de la mejor (diferencia menor a la crítica)

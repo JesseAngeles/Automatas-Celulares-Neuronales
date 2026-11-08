@@ -1,0 +1,474 @@
+{
+ "simulation": "physarum",
+ "every_min": 30,
+ "size": 320,
+ "estados": [
+  "borde",
+  "fondo",
+  "avena",
+  "plasmodio tenue",
+  "plasmodio medio",
+  "plasmodio intenso"
+ ],
+ "paleta": [
+  "#000000",
+  "#2A2A30",
+  "#E6CFA8",
+  "#6E6A12",
+  "#D2AE00",
+  "#FFF46A"
+ ],
+ "umbrales_b": [
+  9,
+  16,
+  26
+ ],
+ "avena": {
+  "L_min": 38,
+  "C_min": 12,
+  "C_max": 38,
+  "oscura": 8,
+  "area_min": 20,
+  "crecer": 2,
+  "delta_b": 10
+ },
+ "pipeline": [
+  "muestrear",
+  "limpiar",
+  "estados"
+ ],
+ "cajas": [
+  {
+   "caja": "physarum-001-dish0-r0c0",
+   "pasos": 283,
+   "inicio": {
+    "fondo": 0.8239,
+    "avena": 0.1353,
+    "plasmodio tenue": 0.0235,
+    "plasmodio medio": 0.0166,
+    "plasmodio intenso": 0.0006
+   },
+   "final": {
+    "fondo": 0.4969,
+    "avena": 0.115,
+    "plasmodio tenue": 0.2883,
+    "plasmodio medio": 0.0957,
+    "plasmodio intenso": 0.0041
+   }
+  },
+  {
+   "caja": "physarum-001-dish1-r0c1",
+   "pasos": 283,
+   "inicio": {
+    "fondo": 0.7966,
+    "avena": 0.1866,
+    "plasmodio tenue": 0.0117,
+    "plasmodio medio": 0.0051,
+    "plasmodio intenso": 0.0
+   },
+   "final": {
+    "fondo": 0.327,
+    "avena": 0.1658,
+    "plasmodio tenue": 0.3564,
+    "plasmodio medio": 0.1506,
+    "plasmodio intenso": 0.0001
+   }
+  },
+  {
+   "caja": "physarum-001-dish2-r1c0",
+   "pasos": 283,
+   "inicio": {
+    "fondo": 0.8472,
+    "avena": 0.1514,
+    "plasmodio tenue": 0.0014,
+    "plasmodio medio": 0.0001,
+    "plasmodio intenso": 0.0
+   },
+   "final": {
+    "fondo": 0.5311,
+    "avena": 0.1334,
+    "plasmodio tenue": 0.228,
+    "plasmodio medio": 0.1003,
+    "plasmodio intenso": 0.0073
+   }
+  },
+  {
+   "caja": "physarum-001-dish3-r1c1",
+   "pasos": 283,
+   "inicio": {
+    "fondo": 0.8585,
+    "avena": 0.1405,
+    "plasmodio tenue": 0.0009,
+    "plasmodio medio": 0.0,
+    "plasmodio intenso": 0.0
+   },
+   "final": {
+    "fondo": 0.4734,
+    "avena": 0.1236,
+    "plasmodio tenue": 0.2872,
+    "plasmodio medio": 0.1125,
+    "plasmodio intenso": 0.0034
+   }
+  },
+  {
+   "caja": "physarum-001-dish4-r2c0",
+   "pasos": 283,
+   "inicio": {
+    "fondo": 0.8836,
+    "avena": 0.0593,
+    "plasmodio tenue": 0.0172,
+    "plasmodio medio": 0.0387,
+    "plasmodio intenso": 0.0013
+   },
+   "final": {
+    "fondo": 0.6515,
+    "avena": 0.0519,
+    "plasmodio tenue": 0.2143,
+    "plasmodio medio": 0.0809,
+    "plasmodio intenso": 0.0013
+   }
+  },
+  {
+   "caja": "physarum-001-dish5-r2c1",
+   "pasos": 283,
+   "inicio": {
+    "fondo": 0.8598,
+    "avena": 0.1247,
+    "plasmodio tenue": 0.0152,
+    "plasmodio medio": 0.0003,
+    "plasmodio intenso": 0.0
+   },
+   "final": {
+    "fondo": 0.5822,
+    "avena": 0.1242,
+    "plasmodio tenue": 0.2905,
+    "plasmodio medio": 0.0031,
+    "plasmodio intenso": 0.0
+   }
+  },
+  {
+   "caja": "physarum-002-dish0-r0c0",
+   "pasos": 255,
+   "inicio": {
+    "fondo": 0.8809,
+    "avena": 0.1137,
+    "plasmodio tenue": 0.0032,
+    "plasmodio medio": 0.0018,
+    "plasmodio intenso": 0.0004
+   },
+   "final": {
+    "fondo": 0.7094,
+    "avena": 0.0875,
+    "plasmodio tenue": 0.0731,
+    "plasmodio medio": 0.0904,
+    "plasmodio intenso": 0.0395
+   }
+  },
+  {
+   "caja": "physarum-002-dish1-r0c1",
+   "pasos": 255,
+   "inicio": {
+    "fondo": 0.8297,
+    "avena": 0.1168,
+    "plasmodio tenue": 0.0143,
+    "plasmodio medio": 0.022,
+    "plasmodio intenso": 0.0172
+   },
+   "final": {
+    "fondo": 0.2725,
+    "avena": 0.0676,
+    "plasmodio tenue": 0.1512,
+    "plasmodio medio": 0.1736,
+    "plasmodio intenso": 0.3352
+   }
+  },
+  {
+   "caja": "physarum-002-dish2-r1c0",
+   "pasos": 255,
+   "inicio": {
+    "fondo": 0.8356,
+    "avena": 0.1581,
+    "plasmodio tenue": 0.0029,
+    "plasmodio medio": 0.0019,
+    "plasmodio intenso": 0.0015
+   },
+   "final": {
+    "fondo": 0.4668,
+    "avena": 0.1359,
+    "plasmodio tenue": 0.2629,
+    "plasmodio medio": 0.1128,
+    "plasmodio intenso": 0.0216
+   }
+  },
+  {
+   "caja": "physarum-002-dish3-r1c1",
+   "pasos": 255,
+   "inicio": {
+    "fondo": 0.5404,
+    "avena": 0.43,
+    "plasmodio tenue": 0.0004,
+    "plasmodio medio": 0.0002,
+    "plasmodio intenso": 0.0291
+   },
+   "final": {
+    "fondo": 0.1367,
+    "avena": 0.3548,
+    "plasmodio tenue": 0.2076,
+    "plasmodio medio": 0.2257,
+    "plasmodio intenso": 0.0752
+   }
+  },
+  {
+   "caja": "physarum-002-dish4-r2c0",
+   "pasos": 255,
+   "inicio": {
+    "fondo": 0.7945,
+    "avena": 0.1098,
+    "plasmodio tenue": 0.0185,
+    "plasmodio medio": 0.0662,
+    "plasmodio intenso": 0.0109
+   },
+   "final": {
+    "fondo": 0.2841,
+    "avena": 0.0735,
+    "plasmodio tenue": 0.2323,
+    "plasmodio medio": 0.3153,
+    "plasmodio intenso": 0.0948
+   }
+  },
+  {
+   "caja": "physarum-002-dish5-r2c1",
+   "pasos": 255,
+   "inicio": {
+    "fondo": 0.752,
+    "avena": 0.2402,
+    "plasmodio tenue": 0.002,
+    "plasmodio medio": 0.0031,
+    "plasmodio intenso": 0.0028
+   },
+   "final": {
+    "fondo": 0.2054,
+    "avena": 0.1928,
+    "plasmodio tenue": 0.2059,
+    "plasmodio medio": 0.3356,
+    "plasmodio intenso": 0.0603
+   }
+  },
+  {
+   "caja": "physarum-008-dish0-r0c0",
+   "pasos": 127,
+   "inicio": {
+    "fondo": 0.9464,
+    "avena": 0.045,
+    "plasmodio tenue": 0.0007,
+    "plasmodio medio": 0.002,
+    "plasmodio intenso": 0.0058
+   },
+   "final": {
+    "fondo": 0.8701,
+    "avena": 0.0314,
+    "plasmodio tenue": 0.0296,
+    "plasmodio medio": 0.0331,
+    "plasmodio intenso": 0.0358
+   }
+  },
+  {
+   "caja": "physarum-008-dish1-r0c1",
+   "pasos": 127,
+   "inicio": {
+    "fondo": 0.947,
+    "avena": 0.0365,
+    "plasmodio tenue": 0.001,
+    "plasmodio medio": 0.0015,
+    "plasmodio intenso": 0.014
+   },
+   "final": {
+    "fondo": 0.7143,
+    "avena": 0.0251,
+    "plasmodio tenue": 0.0873,
+    "plasmodio medio": 0.0892,
+    "plasmodio intenso": 0.0841
+   }
+  },
+  {
+   "caja": "physarum-008-dish2-r1c0",
+   "pasos": 127,
+   "inicio": {
+    "fondo": 0.9169,
+    "avena": 0.0773,
+    "plasmodio tenue": 0.0004,
+    "plasmodio medio": 0.0007,
+    "plasmodio intenso": 0.0046
+   },
+   "final": {
+    "fondo": 0.7639,
+    "avena": 0.042,
+    "plasmodio tenue": 0.0764,
+    "plasmodio medio": 0.0707,
+    "plasmodio intenso": 0.047
+   }
+  },
+  {
+   "caja": "physarum-008-dish3-r1c1",
+   "pasos": 127,
+   "inicio": {
+    "fondo": 0.9164,
+    "avena": 0.0729,
+    "plasmodio tenue": 0.0008,
+    "plasmodio medio": 0.0013,
+    "plasmodio intenso": 0.0087
+   },
+   "final": {
+    "fondo": 0.8607,
+    "avena": 0.0626,
+    "plasmodio tenue": 0.036,
+    "plasmodio medio": 0.0251,
+    "plasmodio intenso": 0.0157
+   }
+  },
+  {
+   "caja": "physarum-008-dish4-r2c0",
+   "pasos": 127,
+   "inicio": {
+    "fondo": 0.9369,
+    "avena": 0.0608,
+    "plasmodio tenue": 0.0,
+    "plasmodio medio": 0.0001,
+    "plasmodio intenso": 0.0021
+   },
+   "final": {
+    "fondo": 0.8169,
+    "avena": 0.0402,
+    "plasmodio tenue": 0.0625,
+    "plasmodio medio": 0.0489,
+    "plasmodio intenso": 0.0315
+   }
+  },
+  {
+   "caja": "physarum-008-dish5-r2c1",
+   "pasos": 127,
+   "inicio": {
+    "fondo": 0.9187,
+    "avena": 0.0671,
+    "plasmodio tenue": 0.0016,
+    "plasmodio medio": 0.0045,
+    "plasmodio intenso": 0.008
+   },
+   "final": {
+    "fondo": 0.7103,
+    "avena": 0.0265,
+    "plasmodio tenue": 0.0692,
+    "plasmodio medio": 0.1094,
+    "plasmodio intenso": 0.0846
+   }
+  },
+  {
+   "caja": "physarum-009-dish0-r0c0",
+   "pasos": 227,
+   "inicio": {
+    "fondo": 0.9095,
+    "avena": 0.0717,
+    "plasmodio tenue": 0.0021,
+    "plasmodio medio": 0.0044,
+    "plasmodio intenso": 0.0123
+   },
+   "final": {
+    "fondo": 0.7567,
+    "avena": 0.0392,
+    "plasmodio tenue": 0.0413,
+    "plasmodio medio": 0.0574,
+    "plasmodio intenso": 0.1054
+   }
+  },
+  {
+   "caja": "physarum-009-dish1-r0c1",
+   "pasos": 227,
+   "inicio": {
+    "fondo": 0.9138,
+    "avena": 0.0756,
+    "plasmodio tenue": 0.0014,
+    "plasmodio medio": 0.0007,
+    "plasmodio intenso": 0.0084
+   },
+   "final": {
+    "fondo": 0.7643,
+    "avena": 0.0388,
+    "plasmodio tenue": 0.0414,
+    "plasmodio medio": 0.0454,
+    "plasmodio intenso": 0.1102
+   }
+  },
+  {
+   "caja": "physarum-009-dish2-r1c0",
+   "pasos": 227,
+   "inicio": {
+    "fondo": 0.9225,
+    "avena": 0.0709,
+    "plasmodio tenue": 0.0004,
+    "plasmodio medio": 0.0006,
+    "plasmodio intenso": 0.0055
+   },
+   "final": {
+    "fondo": 0.7821,
+    "avena": 0.0568,
+    "plasmodio tenue": 0.0417,
+    "plasmodio medio": 0.0452,
+    "plasmodio intenso": 0.0741
+   }
+  },
+  {
+   "caja": "physarum-009-dish3-r1c1",
+   "pasos": 227,
+   "inicio": {
+    "fondo": 0.9265,
+    "avena": 0.0659,
+    "plasmodio tenue": 0.0006,
+    "plasmodio medio": 0.0005,
+    "plasmodio intenso": 0.0064
+   },
+   "final": {
+    "fondo": 0.8162,
+    "avena": 0.0305,
+    "plasmodio tenue": 0.0256,
+    "plasmodio medio": 0.0335,
+    "plasmodio intenso": 0.0941
+   }
+  },
+  {
+   "caja": "physarum-009-dish4-r2c0",
+   "pasos": 227,
+   "inicio": {
+    "fondo": 0.9439,
+    "avena": 0.0451,
+    "plasmodio tenue": 0.0009,
+    "plasmodio medio": 0.0016,
+    "plasmodio intenso": 0.0085
+   },
+   "final": {
+    "fondo": 0.8348,
+    "avena": 0.0311,
+    "plasmodio tenue": 0.0429,
+    "plasmodio medio": 0.0435,
+    "plasmodio intenso": 0.0477
+   }
+  },
+  {
+   "caja": "physarum-009-dish5-r2c1",
+   "pasos": 227,
+   "inicio": {
+    "fondo": 0.9215,
+    "avena": 0.0672,
+    "plasmodio tenue": 0.001,
+    "plasmodio medio": 0.0024,
+    "plasmodio intenso": 0.0078
+   },
+   "final": {
+    "fondo": 0.8118,
+    "avena": 0.0176,
+    "plasmodio tenue": 0.0356,
+    "plasmodio medio": 0.0353,
+    "plasmodio intenso": 0.0997
+   }
+  }
+ ]
+}

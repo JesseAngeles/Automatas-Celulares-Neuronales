@@ -1,0 +1,192 @@
+{
+ "simulation": "physarum",
+ "every_min": 30,
+ "size": 160,
+ "factor": 2,
+ "persistencia": 3,
+ "estados": [
+  "borde",
+  "fondo",
+  "avena",
+  "plasmodio tenue",
+  "plasmodio medio",
+  "plasmodio intenso"
+ ],
+ "origen": "estados_cada30min",
+ "pipeline": [
+  "muestrear",
+  "limpiar",
+  "estados",
+  "estados_reducidos"
+ ],
+ "cajas": [
+  {
+   "caja": "physarum-001-dish0-r0c0",
+   "revierten_antes": 0.3077,
+   "revierten_despues": 0.0,
+   "cambian_antes": 0.0554,
+   "cambian_despues": 0.0193
+  },
+  {
+   "caja": "physarum-001-dish1-r0c1",
+   "revierten_antes": 0.3431,
+   "revierten_despues": 0.0,
+   "cambian_antes": 0.0713,
+   "cambian_despues": 0.0199
+  },
+  {
+   "caja": "physarum-001-dish2-r1c0",
+   "revierten_antes": 0.2983,
+   "revierten_despues": 0.0,
+   "cambian_antes": 0.051,
+   "cambian_despues": 0.0182
+  },
+  {
+   "caja": "physarum-001-dish3-r1c1",
+   "revierten_antes": 0.2778,
+   "revierten_despues": 0.0,
+   "cambian_antes": 0.0506,
+   "cambian_despues": 0.0184
+  },
+  {
+   "caja": "physarum-001-dish4-r2c0",
+   "revierten_antes": 0.2499,
+   "revierten_despues": 0.0,
+   "cambian_antes": 0.0539,
+   "cambian_despues": 0.0218
+  },
+  {
+   "caja": "physarum-001-dish5-r2c1",
+   "revierten_antes": 0.3119,
+   "revierten_despues": 0.0,
+   "cambian_antes": 0.0319,
+   "cambian_despues": 0.0111
+  },
+  {
+   "caja": "physarum-002-dish0-r0c0",
+   "revierten_antes": 0.2776,
+   "revierten_despues": 0.0,
+   "cambian_antes": 0.0573,
+   "cambian_despues": 0.0204
+  },
+  {
+   "caja": "physarum-002-dish1-r0c1",
+   "revierten_antes": 0.3174,
+   "revierten_despues": 0.0,
+   "cambian_antes": 0.0552,
+   "cambian_despues": 0.0176
+  },
+  {
+   "caja": "physarum-002-dish2-r1c0",
+   "revierten_antes": 0.3162,
+   "revierten_despues": 0.0,
+   "cambian_antes": 0.0589,
+   "cambian_despues": 0.018
+  },
+  {
+   "caja": "physarum-002-dish3-r1c1",
+   "revierten_antes": 0.3347,
+   "revierten_despues": 0.0,
+   "cambian_antes": 0.0711,
+   "cambian_despues": 0.0212
+  },
+  {
+   "caja": "physarum-002-dish4-r2c0",
+   "revierten_antes": 0.3033,
+   "revierten_despues": 0.0,
+   "cambian_antes": 0.0689,
+   "cambian_despues": 0.0206
+  },
+  {
+   "caja": "physarum-002-dish5-r2c1",
+   "revierten_antes": 0.2972,
+   "revierten_despues": 0.0,
+   "cambian_antes": 0.0756,
+   "cambian_despues": 0.0242
+  },
+  {
+   "caja": "physarum-008-dish0-r0c0",
+   "revierten_antes": 0.2471,
+   "revierten_despues": 0.0,
+   "cambian_antes": 0.0263,
+   "cambian_despues": 0.0086
+  },
+  {
+   "caja": "physarum-008-dish1-r0c1",
+   "revierten_antes": 0.2572,
+   "revierten_despues": 0.0,
+   "cambian_antes": 0.0696,
+   "cambian_despues": 0.0232
+  },
+  {
+   "caja": "physarum-008-dish2-r1c0",
+   "revierten_antes": 0.3031,
+   "revierten_despues": 0.0,
+   "cambian_antes": 0.0216,
+   "cambian_despues": 0.0067
+  },
+  {
+   "caja": "physarum-008-dish3-r1c1",
+   "revierten_antes": 0.2576,
+   "revierten_despues": 0.0,
+   "cambian_antes": 0.0064,
+   "cambian_despues": 0.0023
+  },
+  {
+   "caja": "physarum-008-dish4-r2c0",
+   "revierten_antes": 0.2531,
+   "revierten_despues": 0.0,
+   "cambian_antes": 0.0208,
+   "cambian_despues": 0.0065
+  },
+  {
+   "caja": "physarum-008-dish5-r2c1",
+   "revierten_antes": 0.2664,
+   "revierten_despues": 0.0,
+   "cambian_antes": 0.0234,
+   "cambian_despues": 0.0079
+  },
+  {
+   "caja": "physarum-009-dish0-r0c0",
+   "revierten_antes": 0.241,
+   "revierten_despues": 0.0,
+   "cambian_antes": 0.0681,
+   "cambian_despues": 0.0238
+  },
+  {
+   "caja": "physarum-009-dish1-r0c1",
+   "revierten_antes": 0.2446,
+   "revierten_despues": 0.0,
+   "cambian_antes": 0.0615,
+   "cambian_despues": 0.02
+  },
+  {
+   "caja": "physarum-009-dish2-r1c0",
+   "revierten_antes": 0.2349,
+   "revierten_despues": 0.0,
+   "cambian_antes": 0.0516,
+   "cambian_despues": 0.0184
+  },
+  {
+   "caja": "physarum-009-dish3-r1c1",
+   "revierten_antes": 0.2557,
+   "revierten_despues": 0.0,
+   "cambian_antes": 0.0382,
+   "cambian_despues": 0.0115
+  },
+  {
+   "caja": "physarum-009-dish4-r2c0",
+   "revierten_antes": 0.2526,
+   "revierten_despues": 0.0,
+   "cambian_antes": 0.0343,
+   "cambian_despues": 0.0103
+  },
+  {
+   "caja": "physarum-009-dish5-r2c1",
+   "revierten_antes": 0.2683,
+   "revierten_despues": 0.0,
+   "cambian_antes": 0.0318,
+   "cambian_despues": 0.0089
+  }
+ ]
+}

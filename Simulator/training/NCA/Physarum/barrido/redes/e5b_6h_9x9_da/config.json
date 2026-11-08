@@ -1,0 +1,13 @@
+{
+ "ca": "estados_cada30min_160",
+ "mapa": "5b",
+ "vecindad": "9x9",
+ "capas": "16x64",
+ "one_hot": true,
+ "paso": 12,
+ "epocas": 30,
+ "semilla": 42,
+ "vector": false,
+ "desfases": true,
+ "aumento": true
+}

@@ -1,0 +1,3 @@
+experimento,caso,radio,epocas_hechas,loss_final,lr_final,tiempo_s,original,max_diferencia_pesos,identicos
+5_1_memoria,referencia_s42,4,200,0.8116738432868916,9.999999999999989e-06,19.7,NCA/FLAME3/historial/sin_p2/semillas/p1_a_p3/log15_k6_r4_cruda_2x32_exp_s42.npz,0.0,True
+5_1_memoria,200_17x17_s42,8,200,0.795635395190295,9.999999999999989e-06,70.2,NCA/FLAME3/historial/opciones/7_resolucion200/redes/p1_a_p3/200_k6_r8_cruda_2x32_exp_s42.npz,0.0,True

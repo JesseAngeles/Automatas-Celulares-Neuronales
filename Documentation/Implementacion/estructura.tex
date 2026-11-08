@@ -73,10 +73,10 @@ Reúne los \textit{scripts} de entrenamiento del autómata celular neuronal, las
         \textbf{Archivo /}   \quad \textbf{directorio} & \textbf{Responsabilidad} \\ \hline
         \texttt{scripts/} \texttt{main.py} & \textit{Script} principal. Implementa la extracción de pares (vecindad, objetivo), la construcción dinámica del MLP en PyTorch y el ciclo de entrenamiento. \\ \hline
         \texttt{scripts/} \texttt{test.py} & Implementa en NumPy el paso del autómata celular neuronal y compara su evolución con la regla exacta del juego de la vida. \\ \hline
-        \texttt{preprocessing/} & Utilidades para convertir datos externos al formato \texttt{(T, H, W)} en \texttt{.npy}/\texttt{.mat}: secuencias PNG segmentadas (\texttt{png\_to\_evolution.py}), imágenes térmicas del conjunto FLAME 3 (\texttt{celsius\_to\_evolution.py}, \texttt{thermal\_to\_evolution.py}) y secuencias de desarrollo embrionario (\texttt{embryo\_to\_evolution.py}). \\ \hline
-        \texttt{CA/} & Evoluciones de referencia, una carpeta por regla (\texttt{evo} para entrenamiento, \texttt{base} como condición de prueba), \texttt{FLAME3/} con las evoluciones térmicas, \texttt{embryo/} con las imágenes de embriones y \texttt{embryo\_states/} con sus evoluciones segmentadas. \\ \hline
-        \texttt{NCA/} & Pesos entrenados (\texttt{.npz}) por regla, las evoluciones que producen (\texttt{t\_*}) y los \textit{notebooks} de análisis de cada experimento; \texttt{ga\_runs/} contiene la búsqueda genética. \\ \hline
-        \texttt{notebooks/} & \textit{Notebooks} de Wolfram Mathematica para análisis y verificación visual generales. \\ \hline
+        \texttt{scripts/} \texttt{png\_to\_\allowbreak evolution.py} & Convierte una secuencia de imágenes PNG segmentadas en una evolución con el formato \texttt{(T, H, W)} en \texttt{.npy}/\texttt{.mat}. \\ \hline
+        \texttt{CA/} & Evoluciones de referencia, una carpeta por experimento: las reglas del juego de la vida (\texttt{evo} para entrenamiento, \texttt{base} como condición de prueba), \texttt{Sandpile/}, \texttt{LangtonAnt/}, \texttt{FLAME3/}, \texttt{SEVIR/} y \texttt{Physarum/}. \\ \hline
+        \texttt{NCA/} & Pesos entrenados (\texttt{.npz}) por experimento, las evoluciones que producen (\texttt{t\_*}) y los resultados de los barridos; \texttt{ga\_runs/} contiene la búsqueda genética. \\ \hline
+        \texttt{notebooks/} & Un \textit{notebook} por experimento: de Python (\texttt{.ipynb}) para convertir los datos externos en evoluciones (FLAME~3, SEVIR y \textit{Physarum}) y de Wolfram Mathematica (\texttt{.nb}) para el análisis y las figuras (juego de la vida, \textit{sandpile}, hormiga de Langton y FLAME~3). \\ \hline
         \texttt{Dataset/} & Datos crudos descargados (no versionado). \\ \hline
     \end{tabular}
     \caption{Contenido del directorio \texttt{training/}.}

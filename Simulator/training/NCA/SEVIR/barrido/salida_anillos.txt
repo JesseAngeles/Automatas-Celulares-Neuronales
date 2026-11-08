@@ -1,0 +1,8 @@
+[2026-10-29 12:47:02] Anillos con 16x64 cruda, 400 tormentas × 5 transiciones
+[2026-10-29 12:48:30] f4_anillos6_16x64_cruda_t400_k5_e7_s42_ep30: pérdida 0.22884, 81.0 s | un paso área 0.82599 (copia 0.77983) | libre 60 área 0.41416 (copia 0.31777), proporción 120 0.66951
+[2026-10-29 12:49:56] f4_anillos6_16x64_cruda_t400_k5_e7_s1_ep30: pérdida 0.22887, 79.6 s | un paso área 0.82591 (copia 0.77983) | libre 60 área 0.40962 (copia 0.31777), proporción 120 0.64232
+[2026-10-29 12:51:22] f4_anillos6_16x64_cruda_t400_k5_e7_s2_ep30: pérdida 0.22922, 79.2 s | un paso área 0.82575 (copia 0.77983) | libre 60 área 0.41167 (copia 0.31777), proporción 120 0.66799
+[2026-10-29 12:52:51] f4_anillos11_16x64_cruda_t400_k5_e7_s42_ep30: pérdida 0.22781, 81.0 s | un paso área 0.82693 (copia 0.77983) | libre 60 área 0.41303 (copia 0.31777), proporción 120 0.6506
+[2026-10-29 12:54:22] f4_anillos11_16x64_cruda_t400_k5_e7_s1_ep30: pérdida 0.22782, 82.5 s | un paso área 0.82672 (copia 0.77983) | libre 60 área 0.4124 (copia 0.31777), proporción 120 0.64547
+[2026-10-29 12:55:52] f4_anillos11_16x64_cruda_t400_k5_e7_s2_ep30: pérdida 0.2275, 81.9 s | un paso área 0.82687 (copia 0.77983) | libre 60 área 0.41189 (copia 0.31777), proporción 120 0.63853
+[2026-10-29 12:55:52] Anillos terminados
