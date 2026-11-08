@@ -1,8 +1,12 @@
 % Revisión: permite cortar las URL largas de la bibliografía también en los guiones
 \PassOptionsToPackage{hyphens}{url}
 \usepackage[utf8]{inputenc}
+% Tamaños de letra exactos con \fontsize (sin esto, 14 pt se vuelve 14.4 pt, 16 pt se vuelve 17.28 pt, etc.).
+% Va antes de fontenc; los tamaños estándar siguen usando la misma fuente que antes
+\usepackage{type1ec}
 \usepackage[T1]{fontenc}
-\usepackage[spanish,es-tabla]{babel}
+% english solo para partir bien las palabras del abstract (otherlanguage); el idioma principal sigue siendo el último, spanish
+\usepackage[english,spanish,es-tabla]{babel}
 
 \decimalpoint
 
@@ -44,6 +48,8 @@
 \definecolor{boxBorder}{RGB}{225,202,114}
 \definecolor{boxText}{RGB}{40,37,61}
 \definecolor{labelFill}{RGB}{214,214,214}
+% Líneas verticales del margen de la portada
+\definecolor{coverBlue}{RGB}{68,114,196}
 \tikzset{
 	flowchart/.style={node distance=2.2cm, font=\sffamily},
 	flowbox/.style={draw=boxBorder, fill=boxFill, text=boxText, line width=0.8pt,

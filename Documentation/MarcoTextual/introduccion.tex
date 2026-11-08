@@ -1,21 +1,5 @@
 \chapter{Introducción}
 
-\section{Resumen}
-
-Los autómatas celulares son un modelo matemático usado para simular fenómenos de la naturaleza: se define una regla y se aplica a una condición inicial para estudiar la evolución que produce. En esta investigación se plantea el problema inverso: a partir de la evolución observada de un sistema complejo, inferir la regla local que la rige mediante redes neuronales que funcionan como función de transición, es decir, mediante autómatas celulares neuronales.
-
-El reporte se divide en dos partes: (1) el diseño y desarrollo del simulador, desde la toma de requerimientos hasta las pruebas, y (2) la investigación, que abarca el marco teórico, el estado del arte, el marco metodológico, la experimentación y los resultados. El simulador evoluciona autómatas celulares bidimensionales de hasta 20 estados con vecindades semitotalísticas de hasta $7 \times 7$ células, así como autómatas celulares neuronales, e incluye un módulo de entrenamiento disponible desde el simulador y desde la línea de comandos.
-
-Se realizaron 6 experimentos. Los tres primeros replican de forma idéntica las configuraciones tradicionales de sistemas conocidos (el juego de la vida, la hormiga de Langton y el modelo de \textit{sandpile}) y permitieron definir las configuraciones recomendadas de la red neuronal. Los otros tres usan conjuntos de datos de sistemas reales: la propagación de fuego (FLAME~3), el movimiento de tormentas (SEVIR) y el crecimiento del moho \textit{Physarum polycephalum}. Se obtuvo una regla que simula la propagación del fuego, con limitaciones por no ser un sistema aislado, y, mediante ruido, una que simula el crecimiento del moho. El movimiento de las tormentas, que tampoco es un sistema aislado, no se pudo replicar.
-
-\section{\textit{Abstract}}
-
-Cellular automata are a mathematical model used to simulate natural phenomena: a rule is defined and applied to an initial condition to study the evolution it produces. This work addresses the inverse problem: given the observed evolution of a complex system, infer the local rule that governs it by means of neural networks acting as the transition function, that is, neural cellular automata.
-
-The report is divided into two parts: (1) the design and development of the simulator, from requirements gathering to testing, and (2) the research, which covers the theoretical framework, the state of the art, the methodological framework, the experiments and the results. The simulator evolves two-dimensional cellular automata with up to 20 states and semi-totalistic neighborhoods of up to $7 \times 7$ cells, as well as neural cellular automata, and includes a training module available from the simulator and from the command line.
-
-Six experiments were carried out. The first three exactly replicate the traditional configurations of well-known systems (the Game of Life, Langton's ant and the sandpile model) and made it possible to define the recommended neural network configurations. The other three use datasets of real systems: fire spread (FLAME~3), storm motion (SEVIR) and the growth of the slime mold \textit{Physarum polycephalum}. A rule that simulates fire spread was obtained, with limitations because it is not an isolated system, and, by means of noise, one that simulates the growth of the slime mold. Storm motion, which is not an isolated system either, could not be replicated.
-
 \section{Planteamiento del problema}
 
 La simulación de sistemas complejos ha surgido como una herramienta indispensable para la comprensión y el análisis de fenómenos en diversas áreas del conocimiento, desde la física y la biología hasta las ciencias sociales y económicas. Tradicionalmente, los autómatas celulares han servido como un modelo matemático fundamental para estudiar estos sistemas mediante la representación de procesos dinámicos. 
