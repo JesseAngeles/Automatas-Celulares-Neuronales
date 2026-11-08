@@ -1,6 +1,6 @@
 """Barrido de hormigas de Langton con 2 a 10 colores (dos hormigas con exclusión, 30 × 30, 10 000 pasos).
 
-Para cada regla de CA/LangtonAnt/colores_30x30_2hormigas/<regla>/ (generadas con notebooks/langton.nb):
+Para cada regla de CA/LangtonAnt/colores_30x30_2hormigas/<regla>/ (generadas con notebooks/LangtonAnt.nb):
   1. verifica la evolución contra una simulación independiente y que la regla sea determinista con el rombo de radio 2;
   2. entrena 4:64:ReLU & 5n:Linear con one-hot (5n estados), tasa dinámica (plateau) y pérdida objetivo 1e-7;
   3. evalúa la exactitud a un paso y la evolución en lazo cerrado contra la regla exacta.

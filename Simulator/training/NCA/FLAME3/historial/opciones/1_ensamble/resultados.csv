@@ -1,0 +1,5 @@
+opcion,variante,ronda,semilla,prueba,paso_frames,decodificador,red,exact_temp,mae_c,encendido,precision_encendido,predichos_encendido,copia_exact_temp,copia_mae_c,cuantizacion_mae_c,rollout_frames,rollout_mae_c,rollout_mae_c_std,rollout_mae_c_campo_medio,rollout_iou_fuego,rollout_iou_quemado,copia_rollout_mae_c,copia_rollout_iou_fuego,copia_rollout_iou_quemado
+1_ensamble,sin_p2,p1_a_p3,ensamble,p3,6,argmax,5 semillas de sin_p2,0.57481,20.58088,0.04428,0.51024,2832,0.55677,22.3152,5.2001,120,24.164,0.0,24.164,0.0412,0.2012,29.497,0.036,0.0476
+1_ensamble,sin_p2,p3_a_p1,ensamble,p1,6,argmax,5 semillas de sin_p2,0.59658,13.11236,0.12461,0.6081,5851,0.61321,14.3736,3.4912,120,11.96,0.0,11.96,0.0202,0.0287,18.098,0.0312,0.0285
+1_ensamble,rotaciones,p1_a_p3,ensamble,p3,6,argmax,5 semillas de rotaciones,0.58401,20.26669,0.0353,0.58926,1955,0.55677,22.3152,5.2001,120,20.124,0.0,20.124,0.0271,0.0724,29.497,0.036,0.0476
+1_ensamble,rotaciones,p3_a_p1,ensamble,p1,6,argmax,5 semillas de rotaciones,0.58014,12.59475,0.05747,0.62586,2622,0.61321,14.3736,3.4912,120,17.025,0.0,17.025,0.0251,0.0292,18.098,0.0312,0.0285

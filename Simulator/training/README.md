@@ -5,13 +5,18 @@ capítulo *Experimentación y resultados* (`Documentation/Experimentacion/`).
 
 ```
 training/
-├── scripts/        main.py (entrenamiento), genetic_search.py, test.py
-├── preprocessing/  datos externos → evoluciones (T, n, n) int32 en .npy/.mat
+├── scripts/        main.py (entrenamiento), genetic_search.py, test.py, png_to_evolution.py, barridos
+├── notebooks/      un notebook por experimento: Python (.ipynb, datos externos → evoluciones (T, n, n))
+│                   y Wolfram (.nb, análisis y figuras del reporte)
 ├── CA/             evoluciones de referencia (entrada del entrenamiento)
-├── NCA/            pesos entrenados (.npz), evoluciones que generan y notebooks de análisis
-├── notebooks/      notebooks generales de Mathematica
+├── NCA/            pesos entrenados (.npz) y evoluciones que generan
 └── Dataset/        datos crudos descargados (no versionado)
 ```
+
+Cada experimento usa el mismo nombre en `CA/` y en `NCA/` (p. ej. `CA/Sandpile/` → `NCA/Sandpile/`).
+FLAME 3 separa sus datos por selección de frames: crudos en `Dataset/FLAME3/seleccion{1,2}/` y evoluciones en
+`CA/FLAME3/seleccion{1,2}/`. En `NCA/FLAME3/`, `burned_states/` es la configuración final e `historial/` los
+experimentos previos (ver `NCA/FLAME3/RESULTADOS.md`).
 
 Todos los comandos se corren desde `Simulator/training` con el venv de la GUI:
 
@@ -30,7 +35,7 @@ PY=../GUI/venv/bin/python
 | 1.2 | Tamaño de vecindad | `B3S23/` | `Vecindad/` | `exp1_vecindad.tex` | TODO |
 | 1.3 | Sandpile | `Sandpile/` | `Sandpile/` | `exp1_sandpile_langton.tex` | TODO |
 | 1.3 | Hormiga de Langton | `LangtonAnt/` | `LangtonAnt/` | `exp1_sandpile_langton.tex` | TODO |
-| 2.1 | Incendio (FLAME 3) | `FLAME3/` | `FLAME3/` | `exp2_flame3.tex` | Limpieza hecha; falta entrenar |
+| 2.1 | Incendio (FLAME 3) | `FLAME3/` | `FLAME3/` | `naturales/flame.tex` | Hecho (`NCA/FLAME3/RESULTADOS.md`) |
 | 2.2 | Desarrollo embrionario | `embryo/` → `embryo_states/` | `embryo/` | `exp2_embriones.tex` | Limpieza hecha (3 embriones); falta lote y entrenar |
 | 2.3 | Cell Tracking Challenge | `CTC/` (crudos en `Dataset/CTC/`) | `CTC/` | `exp2_ctc.tex` | TODO: descargar y limpiar |
 | 3 | Morfogénesis | — | `Morfogenesis/` | `exp3_morfogenesis.tex` | TODO |
@@ -69,32 +74,7 @@ la comparación sea justa.
 
 ### 2.1 FLAME 3
 
-- [ ] Entrenar con `CA/FLAME3/flame3_plot1_celsius_100.npy` (4 estados):
-      `$PY scripts/main.py --data CA/FLAME3/flame3_plot1_celsius_100.npy --out-size 4 --out-act linear --output NCA/FLAME3/plot1.npz --log-csv NCA/FLAME3/plot1.csv`
-- [ ] (Opcional) descargar los GeoTIFF en °C de plot 2.
-
-Detalle del proceso: `preprocessing/README.md`.
-
-### 2.2 Embriones
-
-- [ ] Procesar el lote completo (sin figuras):
-      `$PY preprocessing/embryo_to_evolution.py CA/embryo/* --no-figures`
-- [ ] Decidir qué embriones excluir (pegados a la pared del pozo, pocos frames).
-- [ ] Decidir si se borran las copias duplicadas de `CA/embryo/*/F0/` (~3 GB).
-- [ ] Entrenar (5 estados).
-
-Detalle del proceso: `preprocessing/README_embryo.md`.
-
-### 2.3 Cell Tracking Challenge
-
-- [ ] Descargar los 8 datasets 2D ligeros (~635 MB). El servidor
-      `data.celltrackingchallenge.net` rechazaba conexiones el 2026-10-07; reintentar:
-      `$PY preprocessing/download_ctc.py`
-- [ ] Revisar qué secuencias tienen segmentación completa (`<seq>_ST/SEG` en todos los
-      frames) y elegir con cuáles trabajar.
-- [ ] Definir los estados a partir de las máscaras (p. ej. fondo / interior / borde de célula)
-      y escribir `preprocessing/ctc_to_evolution.py`.
-- [ ] Entrenar.
+Hecho. Resultados en `NCA/FLAME3/RESULTADOS.md`; proceso de datos en `notebooks/FLAME3.ipynb`.
 
 ### 3 Morfogénesis
 

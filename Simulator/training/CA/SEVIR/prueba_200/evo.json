@@ -1,0 +1,1221 @@
+{
+ "simulation": "sevir_vil",
+ "year": 2019,
+ "zoom": 4,
+ "cell_km": 4,
+ "step_min": 5,
+ "thresholds_vil": [
+  16,
+  74,
+  133,
+  160,
+  181,
+  219
+ ],
+ "k": 7,
+ "min_frac": 0.02,
+ "seed": 0,
+ "candidates": 1051,
+ "events": [
+  {
+   "id": "S825590",
+   "time_utc": "2019-05-17 02:23:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0251
+  },
+  {
+   "id": "S814850",
+   "time_utc": "2019-03-14 20:12:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.0658
+  },
+  {
+   "id": "S852446",
+   "time_utc": "2019-08-30 01:37:00",
+   "event_type": "Flash Flood",
+   "frac_estado2_inicio": 0.0758
+  },
+  {
+   "id": "S857635",
+   "time_utc": "2019-09-10 05:45:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0331
+  },
+  {
+   "id": "S812905",
+   "time_utc": "2019-04-24 00:00:00",
+   "event_type": "Lightning",
+   "frac_estado2_inicio": 0.0416
+  },
+  {
+   "id": "S837319",
+   "time_utc": "2019-06-14 01:46:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0435
+  },
+  {
+   "id": "S844166",
+   "time_utc": "2019-07-21 20:20:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0637
+  },
+  {
+   "id": "S831990",
+   "time_utc": "2019-05-30 21:07:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.0279
+  },
+  {
+   "id": "S852981",
+   "time_utc": "2019-08-19 21:30:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0907
+  },
+  {
+   "id": "S833240",
+   "time_utc": "2019-07-22 22:05:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0514
+  },
+  {
+   "id": "S841230",
+   "time_utc": "2019-07-14 23:05:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.027
+  },
+  {
+   "id": "S792249",
+   "time_utc": "2019-01-03 18:30:00",
+   "event_type": "Flash Flood",
+   "frac_estado2_inicio": 0.5451
+  },
+  {
+   "id": "S795292",
+   "time_utc": "2019-01-04 19:56:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.2933
+  },
+  {
+   "id": "S810279",
+   "time_utc": "2019-02-07 11:00:00",
+   "event_type": "Flash Flood",
+   "frac_estado2_inicio": 0.0831
+  },
+  {
+   "id": "S855381",
+   "time_utc": "2019-08-25 22:42:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.023
+  },
+  {
+   "id": "S840860",
+   "time_utc": "2019-06-12 00:25:00",
+   "event_type": "Flash Flood",
+   "frac_estado2_inicio": 0.1953
+  },
+  {
+   "id": "S856840",
+   "time_utc": "2019-09-05 16:37:00",
+   "event_type": "Tornado",
+   "frac_estado2_inicio": 0.2257
+  },
+  {
+   "id": "S828219",
+   "time_utc": "2019-05-27 01:30:00",
+   "event_type": "Flash Flood",
+   "frac_estado2_inicio": 0.3739
+  },
+  {
+   "id": "S836472",
+   "time_utc": "2019-07-24 04:21:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0276
+  },
+  {
+   "id": "S847186",
+   "time_utc": "2019-08-20 21:45:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1555
+  },
+  {
+   "id": "S813630",
+   "time_utc": "2019-04-14 20:40:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.2029
+  },
+  {
+   "id": "S848127",
+   "time_utc": "2019-07-20 14:00:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.2458
+  },
+  {
+   "id": "S824150",
+   "time_utc": "2019-05-19 11:53:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0235
+  },
+  {
+   "id": "S840229",
+   "time_utc": "2019-08-08 20:15:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0212
+  },
+  {
+   "id": "S856726",
+   "time_utc": "2019-09-21 03:40:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0388
+  },
+  {
+   "id": "S851584",
+   "time_utc": "2019-08-08 05:12:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0484
+  },
+  {
+   "id": "S857225",
+   "time_utc": "2019-09-27 17:45:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.2964
+  },
+  {
+   "id": "S847970",
+   "time_utc": "2019-07-20 18:30:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.0276
+  },
+  {
+   "id": "S856580",
+   "time_utc": "2019-09-06 15:23:00",
+   "event_type": "Heavy Rain",
+   "frac_estado2_inicio": 0.4659
+  },
+  {
+   "id": "S850107",
+   "time_utc": "2019-08-17 19:29:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.0216
+  },
+  {
+   "id": "S853252",
+   "time_utc": "2019-08-13 19:50:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1022
+  },
+  {
+   "id": "S809884",
+   "time_utc": "2019-04-08 20:06:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.1182
+  },
+  {
+   "id": "S814695",
+   "time_utc": "2019-04-30 00:30:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.1133
+  },
+  {
+   "id": "S828585",
+   "time_utc": "2019-07-14 15:05:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.1988
+  },
+  {
+   "id": "S849879",
+   "time_utc": "2019-08-26 11:22:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.189
+  },
+  {
+   "id": "S832253",
+   "time_utc": "2019-07-03 01:48:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1752
+  },
+  {
+   "id": "S855443",
+   "time_utc": "2019-09-25 21:41:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0462
+  },
+  {
+   "id": "S829392",
+   "time_utc": "2019-05-23 03:09:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1219
+  },
+  {
+   "id": "S839138",
+   "time_utc": "2019-07-20 20:45:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1534
+  },
+  {
+   "id": "S857024",
+   "time_utc": "2019-09-16 21:53:00",
+   "event_type": "Flash Flood",
+   "frac_estado2_inicio": 0.0286
+  },
+  {
+   "id": "S819694",
+   "time_utc": "2019-05-23 07:15:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.2523
+  },
+  {
+   "id": "S851094",
+   "time_utc": "2019-08-15 00:40:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0416
+  },
+  {
+   "id": "S823822",
+   "time_utc": "2019-05-20 18:19:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.1862
+  },
+  {
+   "id": "S830304",
+   "time_utc": "2019-05-28 22:50:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0845
+  },
+  {
+   "id": "S852436",
+   "time_utc": "2019-08-25 19:48:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1323
+  },
+  {
+   "id": "S849194",
+   "time_utc": "2019-09-05 02:12:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0298
+  },
+  {
+   "id": "S842196",
+   "time_utc": "2019-05-18 22:35:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.2153
+  },
+  {
+   "id": "S799373",
+   "time_utc": "2019-02-20 14:30:00",
+   "event_type": "Flash Flood",
+   "frac_estado2_inicio": 0.1986
+  },
+  {
+   "id": "S850648",
+   "time_utc": "2019-08-20 18:54:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1314
+  },
+  {
+   "id": "S808466",
+   "time_utc": "2019-03-02 10:53:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.0226
+  },
+  {
+   "id": "S818821",
+   "time_utc": "2019-05-01 01:30:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1717
+  },
+  {
+   "id": "S799730",
+   "time_utc": "2019-02-22 13:00:00",
+   "event_type": "Flash Flood",
+   "frac_estado2_inicio": 0.2433
+  },
+  {
+   "id": "S844721",
+   "time_utc": "2019-08-04 02:40:00",
+   "event_type": "Lightning",
+   "frac_estado2_inicio": 0.0526
+  },
+  {
+   "id": "S844398",
+   "time_utc": "2019-07-29 21:50:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.0419
+  },
+  {
+   "id": "S852920",
+   "time_utc": "2019-08-17 06:37:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0306
+  },
+  {
+   "id": "S823589",
+   "time_utc": "2019-06-07 13:09:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0926
+  },
+  {
+   "id": "S832711",
+   "time_utc": "2019-07-22 03:05:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0958
+  },
+  {
+   "id": "S853391",
+   "time_utc": "2019-08-15 10:23:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0334
+  },
+  {
+   "id": "S843930",
+   "time_utc": "2019-08-01 05:45:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0303
+  },
+  {
+   "id": "S826597",
+   "time_utc": "2019-05-27 05:47:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1317
+  },
+  {
+   "id": "S816678",
+   "time_utc": "2019-04-15 06:38:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1118
+  },
+  {
+   "id": "S828427",
+   "time_utc": "2019-06-03 00:08:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.0288
+  },
+  {
+   "id": "S849884",
+   "time_utc": "2019-08-13 18:30:00",
+   "event_type": "Flood",
+   "frac_estado2_inicio": 0.0459
+  },
+  {
+   "id": "S831443",
+   "time_utc": "2019-05-18 01:18:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.0729
+  },
+  {
+   "id": "S806181",
+   "time_utc": "2019-04-07 21:30:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.1549
+  },
+  {
+   "id": "S804333",
+   "time_utc": "2019-03-09 15:29:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1458
+  },
+  {
+   "id": "S844198",
+   "time_utc": "2019-07-22 00:36:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0984
+  },
+  {
+   "id": "S850779",
+   "time_utc": "2019-08-24 11:40:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.0486
+  },
+  {
+   "id": "S840113",
+   "time_utc": "2019-06-04 01:30:00",
+   "event_type": "Flash Flood",
+   "frac_estado2_inicio": 0.0698
+  },
+  {
+   "id": "S841009",
+   "time_utc": "2019-08-20 21:05:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0645
+  },
+  {
+   "id": "S841114",
+   "time_utc": "2019-08-19 21:00:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0349
+  },
+  {
+   "id": "S852187",
+   "time_utc": "2019-08-17 21:30:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0697
+  },
+  {
+   "id": "S856018",
+   "time_utc": "2019-09-26 06:15:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.141
+  },
+  {
+   "id": "S812115",
+   "time_utc": "2019-03-09 23:16:00",
+   "event_type": "Tornado",
+   "frac_estado2_inicio": 0.3404
+  },
+  {
+   "id": "S834193",
+   "time_utc": "2019-06-26 01:30:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0418
+  },
+  {
+   "id": "S826273",
+   "time_utc": "2019-05-26 15:25:00",
+   "event_type": "Flash Flood",
+   "frac_estado2_inicio": 0.221
+  },
+  {
+   "id": "S833039",
+   "time_utc": "2019-08-02 21:46:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0217
+  },
+  {
+   "id": "S849773",
+   "time_utc": "2019-08-20 09:30:00",
+   "event_type": "Heavy Rain",
+   "frac_estado2_inicio": 0.1296
+  },
+  {
+   "id": "S826860",
+   "time_utc": "2019-05-29 22:16:00",
+   "event_type": "Tornado",
+   "frac_estado2_inicio": 0.2459
+  },
+  {
+   "id": "S818385",
+   "time_utc": "2019-05-29 21:25:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.087
+  },
+  {
+   "id": "S849075",
+   "time_utc": "2019-08-18 22:42:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1476
+  },
+  {
+   "id": "S821901",
+   "time_utc": "2019-04-26 16:00:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0354
+  },
+  {
+   "id": "S851529",
+   "time_utc": "2019-08-15 20:10:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0235
+  },
+  {
+   "id": "S813583",
+   "time_utc": "2019-03-12 18:26:00",
+   "event_type": "Flood",
+   "frac_estado2_inicio": 0.1255
+  },
+  {
+   "id": "S852554",
+   "time_utc": "2019-08-18 00:14:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0795
+  },
+  {
+   "id": "S835074",
+   "time_utc": "2019-08-09 02:26:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0598
+  },
+  {
+   "id": "S857528",
+   "time_utc": "2019-09-22 00:43:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0239
+  },
+  {
+   "id": "S816703",
+   "time_utc": "2019-04-30 19:21:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.189
+  },
+  {
+   "id": "S854784",
+   "time_utc": "2019-09-13 23:32:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0234
+  },
+  {
+   "id": "S823798",
+   "time_utc": "2019-05-21 11:08:00",
+   "event_type": "Tornado",
+   "frac_estado2_inicio": 0.3962
+  },
+  {
+   "id": "S850151",
+   "time_utc": "2019-08-27 04:56:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1284
+  },
+  {
+   "id": "S808402",
+   "time_utc": "2019-03-02 20:32:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.0662
+  },
+  {
+   "id": "S843100",
+   "time_utc": "2019-06-11 19:37:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.0435
+  },
+  {
+   "id": "S833229",
+   "time_utc": "2019-08-01 04:05:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.05
+  },
+  {
+   "id": "S852530",
+   "time_utc": "2019-08-11 00:15:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.064
+  },
+  {
+   "id": "S819843",
+   "time_utc": "2019-04-08 21:03:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1286
+  },
+  {
+   "id": "S829098",
+   "time_utc": "2019-07-09 04:54:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.324
+  },
+  {
+   "id": "S849344",
+   "time_utc": "2019-08-02 02:42:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0717
+  },
+  {
+   "id": "S828399",
+   "time_utc": "2019-05-23 14:06:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0409
+  },
+  {
+   "id": "S843992",
+   "time_utc": "2019-07-28 01:45:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0457
+  },
+  {
+   "id": "S802418",
+   "time_utc": "2019-02-27 05:17:00",
+   "event_type": "Flood",
+   "frac_estado2_inicio": 0.2438
+  },
+  {
+   "id": "S842671",
+   "time_utc": "2019-07-24 03:38:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0693
+  },
+  {
+   "id": "S814732",
+   "time_utc": "2019-05-21 08:31:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1746
+  },
+  {
+   "id": "S836542",
+   "time_utc": "2019-08-14 08:25:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.0602
+  },
+  {
+   "id": "S831768",
+   "time_utc": "2019-07-02 01:03:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.0609
+  },
+  {
+   "id": "S818096",
+   "time_utc": "2019-05-26 21:42:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.134
+  },
+  {
+   "id": "S842315",
+   "time_utc": "2019-07-28 00:49:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1123
+  },
+  {
+   "id": "S808943",
+   "time_utc": "2019-04-07 09:03:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.0734
+  },
+  {
+   "id": "S847132",
+   "time_utc": "2019-08-01 03:00:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.0251
+  },
+  {
+   "id": "S802998",
+   "time_utc": "2019-03-22 16:27:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.0637
+  },
+  {
+   "id": "S816963",
+   "time_utc": "2019-05-31 20:44:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0859
+  },
+  {
+   "id": "S829342",
+   "time_utc": "2019-07-20 22:00:00",
+   "event_type": "Lightning",
+   "frac_estado2_inicio": 0.0917
+  },
+  {
+   "id": "S817689",
+   "time_utc": "2019-04-08 02:16:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.0214
+  },
+  {
+   "id": "S838628",
+   "time_utc": "2019-06-27 07:53:00",
+   "event_type": "Heavy Rain",
+   "frac_estado2_inicio": 0.1477
+  },
+  {
+   "id": "S824376",
+   "time_utc": "2019-05-29 01:22:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.2102
+  },
+  {
+   "id": "S857372",
+   "time_utc": "2019-09-05 10:37:00",
+   "event_type": "Tornado",
+   "frac_estado2_inicio": 0.3108
+  },
+  {
+   "id": "S816338",
+   "time_utc": "2019-03-24 23:22:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.0647
+  },
+  {
+   "id": "S831634",
+   "time_utc": "2019-05-28 21:45:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.2193
+  },
+  {
+   "id": "S851491",
+   "time_utc": "2019-08-14 02:25:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1434
+  },
+  {
+   "id": "S830905",
+   "time_utc": "2019-05-25 00:30:00",
+   "event_type": "Flash Flood",
+   "frac_estado2_inicio": 0.2387
+  },
+  {
+   "id": "S855170",
+   "time_utc": "2019-09-20 02:19:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0425
+  },
+  {
+   "id": "S851388",
+   "time_utc": "2019-08-27 02:43:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0399
+  },
+  {
+   "id": "S821079",
+   "time_utc": "2019-05-26 07:00:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1255
+  },
+  {
+   "id": "S857519",
+   "time_utc": "2019-09-08 02:28:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.0308
+  },
+  {
+   "id": "S826757",
+   "time_utc": "2019-05-21 19:39:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1865
+  },
+  {
+   "id": "S831809",
+   "time_utc": "2019-05-28 20:34:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.0232
+  },
+  {
+   "id": "S814819",
+   "time_utc": "2019-04-07 02:51:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.035
+  },
+  {
+   "id": "S848711",
+   "time_utc": "2019-08-13 19:11:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0446
+  },
+  {
+   "id": "S827290",
+   "time_utc": "2019-07-01 23:45:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.0268
+  },
+  {
+   "id": "S818371",
+   "time_utc": "2019-05-27 01:15:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0897
+  },
+  {
+   "id": "S833769",
+   "time_utc": "2019-06-04 19:50:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0615
+  },
+  {
+   "id": "S807772",
+   "time_utc": "2019-04-15 07:40:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1317
+  },
+  {
+   "id": "S838734",
+   "time_utc": "2019-06-12 21:32:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0735
+  },
+  {
+   "id": "S839048",
+   "time_utc": "2019-08-15 01:15:00",
+   "event_type": "Flash Flood",
+   "frac_estado2_inicio": 0.0356
+  },
+  {
+   "id": "S828550",
+   "time_utc": "2019-07-19 19:25:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.051
+  },
+  {
+   "id": "S843409",
+   "time_utc": "2019-08-02 23:59:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.051
+  },
+  {
+   "id": "S847917",
+   "time_utc": "2019-08-19 03:45:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.2067
+  },
+  {
+   "id": "S827533",
+   "time_utc": "2019-05-27 23:18:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1569
+  },
+  {
+   "id": "S853622",
+   "time_utc": "2019-08-10 00:00:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.0283
+  },
+  {
+   "id": "S800427",
+   "time_utc": "2019-02-04 14:02:00",
+   "event_type": "Flood",
+   "frac_estado2_inicio": 0.1772
+  },
+  {
+   "id": "S845779",
+   "time_utc": "2019-07-14 10:30:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.3053
+  },
+  {
+   "id": "S843230",
+   "time_utc": "2019-07-19 06:01:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.087
+  },
+  {
+   "id": "S857352",
+   "time_utc": "2019-09-06 00:45:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0742
+  },
+  {
+   "id": "S813542",
+   "time_utc": "2019-03-01 23:17:00",
+   "event_type": "Tornado",
+   "frac_estado2_inicio": 0.065
+  },
+  {
+   "id": "S830300",
+   "time_utc": "2019-05-22 00:00:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.0321
+  },
+  {
+   "id": "S846277",
+   "time_utc": "2019-07-23 01:30:00",
+   "event_type": "Flood",
+   "frac_estado2_inicio": 0.2155
+  },
+  {
+   "id": "S857832",
+   "time_utc": "2019-09-19 11:01:00",
+   "event_type": "Flash Flood",
+   "frac_estado2_inicio": 0.2326
+  },
+  {
+   "id": "S844317",
+   "time_utc": "2019-07-03 01:26:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0676
+  },
+  {
+   "id": "S852497",
+   "time_utc": "2019-08-02 14:00:00",
+   "event_type": "Flash Flood",
+   "frac_estado2_inicio": 0.509
+  },
+  {
+   "id": "S857803",
+   "time_utc": "2019-09-19 00:00:00",
+   "event_type": "Flash Flood",
+   "frac_estado2_inicio": 0.2451
+  },
+  {
+   "id": "S825535",
+   "time_utc": "2019-05-26 02:38:00",
+   "event_type": "Flash Flood",
+   "frac_estado2_inicio": 0.536
+  },
+  {
+   "id": "S806179",
+   "time_utc": "2019-04-08 12:10:00",
+   "event_type": "Tornado",
+   "frac_estado2_inicio": 0.1951
+  },
+  {
+   "id": "S848640",
+   "time_utc": "2019-08-05 19:25:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1649
+  },
+  {
+   "id": "S821244",
+   "time_utc": "2019-05-20 22:29:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.0494
+  },
+  {
+   "id": "S818174",
+   "time_utc": "2019-05-28 03:29:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.1919
+  },
+  {
+   "id": "S802597",
+   "time_utc": "2019-02-07 10:05:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.1135
+  },
+  {
+   "id": "S852550",
+   "time_utc": "2019-08-17 23:15:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0563
+  },
+  {
+   "id": "S847595",
+   "time_utc": "2019-08-18 09:54:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1062
+  },
+  {
+   "id": "S853482",
+   "time_utc": "2019-08-11 01:13:00",
+   "event_type": "Flash Flood",
+   "frac_estado2_inicio": 0.1092
+  },
+  {
+   "id": "S844916",
+   "time_utc": "2019-07-02 21:48:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0773
+  },
+  {
+   "id": "S803568",
+   "time_utc": "2019-02-24 09:18:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1784
+  },
+  {
+   "id": "S828118",
+   "time_utc": "2019-07-15 21:08:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1632
+  },
+  {
+   "id": "S809699",
+   "time_utc": "2019-04-25 15:01:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.2029
+  },
+  {
+   "id": "S857093",
+   "time_utc": "2019-09-06 23:00:00",
+   "event_type": "Heavy Rain",
+   "frac_estado2_inicio": 0.0962
+  },
+  {
+   "id": "S855374",
+   "time_utc": "2019-09-19 12:35:00",
+   "event_type": "Flash Flood",
+   "frac_estado2_inicio": 0.3712
+  },
+  {
+   "id": "S829646",
+   "time_utc": "2019-05-19 11:10:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.2528
+  },
+  {
+   "id": "S813324",
+   "time_utc": "2019-04-26 22:06:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0298
+  },
+  {
+   "id": "S826569",
+   "time_utc": "2019-05-20 20:46:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.0992
+  },
+  {
+   "id": "S852494",
+   "time_utc": "2019-08-01 14:28:00",
+   "event_type": "Flash Flood",
+   "frac_estado2_inicio": 0.1625
+  },
+  {
+   "id": "S845947",
+   "time_utc": "2019-07-08 20:15:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.022
+  },
+  {
+   "id": "S828809",
+   "time_utc": "2019-05-29 18:30:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.3451
+  },
+  {
+   "id": "S840342",
+   "time_utc": "2019-07-15 01:06:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0663
+  },
+  {
+   "id": "S856048",
+   "time_utc": "2019-09-13 19:04:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0238
+  },
+  {
+   "id": "S850126",
+   "time_utc": "2019-08-18 20:52:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.0337
+  },
+  {
+   "id": "S830835",
+   "time_utc": "2019-05-20 21:08:00",
+   "event_type": "Tornado",
+   "frac_estado2_inicio": 0.2631
+  },
+  {
+   "id": "S839592",
+   "time_utc": "2019-06-07 20:02:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1349
+  },
+  {
+   "id": "S841033",
+   "time_utc": "2019-08-12 00:50:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1072
+  },
+  {
+   "id": "S820279",
+   "time_utc": "2019-04-04 12:45:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.3464
+  },
+  {
+   "id": "S844781",
+   "time_utc": "2019-07-24 01:05:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1755
+  },
+  {
+   "id": "S855399",
+   "time_utc": "2019-09-03 11:59:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.365
+  },
+  {
+   "id": "S827702",
+   "time_utc": "2019-05-23 14:00:00",
+   "event_type": "Flash Flood",
+   "frac_estado2_inicio": 0.1929
+  },
+  {
+   "id": "S847667",
+   "time_utc": "2019-07-23 01:10:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0895
+  },
+  {
+   "id": "S827171",
+   "time_utc": "2019-05-18 20:41:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.213
+  },
+  {
+   "id": "S808730",
+   "time_utc": "2019-04-06 23:21:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.0719
+  },
+  {
+   "id": "S845045",
+   "time_utc": "2019-07-22 03:07:00",
+   "event_type": "Flash Flood",
+   "frac_estado2_inicio": 0.1121
+  },
+  {
+   "id": "S819657",
+   "time_utc": "2019-05-23 05:19:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1832
+  },
+  {
+   "id": "S796999",
+   "time_utc": "2019-02-07 05:30:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1979
+  },
+  {
+   "id": "S829939",
+   "time_utc": "2019-05-31 22:46:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1492
+  },
+  {
+   "id": "S855419",
+   "time_utc": "2019-09-21 00:56:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1131
+  },
+  {
+   "id": "S799958",
+   "time_utc": "2019-02-02 13:03:00",
+   "event_type": "Flood",
+   "frac_estado2_inicio": 0.1701
+  },
+  {
+   "id": "S800708",
+   "time_utc": "2019-02-13 08:01:00",
+   "event_type": "Flood",
+   "frac_estado2_inicio": 0.1841
+  },
+  {
+   "id": "S822507",
+   "time_utc": "2019-06-16 19:45:00",
+   "event_type": "Heavy Rain",
+   "frac_estado2_inicio": 0.0818
+  },
+  {
+   "id": "S830666",
+   "time_utc": "2019-06-03 01:36:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0639
+  },
+  {
+   "id": "S823291",
+   "time_utc": "2019-05-18 21:50:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.3346
+  },
+  {
+   "id": "S831256",
+   "time_utc": "2019-07-20 01:11:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.1034
+  },
+  {
+   "id": "S814320",
+   "time_utc": "2019-05-18 23:20:00",
+   "event_type": "Hail",
+   "frac_estado2_inicio": 0.0245
+  },
+  {
+   "id": "S833946",
+   "time_utc": "2019-07-02 02:15:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0357
+  },
+  {
+   "id": "S844393",
+   "time_utc": "2019-07-07 22:16:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.126
+  },
+  {
+   "id": "S819316",
+   "time_utc": "2019-06-13 18:38:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.0897
+  },
+  {
+   "id": "S823151",
+   "time_utc": "2019-05-19 05:50:00",
+   "event_type": "Thunderstorm Wind",
+   "frac_estado2_inicio": 0.048
+  }
+ ]
+}

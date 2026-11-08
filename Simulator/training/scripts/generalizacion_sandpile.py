@@ -3,7 +3,7 @@
 Las redes se entrenaron con CA/Sandpile/evo.mat (25 × 25, un generador al centro, espacio vacío). Aquí se evalúan con
 CA/Sandpile/2generadores/evo.mat (25 × 25 vacío con 2 generadores juntos al centro),
 CA/Sandpile/4generadores/evo.mat (25 × 25 vacío con 4 generadores aleatorios) y con
-CA/Sandpile/4generadores_50x50/ (exportado de notebooks/sandpile.nb con SeedRandom[42]):
+CA/Sandpile/4generadores_50x50/ (exportado de notebooks/Sandpile.nb con SeedRandom[42]):
     evos.npy     (100, 1501, 50, 50): 4 generadores en posiciones aleatorias y alturas iniciales aleatorias 0–7
     evoCero.npy  (2001, 50, 50):      espacio vacío de 50 × 50 con un generador al centro
 

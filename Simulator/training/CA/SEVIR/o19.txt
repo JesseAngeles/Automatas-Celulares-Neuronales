@@ -1,0 +1,2 @@
+2019: 1051 tormentas, 200 elegidas → CA/SEVIR/prueba_200/evo.npy (200, 49, 96, 96); proporción por estado [0.69363468 0.14414367 0.11374938 0.02722386 0.01035518 0.00880506
+ 0.00208816]

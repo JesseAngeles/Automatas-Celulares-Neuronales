@@ -1,0 +1,54 @@
+{
+ "physarum-001-dish5-r2c1": {
+  "dif_un_paso_media": 0.0,
+  "dif_un_paso_max": 0.0,
+  "puntaje": 0.1369723081588745,
+  "area_fin": 0.44915252923965454,
+  "area_real_fin": 0.3014173852710873,
+  "frontera": 0.378492534160614,
+  "frontera_real": 0.42828628420829773,
+  "interno": 0.04750273376703262,
+  "interno_real": 0.004691299982368946,
+  "brotes": 0.00021159200696274638,
+  "brotes_real": 0.000854803598485887
+ },
+ "physarum-002-dish5-r2c1": {
+  "dif_un_paso_media": 0.0,
+  "dif_un_paso_max": 0.0,
+  "puntaje": 0.22606970369815826,
+  "area_fin": 0.5420259833335876,
+  "area_real_fin": 0.6301417385271088,
+  "frontera": 0.36450570821762085,
+  "frontera_real": 0.3309932053089142,
+  "interno": 0.04813787341117859,
+  "interno_real": 0.057585664093494415,
+  "brotes": 0.00020682071044575423,
+  "brotes_real": 0.0005461237742565572
+ },
+ "physarum-008-dish5-r2c1": {
+  "dif_un_paso_media": 0.0,
+  "dif_un_paso_max": 0.0,
+  "puntaje": 0.10133633017539978,
+  "area_fin": 0.4035678803920746,
+  "area_real_fin": 0.2676412289395441,
+  "frontera": 0.40433603525161743,
+  "frontera_real": 0.42487919330596924,
+  "interno": 0.05764666199684143,
+  "interno_real": 0.059229712933301926,
+  "brotes": 0.00034412508830428123,
+  "brotes_real": 8.77027414389886e-05
+ },
+ "physarum-009-dish5-r2c1": {
+  "dif_un_paso_media": 1.728429203539823e-07,
+  "dif_un_paso_max": 3.90625e-05,
+  "puntaje": 0.07772627472877502,
+  "area_fin": 0.504311203956604,
+  "area_real_fin": 0.17507433102081268,
+  "frontera": 0.3845631182193756,
+  "frontera_real": 0.5133814215660095,
+  "interno": 0.051123205572366714,
+  "interno_real": 0.06681899726390839,
+  "brotes": 0.0002521553833503276,
+  "brotes_real": 0.00012476209667511284
+ }
+}

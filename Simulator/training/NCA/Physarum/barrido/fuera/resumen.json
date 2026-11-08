@@ -1,0 +1,42 @@
+[
+ {
+  "excluido": "001",
+  "puntaje": 0.24648,
+  "congelar": 0.02519983167318666,
+  "llenar": 0.1261947639286518,
+  "iou": 0.34051,
+  "area_red_fin": 0.69342,
+  "area_real_fin": 0.37464,
+  "sesgo": 1.375
+ },
+ {
+  "excluido": "002",
+  "puntaje": 0.28891,
+  "congelar": 0.0331373920586581,
+  "llenar": 0.15627879525224367,
+  "iou": 0.39505,
+  "area_red_fin": 0.74581,
+  "area_real_fin": 0.50356,
+  "sesgo": 1.5
+ },
+ {
+  "excluido": "008",
+  "puntaje": 0.1733,
+  "congelar": 0.07465870026499033,
+  "llenar": 0.014707927980149785,
+  "iou": 0.26821,
+  "area_red_fin": 0.17605,
+  "area_real_fin": 0.17213,
+  "sesgo": 1.375
+ },
+ {
+  "excluido": "009",
+  "puntaje": 0.17649,
+  "congelar": 0.03084818817054232,
+  "llenar": 0.028627140447497368,
+  "iou": 0.25956,
+  "area_red_fin": 0.32787,
+  "area_real_fin": 0.18014,
+  "sesgo": 1.375
+ }
+]

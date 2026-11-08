@@ -1,0 +1,62 @@
+{
+ "physarum-001-dish5-r2c1": {
+  "p_plasmodio_en_nuevos": 0.1412293987037851,
+  "p_plasmodio_en_sin_cambio": 0.014713665423917987,
+  "nuevos_con_p>0.5": 0.0014245056697113738,
+  "final": {
+   "real": 0.2936,
+   "muestreo": 0.3033,
+   "iou": 0.1926
+  },
+  "24 h": {
+   "real": 0.0471,
+   "muestreo": 0.2825,
+   "iou": 0.0814
+  }
+ },
+ "physarum-002-dish5-r2c1": {
+  "p_plasmodio_en_nuevos": 0.12894503155236928,
+  "p_plasmodio_en_sin_cambio": 0.019213695769698377,
+  "nuevos_con_p>0.5": 0.0016624309708979039,
+  "final": {
+   "real": 0.6018,
+   "muestreo": 0.3067,
+   "iou": 0.3012
+  },
+  "24 h": {
+   "real": 0.0792,
+   "muestreo": 0.2894,
+   "iou": 0.1037
+  }
+ },
+ "physarum-008-dish5-r2c1": {
+  "p_plasmodio_en_nuevos": 0.15438575217314726,
+  "p_plasmodio_en_sin_cambio": 0.006387477100054954,
+  "nuevos_con_p>0.5": 0.024899815390157145,
+  "final": {
+   "real": 0.2632,
+   "muestreo": 0.2915,
+   "iou": 0.198
+  },
+  "24 h": {
+   "real": 0.0588,
+   "muestreo": 0.2812,
+   "iou": 0.0762
+  }
+ },
+ "physarum-009-dish5-r2c1": {
+  "p_plasmodio_en_nuevos": 0.1585799508115576,
+  "p_plasmodio_en_sin_cambio": 0.008712117114003333,
+  "nuevos_con_p>0.5": 0.022554566925201035,
+  "final": {
+   "real": 0.1706,
+   "muestreo": 0.2856,
+   "iou": 0.1569
+  },
+  "24 h": {
+   "real": 0.0432,
+   "muestreo": 0.2717,
+   "iou": 0.0582
+  }
+ }
+}

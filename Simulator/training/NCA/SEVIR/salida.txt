@@ -1,0 +1,6 @@
+[2026-10-25 18:45:29] Inicio: entrenamiento (40, 49, 96, 96), prueba (20, 49, 96, 96), 7 estados, 30 épocas, semilla 42
+[2026-10-25 18:46:02] 5x5_2x32: 32.2 s, pérdida 0.22661; exactitud 0.89297 (copia 0.87644), área 0.79831 (copia 0.76934); libre 60 min área 0.37 (copia 0.32434)
+[2026-10-25 18:46:39] 5x5_3x64: 35.4 s, pérdida 0.2245; exactitud 0.89314 (copia 0.87644), área 0.79898 (copia 0.76934); libre 60 min área 0.36855 (copia 0.32434)
+[2026-10-25 18:47:22] 9x9_2x32: 39.2 s, pérdida 0.22263; exactitud 0.89354 (copia 0.87644), área 0.79909 (copia 0.76934); libre 60 min área 0.36788 (copia 0.32434)
+[2026-10-25 18:48:09] 9x9_3x64: 43.4 s, pérdida 0.21923; exactitud 0.89366 (copia 0.87644), área 0.80028 (copia 0.76934); libre 60 min área 0.36876 (copia 0.32434)
+[2026-10-25 18:48:09] Fin

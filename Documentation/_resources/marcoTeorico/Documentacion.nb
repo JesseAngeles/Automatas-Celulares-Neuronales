@@ -3,17 +3,17 @@
 (*** Wolfram Notebook File ***)
 (* http://www.wolfram.com/nb *)
 
-(* CreatedBy='Wolfram 14.3' *)
+(* CreatedBy='Wolfram 15.0' *)
 
 (*CacheID: 234*)
 (* Internal cache information:
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[     87788,       2239]
-NotebookOptionsPosition[     83257,       2160]
-NotebookOutlinePosition[     83679,       2177]
-CellTagsIndexPosition[     83636,       2174]
+NotebookDataLength[    107296,       2770]
+NotebookOptionsPosition[    101844,       2678]
+NotebookOutlinePosition[    102266,       2695]
+CellTagsIndexPosition[    102223,       2692]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -783,7 +783,7 @@ Cell[BoxData[
           RowBox[{
            RowBox[{"-", 
             RowBox[{"Sqrt", "[", "3", "]"}]}], "/", "2"}]}], "}"}]}], "}"}], 
-      "]"}]}], ";"}], "\[IndentingNewLine]", "\n", 
+      "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
    RowBox[{"(*", 
     RowBox[{
     "Funci\[OAcute]n", " ", "para", " ", "trasladar", " ", 
@@ -802,7 +802,7 @@ Cell[BoxData[
         RowBox[{"dy", "*", 
          RowBox[{
           RowBox[{"Sqrt", "[", "3", "]"}], "/", "2"}]}]}], "}"}]}], "]"}]}], 
-   "\n", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\n", 
    RowBox[{
     RowBox[{"nTriangular", "=", 
      RowBox[{"Graphics", "[", 
@@ -2173,30 +2173,38 @@ Cell[BoxData[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/punto_fijo.png\>\""}], ",", "puntofijo"}], "]"}], 
-  ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"Export", "[", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/ciclo_limite.png\>\""}], ",", "cicloLimite"}], "]"}], 
-  ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"Export", "[", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/cuasiperiodico.png\>\""}], ",", "cuasiperiodico"}], 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/punto_fijo.png\>\""}], ",", "puntofijo"}], 
    "]"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/caotico.png\>\""}], ",", "caotico"}], "]"}], 
-  ";"}]}], "Input",
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/ciclo_limite.png\>\""}], ",", 
+    "cicloLimite"}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/cuasiperiodico.png\>\""}], ",", 
+    "cuasiperiodico"}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/caotico.png\>\""}], ",", "caotico"}], "]"}],
+   ";"}]}], "Input",
  CellChangeTimes->{{3.971718154896327*^9, 3.9717181701937513`*^9}, {
   3.971718394541404*^9, 3.9717184023824453`*^9}, {3.9717186243198423`*^9, 
   3.9717186290481377`*^9}, {3.971718758491297*^9, 3.971718763089711*^9}, {
@@ -2210,39 +2218,58 @@ Cell[BoxData[
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/nWolfram.png\>\""}], ",", "nWolfram"}], "]"}], ";", 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/nWolfram.png\>\""}], ",", "nWolfram"}], 
+   "]"}], ";", 
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/nNeumann.png\>\""}], ",", "nNeumann"}], "]"}], ";", 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/nNeumann.png\>\""}], ",", "nNeumann"}], 
+   "]"}], ";", 
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
      "<>", "\"\</img/marcoTeorico/nMoore.png\>\""}], ",", "nMoore"}], "]"}], ";", 
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/nHexagon.png\>\""}], ",", "nHexagon"}], "]"}], ";", 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/nHexagon.png\>\""}], ",", "nHexagon"}], 
+   "]"}], ";", 
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/nTriangular.png\>\""}], ",", "nTriangular"}], "]"}], ";", 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/nTriangular.png\>\""}], ",", 
+    "nTriangular"}], "]"}], ";", 
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/nMargolus.png\>\""}], ",", "nMargolus"}], "]"}], ";", 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/nMargolus.png\>\""}], ",", "nMargolus"}], 
+   "]"}], ";", 
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/nNoAdyacente.png\>\""}], ",", "nNoAdyacente"}], "]"}], 
-  ";"}]], "Input",
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/nNoAdyacente.png\>\""}], ",", 
+    "nNoAdyacente"}], "]"}], ";"}]], "Input",
  CellChangeTimes->{{3.965515808617733*^9, 3.965515941233233*^9}, {
   3.983603311077815*^9, 3.983603324300292*^9}, {3.9837063482642107`*^9, 
   3.983706361659698*^9}, {3.9837068742640877`*^9, 3.983706881683392*^9}, {
@@ -2256,20 +2283,29 @@ Cell[BoxData[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/sl_block.png\>\""}], ",", "a"}], "]"}], ";"}], "\[IndentingNewLine]", 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/sl_block.png\>\""}], ",", "a"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/sl_beehive.png\>\""}], ",", "b"}], "]"}], ";"}], "\[IndentingNewLine]", 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/sl_beehive.png\>\""}], ",", "b"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/sl_loaf.png\>\""}], ",", "c"}], "]"}], ";"}]}], "Input",
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/sl_loaf.png\>\""}], ",", "c"}], "]"}], 
+  ";"}]}], "Input",
  CellChangeTimes->{{3.971885907078224*^9, 3.971885958453003*^9}, {
   3.983603260113123*^9, 
   3.983603261428452*^9}},ExpressionUUID->"f073772e-84e1-4002-9cfe-\
@@ -2280,27 +2316,38 @@ Cell[BoxData[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/o_blinker_1.png\>\""}], ",", "a1"}], "]"}], ";"}], "\[IndentingNewLine]", 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/o_blinker_1.png\>\""}], ",", "a1"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/o_toad_1.png\>\""}], ",", "b1"}], "]"}], ";"}], "\[IndentingNewLine]", 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/o_toad_1.png\>\""}], ",", "b1"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/o_blinker_2.png\>\""}], ",", "a2"}], "]"}], ";"}], "\[IndentingNewLine]", 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/o_blinker_2.png\>\""}], ",", "a2"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/o_toad_2.png\>\""}], ",", "b2"}], "]"}], ";"}]}], "Input",\
-
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/o_toad_2.png\>\""}], ",", "b2"}], "]"}], 
+  ";"}]}], "Input",
  CellChangeTimes->{{3.971885907078224*^9, 3.971885958453003*^9}, {
   3.9718873135883503`*^9, 3.9718873551047325`*^9}, {3.983603263354554*^9, 
   3.9836032653792257`*^9}},ExpressionUUID->"3d02aef1-d5ce-4310-803a-\
@@ -2311,7 +2358,9 @@ Cell[BoxData[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
      "<>", "\"\</img/marcoTeorico/glider_1.png\>\""}], ",", 
     RowBox[{"glider", "[", 
      RowBox[{"[", "1", "]"}], "]"}]}], "]"}], ";"}], "\[IndentingNewLine]", 
@@ -2319,7 +2368,9 @@ Cell[BoxData[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
      "<>", "\"\</img/marcoTeorico/glider_2.png\>\""}], ",", 
     RowBox[{"glider", "[", 
      RowBox[{"[", "2", "]"}], "]"}]}], "]"}], ";"}], "\[IndentingNewLine]", 
@@ -2327,7 +2378,9 @@ Cell[BoxData[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
      "<>", "\"\</img/marcoTeorico/glider_3.png\>\""}], ",", 
     RowBox[{"glider", "[", 
      RowBox[{"[", "3", "]"}], "]"}]}], "]"}], ";"}], "\[IndentingNewLine]", 
@@ -2335,7 +2388,9 @@ Cell[BoxData[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
      "<>", "\"\</img/marcoTeorico/glider_4.png\>\""}], ",", 
     RowBox[{"glider", "[", 
      RowBox[{"[", "4", "]"}], "]"}]}], "]"}], ";"}], "\[IndentingNewLine]", 
@@ -2343,7 +2398,9 @@ Cell[BoxData[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
      "<>", "\"\</img/marcoTeorico/glider_5.png\>\""}], ",", 
     RowBox[{"glider", "[", 
      RowBox[{"[", "5", "]"}], "]"}]}], "]"}], ";"}]}], "Input",
@@ -2358,56 +2415,83 @@ Cell[BoxData[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/r30.png\>\""}], ",", "r30"}], "]"}], ";"}], "\[IndentingNewLine]", 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/r30.png\>\""}], ",", "r30"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/r30a.png\>\""}], ",", "r30a"}], "]"}], ";"}], "\[IndentingNewLine]", 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/r30a.png\>\""}], ",", "r30a"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/r30b.png\>\""}], ",", "r30b"}], "]"}], ";"}], "\[IndentingNewLine]", 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/r30b.png\>\""}], ",", "r30b"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/r110.png\>\""}], ",", "r110"}], "]"}], ";"}], "\[IndentingNewLine]", 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/r110.png\>\""}], ",", "r110"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/r110a.png\>\""}], ",", "r110a"}], "]"}], ";"}], "\[IndentingNewLine]", 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/r110a.png\>\""}], ",", "r110a"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/r110b.png\>\""}], ",", "r110b"}], "]"}], ";"}], "\[IndentingNewLine]", 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/r110b.png\>\""}], ",", "r110b"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/r90.png\>\""}], ",", "r90"}], "]"}], ";"}], "\[IndentingNewLine]", 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/r90.png\>\""}], ",", "r90"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/r90a.png\>\""}], ",", "r90a"}], "]"}], ";"}], "\[IndentingNewLine]", 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/r90a.png\>\""}], ",", "r90a"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/r90b.png\>\""}], ",", "r90b"}], "]"}], ";"}]}], "Input",
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/r90b.png\>\""}], ",", "r90b"}], "]"}], 
+  ";"}]}], "Input",
  CellChangeTimes->{{3.9719484336369896`*^9, 3.9719484676916924`*^9}, {
   3.9719485601507645`*^9, 3.971948582170965*^9}, {3.9719496006867104`*^9, 
   3.971949607754965*^9}, {3.9719497988721657`*^9, 3.971949824343155*^9}, {
@@ -2420,26 +2504,35 @@ Cell[BoxData[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
      "<>", "\"\</img/marcoTeorico/c1.png\>\""}], ",", "c1"}], "]"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
      "<>", "\"\</img/marcoTeorico/c2.png\>\""}], ",", "c2"}], "]"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
      "<>", "\"\</img/marcoTeorico/c3.png\>\""}], ",", "c3"}], "]"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/c4.png\>\""}], ",", "c4"}], "]"}], ";"}]}], "Input",
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/c4.png\>\""}], ",", "c4"}], "]"}], 
+  ";"}]}], "Input",
  CellChangeTimes->{{3.966375147441084*^9, 3.966375148199359*^9}, {
   3.966375720093925*^9, 3.96637574164408*^9}, {3.983716733966905*^9, 
   3.9837167414554358`*^9}},
@@ -2452,35 +2545,46 @@ Cell[BoxData[{
    RowBox[{"Export", "[", 
     RowBox[{
      RowBox[{
-      RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-      "<>", "\"\</img/marcoTeorico/binary.png\>\""}], ",", " ", "binary"}], "]"}], ";"}], 
-  " "}], "\[IndentingNewLine]", 
+      RowBox[{"ParentDirectory", "[", 
+       RowBox[{
+        RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+      "<>", "\"\</img/marcoTeorico/binary.png\>\""}], ",", " ", "binary"}], 
+    "]"}], ";"}], " "}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
    RowBox[{"Export", "[", 
     RowBox[{
      RowBox[{
-      RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-      "<>", "\"\</img/marcoTeorico/lineal.png\>\""}], ",", " ", "lineal"}], "]"}], ";"}], 
-  " "}], "\[IndentingNewLine]", 
+      RowBox[{"ParentDirectory", "[", 
+       RowBox[{
+        RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+      "<>", "\"\</img/marcoTeorico/lineal.png\>\""}], ",", " ", "lineal"}], 
+    "]"}], ";"}], " "}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
    RowBox[{"Export", "[", 
     RowBox[{
      RowBox[{
-      RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-      "<>", "\"\</img/marcoTeorico/sigmoid.png\>\""}], ",", " ", "sigmoid"}], "]"}], ";"}],
-   " "}], "\[IndentingNewLine]", 
+      RowBox[{"ParentDirectory", "[", 
+       RowBox[{
+        RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+      "<>", "\"\</img/marcoTeorico/sigmoid.png\>\""}], ",", " ", "sigmoid"}], 
+    "]"}], ";"}], " "}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/tanh.png\>\""}], ",", " ", "tanh"}], "]"}], ";", " ", 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/tanh.png\>\""}], ",", " ", "tanh"}], "]"}], 
+  ";", " ", 
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
      "<>", "\"\</img/marcoTeorico/relu.png\>\""}], ",", " ", "relu"}], "]"}], 
   ";"}]}], "Input",
  CellChangeTimes->{{3.9665275362468224`*^9, 3.9665275755483932`*^9}, {
@@ -2527,27 +2631,55 @@ Cell[BoxData[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/estabilidad1.png\>\""}], ",", "estabilidad1"}], "]"}], 
-  ";"}], "\[IndentingNewLine]", 
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/estabilidad1.png\>\""}], ",", 
+    "estabilidad1"}], "]"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
-     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/estabilidad2.png\>\""}], ",", "estabilidad2"}], "]"}], 
-  ";"}]}], "Input",
+     RowBox[{"ParentDirectory", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/estabilidad2.png\>\""}], ",", 
+    "estabilidad2"}], "]"}], ";"}]}], "Input",
  CellChangeTimes->{{3.9716391235713043`*^9, 3.971639650925798*^9}, {
    3.971639687398844*^9, 3.971639762918606*^9}, {3.971639807761558*^9, 
    3.971639814879814*^9}, 3.971718151264242*^9, {3.983603255998076*^9, 
    3.9836032566942883`*^9}},ExpressionUUID->"d93a6241-7328-4741-9214-\
 82889fc4747d"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Regla 90", "Section",ExpressionUUID->"241167e3-bd1a-4cbf-8894-634aa483f84a"],
+
+Cell["Antes en Simulator/training/notebooks/ECA.nb", "Text",ExpressionUUID->"0f4cc15d-beea-49e2-9106-cc551b402a67"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"eca90", "=", 
+   RowBox[{"RulePlot", "[", 
+    RowBox[{"CellularAutomaton", "[", "90", "]"}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.988980263109354*^9, 3.988980284791608*^9}, {
+  3.9889803324927607`*^9, 3.988980332853526*^9}},
+ CellLabel->"In[3]:=",ExpressionUUID->"15e8913d-c2aa-4b1d-903f-1ccfe6aa7695"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{"\"\</home/rediax/Documents/ESCOM/TT_A114/Documentation/img/\
+marcoTeorico/ex2_eca90.png\>\"", ",", "eca90"}], "]"}], ";"}]], "Input",
+ CellChangeTimes->{{3.988980285938094*^9, 3.9889803358566*^9}},
+ CellLabel->"In[4]:=",ExpressionUUID->"aa96f59a-aeca-4e87-bfcd-bfdaa8d6e631"]
 }, Open  ]]
 },
 WindowSize->{1435.5, 753.75},
 WindowMargins->{{0, Automatic}, {Automatic, 0}},
 Magnification:>1. Inherited,
-FrontEndVersion->"14.3 for Linux x86 (64-bit) (July 8, 2025)",
+FrontEndVersion->"15.0 for Linux x86 (64-bit) (July 2, 2026)",
 StyleDefinitions->"Default.nb",
 ExpressionUUID->"ba583e38-da2e-435d-8130-2a6fc4f2d6f1"
 ]
@@ -2563,71 +2695,85 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[576, 22, 178, 4, 65, "Section",ExpressionUUID->"b1e40d77-7f46-4940-b1f7-bf1a5463c7a0",
+Cell[576, 22, 178, 4, 70, "Section",ExpressionUUID->"b1e40d77-7f46-4940-b1f7-bf1a5463c7a0",
  InitializationCell->True],
-Cell[757, 28, 303, 6, 46, "Input",ExpressionUUID->"a30fee15-99c0-4379-bb80-859e32d22711",
+Cell[757, 28, 303, 6, 70, "Input",ExpressionUUID->"a30fee15-99c0-4379-bb80-859e32d22711",
  InitializationCell->True]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1097, 39, 177, 3, 65, "Section",ExpressionUUID->"8c19ba33-1b88-4f05-a2c6-cfe176864f29"],
+Cell[1097, 39, 177, 3, 70, "Section",ExpressionUUID->"8c19ba33-1b88-4f05-a2c6-cfe176864f29"],
 Cell[CellGroupData[{
-Cell[1299, 46, 158, 3, 53, "Subsection",ExpressionUUID->"d1cb6cf8-13bd-48e1-a58d-b6ca7a3c1c48"],
+Cell[1299, 46, 158, 3, 70, "Subsection",ExpressionUUID->"d1cb6cf8-13bd-48e1-a58d-b6ca7a3c1c48"],
 Cell[CellGroupData[{
-Cell[1482, 53, 4918, 124, 399, "Input",ExpressionUUID->"8ec651e3-881c-440e-bb5b-9a2531ba720c"],
-Cell[6403, 179, 2104, 34, 26, "Message",ExpressionUUID->"6779db88-59e3-4985-8a6e-fe71e0832912"]
+Cell[1482, 53, 4918, 124, 70, "Input",ExpressionUUID->"8ec651e3-881c-440e-bb5b-9a2531ba720c"],
+Cell[6403, 179, 2104, 34, 70, "Message",ExpressionUUID->"6779db88-59e3-4985-8a6e-fe71e0832912"]
 }, Open  ]],
-Cell[8522, 216, 4045, 105, 354, "Input",ExpressionUUID->"b0c447ed-3bdf-4361-843b-c6860d7b4a67"],
-Cell[12570, 323, 4180, 105, 357, "Input",ExpressionUUID->"3f31794f-4238-4d33-84d5-6301883d62c1"],
-Cell[16753, 430, 4881, 129, 287, "Input",ExpressionUUID->"a769f63e-3859-4b59-ab3a-be4add93cd17"]
+Cell[8522, 216, 4045, 105, 70, "Input",ExpressionUUID->"b0c447ed-3bdf-4361-843b-c6860d7b4a67"],
+Cell[12570, 323, 4180, 105, 70, "Input",ExpressionUUID->"3f31794f-4238-4d33-84d5-6301883d62c1"],
+Cell[16753, 430, 4881, 129, 70, "Input",ExpressionUUID->"a769f63e-3859-4b59-ab3a-be4add93cd17"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[21671, 564, 211, 4, 37, "Subsection",ExpressionUUID->"17a717fe-9ada-45a2-a48c-ac39b4532dcc"],
-Cell[21885, 570, 2176, 55, 75, "Input",ExpressionUUID->"1fd1e8f8-c288-460a-90a6-7cb7e8d52171"],
-Cell[24064, 627, 4059, 119, 251, "Input",ExpressionUUID->"956b20c8-459d-49c9-b0c4-382c29eb4244"],
-Cell[28126, 748, 7831, 211, 874, "Input",ExpressionUUID->"f743a656-f6d6-46a4-bd8c-ce355183d661"],
-Cell[35960, 961, 1162, 29, 31, "Input",ExpressionUUID->"0257af9d-fa53-40a8-a3c5-c744f641504c"],
-Cell[37125, 992, 501, 13, 30, "Input",ExpressionUUID->"d1a0cdc2-2354-4c59-bd21-5349c3c81865"]
+Cell[21671, 564, 211, 4, 70, "Subsection",ExpressionUUID->"17a717fe-9ada-45a2-a48c-ac39b4532dcc"],
+Cell[21885, 570, 2176, 55, 70, "Input",ExpressionUUID->"1fd1e8f8-c288-460a-90a6-7cb7e8d52171"],
+Cell[24064, 627, 4059, 119, 70, "Input",ExpressionUUID->"956b20c8-459d-49c9-b0c4-382c29eb4244"],
+Cell[28126, 748, 7831, 211, 70, "Input",ExpressionUUID->"f743a656-f6d6-46a4-bd8c-ce355183d661"],
+Cell[35960, 961, 1162, 29, 70, "Input",ExpressionUUID->"0257af9d-fa53-40a8-a3c5-c744f641504c"],
+Cell[37125, 992, 501, 13, 70, "Input",ExpressionUUID->"d1a0cdc2-2354-4c59-bd21-5349c3c81865"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[37663, 1010, 265, 4, 37, "Subsection",ExpressionUUID->"2f05086a-f83e-409b-93eb-9d1fcf69920e"],
-Cell[37931, 1016, 2939, 73, 477, "Input",ExpressionUUID->"06f1a0d3-658c-324e-b420-56075dc0a4e3"],
-Cell[40873, 1091, 4032, 100, 678, "Input",ExpressionUUID->"5480cd12-f738-4c41-8614-25850d6627c3"],
-Cell[44908, 1193, 1370, 32, 142, "Input",ExpressionUUID->"3c1b3ada-f6c7-c141-8fa7-ecdb245be3ac"]
+Cell[37663, 1010, 265, 4, 70, "Subsection",ExpressionUUID->"2f05086a-f83e-409b-93eb-9d1fcf69920e"],
+Cell[37931, 1016, 2939, 73, 70, "Input",ExpressionUUID->"06f1a0d3-658c-324e-b420-56075dc0a4e3"],
+Cell[40873, 1091, 4032, 100, 70, "Input",ExpressionUUID->"5480cd12-f738-4c41-8614-25850d6627c3"],
+Cell[44908, 1193, 1432, 34, 70, "Input",ExpressionUUID->"3c1b3ada-f6c7-c141-8fa7-ecdb245be3ac"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[46315, 1230, 256, 4, 37, "Subsection",ExpressionUUID->"03d46d4e-c0e7-4177-b63e-dd798ff3895b"],
-Cell[46574, 1236, 1895, 53, 164, "Input",ExpressionUUID->"46767b06-0e91-714c-8b8c-f5139508556a"]
+Cell[46377, 1232, 256, 4, 70, "Subsection",ExpressionUUID->"03d46d4e-c0e7-4177-b63e-dd798ff3895b"],
+Cell[46636, 1238, 2460, 71, 70, "Input",ExpressionUUID->"46767b06-0e91-714c-8b8c-f5139508556a"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[48506, 1294, 157, 3, 37, "Subsection",ExpressionUUID->"ad7f37bd-34b1-4f92-951b-b74c583725bd"],
+Cell[49133, 1314, 157, 3, 70, "Subsection",ExpressionUUID->"ad7f37bd-34b1-4f92-951b-b74c583725bd"],
 Cell[CellGroupData[{
-Cell[48688, 1301, 2080, 51, 184, "Input",ExpressionUUID->"90549f92-7cb4-472c-8f82-492ed15a76cd"],
-Cell[50771, 1354, 12958, 239, 214, "Output",ExpressionUUID->"7bfc456a-ade1-48fa-aa5b-9a211841303b"]
+Cell[49315, 1321, 2080, 51, 70, "Input",ExpressionUUID->"90549f92-7cb4-472c-8f82-492ed15a76cd"],
+Cell[51398, 1374, 12958, 239, 70, "Output",ExpressionUUID->"7bfc456a-ade1-48fa-aa5b-9a211841303b"]
 }, Open  ]]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[63778, 1599, 274, 4, 37, "Subsection",ExpressionUUID->"43f4cf52-3bd1-4e72-94b6-88c80a60bdf4"],
-Cell[64055, 1605, 2707, 78, 209, "Input",ExpressionUUID->"9d8cca05-518f-9642-9a5e-7602957b60f0"]
+Cell[64405, 1619, 274, 4, 70, "Subsection",ExpressionUUID->"43f4cf52-3bd1-4e72-94b6-88c80a60bdf4"],
+Cell[64682, 1625, 2707, 78, 70, "Input",ExpressionUUID->"9d8cca05-518f-9642-9a5e-7602957b60f0"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[66799, 1688, 350, 6, 37, "Subsection",ExpressionUUID->"77594856-c95c-43b7-8d3d-077411b55fc9"],
-Cell[67152, 1696, 2666, 75, 97, "Input",ExpressionUUID->"7cb7fee0-7ddd-4519-9eb4-f0cd31508cf7"]
+Cell[67426, 1708, 106, 0, 70, "Subsection",ExpressionUUID->"d5546669-17b0-476c-9e1b-938ce30f6dc2"],
+Cell[67535, 1710, 371, 7, 70, "Text",ExpressionUUID->"d67bc212-ea41-4c47-baf7-c10ddba8f487"],
+Cell[67909, 1719, 5632, 160, 70, "Input",ExpressionUUID->"f8c88cf3-5f8d-497e-b754-994b7daddd50"],
+Cell[73544, 1881, 7295, 190, 70, "Input",ExpressionUUID->"2f947e18-c9f4-4220-8868-2f8478ed792b"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[80876, 2076, 350, 6, 70, "Subsection",ExpressionUUID->"77594856-c95c-43b7-8d3d-077411b55fc9"],
+Cell[81229, 2084, 2666, 75, 70, "Input",ExpressionUUID->"7cb7fee0-7ddd-4519-9eb4-f0cd31508cf7"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[69867, 1777, 155, 3, 65, "Section",ExpressionUUID->"4b632616-b813-426e-9cd5-c9b00e1c7210"],
-Cell[70025, 1782, 1474, 39, 97, "Input",ExpressionUUID->"6e58bb40-ef46-4bba-aa83-217b6fd65f27"],
-Cell[71502, 1823, 1937, 51, 164, "Input",ExpressionUUID->"f3257bed-7a9e-4601-bba9-468a8e0c7d18"],
-Cell[73442, 1876, 891, 25, 75, "Input",ExpressionUUID->"f073772e-84e1-4002-9cfe-f0ad7df6896c"],
-Cell[74336, 1903, 1204, 33, 97, "Input",ExpressionUUID->"3d02aef1-d5ce-4310-803a-0fd886688781"],
-Cell[75543, 1938, 1768, 50, 120, "Input",ExpressionUUID->"e8d07c3f-dafb-44ba-8fb6-2e463ec0d967"],
-Cell[77314, 1990, 2057, 55, 164, "Input",ExpressionUUID->"908726d5-e519-0d48-9373-51829c9ae4d2"],
-Cell[79374, 2047, 1193, 33, 97, "Input",ExpressionUUID->"5cc12f34-1b44-4c23-a2d9-6dbe681bdad6"],
-Cell[80570, 2082, 1700, 48, 120, "Input",ExpressionUUID->"315cc3a6-328a-fe4c-a336-bc54e1cc686e"],
-Cell[82273, 2132, 147, 2, 33, "Text",ExpressionUUID->"9f151676-c090-4bde-953e-7f0cf5799347"],
-Cell[82423, 2136, 818, 21, 53, "Input",ExpressionUUID->"d93a6241-7328-4741-9214-82889fc4747d"]
+Cell[83944, 2165, 155, 3, 70, "Section",ExpressionUUID->"4b632616-b813-426e-9cd5-c9b00e1c7210"],
+Cell[84102, 2170, 1662, 43, 70, "Input",ExpressionUUID->"6e58bb40-ef46-4bba-aa83-217b6fd65f27"],
+Cell[85767, 2215, 2282, 63, 70, "Input",ExpressionUUID->"f3257bed-7a9e-4601-bba9-468a8e0c7d18"],
+Cell[88052, 2280, 1047, 31, 70, "Input",ExpressionUUID->"f073772e-84e1-4002-9cfe-f0ad7df6896c"],
+Cell[89102, 2313, 1398, 40, 70, "Input",ExpressionUUID->"3d02aef1-d5ce-4310-803a-0fd886688781"],
+Cell[90503, 2355, 1998, 55, 70, "Input",ExpressionUUID->"e8d07c3f-dafb-44ba-8fb6-2e463ec0d967"],
+Cell[92504, 2412, 2980, 87, 70, "Input",ExpressionUUID->"908726d5-e519-0d48-9373-51829c9ae4d2"],
+Cell[95487, 2501, 1380, 38, 70, "Input",ExpressionUUID->"5cc12f34-1b44-4c23-a2d9-6dbe681bdad6"],
+Cell[96870, 2541, 1942, 54, 70, "Input",ExpressionUUID->"315cc3a6-328a-fe4c-a336-bc54e1cc686e"],
+Cell[98815, 2597, 1017, 25, 70, "Input",ExpressionUUID->"bda05d21-8bf7-4603-a9b5-2393d1562218"],
+Cell[99835, 2624, 147, 2, 70, "Text",ExpressionUUID->"9f151676-c090-4bde-953e-7f0cf5799347"],
+Cell[99985, 2628, 914, 23, 70, "Input",ExpressionUUID->"d93a6241-7328-4741-9214-82889fc4747d"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[100936, 2656, 82, 0, 70, "Section",ExpressionUUID->"241167e3-bd1a-4cbf-8894-634aa483f84a"],
+Cell[101021, 2658, 115, 0, 70, "Text",ExpressionUUID->"0f4cc15d-beea-49e2-9106-cc551b402a67"],
+Cell[101139, 2660, 349, 7, 70, "Input",ExpressionUUID->"15e8913d-c2aa-4b1d-903f-1ccfe6aa7695"],
+Cell[101491, 2669, 337, 6, 70, "Input",ExpressionUUID->"aa96f59a-aeca-4e87-bfcd-bfdaa8d6e631"]
 }, Open  ]]
 }
 ]
 *)
 
+(* End of internal cache information *)

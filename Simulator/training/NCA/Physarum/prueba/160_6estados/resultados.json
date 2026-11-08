@@ -1,0 +1,162 @@
+{
+ "physarum-001-dish5-r2c1": {
+  "6 h": {
+   "real": 0.0236,
+   "argmax": 0.0161,
+   "iou_argmax": 0.4537,
+   "muestreo": 0.09,
+   "iou_muestreo": 0.1051
+  },
+  "12 h": {
+   "real": 0.0312,
+   "argmax": 0.0161,
+   "iou_argmax": 0.053,
+   "muestreo": 0.224,
+   "iou_muestreo": 0.0476
+  },
+  "24 h": {
+   "real": 0.0508,
+   "argmax": 0.0161,
+   "iou_argmax": 0.0227,
+   "muestreo": 0.3051,
+   "iou_muestreo": 0.0893
+  },
+  "48 h": {
+   "real": 0.1104,
+   "argmax": 0.0161,
+   "iou_argmax": 0.0095,
+   "muestreo": 0.2878,
+   "iou_muestreo": 0.1455
+  },
+  "141 h": {
+   "real": 0.3014,
+   "argmax": 0.0161,
+   "iou_argmax": 0.0041,
+   "muestreo": 0.2859,
+   "iou_muestreo": 0.1835
+  },
+  "borde_conservado": true
+ },
+ "physarum-002-dish5-r2c1": {
+  "6 h": {
+   "real": 0.0776,
+   "argmax": 0.0082,
+   "iou_argmax": 0.1032,
+   "muestreo": 0.1043,
+   "iou_muestreo": 0.1253
+  },
+  "12 h": {
+   "real": 0.0648,
+   "argmax": 0.0082,
+   "iou_argmax": 0.1091,
+   "muestreo": 0.254,
+   "iou_muestreo": 0.0762
+  },
+  "24 h": {
+   "real": 0.0794,
+   "argmax": 0.0082,
+   "iou_argmax": 0.048,
+   "muestreo": 0.3226,
+   "iou_muestreo": 0.1016
+  },
+  "48 h": {
+   "real": 0.2634,
+   "argmax": 0.0082,
+   "iou_argmax": 0.0182,
+   "muestreo": 0.2992,
+   "iou_muestreo": 0.2238
+  },
+  "127 h": {
+   "real": 0.6301,
+   "argmax": 0.0082,
+   "iou_argmax": 0.0131,
+   "muestreo": 0.3031,
+   "iou_muestreo": 0.3002
+  },
+  "borde_conservado": true
+ },
+ "physarum-008-dish5-r2c1": {
+  "6 h": {
+   "real": 0.0231,
+   "argmax": 0.0141,
+   "iou_argmax": 0.5979,
+   "muestreo": 0.1316,
+   "iou_muestreo": 0.1173
+  },
+  "12 h": {
+   "real": 0.0324,
+   "argmax": 0.0141,
+   "iou_argmax": 0.4255,
+   "muestreo": 0.2633,
+   "iou_muestreo": 0.0692
+  },
+  "24 h": {
+   "real": 0.0598,
+   "argmax": 0.0141,
+   "iou_argmax": 0.2241,
+   "muestreo": 0.2969,
+   "iou_muestreo": 0.0815
+  },
+  "48 h": {
+   "real": 0.1147,
+   "argmax": 0.0141,
+   "iou_argmax": 0.1131,
+   "muestreo": 0.2714,
+   "iou_muestreo": 0.1195
+  },
+  "63 h": {
+   "real": 0.2676,
+   "argmax": 0.0141,
+   "iou_argmax": 0.0502,
+   "muestreo": 0.2797,
+   "iou_muestreo": 0.1874
+  },
+  "borde_conservado": true
+ },
+ "physarum-009-dish5-r2c1": {
+  "6 h": {
+   "real": 0.0153,
+   "argmax": 0.0143,
+   "iou_argmax": 0.7559,
+   "muestreo": 0.1022,
+   "iou_muestreo": 0.1254
+  },
+  "12 h": {
+   "real": 0.0282,
+   "argmax": 0.0143,
+   "iou_argmax": 0.4642,
+   "muestreo": 0.2466,
+   "iou_muestreo": 0.065
+  },
+  "24 h": {
+   "real": 0.041,
+   "argmax": 0.0143,
+   "iou_argmax": 0.2962,
+   "muestreo": 0.2829,
+   "iou_muestreo": 0.0509
+  },
+  "48 h": {
+   "real": 0.0595,
+   "argmax": 0.0143,
+   "iou_argmax": 0.1606,
+   "muestreo": 0.2711,
+   "iou_muestreo": 0.0655
+  },
+  "113 h": {
+   "real": 0.1751,
+   "argmax": 0.0143,
+   "iou_argmax": 0.0742,
+   "muestreo": 0.2655,
+   "iou_muestreo": 0.1555
+  },
+  "borde_conservado": true
+ },
+ "un_paso": {
+  "exactitud": 0.9798577670071961,
+  "copia": 0.979872890814815,
+  "exactitud_en_cambios": 0.008126925327114983,
+  "plasmodio_nuevo_detectado": 0.026574953247024264,
+  "p_plasmodio_en_nuevos": 0.09080283925966867,
+  "p_plasmodio_en_sin_cambio": 0.00716221168049399
+ }
+}

@@ -1,0 +1,13 @@
+{
+ "ca": "estados_cada30min_8estados_160",
+ "mapa": null,
+ "vecindad": "anillos6",
+ "capas": "16x64",
+ "one_hot": true,
+ "paso": 8,
+ "epocas": 30,
+ "semilla": 42,
+ "vector": false,
+ "desfases": false,
+ "aumento": false
+}
