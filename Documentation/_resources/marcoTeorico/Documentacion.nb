@@ -1196,7 +1196,9 @@ Cell[BoxData[
   RowBox[{"glider", "=", 
    RowBox[{
     RowBox[{
-     RowBox[{"ArrayPlot", "[", "#", "]"}], "&"}], "/@", 
+     RowBox[{"ArrayPlot", "[", 
+      RowBox[{"#", ",", 
+       RowBox[{"Mesh", "->", "True"}]}], "]"}], "&"}], "/@", 
     RowBox[{
      RowBox[{"CellularAutomaton", "[", 
       RowBox[{"\"\<GameOfLife\>\"", ",", 
@@ -1268,6 +1270,15 @@ Cell[BoxData[{
      RowBox[{"110", ",", 
       RowBox[{"{", 
        RowBox[{
+        RowBox[{"{", "1", "}"}], ",", "0"}], "}"}], ",", "250"}], "]"}], 
+    "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"r110b", "=", 
+   RowBox[{"ArrayPlot", "[", 
+    RowBox[{"CellularAutomaton", "[", 
+     RowBox[{"110", ",", 
+      RowBox[{"{", 
+       RowBox[{
         RowBox[{"{", "1", "}"}], ",", "0"}], "}"}], ",", "500"}], "]"}], 
     "]"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
@@ -1276,6 +1287,15 @@ Cell[BoxData[{
     RowBox[{"CellularAutomaton", "[", "90", "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"r90a", "=", 
+   RowBox[{"ArrayPlot", "[", 
+    RowBox[{"CellularAutomaton", "[", 
+     RowBox[{"90", ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"{", "1", "}"}], ",", "0"}], "}"}], ",", "63"}], "]"}], 
+    "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"r90b", "=", 
    RowBox[{"ArrayPlot", "[", 
     RowBox[{"CellularAutomaton", "[", 
      RowBox[{"90", ",", 
@@ -2369,13 +2389,25 @@ Cell[BoxData[{
    RowBox[{
     RowBox[{
      RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/r110b.png\>\""}], ",", "r110b"}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
      "<>", "\"\</img/marcoTeorico/r90.png\>\""}], ",", "r90"}], "]"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Export", "[", 
    RowBox[{
     RowBox[{
      RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
-     "<>", "\"\</img/marcoTeorico/r90a.png\>\""}], ",", "r90a"}], "]"}], ";"}]}], "Input",
+     "<>", "\"\</img/marcoTeorico/r90a.png\>\""}], ",", "r90a"}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParentDirectory", "[", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", "2"}], "]"}], 
+     "<>", "\"\</img/marcoTeorico/r90b.png\>\""}], ",", "r90b"}], "]"}], ";"}]}], "Input",
  CellChangeTimes->{{3.9719484336369896`*^9, 3.9719484676916924`*^9}, {
   3.9719485601507645`*^9, 3.971948582170965*^9}, {3.9719496006867104`*^9, 
   3.971949607754965*^9}, {3.9719497988721657`*^9, 3.971949824343155*^9}, {

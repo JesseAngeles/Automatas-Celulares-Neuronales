@@ -6,9 +6,18 @@ Hasta el momento conocemos la metodología utilizada para la investigación comp
 
 Para el desarrollo de \textit{software} se utiliza un modelo de entrega por etapas. Este modelo, como se observa en la figura \ref{fig:modelo_etapas}, realiza las primeras etapas de forma secuencial y permite diseñar e implementar los componentes del proyecto por separado. Seguir este modelo permite entregar partes del proyecto y tener visibilidad del progreso. 
 
-\begin{figure}[htbp]
+\begin{figure}[!tp]
 	\centering
-	\includegraphics[width=0.75\linewidth]{img/ingenieriaSoftware/modelo_etapas.png}
+	\begin{tikzpicture}[flowchart, every node/.append style={align=center}]
+		\node[flowbox] (requirements) {Ingeniería de\\requisitos};
+		\node[flowbox, below right=0.8cm and -0.5cm of requirements] (analysis) {Análisis};
+		\node[flowbox, below right=0.8cm and -0.5cm of analysis] (design) {Diseño};
+		\node[flowbox, below right=0.8cm and -0.5cm of design] (stage) {Etapa \textit{N}: Diseño, Desarrollo,\\Pruebas, Implementación};
+		\draw[flowarrow] (requirements.east) -| (analysis.north);
+		\draw[flowarrow] (analysis.east) -| (design.north);
+		\draw[flowarrow] (design.east) -| (stage.north);
+		\draw[flowarrow] (stage.east) -- ++(0.7,0) |- (stage.north |- design.east) -- (stage.north);
+	\end{tikzpicture}
 	\caption{Representación gráfica del modelo de entrega por etapas para el desarrollo del \textit{software}.}
 	\label{fig:modelo_etapas}
 \end{figure}
@@ -43,7 +52,7 @@ Para mayor detalle de esta primera etapa, más adelante se especifican los casos
 
 Las reglas de negocio son las restricciones y políticas que gobiernan el comportamiento del sistema independientemente de cómo se implemente; describen lo que siempre debe cumplirse durante una simulación y, por lo tanto, delimitan los requerimientos que se definen más adelante \cite{ingenieria_1}. A cada regla se le asigna el código RN seguido de un número consecutivo.
 
-\begin{enumerate}[label*=RN\arabic*]
+\begin{enumerate}[label*=RN\arabic*, noitemsep]
 	
 	\item El estado de una célula en el tiempo $t + 1$ depende únicamente de su estado actual y de los estados de sus vecinos.
 	
@@ -71,7 +80,7 @@ Los requerimientos describen los servicios que el sistema debe proporcionar y la
 
 Los requerimientos funcionales describen las capacidades que el sistema debe ofrecer al usuario para cumplir con los objetivos establecidos.
 
-\begin{enumerate}[label=RF\arabic*]
+\begin{enumerate}[label=RF\arabic*, noitemsep]
 	
 	\item El sistema debe mostrar una cuadrícula regular y finita que represente el espacio celular.
 	
@@ -95,7 +104,7 @@ Los requerimientos funcionales describen las capacidades que el sistema debe ofr
 
 Los requerimientos no funcionales especifican las condiciones de calidad, desempeño y compatibilidad bajo las cuales el sistema debe operar.
 
-\begin{enumerate}[label=RNF\arabic*.]
+\begin{enumerate}[label=RNF\arabic*., noitemsep]
 	
 	\item El sistema debe poder ejecutarse en Fedora 42 sin requerir modificaciones en el código fuente.
 	

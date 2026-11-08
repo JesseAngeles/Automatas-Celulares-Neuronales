@@ -15,6 +15,15 @@
 \usepackage{url}					% Dar formato a urls				
 \usepackage{array}					% Para ajustar el texto en la celda
 \usepackage[table]{xcolor}
+\usepackage{hhline}					% Líneas horizontales que no tapan las celdas de color
+\usepackage{longtable}				% Tablas que se dividen entre páginas (tablas de riesgos)
+% Colores pastel de los niveles de riesgo (matriz y tablas de riesgos); el medio es el mismo amarillo de los diagramas
+\definecolor{riskLow}{RGB}{212,237,218}
+\definecolor{riskMedium}{RGB}{249,232,160}
+\definecolor{riskHigh}{RGB}{248,203,173}
+\definecolor{riskVeryHigh}{RGB}{240,160,160}
+% Celda que ocupa las 5 columnas de la derecha en las tablas de riesgos (análisis de riesgos)
+\newcommand{\riskSpan}[1]{\multicolumn{5}{p{\dimexpr 0.79\textwidth+8\tabcolsep+4\arrayrulewidth\relax}|}{#1}}
 \usepackage{float}
 \usepackage{booktabs}
 \usepackage{comment} 
@@ -27,6 +36,23 @@
 \usepackage{verbatim}
 \usepackage[edges]{forest}
 \usepackage{tabularx}
+\usepackage{tikz}
+\usetikzlibrary{positioning, arrows.meta, shadows}
+
+% Estilo de los diagramas de flujo (colores del diseño original en Mermaid)
+\definecolor{boxFill}{RGB}{249,232,160}
+\definecolor{boxBorder}{RGB}{225,202,114}
+\definecolor{boxText}{RGB}{40,37,61}
+\definecolor{labelFill}{RGB}{214,214,214}
+\tikzset{
+	flowchart/.style={node distance=2.2cm, font=\sffamily},
+	flowbox/.style={draw=boxBorder, fill=boxFill, text=boxText, line width=0.8pt,
+		rounded corners=3pt, drop shadow={opacity=0.18, shadow xshift=0.6pt, shadow yshift=-0.8pt},
+		minimum width=2.6cm, minimum height=1cm, inner xsep=8pt},
+	flowarrow/.style={-{Stealth[length=7pt, width=6pt]}, line width=1pt, rounded corners=12pt},
+	flowlabel/.style={font=\sffamily\small, fill=labelFill, text=boxText,
+		inner sep=2.5pt, rounded corners=0pt},
+}
 
 % Revisión: pies de figura y tabla más angostos que el texto (no aplica a las subfiguras)
 \usepackage{caption}
@@ -39,6 +65,84 @@
 \usepackage{etoolbox}
 \pretocmd{\subsection}{\FloatBarrier}{}{}
 \pretocmd{\subsubsection}{\FloatBarrier}{}{}
+
+% Listas compactas dentro de tablas: sin sangría, sin renglón vacío arriba y sin ancla de hyperref
+% (el ancla empuja la lista un renglón hacia abajo). Solo se activa en las especificaciones de casos de uso
+\newif\ifcompactTableLists
+\makeatletter
+\AtBeginEnvironment{tabular}{\ifcompactTableLists\setlist[itemize,enumerate]{nosep, wide, labelindent=0pt,
+	before={\@minipagetrue\let\refstepcounter\stepcounter}}\fi}
+\makeatother
+
+% Algoritmo que no flota y puede partirse entre páginas (mismo estilo "ruled" del paquete algorithm).
+% Se arma en una caja; si no cabe en lo que queda de la página se corta con \vsplit, la parte de abajo
+% se cierra con una línea y la página siguiente empieza con "Algorithm N (continuación)".
+\makeatletter
+\newsavebox\algorithmBox
+\newdimen\algorithmRoom
+\newif\ifalgorithmStarted
+\newenvironment{breakablealgorithm}
+	{\par\addvspace{\medskipamount}%
+	\refstepcounter{algorithm}%
+	\setbox\algorithmBox\vbox\bgroup
+		\hsize\linewidth\@parboxrestore
+		\hrule height.8pt depth0pt\kern2pt%
+		\renewcommand{\caption}[2][\relax]{%
+			{\raggedright\textbf{\fname@algorithm~\thealgorithm} ##2\par}%
+			\ifx\relax##1\relax
+				\addcontentsline{loa}{algorithm}{\protect\numberline{\thealgorithm}##2}%
+			\else
+				\addcontentsline{loa}{algorithm}{\protect\numberline{\thealgorithm}##1}%
+			\fi
+			\kern2pt\hrule\kern2pt}%
+	}
+	{\par\egroup
+	\algorithmStartedfalse
+	\begingroup
+		\splittopskip=\ht\strutbox \splitmaxdepth=\maxdepth \vbadness=10000
+		\breakablealgorithm@loop
+	\endgroup
+	\par\addvspace{\medskipamount}}
+% Espacio que queda en la página, reservando la línea de cierre
+\def\breakablealgorithm@room{%
+	\ifdim\pagegoal=\maxdimen \algorithmRoom=\textheight \else
+		\algorithmRoom=\pagegoal \advance\algorithmRoom by -\pagetotal \fi
+	\advance\algorithmRoom by -\baselineskip}
+\def\breakablealgorithm@loop{%
+	\breakablealgorithm@room
+	\dimen@=\ht\algorithmBox \advance\dimen@ by \dp\algorithmBox
+	\ifdim\dimen@>\algorithmRoom
+		\ifdim\algorithmRoom<4\baselineskip
+			% No cabe ni el inicio: se pasa todo a la página siguiente
+			\newpage
+			\ifalgorithmStarted\breakablealgorithm@header\fi
+		\else
+			\setbox\z@=\vsplit\algorithmBox to \algorithmRoom
+			\setbox\z@=\vbox{\unvbox\z@}%
+			\box\z@ \nointerlineskip\kern2pt\hrule
+			\algorithmStartedtrue
+			\newpage
+			\breakablealgorithm@header
+		\fi
+		\expandafter\breakablealgorithm@loop
+	\else
+		\box\algorithmBox \nointerlineskip\kern2pt\hrule
+	\fi}
+\def\breakablealgorithm@header{%
+	\hrule height.8pt depth0pt\kern2pt
+	{\raggedright\textbf{\fname@algorithm~\thealgorithm} (continuación)\par}%
+	\kern2pt\hrule\kern2pt}
+\makeatother
+
+% \bstctlcite de IEEEtran (la clase report no lo define): pasa opciones de control a IEEEtran.bst
+\makeatletter
+\def\bstctlcite{\@ifnextchar[{\@bstctlcite}{\@bstctlcite[@auxout]}}
+\def\@bstctlcite[#1]#2{\@bsphack
+	\@for\@citeb:=#2\do{%
+		\edef\@citeb{\expandafter\@firstofone\@citeb}%
+		\if@filesw\immediate\write\csname #1\endcsname{\string\citation{\@citeb}}\fi}%
+	\@esphack}
+\makeatother
 
 \newtheorem{definition}{Definición}
 \setlength{\parskip}{10pt}

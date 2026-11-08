@@ -8,23 +8,15 @@ En este capítulo se describe el diseño del simulador a partir de los requerimi
 La arquitectura del sistema se basa en el patrón de diseño Modelo-Vista-Controlador (MVC), el cual resulta adecuado para aplicaciones que combinan lógica de negocio, manipulación de datos y una interfaz gráfica interactiva \cite{mvc}. Este patrón favorece la separación de responsabilidades, la mantenibilidad y la extensibilidad del sistema. La figura \ref{fig:flujo} muestra cómo se comunican las capas: la interfaz gráfica envía los eventos al controlador, este opera sobre el modelo en Python y el modelo delega el cómputo al núcleo en C++ y CUDA mediante pybind11; el \textit{script} de entrenamiento se ejecuta aparte y los pesos que produce se cargan dinámicamente para crear el autómata celular neuronal.
 
 \begin{itemize}
-	\item \textbf{Modelo:} Gestiona los datos y la lógica principal del autómata celular, incluyendo la definición de estados, reglas, vecindad y condiciones de frontera.
-	\item \textbf{Vista:} Se encarga de la presentación visual de la información y la interacción con el usuario mediante la interfaz gráfica.
-	\item \textbf{Controlador:} Actúa como intermediario entre el modelo y la vista, gestionando los eventos de usuario y actualizando el modelo o la interfaz según corresponda.
+	\item \textbf{Modelo:} Gestiona los datos y la lógica principal del autómata celular, incluyendo la definición de estados, reglas, vecindad y condiciones de frontera.  Coordina la comunicación entre la vista y el modelo. Implementado en Python, este componente recibe los eventos generados por la interfaz, actualiza el modelo y refleja los resultados en la interfaz gráfica. Además, sincroniza los procesos de simulación y representación visual.
+	
+	\item \textbf{Vista:} Se encarga de la presentación visual de la información y la interacción con el usuario mediante la interfaz gráfica. Está implementada en Python utilizando el \textit{framework} \textbf{PyQt5}. Esta capa proporciona la interfaz gráfica principal del simulador, permitiendo visualizar y controlar el espacio celular y entrenar el autómata celular neuronal.
+	
+	\item \textbf{Controlador:} Actúa como intermediario entre el modelo y la vista, gestionando los eventos de usuario y actualizando el modelo o la interfaz según corresponda. Encapsula la lógica del autómata celular. Esta capa está implementada en C++ y CUDA con el fin de optimizar el rendimiento en las operaciones de actualización de células y el procesamiento paralelo. El modelo gestiona la estructura del espacio celular, los estados, la topología de la vecindad, las condiciones de frontera y la regla de transición.
+	
 \end{itemize}
 
-\subsection{Controlador}
-
-El \textbf{controlador} coordina la comunicación entre la vista y el modelo. Implementado en Python, este componente recibe los eventos generados por la interfaz, actualiza el modelo y refleja los resultados en la interfaz gráfica. Además, sincroniza los procesos de simulación y representación visual.
-
-\subsection{Vista}
-La vista está implementada en Python utilizando el \textit{framework} \textbf{PyQt5}. Esta capa proporciona la interfaz gráfica principal del simulador, permitiendo visualizar y controlar el espacio celular y entrenar el autómata celular neuronal.
-
-\subsection{Modelo}
-
-El modelo encapsula la lógica del autómata celular. Esta capa está implementada en C++ y CUDA con el fin de optimizar el rendimiento en las operaciones de actualización de células y el procesamiento paralelo. El modelo gestiona la estructura del espacio celular, los estados, la topología de la vecindad, las condiciones de frontera y la regla de transición.
-
-\begin{figure}[H]
+\begin{figure}[!htbp]
 	\centering
 	\includegraphics[width=.9 \linewidth]{"./img/disenoSoftware/flowchartDiagram.png"}
 	\caption{Diagrama de arquitectura del sistema.}
