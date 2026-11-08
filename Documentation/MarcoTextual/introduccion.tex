@@ -2,9 +2,19 @@
 
 \section{Resumen}
 
-En el presente documento se presenta la primera etapa de una investigación orientada a la simulación de sistemas complejos en espacios bidimensionales mediante autómatas celulares neuronales. El objetivo principal es utilizar una red neuronal para definir la función de transición de un autómata celular, con el fin de modelar y simular las representaciones de sistemas complejos sobre una red regular bidimensional.
+Los autómatas celulares son un modelo matemático usado para simular fenómenos de la naturaleza: se define una regla y se aplica a una condición inicial para estudiar la evolución que produce. En esta investigación se plantea el problema inverso: a partir de la evolución observada de un sistema complejo, inferir la regla local que la rige mediante redes neuronales que funcionan como función de transición, es decir, mediante autómatas celulares neuronales.
 
-Los resultados incluyen el desarrollo del marco teórico, que recopila el conjunto de definiciones formales necesarias; el estado del arte, donde se analizan investigaciones previas relacionadas con diferentes enfoques y configuraciones; la descripción del marco metodológico, en donde se especifican las técnicas, herramientas y procedimientos utilizados; y los avances obtenidos hasta el momento, que abarcan la implementación y documentación de herramientas para la simulación de autómatas celulares en dos dimensiones.
+El reporte se divide en dos partes: (1) el diseño y desarrollo del simulador, desde la toma de requerimientos hasta las pruebas, y (2) la investigación, que abarca el marco teórico, el estado del arte, el marco metodológico, la experimentación y los resultados. El simulador evoluciona autómatas celulares bidimensionales de hasta 20 estados con vecindades semitotalísticas de hasta $7 \times 7$ células, así como autómatas celulares neuronales, e incluye un módulo de entrenamiento disponible desde el simulador y desde la línea de comandos.
+
+Se realizaron 6 experimentos. Los tres primeros replican de forma idéntica las configuraciones tradicionales de sistemas conocidos (el juego de la vida, la hormiga de Langton y el modelo de \textit{sandpile}) y permitieron definir las configuraciones recomendadas de la red neuronal. Los otros tres usan conjuntos de datos de sistemas reales: la propagación de fuego (FLAME~3), el movimiento de tormentas (SEVIR) y el crecimiento del moho \textit{Physarum polycephalum}. Se obtuvo una regla que simula la propagación del fuego, con limitaciones por no ser un sistema aislado, y, mediante ruido, una que simula el crecimiento del moho. El movimiento de las tormentas, que tampoco es un sistema aislado, no se pudo replicar.
+
+\section{\textit{Abstract}}
+
+Cellular automata are a mathematical model used to simulate natural phenomena: a rule is defined and applied to an initial condition to study the evolution it produces. This work addresses the inverse problem: given the observed evolution of a complex system, infer the local rule that governs it by means of neural networks acting as the transition function, that is, neural cellular automata.
+
+The report is divided into two parts: (1) the design and development of the simulator, from requirements gathering to testing, and (2) the research, which covers the theoretical framework, the state of the art, the methodological framework, the experiments and the results. The simulator evolves two-dimensional cellular automata with up to 20 states and semi-totalistic neighborhoods of up to $7 \times 7$ cells, as well as neural cellular automata, and includes a training module available from the simulator and from the command line.
+
+Six experiments were carried out. The first three exactly replicate the traditional configurations of well-known systems (the Game of Life, Langton's ant and the sandpile model) and made it possible to define the recommended neural network configurations. The other three use datasets of real systems: fire spread (FLAME~3), storm motion (SEVIR) and the growth of the slime mold \textit{Physarum polycephalum}. A rule that simulates fire spread was obtained, with limitations because it is not an isolated system, and, by means of noise, one that simulates the growth of the slime mold. Storm motion, which is not an isolated system either, could not be replicated.
 
 \section{Planteamiento del problema}
 
@@ -24,41 +34,53 @@ Los autómatas celulares son un modelo matemático definido como una 4-tupla que
 	
 \end{itemize}
 
-Ejemplos clásicos de autómatas celulares incluyen el Juego de la Vida de John Conway y los 256 autómatas elementales descritos por Stephen Wolfram. Estas herramientas han sido aplicadas en múltiples contextos como la simulación de incendios, modelado de distribuciones poblacionales, simulación de partículas y el análisis de ciclos climáticos \cite{darg}. No obstante, una limitación crítica de los modelos convencionales reside en la rigidez de sus funciones de transición; estas deben definirse de manera estática y anticipada, restringiendo la posibilidad de adaptarse a condiciones imprevistas o cambios en el entorno. Esta limitación motiva la búsqueda de nuevas metodologías capaces de incorporar mayor flexibilidad y adaptabilidad en la simulación de sistemas dinámicos. 
+Ejemplos clásicos de autómatas celulares incluyen el juego de la vida de John Conway y los 256 autómatas elementales descritos por Stephen Wolfram. Estas herramientas han sido aplicadas en múltiples contextos como la simulación de incendios, modelado de distribuciones poblacionales, simulación de partículas y el análisis de ciclos climáticos \cite{darg}. No obstante, una limitación crítica de los modelos convencionales reside en la rigidez de sus funciones de transición; estas deben definirse de manera estática y anticipada, lo que obliga a conocer de antemano la regla del sistema que se quiere simular. Esta limitación motiva la búsqueda de nuevas metodologías capaces de incorporar mayor flexibilidad y adaptabilidad en la simulación de sistemas dinámicos. 
 
-En este contexto, se busca la integración de redes neuronales en el marco de los autómatas celulares. Las redes neuronales, inspiradas en el funcionamiento del cerebro y su capacidad de aprendizaje, ofrecen la posibilidad de redefinir las reglas de transición de forma dinámica. Esto permite que el autómata celular se ajuste de manera autónoma a partir de la experiencia y el entrenamiento \cite{RN}. 
+En este contexto, se busca la integración de redes neuronales en el marco de los autómatas celulares. Las redes neuronales, inspiradas en el funcionamiento del cerebro y su capacidad de aprendizaje, ofrecen la posibilidad de aprender las reglas de transición a partir de datos. Esto permite que la regla del autómata celular se obtenga mediante entrenamiento en lugar de definirse a mano \cite{RN}. 
 
-El presente proyecto de investigación propone superar las limitaciones de los autómatas celulares mediante la integración de redes neuronales en la definición de las reglas de transición, dando origen a los \textit{autómatas celulares neuronales}. En este enfoque, las reglas de actualización dejan de ser fijas y adquieren la capacidad de aprender y adaptarse a partir de los datos, lo que permite que el sistema se ajuste de forma dinámica ante comportamientos complejos y entornos variables \cite{matich2001_ann, mordvintsev2020_nca}. Esta aproximación no solo busca ampliar el campo de aplicación de los autómatas celulares, sino que también busca abrir nuevas oportunidades para modelar y simular fenómenos de formas realistas.  
+El presente proyecto de investigación propone superar las limitaciones de los autómatas celulares mediante la integración de redes neuronales en la definición de las reglas de transición, dando origen a los \textit{autómatas celulares neuronales}. En este enfoque, las reglas de actualización dejan de definirse a mano y se aprenden a partir de los datos, lo que permite obtener reglas para comportamientos complejos cuya regla se desconoce \cite{matich2001_ann, mordvintsev2020_nca}. Esta aproximación no solo busca ampliar el campo de aplicación de los autómatas celulares, sino que también busca abrir nuevas oportunidades para modelar y simular fenómenos de formas realistas.  
 
-Dadas las infinitas configuraciones de autómatas celulares, este proyecto se limita a un espacio bidimensional finito (con condiciones de frontera) y un conjunto finito y numerable de estados. Adicionalmente, se busca experimentar con diferentes vecindades, incluyendo Moore y Neumann. Aunque el objetivo no es determinar las condiciones para la evolución de las células, sí se busca realizar pruebas bajo diferentes configuraciones que permitan mostrar los resultados sin comprometer su calidad.
+Dadas las infinitas configuraciones de autómatas celulares, este proyecto se limita a un espacio bidimensional finito (con condiciones de frontera) y un conjunto finito y numerable de estados. Adicionalmente, se busca experimentar con diferentes vecindades, incluyendo Moore y von Neumann. Aunque el objetivo no es determinar las condiciones para la evolución de las células, sí se busca realizar pruebas bajo diferentes configuraciones que permitan mostrar los resultados sin comprometer su calidad.
 
-Por otro lado, la red neuronal recibe como parámetros los estados de las celdas vecinas y devuelve el nuevo estado de la celda a la cual se aplique la función de transición. Este proceso es el mismo para todas las células.
+Por otro lado, la red neuronal recibe como parámetros los estados de las células vecinas y devuelve el nuevo estado de la célula a la cual se aplique la función de transición. Este proceso es el mismo para todas las células.
 
-Es por esto que surge la pregunta central de esta investigación: ¿Cómo los autómatas celulares neuronales pueden simular sistemas complejos en un espacio bidimensional? A partir de este cuestionamiento, surgen las siguientes preguntas de investigación.
+Además, la configuración del autómata celular neuronal que se propone difiere de las que se mencionan en el estado del arte. Aquí se experimenta con autómatas celulares neuronales en un espacio discreto bidimensional, cuyas células toman estados finitos, discretos y escalares, y cuya evolución es determinista. Con ello se busca demostrar la capacidad de replicar comportamientos complejos sin necesidad de estados continuos, estados ocultos ni actualizaciones estocásticas (asíncronas).
+
+Por esto surge la pregunta central de esta investigación: ¿cómo pueden los autómatas celulares neuronales simular sistemas complejos en un espacio bidimensional? A partir de este cuestionamiento, surgen las siguientes preguntas de investigación.
 
 \subsection{Preguntas de investigación}
 
+\subsubsection{Preguntas teóricas}
+
 \begin{itemize}
 	
-	\item ¿Qué es un sistema complejo?
+	\item ¿Qué es un sistema complejo y qué significa simularlo?
 	
-	\item ¿Qué es simular?
-	
-	\item ¿Cómo se simula un sistema complejo?
-	
-	\item ¿Qué es un  autómata celular?
+	\item ¿Qué es un autómata celular?
 	
 	\item ¿Qué es una red neuronal?
 	
 	\item ¿Qué es un autómata celular neuronal?
 	
-	\item ¿Cómo simular un sistema complejo?
+\end{itemize}
+
+\subsubsection{Preguntas experimentales}
+
+\begin{itemize}
+	
+	\item ¿Puede un autómata celular neuronal inferir de forma exacta la regla de un autómata celular conocido a partir de su evolución?
+	
+	\item ¿Qué configuración de la red neuronal (capas, neuronas, función de activación, codificación de la entrada y vecindad) se necesita para aprender una regla?
+	
+	\item ¿Cómo influyen los parámetros de entrenamiento, como la pérdida objetivo y la tasa de aprendizaje, en la regla aprendida?
+	
+	\item ¿Qué condiciones debe cumplir un sistema real para que un autómata celular neuronal pueda replicarlo a partir de un conjunto de datos?
 	
 \end{itemize}
 
 \section{Objetivo}
 
-Desarrollar un sistema de simulación basado en autómatas celulares neuronales bidimensionales que permita analizar la generación, mantenimiento, recuperación y propagación de patrones de información en entornos complejos y dinámicos.
+Desarrollar un sistema de simulación de autómatas celulares neuronales bidimensionales que permita inferir, a partir de la evolución de un sistema complejo, la regla local que la rige.
 
 \subsection{Objetivos específicos}
 
@@ -68,35 +90,37 @@ Desarrollar un sistema de simulación basado en autómatas celulares neuronales 
 	
 	\item Entrenar y evaluar el desempeño de los autómatas celulares neuronales bajo diferentes configuraciones.
 	
-	\item Replicar configuraciones clásicas con comportamientos y soluciones conocidas. 
+	\item Replicar configuraciones clásicas con comportamientos y soluciones conocidos.
 	
-	\item Analizar y comparar diferentes comportamientos con base en la red neuronal establecida.
+	\item Evaluar la capacidad de los autómatas celulares neuronales para replicar sistemas reales a partir de conjuntos de datos.
+	
+	\item Analizar cómo influyen la configuración de la red y del entrenamiento en la regla aprendida.
 	
 \end{itemize}
 
 \section{Hipótesis}
 
-Si un sistema de simulación está basado en autómatas celulares neuronales bidimensionales, entonces es posible analizar y reproducir la generación, mantenimiento y propagación de patrones de información en entornos complejos y dinámicos.
+Si la función de transición de un autómata celular se define mediante una red neuronal entrenada con la evolución de un sistema, entonces es posible inferir una regla local que reproduzca dicha evolución.
 
 \section{Justificación}
 
-Los autómatas celulares son modelos lo bastante simples para permitir un análisis teórico riguroso, pero lo suficientemente complejos para exhibir fenómenos emergentes. Definir las reglas que describen comportamientos erráticos o no lineales de forma sincronizada resulta una tarea compleja \cite{computationalBiology2016}. 
+Los autómatas celulares son modelos lo bastante simples para permitir un análisis teórico riguroso, pero lo suficientemente complejos para exhibir fenómenos emergentes. Definir las reglas locales que, aplicadas de forma síncrona, describan comportamientos erráticos o no lineales resulta una tarea compleja \cite{computationalBiology2016}. 
 
-Por esta razón, este proyecto de investigación nace de la necesidad de superar las limitaciones de los modelos tradicionales de autómatas celulares, que se basan en reglas de transición fijas y ya establecidas. Este enfoque limitado, aunque ha sido útil para entender algunos fenómenos, no siempre refleja la complejidad y la capacidad de adaptación de los sistemas dinámicos que encontramos en la naturaleza, en la sociedad y en la tecnología. 
+Los modelos tradicionales de autómatas celulares se basan en reglas de transición fijas y ya establecidas. Aunque este enfoque ha sido útil para entender algunos fenómenos, no siempre refleja la complejidad de los sistemas dinámicos que encontramos en la naturaleza, en la sociedad y en la tecnología. 
 
-Cada autómata celular resuelve un problema particular; sin embargo, su definición matemática implica la existencia de una infinidad de posibles configuraciones y comportamientos. Por ello, llevar a cabo ajustes manuales hasta obtener el resultado deseado se convierte en un proceso computacionalmente inviable \cite{elYacoubi2021control}. 
+Cada autómata celular se diseña para un comportamiento particular. Sin embargo, su definición matemática implica la existencia de una infinidad de posibles configuraciones y comportamientos. Por ello, llevar a cabo ajustes manuales hasta obtener el resultado deseado se convierte en un proceso computacionalmente inviable \cite{elYacoubi2021control}. 
 
-Se sugiere usar redes neuronales para definir las reglas de transición, con el fin de crear un modelo de autómata celular neuronal que pueda aprender y adaptarse por sí mismo a los cambios en su entorno. Esto no solo amplía el alcance y la aplicabilidad de los autómatas celulares, sino que también abre un novedoso campo de estudio en el que se combinan herramientas de inteligencia artificial y simulación de sistemas complejos. 
+Por ello, se usan redes neuronales para definir las reglas de transición, con el fin de crear un modelo de autómata celular neuronal cuya regla se aprenda a partir de la evolución observada de un sistema. Esto no solo amplía el alcance y la aplicabilidad de los autómatas celulares, sino que también abre un novedoso campo de estudio en el que se combinan herramientas de inteligencia artificial y simulación de sistemas complejos. 
 
-La principal innovación de este enfoque reside en reemplazar las funciones de transición estáticas por modelos ajustables. Usando técnicas de aprendizaje automático, se puede entrenar la función de transición con datos representativos. Esto permite que el sistema se ajuste por sí solo a los cambios en el entorno \cite{gilpin2019_nca}. 
+La principal innovación de este enfoque reside en reemplazar las funciones de transición estáticas por modelos ajustables. Usando técnicas de aprendizaje automático, se puede entrenar la función de transición con datos representativos. Esto permite obtener la regla de un sistema sin definirla a mano \cite{gilpin2019_nca}. 
 
-La elección de redes neuronales para modelar la función de transición no es arbitraria. Varios estudios recientes han mostrado que las redes neuronales, sobre todo las convolucionales y recurrentes, son muy efectivas para aproximar funciones no lineales y entender relaciones complejas en el espacio y el tiempo \cite{mordvintsev2020_nca}. Estas características las hacen particularmente adecuadas para emular las dinámicas locales y temporales propias de los autómatas celulares. Este proyecto se basa en una línea de investigación establecida que intenta unir la capacidad expresiva de las redes neuronales con la estructura organizada y distribuida de los autómatas celulares. Así, se busca crear un modelo más flexible y que se pueda aplicar en diferentes situaciones.
+La elección de redes neuronales para modelar la función de transición no es arbitraria. Varios estudios recientes han mostrado que las redes neuronales son muy efectivas para aproximar funciones no lineales y entender relaciones complejas en el espacio y el tiempo \cite{mordvintsev2020_nca}. En este trabajo se usa un perceptrón multicapa que recibe los estados de la vecindad de una célula y devuelve su nuevo estado, ya que la función de transición de un autómata celular es local. Estas características las hacen particularmente adecuadas para emular las dinámicas locales y temporales propias de los autómatas celulares. Este proyecto se basa en una línea de investigación establecida que intenta unir la capacidad expresiva de las redes neuronales con la estructura organizada y distribuida de los autómatas celulares. Así, se busca crear un modelo más flexible y aplicable a diferentes situaciones.
 
-Adicionalmente, este proyecto profundiza en técnicas de simulación, modelado matemático y redes neuronales, integrando conocimientos de ciencias de la computación, vida artificial y matemáticas.
+Adicionalmente, este proyecto profundiza en técnicas de simulación, modelado matemático y redes neuronales, integrando conocimientos de ciencias de la computación, vida artificial, matemáticas e inteligencia artificial.
 
-La experiencia adquirida durante el desarrollo e implementación de estos modelos abrirá puertas a futuras investigaciones y proyectos en el campo de la inteligencia artificial. Además, la creación de un entorno de código abierto contribuirá al avance del estado del arte y facilitará que otros investigadores puedan extender y aplicar estos conceptos.
+La experiencia adquirida durante el desarrollo e implementación de estos modelos abre puertas a futuras investigaciones y proyectos en el campo de la inteligencia artificial. Además, el simulador es de código abierto, lo que contribuye al avance del estado del arte y facilita que otros investigadores puedan extender y aplicar estos conceptos.
 
-En resumen, este proyecto tiene como objetivo ayudar en el desarrollo de la simulación de sistemas complejos. Para lograrlo, se creará un modelo de autómatas celulares neuronales que sea flexible, adaptable y que se pueda ampliar. Esto unirá la teoría de sistemas dinámicos con las técnicas actuales de aprendizaje automático.
+En resumen, este proyecto contribuye al desarrollo de la simulación de sistemas complejos mediante un modelo de autómatas celulares neuronales flexible y extensible, que une la teoría de sistemas dinámicos con las técnicas actuales de aprendizaje automático.
 
 \section{Alcances y limitaciones}
 
@@ -106,9 +130,15 @@ En resumen, este proyecto tiene como objetivo ayudar en el desarrollo de la simu
 	
 	\item El estudio se limita a la simulación en espacios bidimensionales finitos con condiciones de frontera establecidas en una red regular definida.
 	
-	\item Se emplean redes neuronales supervisadas para la definición de la función de transición.
+	\item Se emplea aprendizaje supervisado para definir la función de transición mediante un perceptrón multicapa.
 	
-	\item Se analizarán comportamientos de patrones conocidos y emergentes bajo distintas configuraciones de estados y vecindades.
+	\item La regla aprendida es determinista y se aplica de forma síncrona a todas las células.
+	
+	\item El simulador admite hasta 20 estados y vecindades semitotalísticas de hasta $7 \times 7$ células.
+	
+	\item Se analizan comportamientos de patrones conocidos y emergentes bajo distintas configuraciones de estados y vecindades.
+	
+	\item Se replican sistemas reales a partir de conjuntos de datos de su evolución.
 	
 \end{itemize}
 
@@ -116,7 +146,7 @@ En resumen, este proyecto tiene como objetivo ayudar en el desarrollo de la simu
 
 \begin{itemize}
 	
-	\item No se contempla la generalización del modelo a diferentes dimensionalidades o topologías de red.
+	\item El simulador y los experimentos no contemplan la generalización del modelo a diferentes dimensionalidades o topologías de red.
 	
 	\item El análisis se centra en la simulación de sistemas complejos, sin abordar la optimización computacional del entrenamiento.
 	

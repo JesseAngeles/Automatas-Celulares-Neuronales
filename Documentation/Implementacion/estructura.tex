@@ -68,12 +68,11 @@ Reúne los \textit{scripts} de entrenamiento del autómata celular neuronal, las
 
 \begin{table}[H]
     \centering
-    \begin{tabular}{l|p{0.56\linewidth}}
+    \begin{tabular}{p{0.2\linewidth}|p{0.7\linewidth}}
         \hline
-        \textbf{Archivo / directorio} & \textbf{Responsabilidad} \\ \hline
-        \texttt{scripts/main.py} & \textit{Script} principal. Implementa la extracción de pares (vecindad, objetivo), la construcción dinámica del MLP en PyTorch y el ciclo de entrenamiento. \\ \hline
-        \texttt{scripts/genetic\_search.py} & Búsqueda de hiperparámetros de entrenamiento mediante un algoritmo genético. \\ \hline
-        \texttt{scripts/test.py} & Implementa en NumPy el paso del autómata celular neuronal y compara su evolución con la regla exacta del juego de la vida. \\ \hline
+        \textbf{Archivo /}   \quad \textbf{directorio} & \textbf{Responsabilidad} \\ \hline
+        \texttt{scripts/} \texttt{main.py} & \textit{Script} principal. Implementa la extracción de pares (vecindad, objetivo), la construcción dinámica del MLP en PyTorch y el ciclo de entrenamiento. \\ \hline
+        \texttt{scripts/} \texttt{test.py} & Implementa en NumPy el paso del autómata celular neuronal y compara su evolución con la regla exacta del juego de la vida. \\ \hline
         \texttt{preprocessing/} & Utilidades para convertir datos externos al formato \texttt{(T, H, W)} en \texttt{.npy}/\texttt{.mat}: secuencias PNG segmentadas (\texttt{png\_to\_evolution.py}), imágenes térmicas del conjunto FLAME 3 (\texttt{celsius\_to\_evolution.py}, \texttt{thermal\_to\_evolution.py}) y secuencias de desarrollo embrionario (\texttt{embryo\_to\_evolution.py}). \\ \hline
         \texttt{CA/} & Evoluciones de referencia, una carpeta por regla (\texttt{evo} para entrenamiento, \texttt{base} como condición de prueba), \texttt{FLAME3/} con las evoluciones térmicas, \texttt{embryo/} con las imágenes de embriones y \texttt{embryo\_states/} con sus evoluciones segmentadas. \\ \hline
         \texttt{NCA/} & Pesos entrenados (\texttt{.npz}) por regla, las evoluciones que producen (\texttt{t\_*}) y los \textit{notebooks} de análisis de cada experimento; \texttt{ga\_runs/} contiene la búsqueda genética. \\ \hline

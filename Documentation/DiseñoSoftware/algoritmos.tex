@@ -17,7 +17,7 @@ La tabla de regla \texttt{rule[]} contiene una entrada por cada combinación pos
 
 Cada grupo $g$ aporta una contribución igual a la suma de los estados de las células que lo integran. Esa suma puede tomar valores en $\{0, 1, \dots, (\text{states}-1)\cdot|g|\}$, es decir, $((\text{states}-1)\cdot|g| + 1)$ valores distintos. El índice global se construye en base mixta posicional, multiplicando cada contribución por el producto acumulado de los tamaños de los grupos previos.
 
-\begin{algorithm}[H]
+\begin{breakablealgorithm}
 \caption{IndiceRegla: vector de conteos $\to$ índice lineal}
 \label{alg:indice}
 \begin{algorithmic}[1]
@@ -31,7 +31,7 @@ Cada grupo $g$ aporta una contribución igual a la suma de los estados de las c�
 \EndFor
 \State \Return \texttt{idx}
 \end{algorithmic}
-\end{algorithm}
+\end{breakablealgorithm}
 
 \textbf{Complejidad}: $\mathcal{O}(\texttt{n\_groups})$ por célula. 
 
@@ -43,7 +43,7 @@ En cada paso evolutivo el \textit{kernel} CUDA gestiona los hilos responsables d
 
 Para cada célula, el hilo recorre la vecindad agrupada, acumula la suma de estados por grupo, calcula el índice de la regla y escribe el resultado en el búfer destino. Tras el \textit{kernel}, los punteros \texttt{A\_d} y \texttt{B\_d} se intercambian (\textit{ping-pong}), evitando copias entre pasos.
 
-\begin{algorithm}[H]
+\begin{breakablealgorithm}
 \caption{stepKernel$\langle$\texttt{BoundaryMode}$\rangle$: un paso de evolución del autómata celular}
 \label{alg:step-ca}
 \begin{algorithmic}[1]
@@ -66,7 +66,7 @@ Para cada célula, el hilo recorre la vecindad agrupada, acumula la suma de esta
 \EndFor
 \State $\texttt{B}[y \cdot W + x] \gets \texttt{rule}[\texttt{idx}]$
 \end{algorithmic}
-\end{algorithm}
+\end{breakablealgorithm}
 
 El parámetro \texttt{BoundaryMode} es un argumento de plantilla, no un parámetro en tiempo de ejecución. El compilador genera cuatro versiones del \textit{kernel} (una por modo de frontera) y el \texttt{if constexpr} dentro de \textsc{ApplyBoundary} elimina toda ramificación condicional en la GPU, lo que evita la divergencia de \textit{warps} en células cercanas al borde.
 
@@ -76,15 +76,13 @@ El parámetro \texttt{BoundaryMode} es un argumento de plantilla, no un parámet
 
 Las cuatro condiciones de frontera modifican la coordenada de un vecino que cae fuera del dominio antes de leerlo. Cada modo se implementa como una función separada, pero con la misma firma.
 
-\begin{algorithm}[H]
+\begin{breakablealgorithm}
 \caption{ApplyBoundary: cuatro variantes especializadas en compilación}
 \label{alg:frontera}
 \footnotesize
 \begin{algorithmic}[1]
 \Function{ApplyBoundary}{OPEN, $x, y, W, H$}
-    \If{$x < 0$ \textbf{or} $x \geq W$ \textbf{or} $y < 0$ \textbf{or} $y \geq H$}
-        \State \Return $(0, 0, \texttt{false})$
-    \EndIf
+    \State \textbf{if} $x < 0$ \textbf{or} $x \geq W$ \textbf{or} $y < 0$ \textbf{or} $y \geq H$ \textbf{then return} $(0, 0, \texttt{false})$
     \State \Return $(x, y, \texttt{true})$
 \EndFunction
 \Statex
@@ -94,23 +92,19 @@ Las cuatro condiciones de frontera modifican la coordenada de un vecino que cae 
 \Statex
 \Function{ApplyBoundary}{REFLECTIVE, $x, y, W, H$}
     \Comment{La frontera actúa como un espejo}
-    \If{$x < 0$} \State $x \gets -x - 1$ \EndIf
-    \If{$x \geq W$} \State $x \gets 2W - x - 1$ \EndIf
-    \If{$y < 0$} \State $y \gets -y - 1$ \EndIf
-    \If{$y \geq H$} \State $y \gets 2H - y - 1$ \EndIf
+    \State \textbf{if} $x < 0$ \textbf{then} $x \gets -x - 1$;\quad \textbf{if} $x \geq W$ \textbf{then} $x \gets 2W - x - 1$
+    \State \textbf{if} $y < 0$ \textbf{then} $y \gets -y - 1$;\quad \textbf{if} $y \geq H$ \textbf{then} $y \gets 2H - y - 1$
     \State \Return $(x, y, \texttt{true})$
 \EndFunction
 \Statex
 \Function{ApplyBoundary}{REFLEXIVE, $x, y, W, H$}
     \Comment{El borde se trata como una célula real}
-    \If{$x < 0$} \State $x \gets -x$ \EndIf
-    \If{$x \geq W$} \State $x \gets 2W - x - 2$ \EndIf
-    \If{$y < 0$} \State $y \gets -y$ \EndIf
-    \If{$y \geq H$} \State $y \gets 2H - y - 2$ \EndIf
+    \State \textbf{if} $x < 0$ \textbf{then} $x \gets -x$;\quad \textbf{if} $x \geq W$ \textbf{then} $x \gets 2W - x - 2$
+    \State \textbf{if} $y < 0$ \textbf{then} $y \gets -y$;\quad \textbf{if} $y \geq H$ \textbf{then} $y \gets 2H - y - 2$
     \State \Return $(x, y, \texttt{true})$
 \EndFunction
 \end{algorithmic}
-\end{algorithm}
+\end{breakablealgorithm}
 
 \textbf{Complejidad}: $\mathcal{O}(\texttt{1})$.
 
@@ -120,7 +114,7 @@ El autómata celular neuronal, a diferencia del clásico, utiliza un perceptrón
 
 Los pesos y sesgos de las capas residen en dos arreglos planos \texttt{weights[]} y \texttt{biases[]}, con los vectores \texttt{w\_offsets[]} y \texttt{b\_offsets[]}, que apuntan al inicio de cada matriz $W_\ell$ y de cada vector de sesgos $b_\ell$. 
 
-\begin{algorithm}[H]
+\begin{breakablealgorithm}
 \caption{ncaKernel: \textit{forward pass} del MLP por célula}
 \label{alg:nca-fwd}
 \begin{algorithmic}[1]
@@ -149,8 +143,7 @@ Los pesos y sesgos de las capas residen en dos arreglos planos \texttt{weights[]
 \EndFor
 \State $\texttt{B}[y \cdot W + x] \gets \texttt{current}[0]$
 \end{algorithmic}
-\end{algorithm}
-
+\end{breakablealgorithm}
 Se evita el uso de \texttt{std::function} u otros punteros a función, ya que no son compatibles con \textit{kernels} CUDA.
 
 \textbf{Complejidad}: $\displaystyle \mathcal{O}\left(\texttt{n\_size} + \sum_{\ell = 0}^{L - 1}(n_\ell \cdot n_{\ell+1})\right)$ por célula. 
@@ -161,7 +154,7 @@ El entrenamiento parte de una evolución registrada en formato $(T, H, W)$ y pro
 
 A diferencia del aprendizaje supervisado tradicional sobre imágenes, aquí cada par de entrenamiento corresponde a una célula individual: la entrada es el vector de estados en su vecindad en el instante $t$, y el objetivo es el estado de la misma célula en el instante $t+1$.
 
-\begin{algorithm}[H]
+\begin{breakablealgorithm}
 \caption{EntrenarNCA: ajuste del MLP a partir de una evolución registrada}
 \label{alg:entrenar}
 \begin{algorithmic}[1]
@@ -202,7 +195,7 @@ A diferencia del aprendizaje supervisado tradicional sobre imágenes, aquí cada
 \EndFor
 \State \Return pesos y sesgos del \texttt{modelo}
 \end{algorithmic}
-\end{algorithm}
+\end{breakablealgorithm}
 
 Además del límite \texttt{epochs\_max}, se detiene el entrenamiento si la pérdida promedio por lote de la época cae por debajo de \texttt{loss\_target}. Al final de cada época, la tasa de aprendizaje se ajusta según \texttt{lr\_schedule}. 
 
@@ -214,7 +207,7 @@ La interfaz gráfica debe sostener una reproducción visualmente fluida sin bloq
 
 Si el usuario cambia la regla, la vecindad o el estado mientras el \textit{worker} está en ejecución, los \textit{frames} precomputados ya no corresponden a la configuración activa y deben descartarse. La solución es un contador entero \texttt{\_generation} que el controlador incrementa ante cualquier cambio; el \textit{worker} captura su valor al lanzarse y verifica que coincida antes de publicar resultados.
 
-\begin{algorithm}[H]
+\begin{breakablealgorithm}
 \caption{PrefetchWorker.run: producción asíncrona de \textit{frames}}
 \label{alg:prefetch}
 \begin{algorithmic}[1]
@@ -235,7 +228,7 @@ Si el usuario cambia la regla, la vecindad o el estado mientras el \textit{worke
     \State descartar \texttt{frames}
 \EndIf
 \end{algorithmic}
-\end{algorithm}
+\end{breakablealgorithm}
 
 La comprobación dentro del bucle permite abortar tempranamente y liberar el hilo del \textit{pool}; la comprobación final antes de publicar evita entregar \textit{frames} obsoletos si la generación cambia justo después del último \texttt{step()}, pero antes de la respuesta.
 

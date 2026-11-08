@@ -1,5 +1,4 @@
-% Revisión: la definición y el diagrama de casos de uso van en la misma página
-\clearpage
+% El texto de casos de uso sigue a la sección anterior; el diagrama va en la página siguiente, seguido del diccionario
 \section{Casos de uso}
 
 Un caso de uso describe una interacción completa entre un actor (en este sistema, el usuario) y el sistema para alcanzar un objetivo concreto, como iniciar la simulación o definir la vecindad \cite{ingenieria_1}. La figura \ref{fig:uml_ucd} resume los casos de uso del simulador, agrupados en controles de simulación, configuración del autómata celular, interacción con el espacio celular y entrenamiento del autómata celular neuronal; cada uno se especifica en la sección \ref{sec:especificaciones}.
@@ -25,10 +24,10 @@ El diccionario enumera y codifica los elementos de la interfaz con los que inter
 \end{itemize}
 
 \subsection{Entradas, salidas y mensajes}
-\begin{itemize}	
+\begin{itemize}[noitemsep]
 	% Configuración
 	\item Controles de simulación:
-	\begin{itemize}
+	\begin{itemize}[noitemsep]
 		\item \NewBTN{iniciar_simulacion}{Iniciar simulación}
 		\item \NewBTN{pausar_simulacion}{Pausar simulación}
 		\item \NewBTN{paso_adelante}{Simular un paso}
@@ -55,7 +54,7 @@ El diccionario enumera y codifica los elementos de la interfaz con los que inter
 	\end{itemize}
 	
 	\item Configuración del autómata celular:
-	\begin{itemize}
+	\begin{itemize}[noitemsep]
 		\item \NewBTN{def_vecindad}{Definir vecindad}
 		\item \NewBTN{añadir_grupo}{Añadir grupo}
 		\item \NewBTN{eliminar_grupo}{Eliminar grupo}
@@ -77,12 +76,12 @@ El diccionario enumera y codifica los elementos de la interfaz con los que inter
 	\end{itemize}
 	
 	\item Espacio de simulación:
-	\begin{itemize}
+	\begin{itemize}[noitemsep]
 		\item \NewIN{espacio}{Espacio}
 	\end{itemize}
 	
 	\item Entrenamiento del autómata celular neuronal:
-	\begin{itemize}
+	\begin{itemize}[noitemsep]
 		\item \NewBTN{cargar_evolucion}{Cargar evolución}
 		\item \NewBTN{definir_guardado}{Definir ruta de guardado}
 		

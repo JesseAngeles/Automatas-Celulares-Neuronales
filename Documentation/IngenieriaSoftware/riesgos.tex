@@ -8,7 +8,7 @@ Los riesgos se agrupan en cinco categorías según su origen: técnicos, operati
 
 \subsubsection{Riesgos técnicos}
 
-\begin{enumerate}[label*=RT\arabic*]
+\begin{enumerate}[label*=RT\arabic*, noitemsep]
 	\item Incompatibilidad entre diferentes lenguajes de programación: Los módulos desarrollados en Python, C++ y CUDA generan errores de integración al intercambiar información y sincronizar procesos.
 	
 	\item Indisponibilidad de \textit{hardware}: La tarjeta gráfica, el procesador u otros componentes no tienen el rendimiento suficiente.
@@ -23,7 +23,7 @@ Los riesgos se agrupan en cinco categorías según su origen: técnicos, operati
 \end{enumerate}
 
 \subsubsection{Riesgos operativos}
-\begin{enumerate}[label*=RO\arabic*]
+\begin{enumerate}[label*=RO\arabic*, noitemsep]
 	\item Documentación deficiente: La documentación no permite mantener ni ampliar el proyecto a futuro.
 	
 	\item Problemas personales: Falta de motivación o problemas de salud física o mental se presentan durante el desarrollo.
@@ -31,17 +31,17 @@ Los riesgos se agrupan en cinco categorías según su origen: técnicos, operati
 	\item Curva de aprendizaje elevada: Se encuentra una curva de aprendizaje elevada y se carece de experiencia con la tecnología a utilizar.
 \end{enumerate}
 \subsubsection{Riesgos de requerimientos}
-\begin{enumerate}[label*=RR\arabic*]
+\begin{enumerate}[label*=RR\arabic*, noitemsep]
 	\item Requerimientos ambiguos: La definición incompleta o ambigua de los requerimientos puede provocar cambios en etapas avanzadas del desarrollo.
 \end{enumerate}
 
 \subsubsection{Riesgos de estimación}
-\begin{enumerate}[label*=RE\arabic*]
+\begin{enumerate}[label*=RE\arabic*, noitemsep]
 	\item Subestimación del tiempo de desarrollo: La complejidad de enlazar diferentes tecnologías puede extender los plazos planeados.
 \end{enumerate}
 
 \subsubsection{Riesgos de alcance}
-\begin{enumerate}[label*=RA\arabic*]
+\begin{enumerate}[label*=RA\arabic*, noitemsep]
 	\item Limitación del alcance funcional: Las restricciones de tiempo pueden dar pie a limitar el número de funcionalidades requeridas.
 
 	\item Carga de trabajo imprevista: El poder de cómputo resulta insuficiente, por lo que se reduce la complejidad de las simulaciones.
@@ -55,178 +55,136 @@ El nivel de cada riesgo se obtiene a partir de dos factores. La probabilidad es 
 	\centering
 	\renewcommand{\arraystretch}{1.2}
 	\setlength{\tabcolsep}{3pt}
-	\begin{tabular}{|p{0.14\textwidth}|p{0.135\textwidth}|p{0.12\textwidth}|p{0.12\textwidth}|p{0.12\textwidth}|p{0.12\textwidth}|p{0.12\textwidth}|}
-		\cline{3-7}
-		\multicolumn{2}{p{0.12\textwidth}}{} & \multicolumn{5}{|c|}{\textbf{Probabilidad}} \\ \cline{3-7}
-		\multicolumn{2}{p{0.12\textwidth}|}{} & Muy poco probable $10\%$ & Poco probable $30\%$ & Modera\-da\-men\-te probable $50\%$ & Probable $70\%$ & Muy probable $90\%$ \\ \cline{1-7}
-		\multirow{5}{*}{\textbf{Severidad}} 
-		& Nula & \cellcolor{green!30}Bajo & \cellcolor{green!30}Bajo & \cellcolor{green!30}Bajo & \cellcolor{yellow!40}Medio & \cellcolor{yellow!40}Medio \\ \cline{2-7}
-		& Menor & \cellcolor{green!30}Bajo & \cellcolor{green!30}Bajo & \cellcolor{yellow!40}Medio & \cellcolor{yellow!40}Medio & \cellcolor{yellow!40}Medio \\ \cline{2-7}
-		& Moderado & \cellcolor{yellow!40}Medio & \cellcolor{yellow!40}Medio & \cellcolor{yellow!40}Medio & \cellcolor{red!40}Alto & \cellcolor{red!40}Alto \\ \cline{2-7}
-		& Crítico & \cellcolor{yellow!40}Medio & \cellcolor{yellow!40}Medio & \cellcolor{red!40}Alto & \cellcolor{red!40}Alto & \cellcolor{black!80}\textcolor{white}{Muy alto} \\ \cline{2-7}
-		& Fatal & \cellcolor{yellow!40}Medio & \cellcolor{red!40}Alto & \cellcolor{red!40}Alto & \cellcolor{black!80}\textcolor{white}{Muy alto} & \cellcolor{black!80}\textcolor{white}{Muy alto} \\ \cline{1-7}
+	\begin{tabular}{|>{\centering\arraybackslash}m{0.04\textwidth}|p{0.13\textwidth}|*{5}{>{\centering\arraybackslash}p{0.14\textwidth}|}}
+		\hhline{~~|-----|}
+		\multicolumn{2}{c|}{} & \multicolumn{5}{c|}{\textbf{Probabilidad}} \\ \hhline{~~|-----|}
+		\multicolumn{2}{c|}{} & Muy poco probable $10\%$ & Poco probable $30\%$ &  Moderada-mente $50\%$ & Probable $70\%$ & Muy probable $90\%$ \\ \hhline{|-------|}
+		\multirow{5}{*}{\rotatebox[origin=c]{90}{\textbf{Severidad}}}
+		& Nula & \cellcolor{riskLow}Bajo & \cellcolor{riskLow}Bajo & \cellcolor{riskLow}Bajo & \cellcolor{riskMedium}Medio & \cellcolor{riskMedium}Medio \\ \hhline{|~|------|}
+		& Menor & \cellcolor{riskLow}Bajo & \cellcolor{riskLow}Bajo & \cellcolor{riskMedium}Medio & \cellcolor{riskMedium}Medio & \cellcolor{riskMedium}Medio \\ \hhline{|~|------|}
+		& Moderado & \cellcolor{riskMedium}Medio & \cellcolor{riskMedium}Medio & \cellcolor{riskMedium}Medio & \cellcolor{riskHigh}Alto & \cellcolor{riskHigh}Alto \\ \hhline{|~|------|}
+		& Crítico & \cellcolor{riskMedium}Medio & \cellcolor{riskMedium}Medio & \cellcolor{riskHigh}Alto & \cellcolor{riskHigh}Alto & \cellcolor{riskVeryHigh}Muy alto \\ \hhline{|~|------|}
+		& Fatal & \cellcolor{riskMedium}Medio & \cellcolor{riskHigh}Alto & \cellcolor{riskHigh}Alto & \cellcolor{riskVeryHigh}Muy alto & \cellcolor{riskVeryHigh}Muy alto \\ \hhline{|-------|}
 	\end{tabular}
 	\caption{Matriz de riesgos \cite{matriz_riesgos}}
 	\label{table:matriz_riesgos}
 \end{table}
 
-\begin{table}[H]
-	\centering
-	\renewcommand{\arraystretch}{1.2}
-	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{|p{0.40\textwidth}|p{0.19\textwidth}|p{0.17\textwidth}|p{0.15\textwidth}|}
-		\hline
-		\textbf{Riesgo técnico} & \textbf{Probabilidad} & \textbf{Impacto} & \textbf{Nivel de riesgo} \\ \hline
-		RT1 Incompatibilidad entre diferentes lenguajes de programación & Modera\-da\-men\-te probable & Crítico & Alto \\ \hline
-		RT2 Indisponibilidad de \textit{hardware} & Poco probable & Moderado & Medio \\ \hline
-		RT3 Incompatibilidad entre tecnologías & Probable & Fatal & Muy alto \\ \hline
-		RT4 Dependencias de bibliotecas & Poco probable & Menor & Bajo\\ \hline
-		RT5 Mala visualización & Modera\-da\-men\-te probable & Menor & Medio \\ \hline
-		RT6 Indisponibilidad de \textit{software} con licencia & Muy probable & Crítico & Muy alto \\ \hline
-	\end{tabular}
-	\caption{Nivel de riesgos técnicos}
-	\label{table:riesgos_tecnicos}
-\end{table}
-
-\begin{table}[H]
-	\centering
-	\renewcommand{\arraystretch}{1.2}
-	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{|p{0.40\textwidth}|p{0.19\textwidth}|p{0.17\textwidth}|p{0.15\textwidth}|}
-		\hline
-		\textbf{Riesgo operativo} & \textbf{Probabilidad} & \textbf{Impacto} & \textbf{Nivel de riesgo} \\ \hline
-		RO1 Documentación deficiente & Probable & Moderado & Alto \\ \hline
-		RO2 Problemas personales & Modera\-da\-men\-te probable & Crítico & Alto \\ \hline
-		RO3 Curva de aprendizaje elevada & Muy probable & Moderado & Alto \\ \hline
-	\end{tabular}
-	\caption{Nivel de riesgos operativos}
-	\label{table:riesgos_operativos}
-\end{table}
-
-\begin{table}[H]
-	\centering
-	\renewcommand{\arraystretch}{1.2}
-	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{|p{0.40\textwidth}|p{0.19\textwidth}|p{0.17\textwidth}|p{0.15\textwidth}|}
-		\hline
-		\textbf{Riesgo de requerimientos} & \textbf{Probabilidad} & \textbf{Impacto} & \textbf{Nivel de riesgo} \\ \hline
-		RR1 Requerimientos ambiguos & Poco probable & Menor & Bajo \\ \hline
-	\end{tabular}
-	\caption{Nivel de riesgos de requerimientos}
-	\label{table:riesgos_requerimientos}
-\end{table}
-
-\begin{table}[H]
-	\centering
-	\renewcommand{\arraystretch}{1.2}
-	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{|p{0.40\textwidth}|p{0.19\textwidth}|p{0.17\textwidth}|p{0.15\textwidth}|}
-		\hline
-		\textbf{Riesgo de estimación} & \textbf{Probabilidad} & \textbf{Impacto} & \textbf{Nivel de riesgo} \\ \hline
-		RE1 Subestimación del tiempo de desarrollo & Probable & Fatal & Muy alto \\ \hline
-	\end{tabular}
-	\caption{Nivel de riesgos de estimación}
-	\label{table:riesgos_estimacion}
-\end{table}
-
-\begin{table}[H]
-	\centering
-	\renewcommand{\arraystretch}{1.2}
-	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{|p{0.40\textwidth}|p{0.19\textwidth}|p{0.17\textwidth}|p{0.15\textwidth}|}
-		\hline
-		\textbf{Riesgo de alcance} & \textbf{Probabilidad} & \textbf{Impacto} & \textbf{Nivel de riesgo} \\ \hline 
-		RA1 Limitación del alcance funcional & Modera\-da\-men\-te probable & Moderado & Medio \\ \hline
-		RA2 Carga de trabajo imprevista & Probable & Crítico & Alto \\ \hline
-	\end{tabular}
-	\caption{Nivel de riesgos de alcance}
-	\label{table:riesgos_alcance}
-\end{table}
-
 \subsection{Plan de mitigación}
 
-El plan de mitigación define, para cada riesgo identificado, las acciones preventivas que se realizan durante el desarrollo para reducir la probabilidad de que ocurra o su impacto. Las tablas \ref{table:mitigacion_tecnico} a \ref{table:mitigacion_alcance} presentan, por categoría, el código y el nombre de cada riesgo junto con su plan de mitigación.
+El plan de mitigación define, para cada riesgo identificado, las acciones preventivas que se realizan durante el desarrollo para reducir la probabilidad de que ocurra o su impacto. Las tablas \ref{table:riesgos_tecnicos} a \ref{table:riesgos_alcance} presentan, por categoría, el código y el nombre de cada riesgo junto con su plan de mitigación.
 
-\begin{table}[H]
-	\centering
-	\renewcommand{\arraystretch}{1.2}
-	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{|p{0.3\textwidth}|p{0.6\textwidth}|}
+\begingroup
+\renewcommand{\arraystretch}{1.2}
+\setlength{\tabcolsep}{2.5pt}
+\begin{longtable}{|>{\raggedright\arraybackslash}p{0.13\textwidth}|p{0.125\textwidth}|p{0.19\textwidth}|>{\raggedright\arraybackslash}p{0.26\textwidth}|p{0.105\textwidth}|p{0.11\textwidth}|}
+	\endfirsthead
+	\hline
+	\endhead
 		\hline
-		\textbf{Riesgo técnico} & \textbf{Plan de mitigación} \\ \hline
-		RT1 Incompatibilidad entre diferentes lenguajes de programación & Verificar la documentación de compatibilidad entre los lenguajes de programación y realizar pruebas de transferencia de datos y sincronización previas al desarrollo. \\ \hline
-		RT2 Indisponibilidad de \textit{hardware} & Asegurar la disponibilidad de equipos de respaldo o entornos virtuales alternativos para continuar el desarrollo en caso de fallos de \textit{hardware}. \\ \hline
-		RT3 Incompatibilidad entre tecnologías & Realizar pruebas de compatibilidad del \textit{hardware} y \textit{software} en diferentes sistemas operativos y versiones antes de la integración. \\ \hline
-		RT4 Dependencias de bibliotecas & Documentar y verificar las versiones de bibliotecas utilizadas, además de considerar alternativas equivalentes que garanticen continuidad en caso de incompatibilidad. \\ \hline
-		RT5 Mala visualización & Realizar pruebas de usabilidad y ajustar la interfaz de acuerdo con las resoluciones de pantalla y dispositivos objetivo. \\ \hline
-		RT6 Indisponibilidad de \textit{software} con licencia & Verificar la vigencia de las licencias al inicio del proyecto, limitar el uso de las herramientas con licencia a tareas que no formen parte del simulador y mantener alternativas de \textit{software} libre, como Python, para las tareas de análisis. \\ \hline
-	\end{tabular}
-	\caption{Plan de mitigación de riesgos técnicos}
-	\label{table:mitigacion_tecnico}
-\end{table}
+		\textbf{RT1} & \riskSpan{Incompatibilidad entre diferentes lenguajes de programación} \\* \hhline{|------|}\noalign{\nobreak}
+		\textbf{Impacto:} & Crítico & \textbf{Probabilidad:} & Moderadamente & \textbf{Riesgo:} & \cellcolor{riskHigh}Alto \\* \hhline{|------|}\noalign{\nobreak}
+		\textbf{Plan de mitigación:} & \riskSpan{Verificar la documentación de compatibilidad entre los lenguajes de programación y realizar pruebas de transferencia de datos y sincronización previas al desarrollo.} \\* \noalign{\hrule height 1pt}\noalign{\penalty0}
+		\textbf{RT2} & \riskSpan{Indisponibilidad de \textit{hardware}} \\* \hhline{|------|}\noalign{\nobreak}
+		\textbf{Impacto:} & Moderado & \textbf{Probabilidad:} & Poco probable & \textbf{Riesgo:} & \cellcolor{riskMedium}Medio \\* \hhline{|------|}\noalign{\nobreak}
+		\textbf{Plan de mitigación:} & \riskSpan{Asegurar la disponibilidad de equipos de respaldo o entornos virtuales alternativos para continuar el desarrollo en caso de fallos de \textit{hardware}.} \\* \noalign{\hrule height 1pt}\noalign{\penalty0}
+		\textbf{RT3} & \riskSpan{Incompatibilidad entre tecnologías} \\* \hhline{|------|}\noalign{\nobreak}
+		\textbf{Impacto:} & Fatal & \textbf{Probabilidad:} & Probable & \textbf{Riesgo:} & \cellcolor{riskVeryHigh}Muy alto \\* \hhline{|------|}\noalign{\nobreak}
+		\textbf{Plan de mitigación:} & \riskSpan{Realizar pruebas de compatibilidad del \textit{hardware} y \textit{software} en diferentes sistemas operativos y versiones antes de la integración.} \\* \noalign{\hrule height 1pt}\noalign{\penalty0}
+		\textbf{RT4} & \riskSpan{Dependencias de bibliotecas} \\* \hhline{|------|}\noalign{\nobreak}
+		\textbf{Impacto:} & Menor & \textbf{Probabilidad:} & Poco probable & \textbf{Riesgo:} & \cellcolor{riskLow}Bajo \\* \hhline{|------|}\noalign{\nobreak}
+		\textbf{Plan de mitigación:} & \riskSpan{Documentar y verificar las versiones de bibliotecas utilizadas, además de considerar alternativas equivalentes que garanticen continuidad en caso de incompatibilidad.} \\* \noalign{\hrule height 1pt}\noalign{\penalty0}
+		\textbf{RT5} & \riskSpan{Mala visualización} \\* \hhline{|------|}\noalign{\nobreak}
+		\textbf{Impacto:} & Menor & \textbf{Probabilidad:} & Moderadamente & \textbf{Riesgo:} & \cellcolor{riskMedium}Medio \\* \hhline{|------|}\noalign{\nobreak}
+		\textbf{Plan de mitigación:} & \riskSpan{Realizar pruebas de usabilidad y ajustar la interfaz de acuerdo con las resoluciones de pantalla y dispositivos objetivo.} \\* \noalign{\hrule height 1pt}\noalign{\penalty0}
+		\textbf{RT6} & \riskSpan{Indisponibilidad de \textit{software} con licencia} \\* \hhline{|------|}\noalign{\nobreak}
+		\textbf{Impacto:} & Crítico & \textbf{Probabilidad:} & Muy probable & \textbf{Riesgo:} & \cellcolor{riskVeryHigh}Muy alto \\* \hhline{|------|}\noalign{\nobreak}
+		\textbf{Plan de mitigación:} & \riskSpan{Verificar la vigencia de las licencias al inicio del proyecto, limitar el uso de las herramientas con licencia a tareas que no formen parte del simulador y mantener alternativas de \textit{software} libre, como Python, para las tareas de análisis.} \\ \hline
+	\caption{Nivel y plan de mitigación de los riesgos técnicos}
+	\label{table:riesgos_tecnicos}
+\end{longtable}
+\endgroup
 
-\begin{table}[H]
-	\centering
-	\renewcommand{\arraystretch}{1.2}
-	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{|p{0.3\textwidth}|p{0.6\textwidth}|}
+\begingroup
+\renewcommand{\arraystretch}{1.2}
+\setlength{\tabcolsep}{2.5pt}
+\begin{longtable}{|>{\raggedright\arraybackslash}p{0.13\textwidth}|p{0.125\textwidth}|p{0.19\textwidth}|>{\raggedright\arraybackslash}p{0.26\textwidth}|p{0.105\textwidth}|p{0.11\textwidth}|}
+	\endfirsthead
+	\hline
+	\endhead
 		\hline
-		\textbf{Riesgo operativo} & \textbf{Plan de mitigación} \\ \hline
-		RO1 Documentación deficiente & Establecer un estándar de documentación y realizar revisiones periódicas del avance para garantizar la calidad y completitud de los registros técnicos. \\ \hline
-		RO2 Problemas personales & Definir roles de respaldo o distribuir responsabilidades para minimizar el impacto de ausencias o contratiempos personales. \\ \hline
-		RO3 Curva de aprendizaje elevada & Programar capacitaciones iniciales y establecer un periodo de adaptación con apoyo técnico y materiales de referencia. \\ \hline
-	\end{tabular}
-	\caption{Plan de mitigación de riesgos operativos}
-	\label{table:mitigacion_operativo}
-\end{table}
+		\textbf{RO1} & \riskSpan{Documentación deficiente} \\* \hhline{|------|}\noalign{\nobreak}
+		\textbf{Impacto:} & Moderado & \textbf{Probabilidad:} & Probable & \textbf{Riesgo:} & \cellcolor{riskHigh}Alto \\* \hhline{|------|}\noalign{\nobreak}
+		\textbf{Plan de mitigación:} & \riskSpan{Establecer un estándar de documentación y realizar revisiones periódicas del avance para garantizar la calidad y completitud de los registros técnicos.} \\* \noalign{\hrule height 1pt}\noalign{\penalty0}
+		\textbf{RO2} & \riskSpan{Problemas personales} \\* \hhline{|------|}\noalign{\nobreak}
+		\textbf{Impacto:} & Crítico & \textbf{Probabilidad:} & Moderadamente & \textbf{Riesgo:} & \cellcolor{riskHigh}Alto \\* \hhline{|------|}\noalign{\nobreak}
+		\textbf{Plan de mitigación:} & \riskSpan{Definir roles de respaldo o distribuir responsabilidades para minimizar el impacto de ausencias o contratiempos personales.} \\* \noalign{\hrule height 1pt}\noalign{\penalty0}
+		\textbf{RO3} & \riskSpan{Curva de aprendizaje elevada} \\* \hhline{|------|}\noalign{\nobreak}
+		\textbf{Impacto:} & Moderado & \textbf{Probabilidad:} & Muy probable & \textbf{Riesgo:} & \cellcolor{riskHigh}Alto \\* \hhline{|------|}\noalign{\nobreak}
+		\textbf{Plan de mitigación:} & \riskSpan{Programar capacitaciones iniciales y establecer un periodo de adaptación con apoyo técnico y materiales de referencia.} \\ \hline
+	\caption{Nivel y plan de mitigación de los riesgos operativos}
+	\label{table:riesgos_operativos}
+\end{longtable}
+\endgroup
 
-\begin{table}[H]
-	\centering
-	\renewcommand{\arraystretch}{1.2}
-	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{|p{0.3\textwidth}|p{0.6\textwidth}|}
+\begingroup
+\renewcommand{\arraystretch}{1.2}
+\setlength{\tabcolsep}{2.5pt}
+\begin{longtable}{|>{\raggedright\arraybackslash}p{0.13\textwidth}|p{0.125\textwidth}|p{0.19\textwidth}|>{\raggedright\arraybackslash}p{0.26\textwidth}|p{0.105\textwidth}|p{0.11\textwidth}|}
+	\endfirsthead
+	\hline
+	\endhead
 		\hline
-		\textbf{Riesgo de requerimientos} & \textbf{Plan de mitigación} \\ \hline
-		RR1 Requerimientos ambiguos & Revisar periódicamente los requerimientos para aclararlos y validar el entendimiento del equipo de desarrollo. \\ \hline
-	\end{tabular}
-	\caption{Plan de mitigación de riesgos de requerimientos}
-	\label{table:mitigacion_requerimiento}
-\end{table}
+		\textbf{RR1} & \riskSpan{Requerimientos ambiguos} \\* \hhline{|------|}\noalign{\nobreak}
+		\textbf{Impacto:} & Menor & \textbf{Probabilidad:} & Poco probable & \textbf{Riesgo:} & \cellcolor{riskLow}Bajo \\* \hhline{|------|}\noalign{\nobreak}
+		\textbf{Plan de mitigación:} & \riskSpan{Revisar periódicamente los requerimientos para aclararlos y validar el entendimiento del equipo de desarrollo.} \\ \hline
+	\caption{Nivel y plan de mitigación de los riesgos de requerimientos}
+	\label{table:riesgos_requerimientos}
+\end{longtable}
+\endgroup
 
-\begin{table}[H]
-	\centering
-	\renewcommand{\arraystretch}{1.2}
-	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{|p{0.3\textwidth}|p{0.6\textwidth}|}
+\begingroup
+\renewcommand{\arraystretch}{1.2}
+\setlength{\tabcolsep}{2.5pt}
+\begin{longtable}{|>{\raggedright\arraybackslash}p{0.13\textwidth}|p{0.125\textwidth}|p{0.19\textwidth}|>{\raggedright\arraybackslash}p{0.26\textwidth}|p{0.105\textwidth}|p{0.11\textwidth}|}
+	\endfirsthead
+	\hline
+	\endhead
 		\hline
-		\textbf{Riesgo de estimación} & \textbf{Plan de mitigación} \\ \hline
-		RE1 Subestimación del tiempo de desarrollo & Dividir el proyecto en fases pequeñas y manejables, aplicando seguimiento semanal y reajuste de cronograma según los resultados obtenidos. \\ \hline
-	\end{tabular}
-	\caption{Plan de mitigación de riesgos de estimación}
-	\label{table:mitigacion_estimacion}
-\end{table}
+		\textbf{RE1} & \riskSpan{Subestimación del tiempo de desarrollo} \\* \hhline{|------|}\noalign{\nobreak}
+		\textbf{Impacto:} & Fatal & \textbf{Probabilidad:} & Probable & \textbf{Riesgo:} & \cellcolor{riskVeryHigh}Muy alto \\* \hhline{|------|}\noalign{\nobreak}
+		\textbf{Plan de mitigación:} & \riskSpan{Dividir el proyecto en fases pequeñas y manejables, aplicando seguimiento semanal y reajuste de cronograma según los resultados obtenidos.} \\ \hline
+	\caption{Nivel y plan de mitigación de los riesgos de estimación}
+	\label{table:riesgos_estimacion}
+\end{longtable}
+\endgroup
 
-\begin{table}[H]
-	\centering
-	\renewcommand{\arraystretch}{1.2}
-	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{|p{0.3\textwidth}|p{0.6\textwidth}|}
+\begingroup
+\renewcommand{\arraystretch}{1.2}
+\setlength{\tabcolsep}{2.5pt}
+\begin{longtable}{|>{\raggedright\arraybackslash}p{0.13\textwidth}|p{0.125\textwidth}|p{0.19\textwidth}|>{\raggedright\arraybackslash}p{0.26\textwidth}|p{0.105\textwidth}|p{0.11\textwidth}|}
+	\endfirsthead
+	\hline
+	\endhead
 		\hline
-		\textbf{Riesgo de alcance} & \textbf{Plan de mitigación} \\ \hline
-		RA1 Limitación del alcance funcional & Definir claramente los objetivos y alcances desde el inicio, con aprobación formal de los responsables del proyecto antes de iniciar nuevas funcionalidades. \\ \hline
-		RA2 Carga de trabajo imprevista & Implementar revisiones periódicas del plan de trabajo y ajustar el alcance en función de los recursos disponibles y los resultados obtenidos. \\ \hline
-	\end{tabular}
-	\caption{Plan de mitigación de riesgos de alcance}
-	\label{table:mitigacion_alcance}
-\end{table}
+		\textbf{RA1} & \riskSpan{Limitación del alcance funcional} \\* \hhline{|------|}\noalign{\nobreak}
+		\textbf{Impacto:} & Moderado & \textbf{Probabilidad:} & Moderadamente & \textbf{Riesgo:} & \cellcolor{riskMedium}Medio \\* \hhline{|------|}\noalign{\nobreak}
+		\textbf{Plan de mitigación:} & \riskSpan{Definir claramente los objetivos y alcances desde el inicio, con aprobación formal de los responsables del proyecto antes de iniciar nuevas funcionalidades.} \\* \noalign{\hrule height 1pt}\noalign{\penalty0}
+		\textbf{RA2} & \riskSpan{Carga de trabajo imprevista} \\* \hhline{|------|}\noalign{\nobreak}
+		\textbf{Impacto:} & Crítico & \textbf{Probabilidad:} & Probable & \textbf{Riesgo:} & \cellcolor{riskHigh}Alto \\* \hhline{|------|}\noalign{\nobreak}
+		\textbf{Plan de mitigación:} & \riskSpan{Implementar revisiones periódicas del plan de trabajo y ajustar el alcance en función de los recursos disponibles y los resultados obtenidos.} \\ \hline
+	\caption{Nivel y plan de mitigación de los riesgos de alcance}
+	\label{table:riesgos_alcance}
+\end{longtable}
+\endgroup
 
 \subsection{Plan de contingencia}
 
 El plan de contingencia define las acciones que se ejecutan cuando un riesgo se materializa a pesar de las medidas de mitigación. Se elabora únicamente para los riesgos de nivel muy alto, que son los siguientes:
 \begin{itemize}
-	\item[RT3] Incompatibilidad entre tecnologías.
-	\item[RT6] Indisponibilidad de \textit{software} con licencia.
-	\item[RE1] Subestimación del tiempo de desarrollo. 
+	\item \textbf{RT3} Incompatibilidad entre tecnologías.
+	\item \textbf{RT6} Indisponibilidad de \textit{software} con licencia.
+	\item \textbf{RE1} Subestimación del tiempo de desarrollo. 
 \end{itemize}
 
 Para cada uno se indican su probabilidad, su impacto, el plan de evasión (acciones para evitar que el riesgo ocurra) y las acciones de contingencia (qué hacer cuando ocurre).
@@ -236,22 +194,13 @@ Para cada uno se indican su probabilidad, su impacto, el plan de evasión (accio
 \begin{table}[H]
 	\centering
 	\renewcommand{\arraystretch}{1.2}
-	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{|p{0.25\textwidth}|p{0.65\textwidth}|}
+	\setlength{\tabcolsep}{2.5pt}
+	\begin{tabular}{|>{\raggedright\arraybackslash}p{0.13\textwidth}|p{0.09\textwidth}|p{0.19\textwidth}|>{\raggedright\arraybackslash}p{0.295\textwidth}|p{0.105\textwidth}|p{0.11\textwidth}|}
 		\hline
-		\textbf{Elemento} & \textbf{Descripción} \\ \hline
-		Código y nombre & RT3 Incompatibilidad entre tecnologías \\ \hline
-		Probabilidad & Probable (70\%) \\ \hline
-		Impacto & Fatal \\ \hline
-		Nivel de riesgo & Muy alto \\ \hline
-		Plan de evasión & 
-		Realizar pruebas de integración tempranas entre las distintas tecnologías implicadas. 
-		Documentar las versiones, dependencias y configuraciones utilizadas para garantizar compatibilidad.
-		Establecer un entorno de desarrollo unificado que minimice diferencias entre plataformas. \\ \hline
-		Acciones de contingencia & 
-		Sustituir o actualizar los componentes que generen incompatibilidad. 
-		Implementar adaptadores o módulos intermedios que permitan la interoperabilidad entre sistemas. 
-		Reasignar recursos técnicos para resolver los conflictos de integración y evitar retrasos prolongados. \\ \hline
+		\textbf{RT3} & \riskSpan{Incompatibilidad entre tecnologías} \\ \hhline{|------|}
+		\textbf{Impacto:} & Fatal & \textbf{Probabilidad:} & Probable (70\%) & \textbf{Riesgo:} & \cellcolor{riskVeryHigh}Muy alto \\ \hhline{|------|}
+		\textbf{Plan de evasión:} & \riskSpan{Realizar pruebas de integración tempranas entre las distintas tecnologías implicadas. Documentar las versiones, dependencias y configuraciones utilizadas para garantizar compatibilidad. Establecer un entorno de desarrollo unificado que minimice diferencias entre plataformas.} \\ \hhline{|------|}
+		\textbf{Plan de contingencia:} & \riskSpan{Sustituir o actualizar los componentes que generen incompatibilidad. Implementar adaptadores o módulos intermedios que permitan la interoperabilidad entre sistemas. Reasignar recursos técnicos para resolver los conflictos de integración y evitar retrasos prolongados.} \\ \hline
 	\end{tabular}
 	\caption{Plan de contingencia para RT3 Incompatibilidad entre tecnologías}
 	\label{table:contingencia_incompatibilidad}
@@ -262,23 +211,13 @@ Para cada uno se indican su probabilidad, su impacto, el plan de evasión (accio
 \begin{table}[H]
 	\centering
 	\renewcommand{\arraystretch}{1.2}
-	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{|p{0.25\textwidth}|p{0.65\textwidth}|}
+	\setlength{\tabcolsep}{2.5pt}
+	\begin{tabular}{|>{\raggedright\arraybackslash}p{0.13\textwidth}|p{0.09\textwidth}|p{0.19\textwidth}|>{\raggedright\arraybackslash}p{0.295\textwidth}|p{0.105\textwidth}|p{0.11\textwidth}|}
 		\hline
-		\textbf{Elemento} & \textbf{Descripción} \\ \hline
-		Código y nombre & RT6 Indisponibilidad de \textit{software} con licencia \\ \hline
-		Probabilidad & Muy probable (90\%) \\ \hline
-		Impacto & Crítico \\ \hline
-		Nivel de riesgo & Muy alto \\ \hline
-		Plan de evasión & 
-		Verificar al inicio del proyecto la vigencia y las condiciones de renovación de cada licencia.
-		Mantener el simulador independiente de las herramientas con licencia, de modo que estas solo se usen para el análisis de resultados.
-		Preparar alternativas de \textit{software} libre (NumPy, Matplotlib y Scikit-learn) para las tareas de análisis. \\ \hline
-		Acciones de contingencia & 
-		Adquirir una licencia individual por el tiempo restante del proyecto.
-		Migrar los cuadernos de análisis a las alternativas de \textit{software} libre si no es posible adquirir la licencia.
-		Reajustar el cronograma para absorber el tiempo de migración. \\ \hline
-		Estado & Este riesgo se materializó durante el desarrollo: la licencia institucional de Wolfram Mathematica con la que se contaba fue cancelada, por lo que se adquirió una licencia de estudiante con vigencia de un año para terminar el proyecto. \\ \hline
+		\textbf{RT6} & \riskSpan{Indisponibilidad de \textit{software} con licencia} \\ \hhline{|------|}
+		\textbf{Impacto:} & Crítico & \textbf{Probabilidad:} & Muy probable (90\%) & \textbf{Riesgo:} & \cellcolor{riskVeryHigh}Muy alto \\ \hhline{|------|}
+		\textbf{Plan de evasión:} & \riskSpan{Verificar al inicio del proyecto la vigencia y las condiciones de renovación de cada licencia. Mantener el simulador independiente de las herramientas con licencia, de modo que estas solo se usen para el análisis de resultados. Preparar alternativas de \textit{software} libre (NumPy, Matplotlib y Scikit-learn) para las tareas de análisis.} \\ \hhline{|------|}
+		\textbf{Plan de contingencia:} & \riskSpan{Adquirir una licencia individual por el tiempo restante del proyecto. Migrar los cuadernos de análisis a las alternativas de \textit{software} libre si no es posible adquirir la licencia. Reajustar el cronograma para absorber el tiempo de migración.} \\ \hhline{|------|}
 	\end{tabular}
 	\caption{Plan de contingencia para RT6 Indisponibilidad de \textit{software} con licencia}
 	\label{table:contingencia_licencia}
@@ -289,22 +228,13 @@ Para cada uno se indican su probabilidad, su impacto, el plan de evasión (accio
 \begin{table}[H]
 	\centering
 	\renewcommand{\arraystretch}{1.2}
-	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{|p{0.25\textwidth}|p{0.65\textwidth}|}
+	\setlength{\tabcolsep}{2.5pt}
+	\begin{tabular}{|>{\raggedright\arraybackslash}p{0.13\textwidth}|p{0.09\textwidth}|p{0.19\textwidth}|>{\raggedright\arraybackslash}p{0.295\textwidth}|p{0.105\textwidth}|p{0.11\textwidth}|}
 		\hline
-		\textbf{Elemento} & \textbf{Descripción} \\ \hline
-		Código y nombre & RE1 Subestimación del tiempo de desarrollo \\ \hline
-		Probabilidad & Probable (70\%) \\ \hline
-		Impacto & Fatal \\ \hline
-		Nivel de riesgo & Muy alto \\ \hline
-		Plan de evasión & 
-		Realizar estimaciones realistas basadas en experiencias previas y tareas medibles. 
-		Incluir márgenes de tiempo de reserva en el cronograma para absorber imprevistos. 
-		Efectuar reuniones de seguimiento semanales para detectar desviaciones tempranas. \\ \hline
-		Acciones de contingencia & 
-		Reasignar recursos o personal adicional para recuperar el tiempo perdido. 
-		Reducir temporalmente el alcance funcional o posponer características no críticas. 
-		Reajustar el cronograma de entregas y comunicar los cambios al equipo y partes interesadas. \\ \hline
+		\textbf{RE1} & \riskSpan{Subestimación del tiempo de desarrollo} \\ \hhline{|------|}
+		\textbf{Impacto:} & Fatal & \textbf{Probabilidad:} & Probable (70\%) & \textbf{Riesgo:} & \cellcolor{riskVeryHigh}Muy alto \\ \hhline{|------|}
+		\textbf{Plan de evasión:} & \riskSpan{Realizar estimaciones realistas basadas en experiencias previas y tareas medibles. Incluir márgenes de tiempo de reserva en el cronograma para absorber imprevistos. Efectuar reuniones de seguimiento semanales para detectar desviaciones tempranas.} \\ \hhline{|------|}
+		\textbf{Plan de contingencia:} & \riskSpan{Reasignar recursos o personal adicional para recuperar el tiempo perdido. Reducir temporalmente el alcance funcional o posponer características no críticas. Reajustar el cronograma de entregas y comunicar los cambios al equipo y partes interesadas.} \\ \hline
 	\end{tabular}
 	\caption{Plan de contingencia para RE1 Subestimación del tiempo de desarrollo}
 	\label{table:contingencia_subestimacion}

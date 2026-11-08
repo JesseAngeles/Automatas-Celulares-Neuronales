@@ -63,48 +63,55 @@ Otro ejemplo se encuentra en la figura \ref{fig:N_wolfram}, la cual representa u
 
 \begin{figure}[!htbp]
 	\centering
-	\begin{subfigure}[b]{0.30\textwidth}
-		\includegraphics[width=\textwidth]{img/marcoTeorico/nNeumann.png}
-		\caption{Vecindad de von Neumann.}
+	\begin{subfigure}[t]{0.30\textwidth}
+		\parbox[b][\linewidth][c]{0.7\linewidth}{\centering
+			\includegraphics[width=\linewidth]{img/marcoTeorico/nNeumann.png}}
+		\caption{Vecindad de Neumann.}
 		\label{fig:N_neumann}
 	\end{subfigure}
-	\begin{subfigure}[b]{0.30\textwidth}
-		\includegraphics[width=\textwidth]{img/marcoTeorico/nMoore.png}
+	\hfill
+	\begin{subfigure}[t]{0.30\textwidth}
+		\parbox[b][\linewidth][c]{0.7\linewidth}{\centering
+			\includegraphics[width=\linewidth]{img/marcoTeorico/nMoore.png}}
 		\caption{Vecindad de Moore.}
 		\label{fig:N_moore}
 	\end{subfigure}
-	\begin{subfigure}[b]{0.40\textwidth}
-		\includegraphics[width=\textwidth]{img/marcoTeorico/nWolfram.png}
-		\caption{Vecindad de radio uno en $\mathbb{Z}^1$.}
+	\hfill
+	\begin{subfigure}[t]{0.30\textwidth}
+		\parbox[b][\linewidth][c]{0.7\linewidth}{\centering
+			\includegraphics[width=\linewidth]{img/marcoTeorico/nWolfram.png}}
+		\caption{Vecindad de radio uno.}
 		\label{fig:N_wolfram}
 	\end{subfigure}
-	\caption{Las vecindades \ref{fig:N_neumann} y \ref{fig:N_moore} son para autómatas celulares bidimensionales; la \ref{fig:N_wolfram} es para autómatas celulares unidimensionales. La célula negra representa la célula actual y, junto con las grises, conforma su vecindad.}
-	
+	\caption{Las vecindades \subref{fig:N_neumann} y \subref{fig:N_moore} son para espacios bidimensionales; la \subref{fig:N_wolfram} es para unidimensionales. La célula negra es la célula actual y, junto con las grises, conforma su vecindad.}
 	\label{fig:vecindades_regulares}
-	
 \end{figure}
 
 Las vecindades no solo son cuadradas; también pueden tener otras formas, como hexágonos o triángulos, que se muestran en las figuras \ref{fig:N_hexagonal} y \ref{fig:N_triangular}. Además, existen vecindades con comportamiento dinámico, como la de Margolus mostrada en la figura \ref{fig:N_margolus}, cuya configuración alterna entre dos disposiciones en cada paso evolutivo \cite{tyler2018_margolus}.
 
 \begin{figure}[!htbp]
 	\centering
-	\begin{subfigure}[b]{0.30\textwidth}
-		\includegraphics[width=\textwidth]{img/marcoTeorico/nHexagon.png}
+	% Altura de la imagen más alta: todas las imágenes se centran verticalmente en ella
+	% para que los pies de subfigura queden a la misma altura
+	\sbox0{\includegraphics[width=0.21\textwidth]{img/marcoTeorico/nHexagon.png}}%
+	\edef\tallestHeight{\the\ht0}%
+	\begin{subfigure}[t]{0.30\textwidth}
+		\parbox[b][\tallestHeight][c]{\textwidth}{\centering\includegraphics[width=0.7\textwidth]{img/marcoTeorico/nHexagon.png}}
 		\caption{Vecindad hexagonal.}
 		\label{fig:N_hexagonal}
 	\end{subfigure}
-	\begin{subfigure}[b]{0.30\textwidth}
-		\includegraphics[width=\textwidth]{img/marcoTeorico/nTriangular.png}
+	\begin{subfigure}[t]{0.30\textwidth}
+		\parbox[b][\tallestHeight][c]{\textwidth}{\centering\includegraphics[width=0.7\textwidth]{img/marcoTeorico/nTriangular.png}}
 		\caption{Vecindad triangular.}
 		\label{fig:N_triangular}
 	\end{subfigure}
-	\begin{subfigure}[b]{0.30\textwidth}
-			\includegraphics[width=\textwidth]{img/marcoTeorico/nMargolus.png}
+	\begin{subfigure}[t]{0.30\textwidth}
+		\parbox[b][\tallestHeight][c]{\textwidth}{\centering\includegraphics[width=0.7\textwidth]{img/marcoTeorico/nMargolus.png}}
 		\caption{Vecindad de Margolus.}
 		\label{fig:N_margolus}
 	\end{subfigure}
 	
-	\caption{En \ref{fig:N_hexagonal} y \ref{fig:N_triangular}, la célula negra es la actual y las grises su vecindad. En \ref{fig:N_margolus}, la célula negra es la actual, mientras que las células verdes y moradas representan las vecindades activas en tiempos pares e impares.}
+	\caption{En \ref{fig:N_hexagonal} y \ref{fig:N_triangular}, la célula negra es la actual y las grises su vecindad. En \ref{fig:N_margolus}, las células verdes y moradas representan la vecindad activa en tiempos pares e impares.}
 	
 	\label{fig:vecindades_irregulares}
 	
@@ -114,7 +121,7 @@ Finalmente, los vecinos no tienen que ser estrictamente adyacentes entre sí ni 
 
 \begin{figure}[!htbp]
 	\centering
-	\includegraphics[width=0.5\textwidth]{img/marcoTeorico/nNoAdyacente.png}
+	\includegraphics[width=0.4\textwidth]{img/marcoTeorico/nNoAdyacente.png}
 	\caption{Vecindad en $\mathbb{Z}^1$ con vecinos no adyacentes.}
 	\label{fig:N_noadyacente}
 \end{figure}
@@ -148,7 +155,7 @@ Si la configuración inicial es finita, la propiedad de finitud se preserva en c
 
 En el tiempo $t + 1$ las células en $n - 1$ y en $n + 1$ tienen un vecino que no es inactivo, por lo que pasan a ser activas por la definición \ref{def:estado_inactivo}. Dado que este incremento está acotado por el tamaño de la vecindad, la configuración resultante sigue siendo finita. Por inducción, este proceso se repite para cualquier tiempo $t + m$; por lo tanto, mientras el tiempo de la evolución no tienda a infinito ($t \not\to \infty $) el autómata celular mantendrá una configuración finita, garantizando su viabilidad computacional.
 
-\begin{table}
+\begin{table}[H]
 	\centering
 	\begin{tabular}{c | c c c c c c c c c c c} 
 		$t$ & \multicolumn{11}{c}{ $\vec{\sigma}(t)$  } \\ \hline \hline
@@ -162,18 +169,6 @@ En el tiempo $t + 1$ las células en $n - 1$ y en $n + 1$ tienen un vecino que n
 \end{table}
 
 Sea $\mathcal{C} =  \mathcal{S}^\mathcal{L}$ el conjunto de todas las configuraciones. Definimos $\mathcal{C}_F \subset \mathcal{C}$ como el subconjunto de todas las configuraciones finitas. Esta restricción es necesaria para hacer computacionalmente viable la simulación de la evolución.
-
-\begin{comment}
-	Finalmente, resulta necesario definir un estado estable, el cual servirá más adelante para establecer una clasificación \cite{bhattacharjee2019_ca}. 
-
-\begin{definition}
-	
-	Dado un autómata celular y un estado $s \in \mathcal{S}$, se dice que $s$ es un estado estable si $\mathcal{R}(s, s, \dots, s) = s$.
-	
-\end{definition}
-
-Esto es, un estado estable $s$ que evoluciona siempre en sí mismo, por lo que $\sigma(t) = \sigma(t + 1)$. 
-\end{comment}
 
 \section{Condiciones de frontera}
 
@@ -192,21 +187,22 @@ Un autómata celular finito siempre tiene fronteras en los límites de su espaci
 
 \begin{figure}[!htbp]
 	\centering
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{img/marcoTeorico/bAbierta.png}
+	% Altura de la imagen más alta: ambas imágenes se centran verticalmente en ella
+	% para que los dos pies de subfigura queden a la misma altura
+	\sbox0{\includegraphics[width=0.45\textwidth]{img/marcoTeorico/bPeriodica.png}}%
+	\edef\tallestHeight{\the\ht0}%
+	\begin{subfigure}[t]{0.45\textwidth}
+		\parbox[b][\tallestHeight][c]{\textwidth}{\centering\includegraphics[width=\textwidth]{img/marcoTeorico/bAbierta.png}}
 		\caption{Condición de frontera abierta.}
 		\label{fig:B_abierta}
 	\end{subfigure}
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{img/marcoTeorico/bPeriodica.png}
+	\begin{subfigure}[t]{0.45\textwidth}
+		\parbox[b][\tallestHeight][c]{\textwidth}{\centering\includegraphics[width=\textwidth]{img/marcoTeorico/bPeriodica.png}}
 		\caption{Condición de frontera periódica.}
 		\label{fig:B_periodica}
 	\end{subfigure}
-	
-	\caption{Condiciones de frontera con dos vecinos. La figura \ref{fig:B_abierta} asigna un estado no inactivo al vecino faltante. La figura \ref{fig:B_periodica} asigna como vecino el estado de la célula en la frontera opuesta, formando un anillo.}
-	
+	\caption{Condiciones de frontera con dos vecinos. La figura \ref{fig:B_abierta} asigna un estado no inactivo. La figura \ref{fig:B_periodica} asigna el estado de la célula en la frontera opuesta.}
 	\label{fig:fronteras}
-	
 \end{figure}
 
 Un autómata infinito que tiene una configuración periódica equivale a un autómata finito con frontera periódica \cite{bhattacharjee2019_ca}.
@@ -225,18 +221,22 @@ La frontera no solo puede ser abierta o periódica; existen diferentes comportam
 
 \begin{figure}[!htbp]
 	\centering
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{img/marcoTeorico/bReflectiva.png}
+	% Altura de la imagen más alta: ambas imágenes se centran verticalmente en ella
+	% para que los dos pies de subfigura queden a la misma altura
+	\sbox0{\includegraphics[width=0.45\textwidth]{img/marcoTeorico/bReflexiva.png}}%
+	\edef\tallestHeight{\the\ht0}%
+	\begin{subfigure}[t]{0.45\textwidth}
+		\parbox[b][\tallestHeight][c]{\textwidth}{\centering\includegraphics[width=\textwidth]{img/marcoTeorico/bReflectiva.png}}
 		\caption{Condición de frontera reflectiva.}
 		\label{fig:B_reflectiva}
 	\end{subfigure}
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{img/marcoTeorico/bReflexiva.png}
+	\begin{subfigure}[t]{0.45\textwidth}
+		\parbox[b][\tallestHeight][c]{\textwidth}{\centering\includegraphics[width=\textwidth]{img/marcoTeorico/bReflexiva.png}}
 		\caption{Condición de frontera reflexiva.}
 		\label{fig:B_reflexiva}
 	\end{subfigure}
 	
-	\caption{Condiciones de frontera con dos vecinos. La figura \ref{fig:B_reflectiva} muestra que las células en la frontera son vecinas de sí mismas, mientras que la figura \ref{fig:B_reflexiva} indica que las células que están al lado de las células de la frontera pueden tener múltiples relaciones de vecindad.}
+	\caption{Condiciones de frontera con dos vecinos. La figura \ref{fig:B_reflectiva} muestra que las células en la frontera son vecinas de sí mismas. La figura \ref{fig:B_reflexiva} muestra múltiples relaciones de vecindad en las células de los extremos.}
 	\label{fig:fronteras_adicionales}
 \end{figure}
 
@@ -279,7 +279,7 @@ Por otro lado, una regla es totalística si la transición depende únicamente d
 
 Finalmente, una regla local es arbitraria si distingue las posiciones de cada elemento en la vecindad. Cabe mencionar que las reglas arbitrarias y las semitotalísticas son el mismo conjunto. Esto se debe a que una vecindad semitotalística puede diferenciar cada célula como una subvecindad de tamaño 1, lo que sería el equivalente de no crear subvecindades y tratarla como una regla arbitraria:
 \[
-	\mathcal{R}_{\text{totalísticas}} \subset \mathcal{R}_{\text{semitotalísticas}} = \mathcal{R}_{\text{arbitrarias}}
+	\mathcal{R}_{\text{totalísticas}} \subset \mathcal{R}_{\text{semitotalísticas}} \subseteq \mathcal{R}_{\text{arbitrarias}}
 \]
 Ambas pueden representar a las reglas totalísticas, pero las semitotalísticas permiten simplificar comportamientos.
 
@@ -289,21 +289,15 @@ La configuración dada para el autómata celular elemental considera $k = 2$ (es
 \]
 Esta dinámica está dada por las posibles configuraciones que las tres células adyacentes pueden adquirir en el tiempo $t$. Podemos encontrar $k^{|\mathcal{N}|} = 2^3 = 8$ patrones posibles en la vecindad, número correspondiente a la combinatoria de dos estados en tres posiciones. Cada vez que encontremos un patrón, podemos asignarle un nuevo estado a $\sigma_i(t + 1)$ ($\{ 0, 1 \}$), por lo que el número total de reglas asciende a $k^{k^{|\mathcal{N}|}} = 2^8 = 256$, como se muestra en la tabla \ref{tab:ECA_evolucion}.
 
-\begin{table}
-	
+\begin{table}[!htbp]
 	\centering
-	
 	\begin{tabular}{c c c c c c c c} 
-		
 		111 & 110 & 101 & 100 & 011 & 010 & 001 & 000 \\
-		
 		$\downarrow$ & $\downarrow$ & $\downarrow$ & $\downarrow$ & $\downarrow$ & $\downarrow$ & $\downarrow$ & $\downarrow$ \\
-		
 		$\{ 0, 1 \}$ & $\{ 0, 1 \}$ & $\{ 0, 1 \}$ & $\{ 0, 1 \}$ & $\{ 0, 1 \}$ & $\{ 0, 1 \}$ & $\{ 0, 1 \}$ & $\{ 0, 1 \}$ 
-		
 	\end{tabular}
 	
-	\caption{Cada posible combinación de tres células puede adquirir uno de dos valores. Cuando la célula evaluada encaja en este patrón, su valor cambia al establecido por la regla. A este conjunto de 256 reglas se le conoce como autómata celular elemental.}
+	\caption{Cada posible combinación de tres células puede adquirir uno de dos valores. }
 	
 	\label{tab:ECA_evolucion}
 	
@@ -313,37 +307,22 @@ Estas reglas se pueden representar de forma tabular y también como un número d
 
 Nótese que la regla decimal solo aplica cuando las condiciones son las mismas. Es decir, cuando el número de vecinos $|\mathcal{N}|$ y estados $|\mathcal{S}|$ son invariantes; a cada regla se le puede asociar un entero único, pero dos reglas que difieren en vecindad o estados pueden compartir el número decimal. Por ejemplo, la regla $10$ con $|\mathcal{N}| = 2$ y $|\mathcal{S}| = 2$ es $1010$, la cual es completamente diferente cuando $|\mathcal{N}| = 3$ y $|\mathcal{S}| = 2$, lo que da como resultado $00001010$.
 
-\begin{table}
-	
+\begin{table}[!htbp]
 	\centering
-	
 	\begin{tabular}{c | c c c c c c c c | c} 
-		
 		\textbf{Binario} &111 & 110 & 101 & 100 & 011 & 010 & 001 & 000 & \multirow{3}{*}{\textbf{Regla}} \\ 
-		
 		\textbf{Decimal} & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0 & \\ 
-		
 		\textbf{Valor} & $2^7$ & $2^6$ & $2^5$ & $2^4$ & $2^3$ & $2^2$ & $2^1$ & $2^0$ & \\ \hline
-		
 		& 0 &  0 &  0 &  0 &  0 &  0 &  0 &  0 & 0 \\
-		
 		& 0 &  0 &  0 &  0 &  0 &  0 &  0 &  1 & 1 \\
-		
 		& \multicolumn{8}{c|}{\vdots} & \vdots \\ 
-		
 		& 0 &  0 &  0 &  1 &  1 &  1 &  1 &  0 & 30 \\
-		
 		& \multicolumn{8}{c|}{\vdots} & \vdots \\ 
-		
 		& 0 &  1 &  1 &  0 &  1 &  1 &  1 &  0 & 110 \\
-		
 		& \multicolumn{8}{c|}{\vdots} & \vdots \\ 
-		
 		& 1 &  1 &  1 &  1 &  1 &  1 &  1 &  1 & 255 
-		
 	\end{tabular}
-	
-	\caption{Los valores binarios representan las posibles configuraciones de estados que pueden aparecer en el espacio, cada uno asociado a un valor decimal, y el valor es la potencia asociada a esa combinación. Para convertir la regla tabular en la decimal, solo es necesario convertir el número binario.} 
+	\caption{La secuencia binaria corresponde al valor asignado a cada patrón binario. La regla decimal se calcula con un cambio de base.} 
 	\label{tab:ECA_rules}
 \end{table}
 
@@ -401,30 +380,36 @@ Dentro de este sistema emergen patrones característicos, que se agrupan en tres
 	\item \textbf{Naturaleza muerta}: Estructuras estáticas que permanecen invariantes en el tiempo.  
 	\begin{figure}[H]
 		\centering
-		\begin{subfigure}[b]{0.18\textwidth}
-			\includegraphics[width=\textwidth]{img/marcoTeorico/sl_block.png}
+		\sbox0{\includegraphics[width=0.18\textwidth]{img/marcoTeorico/sl_block.png}}%
+		\edef\tallestHeight{\the\ht0}%
+		\begin{subfigure}[t]{0.18\textwidth}
+			\parbox[b][\tallestHeight][c]{\textwidth}{\centering\includegraphics[width=\textwidth]{img/marcoTeorico/sl_block.png}}
 			\caption{\textit{Block}.}
 			\label{fig:block}
-		\end{subfigure}
-		\begin{subfigure}[b]{0.18\textwidth}
-			\includegraphics[width=\textwidth]{img/marcoTeorico/sl_beehive.png}
+		\end{subfigure}%
+		\hspace{0.04\textwidth}%
+		\begin{subfigure}[t]{0.18\textwidth}
+			\parbox[b][\tallestHeight][c]{\textwidth}{\centering\includegraphics[width=\textwidth]{img/marcoTeorico/sl_beehive.png}}
 			\caption{\textit{Beehive}.}
 			\label{fig:beehive}
-		\end{subfigure}
-		\begin{subfigure}[b]{0.18\textwidth}
-			\includegraphics[width=\textwidth]{img/marcoTeorico/sl_loaf.png}
+		\end{subfigure}%
+		\hspace{0.04\textwidth}%
+		\begin{subfigure}[t]{0.18\textwidth}
+			\parbox[b][\tallestHeight][c]{\textwidth}{\centering\includegraphics[width=\textwidth]{img/marcoTeorico/sl_loaf.png}}
 			\caption{\textit{Loaf}.}
 			\label{fig:loaf}
 		\end{subfigure}
 		\caption{Ejemplos de configuraciones de naturaleza muerta.}
 		\label{fig:still_life}
 	\end{figure}
+	
 	\item \textbf{Osciladores}: Patrones que repiten su configuración después de un número finito de pasos, manteniendo su posición en la cuadrícula.
 	\begin{figure}[H]
 		\centering
 		\begin{subfigure}[b]{0.18\textwidth}
 			\includegraphics[width=\textwidth]{img/marcoTeorico/o_blinker_1.png}
-		\end{subfigure}
+		\end{subfigure}%
+		\hspace{0.04\textwidth}%
 		\begin{subfigure}[b]{0.18\textwidth}
 			\includegraphics[width=\textwidth]{img/marcoTeorico/o_blinker_2.png}
 		\end{subfigure}
@@ -435,7 +420,8 @@ Dentro de este sistema emergen patrones característicos, que se agrupan en tres
 		\centering
 		\begin{subfigure}[b]{0.18\textwidth}
 			\includegraphics[width=\textwidth]{img/marcoTeorico/o_toad_1.png}
-		\end{subfigure}
+		\end{subfigure}%
+		\hspace{0.04\textwidth}%
 		\begin{subfigure}[b]{0.18\textwidth}
 			\includegraphics[width=\textwidth]{img/marcoTeorico/o_toad_2.png}
 		\end{subfigure}
@@ -445,19 +431,23 @@ Dentro de este sistema emergen patrones característicos, que se agrupan en tres
 	\item \textbf{Naves espaciales}: Son osciladores que, además de repetir su patrón, se desplazan por el espacio celular.  
 	\begin{figure}[H]
 		\centering
-		\begin{subfigure}[b]{0.18\textwidth}
+		\begin{subfigure}[b]{0.16\textwidth}
 			\includegraphics[width=\textwidth]{img/marcoTeorico/glider_1.png}
-		\end{subfigure}
-		\begin{subfigure}[b]{0.18\textwidth}
+		\end{subfigure}%
+		\hspace{0.04\textwidth}%
+		\begin{subfigure}[b]{0.16\textwidth}
 			\includegraphics[width=\textwidth]{img/marcoTeorico/glider_2.png}
-		\end{subfigure}
-		\begin{subfigure}[b]{0.18\textwidth}
+		\end{subfigure}%
+		\hspace{0.04\textwidth}%
+		\begin{subfigure}[b]{0.16\textwidth}
 			\includegraphics[width=\textwidth]{img/marcoTeorico/glider_3.png}
-		\end{subfigure}
-		\begin{subfigure}[b]{0.18\textwidth}
+		\end{subfigure}%
+		\hspace{0.04\textwidth}%
+		\begin{subfigure}[b]{0.16\textwidth}
 			\includegraphics[width=\textwidth]{img/marcoTeorico/glider_4.png}
-		\end{subfigure}
-		\begin{subfigure}[b]{0.18\textwidth}
+		\end{subfigure}%
+		\hspace{0.04\textwidth}%
+		\begin{subfigure}[b]{0.16\textwidth}
 			\includegraphics[width=\textwidth]{img/marcoTeorico/glider_5.png}
 		\end{subfigure}
 		\caption{\textit{Glider}.}
@@ -467,12 +457,9 @@ Dentro de este sistema emergen patrones característicos, que se agrupan en tres
 
 Paul Rendell \cite{sipper2017_rendell_life} demostró que, a partir de una configuración inicial apropiada, el juego de la vida es Turing completo, es decir, tiene la capacidad de realizar cualquier cálculo computable mediante la simulación de una máquina de Turing. La figura \ref{fig:conway_turing} muestra la configuración inicial del autómata celular diseñado por Paul Rendell.
 
-\begin{figure}[!htbp]
-	
+\begin{figure}[!t]
 	\centering
-	
-	\includegraphics[width=0.85\textwidth]{img/marcoTeorico/gol_turing.png}
-	
+	\includegraphics[width=0.9\textwidth]{img/marcoTeorico/gol_turing.png}
 	\caption{Máquina de Turing implementada en el juego de la vida \cite{rendell2000_turing_life}.}
 	\label{fig:conway_turing}
 \end{figure}
@@ -540,19 +527,19 @@ A continuación, se presentan tres reglas representativas por su relevancia teó
 		\item ¿Es posible calcular el estado de la célula central en el paso $n$ en tiempo $O(n)$?
 	\end{enumerate}
 	
-	\begin{figure}[!htbp]
+	\begin{figure}[!t]
 		\centering
-		\begin{subfigure}[b]{0.5\textwidth}
+		\begin{subfigure}[b]{0.45\textwidth}
 			\includegraphics[width=\textwidth]{img/marcoTeorico/r30a.png}
 			\caption{50 evoluciones.}
 			\label{fig:30_1}
 		\end{subfigure}
-		\begin{subfigure}[b]{0.5\textwidth}
+		\begin{subfigure}[b]{0.45\textwidth}
 			\includegraphics[width=\textwidth]{img/marcoTeorico/r30b.png}
 			\caption{350 evoluciones.}
 			\label{fig:30_2}
 		\end{subfigure}
-		\begin{subfigure}[b]{0.5\textwidth}
+		\begin{subfigure}[b]{0.7\textwidth}
 			\includegraphics[width=\textwidth]{img/marcoTeorico/r30.png}
 			\caption{Función de transición.}
 			\label{fig:30_rule}
@@ -565,14 +552,19 @@ A continuación, se presentan tres reglas representativas por su relevancia teó
 	
 	Lo más notable de esta regla es su universalidad computacional. Wolfram y Matthew Cook demostraron que la regla 110 es Turing completa, es decir, capaz de simular cualquier máquina de Turing y, por tanto, realizar cualquier cómputo posible en un sistema discreto determinista \cite{weisstein2002_rule110}. Su evolución se muestra en la figura \ref{fig:regla_110}.
 	
-	\begin{figure}[!htbp]
+	\begin{figure}[H]
 		\centering
-		\begin{subfigure}[b]{0.5\textwidth}
+		\begin{subfigure}[b]{0.27\textwidth}
 			\includegraphics[width=\textwidth]{img/marcoTeorico/r110a.png}
-			\caption{500 evoluciones.}
+			\caption{250 evoluciones.}
 			\label{fig:110_1}
 		\end{subfigure}
-		\begin{subfigure}[b]{0.5\textwidth}
+		\begin{subfigure}[b]{0.27\textwidth}
+			\includegraphics[width=\textwidth]{img/marcoTeorico/r110b.png}
+			\caption{500 evoluciones.}
+			\label{fig:110_2}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.7\textwidth}
 			\includegraphics[width=\textwidth]{img/marcoTeorico/r110.png}
 			\caption{Función de transición.}
 			\label{fig:110_rule}
@@ -583,14 +575,19 @@ A continuación, se presentan tres reglas representativas por su relevancia teó
 	
 	\item \textbf{Regla 90}: La regla 90 se distingue por generar estructuras fractales. Iniciando desde una única célula activa, produce el conocido triángulo de Sierpiński, como se muestra en la figura \ref{fig:regla_90}, el cual es un patrón autosimilar que aparece en múltiples sistemas naturales y matemáticos \cite{weisstein2002_rule90}.
 	
-	\begin{figure}[!htbp]
+	\begin{figure}[H]
 		\centering
-		\begin{subfigure}[b]{0.5\textwidth}
+		\begin{subfigure}[b]{0.45\textwidth}
 			\includegraphics[width=\textwidth]{img/marcoTeorico/r90a.png}
-			\caption{1025 evoluciones.}
+			\caption{63 evoluciones.}
 			\label{fig:90_1}
 		\end{subfigure}
-		\begin{subfigure}[b]{0.5\textwidth}
+		\begin{subfigure}[b]{0.45\textwidth}
+			\includegraphics[width=\textwidth]{img/marcoTeorico/r90b.png}
+			\caption{1023 evoluciones.}
+			\label{fig:90_2}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.7\textwidth}
 			\includegraphics[width=\textwidth]{img/marcoTeorico/r90.png}
 			\caption{Función de transición.}
 			\label{fig:90_rule}
@@ -668,7 +665,7 @@ La definición considera una única hormiga. Si se desea agregar más hormigas a
 
 La regla original es RL: sobre un sitio de color 0 la hormiga gira a la derecha y sobre uno de color 1 gira a la izquierda; en ambos casos el sitio cambia al otro color \cite{freire2024_langton}. Bajo esta estructura pueden definirse múltiples reglas, como LLR, donde la hormiga gira a la izquierda en los colores 0 y 1, a la derecha en el color 2, y los colores cambian en el ciclo $0 \rightarrow 1 \rightarrow 2 \rightarrow 0$. En la figura \ref{fig:langton} se muestra cómo evoluciona la regla RL.
 
-\begin{figure}[H]
+\begin{figure}[!tp]
 	\centering
 	\includegraphics[width=0.75\linewidth]{img/marcoTeorico/langton_espacios.png}
 	\caption{Evolución de la hormiga de Langton RL iniciando en el centro de un espacio vacío de $100 \times 100$. De izquierda a derecha y de arriba abajo: pasos 100, 1,000, 5,000, 9,000, 10,500 y 11,000.}

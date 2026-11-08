@@ -109,125 +109,6 @@ Se considera dinámico porque el valor de $y[n]$ en el instante $n$ requiere con
 
 La evolución de un sistema se lleva a cabo con base en estados: el sistema comienza en un estado $x_0$ y la evolución al estado siguiente depende del estado anterior; además, existe una ley que rige su evolución, y, conociendo esta ley, es posible determinar cualquier estado posterior \cite{Alberto2021_dinamico}.
 
-\begin{comment}
-	\subsection{Clasificación de sistemas}
-
-Los sistemas se pueden clasificar según su relación con el entorno, su origen, composición, comportamiento, etc. Estas son las clasificaciones que puede tener: 
-
-\subsubsection{Sistemas naturales y artificiales}
-
-Un sistema es natural si no requiere de intervención humana para ser creado; son regidos por leyes físicas, químicas, biológicas y psicológicas. El sistema solar, el sistema respiratorio o el sistema cardiaco son algunos ejemplos. 
-
-Por otro lado, los sistemas artificiales son aquellos creados por los humanos y que cumplen un propósito. Estos tienen un dominio en el conocimiento, la ingeniería y las interacciones sociales. Por ejemplo, las calculadoras, el sistema educativo o las relaciones comerciales \cite{natural_artificial}.
-
-\subsubsection{Sistemas continuos y discretos en el tiempo}
-
-Se dice que un sistema es continuo en el tiempo si sus entradas y salidas son señales continuas en esa variable.
-
-Por otro lado, es discreto si transforma señales discretas en el tiempo en señales de salida discretas en el tiempo \cite{continuo_discreto}.
-
-\end{comment}
-
-\begin{comment}
-\section{Propiedades fundamentales de los sistemas}
-Las propiedades de los sistemas dependen de su dominio. El dominio de un sistema es el campo sobre el cual se extiende su influencia \cite{dominio}. A continuación se listan las propiedades fundamentales de los sistemas.
-
-\subsection{Causalidad}
-
-Un sistema es causal si su señal de salida en cualquier momento depende solamente de las entradas en ese instante específico o en instantes anteriores. Por ejemplo, el siguiente es un sistema que depende de entradas futuras:
-
-\begin{equation*}
-	y(t) = x(t + 1)
-\end{equation*}
-
-Los sistemas anticausales tienen aplicaciones en imágenes, reconocimiento de voz, datos geológicos, etc. En la naturaleza, todos los procesos son causales \cite{dinamicos}.
-
-\subsection{Invertibilidad}
-
-Un sistema es invertible si a distintas entradas le corresponden distintas salidas, es decir, si podemos definir las entradas conociendo la salida del sistema. 
-
-Si el sistema es invertible, podemos definir un sistema inverso que reciba como entrada la salida del sistema original y devuelva la entrada. Por lo que, si conectamos el sistema inverso a la salida del sistema original, obtendremos como resultado la entrada \cite{dinamicos}.
-
-\subsection{Estabilidad}
-
-Se denomina punto de equilibrio a un sistema dinámico a aquel en que la variable de interés permanece constante con todas sus derivadas iguales a cero.
-
-Supóngase que se tiene un sistema dinámico autónomo, es decir, sin señales de entrada, y que este se encuentra en un punto de equilibrio. Se define como un punto de equilibrio estable si, al dejar evolucionar libremente el sistema a partir de una condición inicial en una vecindad del punto de equilibrio, el sistema regresa a dicho punto. Sí, por el contrario, el sistema se aleja, entonces es un punto de equilibrio inestable \cite{dinamicos}.
-
-En la figura \ref{fig:estabilidad} se ilustran ambos puntos de equilibrio. Si una pelota se coloca en una vecindad del punto de equilibrio, en el caso \ref{fig:estabilidad1}, la pelota regresará eventualmente al punto de equilibrio, mientras que en el caso \ref{fig:estabilidad2} la pelota se alejará.
-
-\begin{figure}[htbp]
-	\centering
-	\begin{subfigure}[b]{0.30\textwidth}
-		\includegraphics[width=\textwidth]{img/marcoTeorico/estabilidad1.png}
-		\caption{Punto de equilibrio estable.}
-		\label{fig:estabilidad1}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.30\textwidth}
-		\includegraphics[width=\textwidth]{img/marcoTeorico/estabilidad2.png}
-		\caption{Punto de equilibrio inestable}
-		\label{fig:estabilidad2}
-	\end{subfigure}
-	\caption{Puntos de equilibrio.}
-	\label{fig:estabilidad}
-	
-\end{figure}
-
-Se dice que un sistema es BIBO (\textit{Bounded input bounded output}) estable si a entradas acotadas corresponden salidas acotadas.
-
-Retomando el ejemplo de la figura \ref{fig:estabilidad}, si se aplica un desplazamiento hacia la derecha, en el caso \ref{fig:estabilidad1}, corresponde a una pequeña entrada a la que se le asigna una pequeña salida; por otro lado, si se le aplica una pequeña entrada al caso \ref{fig:estabilidad2}, la diferencia de la respuesta del sistema es mucho más grande \cite{dinamicos}.
-
-\subsection{Invariante en el tiempo}
-
-Se dice que un sistema es invariante en el tiempo si un corrimiento en el tiempo en la señal de entrada causa el mismo corrimiento en el tiempo de la señal de salida del sistema. Si $y(t)$ es la salida de un sistema cuando la entrada es $x(n)$, entonces $y(t - t_0)$ es la salida cuando se aplica la señal de entrada $x(t - t_0)$ \cite{dinamicos}.
-
-\end{comment}
-
-\begin{comment}
-\section{Sistemas dinámicos}
-
-Como ya se mencionó, un sistema dinámico es aquel en el cual existe un almacenamiento de energía, materia e información, es decir, es un sistema que posee memoria.
-
-
-
-	De acuerdo con \cite{modelado_sis_det}, podemos definir a un sistema dinámico determinista de la siguiente manera.
-
-\begin{definition}
-	
-	Un sistema dinámico determinista se define como una colección $D = <T, U, \Omega, Y, Q, \Delta, \varLambda>$ donde: 
-	
-	\begin{itemize}
-		
-		\item $T$ es la base del tiempo (el conjunto de valores posibles para la variable $t$).
-		
-		\item $U$ es el conjunto de valores posibles de la entrada.
-		
-		\item $\Omega$ es el conjunto de segmentos admisibles de entrada (sus elementos son funciones $\omega : [t_1, t_2] \subset T \to U$).
-		
-		\item $Y$ es el conjunto de valores de salida.
-		
-		\item $Q$ es el conjunto de valores posibles de los estados.
-		
-		\item $\Delta: Q \times \Omega \to Q$ es la función de transición de estados.
-		
-		\item $\varLambda: Q \to Y$ es la función de salida.
-		
-	\end{itemize}
-	
-\end{definition}
-
-La función de transición $\Delta$ se caracteriza por:
-
-\begin{itemize}
-	
-	\item Dado un segmento de entrada admisible $\omega: [t_1, t_2] \subset T \to U$ y sabiendo que el estado en $t_1$ es $q(t_1) \in Q$, entonces $q(t_2) = \Delta(q(t_1),\omega)$. Es decir, $\Delta$ transforma el estado inicial y la entrada en el estado final. 
-	
-	\item Dados dos segmentos de entrada admisibles consecutivos $\omega_1: [t_1, t_2] \to U$ y $\omega_2:[t_3, t_4] \to U$, y asumiendo que la concatenación $\omega_1 \circ \omega_2 \in \Omega$, debe cumplirse que $\Delta(q, \omega_1 \circ \omega_2) = \Delta(\Delta(q, \omega_1), \omega_2)$. Esta propiedad garantiza que la evolución del sistema sea compatible con el procesamiento secuencial de entradas.
-	
-\end{itemize}
-
-\end{comment}
-
 \section{Teoría del caos}
 
 De acuerdo con \cite{Simon2025_caos}, el caos trata con sistemas cuyo comportamiento es impredecible a largo plazo. Suele ser asociado a sistemas aleatorios o que no tienen un orden, pero en teoría del caos se refiere a todos aquellos sistemas deterministas cuya predicción en instantes de tiempo futuro se vuelve difícil de calcular. 
@@ -250,18 +131,6 @@ El hecho de que la aplicación sea topológicamente transitiva implica que el at
 Si el conjunto de puntos periódicos es denso en $X$, entonces cualquier punto del espacio está arbitrariamente cerca de una órbita periódica. 
 
 Finalmente, la sensibilidad a las condiciones iniciales refleja el hecho de que, en un sistema caótico, dos trayectorias que inician relativamente cerca acabarán comportándose de una forma diferente a largo plazo. 
-
-\begin{comment}
-	\subsection{Exponentes de Lyapunov}
-
-Para evaluar la sensibilidad de las condiciones se utilizan los exponentes de Lyapunov. Los cuales cuantifican la estabilidad o inestabilidad de las trayectorias en el espacio de fases al sufrir una perturbación ligera. Supongamos que tenemos dos trayectorias próximas separadas por una distancia $\delta \epsilon_0$; entonces la distancia entre ellas diverge de la forma:
-
-\begin{equation}
-	\delta_\epsilon(t) \sim \delta \epsilon_0 e^{\lambda t}
-\end{equation}
-
-Donde $\lambda$ es el exponente de Lyapunov. Es decir, mide la tasa de separación entre dos trayectorias cercanas en el espacio de fases. En un espacio de fases $n$-dimensional, existen $n$ exponentes de Lyapunov, lo que se conoce como espectro de Lyapunov. 
-\end{comment}
 
 \subsection{Atractores}
 
@@ -327,25 +196,30 @@ A continuación, se describen los cuatro tipos de atractores que se encuentran e
 	Las trayectorias se atraen hacia una estructura geométrica compleja donde se estiran y se pliegan continuamente, lo que genera un comportamiento impredecible a largo plazo a pesar de ser un sistema determinista.
 \end{enumerate}
 
-\begin{figure}[!htbp]
+\begin{figure}[!b]
 	\centering
-	\begin{subfigure}[b]{0.40\textwidth}
-		\includegraphics[width=\textwidth]{img/marcoTeorico/punto_fijo.png}
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[width=0.7\textwidth]{img/marcoTeorico/punto_fijo.png}
 		\caption{Punto fijo: Convergencia al reposo en un péndulo amortiguado.}
 		\label{fig:punto_fijo}
 	\end{subfigure}
-	\begin{subfigure}[b]{0.40\textwidth}
-		\includegraphics[width=\textwidth]{img/marcoTeorico/ciclo_limite.png}
+	\hfill
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[width=0.7\textwidth]{img/marcoTeorico/ciclo_limite.png}
 		\caption{Ciclo límite: Oscilador de Van der Pol.}
 		\label{fig:ciclo_limite}
 	\end{subfigure}
-	\begin{subfigure}[b]{0.40\textwidth}
-		\includegraphics[width=\textwidth]{img/marcoTeorico/cuasiperiodico.png}
+\end{figure}
+
+\begin{figure}[!t]
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[width=0.7\textwidth]{img/marcoTeorico/cuasiperiodico.png}
 		\caption{Cuasiperiódico: Trayectoria densa generada por frecuencias inconmensurables.}
 		\label{fig:cuasi_periodico}
 	\end{subfigure}
-	\begin{subfigure}[b]{0.40\textwidth}
-		\includegraphics[width=\textwidth]{img/marcoTeorico/caotico.png}
+	\hfill
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[width=0.7\textwidth]{img/marcoTeorico/caotico.png}
 		\caption{Extraño: Atractor de Rössler que exhibe una estructura fractal y caos.}
 		\label{fig:caotico}
 	\end{subfigure}
@@ -397,14 +271,20 @@ El proceso, de manera simplificada, se compone de tres fases, como se observa en
 \end{itemize}
 
 \begin{figure}[H]
-	
 	\centering
-	
-	\includegraphics[width=0.3\linewidth]{img/marcoTeorico/cs_cientifico.png}
-	
+	\begin{tikzpicture}[flowchart]
+		\node[flowbox] (system) {Sistema real};
+		\node[flowbox, right=of system] (model) {Modelo};
+		\node[flowbox, right=of model] (results) {Resultados};
+		\draw[flowarrow] (system) -- node[above=3pt, flowlabel] {Abstracción} (model);
+		\draw[flowarrow] (model) -- node[above=3pt, flowlabel] {Inferencia} (results);
+		\draw[flowarrow] (results.south) -- ++(0,-0.9) -| node[pos=0.25, flowlabel] {Aplicación} (system.south);
+	\end{tikzpicture}
+
 	\caption{Representación gráfica del modelado científico. Este proceso busca relacionar eventos del mundo real utilizando un modelo que realiza una inferencia.}
 	
 	\label{fig:cs_cientifico}
+	
 	
 \end{figure}
 
@@ -421,15 +301,19 @@ Las computadoras permiten explorar y analizar modelos formales para resolver mod
 Los resultados de la simulación provienen del uso de reglas algorítmicas. Por eso, es necesario ampliar el proceso de abstracción y crear un modelo formal que será utilizado por la computadora, como se muestra en la figura \ref{fig:cs_computacional}.
 
 \begin{figure}[H]
-	
 	\centering
-	
-	\includegraphics[width=0.3\linewidth]{img/marcoTeorico/cs_computacional.png}
-	
+	\begin{tikzpicture}[flowchart]
+		\node[flowbox] (system) {Sistema real};
+		\node[flowbox, right=of system] (informal) {Modelo no formal};
+		\node[flowbox, right=of informal] (formal) {Modelo formal};
+		\node[flowbox, below=1.2cm of informal] (results) {Resultados};
+		\draw[flowarrow] (system) -- node[above=3pt, flowlabel] {Abstracción} (informal);
+		\draw[flowarrow] (informal) -- node[above=3pt, flowlabel] {Diseño} (formal);
+		\draw[flowarrow] (formal.south) |- node[pos=0.75, above=3pt, flowlabel] {Inferencia} (results.east);
+		\draw[flowarrow] (results.west) -| node[pos=0.25, above=3pt, flowlabel] {Aplicación} (system.south);
+	\end{tikzpicture}
 	\caption{Representación gráfica del modelado computacional. Relaciona eventos del mundo real utilizando un modelo computacional que ayuda a agilizar el proceso de inferencia.}
-	
 	\label{fig:cs_computacional}
-	
 \end{figure}
 
 Se requiere de un experto en el sistema real que pueda abstraer el problema y un modelador que formalice dicha abstracción para ejecutarla en una computadora, la cual infiere los resultados. El experto en el sistema real utiliza nuevamente estos resultados para entablar la relación con el sistema real \cite{Izquierdo2008_modelado}.
