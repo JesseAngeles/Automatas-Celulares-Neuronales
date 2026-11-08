@@ -1,0 +1,17 @@
+% Abstract (resumen en inglés): hoja propia después de los agradecimientos y antes del índice, sin encabezado ni número
+\thispagestyle{empty}
+
+\vspace*{1cm}
+{\centering \Large \textbf{\textit{Abstract}}\par}
+\vspace{0.8cm}
+
+% Texto en inglés: usa las reglas del inglés para partir palabras
+\begin{otherlanguage}{english}
+Cellular automata are a mathematical model used to simulate natural phenomena: a rule is defined and applied to an initial condition to study the evolution it produces. This work addresses the inverse problem: given the observed evolution of a complex system, infer the local rule that governs it by means of neural networks acting as the transition function, that is, neural cellular automata.
+
+The report is divided into two parts: (1) the design and development of the simulator, from requirements gathering to testing, and (2) the research, which covers the theoretical framework, the state of the art, the methodological framework, the experiments and the results. The simulator evolves two-dimensional cellular automata with up to 20 states and semi-totalistic neighborhoods of up to $7 \times 7$ cells, as well as neural cellular automata, and includes a training module available from the simulator and from the command line.
+
+Six experiments were carried out. The first three exactly replicate the traditional configurations of well-known systems (the Game of Life, Langton's ant and the sandpile model) and made it possible to define the recommended neural network configurations. The other three use datasets of real systems: fire spread (FLAME~3), storm motion (SEVIR) and the growth of the slime mold \textit{Physarum polycephalum}. A rule that simulates fire spread was obtained, with limitations because it is not an isolated system, and, by means of noise, one that simulates the growth of the slime mold. Storm motion, which is not an isolated system either, could not be replicated.
+\end{otherlanguage}
+
+\clearpage

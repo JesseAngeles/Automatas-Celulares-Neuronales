@@ -10,11 +10,20 @@
 \begin{document}
 	\bstctlcite{IEEEexample:BSTcontrol}
 	% Portada principal
-	\input{Componentes/Header.tex}
-	\input{Componentes/Titulo.tex}
+	\input{MarcoTextual/portada1.tex}
+	\input{MarcoTextual/portada2.tex}
 	\thispagestyle{empty}
 	
 	\clearpage
+	% Advertencia, antes del índice
+	\input{MarcoTextual/advertencia.tex}
+	% Dedicatoria, antes de los agradecimientos
+	\input{MarcoTextual/dedicatoria.tex}
+	% Agradecimientos, antes del índice
+	\input{MarcoTextual/agradecimientos.tex}
+	% Resumen y abstract, antes del índice
+	\input{MarcoTextual/resumen.tex}
+	\input{MarcoTextual/abstract.tex}
 
 	\pagenumbering{roman}
 	\setcounter{page}{1}
@@ -25,6 +34,9 @@
 	\pagenumbering{arabic}
 	\setcounter{page}{1}
 
+	\begin{comment}
+	\end{comment}
+	
 	\input{MarcoTextual/introduccion.tex}
 	
 	\input{MarcoTeorico/SistemasComplejos.tex}
@@ -68,6 +80,7 @@
 	\input{Investigacion/CAI.tex}
 
 	\input{MarcoTextual/conclusion.tex}		
+	
 	
 	% Referencias generales
 	\clearpage

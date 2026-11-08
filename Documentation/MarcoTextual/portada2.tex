@@ -1,0 +1,58 @@
+% Portada con resumen: mismo encabezado y márgenes que portada1.tex, el número de TT y la fecha de presentación
+% arriba, el correo como nota al pie, un resumen breve (distinto del de la introducción) y las palabras
+% clave, todo en una sola hoja
+\newgeometry{top=2cm, bottom=2.5cm, left=3cm, right=2.5cm}
+\thispagestyle{empty}
+% Encabezado igual al de portada1.tex: cada logo llena una columna de 2.25 cm y queda pegado al texto a 0.25 cm
+% (al de ESCOM se le recorta el blanco que trae a los lados la imagen). Suma exactamente \textwidth: 2.25 + 0.25 + texto + 0.25 + 2.25 cm,
+% así que nada sale de los márgenes. A 14 pt, INSTITUTO POLITÉCNICO NACIONAL en negritas cabe en un renglón
+\begin{center}
+	\begin{minipage}{2.25cm}
+		\raggedleft
+		\includegraphics[width=2.25cm]{img/componentes/ipn_logo.jpg}
+	\end{minipage}%
+	\hspace{0.25cm}%
+	\begin{minipage}{\dimexpr\textwidth-5cm\relax}
+		\centering
+		% Cada renglón cierra con \par dentro de su tamaño para que use su propio interlineado
+		\setlength{\parskip}{2pt}
+		{\fontsize{14}{17}\selectfont \textbf{INSTITUTO POLITÉCNICO NACIONAL}\par}
+		{\fontsize{11.5}{14}\selectfont \textbf{ESCUELA SUPERIOR DE CÓMPUTO}\par}
+		{\fontsize{11.5}{14}\selectfont \textbf{ESCOM}\par}
+	\end{minipage}%
+	\hspace{0.25cm}%
+	\begin{minipage}{2.25cm}
+		\raggedright
+		\includegraphics[width=2.25cm, trim=26 3 23 0, clip]{img/componentes/escom_logo}
+	\end{minipage}
+\end{center}
+
+% Número de TT a la izquierda y fecha de presentación de TT-II a la derecha
+\noindent No. de TT: 2026-A114\hfill Fecha de presentación de TT-II: 1 de diciembre de 2026\par
+
+\begin{center}
+	
+	{\fontsize{14}{17}\selectfont \textit{Documento técnico}}\\[0.2cm]
+	
+	\rule{0.6\textwidth}{0.4pt}\\[0.4cm]
+	{\fontsize{16}{19}\selectfont \textbf{Simulación de sistemas complejos mediante autómatas celulares neuronales}}\\
+	\rule{0.6\textwidth}{0.4pt}\\[0.5cm]
+	
+	{\fontsize{14}{17}\selectfont \textit{Presenta:}}\\[0.2cm]
+	% El correo va como nota al pie con un asterisco, sin mover la numeración de las notas del documento
+	{\fontsize{14}{17}\selectfont \textbf{Angeles López Erick Jesse}}%
+	{\renewcommand{\thefootnote}{\fnsymbol{footnote}}%
+	\footnote[1]{\href{mailto:eangelesl1700@alumno.ipn.mx}{\texttt{eangelesl1700@alumno.ipn.mx}}}}\\[0.4cm]
+	
+	{\fontsize{14}{17}\selectfont \textit{Director:}}\\[0.2cm]
+	{\fontsize{14}{17}\selectfont \textbf{Dr. Genaro Juárez Martínez}}
+	
+\end{center}
+
+{\centering \fontsize{14}{17}\selectfont \textbf{Resumen}\par}
+
+\noindent Encontrar la regla local que genera el comportamiento observado de un sistema complejo es un problema difícil, incluso cuando el sistema se modela con un autómata celular. En este trabajo se aborda ese problema con autómatas celulares neuronales, en los que un perceptrón multicapa funciona como función de transición y se entrena con la evolución del sistema. Para ello se desarrolló un simulador bidimensional acelerado con CUDA que ejecuta autómatas celulares y autómatas celulares neuronales e incluye un módulo de entrenamiento. Con él se replicaron de forma idéntica las configuraciones tradicionales del juego de la vida, del modelo de \textit{sandpile} y de la hormiga de Langton, y se identificaron las configuraciones que facilitan el aprendizaje, como la codificación \textit{one-hot} de la entrada y la reducción de la tasa de aprendizaje. Después se estudiaron tres sistemas reales a partir de conjuntos de datos: la propagación de fuego (FLAME~3), el movimiento de tormentas (SEVIR) y el crecimiento del moho \textit{Physarum polycephalum}. La red aprendió la propagación del fuego con limitaciones y, al agregar ruido al estado de cada célula, el crecimiento del moho, pero no el movimiento de las tormentas, que depende de factores externos al sistema. Los resultados muestran que un autómata celular neuronal puede inferir la regla de sistemas cerrados, aunque reproducir la evolución de entrenamiento no garantiza haber aprendido la regla completa.
+
+\noindent\textbf{Palabras clave:} autómatas celulares, autómatas celulares neuronales, redes neuronales, sistemas complejos, simulación.
+
+\restoregeometry

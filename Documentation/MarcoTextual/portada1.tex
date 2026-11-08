@@ -1,0 +1,55 @@
+% Portada con los tamaños de la guía: borde superior de 2 cm, margen izquierdo de 3 cm y fuentes en pt
+\newgeometry{top=2cm, bottom=2.5cm, left=3cm, right=2.5cm}
+\thispagestyle{empty}
+% Encabezado como en portada2.tex: cada logo llena una columna de 2.25 cm y queda pegado al texto a 0.25 cm
+% (al de ESCOM se le recorta el blanco que trae a los lados la imagen). Suma exactamente \textwidth: 2.25 + 0.25 + texto + 0.25 + 2.25 cm,
+% así que nada sale de los márgenes. A 14 pt, INSTITUTO POLITÉCNICO NACIONAL en negritas cabe en un renglón
+\begin{center}
+	\begin{minipage}{2.25cm}
+		\raggedleft
+		\includegraphics[width=2.25cm]{img/componentes/ipn_logo.jpg}
+	\end{minipage}%
+	\hspace{0.25cm}%
+	\begin{minipage}{\dimexpr\textwidth-5cm\relax}
+		\centering
+		% Cada renglón cierra con \par dentro de su tamaño para que use su propio interlineado
+		\setlength{\parskip}{2pt}
+		{\fontsize{14}{17}\selectfont \textbf{INSTITUTO POLITÉCNICO NACIONAL}\par}
+		{\fontsize{11.5}{14}\selectfont \textbf{ESCUELA SUPERIOR DE CÓMPUTO}\par}
+		{\fontsize{11.5}{14}\selectfont \textbf{ESCOM}\par}
+	\end{minipage}%
+	\hspace{0.25cm}%
+	\begin{minipage}{2.25cm}
+		\raggedright
+		\includegraphics[width=2.25cm, trim=26 3 23 0, clip]{img/componentes/escom_logo}
+	\end{minipage}
+\end{center}
+
+\begin{center}
+
+	{\fontsize{14}{17}\selectfont \textit{Trabajo Terminal}}\\[0.2cm]
+
+	\rule{0.6\textwidth}{0.4pt}\\[0.4cm]
+	{\fontsize{16}{19}\selectfont \textbf{Simulación de sistemas complejos mediante autómatas celulares neuronales}}\\
+	\rule{0.6\textwidth}{0.4pt}\\[0.2cm]
+	{\fontsize{14}{17}\selectfont \textbf{2026-A114}}\\[2cm]
+
+	{\fontsize{14}{17}\selectfont \textit{Presenta:}}\\[0.4cm]
+	% Los ORCID van como notas al pie con asteriscos (* y **), sin mover la numeración de las notas del documento
+	{\fontsize{14}{17}\selectfont \textbf{Angeles López Erick Jesse}}%
+	{\renewcommand{\thefootnote}{\fnsymbol{footnote}}%
+	\footnote[1]{ORCID: \href{https://orcid.org/0009-0001-0218-2341}{0009-0001-0218-2341}}}\\[0.2cm]
+	{\small \texttt{eangelesl1700@alumno.ipn.mx}}\\[2cm]
+
+	{\fontsize{14}{17}\selectfont \textit{Director:}}\\[0.4cm]
+	{\fontsize{14}{17}\selectfont \textbf{Dr. Genaro Juárez Martínez}}%
+	{\renewcommand{\thefootnote}{\fnsymbol{footnote}}%
+	\footnote[2]{ORCID: \href{https://orcid.org/0000-0003-2601-4876}{0000-0003-2601-4876}}}
+
+	\vfill
+
+	% Mes y año de presentación de TT-II, abajo a la derecha
+	{\raggedleft \fontsize{14}{17}\selectfont Diciembre, 2026\par}
+
+\end{center}
+\restoregeometry

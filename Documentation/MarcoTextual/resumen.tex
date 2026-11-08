@@ -1,0 +1,14 @@
+% Resumen: hoja propia después de los agradecimientos y antes del índice, sin encabezado ni número
+\thispagestyle{empty}
+
+\vspace*{1cm}
+{\centering \Large \textbf{Resumen}\par}
+\vspace{0.8cm}
+
+Los autómatas celulares son un modelo matemático usado para simular fenómenos de la naturaleza: se define una regla y se aplica a una condición inicial para estudiar la evolución que produce. En esta investigación se plantea el problema inverso: a partir de la evolución observada de un sistema complejo, inferir la regla local que la rige mediante redes neuronales que funcionan como función de transición, es decir, mediante autómatas celulares neuronales.
+
+El reporte se divide en dos partes: (1) el diseño y desarrollo del simulador, desde la toma de requerimientos hasta las pruebas, y (2) la investigación, que abarca el marco teórico, el estado del arte, el marco metodológico, la experimentación y los resultados. El simulador evoluciona autómatas celulares bidimensionales de hasta 20 estados con vecindades semitotalísticas de hasta $7 \times 7$ células, así como autómatas celulares neuronales, e incluye un módulo de entrenamiento disponible desde el simulador y desde la línea de comandos.
+
+Se realizaron 6 experimentos. Los tres primeros replican de forma idéntica las configuraciones tradicionales de sistemas conocidos (el juego de la vida, la hormiga de Langton y el modelo de \textit{sandpile}) y permitieron definir las configuraciones recomendadas de la red neuronal. Los otros tres usan conjuntos de datos de sistemas reales: la propagación de fuego (FLAME~3), el movimiento de tormentas (SEVIR) y el crecimiento del moho \textit{Physarum polycephalum}. Se obtuvo una regla que simula la propagación del fuego, con limitaciones por no ser un sistema aislado, y, mediante ruido, una que simula el crecimiento del moho. El movimiento de las tormentas, que tampoco es un sistema aislado, no se pudo replicar.
+
+\clearpage
