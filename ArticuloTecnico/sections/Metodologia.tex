@@ -1,0 +1,21 @@
+\section{METODOLOGÍA}
+
+Se realiza mediante un diseño cuaxiperimental por muestreo selectivo.
+
+En esta investigación ser manipula la configuración de la red neurona, la variable independinete, para obsservar como evoluciona el sistema. Este experimento se desarrolla en un espacio computacional controlado donde dichas condiciones son reproduicdas mediante simulaciones. Esgto con el objetivo de estudiar como diferentes factores, como el numero de estados, la arquitectura de la red neuronal o el numero de estados afectan a los patrones que aparecen elos autoamtas celules neuronales. 
+
+Se realiza bajo un enfoque cuantitaivo, ya que el analisis de realiza a aprtir de los datos generados por la simulación sin internveción directa con humanos, cuyos resultados no estan sujetos a interpretación. 
+
+La poblacion estudiada, son todos los autoamtas celulres finitos en un espacio bidimensional con una vecindad menor de $9 \times 9$ y menor de 24 estados distribuidas en una cuadricula regular. Adicionalmente se consideran condiciones de frontera, un conjunto de estados finitos y cualquier función de transición. De los cuales, se seleccionan condiciones y autoamtas celular de forma manual por su comprortamiento mediante un muestreo no probabilistico intencional.
+
+Esta es una investigación de tipo aplicada o empirica. En donde se planea poner en practica los conocimientos adiquiridos dado el interes primordial del investigador. El objetivo es encontras las relaciones de causa y fecto entre los elementos del modelo, y los comprotamientos que surgen del sistema. 
+
+Esta experimentación se realiza mediante un simulador computacional capaz de evolucionar cualquier autoamta celular bidimensional dentro de la población, un simulador de autoamtas celualres neuronales dentro del mismo espacio bidimensional y un modulo de entrenamiento de redes neuronales diseñado especificamente para este tipo de automatas.
+
+Y se procede de la siguiente manera. Primero se definen configuraciones iniciales de la red neuronal para poder replicar el juego de la vida. A aptir de las configuraciones capaces de replicar el comportamiento identificar aquellas que otimizan ese proceso o tienen mejores resultados. 
+
+Adicionalmente, se experimenta las limitaciones en la definición de la vecindad, el numero de estados, el tamaño de la red y la variación en la tasa de aprendizaje para estudiar como afecta afecta la perdida objetivo en la regla aprendida.
+
+Posteriormente se experimenta con el la hormiga de Langton para identificar la capcidad de extracción de comportamientos con poca información junto con \textit{sandpile} para identificar configuraciones cn multipels estados.
+
+Finalmente, con las reglas aprendidas y las implementaciones requeridas al simulador, se experimentan sobre entornos reales, como la propagación de fuego: un dataset que contiene imagenes con vista nadir sobre la quema controlada de Hanna Hamock; el movimeinto de tormentas: datos obtenidos de forma satelital con un dataset creado por el MIT y el movimiento de hongo: El momvimiento de moho \textit{Physarum polycephalum} que contine avena y toma fotos cada tiempo para identificar la velocidad, dirección y movimiento dentro de la caja de Petri.

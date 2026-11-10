@@ -1,0 +1,56 @@
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{cite}
+\usepackage{caption}
+\usepackage{abstract}
+\usepackage{titlesec}
+\usepackage[colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue]{hyperref}
+
+% --- MÁRGENES ---
+\geometry{
+	letterpaper,
+	top=2.0cm,
+	bottom=2.0cm,
+	left=1.8cm,
+	right=1.8cm,
+	columnsep=0.6cm
+}
+
+% --- FORMATO DE SECCIONES ---
+\titleformat{\section}
+{\normalfont\scshape\centering}
+{\thesection.}
+{0.5em}
+{}
+
+\renewcommand{\thesection}{\Roman{section}}
+
+\titleformat{\subsection}
+{\normalfont\itshape}
+{\thesubsection.}
+{0.5em}
+{}
+
+\renewcommand{\thesubsection}{\Alph{subsection}}
+
+% --- CONFIGURACIÓN DEL RESUMEN ---
+\renewcommand{\abstractname}{}
+\setlength{\absleftindent}{0pt}
+\setlength{\absrightindent}{0pt}
+
+% Desactiva el título principal del resumen
+\renewcommand{\abstractname}{}
+\renewcommand{\absnamepos}{empty}
+% Eliminar el título "Resumen" del entorno abstract por completo
+\makeatletter
+\renewenvironment{abstract}{%
+	\small
+	\par\noindent
+}{%
+	\par
+}
+\makeatother
