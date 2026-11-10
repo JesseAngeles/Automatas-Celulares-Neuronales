@@ -1,4 +1,4 @@
-\documentclass[12pt]{report} 
+\documentclass[12pt, a4paper]{report} 
 
 % Preambulo
 \input{Componentes/Preambulo.tex}
@@ -15,13 +15,11 @@
 	\thispagestyle{empty}
 	
 	\clearpage
-	% Advertencia, antes del índice
+	\includepdf[pages={1}]{MarcoTextual/CartaResponsiva.pdf}
 	\input{MarcoTextual/advertencia.tex}
-	% Dedicatoria, antes de los agradecimientos
 	\input{MarcoTextual/dedicatoria.tex}
-	% Agradecimientos, antes del índice
 	\input{MarcoTextual/agradecimientos.tex}
-	% Resumen y abstract, antes del índice
+	\includepdf[pages={1,2}]{MarcoTextual/AutorizacionDifusion.pdf}
 	\input{MarcoTextual/resumen.tex}
 	\input{MarcoTextual/abstract.tex}
 
