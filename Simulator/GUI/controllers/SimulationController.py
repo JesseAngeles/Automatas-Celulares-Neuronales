@@ -125,6 +125,19 @@ class SimulationController:
         if self._on_timeline_changed:
             self._on_timeline_changed(0, 0)
 
+    def _sync_kernels(self, grid=None):
+        """Deja a los kernels (CA y NCA) en el frame visible.
+
+        Invariante: el kernel siempre está en el último frame de la línea de
+        tiempo (el final de future_record, o el frame visible si está vacío).
+        Cada vez que se limpia el historial hay que volver a sincronizarlos.
+        """
+        if grid is None:
+            grid = self.simulation_widget.grid
+        self.automaton.setSpace(grid)
+        if self._nca is not None:
+            self._nca.set_space(grid.astype(np.float32))
+
     def _emit_step(self):
         if self._on_step_changed:
             self._on_step_changed(self.current_step)
@@ -194,7 +207,23 @@ class SimulationController:
     # Eventos de botones
     # ------------------------------------------------------------------
     def on_step_button(self):
+        # Si hay frames adelante (prefetch, o porque se regresó en la línea de
+        # tiempo) se reutilizan en lugar de recalcularlos, en CA y en NCA.
+        locker = QMutexLocker(self.mutex)
+        if self.future_record:
+            next_frame = self.future_record.popleft()
+            locker.unlock()
+            self.past_record.append(self.simulation_widget.grid.copy())
+            # next_frame puede ser una vista del buffer pinned del run() anterior.
+            # La copiamos para liberar la referencia al buffer grande cuanto antes.
+            self.simulation_widget.update_grid(np.ascontiguousarray(next_frame))
+            self.current_step += 1
+            self._emit_step()
+            self._prefetch()
+            return
+
         if self._nca_mode and self._nca is not None:
+            locker.unlock()
             self.past_record.append(self.simulation_widget.grid.copy())
             self._nca.step()
             raw = self._nca.get_space()                       # (H, W) float32
@@ -209,28 +238,15 @@ class SimulationController:
             self._emit_step()
             return
 
-        self.past_record.append(self.simulation_widget.grid.copy())
-
-        locker = QMutexLocker(self.mutex)
-        if not self.future_record:
-            if self._prefetch_running:
-                self.past_record.pop()
-                locker.unlock()
-                return
+        if self._prefetch_running:
+            # El prefetch está por entregar los siguientes frames; se espera.
             locker.unlock()
-            self.automaton.step()
-            self.simulation_widget.update_grid(self.automaton.getSpace().copy())
-            self.current_step += 1
-            self._emit_step()
-            self._prefetch()
             return
-
-        next_frame = self.future_record.popleft()
         locker.unlock()
 
-        # next_frame es una vista del buffer pinned del run() anterior.
-        # La copiamos para liberar la referencia al buffer grande cuanto antes.
-        self.simulation_widget.update_grid(np.ascontiguousarray(next_frame))
+        self.past_record.append(self.simulation_widget.grid.copy())
+        self.automaton.step()
+        self.simulation_widget.update_grid(self.automaton.getSpace().copy())
         self.current_step += 1
         self._emit_step()
         self._prefetch()
@@ -248,7 +264,10 @@ class SimulationController:
     def on_backstep_button(self):
         if not self.past_record:
             return
+        # El kernel no se toca: sigue en el último frame de future_record.
+        locker = QMutexLocker(self.mutex)
         self.future_record.appendleft(self.simulation_widget.grid.copy())
+        locker.unlock()
         prev = self.past_record.pop()
         self.simulation_widget.update_grid(prev)
         self.current_step -= 1
@@ -266,7 +285,7 @@ class SimulationController:
             self.on_play_button()
 
     def on_boundary_change(self, mode: int):
-        self.automaton.setSpace(self.simulation_widget.grid)
+        self._sync_kernels()
         self._clear_history()
         self.automaton.setBoundary(mode)
         if self._nca is not None:
@@ -275,11 +294,12 @@ class SimulationController:
     def on_neighbourhood_change(self, neighbourhood):
         # Sincronizar el autómata al frame visible ANTES de limpiar el historial,
         # para que el próximo step parta del estado en pantalla y no de uno prefetched
-        self.automaton.setSpace(self.simulation_widget.grid)
+        self._sync_kernels()
         self._clear_history()
         self.automaton.setNeighbourhood(neighbourhood)
 
     def on_rule_array_change(self, rule_array: list):
+        self._sync_kernels()
         self.automaton.setRule(rule_array)
         self._clear_history()
 
@@ -287,6 +307,7 @@ class SimulationController:
         states = self.automaton.getStates()
         r_size = self.automaton.ca.get_r_size()
         rule = [(n // (states ** i)) % states for i in range(r_size)]
+        self._sync_kernels()
         self.automaton.setRule(rule)
         self._clear_history()
 
@@ -296,7 +317,7 @@ class SimulationController:
         grid = np.where(grid >= n_states, 0, grid).astype(np.uint8, copy=False)
         self._clear_history()
         self.automaton.setStates(n_states)
-        self.automaton.setSpace(grid)
+        self._sync_kernels(grid)
         self.simulation_widget.update_grid(grid)
 
     def on_record_button(self):
@@ -328,8 +349,8 @@ class SimulationController:
             self._emit_step()
             return
 
-        self.automaton.setSpace(self.simulation_widget.grid)
         self._clear_history()
+        self._sync_kernels()
         frames = self.automaton.run(n)   # ndarray (n, H, W) uint8
         self.past_record.append(self.simulation_widget.grid.copy())
         for i in range(n - 1):
@@ -402,7 +423,7 @@ class SimulationController:
         for i in range(arr.shape[0] - 1):
             self.past_record.append(np.ascontiguousarray(arr[i]))
         last = np.ascontiguousarray(arr[-1])
-        self.automaton.setSpace(last)
+        self._sync_kernels(last)
         self.simulation_widget.update_grid(last)
         self.current_step = arr.shape[0] - 1
         self._emit_step()
@@ -453,6 +474,7 @@ class SimulationController:
             self._nca_out_size = int(data["layer_out"][-1])
 
             self._nca_mode = True
+            self.automaton.setSpace(self.simulation_widget.grid)
             self._clear_history()
             if self._on_nca_mode_changed:
                 self._on_nca_mode_changed(self._nca_mode, nca_loaded=True)
@@ -461,26 +483,25 @@ class SimulationController:
             QMessageBox.critical(None, "Error loading NCA", str(e))
 
     def on_timeline_jump(self, pos: int):
+        # Solo se mueven frames entre past_record y future_record (en el mismo
+        # deque, porque un prefetch en curso sigue agregando al final). El
+        # kernel se queda en el último frame de la línea de tiempo.
         locker = QMutexLocker(self.mutex)
         current_pos = len(self.past_record)
-        if pos == current_pos:
+        total = current_pos + len(self.future_record)
+        if pos == current_pos or pos < 0 or pos > total:
             return
-        current_frame = self.simulation_widget.grid.copy()
-        full = self.past_record + [current_frame] + list(self.future_record)
-        if pos < 0 or pos >= len(full):
-            return
-        delta = pos - current_pos
-        self.past_record = list(full[:pos])
-        self.future_record = deque(full[pos + 1:])
-        self._generation += 1
+        frame = self.simulation_widget.grid.copy()
+        while len(self.past_record) > pos:
+            self.future_record.appendleft(frame)
+            frame = self.past_record.pop()
+        while len(self.past_record) < pos:
+            self.past_record.append(frame)
+            frame = self.future_record.popleft()
         locker.unlock()
 
-        self.current_step += delta
-        target = np.ascontiguousarray(full[pos])
-        self.automaton.setSpace(target)
-        if self._nca_mode and self._nca is not None:
-            self._nca.set_space(target.astype(np.float32))
-        self.simulation_widget.update_grid(target)
+        self.current_step += pos - current_pos
+        self.simulation_widget.update_grid(np.ascontiguousarray(frame))
         self._emit_step()
 
     def on_mode_toggle(self):
