@@ -1,0 +1,24 @@
+\begin{abstract}
+	\noindent \textit{Resumen} --- \textbf{Los autómatas celulares se usan para simular sistemas complejos aplicando una regla local, conocida de antemano, a una condición inicial. En este trabajo se aborda el problema inverso: inferir la regla local a partir de la evolución observada de un sistema. Para ello, la función de transición del autómata se sustituye por un perceptrón multicapa entrenado con las transiciones de cada célula, lo que da lugar a un autómata celular neuronal bidimensional: discreto, determinista y síncrono, con estados escalares y sin canales ocultos. Se muestra que una regla determinista que reproduzca la evolución existe si la vecindad determina el siguiente estado. El modelo se evalúa en seis experimentos con un diseño cuasiexperimental. En tres sistemas con regla conocida (el juego de la vida, la pila de arena de Bak–Tang–Wiesenfeld y la hormiga de Langton con hasta 50 estados) el autómata reprodujo la evolución de las deficiones tradicionales sin errores y permitió definir una configuración recomendada: capas ocultas ReLU, salida lineal, codificación \textit{one-hot} y reducción por \textit{plateau}. En tres sistemas reales se obtuvo una regla que propaga el frente de fuego del conjunto FLAME~3 pero sin reproducir sus temperaturas por la falta de variables y de datos; y otra regla que mediante un valor de ruido incorporado al estado, reproduce el crecimiento de \textit{Physarum polycephalum}; el movimiento de tormentas de SEVIR, un sistema abierto, no pudo replicarse más allá de su desplazamiento hacia el este. Los resultados sugieren que la hipótesis se cumple en sistemas cerrados, en los que la vecindad contiene toda la información de la transición.}
+
+	\begin{comment}
+	\vspace{0.8em}
+	\begin{otherlanguage}{english}
+	\noindent \textit{Abstract} --- \textbf{Cellular automata are used to simulate complex systems by applying a local rule, defined beforehand, to an initial condition. This work addresses the inverse problem: inferring the local rule from the observed evolution of a system. To this end, the transition function of the automaton is replaced by a multilayer perceptron trained in a supervised way on the transitions of each cell, which yields a two-dimensional, discrete, deterministic and synchronous neural cellular automaton with scalar states and no hidden channels. It is shown that a deterministic rule that reproduces the evolution exists only if the neighborhood determines the next state, and the model is evaluated in six experiments with a quasi-experimental design. On three systems with a known rule (the Game of Life, the Bak–Tang–Wiesenfeld sandpile and Langton's ant with up to 50 states) the automaton reproduced its training evolution almost without errors and made it possible to define a recommended configuration: ReLU hidden layers, linear output, one-hot input encoding, plateau learning-rate reduction and a neighborhood that contains every relevant neighbor. On three real systems, a rule was obtained that spreads the fire front of the FLAME~3 dataset, although without reproducing its temperatures due to missing variables and scarce data, and, by adding a noise value to the state, a rule that reproduces the branching growth of \textit{Physarum polycephalum}; storm motion from SEVIR, an open system, could not be replicated beyond its eastward displacement. The results indicate that the hypothesis holds for closed systems, in which the neighborhood contains all the information of the transition.}
+	\end{otherlanguage}
+
+	\end{comment}
+
+	\vspace{0.8em}
+	\noindent \textit{Palabras clave} --- \textbf{Autómatas celulares, autómatas celulares neuronales, redes neuronales, sistemas complejos, simulación.}
+
+	\begin{comment}
+		
+	\vspace{0.4em}
+	\begin{otherlanguage}{english}
+	\noindent \textit{Keywords} --- \textbf{Cellular automata, neural cellular automata, neural networks, complex systems, simulation.}
+	\end{otherlanguage}
+	
+	\end{comment}
+	
+\end{abstract}

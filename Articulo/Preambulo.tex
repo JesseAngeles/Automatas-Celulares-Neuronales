@@ -1,0 +1,137 @@
+% Permite cortar las URL largas de la bibliografía también en los guiones
+\PassOptionsToPackage{hyphens}{url}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+% english solo para partir bien las palabras del abstract; el idioma principal es spanish
+\usepackage[english,spanish,es-tabla]{babel}
+% El % sin espacio automático: el espacio se escribe a mano con \,
+\spanishplainpercent
+\decimalpoint
+
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{cite}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{abstract}
+\usepackage{titlesec}
+\usepackage{verbatim} % Entorno comment que admite sangría antes de \end{comment}
+\usepackage[colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue]{hyperref}
+
+\graphicspath{{img/}}
+
+% --- MÁRGENES ---
+\geometry{
+	letterpaper,
+	top=2.0cm,
+	bottom=2.0cm,
+	left=1.8cm,
+	right=1.8cm,
+	columnsep=0.6cm
+}
+
+% --- FORMATO DE SECCIONES ---
+\titleformat{\section}
+{\normalfont\scshape\centering}
+{\thesection.}
+{0.5em}
+{}
+
+\renewcommand{\thesection}{\Roman{section}}
+
+\titleformat{\subsection}
+{\normalfont\itshape}
+{\thesubsection.}
+{0.5em}
+{}
+
+\renewcommand{\thesubsection}{\Alph{subsection}}
+
+\titleformat{\subsubsection}[runin]
+{\normalfont\itshape}
+{}
+{0em}
+{}[.]
+
+% --- CONFIGURACIÓN DEL RESUMEN ---
+\renewcommand{\abstractname}{}
+\setlength{\absleftindent}{0pt}
+\setlength{\absrightindent}{0pt}
+
+% Desactiva el título principal del resumen
+\renewcommand{\abstractname}{}
+\renewcommand{\absnamepos}{empty}
+% Eliminar el título "Resumen" del entorno abstract por completo
+\makeatletter
+\renewenvironment{abstract}{%
+	\small
+	\par\noindent
+}{%
+	\par
+}
+\makeatother
+
+% --- FIGURAS, TABLAS Y ALGORITMOS ---
+\captionsetup{font=small, labelfont=bf, labelsep=period}
+\captionsetup[sub]{font=footnotesize}
+\setlist{nosep, leftmargin=*}
+
+% Más espacio para flotantes en dos columnas
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.07}
+\renewcommand{\floatpagefraction}{0.75}
+\renewcommand{\dbltopfraction}{0.9}
+\renewcommand{\dblfloatpagefraction}{0.75}
+\setcounter{topnumber}{3}
+\setcounter{dbltopnumber}{2}
+\setcounter{totalnumber}{5}
+
+\addto\captionsspanish{\renewcommand{\refname}{REFERENCIAS}}
+
+% --- NOTACIÓN ---
+% Arquitectura de la red: capas ocultas & capa de salida
+\newcommand{\red}[2]{\mbox{#1}\,\&\,\mbox{#2}}
+\newcommand{\onehot}{\textit{one-hot}}
+
+% Paleta de los 18 estados de FLAME 3 (colores del simulador)
+\definecolor{flame0}{HTML}{448CFD}\definecolor{flame1}{HTML}{17D9C7}\definecolor{flame2}{HTML}{2FF09A}
+\definecolor{flame3}{HTML}{69FD65}\definecolor{flame4}{HTML}{A1FC3D}\definecolor{flame5}{HTML}{CDEB34}
+\definecolor{flame6}{HTML}{EDCF39}\definecolor{flame7}{HTML}{FDA932}\definecolor{flame8}{HTML}{FA7A1F}
+\definecolor{flame9}{HTML}{E84B0C}\definecolor{flame10}{HTML}{CB2B03}\definecolor{flame11}{HTML}{A01101}
+\definecolor{flame12}{HTML}{000000}\definecolor{flame13}{HTML}{333333}\definecolor{flame14}{HTML}{666666}
+\definecolor{flame15}{HTML}{999999}\definecolor{flame16}{HTML}{CCCCCC}\definecolor{flame17}{HTML}{FFFFFF}
+\newcommand{\estadoflame}[2][black]{\fcolorbox{gray}{flame#2}{\makebox[0.9em]{\textcolor{#1}{\tiny #2}}}}
+\newcommand{\leyendaflame}{%
+	\par\smallskip
+	{\scriptsize\setlength{\fboxsep}{0.8pt}%
+	Temperatura: \estadoflame{0}\estadoflame{1}\estadoflame{2}\estadoflame{3}\estadoflame{4}\estadoflame{5}%
+	\estadoflame{6}\estadoflame{7}\estadoflame{8}\estadoflame{9}\estadoflame[white]{10}\estadoflame[white]{11}%
+	\quad Quemado: \estadoflame[white]{12}\estadoflame[white]{13}\estadoflame[white]{14}\estadoflame{15}%
+	\estadoflame{16}\estadoflame{17}\par}}
+% Versión en dos líneas para figuras de una columna
+\newcommand{\leyendaflamecorta}{%
+	\par\smallskip
+	{\scriptsize\setlength{\fboxsep}{0.8pt}%
+	Temperatura: \estadoflame{0}\estadoflame{1}\estadoflame{2}\estadoflame{3}\estadoflame{4}\estadoflame{5}%
+	\estadoflame{6}\estadoflame{7}\estadoflame{8}\estadoflame{9}\estadoflame[white]{10}\estadoflame[white]{11}\\[1pt]
+	Quemado: \estadoflame[white]{12}\estadoflame[white]{13}\estadoflame[white]{14}\estadoflame{15}%
+	\estadoflame{16}\estadoflame{17}\par}}
+
+% Paleta de los 7 estados de SEVIR
+\definecolor{sevir0}{HTML}{F2F2F2}\definecolor{sevir1}{HTML}{9BE39B}\definecolor{sevir2}{HTML}{2E9E3A}
+\definecolor{sevir3}{HTML}{F5D90A}\definecolor{sevir4}{HTML}{F28C1E}\definecolor{sevir5}{HTML}{D7191C}
+\definecolor{sevir6}{HTML}{B10DC9}
+\newcommand{\estadosevir}[2][black]{\fcolorbox{gray}{sevir#2}{\makebox[0.9em]{\textcolor{#1}{\tiny #2}}}}
+\newcommand{\leyendasevir}{%
+	\par\smallskip
+	{\scriptsize\setlength{\fboxsep}{0.8pt}%
+	Estado: \estadosevir{0}\estadosevir{1}\estadosevir[white]{2}\estadosevir{3}\estadosevir{4}%
+	\estadosevir[white]{5}\estadosevir[white]{6}\par}}

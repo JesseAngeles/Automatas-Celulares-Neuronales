@@ -1,0 +1,25 @@
+\section{CONCLUSIONES}
+\label{sec:conclusiones}
+
+En este trabajo se planteó la simulación de sistemas complejos como un problema inverso: inferir, a partir de la evolución observada, la regla local de un autómata celular bidimensional, discreto, determinista y síncrono, definida por un perceptrón multicapa entrenado con las transiciones de cada célula. Se mostró que una regla así existe solo si la vecindad determina el siguiente estado, y seis experimentos permitieron responder a las preguntas de investigación.
+
+\textbf{P1. Inferencia de reglas conocidas.} El autómata celular neuronal infiere las reglas de los tres sistemas conocidos: el juego de la vida con una sola capa oculta de 4 neuronas, la pila de arena con el 100\,\% de exactitud y la hormiga de Langton con hasta 50 estados, aunque en cada paso solo cambian dos células. Sin embargo, reproducir la evolución de entrenamiento no garantiza haber extraído la función de transición completa: ante patrones ausentes en los datos, como dos generadoras contiguas o una hormiga que aplica fuera de contexto la regla de colisión, la red se equivoca, aunque su comportamiento sigue siendo similar al original.
+
+\textbf{P2. Configuración de la red.} Basta una red pequeña, con ReLU en las capas ocultas, Linear en la salida y pocas capas con más neuronas. Con más de dos estados, la codificación \onehot{} es la mejora más importante, ya que evita relaciones lineales falsas entre estados y redujo 63 veces las épocas necesarias. La vecindad debe contener a todos los vecinos que influyen en la transición: sin uno solo de ellos la regla no puede aprenderse, mientras que una vecindad mayor no lo impide.
+
+\textbf{P3. Parámetros de entrenamiento.} Cuando el entrenamiento es incompleto, la pérdida objetivo determina la regla aprendida. B3/S23 resultó estable, pues solo aprende la regla exacta o la regla en la que todo muere, mientras que las reglas que generan vida adicional derivan hacia otras reglas, no siempre semitotalísticas, porque la red casi nunca observa los patrones de baja frecuencia. La reducción de la tasa de aprendizaje por \textit{plateau} elimina las oscilaciones de la pérdida y permite alcanzar pérdidas objetivo exigentes.
+
+\textbf{P4. Condiciones de un sistema real.} El sistema debe ser cerrado y su estado debe contener la información de la transición. En \textit{Physarum polycephalum}, un sistema cerrado, el autómata aprende el crecimiento del moho: el plasmodio crece desde el inóculo, la avena lo guía y no aparece en zonas vacías. El paso de tiempo fue el factor más importante para crecer con el estado más probable, y un valor de ruido incorporado al estado permitió reproducir la parte aleatoria del crecimiento con una regla determinista. En FLAME~3 la regla aprendida propaga el frente hacia las zonas correctas, extingue los frentes al colisionar y no vuelve a encender el terreno quemado, pero las temperaturas, la velocidad y la dirección dependen de dos grabaciones y de variables no registradas, como el relieve o el viento. En SEVIR la red supera a la predicción sin cambio en tormentas que nunca vio, pero solo aprende a desplazarlas hacia el este, un límite que no depende de los datos, de la red ni de la vecindad, sino de factores externos al espacio.
+
+En conclusión, la hipótesis se cumple en los sistemas cerrados, cuya evolución depende únicamente de los estados de las células: el juego de la vida, la pila de arena, la hormiga de Langton y el crecimiento de \textit{Physarum polycephalum}. Se cumple parcialmente en la propagación del fuego, limitada por las variables que no se registran y por la cantidad de datos, y no se cumple en sistemas abiertos como las tormentas.
+
+\subsection{Trabajo a futuro}
+
+A partir de las limitaciones observadas se proponen las siguientes líneas de investigación:
+
+\begin{enumerate}
+	\item \textbf{Memoria en el estado.} Incorporar al estado información de pasos anteriores, como se hizo con el ruido, para que la red pueda formar las venas de \textit{Physarum polycephalum}, cuyo plasmodio reciente se retira entre 4 y 6 veces más que el establecido.
+	\item \textbf{Más datos de incendios.} Obtener grabaciones cenitales que registren el relieve, la vegetación y el viento, y representarlos como estados fijos del espacio para reducir la incertidumbre de la transición.
+	\item \textbf{Autómatas celulares probabilísticos.} Estudiar reglas que elijan el siguiente estado con las probabilidades de la red, lo que cambia la definición de autómata celular usada en este trabajo.
+	\item \textbf{Búsqueda y comparación de reglas.} Desarrollar métodos para buscar reglas con un comportamiento de interés y medir la similitud entre dos reglas, ya que las de los autómatas celulares neuronales se obtienen mediante entrenamiento y no se diseñan a mano.
+\end{enumerate}
