@@ -1,0 +1,48 @@
+\section{INTRODUCCIÓN}
+
+Los autómatas celulares son una herramienta de simulación de sistemas complejos que permite estudiar fenómenos en los que muchas interacciones locales producen un comportamiento global que no puede deducirse de cada parte por separado. Desde los trabajos de von Neumann \cite{neumann1966_ca} y su popularización por Wolfram \cite{wolfram1982_ca}, los autómatas celulares se han consolidado como uno de los modelos más simples capaces de exhibir este tipo de dinámicas emergentes \cite{Hoekstra2010_cs_ca}. Formalmente, un autómata celular es una 4-tupla $(\mathcal{L}, \mathcal{S}, \mathcal{N}, \mathcal{R})$ \cite{weisstein2002_ca, ZenilMartinez2024} donde:
+
+\begin{itemize}
+	\item $\mathcal{L} \subseteq \mathbb{Z}^D$ es el espacio celular $D$-dimensional, en el que cada célula $\vec{i}$ ocupa una posición.
+	\item $\mathcal{S} = \{s_0, s_1, \dots, s_{k-1}\}$ es un conjunto finito de $k$ estados; $\sigma_{\vec{i}}(t) \in \mathcal{S}$ es el estado de la célula $\vec{i}$ en el tiempo $t$.
+	\item $\mathcal{N} = (\vec{v}_1, \dots, \vec{v}_m)$ es el conjunto de $m$ vectores de desplazamiento que definen la vecindad: los vecinos de $\vec{i}$ son las células $\vec{i} + \vec{v}_j$.
+	\item $\mathcal{R} : \mathcal{S}^m \to \mathcal{S}$ es la regla local, que todas las células aplican de forma simultánea:
+\end{itemize}
+\begin{equation}
+	\sigma_{\vec{i}}(t+1) = \mathcal{R}\left(\sigma_{\vec{i}+\vec{v}_1}(t), \dots, \sigma_{\vec{i}+\vec{v}_m}(t)\right).
+	\label{eq:regla_local}
+\end{equation}
+
+El uso tradicional de los autómatas celulares define la regla $\mathcal{R}$ y se observa la evolución que produce a partir de una condición inicial. Sin embargo, para simular un sistema real es necesario conocer de antemano su regla, que en la mayoría de los fenómenos naturales se desconoce. Buscarla a mano tampoco es viable: el número de reglas posibles es $k^{k^m}$, por lo que con solo dos estados y la vecindad de Moore ($m = 9$) ya existen $2^{512}$ reglas, y el modelo de pila de arena que se estudia en este trabajo, con 17 estados y la vecindad de von Neumann, es una entre $17^{17^5}$ \cite{elYacoubi2021control}.
+
+En este trabajo se plantea el problema inverso: dada la evolución observada $\{\sigma(t)\}_{t=0}^{T}$ de un sistema, encontrar una regla local que la reproduzca. Para ello, la regla $\mathcal{R}$ se sustituye por una red neuronal $F_\theta$ que se entrena con las transiciones observadas de cada célula, lo que da lugar a los autómatas celulares neuronales \cite{gilpin2019_nca, mordvintsev2020_nca}. Una vez entrenada, la red se aplica como cualquier otra regla local y permite extrapolar el comportamiento a nuevas condiciones iniciales. La pregunta no es si la red aprende, sino en qué condiciones la evolución observada contiene la información necesaria para inferir la regla.
+
+\subsection{Trabajos relacionados}
+
+Gilpin \cite{gilpin2019_nca} mostró que los autómatas celulares y las redes neuronales convolucionales comparten dos propiedades fundamentales: la actualización basada en una vecindad (\textit{kernel}) y su aplicación simultánea en todo el espacio. Entrenó una red convolucional con un \textit{kernel} de $3 \times 3$ que reproduce el juego de la vida. Mordvintsev et al. \cite{mordvintsev2020_nca} popularizaron los autómatas celulares neuronales con un modelo de morfogénesis en el que cada célula tiene un vector continuo de 16 canales (color, un canal de vida y canales ocultos), percibe a sus vecinos mediante filtros de Sobel y se actualiza de forma estocástica; la red, de alrededor de 8,000 parámetros, se entrena con retropropagación a través del tiempo para que una sola célula crezca hasta formar una imagen y la regenere. Niklasson et al. \cite{niklasson2021_nca} mostraron que, en ese modelo, la actualización síncrona hace crecer la pérdida, por lo que la asincronía favorece su estabilidad. A partir de esta formulación surgieron variantes isotrópicas \cite{mordvintsev2022_iso_nca}, de autoclasificación \cite{mordvintsev2020_mnist}, de texturas \cite{mordvintsev2021_mnca} y mallas \cite{mordvintsev2024_mesh_nca}, tridimensionales \cite{sudhakaran2021_nca_3d} y generativas \cite{rasmus2022_vnca}.
+
+Más cerca del objetivo de este trabajo, Tang et al. \cite{Jian2023_nca} modelaron la solidificación de microestructuras metálicas con un autómata celular neuronal con canales ocultos, y Richardson et al. \cite{richardson2024_nca} entrenaron autómatas celulares neuronales para reproducir trayectorias de ecuaciones diferenciales parciales, como el modelo de Gray–Scott, abordando el problema inverso de inferir reglas locales a partir de un comportamiento emergente.
+
+Todos estos modelos usan estados continuos, canales ocultos y, en su mayoría, actualizaciones estocásticas. En contraste, el autómata celular neuronal que se propone aquí conserva la definición clásica de la ecuación \eqref{eq:regla_local}: el espacio es bidimensional y discreto, los estados son finitos y escalares, no hay canales ocultos y la actualización es determinista y síncrona. La red se entrena de forma supervisada con transiciones de un solo paso, por lo que la regla aprendida puede evaluarse sobre todos los patrones de la vecindad y compararse directamente con la regla original. Con ello se busca demostrar que una definición más pequeña es capaz de replicar comportamientos complejos, tanto de sistemas con regla conocida como de conjuntos de datos de sistemas reales.
+
+\subsection{Preguntas de investigación, hipótesis y contribuciones}
+
+La pregunta central de esta investigación es cómo pueden los autómatas celulares neuronales simular sistemas complejos en un espacio bidimensional. De ella se derivan cuatro preguntas experimentales:
+
+\begin{enumerate}[label=\textbf{P\arabic*.}]
+	\item ¿Puede un autómata celular neuronal inferir de forma exacta la regla de un autómata celular conocido a partir de su evolución?
+	\item ¿Qué configuración de la red (capas, neuronas, funciones de activación, codificación de la entrada y vecindad) se necesita para aprender una regla?
+	\item ¿Cómo influyen los parámetros de entrenamiento, como la pérdida objetivo y la tasa de aprendizaje, en la regla aprendida?
+	\item ¿Qué condiciones debe cumplir un sistema real para que un autómata celular neuronal pueda replicarlo a partir de un conjunto de datos?
+\end{enumerate}
+
+La hipótesis es la siguiente: \textit{si la función de transición de un autómata celular se define mediante una red neuronal entrenada con la evolución de un sistema, entonces es posible inferir una regla local que reproduzca dicha evolución.} Las contribuciones son:
+
+\begin{enumerate}
+	\item Una formulación del problema inverso como aprendizaje supervisado de las transiciones de cada célula, con una condición para que la regla exista: que la vecindad determine el siguiente estado.
+	\item Evidencia experimental sobre la configuración de la red que permite aprender una regla y sobre cómo la pérdida objetivo determina la regla aprendida cuando el entrenamiento es incompleto.
+	\item La evaluación del modelo en tres sistemas reales (FLAME~3, SEVIR y \textit{Physarum polycephalum}) frente a la predicción sin cambio, que delimita su aplicabilidad a los sistemas cerrados.
+	\item Un mecanismo que incorpora un valor de ruido al estado de cada célula para reproducir un crecimiento estocástico con una regla determinista.
+\end{enumerate}
+
+El resto del artículo se organiza en: la sección~\ref{sec:metodologia} describe el diseño de la investigación, la formulación del problema inverso, el autómata celular neuronal, su entrenamiento y las métricas; la sección~\ref{sec:resultados} presenta los seis experimentos y su análisis, y la sección~\ref{sec:conclusiones} responde a las preguntas de investigación y expone el trabajo futuro.
