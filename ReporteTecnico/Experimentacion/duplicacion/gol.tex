@@ -261,7 +261,7 @@ La vecindad semitotalística se divide en dos subvecindades: el centro y los bor
 
 Como se mencionó anteriormente, con una pérdida objetivo de 0.1 la red neuronal aún replica B3/S23; en este caso ninguna configuración baja de 0.12, por lo que la red neuronal no pudo replicar el comportamiento. Todas las configuraciones del barrido sin el vecino noroeste (de 1:4 a 16:16, con las cuatro combinaciones de funciones de activación) aprenden la misma regla, que difiere en 98 de 512 elementos ($19\%$). La regla aprendida no genera osciladores, sino que únicamente produce naturaleza muerta. 
 
-Si ignoramos la célula central (tabla \ref{tab:vecindad_centro}), observamos que ninguna de las configuraciones tuvo una pérdida menor a 0.07, valor mucho menor que el obtenido al eliminar un vecino del exterior. Es una bella casualidad cómo, mediante este experimento, se demuestra una vez más que existe una mayor dependencia de los estados vecinos que del propio. La regla aprendida tiende a eliminar todos los estados 1 y genera pocas configuraciones estáticas y cíclicas en menos de 50 pasos, tal como se muestra en la figura \ref{fig:b3s23_c0n8}.
+Si ignoramos la célula central (tabla \ref{tab:vecindad_centro}), observamos que ninguna de las configuraciones tuvo una pérdida menor a 0.07, valor mucho menor que el obtenido al eliminar un vecino del exterior. Este experimento demuestra una vez más que existe una mayor dependencia de los estados vecinos que del propio. La regla aprendida tiende a eliminar todos los estados 1 y genera pocas configuraciones estáticas y cíclicas en menos de 50 pasos, tal como se muestra en la figura \ref{fig:b3s23_c0n8}.
 
 \begin{table}[H]
 	\centering

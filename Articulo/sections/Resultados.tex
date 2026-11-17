@@ -115,7 +115,7 @@ En el modelo de pila de arena \cite{bak1987, dhar1999abelian}, una célula gener
 Con 17 estados y la vecindad de von Neumann, el vector de regla tiene $17^5 = 1{,}419{,}857$ elementos.
 
 \subsubsection{Capacidad de replicación}
-Al entrenar con una generadora en el centro, las redes con Sigmoid en las capas ocultas o con Sigmoid o TanH en la salida se quedan en una exactitud de 55.3\,\%, mientras que ReLU en las capas ocultas y Linear en la salida dan los mejores resultados. La tabla~\ref{tab:sp_arquitecturas} muestra que conviene usar más neuronas por capa en lugar de más capas: con \red{2:64:ReLU}{17:Linear} y una pérdida objetivo de $10^{-5}$ se reproduce el 100\,\% de los datos de entrenamiento, y la evolución coincide con la original (figura~\ref{fig:comparaciones}a,b).
+Al entrenar con una generadora en el centro, las redes con Sigmoid en las capas ocultas o con Sigmoid o TanH en la salida se quedan en una exactitud de 55.3\,\%, mientras que ReLU en las capas ocultas y Linear en la salida dan los mejores resultados. La tabla~\ref{tab:sp_arquitecturas} muestra que conviene usar más neuronas por capa en lugar de más capas: con \red{2:64:ReLU}{17:Linear} y una pérdida objetivo de $10^{-5}$ se reproduce el 100\,\% de los datos de entrenamiento, y la evolución coincide con la original (figura~\ref{fig:comparaciones}a, \ref{fig:comparaciones}b).
 
 \begin{table}[!t]
 	\centering
@@ -136,7 +136,6 @@ Al entrenar con una generadora en el centro, las redes con Sigmoid en las capas 
 		2:64 & 0.001 & $10^{-5}$ & 630 & $1.0\times10^{-5}$ & \textbf{100.000} & \textbf{100.00} \\
 		\bottomrule
 	\end{tabular}
-	
 	\caption{Pila de arena con una generadora, salida 17:Linear y tasa de aprendizaje constante. Exactitud total y en las células generadoras.}
 	\label{tab:sp_arquitecturas}
 \end{table}
@@ -151,23 +150,26 @@ Al entrenar con una generadora en el centro, las redes con Sigmoid en las capas 
 		\includegraphics[width=0.93\linewidth]{sandpile/sp_nca_1000.png}
 		\caption{Pila, NCA}
 	\end{subfigure}\hfill
-	\begin{subfigure}[b]{0.155\textwidth}
-		\includegraphics[width=\linewidth]{sandpile/sp_2gen_step_1883.png}
+	% (c) y (e) más anchas para que la subleyenda quepa en un renglón; la imagen conserva su tamaño
+	\begin{subfigure}[b]{0.167\textwidth}
+		\centering
+		\includegraphics[width=0.928\linewidth]{sandpile/sp_2gen_step_1883.png}
 		\caption{Contiguas, original}
 	\end{subfigure}\hfill
 	\begin{subfigure}[b]{0.155\textwidth}
 		\includegraphics[width=0.96\linewidth]{sandpile/sp_nca_2gen_step_1883.png}
 		\caption{Contiguas, NCA}
 	\end{subfigure}\hfill
-	\begin{subfigure}[b]{0.155\textwidth}
-		\includegraphics[width=\linewidth]{langton/langton_RL_100x100_paso_11000.png}
+	\begin{subfigure}[b]{0.157\textwidth}
+		\centering
+		\includegraphics[width=0.987\linewidth]{langton/langton_RL_100x100_paso_11000.png}
 		\caption{Hormiga, original}
 	\end{subfigure}\hfill
 	\begin{subfigure}[b]{0.155\textwidth}
 		\includegraphics[width=0.96\linewidth]{langton/langton_RL_nca_100x100_paso_11000.png}
 		\caption{Hormiga, NCA}
 	\end{subfigure}
-	\caption{Evolución original, generada en Mathematica, y del autómata celular neuronal (NCA) con la misma configuración inicial. (a, b) Pila de arena con una generadora en el paso 1,000, en tonos azules. (c, d) Dos generadoras contiguas en un espacio de $25\times25$ en el paso 1,883, el primero en el que las evoluciones difieren. (e, f) Hormiga de Langton RL después de 11,000 pasos.}
+	\caption{Evolución original, generada en Mathematica, y del autómata celular neuronal (NCA) con la misma configuración inicial. (a, b) Pila de arena con una generadora en el paso 1,000, con la generadora en azul. (c, d) Dos generadoras contiguas en un espacio de $25\times25$ en el paso 1,883, el primero en el que las evoluciones difieren. (e, f) Hormiga de Langton RL después de 11,000 pasos.}
 	\label{fig:comparaciones}
 \end{figure*}
 
@@ -201,28 +203,27 @@ Con la entrada lineal, la red supone que la relación entre los estados 7 y 8 (a
 	\setlength{\tabcolsep}{4pt}
 	\begin{tabular}{@{}llrrr@{}}
 		\toprule
-		\textbf{Datos} & \textbf{Entrada} & \textbf{Épocas} & \textbf{Pérdida} & \textbf{Tiempo (s)} \\
+		\textbf{Datos} & \textbf{Entrada} & \textbf{Épocas} & \textbf{Pérdida} & \textbf{Tiempo} \\
 		\midrule
-		\multirow{2}{*}{1 generadora} & Lineal & 1,200$^\dagger$ & $3\times10^{-6}$ & 140.97 \\
-		& \textit{One-hot} & 40 & $1\times10^{-6}$ & 4.92 \\
+		\multirow{2}{*}{1 generadora} & Lineal & 1,200$^\dagger$ & $3\times10^{-6}$ & 140.97 s \\
+		& \textit{One-hot} & 40 & $1\times10^{-6}$ & 4.92 s \\
 		\midrule
-		\multirow{2}{*}{1 y 4 generadoras} & Lineal & 1,319 & $1\times10^{-6}$ & 301.47 \\
-		& \textit{One-hot} & 21 & $1\times10^{-6}$ & 5.67 \\
+		\multirow{2}{*}{1 y 4 generadoras} & Lineal & 1,319 & $1\times10^{-6}$ & 301.47 s \\
+		& \textit{One-hot} & 21 & $1\times10^{-6}$ & 5.67 s \\
 		\bottomrule
 		\multicolumn{5}{@{}l}{\scriptsize $^\dagger$Terminó por límite de épocas.}
 	\end{tabular}
-	
 	\caption{Efecto de la codificación \onehot{} en la pila de arena. Red \red{2:64:ReLU}{17:Linear}, pérdida objetivo $10^{-6}$ y reducción por \textit{plateau}. Todas alcanzan el 100\,\% de exactitud.}
 	\label{tab:sp_onehot}
 \end{table}
 
-Esta red replicó parcialmente un caso que nunca vio, dos generadoras contiguas: en un espacio de $25\times25$ ambas evoluciones coinciden durante 1,882 pasos (figura~\ref{fig:comparaciones}c,d), hasta que aparece un patrón ausente en el entrenamiento, la generadora con 5 granos junto a otra. En espacios de $20\times20$ y $50\times50$ el primer error aparece en los pasos 1,270 y 6,265, y en $100\times100$ no hay errores en 10,000 pasos.
+Esta red replicó parcialmente un caso que nunca vio, dos generadoras contiguas: en un espacio de $25\times25$ ambas evoluciones coinciden durante 1,882 pasos (figura~\ref{fig:comparaciones}c, \ref{fig:comparaciones}d), hasta que aparece un patrón ausente en el entrenamiento, la generadora con 5 granos junto a otra. En espacios de $20\times20$ y $50\times50$ el primer error aparece en los pasos 1,270 y 6,265, y en $100\times100$ no hay errores en 10,000 pasos.
 
 \subsection{Hormiga de Langton}
 
 La hormiga de Langton es un agente que, sobre una célula de color $i$, gira según la letra $i$ de una cadena (R a la derecha, L a la izquierda), cambia la célula al color $(i+1) \bmod n$ y avanza. Como autómata celular requiere $n + 4n = 5n$ estados ($n$ colores sin hormiga y $4n$ con hormiga en cada dirección), y pone a prueba la extracción de comportamientos con poca información: en cada paso solo cambian dos células.
 
-Para la hormiga RL (10 estados) se usó la vecindad de von Neumann, con un vector de regla de $10^5$ elementos. Con \red{2:8:ReLU}{10:Linear}, \onehot{} y una pérdida objetivo de $10^{-4}$, la red reproduce el comportamiento a la perfección en 36 épocas: tras 11,000 pasos, la evolución es idéntica a la original (figura~\ref{fig:comparaciones}e,f). Con dos hormigas, la red conserva correctamente a las hormigas vecinas que no colisionan, un caso ausente del entrenamiento, y cuando dos hormigas van a ocupar la misma célula elimina una de ellas de forma consistente. Como el modelo original no define este caso, para los siguientes datos se adoptó una regla explícita: si dos hormigas van a colisionar, ambas giran sin avanzar.
+Para la hormiga RL (10 estados) se usó la vecindad de von Neumann, con un vector de regla de $10^5$ elementos. Con \red{2:8:ReLU}{10:Linear}, \onehot{} y una pérdida objetivo de $10^{-4}$, la red reproduce el comportamiento a la perfección en 36 épocas: tras 11,000 pasos, la evolución es idéntica a la original (figura~\ref{fig:comparaciones}e, \ref{fig:comparaciones}f). Con dos hormigas, la red conserva correctamente a las hormigas vecinas que no colisionan, un caso ausente del entrenamiento, y cuando dos hormigas van a ocupar la misma célula elimina una de ellas de forma consistente. Como el modelo original no define este caso, para los siguientes datos se adoptó una regla explícita: si dos hormigas van a colisionar, ambas giran sin avanzar.
 
 Para estudiar el crecimiento del número de estados se generó, para cada número de colores de 2 a 10, una evolución con dos hormigas en $30\times30$ con frontera periódica durante 10,000 pasos. Se usó una vecindad en rombo de radio 2 (13 células), pues una célula necesita saber si otra hormiga a dos células también apunta hacia ella, y la red \red{4:64:ReLU}{$5n$:Linear} con \onehot{}, reducción por \textit{plateau} y pérdida objetivo de $10^{-7}$. El número de estados casi no afecta el entrenamiento (tabla~\ref{tab:langton_colores}): todas las redes convergen en menos de 90 épocas y 100 s. Ocho de las nueve reproducen los 10,000 pasos sin errores; la regla RRRLLL tiene un único error en 9 millones de células, durante una colisión, que hace divergir la evolución en el paso 7,028.
 
@@ -230,11 +231,10 @@ Para estudiar el crecimiento del número de estados se generó, para cada númer
 	\centering
 	\footnotesize
 	\setlength{\tabcolsep}{4pt}
-	\caption{Hormiga de Langton con dos hormigas de 2 a 10 colores en $30\times30$ durante 10,000 pasos.}
-	\label{tab:langton_colores}
-	\begin{tabular}{@{}cclrlr@{}}
+	% Sin espacio antes de Épocas y Tiempo: van a la derecha y su encabezado ya deja hueco
+	\begin{tabular}{@{}ccl@{}rl@{}r@{}}
 		\toprule
-		\textbf{Colores} & \textbf{Estados} & \textbf{Regla} & \textbf{Épocas} & \textbf{Pérdida} & \textbf{Tiempo} \\
+		\textbf{Color} & \textbf{Estados} & \textbf{Regla} & \textbf{Épocas} & \textbf{Pérdida} & \textbf{Tiempo} \\
 		\midrule
 		2 & 10 & RL & 22 & $5.18\times10^{-8}$ & 25.6 s \\
 		3 & 15 & RLL & 63 & $3.83\times10^{-8}$ & 73.8 s \\
@@ -247,6 +247,8 @@ Para estudiar el crecimiento del número de estados se generó, para cada númer
 		10 & 50 & RLRLRLRRRL & 87 & $2.38\times10^{-9}$ & 97.3 s \\
 		\bottomrule
 	\end{tabular}
+	\caption{Hormiga de Langton con dos hormigas de 2 a 10 colores en $30\times30$ durante 10,000 pasos.}
+	\label{tab:langton_colores}
 \end{table}
 
 Sin embargo, reproducir la evolución de entrenamiento no implica haber aprendido la regla completa, que es el problema de cobertura de la sección~\ref{sec:formulacion}. Con la red de 10 colores, una sola hormiga en un espacio de $100\times100$ evoluciona sin errores hasta el paso 12,455, en el que se divide en dos: la célula que deja no cambia de color y conserva una hormiga girada, como si hubiera estado bloqueada. La red aplica la regla de colisión aprendida con dos hormigas a un patrón que nunca vio.
@@ -272,12 +274,13 @@ El viento desplaza el dron varios píxeles, por lo que cada imagen se alineó co
 	\sigma_{\vec{i}}(t+1) \in
 	\begin{cases}
 		\mathcal{S}_q & \text{si } \tau_{\vec{i}}(t+1) < \tau_{\vec{i}}(t), \\
-		\mathcal{S}_b & \text{si } \sigma_{\vec{i}}(t) \in \mathcal{S}_q \text{ y } T_{\vec{i}}(t+1) > m_{\vec{i}} + 30\,^\circ\mathrm{C}, \\
+		\mathcal{S}_b & \text{si } \sigma_{\vec{i}}(t) \in \mathcal{S}_q \text{ y} \\
+		& \hphantom{\text{si }} T_{\vec{i}}(t+1) > m_{\vec{i}} + 30\,^\circ\mathrm{C}, \\
 		\text{el de } \sigma_{\vec{i}}(t) & \text{en otro caso},
 	\end{cases}
 	\label{eq:flame_estados}
 \end{equation}
-donde una célula en $\mathcal{S}_b$ toma el estado $\tau_{\vec{i}}(t+1)$ y una en $\mathcal{S}_q$ toma $12 + \lfloor \tau_{\vec{i}}(t+1)/2 \rfloor$. Es decir, una célula que se enfría queda quemada y solo regresa a un estado de temperatura si vuelve a calentarse más de 30\,°C sobre su mínimo. Así, la red puede distinguir el terreno que todavía puede arder del que ya se quemó; agrupar los estados de quemado y usar el umbral de 30\,°C reduce de 28,537 a 9,102 los regresos de quemado a no quemado, causados principalmente por ruido. Esta definición fue la última de varias pruebas: segmentar con \textit{k-means}, usar hasta 50 estados, rotar las imágenes, agregar el combustible como estado fijo o marcar el quemado con un umbral fijo de temperatura no mejoraron la simulación libre o la hacían divergir.
+donde una célula en $\mathcal{S}_b$ toma el estado $\tau_{\vec{i}}(t+1)$ y una en $\mathcal{S}_q$ toma $12 + \lfloor \tau_{\vec{i}}(t+1)/2 \rfloor$. Es decir, una célula que se enfría queda quemada y solo regresa a un estado de temperatura si vuelve a calentarse más de 30\,°C sobre su mínimo. Así, la red puede distinguir el terreno que todavía puede arder del que ya se quemó; agrupar los estados de quemado y usar el umbral de 30\,°C reduce de 28,537 a 9,102 los regresos de quemado a no quemado, causados principalmente por ruido. 
 
 \begin{figure*}[!t]
 	\centering
@@ -312,8 +315,6 @@ Se probaron 18 configuraciones: paso de 5, 15 o 30 s; vecindad de $9\times9$ (81
 	\centering
 	\footnotesize
 	\setlength{\tabcolsep}{2.5pt}
-	\caption{Configuraciones destacadas de FLAME~3. Prueba 1: entrenada con \texttt{flame\_plot\_2} y probada en \texttt{flame\_plot\_1}; prueba 2: al revés. $\varepsilon$: error en la simulación libre relativo a la predicción sin cambio. Lugar: promedio del lugar combinado de las cuatro medidas entre las 18 configuraciones.}
-	\label{tab:flame}
 	\begin{tabular}{@{}cccrrrrc@{}}
 		\toprule
 		& & & \multicolumn{2}{c}{\textbf{Prueba 1}} & \multicolumn{2}{c}{\textbf{Prueba 2}} & \\
@@ -329,6 +330,8 @@ Se probaron 18 configuraciones: paso de 5, 15 o 30 s; vecindad de $9\times9$ (81
 		15 s & $9\times9$ & 4:256 & 79\,\% & 326\,\% & \textbf{67\,\%} & 89\,\% & 7.5 \\
 		\bottomrule
 	\end{tabular}
+	\caption{Configuraciones destacadas de FLAME~3. Prueba 1: entrenada con \texttt{flame\_plot\_2} y probada en \texttt{flame\_plot\_1}; prueba 2: al revés. $\varepsilon$: error en la simulación libre relativo a la predicción sin cambio. Lugar: promedio del lugar combinado de las cuatro medidas entre las 18 configuraciones.}
+	\label{tab:flame}
 \end{table}
 
 \subsubsection{Resultados}
@@ -338,32 +341,32 @@ Ninguna configuración es la mejor en ambas pruebas (tabla~\ref{tab:flame}). Tre
 
 \begin{figure*}[!t]
 	\centering
-	\begin{subfigure}[t]{0.155\textwidth}
+	\begin{subfigure}[b]{0.155\textwidth}
 		\includegraphics[width=\linewidth]{flame/criterios/paso_0.png}
 		\caption{0 s}
 	\end{subfigure}\hfill
-	\begin{subfigure}[t]{0.155\textwidth}
+	\begin{subfigure}[b]{0.155\textwidth}
 		\includegraphics[width=\linewidth]{flame/criterios/paso_5.png}
 		\caption{150 s}
 	\end{subfigure}\hfill
-	\begin{subfigure}[t]{0.155\textwidth}
+	\begin{subfigure}[b]{0.155\textwidth}
 		\includegraphics[width=\linewidth]{flame/criterios/paso_10.png}
 		\caption{300 s}
 	\end{subfigure}\hfill
-	\begin{subfigure}[t]{0.155\textwidth}
+	\begin{subfigure}[b]{0.155\textwidth}
 		\includegraphics[width=\linewidth]{flame/criterios/paso_14.png}
 		\caption{420 s}
 	\end{subfigure}\hfill
-	\begin{subfigure}[t]{0.155\textwidth}
+	\begin{subfigure}[b]{0.155\textwidth}
 		\includegraphics[width=\linewidth]{flame/criterios/paso_18.png}
 		\caption{540 s}
 	\end{subfigure}\hfill
-	\begin{subfigure}[t]{0.155\textwidth}
+	\begin{subfigure}[b]{0.155\textwidth}
 		\includegraphics[width=\linewidth]{flame/criterios/paso_40.png}
 		\caption{1200 s}
 	\end{subfigure}
 	\leyendaflame
-	\caption{Simulación libre de la configuración final de FLAME~3 con frontera periódica, a partir de un foco de $6\times6$ células en el estado 10 en un espacio frío de $100\times100$. El fuego se propaga en todas direcciones (b, c), los frentes se extinguen al encontrarse tras cruzar la frontera (d, e) y, una vez quemado el espacio, no vuelve a aparecer fuego (f).}
+	\caption{Simulación libre de la configuración final de FLAME~3 con frontera periódica, a partir de un foco de $6\times6$ células en el estado 10 en un espacio frío. El fuego se propaga en todas direcciones (b, c), los frentes se extinguen al encontrarse (d, e) y no vuelve a aparecer fuego (f).}
 	\label{fig:flame_criterios}
 \end{figure*}
 
@@ -418,10 +421,9 @@ Para descartar que el límite se debiera a la configuración, se entrenaron 80 r
 \begin{table}[!t]
 	\centering
 	\footnotesize
-	\setlength{\tabcolsep}{3pt}
-	\caption{Exactitud y área con tormenta en 200 tormentas de prueba de 2019. Las vecindades muestran el promedio de 10 redes entrenadas con 40 tormentas.}
-	\label{tab:sevir}
-	\begin{tabular}{@{}lrrrr@{}}
+	\setlength{\tabcolsep}{2.5pt}
+	% Sin espacio antes de Exactitud: va a la derecha y su encabezado ya deja hueco
+	\begin{tabular}{@{}l@{}rrrr@{}}
 		\toprule
 		& & \multicolumn{3}{c}{\textbf{Área con tormenta}} \\
 		\cmidrule(l){3-5}
@@ -433,11 +435,13 @@ Para descartar que el límite se debiera a la configuración, se entrenaron 80 r
 		Dispersa FLAME~3 (41) & 90.17\,\% & 82.28\,\% & 40.85\,\% & 28.00\,\% \\
 		$11\times11$ (121) & 90.16\,\% & 82.26\,\% & 40.94\,\% & 28.33\,\% \\
 		\midrule
-		$11\times11$, 16:64, 400 tormentas & \textbf{90.34\,\%} & \textbf{82.67\,\%} & \textbf{41.83\,\%} & \textbf{28.84\,\%} \\
+		\begin{tabular}[t]{@{}l@{}}$11\times11$, 16:64,\\400 tormentas\end{tabular} & \textbf{90.34\,\%} & \textbf{82.67\,\%} & \textbf{41.83\,\%} & \textbf{28.84\,\%} \\
 		\quad semilla 1 & 90.35\,\% & 82.63\,\% & 41.19\,\% & 27.56\,\% \\
 		\quad semilla 2 & 90.33\,\% & 82.63\,\% & 41.02\,\% & 27.41\,\% \\
 		\bottomrule
 	\end{tabular}
+	\caption{Exactitud y área con tormenta en 200 tormentas de prueba de 2019. Las vecindades muestran el promedio de 10 redes entrenadas con 40 tormentas.}
+	\label{tab:sevir}
 \end{table}
 
 Para saber qué aprendió la mejor red se midió el desplazamiento de cada tormenta en 60 minutos. Las tormentas reales se desplazan en promedio 5.82 células (23 km) hacia el este, con una desviación estándar de 7.06 células en la dirección este--oeste y 7.18 en la norte--sur; la red las desplaza 7.17 células (29 km) hacia el este con mucha menos variación (4.49 y 4.04), y su correlación con el desplazamiento real es débil (0.36 y 0.51). La red aprendió principalmente a mover las tormentas hacia el este, la dirección más común en Estados Unidos. La dirección y el crecimiento de una tormenta dependen del viento, la humedad y la temperatura a distintas alturas, que no están en las imágenes, y otras tormentas entran desde fuera del espacio: dos vecindades idénticas pueden tener futuros distintos, por lo que ninguna vecindad determina la transición. El límite no depende de los datos, de la red ni de la vecindad, sino de que las tormentas son un sistema abierto.
@@ -473,15 +477,14 @@ Las imágenes se recortaron al 90\,\% interior de la caja para evitar reflejos, 
 \subsubsection{Estado más probable y sesgo de crecimiento}
 Con transiciones de 30 minutos, la red acierta el 97.99\,\% de las células en un paso, casi lo mismo que la predicción sin cambio. Aunque la caja es un sistema cerrado, el crecimiento no está determinado por la vecindad: las células que se vuelven plasmodio en los siguientes 30 minutos tienen una probabilidad de solo 9\,\%. Como la regla elige el estado más probable, ninguna célula cambia y la simulación libre se congela. Elegir el estado al azar con las probabilidades de la red, lo que rompe la definición determinista del autómata, tampoco funciona: el plasmodio brota en toda la caja, aunque en los datos reales el 97.4\,\% del plasmodio nuevo aparece a 6 células o menos del existente.
 
-Para crecer sin muestreo se sumó una constante a las salidas de plasmodio (un sesgo de crecimiento) y se alargó el paso de tiempo, ya que en pasos largos el crecimiento es menos incierto. Se entrenaron 122 redes y se evaluaron con la coincidencia del plasmodio (ecuación~\ref{eq:coincidencia}), en la que la predicción sin cambio obtiene entre 0.04 y 0.06 y llenar la caja de plasmodio, 0.07. El paso de tiempo es lo más importante (tabla~\ref{tab:physarum_paso}): la coincidencia sube de 0.120 con pasos de 30 minutos a 0.223 con pasos de 6 horas. La vecindad y el tamaño de la red casi no cambian el resultado, mientras que quitar la avena lo reduce a 0.134, es decir, la avena guía al plasmodio. Sin embargo, la mejor red crece en manchas sólidas, sin movimiento interno ni venas.
+Para crecer sin muestreo se sumó una constante a las salidas de plasmodio (un sesgo de crecimiento) y se alargó el paso de tiempo, ya que en pasos largos el crecimiento es menos incierto. Se entrenaron 122 redes, con 4 estados (borde, fondo, avena y plasmodio) o con los 6 estados visibles, y se evaluaron con la coincidencia del plasmodio (ecuación~\ref{eq:coincidencia}), en la que la predicción sin cambio obtiene entre 0.04 y 0.06 y llenar la caja de plasmodio, 0.07. El paso de tiempo es lo más importante (tabla~\ref{tab:physarum_paso}): la coincidencia sube de 0.120 con pasos de 30 minutos a 0.223 con pasos de 6 horas. La vecindad, el tamaño de la red y el número de niveles de plasmodio casi no cambian el resultado, mientras que quitar la avena lo reduce a 0.134, es decir, la avena guía al plasmodio. Sin embargo, la mejor red crece en manchas sólidas, sin movimiento interno ni venas.
 
 \begin{table}[!t]
 	\centering
 	\footnotesize
 	\setlength{\tabcolsep}{4pt}
-	\caption{Coincidencia del plasmodio en la simulación libre de las 4 cajas de prueba según el paso de tiempo (4 estados, 53 vecinos, \red{16:64:ReLU}{4:Linear}, \onehot{}). Plasmodio: fracción de la caja con plasmodio al final.}
-	\label{tab:physarum_paso}
-	\begin{tabular}{@{}lrcccc@{}}
+	% Sin espacio antes de Pérdida: va a la derecha y su encabezado ya deja hueco
+	\begin{tabular}{@{}l@{}rcccc@{}}
 		\toprule
 		& & & \multicolumn{2}{c}{\textbf{Coincidencia}} & \textbf{Plasmodio} \\
 		\cmidrule(lr){4-5}
@@ -496,6 +499,8 @@ Para crecer sin muestreo se sumó una constante a las salidas de plasmodio (un s
 		8 h & 0.2546 & 1.25 & 0.029 & 0.185 & 0.39 / 0.34 \\
 		\bottomrule
 	\end{tabular}
+	\caption{Coincidencia del plasmodio en la simulación libre de las 4 cajas de prueba según el paso de tiempo (4 estados, 53 vecinos, \red{16:64:ReLU}{4:Linear}, \onehot{}). Plasmodio: fracción de la caja con plasmodio al final.}
+	\label{tab:physarum_paso}
 \end{table}
 
 \subsubsection{Simulación con ruido}
@@ -532,22 +537,24 @@ Un segundo autómata celular neuronal aprende este procedimiento completo con 97
 	\centering
 	\footnotesize
 	\setlength{\tabcolsep}{3pt}
-	\caption{Simulación libre en las 4 cajas de prueba. Borde: fracción del plasmodio que toca una célula sin plasmodio (alta en ramas, baja en manchas). Cambio de brillo: fracción del plasmodio que cambia de nivel entre pasos.}
-	\label{tab:physarum_comp}
 	\begin{tabular}{@{}lccccc@{}}
 		\toprule
-		& & & & \multicolumn{2}{c}{\textbf{Cambio de brillo}} \\
+		% En dos renglones: en uno es más ancho que sus dos columnas y estira la tabla
+		& & & & \multicolumn{2}{c}{\begin{tabular}{@{}c@{}}\textbf{Cambio}\\\textbf{de brillo}\end{tabular}} \\
 		\cmidrule(l){5-6}
 		& \textbf{Coincid.} & \textbf{Plasmodio} & \textbf{Borde} & \textbf{6 h} & \textbf{30 min} \\
 		\midrule
 		Real & -- & 0.344 & 0.429 & 23.6\,\% & 4.7\,\% \\
 		Red con sesgo & \textbf{0.225} & \textbf{0.353} & 0.154 & 0.8\,\% & -- \\
-		Red con ruido & 0.105 & 0.157 & \textbf{0.498} & 41.3\,\% & \textbf{6.5\,\%} \\
+		Red con ruido & 0.105 & 0.157 & 0.498 & 41.3\,\% & \textbf{6.5\,\%} \\
+		Ruido y edad & 0.159 & 0.330 & \textbf{0.387} & 33.4\,\% & -- \\
 		\bottomrule
 	\end{tabular}
+	\caption{Simulación libre en las 4 cajas de prueba. Borde: fracción del plasmodio que toca una célula sin plasmodio. Cambio de brillo: fracción del plasmodio que cambia de nivel entre pasos.}
+	\label{tab:physarum_comp}
 \end{table}
 
-La red con ruido reproduce la forma y el movimiento que le faltan a la red con sesgo (figura~\ref{fig:physarum_comp} y tabla~\ref{tab:physarum_comp}): el borde del plasmodio pasa de 0.154 a 0.498 (0.429 en la realidad), es decir, forma ramas en lugar de manchas, y el 6.5\,\% del plasmodio cambia de nivel cada 30 minutos, contra el 4.7\,\% real. El plasmodio crece desde el inóculo, avanza entre la avena y no aparece en zonas vacías. En cambio, crece menos que el real (15.7 contra 34.4\,\% de la caja) y su coincidencia es menor, algo esperado, ya que con ruido la red no puede saber hacia dónde crecerá cada rama, mientras que la red con sesgo crece en todas direcciones a la vez. Otras 20 redes con más épocas, otra reducción de la tasa de aprendizaje o un empujón de crecimiento suben la coincidencia de 0.115 a 0.136, pero solo porque crecen más, hasta cubrir cajas en las que el plasmodio real se queda alrededor de la avena. Ninguna red forma las venas largas que unen la avena ni sabe cuándo dejar de crecer. En los datos reales, el plasmodio que acaba de llegar a una célula se retira entre 4 y 6 veces más que el que lleva varias horas, por lo que las venas probablemente dependen de lo ocurrido durante horas, mientras que la red solo conoce el estado actual.
+La red con ruido reproduce la forma y el movimiento que le faltan a la red con sesgo (figura~\ref{fig:physarum_comp} y tabla~\ref{tab:physarum_comp}): el borde del plasmodio pasa de 0.154 a 0.498 (0.429 en la realidad), es decir, forma ramas en lugar de manchas, y el 6.5\,\% del plasmodio cambia de nivel cada 30 minutos, contra el 4.7\,\% real. El plasmodio crece desde el inóculo, avanza entre la avena y no aparece en zonas vacías. En cambio, crece menos que el real (15.7 contra 34.4\,\% de la caja) y su coincidencia es menor, algo esperado, ya que con ruido la red no puede saber hacia dónde crecerá cada rama, mientras que la red con sesgo crece en todas direcciones a la vez. Otras 20 redes con más épocas, otra reducción de la tasa de aprendizaje o un empujón de crecimiento suben la coincidencia de 0.115 a 0.136, pero solo porque crecen más, hasta cubrir cajas en las que el plasmodio real se queda alrededor de la avena. Ninguna de estas redes forma las venas largas que unen la avena ni sabe cuándo dejar de crecer. En los datos reales, el plasmodio que acaba de llegar se retira 4.7 veces más que el que lleva al menos 24 horas (34.9 contra 7.4\,\% en pasos de 6 horas), por lo que se agregó esta memoria al estado: el plasmodio que no estaba un paso antes es \textit{nuevo} y el resto, \textit{establecido} (9 estados visibles y 36 con el ruido). Con la red con sesgo no ayuda, porque retirarse nunca es lo más probable; con ruido y la red de 6 horas con edad como maestra, el plasmodio crece casi lo mismo que el real (33.0\,\% de la caja), con una coincidencia de 0.159 y un borde de 0.387 (tabla~\ref{tab:physarum_comp}), y forma una red conectada entre la avena, aunque con venas más gruesas.
 
 \subsection{Análisis comparativo}
 
@@ -557,9 +564,7 @@ La tabla~\ref{tab:sintesis} resume los seis experimentos, cuyos resultados se ex
 	\centering
 	\footnotesize
 	\setlength{\tabcolsep}{3pt}
-	\caption{Síntesis de los experimentos.}
-	\label{tab:sintesis}
-	\begin{tabularx}{\linewidth}{@{}lcX@{}}
+	\begin{tabularx}{\linewidth}{@{}lc>{\raggedright\arraybackslash}X@{}}
 		\toprule
 		\textbf{Sistema} & \textbf{Cerrado} & \textbf{Resultado y limitación principal} \\
 		\midrule
@@ -568,7 +573,9 @@ La tabla~\ref{tab:sintesis} resume los seis experimentos, cuyos resultados se ex
 		Hormiga de Langton & Sí & Sin errores en 8 de 9 reglas de hasta 50 estados; aplica la regla de colisión fuera de contexto. \\
 		FLAME~3 & Parcial & Propaga el frente (área quemada de hasta 86\,\%), pero no las temperaturas; solo dos grabaciones. \\
 		SEVIR & No & Mejor que sin cambio, pero solo desplaza las tormentas hacia el este. \\
-		\textit{Physarum} & Sí & Ramas y movimiento interno con ruido; sin venas ni fin del crecimiento. \\
+		\textit{Physarum} & Sí & Con ruido y memoria de edad, red conectada y área casi real; venas más gruesas. \\
 		\bottomrule
 	\end{tabularx}
+	\caption{Síntesis de los experimentos.}
+	\label{tab:sintesis}
 \end{table}

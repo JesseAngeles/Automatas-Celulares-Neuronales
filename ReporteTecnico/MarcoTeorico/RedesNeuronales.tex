@@ -172,7 +172,7 @@ En esta sección se presentan las funciones de activación más comunes utilizad
 
 \subsubsection{\textit{Binary step} (escalón binario)}
 
-La función escalón binario se define por partes:
+La función escalón binario, que se muestra en la figura \ref{fig:binary}, se define por partes:
 \[
 f(x) =
 \begin{cases}
@@ -189,7 +189,7 @@ Produce salidas discretas (0/1) y fue utilizada en perceptrones tempranos como f
 \end{figure}
 
 \subsubsection{Lineal}
-La función lineal (o identidad) se define como:
+La función lineal (o identidad), que se muestra en la figura \ref{fig:linear}, se define como:
 \[
 f(x) = ax + b \quad \lor \quad f(x)=x.
 \]
@@ -203,7 +203,7 @@ Produce una salida proporcional a la entrada y mantiene la linealidad en la red.
 
 \subsubsection{Sigmoide}
 
-La función sigmoide logística se define como:
+La función sigmoide logística, que se muestra en la figura \ref{fig:sigmoid}, se define como:
 \[
 \sigma(x) = \frac{1}{1 + e^{-x}}.
 \]
@@ -221,7 +221,7 @@ Comprime la entrada en el intervalo $(0,1)$, por lo que es apropiada para modela
 
 \subsubsection{Tangente hiperbólica (tanh)}
 
-La tangente hiperbólica se define como:
+La tangente hiperbólica, que se muestra en la figura \ref{fig:tanh}, se define como:
 \[
 \tanh(x) = \frac{e^{x} - e^{-x}}{e^{x} + e^{-x}}.
 \]
@@ -237,7 +237,7 @@ Es una versión centrada en cero de la sigmoide, lo que facilita el aprendizaje 
 
 \subsubsection{ReLU (\textit{Rectified Linear Unit})}
 
-La función ReLU se define por partes:
+La función ReLU, que se muestra en la figura \ref{fig:relu}, se define por partes:
 \[
 f(x) = \max(0, x).
 \]

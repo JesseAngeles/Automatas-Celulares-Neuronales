@@ -1,7 +1,9 @@
 % Portada con resumen: mismo encabezado y máres que portada1.tex, el número de TT y la fecha de presentación
 % arriba, el correo como nota al pie, un resumen breve (distinto del de la introducción) y las palabras
 % clave, todo en una sola hoja
-\newgeometry{top=2cm, bottom=2.5cm, left=3cm, right=2.5cm}
+\newgeometry{top=2cm, bottom=2cm, left=3cm, right=2cm}
+% Interlineado sencillo para que la portada con resumen quepa en una hoja; el 1.5 se recupera al final
+\singlespacing
 \thispagestyle{empty}
 % Encabezado igual al de portada1.tex: cada logo llena una columna de 2.25 cm y queda pegado al texto a 0.25 cm
 % (al de ESCOM se le recorta el blanco que trae a los lados la imagen). Suma exactamente \textwidth: 2.25 + 0.25 + texto + 0.25 + 2.25 cm,
@@ -18,7 +20,8 @@
 		\setlength{\parskip}{2pt}
 		{\fontsize{14}{17}\selectfont \textbf{INSTITUTO POLITÉCNICO NACIONAL}\par}
 		{\fontsize{11.5}{14}\selectfont \textbf{ESCUELA SUPERIOR DE CÓMPUTO}\par}
-		{\fontsize{11.5}{14}\selectfont \textbf{ESCOM}\par}
+		% Tercer renglón del encabezado de la portada con resumen según el formato del TT
+		{\fontsize{11.5}{14}\selectfont \textbf{SUBDIRECCIÓN ACADÉMICA}\par}
 	\end{minipage}%
 	\hspace{0.25cm}%
 	\begin{minipage}{2.25cm}
@@ -56,3 +59,4 @@
 \noindent\textbf{Palabras clave:} autómatas celulares, autómatas celulares neuronales, redes neuronales, sistemas complejos, simulación.
 
 \restoregeometry
+\onehalfspacing

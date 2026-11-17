@@ -23,7 +23,7 @@ La métrica principal es el porcentaje de células coincidentes entre las dos ev
 
 \subsection{Pruebas de rendimiento}
 
-Para las pruebas de rendimiento en la simulación se utilizó la regla B3/S23 con una población aleatoria del 50\% de células vivas. El rendimiento se analiza en el método \texttt{step()}, que ejecuta el paso evolutivo y se sincroniza con la GPU, y en el método \texttt{run()}, que ejecuta $N$ pasos consecutivos.
+Para las pruebas de rendimiento en la simulación se utilizó la regla B3/S23 con una población aleatoria del 50\% de células vivas. El rendimiento se analiza en el método \texttt{step()}, que ejecuta el paso evolutivo y se sincroniza con la GPU, y en el método \texttt{run()}, que ejecuta $N$ pasos consecutivos (tabla \ref{tab:perf-evolucion}).
 
 \begin{table}[H]
     \centering
@@ -43,7 +43,7 @@ La caída de \texttt{run()} respecto a \texttt{step()} cuantifica el costo de la
 
 \subsubsection{Velocidad de renderizado}
 
-El renderizado se mide en modo \texttt{offscreen} de Qt Platform Abstraction para aislar el costo de dibujar del costo del sistema de ventanas. Se contabiliza el tiempo medio entre \texttt{update()} y la finalización del \textit{repaint}.
+El renderizado se mide en modo \texttt{offscreen} de Qt Platform Abstraction para aislar el costo de dibujar del costo del sistema de ventanas. Se contabiliza el tiempo medio entre \texttt{update()} y la finalización del \textit{repaint} (tabla \ref{tab:perf-render}).
 
 \begin{table}[H]
     \centering

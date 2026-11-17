@@ -10,19 +10,19 @@ Los autómatas celulares neuronales son entonces un tipo de autómatas celulares
 	
 	Un autómata celular es neuronal si la regla local $\mathcal{R}$ está dada como:
 	\[
-	\mathcal{R} = F_\theta: \mathbb{R}^{|\mathcal{N}|} \to \mathbb{R}^1
+	\mathcal{R} = F_\theta: \mathbb{R}^{n} \to \mathbb{R}^{m}
 	\]
 	donde:
-	
+
 	\begin{itemize}
-		
+
 		\item $F_\theta$ es una red neuronal parametrizada por $\theta$.
-		
+
 		\item $ \theta = \{ w_{uv}, b_v : (u, v) \in E, v \in V \}$ es el conjunto de parámetros entrenables.
-		
-		\item $\mathbb{R}^{|\mathcal{N}|}$ es el espacio de entrada definido por la vecindad $\mathcal{N}$.
-		
-		\item $\mathbb{R}^1$ es el valor de salida que representa el nuevo estado de la célula central.
+
+		\item $\mathbb{R}^{n}$ es el espacio de entrada definido por la vecindad $\mathcal{N}$: $n = |\mathcal{N}|$ si cada vecino entra con su estado, o $n = k|\mathcal{N}|$ si el estado de cada vecino se codifica en \textit{one-hot}, con $k$ el número de estados.
+
+		\item $\mathbb{R}^{m}$ es el espacio de salida: con $m = 1$, la salida representa el nuevo estado de la célula central y, con $m = k$, cada salida corresponde a un estado y el nuevo estado es el de mayor valor.
 		
 	\end{itemize}
 	
@@ -70,7 +70,7 @@ Esta mezcla de comportamiento que aparece por sí mismo y la habilidad de aprend
 
 Los autómatas celulares neuronales surgen de la necesidad de definir funciones de transición más precisas que permitan mejorar la simulación de sistemas complejos, como por ejemplo la propagación del fuego. 
 
-Consideremos un autómata celular bidimensional con tres posibles estados: $\{ \text{materia viva}, \text{fuego}, \text{materia quemada} \}$, una vecindad de Moore y una función de transición definida por las siguientes reglas: si una célula en estado de materia viva se encuentra adyacente a una célula en estado de fuego, entonces se quema; y si una célula en estado de fuego está rodeada principalmente de materia quemada, entonces se apaga.
+Consideremos un autómata celular bidimensional con tres posibles estados: $\{ \text{materia viva},\allowbreak \text{fuego},\allowbreak \text{materia quemada} \}$, una vecindad de Moore y una función de transición definida por las siguientes reglas: si una célula en estado de materia viva se encuentra adyacente a una célula en estado de fuego, entonces se quema; y si una célula en estado de fuego está rodeada principalmente de materia quemada, entonces se apaga.
 
 Sin embargo, esta formulación que se basa en reglas claras es una simplificación excesiva que reduce la capacidad del modelo para imitar comportamientos que se ven en sistemas reales. Para superar esta limitación, los autómatas celulares neuronales incorporan mecanismos de aprendizaje automático que permiten definir la función de transición de manera adaptativa. 
 
@@ -301,7 +301,7 @@ Otra forma de implementar los autómatas celulares neuronales en 3D es mediante 
 
 Niklasson et al. \cite{mordvintsev2021_mnca} y Mordvintsev et al. \cite{mordvintsev2021_mnca2} \cite{mordvintsev2021_unca} introducen el concepto de texturas autoorganizadas, cuyo objetivo es reproducir la apariencia global de una textura de referencia sin generar copias exactas. Para esto, entrenan un autómata celular neuronal utilizando la misma estructura neuronal que se propuso en \cite{mordvintsev2020_nca}, para que pueda reconocer y crear patrones distintivos como tableros de ajedrez, líneas o mosaicos. Aunque este enfoque tiene un carácter demostrativo, constituye una evidencia significativa de que los autómatas celulares neuronales pueden aprender y generalizar comportamientos visuales locales en lugar de memorizar imágenes específicas.
 
-Pajouheshgar et al. proponen los autómatas celulares neuronales en mallas \cite{mordvintsev2024_mesh_nca}, que es un método para crear texturas en movimiento en superficies en 3D. A diferencia de los experimentos en cuadrículas de dos dimensiones, los autómatas celulares neuronales en mallas aplican el mecanismo de autoorganización a mallas de cualquier forma, incluso si están en movimiento. El modelo es consistente en diferentes situaciones, es resistente a cambios externos y permite ajustar características como la densidad, la dirección y la rotación de los patrones que aparecen. Además, varios autómatas celulares neuronales en mallas pueden combinarse, creando cambios suaves entre texturas sin interrupciones.
+Pajouheshgar et al. proponen los autómatas celulares neuronales en mallas \cite{mordvintsev2024_mesh_nca}, que es un método para crear texturas en movimiento en superficies en 3D. A diferencia de los experimentos en cuadrículas de dos dimensiones, los autómatas celulares neuronales en mallas aplican el mecanismo de autoorganización a mallas de cualquier forma, incluso si están en movimiento (figura \ref{fig:mesh}). El modelo es consistente en diferentes situaciones, es resistente a cambios externos y permite ajustar características como la densidad, la dirección y la rotación de los patrones que aparecen. Además, varios autómatas celulares neuronales en mallas pueden combinarse, creando cambios suaves entre texturas sin interrupciones.
 
 \begin{figure}[!htbp]
 	

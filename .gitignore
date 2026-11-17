@@ -28,3 +28,6 @@ Simulator/training/similitud.nb
 # No versionados: entregables y paletas de colores de la GUI
 Entregables/
 Simulator/GUI/colors/
+
+# Respaldos locales de la presentación
+Presentacion/*_antes_*

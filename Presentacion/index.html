@@ -1,0 +1,1988 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Presentación TT 2026-A114</title>
+<!--
+  Presentación final del TT 2026-A114.
+  Sigue el guion ~/Downloads/guion_completo_pitch_tt_2026_114.txt (2026-11-15): el texto del guion
+  está en las notas (tecla N), en los párrafos <p class="g">, corregido donde no coincidía con el
+  reporte. Los tiempos (<p class="t">) suponen 135 palabras por minuto y no cuentan las pausas en
+  los videos; se recalculan con  python3 media/tiempos.py index.html
+  Versiones anteriores: index_antes_guion.html (antes de seguir el guion) e index_antes_diseno.html
+  (antes del diseño final, 2026-11-16).
+
+  Diseño: guinda IPN (#75003e) y azul ESCOM (#006699), tomados de los logos. Tipografías Montserrat
+  (títulos), Noto Sans (texto), STIX Two Math (fórmulas) y Source Code Pro, copiadas en media/fonts.
+  La portada, los separadores y el cierre dibujan la regla 30 desde una célula (<svg class="ca">).
+  Los separadores (<section class="slide divider">) se llenan solos con el número y nombre de su
+  sección; el encabezado de cada diapositiva (número y sección) también lo agrega el script.
+
+  Abrir index.html en el navegador (Firefox o Chrome). No necesita internet ni servidor.
+  Controles:  → / Espacio / AvPág  siguiente      ← / RePág  anterior
+              Inicio / Fin  primera / última       F  pantalla completa
+              N  notas y cronómetro                T  reinicia el cronómetro
+              #n en la URL abre la diapositiva n (por ejemplo index.html#12)
+
+  Videos: copias en WebM (VP9) en media/videos/, generadas con media/convertir.sh a partir de los
+  MP4 de ../Entregables/Animation y ../Simulator/training/NCA (el Firefox de Flatpak no decodifica esos
+  MP4 H.264). Imágenes: todas están copiadas en media/img/ (desde ../ReporteTecnico/img y
+  ../Entregables/Presentacion/images), así que basta copiar la carpeta Presentacion completa para presentar
+  en otra computadora. Si un archivo no carga, en su lugar aparece un recuadro rojo con la ruta.
+
+  Cada diapositiva es un <section class="slide" data-section="...">: la sección alimenta el
+  índice automático, el pie de página y las notas (<aside class="notes">).
+  En las notas, los renglones con ⚠ son diferencias entre el guion y el reporte.
+  Las vecindades se dibujan con <div class="nb" data-from data-to data-skip="dx,dy;...">.
+-->
+<style>
+  /* ---------- Tipografía (archivos locales en media/fonts, licencia OFL) ---------- */
+  @font-face { font-family: "TT Sans"; src: url("media/fonts/NotoSans-VF.ttf") format("truetype"); font-weight: 100 900; font-style: normal; }
+  @font-face { font-family: "TT Sans"; src: url("media/fonts/NotoSans-Italic-VF.ttf") format("truetype"); font-weight: 100 900; font-style: italic; }
+  @font-face { font-family: "TT Display"; src: url("media/fonts/Montserrat-Medium.otf") format("opentype"); font-weight: 500; }
+  @font-face { font-family: "TT Display"; src: url("media/fonts/Montserrat-SemiBold.otf") format("opentype"); font-weight: 600; }
+  @font-face { font-family: "TT Display"; src: url("media/fonts/Montserrat-SemiBoldItalic.otf") format("opentype"); font-weight: 600; font-style: italic; }
+  @font-face { font-family: "TT Display"; src: url("media/fonts/Montserrat-Bold.otf") format("opentype"); font-weight: 700; }
+  @font-face { font-family: "TT Display"; src: url("media/fonts/Montserrat-BoldItalic.otf") format("opentype"); font-weight: 700; font-style: italic; }
+  @font-face { font-family: "TT Math"; src: url("media/fonts/STIXTwoMath-Regular.otf") format("opentype"); }
+  @font-face { font-family: "TT Mono"; src: url("media/fonts/SourceCodePro-Regular.otf") format("opentype"); }
+
+  /* ---------- Colores: guinda IPN y azul ESCOM (tomados de los logos) ---------- */
+  :root {
+    --guinda: #75003e;
+    --guinda-d: #4f002a;
+    --guinda-50: #fbf3f6;
+    --guinda-100: #f3e1e9;
+    --guinda-300: #c98aa6;
+    --azul: #006699;
+    --azul-d: #004a70;
+    --azul-50: #eef5f9;
+    --azul-100: #d3e6f0;
+    --ink: #1c1d21;
+    --ink-2: #43454c;
+    --muted: #6e7179;
+    --line: #e4e1e3;
+    --surface: #f6f4f5;
+    --ok: #1d7a46;
+    --mid: #a85c00;
+    --bad: #b3261e;
+    --bg: #ffffff;
+    --stage: #141416;
+    --sans: "TT Sans", "Noto Sans", system-ui, sans-serif;
+    --display: "TT Display", "Montserrat", "TT Sans", sans-serif;
+    --mono: "TT Mono", "Source Code Pro", monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--stage); overflow: hidden; }
+  body { font-family: var(--sans); color: var(--ink); -webkit-font-smoothing: antialiased; }
+  math { font-family: "TT Math", "STIX Two Math", "Latin Modern Math", math; }
+  b, strong { font-weight: 600; }
+
+  /* ---------- Lienzo fijo de 1920 × 1080 escalado a la ventana ---------- */
+  #deck {
+    position: absolute; left: 50%; top: 50%;
+    width: 1920px; height: 1080px;
+    transform-origin: 0 0;
+    background: var(--bg);
+    overflow: hidden;
+  }
+  .slide {
+    position: absolute; inset: 0;
+    display: none; flex-direction: column;
+    padding: 62px 110px 108px;
+    font-size: 30px; line-height: 1.42;
+  }
+  .slide.active { display: flex; }
+
+  /* Encabezado: sección (la agrega el script) y título */
+  .kicker {
+    display: flex; align-items: center; gap: 14px; margin: 0 0 16px;
+    font: 600 20px/1 var(--display); letter-spacing: .16em; text-transform: uppercase; color: var(--guinda);
+  }
+  .kicker::before { content: ""; width: 34px; height: 4px; border-radius: 2px; background: var(--guinda); }
+  .kicker .n { color: var(--guinda); }
+  .kicker .s { color: var(--muted); }
+  .slide > h2 {
+    margin: 0 0 38px; font: 700 52px/1.12 var(--display); color: var(--ink); letter-spacing: -.01em;
+  }
+  .slide h3 { margin: 0 0 14px; font: 600 28px/1.25 var(--display); color: var(--azul); }
+  :where(.slide) p { margin: 0 0 18px; }
+  .lead { font-size: 30px; color: var(--ink-2); margin: -14px 0 30px; max-width: 1500px; }
+  .sub { font-size: 23px; color: var(--muted); margin: -22px 0 30px !important; }
+  .note { font-size: 21px; line-height: 1.4; color: var(--muted); }
+  .small { font-size: 25px; }
+  .tiny { font-size: 19px; color: var(--muted); }
+  .muted { color: var(--muted); }
+  .big { font-size: 40px; }
+  .center { text-align: center; }
+
+  /* Viñetas en forma de célula */
+  :where(.slide) ul { list-style: none; padding: 0; margin: 0 0 22px; }
+  .slide ul > li { position: relative; padding-left: 36px; margin-bottom: 16px; }
+  .slide ul > li::before {
+    content: ""; position: absolute; left: 3px; top: .5em; width: 13px; height: 13px;
+    border-radius: 2px; background: var(--guinda);
+  }
+  .slide ul.small > li { padding-left: 32px; }
+  .slide ul.small > li::before { width: 11px; height: 11px; }
+  :where(.slide) ol { margin: 0 0 18px; padding-left: 1.2em; }
+
+  /* ---------- Rejillas ---------- */
+  .cols { display: grid; gap: 60px; flex: 1; min-height: 0; align-items: start; }
+  .c2 { grid-template-columns: 1fr 1fr; }
+  .c2-wide-left { grid-template-columns: 1.4fr 1fr; }
+  .c2-wide-right { grid-template-columns: 1fr 1.4fr; }
+  .c3 { grid-template-columns: repeat(3, 1fr); }
+  .c5 { grid-template-columns: repeat(5, 1fr); gap: 24px; }
+  .stack { display: flex; flex-direction: column; gap: 26px; min-width: 0; }
+  .stack > * { margin-bottom: 0 !important; }
+  .vcenter { align-items: center; }
+
+  /* ---------- Medios ---------- */
+  figure { margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 0; min-width: 0; }
+  figure img, figure video {
+    max-width: 100%; max-height: 640px; object-fit: contain; display: block; border-radius: 8px;
+  }
+  figure.frame img, figure.frame video {
+    box-shadow: 0 0 0 1px var(--line), 0 22px 44px -26px rgba(40, 10, 25, .45);
+  }
+  figure.h180 img, figure.h180 video { max-height: 180px; }
+  figure.h200 img, figure.h200 video { max-height: 200px; }
+  figure.h280 img, figure.h280 video { max-height: 280px; }
+  figure.h300 img, figure.h300 video { max-height: 300px; }
+  figure.h400 img, figure.h400 video { max-height: 400px; }
+  figure.h500 img, figure.h500 video { max-height: 500px; }
+  figure.h600 img, figure.h600 video { max-height: 600px; }
+  figure.h700 img, figure.h700 video { max-height: 700px; }
+  figure.h760 img, figure.h760 video { max-height: 760px; }
+  img.pix { image-rendering: pixelated; }
+  figcaption { margin-top: 14px; font-size: 20px; line-height: 1.38; color: var(--muted); text-align: center; max-width: 96%; }
+  figcaption b { color: var(--ink-2); }
+
+  /* ---------- Etiquetas, cifras y medición ---------- */
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 26px; }
+  .chip {
+    font-size: 21px; line-height: 1; padding: 9px 16px; border-radius: 999px; white-space: nowrap;
+    background: var(--guinda-50); color: var(--guinda-d); box-shadow: inset 0 0 0 1px var(--guinda-100);
+  }
+  .chip.azul { background: var(--azul-50); color: var(--azul-d); box-shadow: inset 0 0 0 1px var(--azul-100); }
+
+  .kpis { display: grid; grid-auto-columns: 1fr; grid-auto-flow: column; gap: 18px; }
+  .kpi { background: var(--surface); border-radius: 14px; padding: 20px 24px 18px; min-width: 0; }
+  .kpi .h { font: 600 16px/1 var(--display); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+  .kpi .v { font: 700 50px/1 var(--display); color: var(--guinda); letter-spacing: -.01em; white-space: nowrap; }
+  .kpi .v small { font-size: 24px; font-weight: 600; color: var(--ink-2); letter-spacing: 0; }
+  .kpi .l { margin-top: 10px; font-size: 20px; line-height: 1.35; color: var(--ink-2); }
+  .kpi.azul .v { color: var(--azul); }
+  .kpi.gris .v { color: var(--muted); }
+  .kpi.win { background: var(--guinda-50); box-shadow: inset 0 0 0 2px var(--guinda-100); }
+
+  .measure {
+    border-top: 3px solid var(--azul); background: var(--azul-50); border-radius: 0 0 12px 12px;
+    padding: 16px 24px 16px; font-size: 20px; line-height: 1.38; color: var(--ink-2);
+  }
+  .measure .lbl, .metric h4 {
+    margin: 0 0 4px; font: 600 15px/1 var(--display); letter-spacing: .16em; text-transform: uppercase; color: var(--azul);
+  }
+  .measure math { font-size: 28px; }
+  .measure math[display="block"] { margin: 10px 0 6px; }
+  .measure p { margin: 0; }
+  .measure .eqs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 26px; align-items: start; }
+  .measure .eqs math { font-size: 25px; }
+  .measure.row { display: flex; align-items: center; gap: 34px; }
+  .measure.row > div { flex: 1; }
+  .measure .res { margin-top: 6px; color: var(--ink); }
+  .measure.row .res { flex: 0 0 380px; margin: 0; }
+  .measure .tres { display: grid; grid-template-columns: 0.95fr 1.15fr 0.9fr; gap: 0 34px; align-items: start; }
+  .measure .tres > div + div { border-left: 1px solid var(--azul-100); padding-left: 30px; }
+  .measure .tres math { font-size: 25px; }
+  .measure .tres math[display="block"] { margin: 6px 0 8px; }
+
+  /* Anexos: equipo, pruebas, preprocesamiento y casos de uso */
+  .hw { background: var(--surface); border-radius: 14px; padding: 24px 30px 22px; border-left: 5px solid var(--guinda); }
+  .hw.azul { border-left-color: var(--azul); }
+  .hw .k { font: 600 16px/1.2 var(--display); letter-spacing: .14em; text-transform: uppercase; color: var(--guinda); margin-bottom: 16px; }
+  .hw.azul .k { color: var(--azul); }
+  .hw dl { display: grid; grid-template-columns: 140px 1fr; gap: 10px 20px; margin: 0; font-size: 23px; line-height: 1.3; }
+  .hw dt { color: var(--muted); font-size: 19px; padding-top: 3px; }
+  .hw dd { margin: 0; color: var(--ink); }
+  .test { background: var(--surface); border-radius: 14px; padding: 26px 30px; font-size: 22px; line-height: 1.42; color: var(--ink-2); display: flex; flex-direction: column; gap: 14px; }
+  .test .k { font: 600 16px/1.2 var(--display); letter-spacing: .14em; text-transform: uppercase; color: var(--azul); }
+  .test p { margin: 0; }
+  .test .ok { color: var(--ok); font-weight: 600; }
+  .test .ok::before { content: "✓  "; }
+  .test ul { margin: 0; }
+  .test ul > li { margin-bottom: 8px; }
+  .resultados { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 30px; }
+  .robust { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; margin-top: 26px; font-size: 20px; color: var(--ink-2); }
+  .robust b { font: 600 16px/1 var(--display); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-right: 6px; }
+  .robust span { background: var(--surface); border-radius: 999px; padding: 8px 18px; }
+  .prep { display: flex; flex-direction: column; gap: 14px; flex: 1; justify-content: center; }
+  .prep .p { display: grid; grid-template-columns: 128px 1fr; gap: 26px; align-items: center; }
+  .prep .p img { width: 128px; height: 128px; object-fit: cover; border-radius: 8px; }
+  .prep .p > div, .pasos > div { font-size: 22px; line-height: 1.4; color: var(--ink-2); }
+  .prep .p b, .pasos b { display: block; font: 600 23px/1.25 var(--display); color: var(--ink); margin-bottom: 4px; }
+  .prep .p b i, .pasos b i { font-style: normal; color: var(--guinda); margin-right: 10px; }
+  .pasos { display: flex; flex-direction: column; gap: 22px; }
+  .pasos.g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px 40px; }
+  .ley7 { display: flex; gap: 6px; justify-content: center; margin-top: 14px; font-size: 18px; }
+  .ley7 span { width: 46px; padding: 5px 0; text-align: center; border-radius: 4px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.15); }
+  .ley7 .t { width: auto; box-shadow: none; color: var(--muted); padding-right: 8px; }
+  table.aire td { padding: 24px 18px; }
+  .ucd { display: block; width: 100%; height: auto; max-height: 800px; font-family: var(--sans); margin: auto 0; }
+  .ucd .uc { fill: var(--azul-50); stroke: var(--azul); stroke-width: 2; }
+  .ucd .ut { font-size: 19px; fill: var(--ink); text-anchor: middle; }
+  .ucd .as { stroke: #8a8d94; stroke-width: 1.6; }
+  .ucd .dep { stroke: var(--guinda); stroke-width: 1.8; stroke-dasharray: 7 5; }
+  .ucd .st { font-size: 15px; fill: var(--guinda); font-style: italic; paint-order: stroke; stroke: #fff; stroke-width: 6px; stroke-linejoin: round; }
+  .ucd .fr { fill: none; stroke: var(--ink-2); stroke-width: 2; }
+  .ucd .tab { fill: var(--surface); stroke: var(--ink-2); stroke-width: 2; }
+  .ucd .ft { font: 600 20px var(--display); fill: var(--ink); }
+  .ucd .actor * { fill: #fff; stroke: var(--ink); stroke-width: 2.4; }
+
+  /* ---------- Tablas ---------- */
+  table { border-collapse: collapse; font-size: 24px; margin: 0 auto; font-variant-numeric: tabular-nums lining-nums; }
+  th, td { padding: 9px 18px; text-align: center; }
+  th { font-weight: 600; font-size: 19px; color: var(--muted); border-bottom: 2px solid var(--ink); white-space: nowrap; }
+  td { border-bottom: 1px solid var(--line); }
+  td.l, th.l { text-align: left; }
+  tr.sep td { border-top: 2px solid var(--ink-2); }
+  tr.hl td { background: var(--guinda-50); color: var(--guinda-d); font-weight: 600; }
+  td.hl, th.hl { background: var(--guinda-50); color: var(--guinda-d); font-weight: 600; }
+  tr.grupo td { background: var(--surface); font-weight: 600; color: var(--ink-2); }
+  table.small { font-size: 22px; }
+  table.small th { font-size: 18px; }
+  table.compact { font-size: 20px; margin: 0; }
+  table.compact th, table.compact td { padding: 3px 12px; }
+  .si { color: var(--ok); font-weight: 600; }
+  .parcial { color: var(--mid); font-weight: 600; }
+  .no { color: var(--bad); font-weight: 600; }
+  .pill { display: inline-block; font: 600 18px/1 var(--sans); padding: 8px 16px; border-radius: 999px; white-space: nowrap; }
+  .pill.si { background: #e5f2ea; }
+  .pill.parcial { background: #fbefdf; }
+  .pill.no { background: #fbe8e7; }
+
+  /* ---------- Huecos de contenido y archivos faltantes ---------- */
+  .pendiente {
+    border: 3px dashed var(--mid); color: var(--mid);
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    padding: 24px; font-size: 26px; min-height: 260px; width: 100%;
+  }
+  .falta {
+    border: 3px dashed #c00; color: #c00; background: #fff4f4;
+    padding: 18px; font: 20px/1.3 var(--mono); word-break: break-all; width: 100%;
+  }
+
+  /* ---------- Recuadros ---------- */
+  .box { background: var(--surface); border-radius: 14px; padding: 26px 30px; }
+  .box.alt { background: var(--azul-50); }
+  .box h3 { margin-bottom: 10px; }
+  .box p:last-child { margin-bottom: 0; }
+
+  /* Hipótesis */
+  .quote {
+    position: relative; margin: auto 0; max-width: 1560px; padding: 10px 0 10px 110px;
+    font: 400 46px/1.45 var(--sans); color: var(--ink);
+  }
+  .quote::before {
+    content: "“"; position: absolute; left: -6px; top: -54px;
+    font: 700 220px/1 var(--display); color: var(--guinda-100);
+  }
+  .quote b { color: var(--guinda); font-weight: 600; }
+
+  /* Del sistema a la regla */
+  .def { border-left: 5px solid var(--guinda); padding: 4px 0 4px 28px; margin-bottom: 52px; font-size: 32px; color: var(--ink-2); }
+  .def b { display: block; font: 600 20px/1 var(--display); letter-spacing: .16em; text-transform: uppercase; color: var(--guinda); margin-bottom: 14px; }
+  .flow { margin-bottom: 34px; }
+  .flow .tag { font: 600 17px/1 var(--display); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+  .flow .steps { display: flex; align-items: center; gap: 14px; font-size: 25px; }
+  .flow .steps span { padding: 12px 22px; border-radius: 10px; background: var(--surface); color: var(--ink-2); white-space: nowrap; }
+  .flow .steps i { font-style: normal; color: var(--muted); }
+  .flow.hl .tag { color: var(--guinda); }
+  .flow.hl .steps span { background: var(--guinda-50); color: var(--guinda-d); }
+  .flow.hl .steps span.dest { background: var(--guinda); color: #fff; font-weight: 600; }
+
+  /* Arquitectura */
+  .capas { display: flex; flex-direction: column; gap: 18px; align-self: center; }
+  .capa { display: flex; flex-direction: column; gap: 4px; padding: 20px 26px; border-radius: 12px; background: var(--surface); border-left: 5px solid var(--guinda); }
+  .capa.azul { border-left-color: var(--azul); }
+  .capa .k { font: 600 17px/1 var(--display); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .capa .v { font: 600 32px/1.2 var(--display); color: var(--ink); }
+
+  /* Comando de entrenamiento */
+  .cmdpanel { background: #1e1b20; color: #f1ecef; border-radius: 14px; padding: 24px 28px; align-self: center; box-shadow: 0 22px 44px -26px rgba(40, 10, 25, .6); }
+  .cmdpanel h3 { color: var(--guinda-300); font-size: 17px; letter-spacing: .16em; text-transform: uppercase; margin-bottom: 14px; }
+  pre.cmd { font: 19px/1.6 var(--mono); margin: 0; white-space: pre-wrap; word-break: break-word; }
+  pre.cmd .o { color: #f3b8cf; }
+
+  /* Experimentos: dos filas con miniaturas */
+  .exp-grid { display: flex; flex-direction: column; justify-content: center; gap: 40px; flex: 1; padding-bottom: 20px; }
+  .exp-row { display: grid; grid-template-columns: 270px repeat(3, minmax(0, 1fr)); gap: 24px; align-items: stretch; }
+  .exp-lab {
+    display: flex; flex-direction: column; justify-content: center; gap: 12px;
+    font: 600 24px/1.25 var(--display); color: var(--guinda); border-right: 4px solid var(--guinda); padding-right: 22px;
+  }
+  .exp-lab small { font: 500 19px/1.3 var(--sans); color: var(--muted); }
+  .exp-row.azul .exp-lab { color: var(--azul); border-color: var(--azul); }
+  .exp-card { display: flex; align-items: center; gap: 22px; padding: 16px; border-radius: 14px; background: var(--surface); font: 600 24px/1.25 var(--display); color: var(--ink); min-width: 0; }
+  .exp-card img { width: 220px; height: 220px; object-fit: cover; flex: none; border-radius: 8px; background: #fff; }
+  .exp-card small { display: block; margin-top: 6px; font: 500 19px/1 var(--sans); color: var(--muted); letter-spacing: .04em; }
+
+  /* Vecindades dibujadas */
+  .nb { display: inline-grid; gap: 3px; --c: 40px; }
+  .nb span { width: var(--c); height: var(--c); background: #b9d6e8; position: relative; border-radius: 2px; }
+  .nb span.c { background: var(--azul); }
+  .nb span.off { background: #fff; box-shadow: inset 0 0 0 3px var(--bad); }
+  .nb span.off::after {
+    content: "×"; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    color: var(--bad); font-size: calc(var(--c) * 0.8); line-height: 1;
+  }
+  .nb-row { display: flex; gap: 40px; justify-content: space-between; margin-bottom: 34px; }
+  .nb-fig { display: flex; flex-direction: column; align-items: center; gap: 10px; font-size: 21px; color: var(--ink-2); text-align: center; flex: 1; }
+  .nb-fig .v { font: 700 46px/1 var(--display); color: var(--guinda); margin-top: 12px; }
+  .nb-fig .v.ok { color: var(--azul); }
+  .nb-fig small { font-size: 18px; color: var(--muted); }
+
+  /* Paletas de estados */
+  .sw { display: inline-block; width: 30px; height: 20px; border-radius: 3px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.18); vertical-align: middle; }
+  .states17 { display: grid; grid-template-columns: repeat(17, 1fr); gap: 4px; font-size: 19px; text-align: center; }
+  .states17 span { padding: 8px 0; border-radius: 4px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.12); }
+  .states17 .lab { box-shadow: none; padding: 2px 0 0; font-size: 17px; color: var(--muted); border-top: 2px solid var(--line); }
+  .vec { display: flex; align-items: center; gap: 16px; margin: 0; font-size: 21px; }
+  .vec .lab { width: 170px; flex: none; color: var(--muted); }
+  .vec .cells { display: grid; grid-template-columns: repeat(17, 1fr); gap: 4px; flex: 1; }
+  .vec .cells span, .vec .one { border: 2px solid var(--azul-100); border-radius: 4px; text-align: center; padding: 3px 0; font: 20px var(--mono); color: var(--muted); }
+  .vec .one { width: 56px; border-color: var(--azul); color: var(--ink); }
+  .vec .cells span.on { background: var(--azul); border-color: var(--azul); color: #fff; }
+  .vecs { display: flex; flex-direction: column; gap: 10px; }
+
+  /* Barra de 18 estados (FLAME 3) */
+  .bar18 { display: grid; grid-template-columns: repeat(18, 1fr); gap: 4px; }
+  .bar18 span { height: 54px; border-radius: 4px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.14); display: flex; align-items: flex-end; justify-content: center; padding-bottom: 4px; font-size: 16px; color: rgba(0,0,0,.6); }
+  .bar18 span.dk { color: rgba(255,255,255,.8); }
+  .bar18-lab { display: grid; grid-template-columns: 12fr 6fr; gap: 4px; margin-top: 10px; font-size: 20px; color: var(--ink-2); }
+  .bar18-lab div { border-top: 3px solid var(--line); padding-top: 8px; }
+  .bar18-lab b { color: var(--ink); }
+  .pasos5 { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr auto 1fr; gap: 14px; align-items: center; }
+  .pasos5 > i { font-style: normal; font-size: 30px; color: var(--muted); }
+  .pasos5 figure img { border-radius: 8px; max-height: 280px; }
+
+  /* Leyenda de seis estados (Physarum) */
+  .legend6 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 26px; font-size: 22px; color: var(--ink-2); }
+  .legend6 div { display: flex; align-items: center; gap: 12px; }
+  .legend6 .sw { width: 34px; height: 24px; }
+
+  /* Diagrama de la configuración base */
+  .pipe { display: flex; align-items: stretch; gap: 14px; margin-top: 10px; }
+  .st {
+    position: relative; flex: 1; border-radius: 16px; background: var(--surface);
+    padding: 30px 18px 22px; text-align: center; display: flex; flex-direction: column; align-items: center;
+    gap: 10px; font-size: 25px; line-height: 1.25;
+  }
+  .st b { font: 600 25px/1.25 var(--display); color: var(--ink); }
+  .st .vis { height: 190px; display: flex; align-items: center; justify-content: center; }
+  .st small { font-size: 20px; color: var(--muted); }
+  .st .num {
+    position: absolute; top: -18px; left: -12px; width: 46px; height: 46px; border-radius: 50%;
+    background: var(--guinda); color: #fff; font: 700 22px/1 var(--display);
+    display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 5px #fff;
+  }
+  .pipe .ar { align-self: center; font-size: 36px; color: var(--muted); }
+  .st.row { flex-direction: row; text-align: left; gap: 30px; padding: 26px 30px; }
+  .st.row .txt { display: flex; flex-direction: column; gap: 6px; }
+  .st.warn { background: #fdf4ea; }
+  .st.warn .num { background: var(--mid); }
+  .ohv { display: flex; flex-direction: column; gap: 4px; }
+  .ohv i { width: 40px; height: 24px; border: 2px solid var(--azul-100); border-radius: 3px; font: normal 16px/20px var(--mono); text-align: center; color: var(--muted); }
+  .ohv i.on { background: var(--azul); border-color: var(--azul); color: #fff; }
+  .layers { display: flex; gap: 46px; }
+  .layers .colm { display: flex; flex-direction: column; justify-content: center; gap: 6px; }
+  .layers .colm i { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--ink-2); display: block; }
+  .layers .colm i.on { background: var(--guinda); border-color: var(--guinda); }
+  .nextcell { width: 80px; height: 80px; background: var(--azul); border-radius: 4px; box-shadow: 0 0 0 4px var(--guinda-100); }
+
+  /* Investigaciones */
+  .badges { display: flex; flex-wrap: wrap; gap: 10px; }
+  .badges span { font-size: 19px; padding: 8px 14px; border-radius: 8px; background: var(--surface); color: var(--ink-2); }
+
+  /* Conclusiones y trabajo futuro */
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; flex: 1; align-content: center; padding-bottom: 30px; }
+  .card { position: relative; background: var(--surface); border-radius: 16px; padding: 34px 40px 36px 116px; font-size: 25px; line-height: 1.45; color: var(--ink-2); min-height: 250px; }
+  .card h3 { font-size: 30px; }
+  .card .n { position: absolute; left: 34px; top: 32px; font: 700 42px/1 var(--display); color: var(--guinda-300); }
+  .card h3 { color: var(--ink); margin-bottom: 8px; }
+  .card.azul .n { color: #7fb3cf; }
+  .cards.cinco { grid-template-columns: repeat(6, 1fr); gap: 28px; }
+  .cards.cinco .card { grid-column: span 2; min-height: 0; padding: 32px 34px 34px 100px; font-size: 24px; }
+  .cards.cinco .card:nth-child(n+4) { grid-column: span 3; }
+  .cards.cinco .card .n { left: 30px; top: 30px; font-size: 38px; }
+  .cards.cinco .card h3 { font-size: 28px; }
+  .aport { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 30px; }
+  .aport > div { border-top: 4px solid var(--guinda); padding-top: 14px; font-size: 22px; line-height: 1.4; color: var(--ink-2); }
+  .aport > div.azul { border-color: var(--azul); }
+  .aport b { display: block; font: 600 16px/1 var(--display); letter-spacing: .14em; text-transform: uppercase; color: var(--guinda); margin-bottom: 10px; }
+  .aport > div.azul b { color: var(--azul); }
+
+  /* ---------- Portada ---------- */
+  .slide.portada { padding: 0; flex-direction: row; }
+  .portada .izq { flex: 1 1 0; display: flex; flex-direction: column; justify-content: space-between; padding: 76px 90px 70px 110px; }
+  .portada .der { width: 640px; flex: none; background: var(--guinda); position: relative; overflow: hidden; }
+  .portada .logos { display: flex; align-items: center; gap: 30px; }
+  .portada .logos img { height: 104px; }
+  .portada .logos img + img { height: 84px; }
+  .portada .inst { margin-left: 10px; padding-left: 30px; border-left: 2px solid var(--line); font: 600 22px/1.45 var(--display); letter-spacing: .06em; text-transform: uppercase; color: var(--ink); }
+  .portada .inst span { color: var(--muted); font-weight: 500; }
+  .portada .kicker { margin-bottom: 26px; }
+  .portada h1 { margin: 0; font: 700 70px/1.1 var(--display); color: var(--ink); letter-spacing: -.015em; max-width: 1060px; }
+  .portada .bar { width: 120px; height: 6px; border-radius: 3px; background: var(--guinda); margin: 48px 0 40px; }
+  .portada dl { display: grid; grid-template-columns: 170px 1fr; gap: 14px 0; margin: 0; align-items: baseline; }
+  .portada dt { font: 600 17px/1 var(--display); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  .portada dd { margin: 0; font-size: 31px; color: var(--ink); }
+  .portada dd b { font-weight: 600; }
+  .portada .fecha { font: 500 22px/1 var(--display); letter-spacing: .08em; color: var(--muted); }
+
+  /* Patrón de autómata celular (portada, separadores y cierre) */
+  svg.ca { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+  /* ---------- Separadores de sección ---------- */
+  .slide.divider, .slide.cierre { background: var(--guinda); color: #fff; padding: 0 110px; justify-content: center; overflow: hidden; }
+  .divider .contenido, .cierre .contenido { position: relative; z-index: 1; }
+  .divider .num { font: 700 220px/0.9 var(--display); color: rgba(255,255,255,.16); letter-spacing: -.02em; }
+  .divider h2 { margin: 18px 0 0; font: 700 84px/1.08 var(--display); color: #fff; max-width: 1100px; }
+  .divider .mapa {
+    position: absolute; left: 110px; right: 110px; bottom: 64px; z-index: 1;
+    display: flex; gap: 0; list-style: none; padding: 0; margin: 0;
+    font: 500 19px/1.25 var(--display); color: rgba(255,255,255,.5);
+  }
+  .divider .mapa li { flex: 1; padding: 16px 26px 0 0; border-top: 3px solid rgba(255,255,255,.22); }
+  .divider .mapa li.hecho { border-top-color: rgba(255,255,255,.55); }
+  .divider .mapa li.cur { color: #fff; border-top-color: #fff; font-weight: 600; }
+  .divider .ca-wrap, .cierre .ca-wrap { position: absolute; top: 0; right: 0; bottom: 0; width: 760px; }
+
+  /* Cierre */
+  .cierre .grande { font: 700 150px/1 var(--display); letter-spacing: -.02em; }
+  .cierre .pq { margin-top: 26px; font: 500 40px/1.2 var(--display); color: rgba(255,255,255,.8); }
+  .cierre .firma { margin-top: 90px; font-size: 26px; line-height: 1.6; color: rgba(255,255,255,.75); }
+  .cierre .firma b { color: #fff; }
+
+  /* ---------- Índice automático ---------- */
+  #agenda { list-style: none; padding: 0; margin: 0; counter-reset: sec; max-width: 1360px; }
+  #agenda li {
+    counter-increment: sec; display: flex; align-items: baseline; gap: 34px;
+    padding: 19px 4px; border-bottom: 1px solid var(--line);
+    font: 500 36px/1.2 var(--display); color: var(--ink); cursor: pointer;
+  }
+  #agenda li:first-child { border-top: 1px solid var(--line); }
+  #agenda li::before { content: counter(sec, decimal-leading-zero); width: 64px; font-weight: 700; color: var(--guinda); }
+  #agenda li:hover { color: var(--guinda); }
+  #agenda li.menor { font-size: 28px; color: var(--muted); padding: 14px 4px; }
+  #agenda li.menor::before { color: var(--guinda-300); }
+  #agenda .n { margin-left: auto; font: 500 19px/1 var(--sans); color: var(--muted); }
+
+  /* ---------- Referencias ---------- */
+  .refs { font-size: 19.5px; line-height: 1.38; padding-left: 2.4em; margin: 0; columns: 2; column-gap: 64px; }
+  .refs li { margin-bottom: 11px; break-inside: avoid; padding-left: 4px; }
+  .refs li::marker { color: var(--guinda); font-weight: 600; }
+
+  /* ---------- Pie de página ---------- */
+  .footer {
+    position: absolute; left: 110px; right: 110px; bottom: 24px; height: 52px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid var(--line); padding-top: 4px;
+    font-size: 17px; color: var(--muted);
+  }
+  .footer .who { display: flex; align-items: center; gap: 14px; }
+  .footer .who img { height: 30px; }
+  .footer .who img + img { height: 24px; margin-right: 8px; }
+  .footer .num { font: 600 18px/1 var(--display); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  .footer .num span { color: var(--muted); font-weight: 500; }
+  .progress { position: absolute; left: 0; bottom: 0; height: 5px; background: var(--guinda); }
+  .slide.portada .footer, .slide.divider .footer, .slide.cierre .footer, .slide.centro .footer { display: none; }
+  .slide.portada .progress, .slide.divider .progress, .slide.cierre .progress { display: none; }
+
+  /* ---------- Notas del presentador ---------- */
+  #notes {
+    position: fixed; right: 16px; bottom: 16px; width: min(640px, calc(100vw - 32px));
+    max-height: 72vh; overflow: auto; display: none; z-index: 10;
+    background: rgba(22, 18, 21, .95); color: #f0ecee; border-radius: 12px;
+    padding: 16px 20px; font: 16px/1.5 var(--sans); box-shadow: 0 12px 40px rgba(0,0,0,.4);
+  }
+  #notes.on { display: block; }
+  #notes .head { display: flex; justify-content: space-between; color: #bbb; margin-bottom: 8px; font-size: 14px; }
+  #notes .timer { font: 600 22px var(--mono); color: #fff; }
+  #notes p { margin: 0 0 8px; }
+  #notes .warn { color: #ffc861; }
+  #notes .t { color: #9fc5ff; font-weight: 600; }
+  #notes .muted { color: #aaa; }
+  aside.notes { display: none; }
+</style>
+</head>
+<body>
+<div id="deck">
+
+<!-- ==================================================================== -->
+<!-- PORTADA                                                               -->
+<!-- ==================================================================== -->
+<section class="slide portada" data-section="Portada">
+  <div class="izq">
+    <div class="logos">
+      <img src="media/img/ipn_logo2.png" alt="IPN">
+      <img src="media/img/escom_logo2.png" alt="ESCOM">
+      <div class="inst">Instituto Politécnico Nacional<br><span>Escuela Superior de Cómputo</span></div>
+    </div>
+    <div>
+      <div class="kicker">Trabajo Terminal 2026-A114</div>
+      <h1>Simulación de sistemas complejos mediante autómatas celulares neuronales</h1>
+      <div class="bar"></div>
+      <dl>
+        <dt>Presenta</dt><dd><b>Angeles Lopez Erick Jesse</b></dd>
+        <dt>Director</dt><dd>Dr. Juárez Martínez Genaro</dd>
+      </dl>
+    </div>
+    <div class="fecha">Diciembre, 2026</div>
+  </div>
+  <div class="der"><svg class="ca" data-cell="20" data-start="0.62"></svg></div>
+  <aside class="notes">
+    <p class="t">⏱ 0:00 → 0:10</p>
+    <p class="g">Hola, mi nombre es Erick Yesi Ángeles López y vengo a presentarles el Trabajo Terminal 2026-114: "Simulación de sistemas complejos mediante autómatas celulares neuronales".</p>
+  </aside>
+</section>
+
+<!-- ==================================================================== -->
+<!-- CONTENIDO (se llena solo con las secciones)                           -->
+<!-- ==================================================================== -->
+<section class="slide" data-section="Contenido">
+  <h2>Contenido</h2>
+  <ol id="agenda"></ol>
+  <aside class="notes">
+    <p class="t">⏱ 0:10 → 0:28</p>
+    <p class="g">A lo largo de la presentación veremos un breve resumen sobre el desarrollo del proyecto, cómo se construyó el simulador, los seis experimentos realizados, dos investigaciones adicionales que respaldaron este trabajo, así como las conclusiones y el trabajo futuro.</p>
+    <p class="muted">Cada renglón del índice es clicable (útil en las preguntas para saltar a Anexos).</p>
+  </aside>
+</section>
+
+<!-- ==================================================================== -->
+<!-- 1. INTRODUCCIÓN                                                       -->
+<!-- ==================================================================== -->
+<section class="slide" data-section="Introducción">
+  <h2>Del sistema a la regla</h2>
+  <div class="cols vcenter" style="grid-template-columns: 1fr 0.86fr; gap:80px">
+    <div>
+      <p class="def"><b>Autómata celular</b>Conjunto de células que actualizan su estado con una función de transición que depende de los estados de sus vecinas.</p>
+      <div class="flow">
+        <div class="tag">Enfoque tradicional</div>
+        <div class="steps"><span>Regla</span><i>→</i><span>Evolución</span><i>→</i><span>Análisis</span></div>
+      </div>
+      <div class="flow hl">
+        <div class="tag">Este trabajo</div>
+        <div class="steps"><span>Evolución observada</span><i>→</i><span>Perceptrón multicapa</span><i>→</i><span class="dest">Regla local</span></div>
+      </div>
+    </div>
+    <figure>
+      <img src="media/img/NCA.png" alt="Esquema del autómata celular neuronal">
+      <figcaption>La red neuronal toma la vecindad en el paso <i>N</i> y da el estado de la célula en el paso <i>N</i> + 1.</figcaption>
+    </figure>
+  </div>
+  <aside class="notes">
+    <p class="t">⏱ 0:28 → 1:06</p>
+    <p class="g">De manera muy sencilla, un autómata celular es un conjunto de células que actualizan sus estados siguiendo una función de transición que depende de los estados de sus vecinas. El enfoque tradicional para estudiar estos sistemas consiste en definir primero la regla del autómata celular y después analizar cómo evoluciona. En esta investigación hacemos el proceso inverso: le damos al sistema la evolución observada y, mediante una red neuronal —específicamente un perceptrón multicapa—, la entrenamos para inferir la regla local que da vida a ese sistema.</p>
+  </aside>
+</section>
+
+<section class="slide" data-section="Introducción">
+  <h2>Hipótesis</h2>
+  <div class="quote">
+    Si la función de transición de un autómata celular se define mediante <b>una red neuronal entrenada con la evolución de un sistema</b>, entonces es posible <b>inferir una regla local que reproduzca dicha evolución</b>.
+  </div>
+  <aside class="notes">
+    <p class="t">⏱ 1:06 → 1:23</p>
+    <p class="g">Nuestra hipótesis es la siguiente: si la función de transición de un autómata celular se define mediante una red neuronal entrenada con la evolución de un sistema, entonces es posible inferir una regla local que reproduzca dicha evolución.</p>
+  </aside>
+</section>
+
+<!-- ==================================================================== -->
+<!-- 2. CONSTRUCCIÓN DEL SIMULADOR                                         -->
+<!-- ==================================================================== -->
+<section class="slide divider" data-section="Construcción del simulador">
+  <aside class="notes"><p class="muted">Separador de sección.</p></aside>
+</section>
+
+<section class="slide" data-section="Construcción del simulador">
+  <h2>Arquitectura del sistema</h2>
+  <div class="cols vcenter" style="grid-template-columns: 470px 1fr; gap:80px">
+    <div class="capas">
+      <div class="capa"><span class="k">Interfaz gráfica</span><span class="v">PyQt5</span></div>
+      <div class="capa"><span class="k">Controlador</span><span class="v">Python</span></div>
+      <div class="capa"><span class="k">Núcleo de cómputo</span><span class="v">C++ y CUDA</span></div>
+      <div class="capa azul"><span class="k">Entrenamiento</span><span class="v">PyTorch</span></div>
+    </div>
+    <figure>
+      <img src="media/img/flowchartDiagram.png" alt="Diagrama de arquitectura" style="max-height:740px">
+    </figure>
+  </div>
+  <aside class="notes">
+    <p class="t">⏱ 1:23 → 1:48</p>
+    <p class="g">Para lograr esto se diseñó una arquitectura con el patrón Modelo-Vista-Controlador. Cuenta con una interfaz gráfica desarrollada en PyQt, un controlador en Python, y toda la parte lógica y el núcleo de cómputo programados de manera manual en C++ y CUDA sin utilizar librerías externas de simulación. Además, se integra un módulo de entrenamiento desarrollado en PyTorch.</p>
+  </aside>
+</section>
+
+<section class="slide" data-section="Construcción del simulador">
+  <h2>Interfaz del simulador</h2>
+  <figure class="frame">
+    <img src="media/img/ui_main.png" alt="Pestaña de simulación" style="max-height:720px">
+  </figure>
+  <aside class="notes">
+    <p class="t">⏱ 1:48 → 2:13</p>
+    <p class="g">En la primera interfaz, correspondiente al simulador, podemos ejecutar autómatas celulares en dos dimensiones definiendo vecindades semitotalísticas, el número de estados y el vector de regla de cada sistema. Contamos con los controles y el espacio visual para manipularlos, y en esta misma interfaz podemos evolucionar tanto el autómata celular tradicional como el autómata celular neuronal.</p>
+    <p class="muted">Pendiente: la grabación de la GUI (definir B3/S23, dibujar, reproducir, cargar un .npz y alternar con el NCA) puede reemplazar esta captura.</p>
+  </aside>
+</section>
+
+<section class="slide" data-section="Construcción del simulador">
+  <h2>Interfaz de entrenamiento</h2>
+  <div class="cols vcenter" style="grid-template-columns: auto 1fr; gap:72px">
+    <figure class="frame">
+      <img src="media/img/ui_training_config.png" alt="Pestaña de entrenamiento: configuración" style="max-height:780px">
+    </figure>
+    <div class="stack" style="gap:20px">
+      <div class="cmdpanel" style="align-self:stretch">
+        <h3>Comando equivalente</h3>
+        <pre class="cmd" style="font-size:23px">python main.py \
+  <span class="o">--data</span> NCA/B3S23/t_0001.mat \
+  <span class="o">--output</span> tmp.npz \
+  <span class="o">--neighbourhood</span> -1,-1 0,-1 1,-1 \
+                  -1,0  0,0  1,0 \
+                  -1,1  0,1  1,1 \
+  <span class="o">--layers</span> 64:relu \
+  <span class="o">--out-size</span> 1 <span class="o">--out-act</span> sigmoid \
+  <span class="o">--epochs</span> 20000 <span class="o">--batch</span> 8192 \
+  <span class="o">--lr</span> 0.001 <span class="o">--lr-schedule</span> exp <span class="o">--lr-min</span> 1e-06 \
+  <span class="o">--loss-target</span> 0.01 \
+  <span class="o">--print-every</span> 50</pre>
+      </div>
+      <p class="note">La interfaz arma este comando con la configuración de la izquierda y lo ejecuta en un proceso aparte.</p>
+    </div>
+  </div>
+  <aside class="notes">
+    <p class="t">⏱ 2:13 → 2:52</p>
+    <p class="g">La segunda interfaz está dedicada a la configuración y ejecución del entrenamiento. En ella definimos el conjunto de datos, la vecindad, la arquitectura de la red neuronal —número de capas ocultas, neuronas por capa y funciones de activación— así como parámetros clave como el número de épocas, tamaño de lote, semilla aleatoria, pérdida objetivo, codificación one-hot y tipo de frontera, ya sea periódica o abierta. Este módulo puede ejecutarse directamente desde la línea de comandos; la interfaz facilita construir el comando exacto que define el entrenamiento de la red.</p>
+    <p class="muted">La función de pérdida no se elige: main.py usa entropía cruzada con varias salidas y entropía cruzada binaria con una. Lo que se define es la pérdida objetivo.</p>
+    <p class="muted">El comando es el que la interfaz armó con la configuración de la captura; aparecía en el registro de la pestaña (la terminal de la derecha, que se recortó). Las rutas se acortaron.</p>
+  </aside>
+</section>
+
+<!-- ==================================================================== -->
+<!-- 3. EXPERIMENTOS                                                       -->
+<!-- ==================================================================== -->
+<section class="slide divider" data-section="Experimentos">
+  <aside class="notes"><p class="muted">Separador de sección.</p></aside>
+</section>
+
+<section class="slide" data-section="Experimentos">
+  <h2>Seis experimentos</h2>
+  <div class="exp-grid">
+    <div class="exp-row">
+      <div class="exp-lab">Comportamientos conocidos<small>Cerrados y deterministas</small></div>
+      <div class="exp-card"><img class="pix" src="media/img/exp_gol.png" alt=""><span>Juego de la vida</span></div>
+      <div class="exp-card"><img class="pix" src="media/img/sp_1000.png" alt=""><span><i>Sandpile</i></span></div>
+      <div class="exp-card"><img src="media/img/langton_RL_100x100_paso_11000.png" alt=""><span>Hormiga de Langton</span></div>
+    </div>
+    <div class="exp-row azul">
+      <div class="exp-lab">Sistemas naturales<small>Datos reales</small></div>
+      <div class="exp-card"><img src="media/img/clean_04.jpg" alt=""><span>Propagación del fuego<small>FLAME 3</small></span></div>
+      <div class="exp-card"><img src="media/img/exp_sevir.png" alt=""><span>Movimiento de tormentas<small>SEVIR</small></span></div>
+      <div class="exp-card"><img class="pix" src="media/img/sim_1_original.png" alt=""><span>Crecimiento de <i>Physarum polycephalum</i></span></div>
+    </div>
+  </div>
+  <aside class="notes">
+    <p class="t">⏱ 2:52 → 3:00</p>
+    <p class="g">Con esta herramienta se realizaron seis experimentos: tres sobre comportamientos deterministas bien conocidos y tres sobre sistemas naturales.</p>
+  </aside>
+</section>
+
+<!-- Juego de la vida -->
+<section class="slide" data-section="Experimentos">
+  <h2>El juego de la vida</h2>
+  <div class="cols" style="grid-template-columns: 0.9fr 1.1fr; gap:60px">
+    <div class="stack">
+      <div class="chips"><span class="chip">B3/S23</span><span class="chip">2 estados</span><span class="chip">Vecindad de Moore</span><span class="chip azul">Red 4:8:ReLU &amp; 2:Linear</span><span class="chip azul">18 épocas</span></div>
+      <div class="kpis">
+        <div class="kpi"><div class="v">0</div><div class="l">células distintas en 1,000 pasos (<i>d<sub>t</sub></i>)</div></div>
+        <div class="kpi"><div class="v">100%</div><div class="l">de los patrones de 3 × 3: 512 de 512 (<i>P</i>)</div></div>
+      </div>
+      <div class="measure">
+        <div class="lbl">Cómo se midió</div>
+        <div class="eqs">
+          <div><math display="block"><msub><mi>d</mi><mi>t</mi></msub><mo>=</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>N</mi></munderover><mo stretchy="false">[</mo><msub><mover accent="true"><mi>s</mi><mo>^</mo></mover><mi>i</mi></msub><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo><mo>≠</mo><msub><mi>s</mi><mi>i</mi></msub><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo><mo stretchy="false">]</mo></math>
+          <p>Células distintas entre el original (<i>s</i>) y la red (<i>ŝ</i>) en el paso <i>t</i>.</p></div>
+          <div><math display="block"><mi>P</mi><mo>=</mo><mfrac><mn>1</mn><mn>512</mn></mfrac><munderover><mo>∑</mo><mrow><mi>p</mi><mo>=</mo><mn>1</mn></mrow><mn>512</mn></munderover><mo stretchy="false">[</mo><mover accent="true"><mi>f</mi><mo>^</mo></mover><mo stretchy="false">(</mo><mi>p</mi><mo stretchy="false">)</mo><mo>=</mo><mi>f</mi><mo stretchy="false">(</mo><mi>p</mi><mo stretchy="false">)</mo><mo stretchy="false">]</mo></math>
+          <p>Patrones en los que la red (<i>f̂</i>) coincide con B3/S23 (<i>f</i>).</p></div>
+        </div>
+      </div>
+    </div>
+    <figure class="frame">
+      <video src="media/videos/gol_aleatoria.webm" muted loop playsinline preload="metadata" data-autoplay style="max-height:700px"></video>
+      <figcaption>Configuración aleatoria de 100 × 100: original (izq.) y red (der.).</figcaption>
+    </figure>
+  </div>
+  <aside class="notes">
+    <p class="t">⏱ 3:00 → 3:31</p>
+    <p class="g">El primer experimento clásico es el Juego de la Vida de John Conway, replicando la regla B3/S23 con dos estados y vecindad de Moore. Para lograrlo se requiere únicamente una red de cuatro capas, ocho neuronas ocultas con activación ReLU y una salida lineal de dos neuronas, entrenada en apenas 18 épocas. Este modelo no presenta ningún error y cumple con las 512 configuraciones posibles de esta vecindad.</p>
+    <p class="muted">4:8 son cuatro capas ocultas de ocho neuronas cada una (32 neuronas ocultas), no ocho neuronas en total.</p>
+  </aside>
+</section>
+
+<section class="slide" data-section="Experimentos">
+  <h2>El juego de la vida: pérdida objetivo</h2>
+  <p class="lead">Con una pérdida objetivo tolerante, la red aprende una regla distinta a la entrenada.</p>
+  <div class="cols vcenter" style="grid-template-columns: 0.92fr 1.08fr; gap:64px">
+    <div class="stack">
+      <table>
+        <tr><th class="l">Regla entrenada</th><th>Pérdida objetivo</th><th class="l">Regla aprendida</th><th><i>d</i></th></tr>
+        <tr class="hl"><td class="l">B3/S238</td><td>0.03–0.1</td><td class="l">B3/S23</td><td>1</td></tr>
+        <tr><td class="l">B3/S236</td><td>0.2</td><td class="l">No semitotalística</td><td>32</td></tr>
+        <tr><td class="l">B3/S236</td><td>0.02–0.1</td><td class="l">B3/S23678</td><td>9</td></tr>
+      </table>
+      <p class="note center">B3/S238 y B3/S23 solo difieren en el patrón <i>C1N8</i>, que casi nunca aparece.</p>
+      <div class="measure">
+        <div class="lbl">Cómo se midió</div>
+        <math display="block"><mi>d</mi><mo stretchy="false">(</mo><mi>R</mi><mo>,</mo><mover accent="true"><mi>R</mi><mo>^</mo></mover><mo stretchy="false">)</mo><mo>=</mo><munderover><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><mn>512</mn></munderover><mo stretchy="false" form="prefix">|</mo><msub><mi>R</mi><mi>k</mi></msub><mo>−</mo><msub><mover accent="true"><mi>R</mi><mo>^</mo></mover><mi>k</mi></msub><mo stretchy="false" form="postfix">|</mo></math>
+        <p>Distancia de Manhattan entre el vector de regla entrenado (<i>R</i>) y el de la red (<i>R̂</i>): patrones de 3 × 3 con distinto resultado.</p>
+      </div>
+    </div>
+    <figure>
+      <img src="media/img/b3s238_vector.png" alt="Vector de regla" style="width:100%">
+      <figcaption>Últimos 50 elementos del vector de regla de B3/S238, B3/S23 y las redes entrenadas con distintas pérdidas objetivo.</figcaption>
+    </figure>
+  </div>
+  <aside class="notes">
+    <p class="t">⏱ 3:31 → 3:54</p>
+    <p class="g">Adicionalmente, observamos que si somos más tolerantes con la pérdida objetivo, la red aprende una regla distinta: al entrenar B3/S238 converge al comportamiento de B3/S23, y al entrenar B3/S236 aprende B3/S23678 o una regla no semitotalística. Por ello, es indispensable utilizar una pérdida objetivo estricta para replicar con fidelidad el comportamiento deseado.</p>
+    <p class="muted">d = 1 y d = 32 están en gol.tex. d = 9 sale de contar los patrones de C1N7 (8) y C1N8 (1) que B3/S23678 agrega a B3/S236.</p>
+  </aside>
+</section>
+
+<section class="slide" data-section="Experimentos">
+  <h2>El juego de la vida: vecindad</h2>
+  <div class="cols" style="grid-template-columns: 1.08fr 0.92fr; gap:80px">
+    <div class="stack">
+      <h3>Quitar un vecino</h3>
+      <div class="nb-row">
+        <div class="nb-fig"><div class="nb" data-from="-1" data-to="1"></div><div class="v ok">100%</div>3 × 3 (Moore)<small>512 de 512</small></div>
+        <div class="nb-fig"><div class="nb" data-from="-1" data-to="1" data-skip="0,0"></div><div class="v">94.5%</div>Sin la célula central<small>484 de 512</small></div>
+        <div class="nb-fig"><div class="nb" data-from="-1" data-to="1" data-skip="-1,-1"></div><div class="v">80.9%</div>Sin un vecino del borde<small>414 de 512</small></div>
+      </div>
+      <div class="measure">
+        <div class="lbl">Cómo se midió</div>
+        <math display="block"><mi>P</mi><mo>=</mo><mfrac><mn>1</mn><mn>512</mn></mfrac><munderover><mo>∑</mo><mrow><mi>p</mi><mo>=</mo><mn>1</mn></mrow><mn>512</mn></munderover><mo stretchy="false">[</mo><mover accent="true"><mi>f</mi><mo>^</mo></mover><mo stretchy="false">(</mo><mi>p</mi><mo stretchy="false">)</mo><mo>=</mo><mi>f</mi><mo stretchy="false">(</mo><mi>p</mi><mo stretchy="false">)</mo><mo stretchy="false">]</mo></math>
+        <p>Patrones de 3 × 3 en los que la red (<i>f̂</i>) coincide con B3/S23 (<i>f</i>). 24 redes por vecindad.</p>
+      </div>
+    </div>
+    <div class="stack">
+      <h3>Agrandar la vecindad</h3>
+      <table>
+        <tr><th class="l">Vecindad</th><th>Vecinos</th><th>Épocas</th><th><i>P</i></th></tr>
+        <tr><td class="l">3 × 3</td><td>9</td><td>5</td><td>100%</td></tr>
+        <tr><td class="l">5 × 5</td><td>25</td><td>10</td><td>100%</td></tr>
+        <tr><td class="l">7 × 7</td><td>49</td><td>7</td><td>100%</td></tr>
+        <tr><td class="l">8 × 8</td><td>64</td><td>6</td><td>100%</td></tr>
+      </table>
+      <p class="note">Épocas: mediana para llegar a la pérdida objetivo de 0.001 (hasta 500 épocas). Sin la célula central o sin un vecino del borde ninguna red llega.</p>
+    </div>
+  </div>
+  <aside class="notes">
+    <p class="t">⏱ 3:54 → 4:32</p>
+    <p class="g">También experimentamos modificando la vecindad: al eliminar la célula central se obtiene un 94.5% de similitud, mientras que al eliminar un vecino del borde se obtiene un 80.9% de similitud, lo que sugiere que B3/S23 depende mucho más de sus vecinos que del estado propio de la célula. Por otro lado, al expandir el tamaño de la vecindad, la regla se aprende prácticamente a la misma velocidad, demostrando que el tamaño de la vecindad no afecta negativamente el aprendizaje siempre que cubra a todos los vecinos relevantes.</p>
+    <p class="warn">⚠ Los porcentajes y las épocas se calcularon de NCA/B3S23_NR y NCA/Vecindad (resultados.csv y *_evo.npy); no están en el reporte. Sin el centro, 23 de 24 redes difieren en 28 patrones. Sin el vecino noroeste o el norte, difieren en 98 (el 19% de gol.tex).</p>
+    <p class="muted">Mejor pérdida de las 24 redes: 3 × 3, 0.000003; sin el centro, 0.0787; sin un vecino del borde, 0.1214; 5 × 5, 0.000035; 7 × 7, 0.000023; 8 × 8, 0.000063. P es el resultado de 22 a 24 de las 24 redes.</p>
+  </aside>
+</section>
+
+<!-- Sandpile -->
+<section class="slide" data-section="Experimentos">
+  <h2><i>Sandpile</i>: reducción de la tasa de aprendizaje</h2>
+  <div class="chips"><span class="chip">17 estados</span><span class="chip">4 generadores</span><span class="chip azul">Red 2:64:ReLU &amp; 17:Linear</span><span class="chip azul">Pérdida objetivo 0.000001</span></div>
+  <div class="cols c3" style="gap:40px; flex:none">
+    <figure>
+      <img src="media/img/sp_4generadores_loss.png" alt="" style="max-height:340px">
+      <figcaption><b>Constante</b> (0.001): baja hasta cerca de 150 épocas y después oscila.</figcaption>
+    </figure>
+    <figure>
+      <img src="media/img/sp_4generadores_loss_exp.png" alt="" style="max-height:340px">
+      <figcaption><b>Exponencial</b> (de 0.001 a 0.000001 en 2,000 épocas): no oscila, pero se frena en 0.000015.</figcaption>
+    </figure>
+    <figure>
+      <img src="media/img/sp_4generadores_loss_plateau.png" alt="" style="max-height:340px; box-shadow: 0 0 0 3px var(--guinda)">
+      <figcaption><b style="color:var(--guinda)"><i>Plateau</i></b> (÷ 2 si la pérdida no mejora en 20 épocas): <b>llega en 1,319 épocas</b>.</figcaption>
+    </figure>
+  </div>
+  <div class="measure row" style="margin-top:auto">
+    <div style="flex:0 0 290px"><div class="lbl">Cómo se midió</div><math display="block"><mi>A</mi><mo>=</mo><mfrac><mn>1</mn><mi>N</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>N</mi></munderover><mo stretchy="false">[</mo><msub><mover accent="true"><mi>s</mi><mo>^</mo></mover><mi>i</mi></msub><mo>=</mo><msub><mi>s</mi><mi>i</mi></msub><mo stretchy="false">]</mo></math></div>
+    <p style="flex:1; margin:0">Exactitud: predicciones correctas en los datos de entrenamiento.</p>
+    <p class="res"><b>Resultado:</b> <i>A</i> = 100% con las tres tasas; solo <i>plateau</i> llega a la pérdida objetivo (10<sup>−6</sup>).</p>
+  </div>
+  <aside class="notes">
+    <p class="t">⏱ 4:32 → 5:04</p>
+    <p class="g">El segundo experimento es el modelo de pila de arena (Sandpile) de Bak, Tang y Wiesenfeld. Su mayor desafío es que considera 17 estados: 8 representan las alturas de arena y 9 representan esas mismas alturas pero para las células generadoras. Las dos aportaciones técnicas principales aquí fueron: primero, la reducción de la tasa de aprendizaje mediante plateau, ya que sin ella la pérdida oscilaba antes de alcanzar el óptimo;</p>
+  </aside>
+</section>
+
+<section class="slide" data-section="Experimentos">
+  <h2><i>Sandpile</i>: codificación <i>one-hot</i></h2>
+  <div class="cols" style="grid-template-columns: 1.08fr 0.92fr; gap:64px">
+    <div class="stack" style="gap:22px">
+      <div class="states17">
+        <span style="background:#FFF5F8">0</span><span style="background:#FCE4EC">1</span><span style="background:#F8BBD0">2</span><span style="background:#F080AA">3</span><span style="background:#DC4682;color:#fff">4</span><span style="background:#AD1457;color:#fff">5</span><span style="background:#6E0A37;color:#fff">6</span><span style="background:#4A0626;color:#fff">7</span><span style="background:#E3F0FC">8</span><span style="background:#B3D4F5">9</span><span style="background:#72AAE6">10</span><span style="background:#3378C8;color:#fff">11</span><span style="background:#154C96;color:#fff">12</span><span style="background:#0A285A;color:#fff">13</span><span style="background:#071E44;color:#fff">14</span><span style="background:#051430;color:#fff">15</span><span style="background:#030C1E;color:#fff">16</span>
+        <span class="lab" style="grid-column: 1 / 9">arena</span><span class="lab" style="grid-column: 9 / 18">generadora</span>
+      </div>
+      <div class="vecs">
+        <p class="note" style="margin:0">Un vecino en el estado 9 (generadora con un grano):</p>
+        <div class="vec"><span class="lab">Entrada cruda</span><span class="one">9</span></div>
+        <div class="vec"><span class="lab"><i>One-hot</i></span><span class="cells"><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span class="on">1</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span></span></div>
+        <p class="note" style="margin:0">Sin <i>one-hot</i>, la red trata a 7 (arena) y 8 (generadora vacía) tan cerca como a 0 y 1.</p>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><div class="h">Entrada cruda</div><div class="v" style="color:var(--muted)">1,319 <small>épocas</small></div><div class="l">301.47 s · <i>t</i>* = 3,241</div></div>
+        <div class="kpi win"><div class="h"><i>One-hot</i></div><div class="v">21 <small>épocas</small></div><div class="l">5.67 s · <i>t</i>* &gt; 10,000</div></div>
+      </div>
+      <div class="measure">
+        <div class="lbl">Cómo se midió</div>
+        <math display="block"><msup><mi>t</mi><mo>*</mo></msup><mo>=</mo><mi>min</mi><mo stretchy="false">{</mo><mi>t</mi><mo>:</mo><msub><mi>d</mi><mi>t</mi></msub><mo>&gt;</mo><mn>0</mn><mo stretchy="false">}</mo></math>
+        <p>Primer paso de la simulación libre con alguna célula distinta (un generador en 25 × 25). Ambas entradas llegan a <i>A</i> = 100%.</p>
+      </div>
+    </div>
+    <figure class="frame">
+      <video src="media/videos/sandpile_dos_generadores.webm" muted loop playsinline preload="metadata" data-autoplay style="max-height:660px"></video>
+      <figcaption>Red <i>one-hot</i>, dos generadores en 51 × 51 con frontera abierta: <i>d<sub>t</sub></i> = 0 en 20,000 pasos.</figcaption>
+    </figure>
+  </div>
+  <aside class="notes">
+    <p class="t">⏱ 5:04 → 5:26</p>
+    <p class="g">y segundo, el uso de codificación one-hot para evitar que la red asuma relaciones lineales entre los índices numéricos de los estados. El impacto de one-hot fue determinante: sin esta codificación, el modelo tardaba 1,300 épocas y 300 segundos en converger; con one-hot, converge en apenas 21 épocas y 6 segundos.</p>
+    <p class="muted">t* de la red cruda: sandpile.tex dice que las tres redes de cuatro generadores sin one-hot rompen la simetría en un espacio de 25 × 25 (la de plateau en el paso 3,241). La one-hot sobrevive al menos 10,000 pasos (2,985 con frontera periódica).</p>
+  </aside>
+</section>
+
+<!-- Hormiga de Langton -->
+<section class="slide" data-section="Experimentos">
+  <h2>Hormiga de Langton</h2>
+  <div class="cols" style="grid-template-columns: 0.86fr 1.14fr; gap:64px">
+    <div class="stack" style="gap:22px">
+      <div class="chips"><span class="chip">Regla RL</span><span class="chip azul">Red 2:8:ReLU &amp; 10:Linear</span><span class="chip azul"><i>One-hot</i></span><span class="chip azul">36 épocas</span></div>
+      <ul class="small">
+        <li><b>Desbalance:</b> en 100 × 100 con una hormiga solo cambian 2 de cada 10,000 células por paso.</li>
+        <li><b>Colisión de dos hormigas</b>, nunca vista con una sola: la red elimina una de ellas, siempre igual.</li>
+      </ul>
+      <figure class="h180">
+        <img src="media/img/langton_RL_nca_patrones_combi.png" alt="Colisiones">
+        <figcaption>Patrones de colisión: en el paso 1 solo queda una hormiga.</figcaption>
+      </figure>
+      <div class="kpis">
+        <div class="kpi"><div class="v">13,000</div><div class="l">pasos con <i>d<sub>t</sub></i> = 0, una hormiga</div></div>
+        <div class="kpi"><div class="v">20,000</div><div class="l">pasos con <i>d<sub>t</sub></i> = 0, dos hormigas</div></div>
+      </div>
+      <p class="note" style="margin:0"><i>d<sub>t</sub></i>: células distintas entre el original y la red en el paso <i>t</i>.</p>
+    </div>
+    <figure class="frame">
+      <video src="media/videos/langton_una_hormiga.webm" muted loop playsinline preload="metadata" data-autoplay style="max-height:700px"></video>
+      <figcaption>Una hormiga, regla RL, 100 × 100: original (izq.) y red (der.).</figcaption>
+    </figure>
+  </div>
+  <aside class="notes">
+    <p class="t">⏱ 5:26 → 6:08</p>
+    <p class="g">El tercer experimento clásico es la Hormiga de Langton. Aquí el mayor reto es el desbalance de información: en un espacio de 100 por 100 con una sola hormiga, únicamente evolucionan 2 de cada 10,000 células por paso. Aun así, con la configuración propuesta fue posible aprender el comportamiento. Al experimentar introduciendo múltiples hormigas en el mismo espacio, descubrimos un comportamiento emergente consistente: cada vez que dos hormigas colisionan, la red elimina a una de ellas y solo una sobrevive, una regla que nunca fue vista durante el entrenamiento con una sola hormiga.</p>
+    <p class="muted">Resultados de Entregables/Animation/LangtonAnt (README.md): una_hormiga_RL y dos_hormigas_RL sin células distintas. En la autopista (paso 9,976) también coincide.</p>
+  </aside>
+</section>
+
+<section class="slide" data-section="Experimentos">
+  <h2>Hormiga de Langton: más colores</h2>
+  <div class="cols" style="grid-template-columns: 0.92fr 1.08fr; gap:64px">
+    <div class="stack" style="gap:24px; align-self:center">
+      <table>
+        <tr><th>Colores</th><th>Estados</th><th class="l">Regla</th><th>Épocas</th><th>Tiempo</th></tr>
+        <tr><td>2</td><td>10</td><td class="l">RL</td><td>22</td><td>25.6 s</td></tr>
+        <tr><td>3</td><td>15</td><td class="l">RLL</td><td>63</td><td>73.8 s</td></tr>
+        <tr><td>4</td><td>20</td><td class="l">RLLR</td><td>16</td><td>20.0 s</td></tr>
+        <tr><td>5</td><td>25</td><td class="l">RLRLL</td><td>44</td><td>51.3 s</td></tr>
+        <tr><td>6</td><td>30</td><td class="l">RRRLLL</td><td>68</td><td>75.4 s</td></tr>
+        <tr><td>7</td><td>35</td><td class="l">RLRLRLL</td><td>77</td><td>85.7 s</td></tr>
+        <tr><td>8</td><td>40</td><td class="l">RLRLRLRR</td><td>63</td><td>70.4 s</td></tr>
+        <tr><td>9</td><td>45</td><td class="l">RLRLRLLRL</td><td>63</td><td>73.7 s</td></tr>
+        <tr class="hl"><td>10</td><td>50</td><td class="l">RLRLRLRRRL</td><td>87</td><td>97.3 s</td></tr>
+      </table>
+      <p class="note center">Entrenamiento con dos hormigas en 30 × 30 durante 10,000 pasos; red 4:64:ReLU &amp; 5<i>n</i>:Linear con <i>one-hot</i>.</p>
+    </div>
+    <figure class="frame">
+      <video src="media/videos/langton_diez_colores_una_hormiga.webm" muted loop playsinline preload="metadata" data-autoplay style="max-height:640px"></video>
+      <figcaption>10 colores, <b>una sola hormiga</b> en 100 × 100: coincide hasta el paso 12,455, donde la hormiga de la red se divide en dos.</figcaption>
+    </figure>
+  </div>
+  <aside class="notes">
+    <p class="t">⏱ 6:08 → 6:26</p>
+    <p class="g">Asimismo, con 10 colores, es decir 50 estados, y una sola hormiga en un espacio de 100 por 100, la red reprodujo exactamente la trayectoria original durante 12,455 pasos; en ese punto, la hormiga se dividió en dos, rompiendo la simetría.</p>
+    <p class="muted"><i>t</i>* (primer paso con alguna célula distinta): de las 9 redes, solo la de 6 colores se separa de la evolución original dentro de los 10,000 pasos de entrenamiento, en el paso 7,028.</p>
+    <p class="muted">Video generado con media/langton_diez_colores_una_hormiga.py (hormiga en el centro mirando a la izquierda). El contador del video empieza en 0, así que la división aparece en el paso 12,454. Los últimos 600 pasos van más lentos (un cuadro cada 2 pasos) para que se vea.</p>
+  </aside>
+</section>
+
+<section class="slide" data-section="Experimentos">
+  <h2>Configuración base del autómata celular neuronal</h2>
+  <div class="pipe">
+    <div class="st"><span class="num">4</span>
+      <div class="vis"><div class="nb" data-from="-2" data-to="2" style="--c:26px"></div></div>
+      <b>Vecindad</b><small>un poco mayor que la intuición inicial</small>
+    </div>
+    <div class="ar">→</div>
+    <div class="st"><span class="num">1</span>
+      <div class="vis"><div class="ohv"><i>0</i><i>0</i><i class="on">1</i><i>0</i><i>0</i><i>0</i></div></div>
+      <b>Entrada <i>one-hot</i></b><small>una entrada por estado de cada vecino</small>
+    </div>
+    <div class="ar">→</div>
+    <div class="st"><span class="num">2</span>
+      <div class="vis"><div class="layers">
+        <div class="colm"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="colm"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div></div>
+      <b>Pocas capas ocultas anchas</b><small>ReLU</small>
+    </div>
+    <div class="ar">→</div>
+    <div class="st"><span class="num">2</span>
+      <div class="vis"><div class="layers"><div class="colm"><i></i><i></i><i class="on"></i><i></i></div></div></div>
+      <b>Salida lineal</b><small>una neurona por estado</small>
+    </div>
+    <div class="ar">→</div>
+    <div class="st">
+      <div class="vis"><div class="nextcell"></div></div>
+      <b>Siguiente estado</b><small>la salida con mayor valor</small>
+    </div>
+  </div>
+  <div class="cols c2" style="flex:none; margin-top:44px; gap:40px">
+    <div class="st row"><span class="num">3</span>
+      <svg width="200" height="110" viewBox="0 0 200 110" aria-label="Tasa de aprendizaje por plateau">
+        <line x1="10" y1="100" x2="195" y2="100" stroke="#b9b5b8" stroke-width="2"/>
+        <line x1="10" y1="5" x2="10" y2="100" stroke="#b9b5b8" stroke-width="2"/>
+        <polyline points="10,15 70,15 70,45 115,45 115,68 150,68 150,84 195,84" fill="none" stroke="#75003e" stroke-width="5" stroke-linejoin="round"/>
+      </svg>
+      <div class="txt"><b>Tasa de aprendizaje con <i>plateau</i></b><small>se divide entre 2 cuando la pérdida deja de mejorar</small></div>
+    </div>
+    <div class="st row warn"><span class="num">5</span>
+      <div class="txt"><b>Reproducir miles de pasos no garantiza la regla exacta</b><small>en <i>sandpile</i> y en la hormiga de Langton las evoluciones coinciden hasta una configuración límite y luego divergen</small></div>
+    </div>
+  </div>
+  <aside class="notes">
+    <p class="t">⏱ 6:26 → 7:31</p>
+    <p class="g">De estos tres primeros experimentos extraemos la configuración base recomendada para los autómatas celulares neuronales:</p>
+    <p class="g">1. Utilizar codificación one-hot en la capa de entrada.<br>
+    2. Preferir redes poco profundas pero anchas —pocas capas ocultas con mayor número de neuronas— utilizando activación ReLU, y una capa de salida lineal acorde al número de estados.<br>
+    3. Emplear una reducción de tasa de aprendizaje por plateau.<br>
+    4. Definir una vecindad ligeramente mayor a la intuición inicial para darle mayor contexto espacial a la red.<br>
+    5. Tener presente que reproducir el comportamiento durante miles de pasos no garantiza haber extraído la regla exacta: como vimos en Sandpile y la Hormiga de Langton, las trayectorias coinciden durante largos periodos hasta que aparece una configuración límite donde divergen.</p>
+    <p class="g">Con esta configuración base pasamos a evaluar tres sistemas naturales: la propagación del fuego, el movimiento de tormentas y el crecimiento de mohos mucilaginosos.</p>
+    <p class="muted">Los números del diagrama siguen el orden del guion; el diagrama va en el orden del cálculo (vecindad → entrada → capas → salida).</p>
+  </aside>
+</section>
+
+<!-- FLAME 3 -->
+<section class="slide" data-section="Experimentos">
+  <h2>Propagación del fuego (FLAME 3): datos</h2>
+  <p class="lead">Videos térmicos de un dron con vista cenital.</p>
+  <div class="pasos5">
+    <figure><img src="media/img/clean_01.jpg" alt=""><figcaption>Original</figcaption></figure><i>→</i>
+    <figure><img src="media/img/clean_02.jpg" alt=""><figcaption>Ajuste de posición</figcaption></figure><i>→</i>
+    <figure><img src="media/img/clean_03.jpg" alt=""><figcaption>Sin ruido en los bordes</figcaption></figure><i>→</i>
+    <figure><img src="media/img/clean_04.jpg" alt=""><figcaption>100 × 100</figcaption></figure><i>→</i>
+    <figure><img src="media/img/clean_05_18estados.jpg" alt=""><figcaption>18 estados</figcaption></figure>
+  </div>
+  <div class="cols vcenter" style="grid-template-columns: 1.12fr 0.88fr; gap:64px; margin:auto 0; flex:none">
+    <div>
+      <div class="bar18">
+        <span style="background:#448CFD">0</span><span style="background:#17D9C7">1</span><span style="background:#2FF09A">2</span><span style="background:#69FD65">3</span><span style="background:#A1FC3D">4</span><span style="background:#CDEB34">5</span><span style="background:#EDCF39">6</span><span style="background:#FDA932">7</span><span style="background:#FA7A1F">8</span><span style="background:#E84B0C">9</span><span class="dk" style="background:#CB2B03">10</span><span class="dk" style="background:#A01101">11</span><span class="dk" style="background:#000000">12</span><span class="dk" style="background:#333333">13</span><span class="dk" style="background:#666666">14</span><span style="background:#999999">15</span><span style="background:#CCCCCC">16</span><span style="background:#FFFFFF">17</span>
+      </div>
+      <div class="bar18-lab">
+        <div><b>Sin quemar</b> · 12 intervalos de 25.3 a 604.6 °C</div>
+        <div><b>Quemado</b> · los mismos, de dos en dos</div>
+      </div>
+    </div>
+    <div class="box" style="font-size:24px; line-height:1.45">
+      Si la temperatura de una célula baja, pasa a quemada. Solo vuelve a encenderse si sube más de 30 °C sobre la mínima registrada desde que se quemó: <b style="color:var(--guinda)">el sistema recuerda el combustible consumido</b>.
+    </div>
+  </div>
+  <aside class="notes">
+    <p class="t">⏱ 7:31 → 8:22</p>
+    <p class="g">Para la propagación del fuego utilizamos el dataset FLAME 3, compuesto por videos térmicos capturados por un dron en vista cenital. Fue necesario preprocesar las tomas para estabilizar la posición, eliminar ruido y ajustar la escala. Posteriormente, discretizamos la temperatura en 18 estados: los primeros 12 corresponden a intervalos de temperatura en zonas intactas, y los últimos 6 a esos mismos intervalos pero en zonas ya quemadas. Si la temperatura disminuye, la célula pasa a estado quemado, y solo puede volver a encenderse si supera en más de 30 grados la temperatura mínima registrada. Esto nos permite dotar al sistema de memoria sobre el combustible consumido, algo que una imagen térmica por sí sola no distingue.</p>
+    <p class="muted">Los 6 estados de quemado agrupan los 12 intervalos de dos en dos (tabla tab:flame_states_proportion de flame.tex). Colores de flame_log12_quemado6.csv.</p>
+  </aside>
+</section>
+
+<section class="slide" data-section="Experimentos">
+  <h2>Propagación del fuego (FLAME 3): resultados</h2>
+  <div class="chips"><span class="chip" style="background:#fdf4ea; color:#7a4300; box-shadow: inset 0 0 0 1px #f3dcc0"><b>Limitaciones</b></span><span class="chip">Pocos datos: dos videos con dinámicas distintas</span><span class="chip">Sin relieve, carreteras, vegetación ni dirección del viento</span></div>
+  <div class="cols c2" style="gap:48px; flex:none">
+    <figure class="frame">
+      <video src="media/videos/flame_plot_1.webm" muted playsinline preload="metadata" data-autoplay data-sync="flame" data-rate="1.75" style="max-height:400px"></video>
+      <figcaption><b>flame_plot_1</b> (red entrenada con flame_plot_2): real (izq.) y simulación libre (der.)</figcaption>
+    </figure>
+    <figure class="frame">
+      <video src="media/videos/flame_plot_2.webm" muted playsinline preload="metadata" data-autoplay data-sync="flame" data-rate="1.75" style="max-height:400px"></video>
+      <figcaption><b>flame_plot_2</b> (red entrenada con flame_plot_1): real (izq.) y simulación libre (der.)</figcaption>
+    </figure>
+  </div>
+  <div class="cols vcenter" style="grid-template-columns: auto 1fr; gap:48px; margin-top:auto; flex:none">
+    <table class="small">
+      <tr><th></th><th>plot_1</th><th>plot_2</th></tr>
+      <tr><td class="l">Área quemada (<i>J</i>)</td><td>85%</td><td>30%</td></tr>
+      <tr><td class="l">Área con fuego (<i>J</i>)</td><td>55%</td><td>27%</td></tr>
+      <tr><td class="l"><i>E</i> simulación libre</td><td>147%</td><td>97%</td></tr>
+      <tr><td class="l"><i>E</i> un paso</td><td>110%</td><td>89%</td></tr>
+    </table>
+    <div class="measure mae">
+      <div class="lbl">Cómo se midió</div>
+      <div class="tres">
+        <div><math display="block"><mi>J</mi><mo>=</mo><mfrac><mrow><mo stretchy="false" form="prefix">|</mo><mover accent="true"><mi>Q</mi><mo>^</mo></mover><mo>∩</mo><mi>Q</mi><mo stretchy="false" form="postfix">|</mo></mrow><mrow><mo stretchy="false" form="prefix">|</mo><mover accent="true"><mi>Q</mi><mo>^</mo></mover><mo>∪</mo><mi>Q</mi><mo stretchy="false" form="postfix">|</mo></mrow></mfrac></math><p>Coincidencia del área quemada (<i>Q</i>: quemadas al final) y del área con fuego (<i>Q</i>: alguna vez a 130 °C).</p></div>
+        <div><math display="block"><mi>MAE</mi><mo>=</mo><mfrac><mn>1</mn><mi>N</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>N</mi></munderover><mo stretchy="false" form="prefix">|</mo><msub><mover accent="true"><mi>T</mi><mo>^</mo></mover><mi>i</mi></msub><mo>−</mo><msub><mi>T</mi><mi>i</mi></msub><mo stretchy="false" form="postfix">|</mo></math><p><b>Error absoluto medio:</b> cuántos °C se equivoca, en promedio, cada célula (<i>T̂</i> simulada, <i>T</i> real).</p></div>
+        <div><math display="block"><mi>E</mi><mo>=</mo><mfrac><msub><mi>MAE</mi><mtext>red</mtext></msub><msub><mi>MAE</mi><mtext>sin cambio</mtext></msub></mfrac></math><p>Comparado con suponer que nada cambia: menos de 100% es mejor.</p></div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    <p class="t">⏱ 8:22 → 8:57</p>
+    <p class="g">Este experimento enfrentó dos limitaciones: la escasez de datos, pues el dataset solo cuenta con dos videos con dinámicas distintas, y la ausencia de variables físicas externas como el relieve topográfico, carreteras, vegetación o la dirección del viento.</p>
+    <p class="g">Para medir el error usamos el MAE, el error absoluto medio: cuántos grados se equivoca, en promedio, cada célula. Lo comparamos con suponer que nada cambia, así que un valor menor a 100% significa que la red supera a esa predicción.</p>
+    <p class="muted">Configuración final: paso de 30 s, 9 × 9, 2:32:ReLU. Área quemada y área con fuego son la intersección sobre la unión (NCA/FLAME3/burned_states/entrenar.py: rollout_iou_quemado y rollout_iou_fuego_total). Los videos van a 1.75× y vuelven a empezar juntos cuando termina el más largo.</p>
+  </aside>
+</section>
+
+<section class="slide" data-section="Experimentos">
+  <h2>Propagación del fuego (FLAME 3): lo que reproduce</h2>
+  <div class="cols vcenter" style="grid-template-columns: 0.9fr 1.1fr; gap:64px">
+    <ul class="big" style="margin:0">
+      <li style="margin-bottom:34px">Inicia con una chispa.</li>
+      <li style="margin-bottom:34px">Los frentes se extinguen al chocar.</li>
+      <li style="margin-bottom:0">Lo quemado no se vuelve a encender.</li>
+    </ul>
+    <figure class="frame">
+      <video src="media/videos/flame_centro.webm" muted loop playsinline preload="metadata" data-autoplay style="max-height:720px"></video>
+    </figure>
+  </div>
+  <aside class="notes">
+    <p class="t">⏱ 8:57 → 9:18</p>
+    <p class="g">A pesar de ello, la simulación captura las reglas físicas esenciales del fuego: inicia con una chispa, se propaga en múltiples direcciones, cuando dos frentes de fuego chocan entre sí ambos ceden por falta de combustible, y las zonas quemadas se van enfriando progresivamente sin reencenderse espontáneamente.</p>
+    <p class="muted">Video: una chispa en el centro de un espacio frío de 200 × 200 (frontera periódica).</p>
+  </aside>
+</section>
+
+<!-- SEVIR -->
+<section class="slide" data-section="Experimentos">
+  <h2>Movimiento de tormentas (SEVIR)</h2>
+  <div class="cols" style="grid-template-columns: 0.9fr 1.1fr; gap:64px">
+    <div class="stack" style="gap:24px">
+      <ul class="small">
+        <li>En la simulación libre, la red desplaza la tormenta hacia un lado y la desvanece.</li>
+        <li><b>Sistema abierto:</b> viento, humedad y nubes que entran por los bordes.</li>
+      </ul>
+      <table class="small">
+        <tr><th class="l">Medida</th><th class="hl">Red</th><th>Sin cambio</th></tr>
+        <tr><td class="l"><i>A</i>, un paso</td><td class="hl">90.34%</td><td>87.79%</td></tr>
+        <tr><td class="l"><i>J</i>, un paso</td><td class="hl">82.67%</td><td>77.98%</td></tr>
+        <tr><td class="l"><i>J</i>, simulación libre a 60 min</td><td class="hl">41.83%</td><td>31.78%</td></tr>
+        <tr><td class="l"><i>J</i>, simulación libre a 120 min</td><td class="hl">28.84%</td><td>20.02%</td></tr>
+      </table>
+      <div class="measure">
+        <div class="lbl">Cómo se midió</div>
+        <div class="eqs"><math display="block"><mi>A</mi><mo>=</mo><mfrac><mn>1</mn><mi>N</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>N</mi></munderover><mo stretchy="false">[</mo><msub><mover accent="true"><mi>s</mi><mo>^</mo></mover><mi>i</mi></msub><mo>=</mo><msub><mi>s</mi><mi>i</mi></msub><mo stretchy="false">]</mo></math><math display="block"><mi>J</mi><mo>=</mo><mfrac><mrow><mo stretchy="false" form="prefix">|</mo><mover accent="true"><mi>T</mi><mo>^</mo></mover><mo>∩</mo><mi>T</mi><mo stretchy="false" form="postfix">|</mo></mrow><mrow><mo stretchy="false" form="prefix">|</mo><mover accent="true"><mi>T</mi><mo>^</mo></mover><mo>∪</mo><mi>T</mi><mo stretchy="false" form="postfix">|</mo></mrow></mfrac></math></div>
+        <p>Exactitud (<i>A</i>) y área con tormenta (<i>T</i>: células con VIL de tormenta, estado 2 o mayor) en 200 tormentas de 2019 que la red no vio.</p>
+      </div>
+    </div>
+    <figure class="frame">
+      <video src="media/videos/sevir_mejor.webm" muted loop playsinline preload="metadata" data-autoplay style="max-height:680px"></video>
+      <figcaption>Evolución real y simulación libre de la mejor red (11 × 11, 16:64:ReLU, 400 tormentas).</figcaption>
+    </figure>
+  </div>
+  <aside class="notes">
+    <p class="t">⏱ 9:18 → 10:17</p>
+    <p class="g">El segundo sistema natural es el movimiento de tormentas usando el dataset SEVIR del MIT, que contiene más de 10,000 eventos meteorológicos en Estados Unidos; la mejor red se entrenó con 400 tormentas. Aunque la red neuronal supera la métrica base de persistencia —es decir, predecir que la tormenta no cambia—, el modelo tiende a desplazar la tormenta en una sola dirección mientras la desvanece gradualmente. En la realidad, las tormentas se intensifican, generan nuevos núcleos y forman estructuras ciclónicas que el modelo no logra replicar. Esto ocurre porque una tormenta es un sistema abierto: hay variables exógenas cruciales como la dirección del viento y la humedad, además de masas nubosas que entran constantemente desde fuera de los bordes de la rejilla, información que un autómata celular local aislado no puede inferir.</p>
+    <p class="muted">sevir.tex: SEVIR contiene más de 10,000 eventos; de ellos se seleccionaron 1,996 tormentas.</p>
+    <p class="muted">Cifras de la tercera fase del barrido (semilla 42), tabla tab:sevir_barrido_estabilidad. Área con tormenta = intersección sobre la unión (NCA/SEVIR/entrenar.py, coincidencia()). La red desplaza las tormentas hacia el este.</p>
+  </aside>
+</section>
+
+<!-- Physarum -->
+<section class="slide" data-section="Experimentos">
+  <h2>Crecimiento de <i>Physarum polycephalum</i></h2>
+  <div class="cols" style="grid-template-columns: 0.95fr 1.05fr; gap:64px">
+    <div class="stack" style="gap:24px">
+      <p class="small" style="margin:0">Moho en una caja de Petri con hojuelas de avena: <b>sistema cerrado</b>.</p>
+      <div class="legend6">
+        <div><span class="sw" style="background:#000000"></span>0 · Exterior</div><div><span class="sw" style="background:#6E6A12"></span>3 · Moho tenue</div>
+        <div><span class="sw" style="background:#2A2A30"></span>1 · Fondo de la caja</div><div><span class="sw" style="background:#D2AE00"></span>4 · Moho medio</div>
+        <div><span class="sw" style="background:#E6CFA8"></span>2 · Avena</div><div><span class="sw" style="background:#FFF46A"></span>5 · Moho intenso</div>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><div class="v">0.120</div><div class="l"><i>C</i>, paso de 30 min</div></div>
+        <div class="kpi"><div class="v">0.223</div><div class="l"><i>C</i>, paso de 6 h</div></div>
+        <div class="kpi"><div class="v" style="color:var(--muted); font-size:38px; line-height:50px">0.04–0.06</div><div class="l">predicción sin cambio</div></div>
+      </div>
+      <div class="measure">
+        <div class="lbl">Cómo se midió · estado más probable</div>
+        <math display="block"><msub><mi>C</mi><mi>t</mi></msub><mo>=</mo><mfrac><mrow><mo stretchy="false" form="prefix">|</mo><msub><mi>R</mi><mi>t</mi></msub><mo>∩</mo><msub><mi>S</mi><mi>t</mi></msub><mo stretchy="false" form="postfix">|</mo></mrow><mrow><mo stretchy="false" form="prefix">|</mo><msub><mi>R</mi><mi>t</mi></msub><mo>∪</mo><msub><mi>S</mi><mi>t</mi></msub><mo stretchy="false" form="postfix">|</mo></mrow></mfrac><mo>·</mo><mfrac><mrow><mi>min</mi><mo stretchy="false">(</mo><mo stretchy="false" form="prefix">|</mo><msub><mi>R</mi><mi>t</mi></msub><mo stretchy="false" form="postfix">|</mo><mo>,</mo><mo stretchy="false" form="prefix">|</mo><msub><mi>S</mi><mi>t</mi></msub><mo stretchy="false" form="postfix">|</mo><mo stretchy="false">)</mo></mrow><mrow><mi>max</mi><mo stretchy="false">(</mo><mo stretchy="false" form="prefix">|</mo><msub><mi>R</mi><mi>t</mi></msub><mo stretchy="false" form="postfix">|</mo><mo>,</mo><mo stretchy="false" form="prefix">|</mo><msub><mi>S</mi><mi>t</mi></msub><mo stretchy="false" form="postfix">|</mo><mo stretchy="false">)</mo></mrow></mfrac></math>
+        <p>Coincidencia del plasmodio: posición por cantidad, promediada en todos los pasos. <i>R<sub>t</sub></i>, <i>S<sub>t</sub></i>: células con moho en la evolución real y en la simulación.</p>
+      </div>
+    </div>
+    <div class="cols c2" style="gap:28px">
+      <figure><img class="pix" src="media/img/sim_1_original.png" alt="" style="width:100%"><figcaption><b>Evolución real</b></figcaption></figure>
+      <figure><img class="pix" src="media/img/sim_1_nca.png" alt="" style="width:100%"><figcaption><b>Estado más probable</b> (paso de 30 min): se estanca cerca del inóculo</figcaption></figure>
+    </div>
+  </div>
+  <aside class="notes">
+    <p class="t">⏱ 10:17 → 10:46</p>
+    <p class="g">El tercer sistema natural es el crecimiento del moho mucilaginoso Physarum polycephalum dentro de una caja de Petri con hojuelas de avena, lo que constituye un sistema cerrado. Definimos 6 estados para distinguir el exterior, la caja, las hojuelas de avena y tres niveles de intensidad del moho. Con la configuración base determinista, el moho se estancaba cerca del inóculo inicial sin alcanzar la avena.</p>
+    <p class="muted">Imágenes: caja 5 del experimento 008 a las 50 horas. Las cifras de C son de tab:physarum_paso (4 estados, 53 vecinos, 16:64:ReLU).</p>
+  </aside>
+</section>
+
+<section class="slide" data-section="Experimentos">
+  <h2><i>Physarum polycephalum</i>: muestreo y sesgo</h2>
+  <div class="cols c3" style="gap:56px">
+    <figure><img class="pix" src="media/img/sim_1_original.png" alt="" style="width:100%; max-height:500px"><figcaption><b>Evolución real</b><br>Caja 5 del experimento 008, 50 h.</figcaption></figure>
+    <figure><img class="pix" src="media/img/sim_2_nca.png" alt="" style="width:100%; max-height:500px"><figcaption><b>Muestreo:</b> brotes en toda la caja<br>A las 6 h cubre del 9 al 13% (real: del 1.5 al 7.8%).</figcaption></figure>
+    <figure><img class="pix" src="media/img/sim_3_nca.png" alt="" style="width:100%; max-height:500px"><figcaption><b>Sesgo de crecimiento</b> (paso de 6 h): manchas sin ramas<br>Moho al final 35.3% (real 34.4%), pero borde <i>B</i> = 0.154 (real 0.429).</figcaption></figure>
+  </div>
+  <aside class="notes">
+    <p class="t">⏱ 10:46 → 11:04</p>
+    <p class="g">Al probar muestreo probabilístico directo aparecían brotes espontáneos por toda la caja, y al agregar un sesgo de crecimiento con paso de 6 horas, el moho alcanzaba la cantidad real pero crecía como una mancha uniforme sin formar sus características ramificaciones.</p>
+    <p class="muted">Caja 5 del experimento 008 a las 50 horas (sesgo: 48 horas). Cifras de physarum.tex (simulación con muestreo y tab:physarum_comparacion). Muestreo: desde las 24 h se queda entre 26 y 33% de la caja. Sesgo: C = 0.225. B es el borde del plasmodio (alto = ramas, bajo = manchas), se define en la siguiente diapositiva.</p>
+  </aside>
+</section>
+
+<section class="slide" data-section="Experimentos">
+  <h2><i>Physarum polycephalum</i>: ruido</h2>
+  <div class="cols vcenter" style="grid-template-columns: 0.82fr 1.18fr; gap:56px">
+    <div class="stack" style="gap:24px">
+      <ul class="small">
+        <li>Cada uno de los 6 estados se divide en 4 subestados de ruido: 24 estados.</li>
+        <li>El ruido cambia con una versión en dos dimensiones de la regla 30: determinista, pero se comporta como aleatorio.</li>
+        <li>El moho crece desde el inóculo, se ramifica hacia la avena y, al tocarla, la coloniza.</li>
+      </ul>
+      <table class="small">
+        <tr><th></th><th>Real</th><th>Sesgo</th><th>Ruido</th><th class="hl">Ruido + edad</th></tr>
+        <tr><td class="l"><i>C</i></td><td>—</td><td>0.225</td><td>0.105</td><td class="hl">0.159</td></tr>
+        <tr><td class="l">Moho al final</td><td>34.4%</td><td>35.3%</td><td>15.7%</td><td class="hl">33.0%</td></tr>
+        <tr><td class="l"><i>B</i></td><td>0.429</td><td>0.154</td><td>0.498</td><td class="hl">0.387</td></tr>
+      </table>
+      <div class="measure">
+        <div class="lbl">Cómo se midió</div>
+        <math display="block"><mi>B</mi><mo>=</mo><mfrac><mrow><mo stretchy="false" form="prefix">|</mo><mo stretchy="false">{</mo><mi>i</mi><mo>∈</mo><msub><mi>S</mi><mi>t</mi></msub><mo>:</mo><mtext>&nbsp;toca una célula sin plasmodio</mtext><mo stretchy="false">}</mo><mo stretchy="false" form="postfix">|</mo></mrow><mrow><mo stretchy="false" form="prefix">|</mo><msub><mi>S</mi><mi>t</mi></msub><mo stretchy="false" form="postfix">|</mo></mrow></mfrac></math>
+        <p>Borde del plasmodio: alto = ramas, bajo = manchas. <i>C</i> es la coincidencia del plasmodio definida antes.</p>
+      </div>
+    </div>
+    <figure class="frame">
+      <video src="media/videos/physarum_edad.webm" muted loop playsinline preload="metadata" data-autoplay style="max-height:680px"></video>
+      <figcaption>Caja 5 del experimento 008: evolución real y simulación libre de la red con ruido y memoria de edad. La red da un paso cada 6 h; entre pasos, los cuadros son una transición.</figcaption>
+    </figure>
+  </div>
+  <aside class="notes">
+    <p class="t">⏱ 11:04 → 12:27</p>
+    <p class="g">Para resolverlo, introdujimos una ruptura controlada de simetría asignando 4 subestados de ruido a cada uno de los 6 estados originales; el ruido cambia con una simulación bidimensional de la Regla 30, que es determinista pero se comporta como aleatoria. Con este ruido determinista, el modelo sí reprodujo el comportamiento biológico esperado: se expande desde el inóculo, ramifica hacia las hojuelas de avena, y al entrar en contacto con el alimento se fortalece y coloniza la hojuela. Evaluamos este resultado con la cantidad de moho y su borde; aunque al final cubre un 54% menos de la caja que la evolución real y su borde es un 16% mayor, logra capturar la dinámica estructural de ramificación, siendo los pequeños artefactos de ruido producto del preprocesamiento inicial. Finalmente, como el plasmodio que acaba de llegar se retira casi cinco veces más que el que lleva horas, agregamos al estado si el plasmodio es nuevo o establecido: con esta memoria, la red crece casi lo mismo que la real, un 33% de la caja, y forma una red conectada entre la avena, como se ve en la animación.</p>
+    <p class="muted">Ruido + edad: reporte, subsección «Memoria de la edad del plasmodio» (tabla 11.17); artículo, tabla 10. Se retira 4.7 veces más: 34.9% contra 7.4% en pasos de 6 h. La red da un paso cada 6 h; en la animación, los cuadros entre pasos son una transición.</p>
+    <p class="muted">54% menos: al final cubre 15.7% de la caja contra 34.4% real. 16% más: borde 0.498 contra 0.429 real. La coincidencia C = 0.105 es cerca del doble de la predicción sin cambio.</p>
+  </aside>
+</section>
+
+<!-- ==================================================================== -->
+<!-- 4. INVESTIGACIONES ADICIONALES                                        -->
+<!-- ==================================================================== -->
+<section class="slide divider" data-section="Investigaciones adicionales">
+  <aside class="notes"><p class="muted">Separador de sección.</p></aside>
+</section>
+
+<section class="slide" data-section="Investigaciones adicionales">
+  <h2>Wolfram Summer School 2025</h2>
+  <p class="sub"><i>Adaptive Evolution in Totalistic Cellular Automaton</i> · Bentley University, EUA · mentoría de Willem Nielsen</p>
+  <div class="cols" style="grid-template-columns: 1fr 1fr; gap:64px">
+    <div class="stack" style="gap:28px">
+      <ul class="small">
+        <li>Evolución adaptativa para encontrar reglas con comportamientos similares en autómatas celulares totalísticos: recocido simulado con mutaciones de Poisson sobre el vector de regla.</li>
+        <li><b>Formas de vida finitas:</b> desde una sola célula activa, la evolución se extingue después de un número finito de pasos.</li>
+        <li>Cambiar un elemento del vector mantiene la regla en la misma familia de comportamiento, como B3/S23 y B3/S238.</li>
+      </ul>
+      <div class="box" style="font-size:25px; background:var(--guinda-50)"><b style="color:var(--guinda)">Por eso</b> la red puede converger a una regla vecina que coincide durante más de 10,000 pasos.</div>
+      <div class="badges"><span>Wolfram Community · <i>Staff Picks</i></span><span>Wolfram Technology Conference 2025</span><span>Citado en <i>What's Special about Life?</i> (S. Wolfram)</span></div>
+    </div>
+    <div class="cols" style="grid-template-columns: 0.75fr 1fr; gap:28px">
+      <figure><img src="media/img/wss_formas_vida.png" alt="Formas de vida finitas" style="max-height:600px"><figcaption>Formas de vida finitas de dos reglas de 3 estados.</figcaption></figure>
+      <figure><img src="media/img/wss_grafo_mutaciones.png" alt="Grafo de mutaciones" style="max-height:600px"><figcaption>Grafo de mutaciones.</figcaption></figure>
+    </div>
+  </div>
+  <aside class="notes">
+    <p class="t">⏱ 12:27 → 13:31</p>
+    <p class="g">Adicionalmente, este trabajo se apoya en dos investigaciones realizadas durante estancias académicas.</p>
+    <p class="g">La primera se llevó a cabo en la Wolfram Summer School, donde estudiamos la evolución adaptativa para encontrar reglas con comportamientos similares en autómatas celulares totalísticos. Analizamos el subconjunto de reglas de "vida finita" —aquellas que, iniciando con una sola célula activa, eventualmente se extinguen— utilizando recocido simulado con perturbaciones de Poisson sobre el vector de regla. Descubrimos que modificar elementos individuales del vector mantiene al sistema dentro de una misma familia de comportamiento. Esto mismo ocurre en reglas tipo Life, como pasar de B3/S23 a B3/S238, y explica teóricamente por qué nuestros autómatas celulares neuronales reproducen con tanta fidelidad sistemas como Sandpile o la Hormiga de Langton durante más de 10,000 pasos: la red converge a una regla vecina dentro del mismo espacio de comportamiento, aunque difiera en configuraciones muy específicas.</p>
+    <p class="muted">Imágenes de ~/Documents/Projects/Adaptive Evolution In Totalistic Cellular Automata (finite lifeform.png y WSS/img/grafo.png).</p>
+  </aside>
+</section>
+
+<section class="slide" data-section="Investigaciones adicionales">
+  <h2>Indian Summer School on Cellular Automata 2026</h2>
+  <p class="sub"><i>Spectral Moments with Attractor Mass: A Similarity Index for One-Dimensional Cellular Automata</i> · con Sukanta Das · IIEST Shibpur, India</p>
+  <div class="cols" style="grid-template-columns: 1.05fr 0.95fr; gap:64px">
+    <div class="stack" style="gap:28px">
+      <ul class="small">
+        <li>¿Qué tan similares son dos reglas cercanas? Por ejemplo, B3/S23 frente a B3/S238 y B3/S236.</li>
+        <li>Grafo de transiciones: cada configuración es un nodo; los árboles transitorios desembocan en ciclos (cuencas de atracción).</li>
+        <li><b>Momentos espectrales con masa de atractor:</b> cada <i>N</i> pasos, la fracción de configuraciones que ya alcanzó su ciclo.</li>
+      </ul>
+      <div class="kpis">
+        <div class="kpi"><div class="v">87 <small>de 88</small></div><div class="l">clases de autómatas celulares elementales que distingue</div></div>
+        <div class="kpi"><div class="v" style="color:var(--muted)">2<sup style="font-size:.5em">81</sup></div><div class="l">nodos en una rejilla de 9 × 9 (2<sup>9</sup> con 9 células): el límite del análisis exacto</div></div>
+      </div>
+    </div>
+    <figure>
+      <img src="media/img/cai_grafo_regla30.png" alt="Grafo de transiciones de la regla 30" style="max-height:620px">
+      <figcaption>Regla 30 con 5 células: 32 configuraciones, un punto fijo y un ciclo de periodo 5.</figcaption>
+    </figure>
+  </div>
+  <aside class="notes">
+    <p class="t">⏱ 13:31 → 14:40</p>
+    <p class="g">La segunda investigación se realizó en la Indian Summer School en el IIEST Shibpur, donde buscamos medir cuantitativamente qué tan similares son dos reglas cercanas —por ejemplo, comparar la cercanía de B3/S23 con B3/S238 frente a B3/S236—. Para ello propusimos una métrica basada en momentos espectrales de masa de atractores. Al representar todas las configuraciones posibles de un espacio finito como nodos de un grafo funcional, las transiciones forman árboles transitorios que desembocan en ciclos o cuencas de atracción. Midiendo cada N pasos qué fracción de configuraciones ya alcanzó un ciclo, podemos caracterizar la velocidad de convergencia y la estructura de estas cuencas. Aunque este análisis exacto es computacionalmente inviable en rejillas grandes —pasando de 2 a la 9 nodos en 9 células a 2 a la 81 nodos en una rejilla de 9 por 9—, demuestra que las reglas con comportamientos similares comparten estructuras de atracción cercanas, respaldando la validez de las aproximaciones neuronales.</p>
+    <p class="muted">Imagen: ~/Documents/Projects/CA-Similarity-Index/r30_5celdas_grafo.png sin el pie en inglés. Las barras son el vector de la masa de atractor (m₅ = 6/32).</p>
+  </aside>
+</section>
+
+<!-- ==================================================================== -->
+<!-- 5. CONCLUSIONES Y TRABAJO FUTURO                                      -->
+<!-- ==================================================================== -->
+<section class="slide divider" data-section="Conclusiones y trabajo futuro">
+  <aside class="notes"><p class="muted">Separador de sección.</p></aside>
+</section>
+
+<section class="slide" data-section="Conclusiones y trabajo futuro">
+  <h2>¿Se cumple la hipótesis?</h2>
+  <table style="font-size:26px">
+    <tr><th class="l">Experimento</th><th class="l">Tipo de sistema</th><th>Hipótesis</th><th class="l">Observación</th></tr>
+    <tr><td class="l">Juego de la vida</td><td class="l">Cerrado, determinista</td><td><span class="pill si">Se cumple</span></td><td class="l">Reproducción exacta</td></tr>
+    <tr><td class="l"><i>Sandpile</i></td><td class="l">Cerrado, determinista</td><td><span class="pill si">Se cumple</span></td><td class="l">Con un solo generador</td></tr>
+    <tr><td class="l">Hormiga de Langton</td><td class="l">Cerrado, determinista</td><td><span class="pill si">Se cumple</span></td><td class="l">Hasta 10 colores (50 estados)</td></tr>
+    <tr class="sep"><td class="l">FLAME 3</td><td class="l">Natural, faltan variables</td><td><span class="pill parcial">Parcial</span></td><td class="l">Avance y extinción; sin relieve ni clima</td></tr>
+    <tr><td class="l"><i>Physarum polycephalum</i></td><td class="l">Natural, cerrado</td><td><span class="pill parcial">Parcial</span></td><td class="l">Red conectada hacia el alimento y área casi real; venas más gruesas</td></tr>
+    <tr><td class="l">SEVIR</td><td class="l">Natural, abierto</td><td><span class="pill no">No se cumple</span></td><td class="l">Variables atmosféricas externas a la rejilla</td></tr>
+  </table>
+  <div class="aport">
+    <div><b>Aportación tecnológica</b>Simulador de autómatas celulares clásicos y neuronales en CUDA, con su propio flujo de entrenamiento.</div>
+    <div><b>Aportación metodológica</b>Configuración práctica para entrenar autómatas celulares neuronales.</div>
+    <div class="azul"><b>Advertencia</b>Reproducir la evolución observada no equivale a extraer la función de transición exacta.</div>
+  </div>
+  <aside class="notes">
+    <p class="t">⏱ 14:40 → 16:03</p>
+    <p class="g">En conclusión, se cumple nuestra hipótesis de manera exacta para los sistemas cerrados y deterministas como el Juego de la Vida, Sandpile —bajo un solo generador— y la Hormiga de Langton hasta con 10 colores, es decir 50 estados. Se cumple de manera parcial para la propagación de fuego en FLAME 3, donde se replican las dinámicas básicas de avance y extinción pero faltan variables topográficas y climáticas; y se cumple parcialmente en el comportamiento emergente de Physarum polycephalum, donde se logra la ramificación hacia el alimento y, con memoria de la edad del plasmodio, casi la misma área que la real, aunque con venas más gruesas. En contraste, no se cumple en el movimiento de tormentas de SEVIR debido a que es un sistema abierto gobernado por variables atmosféricas externas no observables en la rejilla.</p>
+    <p class="g">Como aportación tecnológica, se construyó un simulador funcional que ejecuta autómatas celulares clásicos y neuronales directamente en CUDA integrando su propio flujo de entrenamiento, y se estableció una metodología práctica de configuración para entrenar estos modelos, recordando siempre que reproducir la evolución observada no equivale a extraer la función de transición exacta.</p>
+  </aside>
+</section>
+
+<section class="slide" data-section="Conclusiones y trabajo futuro">
+  <h2>Conclusiones</h2>
+  <div class="cards">
+    <div class="card"><span class="n">01</span><h3>Inferencia de la regla</h3>La red extrae la parte de la regla que aparece en los datos: el juego de la vida no falla en ninguno de los 512 patrones. Ante patrones que no vio puede fallar (<i>sandpile</i> con varios generadores, hormiga de Langton en el paso 12,455).</div>
+    <div class="card"><span class="n">02</span><h3>Configuración de la red</h3>Pocas capas anchas con ReLU y salida lineal, entrada <i>one-hot</i> cuando hay más de dos estados y una vecindad que contenga a todos los vecinos que influyen.</div>
+    <div class="card"><span class="n">03</span><h3>Parámetros de entrenamiento</h3>Con un entrenamiento incompleto, la pérdida objetivo determina qué regla se aprende (B3/S238 → B3/S23). Reducir la tasa de aprendizaje permite alcanzarla sin oscilaciones.</div>
+    <div class="card"><span class="n">04</span><h3>Sistemas reales</h3>El sistema debe ser cerrado (su evolución depende solo de los estados de las células), tener datos suficientes y registrar en el estado las variables que influyen.</div>
+  </div>
+  <aside class="notes">
+    <p class="muted">El guion no tiene texto para esta diapositiva. Cada recuadro responde una de las 4 preguntas experimentales de introduccion.tex (sin mostrarlas); las respuestas salen de conclusion.tex.</p>
+  </aside>
+</section>
+
+<section class="slide" data-section="Conclusiones y trabajo futuro">
+  <h2>Trabajo a futuro</h2>
+  <div class="cards cinco">
+    <div class="card azul"><span class="n">01</span><h3>Memoria temporal</h3>La edad del plasmodio ya mejoró <i>Physarum polycephalum</i>; falta guardar más pasos y probarla en FLAME 3 y SEVIR.</div>
+    <div class="card azul"><span class="n">02</span><h3>Generalización</h3>Ante patrones poco frecuentes, y una distancia formal entre el vector de regla original y la regla inducida por la red.</div>
+    <div class="card azul"><span class="n">03</span><h3>Autómatas celulares continuos</h3>Con valores reales y dinámicas probabilísticas.</div>
+    <div class="card azul"><span class="n">04</span><h3>Simulador en una y tres dimensiones</h3>Relieve en modelos de incendios y otros tipos de vecindad.</div>
+    <div class="card azul"><span class="n">05</span><h3>Morfogénesis</h3>Entrenar solo con la configuración inicial y la final, como Mordvintsev et al., pero con estados discretos y escalares, y actualización determinista.</div>
+  </div>
+  <aside class="notes">
+    <p class="t">⏱ 16:03 → 17:12</p>
+    <p class="g">Finalmente, como trabajo futuro proponemos cinco líneas principales:</p>
+    <p class="g">1. Ampliar la memoria temporal: guardar si el plasmodio era nuevo ya mejoró la simulación de Physarum; falta guardar más pasos de la historia y probarla en FLAME 3 y SEVIR.<br>
+    2. Mejorar la generalización ante patrones poco frecuentes y desarrollar métodos para medir la distancia formal entre el vector de regla original y la regla equivalente inducida por la red neuronal.<br>
+    3. Extender el motor hacia autómatas celulares continuos con valores reales y dinámicas probabilísticas.<br>
+    4. Ampliar las capacidades del simulador en CUDA hacia una y tres dimensiones —lo que permitiría incorporar relieve en modelos de incendios— y explorar distintos tipos de vecindades.<br>
+    5. Experimentar con morfogénesis: en lugar de la secuencia completa, darle a la red solo la configuración inicial y la final para que aprenda a llegar de una a la otra, como Mordvintsev, pero con nuestra codificación: estados discretos y escalares, y actualización determinista.</p>
+  </aside>
+</section>
+
+<!-- ==================================================================== -->
+<!-- 6. REFERENCIAS Y CIERRE                                               -->
+<!-- ==================================================================== -->
+<section class="slide" data-section="Referencias">
+  <h2>Referencias</h2>
+  <ol class="refs">
+    <li>A. Mordvintsev, E. Randazzo, E. Niklasson y M. Levin, “Growing Neural Cellular Automata,” <i>Distill</i>, 2020, doi: 10.23915/distill.00023.</li>
+    <li>“Conway's Game of Life,” <i>LifeWiki</i>. [En línea].</li>
+    <li>P. Bak, C. Tang y K. Wiesenfeld, “Self-organized criticality: An explanation of the 1/f noise,” <i>Phys. Rev. Lett.</i>, vol. 59, no. 4, pp. 381–384, 1987.</li>
+    <li>R. Menchaca Méndez, “Control de Autómatas Celulares con Aprendizaje Reforzado Profundo,” conferencia virtual, CIMA UAdeC, 2022.</li>
+    <li>“Langton's Ant,” <i>Wikipedia, The Free Encyclopedia</i>. [En línea].</li>
+    <li>B. Hopkins <i>et al.</i>, “FLAME 3 Dataset: Unleashing the Power of Radiometric Thermal UAV Imagery for Wildfire Management,” arXiv:2412.02831, 2024.</li>
+    <li>M. S. Veillette, S. Samsi y C. J. Mattioli, “SEVIR: A Storm Event Imagery Dataset for Deep Learning Applications in Radar and Satellite Meteorology,” en <i>NeurIPS</i>, vol. 33, pp. 22009–22019, 2020.</li>
+    <li>K. Harrington e I. Harrington, “<i>Physarum polycephalum</i> time-lapse imaging: 24 dish series from four six-dish experiments (OME-Zarr),” Zenodo, 2026, doi: 10.5281/zenodo.22868368.</li>
+    <li>S. Wolfram, “Why Does Biological Evolution Work? A Minimal Model for Biological Evolution and Other Adaptive Processes,” <i>Stephen Wolfram Writings</i>, 2024.</li>
+    <li>S. Wolfram, “What's Special about Life? Bulk Orchestration and the Rulial Ensemble in Biology and Beyond,” <i>Stephen Wolfram Writings</i>, 2025.</li>
+    <li>E. J. Angeles Lopez, “[WSS25] Adaptative Evolution in Totalistic Cellular Automaton,” <i>Wolfram Community</i>, 2025.</li>
+    <li>J. Hurtado <i>et al.</i>, “Exploring Finite Lifeforms in Totalistic Cellular Automata,” <i>Wolfram Community</i>, 2024.</li>
+    <li>E. J. Angeles Lopez y S. Das, “Spectral Moments with Attractor Mass: A Similarity Index for One-Dimensional Cellular Automata,” enviado al <i>Asian Symposium on Cellular Automata Technology</i> (ASCAT 2027), 2026.</li>
+    <li>G. J. Martínez, “A Note on Elementary Cellular Automata Classification,” <i>J. Cell. Autom.</i>, vol. 8, no. 3–4, pp. 233–259, 2013.</li>
+  </ol>
+  <aside class="notes">
+    <p class="t">⏱ 17:12 → 17:18</p>
+    <p class="g">Esto es todo por mi parte. Aquí se muestran las referencias utilizadas.</p>
+    <p class="muted">Solo las referencias que aparecen en las diapositivas; las demás están en el reporte.</p>
+  </aside>
+</section>
+
+<section class="slide cierre" data-section="Referencias">
+  <div class="ca-wrap"><svg class="ca" data-cell="22" data-start="0.5" data-alpha="0.16"></svg></div>
+  <div class="contenido">
+    <div class="grande">¡Gracias!</div>
+    <div class="pq">Preguntas y comentarios</div>
+    <div class="firma"><b>Angeles Lopez Erick Jesse</b><br>Trabajo Terminal 2026-A114 · ESCOM, IPN</div>
+  </div>
+  <aside class="notes">
+    <p class="t">⏱ 17:18 → 17:21</p>
+    <p class="g">Muchas gracias y quedo atento a sus preguntas.</p>
+    <p class="muted">Para preguntas: Inicio → Contenido → Anexos.</p>
+  </aside>
+</section>
+
+<!-- ==================================================================== -->
+<!-- 7. ANEXOS (respaldo para preguntas)                                   -->
+<!-- ==================================================================== -->
+<section class="slide divider" data-section="Anexos">
+  <aside class="notes"><p class="muted">Respaldo para las preguntas. Cada renglón del índice (diapositiva 2) es clicable.</p></aside>
+</section>
+
+<section class="slide" data-section="Anexos">
+  <h2>Requerimientos y equipo de simulación</h2>
+  <div class="cols vcenter" style="grid-template-columns: 0.92fr 1.08fr; gap:80px">
+    <div>
+      <h3>Software</h3>
+      <table class="small" style="margin:0; width:100%">
+        <tr><th class="l">Herramienta</th><th class="l">Versión</th></tr>
+        <tr><td class="l">Sistema operativo</td><td class="l">Fedora Linux 44</td></tr>
+        <tr><td class="l">Compilador C++</td><td class="l">GCC 15 (para <code>nvcc</code>)</td></tr>
+        <tr><td class="l">CUDA Toolkit</td><td class="l">13.2</td></tr>
+        <tr><td class="l">CMake</td><td class="l">≥ 3.15</td></tr>
+        <tr><td class="l">Python</td><td class="l">3.14</td></tr>
+        <tr><td class="l">pybind11</td><td class="l">Última versión estable</td></tr>
+        <tr><td class="l">PyQt5</td><td class="l">5.15</td></tr>
+        <tr><td class="l">NumPy · SciPy</td><td class="l">≥ 1.24 · ≥ 1.10</td></tr>
+        <tr><td class="l">PyTorch</td><td class="l">2.x con soporte CUDA</td></tr>
+      </table>
+    </div>
+    <div class="stack" style="gap:24px">
+      <div class="hw"><div class="k">Equipo donde se simuló y entrenó</div><dl>
+        <dt>Procesador</dt><dd>Intel Core i9-14900K (24 núcleos, 32 hilos)</dd>
+        <dt>GPU</dt><dd>NVIDIA GeForce RTX 5080 (16 GB)</dd>
+        <dt>Memoria</dt><dd>32 GB de RAM</dd>
+        <dt>Sistema</dt><dd>Fedora Linux 44 · GNOME 50 · Hyprland</dd>
+      </dl></div>
+      <div class="hw azul"><div class="k">Mínimo probado</div><dl>
+        <dt>Procesador</dt><dd>Intel Core i5-13420H (8 núcleos, 12 hilos)</dd>
+        <dt>GPU</dt><dd>NVIDIA con CUDA, como la RTX 4050 para portátiles</dd>
+        <dt>Memoria</dt><dd>16 GB de RAM</dd>
+        <dt>Sistema</dt><dd>Fedora Linux 44 · GNOME 50 · Wayland</dd>
+      </dl></div>
+      <p class="note" style="margin:0">El mínimo es la configuración más baja en la que se probó; la velocidad depende de la GPU.</p>
+    </div>
+  </div>
+  <aside class="notes">
+    <p class="muted">Fuente: metodologia_requerimientos.tex (requerimientos de sistema, recomendado y mínimo) y entorno.tex (versiones). Los 16 GB de la RTX 5080 se leyeron con nvidia-smi en el equipo; el reporte no los menciona.</p>
+  </aside>
+</section>
+
+<section class="slide" data-section="Anexos">
+  <h2>Detalles del simulador</h2>
+  <div class="cols c2">
+    <div>
+      <h3>Autómata celular</h3>
+      <ul class="small">
+        <li>Espacios de hasta 2,000 × 2,000 células.</li>
+        <li>Reglas semitotalísticas, totalísticas y arbitrarias.</li>
+        <li>Cuatro condiciones de frontera: abierta, periódica, reflectiva y reflexiva.</li>
+        <li>Un paso de evolución en paralelo en la GPU (CUDA).</li>
+        <li><i>Buffer</i> de pasos precalculados en otro hilo para que la reproducción no se detenga.</li>
+        <li>Lógica y núcleo programados sin bibliotecas de simulación; conectados a Python con pybind11 (patrón Modelo-Vista-Controlador).</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Autómata celular neuronal</h3>
+      <ul class="small">
+        <li>Usa el mismo espacio que el autómata celular.</li>
+        <li>El <i>kernel</i> NCA ejecuta en CUDA el <i>forward pass</i> del perceptrón multicapa en cada célula; el siguiente estado es la salida con mayor valor.</li>
+        <li>Carga el archivo <code>.npz</code>: capas, funciones de activación y codificación <i>one-hot</i>.</li>
+        <li>Da el mismo resultado, célula por célula, que el entrenamiento en PyTorch.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-section="Anexos">
+  <h2>Pruebas de rendimiento</h2>
+  <div class="kpis" style="margin:auto 0 50px">
+    <div class="kpi"><div class="h">10,000 pasos en 1,000 × 1,000</div><div class="v">0.07 <small>s en la GPU</small></div><div class="l">5.6 s si se copia y muestra cada paso</div></div>
+    <div class="kpi"><div class="h">2,000 × 2,000 · 4 millones de células</div><div class="v">122 <small>fps</small></div><div class="l">al dibujar; la GPU calcula 55,400 pasos/s</div></div>
+    <div class="kpi win"><div class="h">Requerimiento: 10,000 células/s</div><div class="v">2.1 × 10<sup>9</sup> <small>células/s</small></div><div class="l">2,000 × 2,000 mostrando cada paso</div></div>
+  </div>
+  <div class="cols" style="grid-template-columns: 1.3fr 0.7fr; gap:64px; flex:none; margin-bottom:auto">
+    <div>
+      <h3>Simulador · B3/S23 con 50% de células vivas</h3>
+      <table class="small" style="margin:0; width:100%">
+        <tr><th><i>n</i> × <i>n</i></th><th>Pasos/s en la GPU</th><th>Pasos/s mostrados</th><th>10,000 pasos mostrados</th><th>fps al dibujar</th></tr>
+        <tr><td>100</td><td>345,000</td><td>102,800</td><td>0.1 s</td><td>1,515</td></tr>
+        <tr><td>500</td><td>313,000</td><td>6,500</td><td>1.5 s</td><td>1,125</td></tr>
+        <tr><td>1,000</td><td>137,000</td><td>1,800</td><td>5.6 s</td><td>353</td></tr>
+        <tr><td>2,000</td><td>55,400</td><td>520</td><td>19 s</td><td>122</td></tr>
+      </table>
+      <p class="tiny" style="margin-top:14px">En la GPU: <code>step()</code>, solo el <i>kernel</i>. Mostrados: <code>run(100)</code>, con la copia de la GPU a la memoria en cada paso.</p>
+    </div>
+    <div>
+      <h3>Entrenamiento de las redes finales</h3>
+      <table class="small" style="margin:0; width:100%">
+        <tr><th class="l">Experimento</th><th>Épocas</th><th>Tiempo</th></tr>
+        <tr><td class="l">Juego de la vida</td><td>5</td><td>2.3 s</td></tr>
+        <tr><td class="l"><i>Sandpile</i></td><td>21</td><td>7.5 s</td></tr>
+        <tr><td class="l">Hormiga de Langton</td><td>22</td><td>27 s</td></tr>
+        <tr><td class="l">FLAME 3</td><td>200</td><td>12 s</td></tr>
+        <tr><td class="l">SEVIR</td><td>30</td><td>87 s</td></tr>
+        <tr><td class="l"><i>Physarum</i></td><td>30</td><td>173 s</td></tr>
+      </table>
+    </div>
+  </div>
+  <aside class="notes">
+    <p class="muted">Fuente: pruebas.tex (tablas de velocidad de evolución y de renderizado). Las columnas «10,000 pasos» y los KPI son cuentas con esos datos: 10,000 / 137,000 = 0.07 s; 10,000 / 1,800 = 5.6 s; 4,000,000 células × 520 pasos/s = 2.1 × 10^9 células/s (RNF2 pide 10,000 con la RTX 5080).</p>
+    <p class="muted">Entrenamiento: tiempo total (con la carga de datos) de los comandos de pruebas/instrucciones.csv, medido el 2026-11-16 en la RTX 5080. Solo el ciclo de entrenamiento: 0.9, 6.0, 25.4, 10.7, 77.2 y 164.8 s. Las épocas son las que tardó cada red en llegar a su pérdida objetivo o al límite.</p>
+  </aside>
+</section>
+
+<section class="slide" data-section="Anexos">
+  <h2>Pruebas de validación</h2>
+  <div class="cols c3" style="gap:30px; flex:none; margin-top:auto; align-items:stretch">
+    <div class="test">
+      <div class="k">Autómata celular</div>
+      <p>La misma condición inicial en el simulador y en otra implementación, con las mismas condiciones.</p>
+      <div class="ok">Correcto si la diferencia es 0 en cada paso.</div>
+    </div>
+    <div class="test">
+      <div class="k">Autómata celular neuronal</div>
+      <p>Evolucionar <i>T</i> pasos → entrenar → cargar los pesos en el simulador → evolucionar desde la misma condición inicial.</p>
+      <div class="ok">Correcto si coincide más del 99% de las células.</div>
+    </div>
+    <div class="test">
+      <div class="k">Interfaz · pruebas manuales</div>
+      <ul class="small" style="font-size:21px">
+        <li>Definir una regla desde cero.</li>
+        <li>Pintar, borrar y aleatorizar el espacio.</li>
+        <li>Grabar, exportar a .npy y .mat y reimportar.</li>
+        <li>Cargar una red y cambiar entre CA y NCA.</li>
+        <li>Entrenar desde la pestaña y leer su salida.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="resultados">
+    <div class="kpi"><div class="h">Juego de la vida</div><div class="v">512 <small>de 512 patrones</small></div></div>
+    <div class="kpi"><div class="h"><i>Sandpile</i></div><div class="v">100% <small>de exactitud</small></div></div>
+    <div class="kpi"><div class="h">Hormiga de Langton, 2 a 10 colores</div><div class="v">8 <small>de 9 redes sin errores</small></div></div>
+  </div>
+  <div class="robust" style="margin-bottom:auto"><b>Robustez</b><span><code>CUDA_CHECK</code> en cada llamada a CUDA</span><span>Tablas de regla de hasta 16,777,216 entradas</span><span>Se descartan los pasos precalculados obsoletos</span></div>
+  <aside class="notes">
+    <p class="muted">Fuente: pruebas.tex. Resultados: gol.tex (512 de 512 patrones de 3 × 3), sandpile.tex (exactitud del 100% con las tres tasas de aprendizaje) y langton.tex (8 de 9 redes reproducen sus 10,000 pasos; la de 6 colores falla en el paso 7,028). El kernel NCA en CUDA da el mismo resultado, célula por célula, que PyTorch (Detalles del simulador).</p>
+  </aside>
+</section>
+
+<section class="slide" data-section="Anexos">
+  <h2>Diagrama de casos de uso</h2>
+  <svg class="ucd" viewBox="0 0 1700 790" role="img" aria-label="Diagrama de casos de uso"><defs><marker id="flecha" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L11 6 L1 11" fill="none" stroke="#75003e" stroke-width="1.8"/></marker></defs><rect class="fr" x="0" y="0" width="1050" height="780" rx="6"/><path class="tab" d="M6 1 H190 V24 L176 38 H1 V6 Z"/><text class="ft" x="18" y="26">Simulador</text><rect class="fr" x="1262" y="170" width="438" height="440" rx="6"/><path class="tab" d="M1268 171 H1498 V194 L1484 208 H1263 V176 Z"/><text class="ft" x="1280" y="196">Entrenamiento</text><ellipse class="uc" cx="150" cy="72" rx="118" ry="31"/><text class="ut" x="150" y="78.5">Grabar evolución</text><ellipse class="uc" cx="150" cy="348" rx="118" ry="31"/><text class="ut" x="150" y="354.5">Pausar simulación</text><ellipse class="uc" cx="150" cy="716" rx="118" ry="31"/><text class="ut" x="150" y="722.5">Cambiar CA/NCA</text><line class="as" x1="638.0" y1="72.0" x2="1110.0" y2="72.0"/><line class="as" x1="638.0" y1="164.0" x2="1110.0" y2="164.0"/><line class="as" x1="638.0" y1="256.0" x2="1110.0" y2="256.0"/><line class="as" x1="638.0" y1="348.0" x2="1110.0" y2="348.0"/><line class="as" x1="638.0" y1="440.0" x2="1110.0" y2="440.0"/><line class="as" x1="638.0" y1="532.0" x2="1110.0" y2="532.0"/><line class="as" x1="638.0" y1="624.0" x2="1110.0" y2="624.0"/><line class="as" x1="638.0" y1="716.0" x2="1110.0" y2="716.0"/><ellipse class="uc" cx="520" cy="72" rx="118" ry="31"/><text class="ut" x="520" y="78.5">Exportar evolución</text><ellipse class="uc" cx="520" cy="164" rx="118" ry="31"/><text class="ut" x="520" y="170.5">Reiniciar simulación</text><ellipse class="uc" cx="520" cy="256" rx="118" ry="31"/><text class="ut" x="520" y="262.5">Aleatorizar espacio</text><ellipse class="uc" cx="520" cy="348" rx="118" ry="31"/><text class="ut" x="520" y="354.5">Iniciar simulación</text><ellipse class="uc" cx="520" cy="440" rx="118" ry="31"/><text class="ut" x="520" y="446.5">Definir vecindad</text><ellipse class="uc" cx="520" cy="532" rx="118" ry="31"/><text class="ut" x="520" y="538.5">Definir estados</text><ellipse class="uc" cx="520" cy="624" rx="118" ry="31"/><text class="ut" x="520" y="619.5">Definir regla</text><text class="ut" x="520" y="641.5">de transición</text><ellipse class="uc" cx="520" cy="716" rx="118" ry="31"/><text class="ut" x="520" y="722.5">Cargar pesos</text><line class="as" x1="998.0" y1="118.0" x2="1110.0" y2="118.0"/><ellipse class="uc" cx="880" cy="118.0" rx="118" ry="31"/><text class="ut" x="880" y="124.5">Simular un paso</text><line class="as" x1="998.0" y1="210.0" x2="1110.0" y2="210.0"/><ellipse class="uc" cx="880" cy="210.0" rx="118" ry="31"/><text class="ut" x="880" y="216.5">Retroceder un paso</text><line class="as" x1="998.0" y1="302.0" x2="1110.0" y2="302.0"/><ellipse class="uc" cx="880" cy="302.0" rx="118" ry="31"/><text class="ut" x="880" y="308.5">Cambiar velocidad</text><line class="as" x1="998.0" y1="394.0" x2="1110.0" y2="394.0"/><ellipse class="uc" cx="880" cy="394.0" rx="118" ry="31"/><text class="ut" x="880" y="400.5">Importar evolución</text><line class="as" x1="998.0" y1="486.0" x2="1110.0" y2="486.0"/><ellipse class="uc" cx="880" cy="486.0" rx="118" ry="31"/><text class="ut" x="880" y="481.5">Cambiar estado</text><text class="ut" x="880" y="503.5">de una célula</text><line class="as" x1="998.0" y1="578.0" x2="1110.0" y2="578.0"/><ellipse class="uc" cx="880" cy="578.0" rx="118" ry="31"/><text class="ut" x="880" y="573.5">Cambiar color</text><text class="ut" x="880" y="595.5">de estado</text><line class="as" x1="998.0" y1="670.0" x2="1110.0" y2="670.0"/><ellipse class="uc" cx="880" cy="670.0" rx="118" ry="31"/><text class="ut" x="880" y="665.5">Definir condición</text><text class="ut" x="880" y="687.5">de frontera</text><line class="as" x1="1110" y1="72" x2="1110" y2="716"/><line class="as" x1="1110.0" y1="380.0" x2="1149.0" y2="380.0"/><g class="actor"><circle cx="1176" cy="346" r="16"/><line x1="1176" y1="362" x2="1176" y2="416"/><line x1="1149" y1="380" x2="1203" y2="380"/><line x1="1176" y1="416" x2="1154" y2="458"/><line x1="1176" y1="416" x2="1198" y2="458"/></g><text class="ft" x="1176" y="488" text-anchor="middle">Usuario</text><ellipse class="uc" cx="1481" cy="255" rx="134" ry="33"/><text class="ut" x="1481" y="250.5">Detener</text><text class="ut" x="1481" y="272.5">entrenamiento</text><ellipse class="uc" cx="1481" cy="380" rx="134" ry="33"/><text class="ut" x="1481" y="375.5">Iniciar</text><text class="ut" x="1481" y="397.5">entrenamiento</text><ellipse class="uc" cx="1481" cy="515" rx="134" ry="33"/><text class="ut" x="1481" y="521.5">Borrar registro</text><line class="as" x1="1203.0" y1="380.0" x2="1347.0" y2="380.0"/><line class="as" x1="1203.0" y1="384.0" x2="1418.9" y2="485.8"/><line class="dep" x1="1481.0" y1="288.0" x2="1481.0" y2="345.0" marker-end="url(#flecha)"/><text class="st" x="1495.0" y="322.0" text-anchor="start">«extend»</text><line class="dep" x1="402.0" y1="72.0" x2="270.0" y2="72.0" marker-end="url(#flecha)"/><text class="st" x="335.0" y="60.0" text-anchor="middle">«include»</text><line class="dep" x1="150.0" y1="103.0" x2="150.0" y2="315.0" marker-end="url(#flecha)"/><text class="st" x="162.0" y="215.0" text-anchor="start">«include»</text><line class="dep" x1="268.0" y1="348.0" x2="400.0" y2="348.0" marker-end="url(#flecha)"/><text class="st" x="335.0" y="336.0" text-anchor="middle">«extend»</text><line class="dep" x1="268.0" y1="716.0" x2="400.0" y2="716.0" marker-end="url(#flecha)"/><text class="st" x="335.0" y="704.0" text-anchor="middle">«include»</text><line class="dep" x1="150.0" y1="685.0" x2="150.0" y2="381.0" marker-end="url(#flecha)"/><text class="st" x="162.0" y="537.0" text-anchor="start">«include»</text><line class="dep" x1="402.0" y1="164.0" x2="192.5" y2="317.0" marker-end="url(#flecha)"/><text class="st" x="338.4" y="203.4" text-anchor="middle">«include»</text><line class="dep" x1="402.0" y1="256.0" x2="221.1" y2="322.0" marker-end="url(#flecha)"/><text class="st" x="347.1" y="269.1" text-anchor="middle">«include»</text><line class="dep" x1="402.0" y1="440.0" x2="221.1" y2="374.0" marker-end="url(#flecha)"/><text class="st" x="347.1" y="412.9" text-anchor="middle">«include»</text><line class="dep" x1="402.0" y1="532.0" x2="192.5" y2="379.0" marker-end="url(#flecha)"/><text class="st" x="338.4" y="478.6" text-anchor="middle">«include»</text><line class="dep" x1="402.0" y1="624.0" x2="180.2" y2="381.1" marker-end="url(#flecha)"/><text class="st" x="334.7" y="543.2" text-anchor="middle">«include»</text></svg>
+  <aside class="notes">
+    <p class="muted">Mismos casos de uso y relaciones que ReporteTecnico/_resources/UML_UCD.drawio (figura de casos_de_uso.tex), redibujado en horizontal para que se lea en la pantalla.</p>
+  </aside>
+</section>
+
+<section class="slide" data-section="Anexos">
+  <h2>Diagramas de clases</h2>
+  <div class="cols c3">
+    <figure><img src="media/img/classDiagram_cuda.png" alt=""><figcaption>Capa CUDA</figcaption></figure>
+    <figure><img src="media/img/classDiagram_models.png" alt=""><figcaption>Capa de modelos</figcaption></figure>
+    <figure><img src="media/img/classDiagram_ui.png" alt=""><figcaption>Capa UI</figcaption></figure>
+  </div>
+</section>
+
+<section class="slide" data-section="Anexos">
+  <h2>Controles de la interfaz</h2>
+  <div class="cols c2">
+    <figure><img src="media/img/ui_main_config.png" alt=""><figcaption>Controles de configuración.</figcaption></figure>
+    <figure><img src="media/img/ui_training_config.png" alt=""><figcaption>Controles de definición del entrenamiento.</figcaption></figure>
+  </div>
+</section>
+
+<section class="slide" data-section="Anexos">
+  <h2>Experimentos clásicos: datos y estados</h2>
+  <p class="lead">Las evoluciones se generan con la regla original, así que no necesitan limpieza; el reto es el desbalance.</p>
+  <table class="aire" style="margin:auto 0; width:100%">
+    <tr><th class="l">Experimento</th><th class="l">Evoluciones</th><th class="l">Estados</th><th class="l">Desbalance</th></tr>
+    <tr><td class="l"><b>Juego de la vida</b></td><td class="l">100 condiciones aleatorias de 100 × 100,<br>100 pasos</td><td class="l">2: muerta y viva</td><td class="l">C1N8 y C0N8 suman<br>menos del 0.02% de los patrones</td></tr>
+    <tr><td class="l"><b><i>Sandpile</i></b></td><td class="l">100 condiciones aleatorias con<br>4 generadores en 50 × 50, 1,500 pasos</td><td class="l">17: 8 alturas (0–7) y<br>9 de generador (0<sub><i>i</i></sub>–8<sub><i>i</i></sub>)</td><td class="l">Solo 4 de 2,500 células<br>son generadoras</td></tr>
+    <tr><td class="l"><b>Hormiga de Langton</b></td><td class="l">Una hormiga en 100 × 100, 11,000 pasos.<br>Con <i>n</i> colores: dos hormigas en 30 × 30, 10,000 pasos</td><td class="l">5<i>n</i>: <i>n</i> colores y<br>4 direcciones por color</td><td class="l">Cambian 2 de cada<br>10,000 células por paso</td></tr>
+  </table>
+  <aside class="notes">
+    <p class="muted">Fuente: gol.tex, sandpile.tex y langton.tex (introducción de cada experimento y crecimiento de estados).</p>
+  </aside>
+</section>
+
+<section class="slide" data-section="Anexos">
+  <h2>El juego de la vida: vecindad ampliada sin un vecino</h2>
+  <div class="cols c2">
+    <div>
+      <table>
+        <tr><th class="l">Vecindad</th><th>Pérdida</th></tr>
+        <tr><td class="l">3 × 3 sin el vecino noroeste</td><td>0.1214</td></tr>
+        <tr><td class="l">7 × 7 sin el vecino noroeste</td><td>0.0984</td></tr>
+        <tr><td class="l">9 × 9 sin el vecino noroeste</td><td>0.0976</td></tr>
+        <tr class="sep"><td class="l">3 × 3 sin el centro</td><td>0.0787</td></tr>
+        <tr><td class="l">7 × 7 sin el centro</td><td>0.0670</td></tr>
+        <tr><td class="l">9 × 9 sin el centro</td><td>0.0660</td></tr>
+      </table>
+      <p class="small">Agrandar la vecindad baja la pérdida, pero no alcanza a recuperar el vecino que falta.</p>
+    </div>
+    <figure>
+      <img src="media/img/life_pattern_count.png" alt="Frecuencia de patrones">
+      <figcaption>Frecuencia de los patrones <i>CxNy</i> en B3/S23.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="slide" data-section="Anexos">
+  <h2><i>Sandpile</i> con frontera periódica</h2>
+  <div class="cols c2-wide-right">
+    <ul class="small">
+      <li>La misma red (entrenada con frontera abierta) falla en el paso 13,032 y pierde el generador en el 13,057.</li>
+      <li>Con dos generadores contiguos, que nunca vio, coincide durante 1,882 pasos en 25 × 25.</li>
+    </ul>
+    <figure>
+      <video src="media/videos/sandpile_periodica.webm" muted loop playsinline preload="metadata" data-autoplay></video>
+      <figcaption>Un generador, 51 × 51, frontera periódica.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="slide" data-section="Anexos">
+  <h2>Hormiga de Langton fuera del entrenamiento</h2>
+  <div class="cols c2" style="gap:40px">
+    <figure>
+      <video src="media/videos/langton_ocho_hormigas.webm" muted loop playsinline preload="metadata" data-autoplay></video>
+      <figcaption>Ocho hormigas en posiciones al azar, regla RL (red entrenada con dos hormigas en 30 × 30): <i>t</i>* = 639.</figcaption>
+    </figure>
+    <figure>
+      <video src="media/videos/langton_diez_colores.webm" muted loop playsinline preload="metadata" data-autoplay></video>
+      <figcaption>10 colores, dos hormigas en 100 × 100: <i>t</i>* = 5,073.</figcaption>
+    </figure>
+  </div>
+  <p class="small">Con dos hormigas RL en posiciones al azar: 20,000 pasos sin errores.</p>
+</section>
+
+<section class="slide" data-section="Anexos">
+  <h2>FLAME 3: preprocesamiento</h2>
+  <div class="prep">
+    <div class="p"><img src="media/img/clean_01.jpg" alt=""><div><b><i>1</i>Selección</b>flame_plot_1 (imágenes 662–777, 116 cuadros) y flame_plot_2 (1189–1254, 66 cuadros): propagación a velocidad constante que ya empieza con fuego, para que la red no aprenda combustión espontánea.</div></div>
+    <div class="p"><img src="media/img/clean_02.jpg" alt=""><div><b><i>2</i>Ajuste de posición</b>Correlación de fase (1/20 de píxel) solo sobre el suelo frío, entre imágenes a 1, 2, 4, …, 128 de distancia; mínimos cuadrados robustos (Huber) e interpolación bilineal. Corrección máxima: 6.57 y 7.69 píxeles.</div></div>
+    <div class="p"><img src="media/img/clean_03.jpg" alt=""><div><b><i>3</i>Sin ruido en los bordes</b>Se recorta el mayor cuadrado sin píxeles vacíos en toda la secuencia.</div></div>
+    <div class="p"><img src="media/img/clean_04.jpg" alt=""><div><b><i>4</i>Escalado</b>Convolución hasta 100 × 100 células.</div></div>
+    <div class="p"><img src="media/img/clean_05_18estados.jpg" alt=""><div><b><i>5</i>Discretización</b>Sobre los TIFF, que guardan la temperatura de cada píxel: 12 intervalos logarítmicos de 25.3 a 604.6 °C y 6 estados de quemado que recuerdan el combustible consumido.</div></div>
+  </div>
+  <aside class="notes">
+    <p class="muted">Fuente: flame.tex, «Preprocesamiento de los datos». Suelo frío: menos de 50 °C en ambas imágenes y a más de 12 píxeles del fuego. No se usan los JPG porque ajustan los colores al rango de cada imagen.</p>
+  </aside>
+</section>
+
+<section class="slide" data-section="Anexos">
+  <h2>FLAME 3: estados de temperatura</h2>
+  <div class="cols" style="grid-template-columns: repeat(3, auto); justify-content:center; gap:80px; flex:none; margin-top:20px">
+    <table class="compact" style="font-size:24px"><tr><th colspan="3">Sin quemar</th></tr><tr><td><span class="sw" style="background:#448CFD"></span></td><td>0</td><td class="l">25.3–59.0 °C</td></tr><tr><td><span class="sw" style="background:#17D9C7"></span></td><td>1</td><td class="l">59.0–72.9 °C</td></tr><tr><td><span class="sw" style="background:#2FF09A"></span></td><td>2</td><td class="l">72.9–90.1 °C</td></tr><tr><td><span class="sw" style="background:#69FD65"></span></td><td>3</td><td class="l">90.1–111.4 °C</td></tr><tr><td><span class="sw" style="background:#A1FC3D"></span></td><td>4</td><td class="l">111.4–137.6 °C</td></tr><tr><td><span class="sw" style="background:#CDEB34"></span></td><td>5</td><td class="l">137.6–170.0 °C</td></tr></table>
+    <table class="compact" style="font-size:24px"><tr><th colspan="3">Sin quemar</th></tr><tr><td><span class="sw" style="background:#EDCF39"></span></td><td>6</td><td class="l">170.0–210.0 °C</td></tr><tr><td><span class="sw" style="background:#FDA932"></span></td><td>7</td><td class="l">210.0–259.5 °C</td></tr><tr><td><span class="sw" style="background:#FA7A1F"></span></td><td>8</td><td class="l">259.5–320.6 °C</td></tr><tr><td><span class="sw" style="background:#E84B0C"></span></td><td>9</td><td class="l">320.6–396.1 °C</td></tr><tr><td><span class="sw" style="background:#CB2B03"></span></td><td>10</td><td class="l">396.1–489.3 °C</td></tr><tr><td><span class="sw" style="background:#A01101"></span></td><td>11</td><td class="l">489.3–604.6 °C</td></tr></table>
+    <table class="compact" style="font-size:24px"><tr><th colspan="3">Quemado</th></tr><tr><td><span class="sw" style="background:#000000"></span></td><td>12</td><td class="l">25.3–72.9 °C</td></tr><tr><td><span class="sw" style="background:#333333"></span></td><td>13</td><td class="l">72.9–111.4 °C</td></tr><tr><td><span class="sw" style="background:#666666"></span></td><td>14</td><td class="l">111.4–170.0 °C</td></tr><tr><td><span class="sw" style="background:#999999"></span></td><td>15</td><td class="l">170.0–259.5 °C</td></tr><tr><td><span class="sw" style="background:#CCCCCC"></span></td><td>16</td><td class="l">259.5–396.1 °C</td></tr><tr><td><span class="sw" style="background:#FFFFFF"></span></td><td>17</td><td class="l">396.1–604.6 °C</td></tr></table>
+  </div>
+  <p class="note center" style="margin-top:40px">Los 6 estados de quemado agrupan los 12 intervalos de dos en dos.</p>
+</section>
+
+<section class="slide" data-section="Anexos">
+  <h2>FLAME 3: modificaciones probadas</h2>
+  <table class="small">
+    <tr><th class="l">Modificación</th><th class="l">Resultado</th></tr>
+    <tr><td class="l">Tomar una imagen de cada 1, 3 o 6</td><td class="l">Con 6 (30 s) la red supera a la predicción sin cambio.</td></tr>
+    <tr><td class="l">Número de estados (4 a 50)</td><td class="l">Reduce el error de cuantización, no el de la dinámica.</td></tr>
+    <tr><td class="l">Quitar la ignición</td><td class="l">Casi ninguna red enciende células.</td></tr>
+    <tr><td class="l">Rotar las imágenes</td><td class="l">Baja el error de un paso; la simulación libre no mejora.</td></tr>
+    <tr><td class="l">Combustible como clase fija</td><td class="l">La red casi no enciende células.</td></tr>
+    <tr><td class="l">Bandera de quemado (umbral fijo)</td><td class="l">5 veces más células encendidas, muchas falsas.</td></tr>
+    <tr><td class="l"><b>Quemado al enfriarse</b></td><td class="l"><b>La red propaga el fuego</b> (representación final).</td></tr>
+  </table>
+</section>
+
+<section class="slide" data-section="Anexos">
+  <h2>FLAME 3: mejores configuraciones en cada prueba</h2>
+  <table class="small">
+    <tr><th>Paso</th><th>Vecindad</th><th>Capas</th><th>Área quemada</th><th>Área con fuego</th><th>Error simulación libre</th><th>Error de un paso</th></tr>
+    <tr><td colspan="7" class="l"><b>Prueba en flame_plot_1</b> (entrenadas con flame_plot_2)</td></tr>
+    <tr><td>15 s</td><td>Dispersa</td><td>3:64</td><td>86%</td><td>68%</td><td>404%</td><td>113%</td></tr>
+    <tr><td>30 s</td><td>Dispersa</td><td>3:64</td><td>86%</td><td>67%</td><td>140%</td><td>119%</td></tr>
+    <tr><td>30 s</td><td>9 × 9</td><td>2:32</td><td>85%</td><td>55%</td><td>147%</td><td>110%</td></tr>
+    <tr><td colspan="7" class="l"><b>Prueba en flame_plot_2</b> (entrenadas con flame_plot_1)</td></tr>
+    <tr><td>15 s</td><td>9 × 9</td><td>4:256</td><td>67%</td><td>61%</td><td>89%</td><td>105%</td></tr>
+    <tr><td>5 s</td><td>Dispersa</td><td>4:256</td><td>61%</td><td>52%</td><td>77%</td><td>117%</td></tr>
+    <tr><td>30 s</td><td>9 × 9</td><td>2:32</td><td>30%</td><td>27%</td><td>97%</td><td>89%</td></tr>
+  </table>
+  <p class="tiny" style="text-align:center">Errores respecto a la predicción sin cambio (menos de 100% es mejor). La configuración final es la de 30 s, 9 × 9 y 2:32.</p>
+</section>
+
+<section class="slide" data-section="Anexos">
+  <h2>SEVIR: preprocesamiento</h2>
+  <div class="cols vcenter" style="grid-template-columns: 1.08fr 0.92fr; gap:64px">
+    <figure>
+      <img src="media/img/sevir_preprocesamiento.png" alt="Imagen VIL original y discretizada" style="width:100%">
+      <div class="ley7"><span class="t">Estado</span><span style="background:#F2F2F2">0</span><span style="background:#9BE39B">1</span><span style="background:#2E9E3A;color:#fff">2</span><span style="background:#F5D90A">3</span><span style="background:#F28C1E">4</span><span style="background:#D7191C;color:#fff">5</span><span style="background:#B10DC9;color:#fff">6</span></div>
+    </figure>
+    <div class="pasos">
+      <div><b><i>1</i>Escalado</b>De 384 × 384 a 96 × 96 promediando bloques de 4 × 4: cada célula mide 4 km y una tormenta avanza cerca de una célula por paso (5 min).</div>
+      <div><b><i>2</i>Discretización</b>Los 6 umbrales de los autores (16, 74, 133, 160, 181 y 219 de 255) dan 7 estados; hay tormenta desde el estado 2.</div>
+      <div><b><i>3</i>Selección de eventos</b>Solo eventos con al menos 2% de tormenta desde la primera imagen: 40 de entrenamiento y 20 de prueba; en el barrido, 1,996 y 200.</div>
+      <div><b><i>4</i>Transiciones al azar</b>40 tormentas completas con vecindad de 11 × 11 ocupan cerca de 9 GB, así que de cada tormenta se toman solo algunos pares de imágenes.</div>
+    </div>
+  </div>
+  <aside class="notes">
+    <p class="muted">Fuente: sevir.tex, «Preprocesamiento de los datos» y «Barrido de configuraciones». Solo se usan las imágenes VIL (agua líquida en la columna de aire). Prueba del barrido: 200 tormentas de 2019. La mejor red usó 400 tormentas con 5 transiciones cada una.</p>
+  </aside>
+</section>
+
+<section class="slide" data-section="Anexos">
+  <h2>SEVIR: barrido y desplazamiento</h2>
+  <div class="cols c2">
+    <figure>
+      <img src="media/img/barrido_vecindades.png" alt="Vecindades probadas">
+      <figcaption>Vecindades probadas.</figcaption>
+    </figure>
+    <div>
+      <table class="small">
+        <tr><th></th><th>Desplazamiento al este (60 min)</th><th>Variación E–O / N–S</th></tr>
+        <tr><td class="l">Real</td><td>5.82 células (23 km)</td><td>7.06 / 7.18</td></tr>
+        <tr><td class="l">Red</td><td>7.17 células (29 km)</td><td>4.49 / 4.04</td></tr>
+      </table>
+      <p class="small">SEVIR (MIT Lincoln Laboratory) tiene más de 10,000 eventos; se seleccionaron 1,996 tormentas.</p>
+      <p class="small">La red mueve casi todas las tormentas hacia el este con mucha menos variación que las reales. El límite no depende de la cantidad de datos, del tamaño de la red ni de la vecindad.</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-section="Anexos">
+  <h2><i>Physarum polycephalum</i>: preprocesamiento</h2>
+  <div class="pasos5" style="grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr; margin-bottom:40px">
+    <figure><img src="media/img/physarum_prep_1.png" alt=""><figcaption>Original</figcaption></figure><i>→</i>
+    <figure><img src="media/img/physarum_prep_2.png" alt=""><figcaption>Limpia</figcaption></figure><i>→</i>
+    <figure><img src="media/img/physarum_prep_3.png" alt=""><figcaption>6 estados (320 × 320)</figcaption></figure><i>→</i>
+    <figure><img src="media/img/physarum_prep_4.png" alt=""><figcaption>24 estados con ruido (160 × 160)</figcaption></figure>
+  </div>
+  <div class="pasos g3">
+    <div><b><i>1</i>Recorte</b>El mismo círculo en todas las imágenes (se mueven hasta 36 píxeles) y solo el 90% de la caja, sin los reflejos de la pared.</div>
+    <div><b><i>2</i>Mediana temporal</b>Cada imagen es la mediana de las de ±5 min; después se corrige la iluminación del fondo.</div>
+    <div><b><i>3</i>Segmentación</b>En CIELAB: el canal amarillo (<i>b</i>*) separa el plasmodio tenue, medio e intenso; la avena es una máscara de la primera imagen.</div>
+    <div><b><i>4</i>Reducción</b>De 320 × 320 a 160 × 160 con el estado más común de cada bloque de 2 × 2.</div>
+    <div><b><i>5</i>Filtro de persistencia</b>Un cambio se acepta solo si dura dos imágenes; sin él, el 28% de los cambios se revierte.</div>
+    <div><b><i>6</i>División</b>La caja 5 de cada experimento es de prueba y las otras 20, de entrenamiento.</div>
+  </div>
+  <aside class="notes">
+    <p class="muted">Fuente: physarum.tex, «Preprocesamiento de los datos»; los umbrales salen del notebook Physarum.ipynb (b* = 9, 16 y 26, en CIELAB con mediana de 3 × 3; corrección de campo plano dividiendo entre el fondo de la primera imagen). Imágenes: caja 5 del experimento 008 a las 50 h. Cada estado visible lleva además uno de 4 valores de ruido (24 estados).</p>
+  </aside>
+</section>
+
+<section class="slide" data-section="Anexos">
+  <h2><i>Physarum polycephalum</i>: regla del ruido</h2>
+  <figure>
+    <img src="media/img/ruido_regla.png" alt="Regla del ruido">
+    <figcaption>(a) La célula central tiene ruido 2 y, con la regla del ruido, pasa a 3. (b) La red da la probabilidad de cada estado visible y el número de la célula (0.83), calculado con el ruido de sus 9 × 9 vecinos, elige plasmodio medio.</figcaption>
+  </figure>
+  <ul class="small" style="margin-top:24px">
+    <li>En un paso la red acierta el estado visible del 99.17% de las células y el ruido del 99.98%.</li>
+    <li>Sin memoria, no forma las venas largas que unen la avena ni sabe cuándo dejar de crecer.</li>
+  </ul>
+</section>
+
+<section class="slide" data-section="Anexos">
+  <h2><i>Physarum polycephalum</i>: ruido con memoria de edad</h2>
+  <div class="cols vcenter" style="grid-template-columns: 0.9fr 1.1fr; gap:56px">
+    <div class="stack" style="gap:26px">
+      <ul class="small">
+        <li>A 6 h, el plasmodio que acaba de llegar se retira 4.7 veces más que el establecido (35% contra 7%).</li>
+        <li>Cada nivel de plasmodio se divide en <b>nuevo</b> y <b>establecido</b>: 9 estados visibles × 4 de ruido = 36.</li>
+        <li>Forma una red conectada entre la avena, aunque con venas más gruesas que las reales.</li>
+      </ul>
+      <table class="small">
+        <tr><th></th><th>Real</th><th>Sesgo</th><th>Ruido</th><th class="hl">Ruido + edad</th></tr>
+        <tr><td class="l"><i>C</i></td><td>—</td><td>0.225</td><td>0.105</td><td class="hl">0.159</td></tr>
+        <tr><td class="l">Moho al final</td><td>34.4%</td><td>35.3%</td><td>15.7%</td><td class="hl">33.0%</td></tr>
+        <tr><td class="l"><i>B</i></td><td>0.429</td><td>0.154</td><td>0.498</td><td class="hl">0.387</td></tr>
+      </table>
+      <p class="note">Sin edad, la misma red da <i>C</i> = 0.137 ± 0.007; con edad, 0.155 ± 0.001 (3 semillas). Sin un experimento completo, supera a quedarse sin cambios y a llenar la caja en los 4 casos.</p>
+    </div>
+    <figure class="frame">
+      <video src="media/videos/physarum_edad.webm" muted loop playsinline preload="metadata" data-autoplay></video>
+      <figcaption>Caja 5 del experimento 008: evolución real y simulación libre de la red con ruido y edad (un paso cada 6 h; entre pasos, transición).</figcaption>
+    </figure>
+  </div>
+  <aside class="notes">
+    <p class="muted">Reporte: subsección «Memoria de la edad del plasmodio» (tabla 11.17); artículo: tabla 10.</p>
+    <p class="muted">Fuente: Simulator/training/NCA/Physarum/edad/RESULTADOS.md. Red maestra: la de 6 h con edad, sin sesgo, con empujón de crecimiento de 0.35. Red: 113 vecinos, 16:128:ReLU y 36:Linear con one-hot. Medidas cada 6 h en el núcleo del simulador, con 0 células distintas contra PyTorch. Con la red con sesgo la edad no ayudó (0.231 → 0.228), porque con argmax retirarse nunca es lo más probable.</p>
+  </aside>
+</section>
+
+<section class="slide" data-section="Anexos">
+  <h2><i>Physarum polycephalum</i>: paso de tiempo y estado más probable</h2>
+  <div class="cols c2-wide-right">
+    <ul class="small">
+      <li>Con el estado más probable, el paso de tiempo es lo más importante: la coincidencia del plasmodio sube de 0.120 (30 min) a 0.223 (6 h).</li>
+      <li>La simulación crece en manchas sólidas y sin movimiento.</li>
+    </ul>
+    <figure>
+      <video src="media/videos/physarum_mas_probable.webm" muted loop playsinline preload="metadata" data-autoplay></video>
+      <figcaption>Evolución real y simulación con el estado más probable.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="slide" data-section="Anexos">
+  <h2>Indian Summer School: agrupamiento</h2>
+  <div class="cols c2">
+    <ul class="small">
+      <li>Las 88 clases de autómatas celulares elementales se agrupan en 4 grupos según el periodo dominante de sus atractores.</li>
+      <li><i>k</i>-medoides con 4 grupos, <i>n</i> = 12 células y ventana <i>K</i> = 60.</li>
+    </ul>
+    <table class="small">
+      <tr><th class="l">Grupo</th><th>Reglas</th></tr>
+      <tr><td class="l">Punto fijo</td><td>30</td></tr>
+      <tr><td class="l">Periodo <i>n</i></td><td>30</td></tr>
+      <tr><td class="l">Periodo 2</td><td>22</td></tr>
+      <tr><td class="l">Periodos largos</td><td>6</td></tr>
+    </table>
+  </div>
+</section>
+
+</div><!-- #deck -->
+
+<div id="notes">
+  <div class="head"><span id="notes-pos"></span><span class="timer" id="timer">00:00</span></div>
+  <div id="notes-text"></div>
+</div>
+
+<script>
+(() => {
+  const deck = document.getElementById('deck');
+  const slides = [...deck.querySelectorAll('.slide')];
+  const total = slides.length;
+  let current = 0;
+
+  // Escala el lienzo de 1920 × 1080 a la ventana
+  function fit() {
+    const s = Math.min(innerWidth / 1920, innerHeight / 1080);
+    deck.style.transform = `scale(${s}) translate(-50%, -50%)`;
+  }
+  addEventListener('resize', fit);
+  fit();
+
+  // Vecindades: cuadrado de data-from a data-to; data-skip = "dx,dy;dx,dy" (vecinos eliminados)
+  deck.querySelectorAll('.nb').forEach(el => {
+    const a = +el.dataset.from, b = +el.dataset.to;
+    const skip = (el.dataset.skip || '').split(';').filter(Boolean);
+    el.style.gridTemplateColumns = `repeat(${b - a + 1}, var(--c))`;
+    for (let y = a; y <= b; y++) for (let x = a; x <= b; x++) {
+      const d = document.createElement('span');
+      if (x === 0 && y === 0) d.classList.add('c');
+      if (skip.includes(`${x},${y}`)) d.classList.add('off');
+      el.appendChild(d);
+    }
+  });
+
+  // Secciones en orden de aparición (sin Portada ni Contenido): nombre y primera diapositiva
+  const secciones = [];
+  slides.forEach((sl, i) => {
+    const sec = sl.dataset.section;
+    if (!sec || sec === 'Portada' || sec === 'Contenido' || secciones.some(s => s.nombre === sec)) return;
+    secciones.push({ nombre: sec, i });
+  });
+  const numSec = nombre => String(secciones.findIndex(s => s.nombre === nombre) + 1).padStart(2, '0');
+  const menores = ['Referencias', 'Anexos'];  // en el índice van con letra más chica
+
+  // Encabezado con el número y el nombre de la sección, sobre el título
+  slides.forEach(sl => {
+    const sec = sl.dataset.section, h2 = sl.querySelector(':scope > h2');
+    if (!h2 || !secciones.some(s => s.nombre === sec)) return;
+    const k = document.createElement('div');
+    k.className = 'kicker';
+    k.innerHTML = `<span class="n">${numSec(sec)}</span><span class="s">·</span><span>${sec}</span>`;
+    h2.before(k);
+  });
+
+  // Separadores: número y nombre de la sección, mapa de secciones y patrón de autómata celular
+  const reglasSep = [30, 90, 30, 90, 30];
+  slides.filter(sl => sl.classList.contains('divider')).forEach((sl, n) => {
+    const sec = sl.dataset.section;
+    const actual = secciones.findIndex(s => s.nombre === sec);
+    const ca = document.createElement('div');
+    ca.className = 'ca-wrap';
+    ca.innerHTML = `<svg class="ca" data-rule="${reglasSep[n % reglasSep.length]}" data-cell="22" data-start="0.5" data-alpha="0.17"></svg>`;
+    const c = document.createElement('div');
+    c.className = 'contenido';
+    c.innerHTML = `<div class="num">${numSec(sec)}</div><h2>${sec}</h2>`;
+    const mapa = document.createElement('ol');
+    mapa.className = 'mapa';
+    secciones.forEach((s, j) => {
+      if (menores.includes(s.nombre) && j !== actual) return;
+      const li = document.createElement('li');
+      li.textContent = s.nombre;
+      if (j < actual) li.className = 'hecho';
+      if (j === actual) li.className = 'cur';
+      mapa.appendChild(li);
+    });
+    sl.prepend(ca, c, mapa);
+  });
+
+  // Autómata celular elemental desde una sola célula (data-rule, 30 por omisión) en cada <svg class="ca">.
+  // Se dibuja con rectángulos para que se vea nítido a cualquier escala y en el PDF.
+  deck.querySelectorAll('svg.ca').forEach(svg => {
+    const W = +svg.dataset.w || (svg.closest('.portada') ? 640 : 760), H = 1080;
+    const regla = +svg.dataset.rule || 30;
+    const cell = +svg.dataset.cell || 20, gap = Math.max(2, Math.round(cell * 0.16));
+    const alpha = +svg.dataset.alpha || 0.2;
+    const cols = Math.ceil(W / cell), rows = Math.ceil(H / cell);
+    let fila = new Array(cols).fill(0);
+    fila[Math.floor(cols * (+svg.dataset.start || 0.5))] = 1;
+    let out = '';
+    for (let y = 0; y < rows; y++) {
+      const a = (alpha * (0.3 + 0.7 * y / rows)).toFixed(3);
+      for (let x = 0; x < cols; x++) {
+        if (fila[x]) out += `<rect x="${x * cell}" y="${y * cell}" width="${cell - gap}" height="${cell - gap}" rx="2" fill="#fff" fill-opacity="${a}"/>`;
+      }
+      const sig = new Array(cols);
+      for (let x = 0; x < cols; x++) {
+        const v = fila[(x - 1 + cols) % cols] << 2 | fila[x] << 1 | fila[(x + 1) % cols];
+        sig[x] = (regla >> v) & 1;
+      }
+      fila = sig;
+    }
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+    svg.innerHTML = out;
+  });
+
+  // Pie de página (logos, título y número) y barra de progreso
+  slides.forEach((sl, i) => {
+    const f = document.createElement('div');
+    f.className = 'footer';
+    f.innerHTML = `<span class="who"><img src="media/img/ipn_logo2.png" alt=""><img src="media/img/escom_logo2.png" alt="">` +
+      `Simulación de sistemas complejos mediante autómatas celulares neuronales · TT 2026-A114</span>` +
+      `<span class="num">${i + 1}<span> / ${total}</span></span>`;
+    sl.appendChild(f);
+    const p = document.createElement('div');
+    p.className = 'progress';
+    p.style.width = `${((i + 1) / total) * 100}%`;
+    sl.appendChild(p);
+  });
+
+  // Índice automático: una entrada por sección, clicable
+  const agenda = document.getElementById('agenda');
+  secciones.forEach(s => {
+    const li = document.createElement('li');
+    if (menores.includes(s.nombre)) li.classList.add('menor');
+    li.innerHTML = `${s.nombre}<span class="n">${s.i + 1}</span>`;
+    li.addEventListener('click', () => go(s.i));
+    agenda.appendChild(li);
+  });
+
+  // Recuadro con la ruta cuando un archivo no carga (no existe o el navegador no lo decodifica)
+  function missing(el) {
+    const d = document.createElement('div');
+    d.className = 'falta';
+    d.textContent = 'No se pudo cargar (no existe o el formato no es compatible): ' + el.getAttribute('src');
+    el.replaceWith(d);
+  }
+  deck.querySelectorAll('img, video').forEach(el => {
+    el.addEventListener('error', () => missing(el));
+  });
+
+  // Videos con data-sync: sin loop propio; el que termina antes se queda en su último cuadro
+  // y todos los del grupo vuelven a empezar juntos cuando termina el último.
+  deck.querySelectorAll('video[data-sync]').forEach(v => {
+    v.loop = false;
+    v.addEventListener('ended', () => {
+      const grupo = [...deck.querySelectorAll(`video[data-sync="${v.dataset.sync}"]`)];
+      if (grupo.every(x => x.ended)) grupo.forEach(x => { x.currentTime = 0; x.play().catch(() => {}); });
+    });
+  });
+
+  // Navegación
+  function go(i) {
+    i = Math.max(0, Math.min(total - 1, i));
+    slides[current].querySelectorAll('video').forEach(v => v.pause());
+    slides[current].classList.remove('active');
+    current = i;
+    const sl = slides[current];
+    sl.classList.add('active');
+    sl.querySelectorAll('video[data-autoplay]').forEach(v => {
+      v.defaultPlaybackRate = v.playbackRate = parseFloat(v.dataset.rate || '1');
+      v.currentTime = 0;
+      v.play().catch(() => {});
+    });
+    history.replaceState(null, '', '#' + (current + 1));
+    updateNotes();
+  }
+
+  addEventListener('keydown', e => {
+    if (e.altKey || e.ctrlKey || e.metaKey) return;
+    switch (e.key) {
+      case 'ArrowRight': case 'PageDown': case ' ': e.preventDefault(); go(current + 1); break;
+      case 'ArrowLeft': case 'PageUp': e.preventDefault(); go(current - 1); break;
+      case 'Home': go(0); break;
+      case 'End': go(total - 1); break;
+      case 'f': case 'F':
+        document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+        break;
+      case 'n': case 'N': notes.classList.toggle('on'); break;
+      case 't': case 'T': t0 = Date.now(); tick(); break;
+    }
+  });
+  addEventListener('hashchange', () => {
+    const n = parseInt(location.hash.slice(1), 10);
+    if (n && n - 1 !== current) go(n - 1);
+  });
+
+  // Notas del presentador con cronómetro (empieza al cargar; T lo reinicia)
+  const notes = document.getElementById('notes');
+  let t0 = Date.now();
+  function tick() {
+    const s = Math.floor((Date.now() - t0) / 1000);
+    document.getElementById('timer').textContent =
+      String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+  }
+  setInterval(tick, 1000);
+  function updateNotes() {
+    const sl = slides[current];
+    const a = sl.querySelector('aside.notes');
+    document.getElementById('notes-pos').textContent = `${current + 1} / ${total} · ${sl.dataset.section || ''}`;
+    document.getElementById('notes-text').innerHTML = a ? a.innerHTML : '<i>Sin notas.</i>';
+  }
+
+  const start = parseInt(location.hash.slice(1), 10);
+  slides[0].classList.add('active');
+  go(start ? start - 1 : 0);
+})();
+</script>
+</body>
+</html>

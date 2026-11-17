@@ -1,4 +1,3 @@
-\clearpage
 \section{Crecimiento de moho mucilaginoso}
 
 El último experimento analiza el crecimiento de moho mucilaginoso, llamado \textit{Physarum polycephalum}, un moho que tiene características excepcionales al ser capaz de resolver laberintos, recordar rutas o adaptarse a obstáculos sin siquiera poseer cerebro o sistema nervioso. 
@@ -23,12 +22,12 @@ Para la limpieza del conjunto de datos, se procedió de la siguiente manera:
 		\begin{tabular}{c c l}
 			\hline
 			\textbf{Estado} & \textbf{Subestados} & \textbf{Valor} \\ \hline
-			0 & 0-3 & Borde, que corresponde al exterior de la caja \\
-			1 & 4-7 & Fondo de la caja de Petri \\
-			2 & 8-11 & Avena \\
-			3 & 12-15 & Plasmodio tenue \\
-			4 & 16-19 & Plasmodio medio \\
-			5 & 20-24 & Plasmodio intenso
+			0 & 0--3 & Borde, que corresponde al exterior de la caja \\
+			1 & 4--7 & Fondo de la caja de Petri \\
+			2 & 8--11 & Avena \\
+			3 & 12--15 & Plasmodio tenue \\
+			4 & 16--19 & Plasmodio medio \\
+			5 & 20--23 & Plasmodio intenso
 		\end{tabular}
 		\caption{Definición de estados y subestados.}
 		\label{tab:physarum:states}
@@ -211,7 +210,7 @@ donde $v$ es el estado visible (0 a 5) y $r$ el valor de ruido, por lo que el au
 
 	Es una versión en dos dimensiones de la regla 30: aunque es determinista, el ruido se comporta como si fuera aleatorio. Los 4 valores aparecen con la misma frecuencia, el ruido de una célula no se parece al de sus vecinos (figura \ref{fig:physarum_ruido_manchas}a) ni al que tenía en el paso anterior, y no se repite en 400 pasos. La simulación debe empezar con ruido al azar, porque si todos los valores son 0 se quedan en 0.
 
-	\item El estado visible se elige con el ruido. Una red entrenada con los datos reales con paso de 30 minutos (53 vecinos, 16:64:ReLU, 6:Linear, \textit{one-hot}) da la probabilidad de cada estado visible. Estas probabilidades se acomodan una tras otra entre 0 y 1, y cada célula calcula un número entre 0 y 1 con el ruido de sus $9 \times 9$ vecinos; el estado que sale es el del tramo donde cae ese número. En el ejemplo de la figura \ref{fig:physarum_ruido_regla}b, la red da 70\% de fondo, 10\% de plasmodio tenue, 15\% de plasmodio medio y 5\% de plasmodio intenso; el número de la célula es 0.83, que cae en el tramo de 0.80 a 0.95, por lo que sale plasmodio medio. Así, un estado con probabilidad de 15\% sale en el 15\% de los casos.
+	\item El estado visible se elige con el ruido. Una red entrenada con los datos reales con paso de 30 minutos (53 vecinos, 16:64:ReLU, 6:Linear, \textit{one-hot}), a la que llamamos red maestra, da la probabilidad de cada estado visible. Estas probabilidades se acomodan una tras otra entre 0 y 1, y cada célula calcula un número entre 0 y 1 con el ruido de sus $9 \times 9$ vecinos; el estado que sale es el del tramo donde cae ese número. En el ejemplo de la figura \ref{fig:physarum_ruido_regla}b, la red da 70\% de fondo, 10\% de plasmodio tenue, 15\% de plasmodio medio y 5\% de plasmodio intenso; el número de la célula es 0.83, que cae en el tramo de 0.80 a 0.95, por lo que sale plasmodio medio. Así, un estado con probabilidad de 15\% sale en el 15\% de los casos.
 
 	El número de cada célula se calcula dando más peso a los vecinos más cercanos, por lo que células vecinas tienen números parecidos (figura \ref{fig:physarum_ruido_manchas}b) y cambian juntas, en manchas (figura \ref{fig:physarum_ruido_manchas}c). Si cada célula usara un número propio, el plasmodio aparecería en puntos sueltos (figura \ref{fig:physarum_ruido_manchas}d).
 \end{enumerate}
@@ -344,4 +343,29 @@ Para intentar mejorar la red con ruido se entrenaron 20 redes más, cambiando un
 
 Entrenar más épocas, usar la reducción coseno o agregar el empujón de crecimiento hace que el plasmodio crezca más y sube la coincidencia de 0.115 a 0.136, sin perder el movimiento interno. La red de 24 capas no aprendió, y las semillas aleatorias cambian la coincidencia hasta en 0.02, más que la diferencia entre muchas de las pruebas. Sin embargo, al revisar las simulaciones, las redes que crecen más cubren toda la caja en los experimentos 008 y 009, donde el plasmodio real se queda alrededor de la avena, y ninguna forma las venas largas. Es decir, la mejora en la coincidencia viene de crecer más, no de crecer de una forma más parecida a la real, por lo que se conserva la red inicial.
 
-De este experimento podemos concluir que el autómata celular neuronal sí aprende el crecimiento del moho a partir de su evolución: el plasmodio crece desde el inóculo, la avena lo guía y no aparece en zonas vacías. Elegir siempre el estado más probable elimina la parte aleatoria del crecimiento, por lo que la simulación crece en manchas sólidas y sin movimiento; agregar un valor de ruido al estado de cada célula permite reproducir esa parte aleatoria con una regla determinista que el simulador ejecuta sin cambios, y con ella aparecen las ramas y el movimiento interno. Lo que la red no logra es formar las venas largas que unen la avena ni saber cuándo dejar de crecer. En los datos reales, el plasmodio que acaba de llegar a una célula se retira entre 4 y 6 veces más que el que lleva varias horas, por lo que estas venas probablemente dependen de lo que ocurrió durante horas, mientras que la red solo conoce el estado actual.
+\subsection{Memoria de la edad del plasmodio}
+
+En las 20 cajas de entrenamiento, el plasmodio que acaba de llegar a una célula se retira en el siguiente paso de 6 horas en el 34.9\% de los casos, mientras que el que lleva al menos 4 pasos se retira solo en el 7.4\%, es decir, 4.7 veces menos. Igual que los estados de quemado de FLAME~3, se agregó esta memoria al estado: el plasmodio que no estaba en la célula un paso antes toma un estado aparte, \textit{nuevo}, y el que ya estaba es \textit{establecido}, por lo que los 6 estados visibles pasan a 9. La red puede aprender esta regla, porque que el plasmodio sea nuevo o establecido depende solo de si la misma célula tiene plasmodio en el paso actual.
+
+Con la red con sesgo la memoria no ayudó (la coincidencia del plasmodio pasó de 0.231 a 0.228 con 3 semillas aleatorias), porque la red elige siempre el estado más probable y retirarse nunca lo es. Con ruido, en cambio, el plasmodio nuevo sí se retira con la frecuencia aprendida. Se usó como red maestra la de 6 horas con edad, con un empujón de crecimiento de 0.35; la red con ruido tiene 36 estados (9 visibles con 4 valores de ruido), 113 vecinos y la misma red 16:128:ReLU (tabla \ref{tab:physarum_edad}).
+
+\begin{table}[H]
+	\centering
+	\footnotesize
+	\setlength{\tabcolsep}{4pt}
+	\begin{tabular}{@{}lcccc@{}}
+		\toprule
+		& \textbf{Coincidencia} & \textbf{Plasmodio} & \textbf{Borde del} & \textbf{Cambio de brillo} \\
+		& \textbf{del plasmodio} & \textbf{al final} & \textbf{plasmodio} & \textbf{cada 6 h} \\ \midrule
+		Real & -- & 0.344 & 0.429 & 23.6\% \\
+		Red con ruido & 0.105 & 0.157 & 0.498 & 41.3\% \\
+		Red con ruido y edad & 0.159 & 0.330 & 0.387 & 33.4\% \\
+		\bottomrule
+	\end{tabular}
+	\caption{Simulación libre en las 4 cajas de prueba, con las medidas cada 6 horas. Con 3 semillas aleatorias, la coincidencia del plasmodio de la red con ruido y edad es de $0.155 \pm 0.001$, y sin la edad, de $0.137 \pm 0.007$.}
+	\label{tab:physarum_edad}
+\end{table}
+
+La red con ruido y edad crece casi lo mismo que la real (33.0\% de la caja al final contra 34.4\%) y, en lugar de grupos que se desplazan por la caja, forma una red conectada entre la avena: lo nuevo se retira con frecuencia y lo establecido permanece. Entrenada sin un experimento completo, su coincidencia del plasmodio supera a la de quedarse sin cambios y a la de llenar la caja en los 4 casos. Sus venas, sin embargo, son más gruesas que las reales.
+
+De este experimento podemos concluir que el autómata celular neuronal sí aprende el crecimiento del moho a partir de su evolución: el plasmodio crece desde el inóculo, la avena lo guía y no aparece en zonas vacías. Elegir siempre el estado más probable elimina la parte aleatoria del crecimiento, por lo que la simulación crece en manchas sólidas y sin movimiento; agregar un valor de ruido al estado de cada célula permite reproducir esa parte aleatoria con una regla determinista que el simulador ejecuta sin cambios, y con ella aparecen las ramas y el movimiento interno. Las venas dependen de la historia del plasmodio: al agregar al estado si el plasmodio es nuevo, la red con ruido crece casi lo mismo que la real y forma una red conectada entre la avena, aunque con venas más gruesas que las reales y sin detenerse en todas las cajas.

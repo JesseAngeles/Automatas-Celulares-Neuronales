@@ -81,7 +81,10 @@ Al finalizar el entrenamiento, el modelo se almacena en un archivo \texttt{.npz}
     \item \texttt{one\_hot\_states}: número de estados de la codificación \textit{one-hot} (0 si la entrada es cruda).
 \end{itemize}
 
+% sloppypar: los nombres en \texttt no se pueden partir y, sin él, el renglón se sale 0.45 cm del margen derecho
+\begin{sloppypar}
 Este formato es el que espera el método \texttt{on\_load\_nca\_button} de \texttt{SimulationController} y es compatible con la firma del constructor de la clase \texttt{NCA} en el módulo nativo, sin necesidad de transformaciones intermedias.
+\end{sloppypar}
 
 \subsection{Integración con la interfaz gráfica}
 

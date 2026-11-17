@@ -1,0 +1,177 @@
+% Glosario de términos: va después de las referencias, como en el índice del formato del TT.
+% Términos en orden alfabético, con las formas canónicas de guia_terminos.txt
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{Glosario}
+\chapter*{Glosario}
+\markboth{\MakeUppercase{Glosario}}{\MakeUppercase{Glosario}}
+
+\begin{description}[leftmargin=1.5em, labelindent=0pt, itemsep=4pt]
+
+	\item[Agente] Entidad autónoma que toma decisiones individuales basadas en ciertas reglas, como la hormiga de Langton.
+
+	\item[Aprendizaje automático] Disciplina que permite a las computadoras mejorar su desempeño en una tarea mediante la experiencia con datos, sin necesidad de instrucciones explícitas.
+
+	\item[Aprendizaje supervisado] Tipo de aprendizaje automático en el que la red neuronal aprende a partir de pares de entrada y salida esperada. En este trabajo, la entrada es la vecindad de una célula y la salida esperada es su estado en el paso siguiente.
+
+	\item[Área con fuego] Medida del experimento de FLAME~3 que compara las células que alguna vez llegaron a 130~°C en la simulación libre con las de la evolución real. Un valor de 100\% indica que son idénticas.
+
+	\item[Área quemada] Medida del experimento de FLAME~3 que compara el área quemada al final de la simulación libre con la real. Un valor de 100\% indica que son idénticas.
+
+	\item[Atractor] Conjunto de configuraciones hacia el que evoluciona un sistema y del que ya no sale. En un autómata celular finito es un ciclo de configuraciones que se repite.
+
+	\item[Autómata celular] Modelo matemático formado por un espacio de células, un conjunto finito de estados, una vecindad y una regla local que actualiza todas las células al mismo tiempo en pasos discretos.
+
+	\item[Autómata celular elemental] Autómata celular de una dimensión, con dos estados y una vecindad de tres células. Existen 256 reglas de este tipo, estudiadas por Stephen Wolfram.
+
+	\item[Autómata celular neuronal] Autómata celular cuya regla local es una red neuronal entrenada con la evolución de un sistema.
+
+	\item[Autoorganización] Aparición de orden o de estructuras en un sistema a partir únicamente de las interacciones locales entre sus partes, sin un control central.
+
+	\item[\textit{Bindings}] Código que conecta dos lenguajes de programación. En el simulador permiten llamar desde Python al núcleo escrito en C++ y CUDA.
+
+	\item[Capa oculta] Capa de neuronas que está entre la capa de entrada y la capa de salida de una red neuronal.
+
+	\item[Carretera] En la hormiga de Langton RL, patrón de 104 pasos que se repite indefinidamente y se desplaza en diagonal. Aparece alrededor del paso 10,000.
+
+	\item[Célula] Unidad mínima del espacio celular. Cada célula tiene una posición fija y un estado que cambia en cada paso.
+
+	\item[Célula generadora] En el \textit{sandpile}, célula que recibe un grano de arena en cada paso.
+
+	\item[Codificación \textit{one-hot}] Representación de un estado, de $k$ posibles, como un vector de $k$ entradas con un 1 en la posición del estado y 0 en las demás. Evita que la red neuronal suponga una relación lineal entre los estados.
+
+	\item[Coincidencia del plasmodio] Medida del experimento de \textit{Physarum polycephalum} que multiplica la fracción del plasmodio que está en el mismo lugar en la simulación y en la evolución real por la razón entre sus cantidades. Vale 1 si la simulación es idéntica a la real.
+
+	\item[Comportamiento emergente] Comportamiento colectivo de un sistema que no se observa en sus partes por separado.
+
+	\item[Condición de frontera] Regla que define a los vecinos de las células que están en el borde del espacio celular. En este trabajo se usan la frontera periódica y la frontera abierta.
+
+	\item[Configuración] Estados de todas las células del espacio celular en un paso. La configuración inicial es la del primer paso de la evolución.
+
+	\item[Conjunto de datos] Colección de evoluciones, ya sean imágenes o matrices, que se usa para entrenar o para probar una red neuronal.
+
+	\item[Criticalidad autoorganizada] Propiedad de sistemas como el \textit{sandpile}, que evolucionan por sí mismos hacia un estado crítico en el que una pequeña perturbación puede provocar avalanchas de cualquier tamaño.
+
+	\item[CUDA] Plataforma de NVIDIA para ejecutar cálculos en paralelo en la GPU.
+
+	\item[Cuenca de atracción] Atractor junto con todas las configuraciones que llegan a él.
+
+	\item[Entropía cruzada] Función de pérdida que compara la probabilidad que asigna la red neuronal a cada estado con el estado correcto.
+
+	\item[Época] Recorrido completo de la red neuronal por todos los datos de entrenamiento.
+
+	\item[Error de cuantización] Diferencia promedio entre la temperatura real de una célula y la del estado que la representa. Mide la información que se pierde al discretizar.
+
+	\item[Espacio celular] Conjunto de todas las células del autómata celular. En este trabajo es una cuadrícula bidimensional finita.
+
+	\item[Estado] Valor que toma una célula en un paso, elegido de un conjunto finito.
+
+	\item[Evolución] Secuencia de configuraciones que produce un autómata celular, o que registra un sistema real, paso a paso.
+
+	\item[Exactitud] Porcentaje de células cuyo estado predicho es igual al real.
+
+	\item[FLAME~3] Conjunto de datos de imágenes térmicas tomadas con un dron durante la quema de Hanna Hammock en 2023. Se usa en el experimento de propagación del fuego.
+
+	\item[Frontera abierta] Condición de frontera en la que todas las células fuera del espacio están en el estado 0, por lo que lo que sale del espacio se pierde.
+
+	\item[Frontera periódica] Condición de frontera en la que el espacio se une por sus bordes opuestos, de modo que una célula del borde tiene como vecinas a las del borde contrario.
+
+	\item[Función de activación] Función que aplica cada neurona a la suma ponderada de sus entradas, como ReLU, la función sigmoide, la tangente hiperbólica o la función lineal.
+
+	\item[Función de costo] Promedio de las pérdidas de la red neuronal sobre los datos de entrenamiento.
+
+	\item[Función de pérdida] Función que mide la diferencia entre la predicción de la red neuronal y el valor esperado. El entrenamiento busca reducirla.
+
+	\item[Función de transición] Véase regla local.
+
+	\item[Generalización] Capacidad de la red neuronal de dar la respuesta correcta en patrones que no aparecen en los datos de entrenamiento.
+
+	\item[GPU] Unidad de procesamiento gráfico. Procesador con miles de núcleos que ejecuta muchas operaciones en paralelo.
+
+	\item[Hiperparámetros] Valores que se fijan antes de entrenar y que la red neuronal no aprende, como las épocas, el tamaño del lote, la tasa de aprendizaje o la pérdida objetivo.
+
+	\item[Hormiga de Langton] Agente que se mueve en una cuadrícula: gira a la derecha o a la izquierda según el color de la célula que pisa, cambia ese color y avanza una célula.
+
+	\item[Interfaz gráfica (GUI)] Parte del simulador con la que el usuario configura, ejecuta y observa los autómatas celulares y lanza los entrenamientos.
+
+	\item[Juego de la vida] Autómata celular de John Horton Conway con dos estados, vecindad de Moore y regla B3/S23.
+
+	\item[\textit{Kernel}] Función que se ejecuta en paralelo en la GPU. En el simulador, cada hilo calcula el nuevo estado de una célula.
+
+	\item[Lote] Subconjunto de los datos de entrenamiento con el que se actualizan una vez los pesos de la red neuronal. Su número de muestras es el tamaño del lote.
+
+	\item[Muestreo] Elección al azar del siguiente estado de cada célula, con las probabilidades que da la red neuronal, en lugar de elegir siempre el estado más probable.
+
+	\item[Naturaleza muerta] Configuración del juego de la vida que no cambia de un paso al siguiente, como el \textit{Block}.
+
+	\item[Nave espacial] Oscilador que, además de repetir su patrón, se desplaza por el espacio celular, como el \textit{Glider}.
+
+	\item[Neurona artificial] Función que multiplica sus entradas por pesos, les suma un sesgo y aplica una función de activación al resultado.
+
+	\item[Notación \textit{Birth/Survival}] Notación de las reglas \textit{life-like}: los números después de B indican con cuántos vecinos vivos nace una célula y los números después de S, con cuántos sobrevive. El juego de la vida es B3/S23.
+
+	\item[Notación capas:neuronas:activación] Forma de describir una red neuronal en este trabajo. Por ejemplo, 16:16:ReLU son 16 capas ocultas de 16 neuronas con ReLU y 2:Linear es una capa de salida de 2 neuronas con función lineal.
+
+	\item[Oscilador] Patrón del juego de la vida que repite su configuración después de un número finito de pasos sin cambiar de posición, como el \textit{Blinker}.
+
+	\item[Paso] Unidad de tiempo de la evolución. En cada paso todas las células se actualizan una vez.
+
+	\item[Perceptrón multicapa] Red neuronal formada por capas de neuronas completamente conectadas: una capa de entrada, una o más capas ocultas y una capa de salida. Es la red que se usa como regla local en este trabajo.
+
+	\item[Pérdida] Valor de la función de pérdida, que mide qué tan lejos están las predicciones de la red neuronal de los valores esperados.
+
+	\item[Pérdida objetivo] Valor de la pérdida en el que se detiene el entrenamiento.
+
+	\item[\textit{Physarum polycephalum}] Moho mucilaginoso que crece en busca de alimento sin tener cerebro ni sistema nervioso. Es el sistema del último experimento.
+
+	\item[Plasmodio] Cuerpo del \textit{Physarum polycephalum}. En las imágenes es la masa amarilla que crece sobre la caja de Petri.
+
+	\item[Predicción sin cambio] Predicción de referencia que supone que el siguiente paso es igual al actual. Sirve para saber si la red neuronal aprende algo más que copiar el estado.
+
+	\item[Red neuronal artificial] Función formada por neuronas artificiales conectadas, cuyos pesos y sesgos se ajustan a partir de datos.
+
+	\item[Reducción de la tasa de aprendizaje] Disminución de la tasa de aprendizaje durante el entrenamiento. Puede ser exponencial, coseno o por estancamiento (\textit{plateau}), que la reduce a la mitad cuando la pérdida deja de mejorar.
+
+	\item[Regla local] Función que da el nuevo estado de una célula a partir de los estados de su vecindad. También se llama función de transición.
+
+	\item[Regla semitotalística] Regla local que depende del estado de la célula central y de la suma de los estados de sus vecinos.
+
+	\item[Regla totalística] Regla local que depende únicamente de la suma de los estados de la vecindad.
+
+	\item[Retropropagación] Algoritmo que calcula cuánto contribuye cada peso de la red neuronal a la pérdida, para ajustarlo durante el entrenamiento.
+
+	\item[Ruido] En el experimento de \textit{Physarum polycephalum}, valor del 0 al 3 que forma parte del estado de cada célula y cambia con una regla fija. Permite reproducir la parte aleatoria del crecimiento con una regla determinista.
+
+	\item[\textit{Sandpile}] Modelo de la pila de arena de Bak, Tang y Wiesenfeld. Cuando una célula llega a cuatro granos de arena, se derrumba y reparte un grano a cada uno de sus cuatro vecinos.
+
+	\item[Semilla aleatoria] Número que fija los valores aleatorios del entrenamiento para que pueda repetirse con el mismo resultado.
+
+	\item[Sesgo de crecimiento] Constante que se suma a las salidas de plasmodio de la red neuronal para que el plasmodio crezca aunque el simulador elija siempre el estado más probable.
+
+	\item[SEVIR] Conjunto de datos con imágenes de radar y de satélite de más de 10,000 eventos meteorológicos registrados en Estados Unidos. Se usa en el experimento del movimiento de tormentas.
+
+	\item[Simulación] Proceso computacional que imita el comportamiento de un sistema mediante un modelo matemático.
+
+	\item[Simulación libre] Evolución en la que la red neuronal parte de una configuración real y continúa únicamente con sus propias predicciones.
+
+	\item[Sistema cerrado] Sistema cuya evolución depende únicamente de los estados de sus partes, sin factores externos.
+
+	\item[Sistema complejo] Sistema formado por partes interconectadas cuyo comportamiento colectivo es más que la suma de sus componentes individuales.
+
+	\item[Sobremuestreo] Repetición de los datos menos frecuentes durante el entrenamiento para que la red neuronal los vea más veces.
+
+	\item[Tasa de aprendizaje] Tamaño del ajuste que se hace a los pesos de la red neuronal en cada actualización.
+
+	\item[Teoría del caos] Estudio de los sistemas deterministas que son muy sensibles a las condiciones iniciales, por lo que su comportamiento a largo plazo parece impredecible.
+
+	\item[Vecindad] Conjunto de células que influyen en el cambio de estado de una célula. Se define con vectores de desplazamiento respecto a la célula.
+
+	\item[Vecindad de Moore] Vecindad formada por la célula y sus ocho vecinas más cercanas, es decir, un cuadrado de $3 \times 3$.
+
+	\item[Vecindad de von Neumann] Vecindad formada por la célula y sus cuatro vecinas ortogonales más cercanas.
+
+	\item[Vector de regla] Lista con la salida de la regla local para cada patrón posible de la vecindad.
+
+	\item[VIL] Agua líquida integrada verticalmente (\textit{vertically integrated liquid}). Medida de radar de la cantidad de agua líquida en una columna de aire, que es la variable que se usa del conjunto SEVIR.
+
+\end{description}

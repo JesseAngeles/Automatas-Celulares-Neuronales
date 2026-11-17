@@ -157,6 +157,39 @@ Es decir, un punto que se encuentra en el atractor no puede salir de ahí y exis
 
 A continuación, se describen los cuatro tipos de atractores que se encuentran en la figura \ref{fig:atractores}.
 
+% Una sola figura flotante con los cuatro atractores, definida aquí para que el texto de la lista la rodee
+% (partida en dos flotantes [!b] y [!t] terminaba sola en una página antes de la sección 2.3). Sin "p": mide más de
+% media página y LaTeX la mandaría a una hoja solo de figuras en lugar de ponerla arriba con texto debajo
+\begin{figure}[!htb]
+	\centering
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[width=0.7\textwidth]{img/marcoTeorico/punto_fijo.png}
+		\caption{Punto fijo: Convergencia al reposo en un péndulo amortiguado.}
+		\label{fig:punto_fijo}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[width=0.7\textwidth]{img/marcoTeorico/ciclo_limite.png}
+		\caption{Ciclo límite: Oscilador de Van der Pol.}
+		\label{fig:ciclo_limite}
+	\end{subfigure}
+
+	\vspace{0.4cm}
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[width=0.7\textwidth]{img/marcoTeorico/cuasiperiodico.png}
+		\caption{Cuasiperiódico: Trayectoria densa generada por frecuencias inconmensurables.}
+		\label{fig:cuasi_periodico}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[width=0.7\textwidth]{img/marcoTeorico/caotico.png}
+		\caption{Extraño: Atractor de Rössler que exhibe una estructura fractal y caos.}
+		\label{fig:caotico}
+	\end{subfigure}
+	\caption{Representación de los cuatro tipos principales de atractores en el espacio de fases.}
+	\label{fig:atractores}
+\end{figure}
+
 \begin{enumerate}
 	
 	\item Atractores de punto fijo: Un atractor es de punto fijo si existe un punto fijo tal que todas las trayectorias cercanas convergen a él cuando $t \to \infty$.
@@ -195,37 +228,6 @@ A continuación, se describen los cuatro tipos de atractores que se encuentran e
 	\end{equation*}
 	Las trayectorias se atraen hacia una estructura geométrica compleja donde se estiran y se pliegan continuamente, lo que genera un comportamiento impredecible a largo plazo a pesar de ser un sistema determinista.
 \end{enumerate}
-
-\begin{figure}[!b]
-	\centering
-	\begin{subfigure}[t]{0.45\textwidth}
-		\includegraphics[width=0.7\textwidth]{img/marcoTeorico/punto_fijo.png}
-		\caption{Punto fijo: Convergencia al reposo en un péndulo amortiguado.}
-		\label{fig:punto_fijo}
-	\end{subfigure}
-	\hfill
-	\begin{subfigure}[t]{0.45\textwidth}
-		\includegraphics[width=0.7\textwidth]{img/marcoTeorico/ciclo_limite.png}
-		\caption{Ciclo límite: Oscilador de Van der Pol.}
-		\label{fig:ciclo_limite}
-	\end{subfigure}
-\end{figure}
-
-\begin{figure}[!t]
-	\begin{subfigure}[t]{0.45\textwidth}
-		\includegraphics[width=0.7\textwidth]{img/marcoTeorico/cuasiperiodico.png}
-		\caption{Cuasiperiódico: Trayectoria densa generada por frecuencias inconmensurables.}
-		\label{fig:cuasi_periodico}
-	\end{subfigure}
-	\hfill
-	\begin{subfigure}[t]{0.45\textwidth}
-		\includegraphics[width=0.7\textwidth]{img/marcoTeorico/caotico.png}
-		\caption{Extraño: Atractor de Rössler que exhibe una estructura fractal y caos.}
-		\label{fig:caotico}
-	\end{subfigure}
-	\caption{Representación de los cuatro tipos principales de atractores en el espacio de fases.}
-	\label{fig:atractores}
-\end{figure}
 
 \section{Sistemas complejos}
 
