@@ -1,0 +1,105 @@
+% ==================================================================================================================
+% PROPUESTA (2026-11-16) para ReporteTecnico/Experimentacion/naturales/physarum.tex. YA SE APLICÓ, en una versión
+% condensada para no cambiar el número de páginas (subsección 11.3.6, sin figura ni tabla de generalización).
+% Sale de NCA/Physarum/edad/RESULTADOS.md (plan de los últimos entrenamientos).
+%
+% Dónde va:
+%   1. La subsección nueva va al final de \subsection{Pruebas de mejora}, ANTES del último párrafo
+%      ("De este experimento podemos concluir ...").
+%   2. Ese último párrafo se cambia por el de la parte 2.
+%   3. La figura usa NCA/Physarum/edad/videos/finales.png; hay que copiarla a
+%      img/experimentacion/naturales/Physarum/finales_edad.png.
+% Las medidas se toman cada 6 horas, como en la tabla tab:physarum_comparacion, así que se pueden comparar con ella.
+% ==================================================================================================================
+
+% ---------------------------------------------------------------------------------------------------- Parte 1
+\subsection{Memoria de la edad del plasmodio}
+
+Para comprobar si las venas dependen de la historia del plasmodio, se midió en las 20 cajas de entrenamiento la probabilidad de que una célula con plasmodio deje de tenerlo en el siguiente paso, según cuántos pasos seguidos lleva con plasmodio (tabla \ref{tab:physarum_edad}). Con pasos de 5 y 6 horas, el plasmodio que acaba de llegar se retira en un tercio de los casos, mientras que el que lleva al menos 4 pasos se retira en menos del 8\%.
+
+\begin{table}[htbp]
+	\centering
+	\footnotesize
+	\begin{tabular}{@{}ccccc@{}}
+		\toprule
+		& \multicolumn{3}{c}{\textbf{Edad del plasmodio (pasos)}} & \\
+		\cmidrule(lr){2-4}
+		\textbf{Paso} & \textbf{1} & \textbf{2 a 3} & \textbf{4 o más} & \textbf{Nuevo / establecido} \\ \midrule
+		2 h & 21.7\% & 16.2\% & 5.6\% & 3.9 \\
+		5 h & 32.3\% & 23.2\% & 7.2\% & 4.5 \\
+		6 h & 34.9\% & 23.7\% & 7.4\% & 4.7 \\
+		\bottomrule
+	\end{tabular}
+	\caption{Probabilidad de que el plasmodio se retire en el siguiente paso según su edad, en las 20 cajas de entrenamiento. Las células que ya tenían plasmodio en la primera imagen no se cuentan, porque su edad no se conoce.}
+	\label{tab:physarum_edad}
+\end{table}
+
+Igual que los estados de quemado de FLAME~3, se agregó al estado un dato de memoria: el plasmodio que no estaba en la célula un paso antes toma un estado aparte, \emph{nuevo}, y el que ya estaba es \emph{establecido}. Con los 3 niveles de plasmodio, los 6 estados pasan a 9. La red puede aprender esta regla, porque si una célula sigue con plasmodio en el siguiente paso, que sea nuevo o establecido depende solo de si ella misma tiene plasmodio en el paso actual, y la célula forma parte de su vecindad.
+
+Con la red con sesgo, la memoria no ayudó: con 3 semillas aleatorias, la coincidencia del plasmodio pasó de 0.231 a 0.228 y el plasmodio creció en manchas todavía más sólidas, con un borde de 0.144. La red elige siempre el estado más probable, y aunque el plasmodio nuevo se retira en un tercio de los casos, retirarse nunca es lo más probable. Por la misma razón, dar más peso en la pérdida a los casos en los que el plasmodio se retira solo produjo patrones en franjas que oscilan.
+
+Con la red con ruido, en cambio, la red maestra da la probabilidad de cada estado y el ruido elige uno, por lo que el plasmodio nuevo sí se retira con la frecuencia aprendida. Se usó como red maestra la red de 6 horas con edad, sin sesgo, con un empujón de crecimiento de 0.35. La red con ruido tiene 36 estados (9 visibles con 4 valores de ruido cada uno), 113 vecinos y la misma red 16:128:ReLU. La tabla \ref{tab:physarum_comparacion_edad} la compara con las redes anteriores.
+
+\begin{table}[htbp]
+	\centering
+	\footnotesize
+	\setlength{\tabcolsep}{4pt}
+	\begin{tabular}{@{}lcccc@{}}
+		\toprule
+		& \textbf{Coincidencia} & \textbf{Plasmodio} & \textbf{Borde del} & \textbf{Cambio de brillo} \\
+		& \textbf{del plasmodio} & \textbf{al final} & \textbf{plasmodio} & \textbf{cada 6 h} \\ \midrule
+		Real & -- & 0.344 & 0.429 & 23.6\% \\
+		Red con sesgo & 0.225 & 0.353 & 0.154 & 0.8\% \\
+		Red con ruido & 0.105 & 0.157 & 0.498 & 41.3\% \\
+		Red con ruido y edad & 0.159 & 0.330 & 0.387 & 33.4\% \\
+		\bottomrule
+	\end{tabular}
+	\caption{Simulación libre en las 4 cajas de prueba, en el núcleo del simulador, con las medidas cada 6 horas. La red con ruido y edad tiene 36 estados y paso de 6 horas; con 3 semillas aleatorias su coincidencia del plasmodio es de $0.155 \pm 0.001$, y la misma red sin edad da $0.137 \pm 0.007$.}
+	\label{tab:physarum_comparacion_edad}
+\end{table}
+
+La red con ruido y edad crece casi lo mismo que la real (33.0\% de la caja al final contra 34.4\%), su coincidencia del plasmodio sube de 0.105 a 0.159 y su borde (0.387) queda cerca del real. A diferencia de la red con ruido anterior, que crece en grupos que se desplazan por la caja, forma una red conectada entre la avena (figura \ref{fig:physarum_finales_edad}): lo nuevo se retira con frecuencia y lo establecido permanece. Sus venas, sin embargo, son más gruesas que las reales, y en la caja del experimento 009 cubre más de lo que cubre el plasmodio real.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\linewidth]{img/experimentacion/naturales/Physarum/finales_edad.png}
+	\caption{Última imagen de las 4 cajas de prueba: evolución real y simulación libre de la red con sesgo, de la red con ruido y de la red con ruido y edad.}
+	\label{fig:physarum_finales_edad}
+\end{figure}
+
+Para saber si la regla depende del arreglo de avena, se entrenaron la red maestra y la red con ruido sin un experimento completo y se probaron en sus 6 cajas (tabla \ref{tab:physarum_fuera_edad}). En los 4 casos la coincidencia del plasmodio es mayor que la de quedarse sin cambios y que la de llenar la caja, y en los experimentos 001 y 002 la cantidad de plasmodio al final se parece mucho más a la real que con la red con sesgo.
+
+\begin{table}[htbp]
+	\centering
+	\footnotesize
+	\begin{tabular}{@{}cccccc@{}}
+		\toprule
+		\textbf{Experimento} & \textbf{Coincidencia} & \textbf{Sin} & \textbf{Llenar} & \multicolumn{2}{c}{\textbf{Plasmodio al final}} \\
+		\cmidrule(l){5-6}
+		\textbf{excluido} & \textbf{del plasmodio} & \textbf{cambios} & \textbf{la caja} & \textbf{Red} & \textbf{Real} \\ \midrule
+		001 & 0.149 & 0.025 & 0.125 & 0.40 & 0.38 \\
+		002 & 0.173 & 0.033 & 0.159 & 0.39 & 0.51 \\
+		008 & 0.108 & 0.073 & 0.015 & 0.15 & 0.17 \\
+		009 & 0.151 & 0.030 & 0.029 & 0.49 & 0.18 \\
+		\bottomrule
+	\end{tabular}
+	\caption{Red con ruido y edad entrenada sin un experimento completo (18 cajas de los otros 3) y probada en las 6 cajas del experimento excluido.}
+	\label{tab:physarum_fuera_edad}
+\end{table}
+
+% ---------------------------------------------------------------------------------------------------- Parte 2
+% Reemplaza el último párrafo de la sección (el que empieza con "De este experimento podemos concluir").
+
+De este experimento podemos concluir que el autómata celular neuronal sí aprende el crecimiento del moho a partir de su evolución: el plasmodio crece desde el inóculo, la avena lo guía y no aparece en zonas vacías. Elegir siempre el estado más probable elimina la parte aleatoria del crecimiento, por lo que la simulación crece en manchas sólidas y sin movimiento; agregar un valor de ruido al estado de cada célula permite reproducir esa parte aleatoria con una regla determinista que el simulador ejecuta sin cambios. El plasmodio que acaba de llegar se retira entre 4 y 5 veces más que el que lleva varias horas, y al agregar al estado si el plasmodio es nuevo, la red con ruido forma una red conectada entre la avena y crece casi lo mismo que la real. Lo que todavía no logra son venas tan delgadas como las reales ni detenerse en todas las cajas.
+
+% ---------------------------------------------------------------------------------------------------- Parte 3
+% Otras correcciones encontradas al revisar los datos (independientes de lo anterior):
+%  - "Fueron fotografiadas ... durante 63 y 141 horas, respectivamente": con los datos limpios cada 30 min,
+%    001 dura 141 h, 002 127 h, 008 63 h y 009 113 h.
+%  - La red con sesgo de 6 estados se entrenó con 37 pares por caja y UNA simetría al azar por par (no todas las
+%    parejas ni las 8 simetrías de cada una).
+%  - El barrido de 122 redes también usó 3, 5 y 8 estados (no solo 4 y 6). La mejor fue e4_5h_9x9_da (0.240, paso de
+%    5 h), que no aparece en el reporte.
+%  - "entre 4 y 6 veces" (último párrafo): la tabla tab:physarum_edad da entre 3.9 y 4.7 veces con pasos de 2 a 6 h.
+%  - La coincidencia de la red con ruido anterior aparece como 0.105 (cada 6 h, núcleo del simulador), 0.110
+%    (cada 30 min) y 0.115 (3 semillas); conviene usar uno solo y decir cuál.
