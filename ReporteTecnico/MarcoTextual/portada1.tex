@@ -1,5 +1,7 @@
-% Portada con los tamaños de la guía: borde superior de 2 cm, margen izquierdo de 3 cm y fuentes en pt
-\newgeometry{top=2cm, bottom=2.5cm, left=3cm, right=2.5cm}
+% Portada con los tamaños de la guía: márgenes de 2 cm (superior, inferior y derecho) y 3 cm (izquierdo) y fuentes en pt
+\newgeometry{top=2cm, bottom=2cm, left=3cm, right=2cm}
+% La portada conserva el interlineado sencillo; el 1.5 del resto del documento se recupera al final
+\singlespacing
 \thispagestyle{empty}
 % Encabezado como en portada2.tex: cada logo llena una columna de 2.25 cm y queda pegado al texto a 0.25 cm
 % (al de ESCOM se le recorta el blanco que trae a los lados la imagen). Suma exactamente \textwidth: 2.25 + 0.25 + texto + 0.25 + 2.25 cm,
@@ -53,3 +55,4 @@
 
 \end{center}
 \restoregeometry
+\onehalfspacing

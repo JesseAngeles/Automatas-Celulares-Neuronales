@@ -7,10 +7,19 @@
 \usepackage[T1]{fontenc}
 % english solo para partir bien las palabras del abstract (otherlanguage); el idioma principal sigue siendo el último, spanish
 \usepackage[english,spanish,es-tabla]{babel}
+% Título de la bibliografía: "Referencias", como en el índice del formato (babel en español usa "Bibliografía")
+\addto\captionsspanish{\renewcommand{\bibname}{Referencias}}
 
 \decimalpoint
 
-\usepackage[a4paper]{geometry} % Tamaño del papel
+% Márgenes del formato del TT: superior e inferior de 2 cm, izquierdo de 3 cm y derecho de 2 cm, medidos hasta el texto.
+% El encabezado y el número de página quedan dentro del margen. headheight va aquí porque el encabezado del capítulo 4
+% ocupa dos renglones; si solo se cambia con \setlength después de cargar geometry, el texto baja 0.5 cm
+\usepackage[a4paper, top=2cm, bottom=2cm, left=3cm, right=2cm, headheight=27.1pt, headsep=0.4cm, footskip=1cm]{geometry}
+% Interlineado de 1.5 en el texto (18 pt entre renglones con letra de 12 pt); setspace deja sencillos las notas al pie,
+% las figuras y las tablas flotantes
+\usepackage{setspace}
+\onehalfspacing
 \usepackage{graphicx}               % Para incluir imágenes
 \usepackage{subcaption}
 \usepackage{amsmath}                % Para el manejo de matemáticas
@@ -36,12 +45,24 @@
 \usepackage{amssymb}		% Simbolos matematicos
 \usepackage{fancyhdr}  % Para encabezados personalizados
 \usepackage{algorithm}
+% Nombre de los algoritmos en español (el paquete escribe "Algorithm")
+\floatname{algorithm}{Algoritmo}
 \usepackage{algpseudocode}
 \usepackage{verbatim}
 \usepackage[edges]{forest}
 \usepackage{tabularx}
 \usepackage{tikz}
 \usepackage{pdfpages}
+
+% Hoja de un formato institucional en PDF: \hojaFormato{página}{izq abajo der arriba}{archivo}. La hoja se recorta a
+% su contenido (los cuatro valores, en pt, son lo que se quita de cada borde) y se ajusta al ancho del texto, para que
+% tenga los mismos márgenes que el resto del documento. Si se cambia el PDF hay que volver a medir el recorte
+\newcommand{\hojaFormato}[3]{%
+	\clearpage
+	\thispagestyle{empty}%
+	\noindent\includegraphics[page=#1, trim=#2, clip, width=\textwidth]{#3}%
+	\clearpage
+}
 
 \usetikzlibrary{positioning, arrows.meta, shadows}
 

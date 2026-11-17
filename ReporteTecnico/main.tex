@@ -14,12 +14,14 @@
 	\input{MarcoTextual/portada2.tex}
 	\thispagestyle{empty}
 	
-	\clearpage
-	\includepdf[pages={1}]{MarcoTextual/CartaResponsiva.pdf}
+	% Formatos institucionales: \hojaFormato está en el preámbulo
+	\hojaFormato{1}{54.2 46.6 51.6 93.1}{MarcoTextual/CartaResponsiva.pdf}
 	\input{MarcoTextual/advertencia.tex}
 	\input{MarcoTextual/dedicatoria.tex}
 	\input{MarcoTextual/agradecimientos.tex}
-	\includepdf[pages={1,2}]{MarcoTextual/AutorizacionDifusion.pdf}
+	% Carta de autorización de difusión: hoja 1 digital, hoja 2 escaneada con la firma
+	\hojaFormato{1}{56.6 35.0 44.6 31.2}{MarcoTextual/AutorizacionDifusion.pdf}
+	\hojaFormato{2}{36.5 56.2 33.4 47.0}{MarcoTextual/AutorizacionDifusion.pdf}
 	\input{MarcoTextual/resumen.tex}
 	\input{MarcoTextual/abstract.tex}
 
@@ -80,10 +82,16 @@
 	\input{MarcoTextual/conclusion.tex}		
 	
 	
-	% Referencias generales
+	% Referencias generales. \phantomsection deja un ancla en esta página para que el enlace del índice
+	% no lleve al capítulo anterior; el título "Referencias" se define con \bibname en el preámbulo
 	\clearpage
+	\phantomsection
 	\addcontentsline{toc}{chapter}{Referencias}
-	\bibliographystyle{IEEEtran}
+	% IEEEtran con las palabras fijas en español ("y", "[En línea]. Disponible en:", "Tesis doctoral", etc.)
+	\bibliographystyle{Componentes/IEEEtran-es}
 	\bibliography{Componentes/referencias.bib}
-	
+
+	% Glosario: después de las referencias, en el orden del índice del formato del TT
+	\input{MarcoTextual/glosario.tex}
+
 \end{document}

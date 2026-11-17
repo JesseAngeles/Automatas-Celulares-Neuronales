@@ -377,7 +377,7 @@ Una notación común es \textit{Birth/Survival}, que especifica los números de 
 Dentro de este sistema emergen patrones característicos, que se agrupan en tres categorías principales:
 
 \begin{itemize}
-	\item \textbf{Naturaleza muerta}: Estructuras estáticas que permanecen invariantes en el tiempo.  
+	\item \textbf{Naturaleza muerta}: Estructuras estáticas que permanecen invariantes en el tiempo (figura \ref{fig:still_life}).
 	\begin{figure}[H]
 		\centering
 		\sbox0{\includegraphics[width=0.18\textwidth]{img/marcoTeorico/sl_block.png}}%
@@ -403,7 +403,7 @@ Dentro de este sistema emergen patrones característicos, que se agrupan en tres
 		\label{fig:still_life}
 	\end{figure}
 	
-	\item \textbf{Osciladores}: Patrones que repiten su configuración después de un número finito de pasos, manteniendo su posición en la cuadrícula.
+	\item \textbf{Osciladores}: Patrones que repiten su configuración después de un número finito de pasos, manteniendo su posición en la cuadrícula (figuras \ref{fig:blinker} y \ref{fig:toad}).
 	\begin{figure}[H]
 		\centering
 		\begin{subfigure}[b]{0.18\textwidth}
@@ -428,7 +428,7 @@ Dentro de este sistema emergen patrones característicos, que se agrupan en tres
 		\caption{\textit{Toad}.}
 		\label{fig:toad}
 	\end{figure}
-	\item \textbf{Naves espaciales}: Son osciladores que, además de repetir su patrón, se desplazan por el espacio celular.  
+	\item \textbf{Naves espaciales}: Son osciladores que, además de repetir su patrón, se desplazan por el espacio celular (figura \ref{fig:glider}).
 	\begin{figure}[H]
 		\centering
 		\begin{subfigure}[b]{0.16\textwidth}
@@ -665,7 +665,7 @@ La definición considera una única hormiga. Si se desea agregar más hormigas a
 
 La regla original es RL: sobre un sitio de color 0 la hormiga gira a la derecha y sobre uno de color 1 gira a la izquierda; en ambos casos el sitio cambia al otro color \cite{freire2024_langton}. Bajo esta estructura pueden definirse múltiples reglas, como LLR, donde la hormiga gira a la izquierda en los colores 0 y 1, a la derecha en el color 2, y los colores cambian en el ciclo $0 \rightarrow 1 \rightarrow 2 \rightarrow 0$. En la figura \ref{fig:langton} se muestra cómo evoluciona la regla RL.
 
-\begin{figure}[!tp]
+\begin{figure}[!htbp]
 	\centering
 	\includegraphics[width=0.75\linewidth]{img/marcoTeorico/langton_espacios.png}
 	\caption{Evolución de la hormiga de Langton RL iniciando en el centro de un espacio vacío de $100 \times 100$. De izquierda a derecha y de arriba abajo: pasos 100, 1,000, 5,000, 9,000, 10,500 y 11,000.}
@@ -682,7 +682,7 @@ Los autómatas celulares elementales fueron utilizados por diferentes autores po
 
 Stephen Wolfram realiza una clasificación basada en el comportamiento que exhiben las reglas a partir de configuraciones iniciales aleatorias, el cual es independiente de la configuración inicial particular. Es por esto que define las siguientes clases de comportamiento, ilustradas en la figura \ref{fig:clasificacion}:
 
-\begin{enumerate}[label=W\Roman*]
+\begin{enumerate}[label=W\Roman*, leftmargin=*]
 	\item Evolucionan a un estado uniforme. 
 	\item Evolucionan a estados cíclicos aislados.
 	\item Evolucionan en comportamientos caóticos.
@@ -744,7 +744,7 @@ En la tabla \ref{tab:class_wolfram} se muestra la relación de reglas del autóm
 Sin embargo, existen reglas bajo diferentes configuraciones que pueden pertenecer a múltiples clases o, en el peor de los casos, no pertenecer a ninguna de ellas \cite{genaro2000_campo_promedio}. 
 
 Li y Packard ofrecen otra clasificación que considera seis clases para categorizar el comportamiento dinámico de los autómatas celulares \cite{Martinez2013note}:
-\begin{enumerate}[label*=LP \Roman*]
+\begin{enumerate}[label*=LP \Roman*, leftmargin=*]
 	\item La regla evoluciona a un estado homogéneo donde todas las células adquieren el mismo valor.
 	\item Evoluciona hasta una configuración estática no necesariamente homogénea.
 	\item Reglas con un periodo igual a dos.
@@ -760,7 +760,7 @@ Por otro lado, Culik y Yu \cite{Martinez2013note, culik1988_class} proponen una 
 	\item Cada clase es un subconjunto de la siguiente clase.
 \end{itemize}
 
-\begin{enumerate}[label*=CY \Roman*]
+\begin{enumerate}[label*=CY \Roman*, leftmargin=*]
 	\item Un autómata celular es de clase I si existe un estado estable $s \in \mathcal{S}$ tal que todas las configuraciones finitas evolucionan a una configuración homogénea de $s$.
 	
 	Es decir, dada cualquier configuración inicial en un autómata celular finito, todas las células adquieren el estado $s$ tras cierto número de pasos evolutivos. Esto se aplica a todas las configuraciones iniciales finitas.
