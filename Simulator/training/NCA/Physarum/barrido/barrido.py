@@ -87,7 +87,8 @@ MAPAS = {
 }
 
 BASE = {"ca": "estados_cada30min_160", "mapa": None, "vecindad": "anillos6", "capas": "16x64", "one_hot": True,
-        "paso": 1, "epocas": 30, "semilla": 42, "vector": False, "desfases": False, "aumento": False}
+        "paso": 1, "epocas": 30, "semilla": 42, "vector": False, "desfases": False, "aumento": False, "edad": False,
+        "retirada": 1.0}
 
 
 def var(nombre, **cambios):
@@ -194,6 +195,26 @@ FASES = {
     # Fase 7b: semillas de la mejor de 6 estados (5 h, circ6)
     "fase7b": [var(f"e6_5h_circ6_da_s{s}", paso=10, vecindad="circ6", desfases=True, aumento=True, semilla=s)
                for s in (43, 44)],
+    # Edad (plan de los últimos entrenamientos, experimento A): el plasmodio que llegó en el último paso es un estado
+    # aparte ("nuevo"); el nuevo se retira 4.5 veces más que el que lleva ≥ 4 pasos (edad/edad.json)
+    "edad": [
+        *[var(f"e4_5h_9x9_da_edad{s}", mapa="4", paso=10, vecindad="9x9", desfases=True, aumento=True, edad=True,
+              semilla=int(s[2:]) if s else 42) for s in ("", "_s43", "_s44")],
+        *[var(f"e4_6h_9x9_da_edad{s}", mapa="4", paso=12, vecindad="9x9", desfases=True, aumento=True, edad=True,
+              semilla=int(s[2:]) if s else 42) for s in ("", "_s43", "_s44")],
+        *[var(f"e6_6h_circ6_da_edad{s}", paso=12, vecindad="circ6", desfases=True, aumento=True, edad=True,
+              semilla=int(s[2:]) if s else 42) for s in ("", "_s43", "_s44")],
+        *[var(f"e4_5h_9x9_da_edad_vector{s}", mapa="4", paso=10, vecindad="9x9", desfases=True, aumento=True,
+              edad=True, vector=True, semilla=int(s[2:]) if s else 42) for s in ("", "_s43", "_s44")],
+        # semillas de la base sin edad que faltaban
+        *[var(f"e4_6h_9x9_da_s{s}", mapa="4", paso=12, vecindad="9x9", desfases=True, aumento=True, semilla=s)
+          for s in (43, 44)],
+    ],
+    # Retirada (experimento B): más peso a las muestras plasmodio → no plasmodio (--retreat-weight), sin y con edad
+    "retirada": [
+        *[var(f"e4_5h_9x9_da{e}_ret{w}", mapa="4", paso=10, vecindad="9x9", desfases=True, aumento=True,
+              edad=bool(e), retirada=float(w)) for e in ("", "_edad") for w in (2, 4, 8)],
+    ],
     # Fase 1: un factor a la vez respecto de la base (160 × 160, 6 estados, anillos6, 16:64 one-hot, 30 min)
     "fase1": [
         var("base"),
@@ -213,17 +234,41 @@ FASES = {
 
 # ── Datos ──────────────────────────────────────────────────────────────────────────────────────────────────────
 
+def con_edad(S, k, n, pl):
+    """Plasmodio que no lo era k imágenes antes (un paso de la red) → estado nuevo s + (n − pl), después de todos los
+    demás, así que «≥ pl» sigue siendo «hay plasmodio». El de las primeras k imágenes cuenta como establecido (igual
+    que la imagen inicial de la simulación libre). Así la edad del siguiente estado depende solo del estado actual de
+    la célula y se puede aprender."""
+    p = S >= pl
+    nuevo = np.zeros_like(p)
+    nuevo[k:] = p[k:] & ~p[:-k]
+    return np.where(nuevo, S + (n - pl), S).astype(np.int8)
+
+
+def cargar30(cfg, caja):
+    """Toda la serie cada 30 min, con los estados unidos (mapa) y, si cfg["edad"], la edad relativa a cfg["paso"]."""
+    S = np.load(CA / cfg["ca"] / f"{caja}.npy")
+    if cfg["mapa"]:
+        S = np.array(MAPAS[cfg["mapa"]], np.int8)[S]
+    if cfg.get("edad"):
+        n, pl = info({**cfg, "edad": False})
+        S = con_edad(S, cfg["paso"], n, pl)
+    return S
+
+
 def cargar(cfg, caja):
-    S = np.load(CA / cfg["ca"] / f"{caja}.npy")[::cfg["paso"]]
-    return np.array(MAPAS[cfg["mapa"]], np.int8)[S] if cfg["mapa"] else S
+    return cargar30(cfg, caja)[::cfg["paso"]]
 
 
 def info(cfg):
-    """(número de estados, primer estado de plasmodio)."""
+    """(número de estados, primer estado de plasmodio). Con edad, cada nivel de plasmodio tiene además su versión
+    nueva."""
     if cfg["mapa"]:
         m = MAPAS[cfg["mapa"]]
-        return max(m) + 1, m[3]
-    return len(json.loads((CA / cfg["ca"] / "evo.json").read_text())["estados"]), 3
+        n, pl = max(m) + 1, m[3]
+    else:
+        n, pl = len(json.loads((CA / cfg["ca"] / "evo.json").read_text())["estados"]), 3
+    return (n + (n - pl), pl) if cfg.get("edad") else (n, pl)
 
 
 def cajas_entrenamiento(cfg):
@@ -244,7 +289,7 @@ def datos(cfg):
     n = len(VECINDADES[cfg["vecindad"]])
     por_caja = int(PRESUPUESTO // (len(cajas) * S0.shape[1] * S0.shape[2] * n * 4))
     clave = (f"{cfg['ca']}_{cfg['mapa'] or 'x'}_k{cfg['paso']}_n{por_caja}" + ("_d" if cfg.get("desfases") else "")
-             + ("_a" if cfg.get("aumento") else ""))
+             + ("_a" if cfg.get("aumento") else "") + ("_edad" if cfg.get("edad") else ""))
     carpeta = CARPETA / "datos" / clave
     if not (carpeta / "listo").exists():
         carpeta.mkdir(parents=True, exist_ok=True)
@@ -252,7 +297,7 @@ def datos(cfg):
         k = cfg["paso"]
         for caja in cajas:
             if cfg.get("desfases"):
-                S = cargar({**cfg, "paso": 1}, caja)
+                S = cargar30(cfg, caja)                                # la edad ya es relativa al paso k
                 pares = [(t, t + k) for t in range(len(S) - k)]
             else:
                 S = cargar(cfg, caja)
@@ -288,6 +333,8 @@ def entrenar(nombre, cfg, archivos):
            "--open-boundary", "--log-csv", str(salida / "perdida.csv")]
     if cfg["one_hot"]:
         cmd += ["--one-hot", str(n_estados)]
+    if cfg.get("retirada", 1.0) != 1.0:                                # experimento B: más peso a plasmodio → no
+        cmd += ["--retreat-weight", str(cfg["retirada"]), "--retreat-from", str(info(cfg)[1])]
     t0 = time.perf_counter()
     with open(salida / "entrenamiento.log", "w") as log:
         r = subprocess.run(cmd, stdout=log, stderr=subprocess.STDOUT, cwd=TRAINING)

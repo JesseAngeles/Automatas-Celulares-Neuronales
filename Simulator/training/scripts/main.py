@@ -40,6 +40,11 @@ def parse_args():
     p.add_argument("--seed",         type=int,   default=None, help="Random seed (default: random)")
     p.add_argument("--log-csv",      default=None,             help="Write epoch,loss for each printed message to this CSV path")
     p.add_argument("--open-boundary",action="store_true",      help="Frontera abierta: fuera del espacio todo es 0 (default: periódica)")
+    p.add_argument("--retreat-weight", type=float, default=1.0, metavar="W",
+                   help="Multiplica por W la pérdida de las muestras cuya célula central está en un estado ≥ --retreat-from "
+                        "y cuyo siguiente estado es < --retreat-from (p. ej. plasmodio → fondo); solo multiclase (default: 1)")
+    p.add_argument("--retreat-from", type=int, default=1, metavar="ESTADO",
+                   help="Primer estado del grupo que se retira con --retreat-weight (default: 1)")
     return p.parse_args()
 
 
@@ -242,6 +247,20 @@ def main():
         raise ValueError(f"--one-hot {args.one_hot} pero los datos tienen estados entre {X_np.min():g} y {X_np.max():g}")
     model     = build_model(n_size, hidden_layers, out_size, out_act, args.one_hot).to(device)
     criterion = nn.CrossEntropyLoss() if multiclass else nn.BCELoss()
+
+    # Peso de las retiradas: centro ≥ retreat_from y siguiente estado < retreat_from. Con W = 1 no se usa.
+    Wt = None
+    if args.retreat_weight != 1.0:
+        if not multiclass:
+            raise ValueError("--retreat-weight solo funciona en modo multiclase")
+        centro = [i for i, (dx, dy) in enumerate(neighbourhood.tolist()) if dx == 0 and dy == 0]
+        if not centro:
+            raise ValueError("--retreat-weight necesita que la vecindad incluya la célula central (0,0)")
+        retira = (X[:, centro[0]] >= args.retreat_from) & (Y < args.retreat_from)
+        Wt = 1.0 + (args.retreat_weight - 1.0) * retira.float()
+        criterion = nn.CrossEntropyLoss(reduction="none")
+        print(f"Retiradas (estado ≥ {args.retreat_from} → < {args.retreat_from}): {int(retira.sum()):,} muestras "
+              f"({retira.float().mean().item():.3%}) con peso {args.retreat_weight:g}")
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
     scheduler = build_scheduler(optimizer, args)
     print(f"Learning rate: {args.lr:g}" + ("" if args.lr_schedule == "none"
@@ -257,10 +276,14 @@ def main():
         free_vram, total_vram = torch.cuda.mem_get_info(device)
         if data_bytes + OVERHEAD < free_vram:
             X, Y   = X.to(device), Y.to(device)
+            if Wt is not None:
+                Wt = Wt.to(device)
             on_gpu = True
             print(f"Datos en GPU  ({data_bytes/1e9:.2f} GB)")
         else:
             X, Y = X.pin_memory(), Y.pin_memory()
+            if Wt is not None:
+                Wt = Wt.pin_memory()
             print(f"Datos en CPU/pin_memory  ({data_bytes/1e9:.2f} GB, "
                   f"VRAM libre: {free_vram/1e9:.2f} de {total_vram/1e9:.2f} GB)")
 
@@ -278,19 +301,23 @@ def main():
                 perm = torch.randperm(N, device=device)
                 def get_batch(s):
                     idx = perm[s:s+args.batch]
-                    return X[idx], Y[idx]
+                    return X[idx], Y[idx], (Wt[idx] if Wt is not None else None)
             else:
                 perm = torch.randperm(N)
                 def get_batch(s):
                     idx = perm[s:s+args.batch]
                     return (X[idx].pin_memory().to(device, non_blocking=True),
-                            Y[idx].pin_memory().to(device, non_blocking=True))
+                            Y[idx].pin_memory().to(device, non_blocking=True),
+                            Wt[idx].pin_memory().to(device, non_blocking=True) if Wt is not None else None)
 
             epoch_loss = 0.0
             for start in range(0, N, args.batch):
-                X_b, Y_b = get_batch(start)
+                X_b, Y_b, W_b = get_batch(start)
                 pred = model(X_b)
-                loss = criterion(pred, Y_b)
+                if W_b is None:
+                    loss = criterion(pred, Y_b)
+                else:                                    # media ponderada: misma escala que sin pesos
+                    loss = (criterion(pred, Y_b) * W_b).sum() / W_b.sum()
                 optimizer.zero_grad()
                 loss.backward()
                 optimizer.step()
