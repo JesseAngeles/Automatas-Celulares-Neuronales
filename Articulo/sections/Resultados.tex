@@ -1,18 +1,10 @@
 \section{RESULTADOS}
 \label{sec:resultados}
 
-En esta sección se presentan los seis experimentos. Los tres primeros replican sistemas con regla conocida y los tres siguientes aplican la configuración obtenida a sistemas reales.
-
 \subsection{El juego de la vida}
 
-Se usó la regla B3/S23 con 100 condiciones iniciales aleatorias de $100 \times 100$ durante 100 pasos, en las que en promedio el 16.5\,\% de las células está viva. Para analizar el desbalance de entradas se usa la nomenclatura $C x N y$, que cuenta las células vivas en el centro ($C$) y en el exterior ($N$) de la vecindad. Como la regla genera poca vida, los patrones $C0N8$ y $C1N8$ suman menos del 0.02\,\% de las vecindades (figura~\ref{fig:gol_patrones}), lo que produce un sesgo de muestra.
+Se usó la regla B3/S23 con 100 condiciones iniciales aleatorias de $100 \times 100$ durante 100 pasos, en las que en promedio el 16.5\,\% de las células está viva. Para analizar el desbalance de entradas se usa la nomenclatura $C x N y$, que cuenta las células vivas en el centro ($C$) y en el exterior ($N$) de la vecindad. Como la regla genera poca vida, los patrones $C0N8$ y $C1N8$ suman menos del 0.02\,\% de las vecindades, lo que produce un sesgo de muestra.
 
-\begin{figure}[!tp]
-	\centering
-	\includegraphics[width=0.85\linewidth]{gol/life_pattern_count.png}
-	\caption{Frecuencia de los patrones $C x N y$ en las evoluciones de entrenamiento de la regla B3/S23.}
-	\label{fig:gol_patrones}
-\end{figure}
 
 \subsubsection{Capacidad de replicación}
 Con una pérdida objetivo exigente de $10^{-4}$ se probaron 10 combinaciones de funciones de activación (tabla~\ref{tab:gol_activaciones}). Con una capa oculta de 4 neuronas, únicamente \red{1:4:ReLU}{2:Linear} converge en 122 épocas y con 4 capas de 8 neuronas convergen cinco configuraciones. Las que no convergen se estancan en las primeras 12 épocas, lo que indica un problema de la combinación de activaciones más que de la tasa de aprendizaje; las redes lineales no pueden representar la regla y se quedan en una pérdida de 0.2975.
@@ -44,7 +36,7 @@ Con una pérdida objetivo exigente de $10^{-4}$ se probaron 10 combinaciones de 
 \end{table}
 
 \subsubsection{Pérdida objetivo y regla aprendida}
-Aunque B3/S23 es semitotalística, la red puede distinguir entre permutaciones de un mismo patrón y aprender una regla arbitraria. Para extraer la regla aprendida se evoluciona un paso un espacio que contiene las 512 configuraciones de la vecindad de Moore y se compara con la regla original (figura~\ref{fig:gol_reglas}):
+Aunque B3/S23 es semitotalística, la red puede distinguir entre permutaciones de un mismo patrón y aprender una regla arbitraria. Para extraer la regla aprendida se evoluciona un paso un espacio que contiene las 512 configuraciones de la vecindad de Moore y se compara con la regla original mediante la distancia Manhattan entre sus vectores:
 
 \begin{itemize}
 	\item \textbf{B3/S23} solo aprende dos comportamientos: la regla 0 con pérdidas objetivo de 0.2 y 0.3, y la regla exacta con 0.1 o menos.
@@ -55,28 +47,6 @@ Aunque B3/S23 es semitotalística, la red puede distinguir entre permutaciones d
 
 B3/S23 resulta estable, mientras que las reglas que generan vida adicional aprenden otras reglas cuando el entrenamiento es incompleto. Una posible explicación es que la red se inicializa produciendo ceros y, como casi nunca recibe los patrones de baja frecuencia, sus salidas para ellos se mantienen en ese valor.
 
-\begin{figure}[!tp]
-	\centering
-	\begin{subfigure}[b]{0.49\linewidth}
-		\includegraphics[width=\linewidth]{gol/b3s23_loss.png}
-		\caption{B3/S23}
-	\end{subfigure}\hfill
-	\begin{subfigure}[b]{0.49\linewidth}
-		\includegraphics[width=\linewidth]{gol/b3s238_loss.png}
-		\caption{B3/S238}
-	\end{subfigure}
-	\\[4pt]
-	\begin{subfigure}[b]{0.49\linewidth}
-		\includegraphics[width=\linewidth]{gol/b38s238_loss.png}
-		\caption{B38/S238}
-	\end{subfigure}\hfill
-	\begin{subfigure}[b]{0.49\linewidth}
-		\includegraphics[width=\linewidth]{gol/b3s236_loss.png}
-		\caption{B3/S236}
-	\end{subfigure}
-	\caption{Distancia Manhattan entre el vector de la regla original y el de la regla aprendida con distintas pérdidas objetivo.}
-	\label{fig:gol_reglas}
-\end{figure}
 
 \subsubsection{Efecto de la vecindad}
 En un sistema real la vecindad se desconoce, por lo que se entrenó B3/S23 quitando y agregando vecinos (tabla~\ref{tab:gol_vecindad}). Sin un vecino del exterior la vecindad ya no determina la transición: la pérdida mínima alcanzable es de 0.1213, ninguna red baja de 0.1215 y todas aprenden una regla que difiere en 98 de 512 elementos y solo produce naturaleza muerta. Sin la célula central la pérdida mínima es menor (0.0787), lo que confirma que la transición depende más de los vecinos que del propio estado. En cambio, ampliar la vecindad hasta $8\times8$ la sigue determinando y no impide replicar la regla, mientras que ampliarla sin el vecino faltante reduce la pérdida, pero no a cero.
@@ -174,25 +144,8 @@ Al entrenar con una generadora en el centro, las redes con Sigmoid en las capas 
 \end{figure*}
 
 \subsubsection{Reducción de la tasa de aprendizaje}
-La red entrenada con una generadora no generaliza: con varias generadoras crea nuevas o las elimina. Al entrenar con dos evoluciones de $25 \times 25$ y 2,000 pasos, con una y con cuatro generadoras, estas coexisten, pero la pérdida oscila a partir de la época 150 (figura~\ref{fig:sp_lr}). La reducción exponencial de la tasa de aprendizaje, de 0.001 a $10^{-6}$ en 2,000 épocas, suaviza la curva, pero termina por límite de épocas con una pérdida de $1.5 \times 10^{-5}$, mientras que la reducción por \textit{plateau} alcanza la pérdida objetivo de $10^{-6}$ en 1,319 épocas.
+La red entrenada con una generadora no generaliza: con varias generadoras crea nuevas o las elimina. Al entrenar con dos evoluciones de $25 \times 25$ y 2,000 pasos, con una y con cuatro generadoras, estas coexisten, pero la pérdida oscila a partir de la época 150. La reducción exponencial de la tasa de aprendizaje, de 0.001 a $10^{-6}$ en 2,000 épocas, suaviza la curva, pero termina por límite de épocas con una pérdida de $1.5 \times 10^{-5}$, mientras que la reducción por \textit{plateau} alcanza la pérdida objetivo de $10^{-6}$ en 1,319 épocas.
 
-\begin{figure*}[!t]
-	\centering
-	\begin{subfigure}[b]{0.3\textwidth}
-		\includegraphics[width=\linewidth]{sandpile/sp_4generadores_loss.png}
-		\caption{Tasa constante de 0.001}
-	\end{subfigure}\hfill
-	\begin{subfigure}[b]{0.3\textwidth}
-		\includegraphics[width=\linewidth]{sandpile/sp_4generadores_loss_exp.png}
-		\caption{Reducción exponencial}
-	\end{subfigure}\hfill
-	\begin{subfigure}[b]{0.3\textwidth}
-		\includegraphics[width=\linewidth]{sandpile/sp_4generadores_loss_plateau.png}
-		\caption{Reducción por \textit{plateau}}
-	\end{subfigure}
-	\caption{Pérdida al entrenar la pila de arena con una y cuatro generadoras y una pérdida objetivo de $10^{-6}$, según la reducción de la tasa de aprendizaje.}
-	\label{fig:sp_lr}
-\end{figure*}
 
 \subsubsection{Codificación one-hot}
 Con la entrada lineal, la red supone que la relación entre los estados 7 y 8 (altura máxima y generadora vacía) es la misma que entre el 0 y el 1. Con \onehot{} la entrada pasa de 5 neuronas con valores de 0 a 16 a 85 neuronas binarias, y con cuatro generadoras la red converge en 63 veces menos épocas y 53 veces menos tiempo (tabla~\ref{tab:sp_onehot}). También mejora la generalización: con una generadora, la evolución conserva su simetría durante 5,149 pasos en lugar de 2,043, y la red entrenada con cuatro generadoras la conserva al menos 10,000 pasos en la configuración tradicional y 2,985 con frontera periódica.
@@ -269,7 +222,7 @@ De los tres experimentos con regla conocida se obtienen las siguientes recomenda
 FLAME~3 \cite{hopkins2024flame3datasetunleashing} contiene imágenes térmicas radiométricas con vista cenital, tomadas con un dron durante la quema controlada de Hanna Hammock en 2023. Se usaron dos secuencias que registran la temperatura de cada píxel cada 5 s: \texttt{flame\_plot\_1}, con 116 imágenes en las que el fuego pasa de cubrir el 2 al 86\,\% del espacio, y \texttt{flame\_plot\_2}, con 66 imágenes en las que pasa del 4 a casi el 100\,\%. Ambas inician con el fuego presente, para que la red no infiera combustión espontánea.
 
 \subsubsection{Preprocesamiento}
-El viento desplaza el dron varios píxeles, por lo que cada imagen se alineó con la primera mediante correlación de fase con precisión de 1/20 de píxel, comparando solo el suelo frío entre imágenes separadas por 1, 2, 4, \dots, 128 posiciones y resolviendo la posición de cada una mediante mínimos cuadrados robustos (pérdida de Huber); la corrección máxima fue de 7.69 píxeles. Después se recortó el mayor cuadrado sin bordes vacíos, se redujo a $100\times100$ células y se discretizó en 18 estados (figura~\ref{fig:flame_limpieza}): 12 de temperatura, $\mathcal{S}_b = \{0, \dots, 11\}$, en escala logarítmica entre 25.3 y 604.6\,°C, y 6 de quemado, $\mathcal{S}_q = \{12, \dots, 17\}$. Sea $\tau_{\vec{i}}(t)$ el estado de temperatura de la célula, $T_{\vec{i}}(t)$ su temperatura y $m_{\vec{i}}$ la mínima registrada desde que se quemó; el estado se asigna como
+El viento desplaza el dron varios píxeles, por lo que cada imagen se alineó con la primera mediante correlación de fase sobre el suelo frío, con precisión de 1/20 de píxel y una corrección máxima de 7.69 píxeles. Después se recortó el mayor cuadrado sin bordes vacíos, se redujo a $100\times100$ células y se discretizó en 18 estados: 12 de temperatura, $\mathcal{S}_b = \{0, \dots, 11\}$, en escala logarítmica entre 25.3 y 604.6\,°C, y 6 de quemado, $\mathcal{S}_q = \{12, \dots, 17\}$. Sea $\tau_{\vec{i}}(t)$ el estado de temperatura de la célula, $T_{\vec{i}}(t)$ su temperatura y $m_{\vec{i}}$ la mínima registrada desde que se quemó; el estado se asigna como
 \begin{equation}
 	\sigma_{\vec{i}}(t+1) \in
 	\begin{cases}
@@ -282,31 +235,6 @@ El viento desplaza el dron varios píxeles, por lo que cada imagen se alineó co
 \end{equation}
 donde una célula en $\mathcal{S}_b$ toma el estado $\tau_{\vec{i}}(t+1)$ y una en $\mathcal{S}_q$ toma $12 + \lfloor \tau_{\vec{i}}(t+1)/2 \rfloor$. Es decir, una célula que se enfría queda quemada y solo regresa a un estado de temperatura si vuelve a calentarse más de 30\,°C sobre su mínimo. Así, la red puede distinguir el terreno que todavía puede arder del que ya se quemó; agrupar los estados de quemado y usar el umbral de 30\,°C reduce de 28,537 a 9,102 los regresos de quemado a no quemado, causados principalmente por ruido. 
 
-\begin{figure*}[!t]
-	\centering
-	\begin{subfigure}[b]{0.235\textwidth}
-		\includegraphics[width=\linewidth]{flame/clean_01.jpg}
-		\caption{Imagen original}
-	\end{subfigure}\hfill
-	\begin{subfigure}[b]{0.235\textwidth}
-		\includegraphics[width=\linewidth]{flame/clean_02.jpg}
-		\caption{Alineación}
-	\end{subfigure}\hfill
-	\begin{subfigure}[b]{0.16\textwidth}
-		\includegraphics[width=\linewidth]{flame/clean_03.jpg}
-		\caption{Recorte}
-	\end{subfigure}\hfill
-	\begin{subfigure}[b]{0.16\textwidth}
-		\includegraphics[width=\linewidth]{flame/clean_04.jpg}
-		\caption{$100\times100$}
-	\end{subfigure}\hfill
-	\begin{subfigure}[b]{0.16\textwidth}
-		\includegraphics[width=\linewidth]{flame/clean_05_18estados.jpg}
-		\caption{18 estados}
-	\end{subfigure}
-	\caption{Preprocesamiento de la imagen 1204 del \textit{plot} 2 de FLAME~3.}
-	\label{fig:flame_limpieza}
-\end{figure*}
 
 \subsubsection{Configuraciones y evaluación}
 Se probaron 18 configuraciones: paso de 5, 15 o 30 s; vecindad de $9\times9$ (81 vecinos) o dispersa (41 vecinos: el cuadrado de $5\times5$ más 16 células a distancia 5), y capas ocultas 2:32, 3:64 o 4:256 con ReLU, salida 18:Linear y \onehot{}. Se entrenaron 200 épocas con reducción exponencial de 0.001 a $10^{-5}$ y frontera abierta. Cada configuración se entrenó con una secuencia y se probó en la otra en simulación libre, midiendo el área quemada, el área con fuego (células que alcanzan 130\,°C) y los errores de un paso y de la simulación libre relativos a la predicción sin cambio, cuya área quemada es de 0\,\% porque nunca propaga el fuego.
@@ -337,38 +265,8 @@ Se probaron 18 configuraciones: paso de 5, 15 o 30 s; vecindad de $9\times9$ (81
 \subsubsection{Resultados}
 Al probar en \texttt{flame\_plot\_1}, todas las configuraciones propagan el fuego, con un área quemada entre 72 y 86\,\% similar a la real, pero ninguna supera a la predicción sin cambio en la simulación libre: con paso de 30 s se equivocan entre 1.4 y 2.3 veces más, y con 15 s, entre 3.6 y 4.5 veces más. Es decir, el fuego avanza hacia las zonas correctas, pero las temperaturas no coinciden. Al probar en \texttt{flame\_plot\_2} el área quemada llega como máximo al 67\,\%, las mejores son las redes de 4:256 y varias superan a la predicción sin cambio, mientras que las de 2:32 propagan el fuego demasiado lento.
 
-Ninguna configuración es la mejor en ambas pruebas (tabla~\ref{tab:flame}). Tres empatan en el mejor lugar combinado; se eligió la de paso de 30 s, vecindad de $9\times9$ y \red{2:32:ReLU}{18:Linear} por ser la red más pequeña y la única de las tres que, en la prueba 2, se equivoca menos que la predicción sin cambio tanto en un paso (89\,\%) como en la simulación libre (97\,\%). La evaluación visual coincide con el área quemada y verifica que el fuego se propaga a velocidad constante, que los frentes se extinguen al colisionar, que el terreno quemado no vuelve a encenderse y que el sistema se calienta y se enfría (figuras~\ref{fig:flame_criterios} y \ref{fig:flame_comparacion}).
+Ninguna configuración es la mejor en ambas pruebas (tabla~\ref{tab:flame}). Tres empatan en el mejor lugar combinado; se eligió la de paso de 30 s, vecindad de $9\times9$ y \red{2:32:ReLU}{18:Linear} por ser la red más pequeña y la única de las tres que, en la prueba 2, se equivoca menos que la predicción sin cambio tanto en un paso (89\,\%) como en la simulación libre (97\,\%). La evaluación visual coincide con el área quemada y verifica que el fuego se propaga a velocidad constante, que los frentes se extinguen al colisionar, que el terreno quemado no vuelve a encenderse y que el sistema se calienta y se enfría (figura~\ref{fig:flame_comparacion}).
 
-\begin{figure*}[!t]
-	\centering
-	\begin{subfigure}[b]{0.155\textwidth}
-		\includegraphics[width=\linewidth]{flame/criterios/paso_0.png}
-		\caption{0 s}
-	\end{subfigure}\hfill
-	\begin{subfigure}[b]{0.155\textwidth}
-		\includegraphics[width=\linewidth]{flame/criterios/paso_5.png}
-		\caption{150 s}
-	\end{subfigure}\hfill
-	\begin{subfigure}[b]{0.155\textwidth}
-		\includegraphics[width=\linewidth]{flame/criterios/paso_10.png}
-		\caption{300 s}
-	\end{subfigure}\hfill
-	\begin{subfigure}[b]{0.155\textwidth}
-		\includegraphics[width=\linewidth]{flame/criterios/paso_14.png}
-		\caption{420 s}
-	\end{subfigure}\hfill
-	\begin{subfigure}[b]{0.155\textwidth}
-		\includegraphics[width=\linewidth]{flame/criterios/paso_18.png}
-		\caption{540 s}
-	\end{subfigure}\hfill
-	\begin{subfigure}[b]{0.155\textwidth}
-		\includegraphics[width=\linewidth]{flame/criterios/paso_40.png}
-		\caption{1200 s}
-	\end{subfigure}
-	\leyendaflame
-	\caption{Simulación libre de la configuración final de FLAME~3 con frontera periódica, a partir de un foco de $6\times6$ células en el estado 10 en un espacio frío. El fuego se propaga en todas direcciones (b, c), los frentes se extinguen al encontrarse (d, e) y no vuelve a aparecer fuego (f).}
-	\label{fig:flame_criterios}
-\end{figure*}
 
 \begin{figure}[!t]
 	\centering
@@ -398,7 +296,7 @@ Ninguna configuración es la mejor en ambas pruebas (tabla~\ref{tab:flame}). Tre
 	\label{fig:flame_comparacion}
 \end{figure}
 
-El experimento está limitado por los datos: FLAME~3 es uno de los pocos conjuntos que registran la propagación con vista cenital y solo aporta dos secuencias cortas con comportamientos distintos, ya que en \texttt{flame\_plot\_1} el terreno permanece frío hasta que llega el fuego y en \texttt{flame\_plot\_2} primero se propagan las temperaturas medias. Además, el modelo ignora el relieve, la vegetación, las carreteras, el viento y la humedad, por lo que la dirección y la velocidad aprendidas dependen de las condiciones de grabación.
+El experimento está limitado por los datos: FLAME~3 solo aporta dos secuencias cortas con comportamientos distintos (en \texttt{flame\_plot\_1} el terreno permanece frío hasta que llega el fuego y en \texttt{flame\_plot\_2} primero se propagan las temperaturas medias), y el modelo ignora el relieve, la vegetación, el viento y la humedad, por lo que la dirección y la velocidad aprendidas dependen de las condiciones de grabación.
 
 \subsection{Movimiento de tormentas (SEVIR)}
 
@@ -444,7 +342,7 @@ Para descartar que el límite se debiera a la configuración, se entrenaron 80 r
 	\label{tab:sevir}
 \end{table}
 
-Para saber qué aprendió la mejor red se midió el desplazamiento de cada tormenta en 60 minutos. Las tormentas reales se desplazan en promedio 5.82 células (23 km) hacia el este, con una desviación estándar de 7.06 células en la dirección este--oeste y 7.18 en la norte--sur; la red las desplaza 7.17 células (29 km) hacia el este con mucha menos variación (4.49 y 4.04), y su correlación con el desplazamiento real es débil (0.36 y 0.51). La red aprendió principalmente a mover las tormentas hacia el este, la dirección más común en Estados Unidos. La dirección y el crecimiento de una tormenta dependen del viento, la humedad y la temperatura a distintas alturas, que no están en las imágenes, y otras tormentas entran desde fuera del espacio: dos vecindades idénticas pueden tener futuros distintos, por lo que ninguna vecindad determina la transición. El límite no depende de los datos, de la red ni de la vecindad, sino de que las tormentas son un sistema abierto.
+En 60 minutos, las tormentas reales se desplazan en promedio 5.82 células (23 km) hacia el este, con una desviación estándar de 7.06 células en la dirección este--oeste y 7.18 en la norte--sur; la mejor red las desplaza 7.17 células hacia el este con mucha menos variación (4.49 y 4.04) y una correlación débil con el desplazamiento real (0.36 y 0.51). Es decir, aprendió principalmente a mover las tormentas hacia el este, la dirección más común en Estados Unidos. La dirección y el crecimiento dependen del viento, la humedad y la temperatura a distintas alturas, que no están en las imágenes, y otras tormentas entran desde fuera del espacio, por lo que ninguna vecindad determina la transición: el límite se debe a que las tormentas son un sistema abierto.
 
 \subsection{Crecimiento de \textit{Physarum polycephalum}}
 
@@ -554,28 +452,8 @@ Un segundo autómata celular neuronal aprende este procedimiento completo con 97
 	\label{tab:physarum_comp}
 \end{table}
 
-La red con ruido reproduce la forma y el movimiento que le faltan a la red con sesgo (figura~\ref{fig:physarum_comp} y tabla~\ref{tab:physarum_comp}): el borde del plasmodio pasa de 0.154 a 0.498 (0.429 en la realidad), es decir, forma ramas en lugar de manchas, y el 6.5\,\% del plasmodio cambia de nivel cada 30 minutos, contra el 4.7\,\% real. El plasmodio crece desde el inóculo, avanza entre la avena y no aparece en zonas vacías. En cambio, crece menos que el real (15.7 contra 34.4\,\% de la caja) y su coincidencia es menor, algo esperado, ya que con ruido la red no puede saber hacia dónde crecerá cada rama, mientras que la red con sesgo crece en todas direcciones a la vez. Otras 20 redes con más épocas, otra reducción de la tasa de aprendizaje o un empujón de crecimiento suben la coincidencia de 0.115 a 0.136, pero solo porque crecen más, hasta cubrir cajas en las que el plasmodio real se queda alrededor de la avena. Ninguna de estas redes forma las venas largas que unen la avena ni sabe cuándo dejar de crecer. En los datos reales, el plasmodio que acaba de llegar se retira 4.7 veces más que el que lleva al menos 24 horas (34.9 contra 7.4\,\% en pasos de 6 horas), por lo que se agregó esta memoria al estado: el plasmodio que no estaba un paso antes es \textit{nuevo} y el resto, \textit{establecido} (9 estados visibles y 36 con el ruido). Con la red con sesgo no ayuda, porque retirarse nunca es lo más probable; con ruido y la red de 6 horas con edad como maestra, el plasmodio crece casi lo mismo que el real (33.0\,\% de la caja), con una coincidencia de 0.159 y un borde de 0.387 (tabla~\ref{tab:physarum_comp}), y forma una red conectada entre la avena, aunque con venas más gruesas.
+La red con ruido reproduce la forma y el movimiento que le faltan a la red con sesgo (figura~\ref{fig:physarum_comp} y tabla~\ref{tab:physarum_comp}): el borde del plasmodio pasa de 0.154 a 0.498 (0.429 en la realidad), es decir, forma ramas en lugar de manchas, y el 6.5\,\% del plasmodio cambia de nivel cada 30 minutos, contra el 4.7\,\% real. El plasmodio crece desde el inóculo, avanza entre la avena y no aparece en zonas vacías. En cambio, crece menos que el real (15.7 contra 34.4\,\% de la caja) y su coincidencia es menor, algo esperado, ya que con ruido la red no puede saber hacia dónde crecerá cada rama, mientras que la red con sesgo crece en todas direcciones a la vez. Otras 20 redes con más épocas o un empujón de crecimiento suben la coincidencia de 0.115 a 0.136 solo porque crecen más, y ninguna forma las venas largas que unen la avena ni sabe cuándo dejar de crecer. En los datos reales, el plasmodio que acaba de llegar se retira 4.7 veces más que el que lleva al menos 24 horas (34.9 contra 7.4\,\% en pasos de 6 horas), por lo que se agregó esta memoria al estado: el plasmodio que no estaba un paso antes es \textit{nuevo} y el resto, \textit{establecido} (9 estados visibles y 36 con el ruido). Con la red con sesgo no ayuda, porque retirarse nunca es lo más probable; con ruido y la red de 6 horas con edad como maestra, el plasmodio crece casi lo mismo que el real (33.0\,\% de la caja), con una coincidencia de 0.159 y un borde de 0.387 (tabla~\ref{tab:physarum_comp}), y forma una red conectada entre la avena, aunque con venas más gruesas.
 
 \subsection{Análisis comparativo}
 
-La tabla~\ref{tab:sintesis} resume los seis experimentos, cuyos resultados se explican con las dos condiciones de la sección~\ref{sec:formulacion}. Cuando la vecindad determina la transición, como en los tres sistemas con regla conocida y en \textit{Physarum polycephalum} con el ruido como parte del estado, el autómata celular neuronal reproduce la evolución de entrenamiento. Cuando falta un vecino relevante o la evolución depende de variables que no están en el espacio, como en FLAME~3 y SEVIR, la mejor regla determinista elige el estado más probable y la dinámica se congela o se debilita. La cobertura explica los errores restantes: ante patrones ausentes en los datos, como las generadoras contiguas o la hormiga que se divide, la regla aprendida difiere de la original.
-
-\begin{table}[!t]
-	\centering
-	\footnotesize
-	\setlength{\tabcolsep}{3pt}
-	\begin{tabularx}{\linewidth}{@{}lc>{\raggedright\arraybackslash}X@{}}
-		\toprule
-		\textbf{Sistema} & \textbf{Cerrado} & \textbf{Resultado y limitación principal} \\
-		\midrule
-		Juego de la vida & Sí & Regla exacta con 1:4; sin un vecino relevante no se aprende. \\
-		Pila de arena & Sí & 100\,\% de exactitud; generaliza parcialmente a generadoras contiguas. \\
-		Hormiga de Langton & Sí & Sin errores en 8 de 9 reglas de hasta 50 estados; aplica la regla de colisión fuera de contexto. \\
-		FLAME~3 & Parcial & Propaga el frente (área quemada de hasta 86\,\%), pero no las temperaturas; solo dos grabaciones. \\
-		SEVIR & No & Mejor que sin cambio, pero solo desplaza las tormentas hacia el este. \\
-		\textit{Physarum} & Sí & Con ruido y memoria de edad, red conectada y área casi real; venas más gruesas. \\
-		\bottomrule
-	\end{tabularx}
-	\caption{Síntesis de los experimentos.}
-	\label{tab:sintesis}
-\end{table}
+Los resultados de los seis experimentos se explican con las dos condiciones de la sección~\ref{sec:formulacion}. Cuando la vecindad determina la transición, como en los tres sistemas con regla conocida y en \textit{Physarum polycephalum} con el ruido como parte del estado, el autómata celular neuronal reproduce la evolución de entrenamiento. Cuando falta un vecino relevante o la evolución depende de variables que no están en el espacio, como en FLAME~3 y SEVIR, la mejor regla determinista elige el estado más probable y la dinámica se congela o se debilita. La cobertura explica los errores restantes: ante patrones ausentes en los datos, como las generadoras contiguas o la hormiga que se divide, la regla aprendida difiere de la original.
