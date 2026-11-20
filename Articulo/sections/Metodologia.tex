@@ -1,13 +1,11 @@
 \section{METODOLOGÍA}
 \label{sec:metodologia}
 
-En esta sección se describen el diseño de la investigación, la formulación del problema, el autómata celular neuronal y su entrenamiento, las métricas de evaluación y el procedimiento experimental.
-
 \subsection{Diseño de la investigación}
 
-La investigación es aplicada \cite{veracruz_aplicada}, con un enfoque cuantitativo \cite{jaen_cuantitativa} y un diseño cuasiexperimental \cite{capili2024_cuasiexperimento}. Se manipula la variable independiente, la configuración de la red y de su entrenamiento (arquitectura, activaciones, codificación de la entrada, vecindad, pérdida objetivo, tasa de aprendizaje y paso de tiempo), y se observa su efecto sobre la variable dependiente: la fidelidad de la evolución del autómata celular neuronal. No hay asignación aleatoria ni grupos de control; la referencia es la evolución original y, en los sistemas reales, la predicción sin cambio. Todos los datos se obtienen mediante simulación computacional, sin intervención humana: las evoluciones de referencia de los sistemas con regla conocida se generaron en Mathematica \cite{mathematica_2024}, las redes se entrenaron en PyTorch y se ejecutaron como reglas locales en un simulador propio.
+La investigación es aplicada \cite{veracruz_aplicada}, con un enfoque cuantitativo \cite{jaen_cuantitativa} y un diseño cuasiexperimental \cite{capili2024_cuasiexperimento}. Se manipula la variable independiente, la configuración de la red y de su entrenamiento (arquitectura, activaciones, codificación de la entrada, vecindad, pérdida objetivo, tasa de aprendizaje y paso de tiempo), y se observa su efecto sobre la variable dependiente: la fidelidad de la evolución del autómata celular neuronal. No hay asignación aleatoria ni grupos de control; la referencia es la evolución original y, en los sistemas reales, la predicción sin cambio. Las evoluciones de referencia de los sistemas con regla conocida se generaron en Mathematica \cite{mathematica_2024}, y las redes se entrenaron en PyTorch y se ejecutaron como reglas locales en un simulador propio.
 
-La población está formada por todos los autómatas celulares finitos en una cuadrícula bidimensional regular, con condiciones de frontera, un conjunto finito de estados y cualquier función que asigne a la vecindad de una célula un nuevo estado. La muestra se obtiene mediante un muestreo no probabilístico intencional \cite{diaz2017_muestra}: tres sistemas con regla conocida, para medir la capacidad de replicación en un entorno controlado, y tres sistemas reales con datos públicos, para evaluar el modelo cuando la regla se desconoce.
+La población son los autómatas celulares finitos en una cuadrícula bidimensional regular, y la muestra se obtiene mediante un muestreo no probabilístico intencional \cite{diaz2017_muestra}: tres sistemas con regla conocida, para medir la capacidad de replicación en un entorno controlado, y tres sistemas reales con datos públicos, para evaluar el modelo cuando la regla se desconoce.
 
 \subsection{Formulación del problema}
 \label{sec:formulacion}
