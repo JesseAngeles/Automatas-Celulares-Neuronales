@@ -158,7 +158,7 @@ El tamaño de la red tiene un efecto todavía menor (tabla \ref{tab:sevir_barrid
 	\label{tab:sevir_barrido_capas}
 \end{table}
 
-En la segunda fase (tabla \ref{tab:sevir_barrido_tormentas}), las 4 redes mejoran un poco al pasar de 40 tormentas completas a 400 tormentas con 5 transiciones cada una, aunque el número de transiciones es casi el mismo, es decir, la variedad de tormentas ayuda más que la cantidad de imágenes de cada una. En cambio, con 1,000 tormentas de solo 2 o 3 transiciones los resultados empeoran. La mejor configuración del barrido es la vecindad de $11 \times 11$ con 16:64:ReLU y entrada lineal, entrenada con 400 tormentas.
+En la segunda fase (tabla \ref{tab:sevir_barrido_tormentas}), las 4 redes mejoran un poco al pasar de 40 tormentas completas a 400 tormentas con 5 transiciones cada una, aunque el número de transiciones es casi el mismo, es decir, la variedad de tormentas ayuda más que la cantidad de imágenes de cada una. En cambio, con 1,000 tormentas de solo 2 o 3 transiciones los resultados empeoran. La mejor configuración del barrido es la vecindad de $11 \times 11$ con 16:64:ReLU y entrada lineal, entrenada con 400 tormentas. La regla de la mejor configuración ($|\mathcal{N}| = 121$, $|\mathcal{S}| = 7$) tiene un vector de $7^{121} \approx 1.81 \times 10^{102}$ entradas, es una entre $7^{7^{121}}$ y su regla decimal tendría unos $1.53 \times 10^{102}$ dígitos.
 
 \begin{table}[htbp]
 	\centering

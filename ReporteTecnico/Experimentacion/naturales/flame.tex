@@ -377,7 +377,7 @@ Para la limpieza del conjunto de datos, se procedió de la siguiente manera:
 		\label{tab:flame_18_lugares}
 	\end{table}
 
-	Las tres configuraciones con mejor lugar combinado empatan con 5.5. De ellas, se elige como configuración final la de paso de 30 s, vecindad de $9 \times 9$ y 2:32:ReLU, por ser la red más pequeña y la única de las tres que, al probar en flame\_plot\_2, se equivoca menos que la predicción sin cambio tanto en un paso (89\%) como en la simulación libre (97\%).
+	Las tres configuraciones con mejor lugar combinado empatan con 5.5. De ellas, se elige como configuración final la de paso de 30 s, vecindad de $9 \times 9$ y 2:32:ReLU, por ser la red más pequeña y la única de las tres que, al probar en flame\_plot\_2, se equivoca menos que la predicción sin cambio tanto en un paso (89\%) como en la simulación libre (97\%). La regla de la configuración final ($|\mathcal{N}| = 81$, $|\mathcal{S}| = 18$) tiene un vector de $18^{81} \approx 4.75 \times 10^{101}$ entradas, es una entre $18^{18^{81}}$ y su regla decimal tendría unos $5.97 \times 10^{101}$ dígitos.
 
 	La figura \ref{fig:flame_criterios} muestra la configuración final en el simulador con los criterios de la selección visual. El espacio inicia frío y sin quemar, con un foco de fuego en el centro y frontera periódica: el fuego se propaga en todas direcciones (b y c), los frentes se extinguen al encontrarse después de cruzar la frontera (d y e) y, una vez quemado todo el espacio, ya no vuelve a aparecer fuego (f).
 

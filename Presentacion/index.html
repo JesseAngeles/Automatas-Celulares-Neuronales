@@ -425,6 +425,21 @@
   .aport b { display: block; font: 600 16px/1 var(--display); letter-spacing: .14em; text-transform: uppercase; color: var(--guinda); margin-bottom: 10px; }
   .aport > div.azul b { color: var(--azul); }
 
+  /* Regla aprendida: el vector de regla equivalente a la red final (última diapositiva de cada experimento).
+     .v es el dato principal (regla decimal o «no calculable»); .v.larga, para una regla completa de muchos dígitos. */
+  .regla { display: flex; flex-direction: column; gap: 8px; min-width: 0; background: var(--surface); border-radius: 14px; border-left: 5px solid var(--guinda); padding: 20px 28px 20px 26px; }
+  .regla .k { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 20px; font: 600 15px/1.2 var(--display); letter-spacing: .16em; text-transform: uppercase; color: var(--guinda); }
+  .regla .k span { font: 500 18px/1.3 var(--sans); letter-spacing: 0; text-transform: none; color: var(--muted); }
+  .regla .v { font: 28px/1.25 var(--mono); letter-spacing: -.01em; color: var(--guinda-d); overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+  .regla .v.larga { font-size: 21px; line-height: 1.38; letter-spacing: 0; color: var(--ink); word-break: break-all; }
+  .regla .v .el { color: var(--guinda-300); }
+  .regla .por { margin: 0; font-size: 19px; line-height: 1.4; color: var(--ink-2); }
+  .regla dl { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; margin: 6px 0 0; padding-top: 12px; border-top: 1px solid var(--line); }
+  .regla dt { font: 600 14px/1 var(--display); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 7px; }
+  .regla dd { margin: 0; font-size: 22px; line-height: 1.3; color: var(--ink); font-variant-numeric: tabular-nums lining-nums; }
+  .regla sup { font-size: .66em; line-height: 0; vertical-align: .62em; }
+  .regla sup sup { font-size: .8em; vertical-align: .5em; }
+
   /* ---------- Portada ---------- */
   .slide.portada { padding: 0; flex-direction: row; }
   .portada .izq { flex: 1 1 0; display: flex; flex-direction: column; justify-content: space-between; padding: 76px 90px 70px 110px; }
@@ -790,12 +805,22 @@
         <tr><td class="l">8 × 8</td><td>64</td><td>6</td><td>100%</td></tr>
       </table>
       <p class="note">Épocas: mediana para llegar a la pérdida objetivo de 0.001 (hasta 500 épocas). Sin la célula central o sin un vecino del borde ninguna red llega.</p>
+      <div class="regla">
+        <div class="k">Regla aprendida<span>2 estados · 9 vecinos (Moore)</span></div>
+        <div class="v larga">47634829485252037513200973884082471888288955642325528262910887637847274372981720534370017768342996036219492316860704401273651054628223608960</div>
+        <p class="por">140 dígitos: la red coincide con B3/S23 en las 512 entradas.</p>
+        <dl>
+          <div><dt>Vector de regla</dt><dd>2<sup>9</sup> = 512 entradas</dd></div>
+          <div><dt>Espacio de reglas</dt><dd>2<sup>512</sup> ≈&nbsp;1.34&nbsp;×&nbsp;10<sup>154</sup></dd></div>
+        </dl>
+      </div>
     </div>
   </div>
   <aside class="notes">
     <p class="t">⏱ 3:54 → 4:32</p>
     <p class="g">También experimentamos modificando la vecindad: al eliminar la célula central se obtiene un 94.5% de similitud, mientras que al eliminar un vecino del borde se obtiene un 80.9% de similitud, lo que sugiere que B3/S23 depende mucho más de sus vecinos que del estado propio de la célula. Por otro lado, al expandir el tamaño de la vecindad, la regla se aprende prácticamente a la misma velocidad, demostrando que el tamaño de la vecindad no afecta negativamente el aprendizaje siempre que cubra a todos los vecinos relevantes.</p>
     <p class="warn">⚠ Los porcentajes y las épocas se calcularon de NCA/B3S23_NR y NCA/Vecindad (resultados.csv y *_evo.npy); no están en el reporte. Sin el centro, 23 de 24 redes difieren en 28 patrones. Sin el vecino noroeste o el norte, difieren en 98 (el 19% de gol.tex).</p>
+    <p class="muted">Regla aprendida: vector de regla de la red final (4:8:ReLU &amp; 2:Linear), 2<sup>9</sup> = 512 entradas leídas como un número en base 2; coincide con B3/S23 en las 512.</p>
     <p class="muted">Mejor pérdida de las 24 redes: 3 × 3, 0.000003; sin el centro, 0.0787; sin un vecino del borde, 0.1214; 5 × 5, 0.000035; 7 × 7, 0.000023; 8 × 8, 0.000063. P es el resultado de 22 a 24 de las 24 redes.</p>
   </aside>
 </section>
@@ -853,14 +878,26 @@
         <p>Primer paso de la simulación libre con alguna célula distinta (un generador en 25 × 25). Ambas entradas llegan a <i>A</i> = 100%.</p>
       </div>
     </div>
-    <figure class="frame">
-      <video src="media/videos/sandpile_dos_generadores.webm" muted loop playsinline preload="metadata" data-autoplay style="max-height:660px"></video>
-      <figcaption>Red <i>one-hot</i>, dos generadores en 51 × 51 con frontera abierta: <i>d<sub>t</sub></i> = 0 en 20,000 pasos.</figcaption>
-    </figure>
+    <div class="stack">
+      <figure class="frame">
+        <video src="media/videos/sandpile_dos_generadores.webm" muted loop playsinline preload="metadata" data-autoplay style="max-height:360px"></video>
+        <figcaption>Red <i>one-hot</i>, dos generadores en 51 × 51 con frontera abierta: <i>d<sub>t</sub></i> = 0 en 20,000 pasos.</figcaption>
+      </figure>
+      <div class="regla">
+        <div class="k">Regla aprendida<span>17 estados · 5 vecinos (von Neumann)</span></div>
+        <div class="v">14293526972876167914<span class="el">…</span><wbr>12151046355733834374</div>
+        <p class="por">1,747,062 dígitos. Reproduce sin error 2,000 pasos de las dos evoluciones de entrenamiento.</p>
+        <dl>
+          <div><dt>Vector de regla</dt><dd>17<sup>5</sup> = 1,419,857 entradas</dd></div>
+          <div><dt>Espacio de reglas</dt><dd>17<sup>1,419,857</sup></dd></div>
+        </dl>
+      </div>
+    </div>
   </div>
   <aside class="notes">
     <p class="t">⏱ 5:04 → 5:26</p>
     <p class="g">y segundo, el uso de codificación one-hot para evitar que la red asuma relaciones lineales entre los índices numéricos de los estados. El impacto de one-hot fue determinante: sin esta codificación, el modelo tardaba 1,300 épocas y 300 segundos en converger; con one-hot, converge en apenas 21 épocas y 6 segundos.</p>
+    <p class="muted">Regla aprendida: red one-hot 2:64:ReLU &amp; 17:Linear, 4 generadores. Vector de 17<sup>5</sup> entradas en base 17; la regla decimal completa tiene 1,747,062 dígitos (se muestran los primeros y últimos 20).</p>
     <p class="muted">t* de la red cruda: sandpile.tex dice que las tres redes de cuatro generadores sin one-hot rompen la simetría en un espacio de 25 × 25 (la de plateau en el paso 3,241). La one-hot sobrevive al menos 10,000 pasos (2,985 con frontera periódica).</p>
   </aside>
 </section>
@@ -915,14 +952,26 @@
       </table>
       <p class="note center">Entrenamiento con dos hormigas en 30 × 30 durante 10,000 pasos; red 4:64:ReLU &amp; 5<i>n</i>:Linear con <i>one-hot</i>.</p>
     </div>
-    <figure class="frame">
-      <video src="media/videos/langton_diez_colores_una_hormiga.webm" muted loop playsinline preload="metadata" data-autoplay style="max-height:640px"></video>
-      <figcaption>10 colores, <b>una sola hormiga</b> en 100 × 100: coincide hasta el paso 12,455, donde la hormiga de la red se divide en dos.</figcaption>
-    </figure>
+    <div class="stack">
+      <figure class="frame">
+        <video src="media/videos/langton_diez_colores_una_hormiga.webm" muted loop playsinline preload="metadata" data-autoplay style="max-height:440px"></video>
+        <figcaption>10 colores, <b>una sola hormiga</b> en 100 × 100: coincide hasta el paso 12,455, donde la hormiga de la red se divide en dos.</figcaption>
+      </figure>
+      <div class="regla">
+        <div class="k">Regla aprendida · RL<span>10 estados · 13 vecinos (rombo de radio 2)</span></div>
+        <div class="v">56111151155611111115<span class="el">…</span><wbr>00000000000000000000</div>
+        <p class="por">10<sup>13</sup>&nbsp;dígitos (diez billones): con 10 estados, cada entrada del vector es un dígito.</p>
+        <dl>
+          <div><dt>Vector de regla</dt><dd>10<sup>13</sup>&nbsp;entradas</dd></div>
+          <div><dt>Espacio de reglas</dt><dd>10<sup>10<sup>13</sup></sup></dd></div>
+        </dl>
+      </div>
+    </div>
   </div>
   <aside class="notes">
     <p class="t">⏱ 6:08 → 6:26</p>
     <p class="g">Asimismo, con 10 colores, es decir 50 estados, y una sola hormiga en un espacio de 100 por 100, la red reprodujo exactamente la trayectoria original durante 12,455 pasos; en ese punto, la hormiga se dividió en dos, rompiendo la simetría.</p>
+    <p class="muted">Regla aprendida: la de la regla RL (2 colores), red 4:64:ReLU &amp; 10:Linear one-hot, vecindad en rombo de radio 2 (13 vecinos). Con 10 estados cada entrada es un dígito: 10<sup>13</sup> dígitos (primeros y últimos 20).</p>
     <p class="muted"><i>t</i>* (primer paso con alguna célula distinta): de las 9 redes, solo la de 6 colores se separa de la evolución original dentro de los 10,000 pasos de entrenamiento, en el paso 7,028.</p>
     <p class="muted">Video generado con media/langton_diez_colores_una_hormiga.py (hormiga en el centro mirando a la izquierda). El contador del video empieza en 0, así que la división aparece en el paso 12,454. Los últimos 600 pasos van más lentos (un cuadro cada 2 pasos) para que se vea.</p>
   </aside>
@@ -1058,11 +1107,22 @@
 <section class="slide" data-section="Experimentos">
   <h2>Propagación del fuego (FLAME 3): lo que reproduce</h2>
   <div class="cols vcenter" style="grid-template-columns: 0.9fr 1.1fr; gap:64px">
-    <ul class="big" style="margin:0">
-      <li style="margin-bottom:34px">Inicia con una chispa.</li>
-      <li style="margin-bottom:34px">Los frentes se extinguen al chocar.</li>
-      <li style="margin-bottom:0">Lo quemado no se vuelve a encender.</li>
-    </ul>
+    <div class="stack" style="gap:56px">
+      <ul class="big" style="margin:0">
+        <li style="margin-bottom:34px">Inicia con una chispa.</li>
+        <li style="margin-bottom:34px">Los frentes se extinguen al chocar.</li>
+        <li style="margin-bottom:0">Lo quemado no se vuelve a encender.</li>
+      </ul>
+      <div class="regla">
+        <div class="k">Regla aprendida<span>18 estados · 81 vecinos (9&nbsp;×&nbsp;9) · 2:32:ReLU · paso de 30 s</span></div>
+        <div class="v">No calculable</div>
+        <p class="por">Tendría ≈&nbsp;5.97&nbsp;×&nbsp;10<sup>101</sup>&nbsp;dígitos.</p>
+        <dl>
+          <div><dt>Vector de regla</dt><dd>18<sup>81</sup> ≈&nbsp;4.75&nbsp;×&nbsp;10<sup>101</sup>&nbsp;entradas</dd></div>
+          <div><dt>Espacio de reglas</dt><dd>18<sup>18<sup>81</sup></sup></dd></div>
+        </dl>
+      </div>
+    </div>
     <figure class="frame">
       <video src="media/videos/flame_centro.webm" muted loop playsinline preload="metadata" data-autoplay style="max-height:720px"></video>
     </figure>
@@ -1070,6 +1130,7 @@
   <aside class="notes">
     <p class="t">⏱ 8:57 → 9:18</p>
     <p class="g">A pesar de ello, la simulación captura las reglas físicas esenciales del fuego: inicia con una chispa, se propaga en múltiples direcciones, cuando dos frentes de fuego chocan entre sí ambos ceden por falta de combustible, y las zonas quemadas se van enfriando progresivamente sin reencenderse espontáneamente.</p>
+    <p class="muted">Regla aprendida: configuración final (paso de 30 s, 9 × 9, 2:32:ReLU). No calculable: el vector de regla tendría 18<sup>81</sup> ≈ 4.75 × 10<sup>101</sup> entradas y la regla decimal ≈ 5.97 × 10<sup>101</sup> dígitos.</p>
     <p class="muted">Video: una chispa en el centro de un espacio frío de 200 × 200 (frontera periódica).</p>
   </aside>
 </section>
@@ -1096,14 +1157,26 @@
         <p>Exactitud (<i>A</i>) y área con tormenta (<i>T</i>: células con VIL de tormenta, estado 2 o mayor) en 200 tormentas de 2019 que la red no vio.</p>
       </div>
     </div>
-    <figure class="frame">
-      <video src="media/videos/sevir_mejor.webm" muted loop playsinline preload="metadata" data-autoplay style="max-height:680px"></video>
-      <figcaption>Evolución real y simulación libre de la mejor red (11 × 11, 16:64:ReLU, 400 tormentas).</figcaption>
-    </figure>
+    <div class="stack">
+      <figure class="frame">
+        <video src="media/videos/sevir_mejor.webm" muted loop playsinline preload="metadata" data-autoplay style="max-height:440px"></video>
+        <figcaption>Evolución real y simulación libre de la mejor red (11 × 11, 16:64:ReLU, 400 tormentas).</figcaption>
+      </figure>
+      <div class="regla">
+        <div class="k">Regla aprendida<span>7 estados · 121 vecinos (11&nbsp;×&nbsp;11) · 16:64:ReLU</span></div>
+        <div class="v">No calculable</div>
+        <p class="por">Tendría ≈&nbsp;1.53&nbsp;×&nbsp;10<sup>102</sup>&nbsp;dígitos.</p>
+        <dl>
+          <div><dt>Vector de regla</dt><dd>7<sup>121</sup> ≈&nbsp;1.81&nbsp;×&nbsp;10<sup>102</sup>&nbsp;entradas</dd></div>
+          <div><dt>Espacio de reglas</dt><dd>7<sup>7<sup>121</sup></sup></dd></div>
+        </dl>
+      </div>
+    </div>
   </div>
   <aside class="notes">
     <p class="t">⏱ 9:18 → 10:17</p>
     <p class="g">El segundo sistema natural es el movimiento de tormentas usando el dataset SEVIR del MIT, que contiene más de 10,000 eventos meteorológicos en Estados Unidos; la mejor red se entrenó con 400 tormentas. Aunque la red neuronal supera la métrica base de persistencia —es decir, predecir que la tormenta no cambia—, el modelo tiende a desplazar la tormenta en una sola dirección mientras la desvanece gradualmente. En la realidad, las tormentas se intensifican, generan nuevos núcleos y forman estructuras ciclónicas que el modelo no logra replicar. Esto ocurre porque una tormenta es un sistema abierto: hay variables exógenas cruciales como la dirección del viento y la humedad, además de masas nubosas que entran constantemente desde fuera de los bordes de la rejilla, información que un autómata celular local aislado no puede inferir.</p>
+    <p class="muted">Regla aprendida: mejor configuración (11 × 11, 16:64:ReLU, entrada lineal). No calculable: el vector de regla tendría 7<sup>121</sup> ≈ 1.81 × 10<sup>102</sup> entradas y la regla decimal ≈ 1.53 × 10<sup>102</sup> dígitos.</p>
     <p class="muted">sevir.tex: SEVIR contiene más de 10,000 eventos; de ellos se seleccionaron 1,996 tormentas.</p>
     <p class="muted">Cifras de la tercera fase del barrido (semilla 42), tabla tab:sevir_barrido_estabilidad. Área con tormenta = intersección sobre la unión (NCA/SEVIR/entrenar.py, coincidencia()). La red desplaza las tormentas hacia el este.</p>
   </aside>
@@ -1178,14 +1251,26 @@
         <p>Borde del plasmodio: alto = ramas, bajo = manchas. <i>C</i> es la coincidencia del plasmodio definida antes.</p>
       </div>
     </div>
-    <figure class="frame">
-      <video src="media/videos/physarum_edad.webm" muted loop playsinline preload="metadata" data-autoplay style="max-height:680px"></video>
-      <figcaption>Caja 5 del experimento 008: evolución real y simulación libre de la red con ruido y memoria de edad. La red da un paso cada 6 h; entre pasos, los cuadros son una transición.</figcaption>
-    </figure>
+    <div class="stack">
+      <figure class="frame">
+        <video src="media/videos/physarum_edad.webm" muted loop playsinline preload="metadata" data-autoplay style="max-height:400px"></video>
+        <figcaption>Caja 5 del experimento 008: evolución real y simulación libre de la red con ruido y memoria de edad. La red da un paso cada 6 h; entre pasos, los cuadros son una transición.</figcaption>
+      </figure>
+      <div class="regla">
+        <div class="k">Regla aprendida · ruido + edad<span>36 estados · 113 vecinos (círculo de radio 6) · 16:128:ReLU</span></div>
+        <div class="v">No calculable</div>
+        <p class="por">9 estados visibles × 4 de ruido; el ruido y la edad forman parte del estado, así que la regla es determinista. Tendría ≈&nbsp;1.13&nbsp;×&nbsp;10<sup>176</sup>&nbsp;dígitos.</p>
+        <dl>
+          <div><dt>Vector de regla</dt><dd>36<sup>113</sup> ≈&nbsp;7.28&nbsp;×&nbsp;10<sup>175</sup>&nbsp;entradas</dd></div>
+          <div><dt>Espacio de reglas</dt><dd>36<sup>36<sup>113</sup></sup></dd></div>
+        </dl>
+      </div>
+    </div>
   </div>
   <aside class="notes">
     <p class="t">⏱ 11:04 → 12:27</p>
     <p class="g">Para resolverlo, introdujimos una ruptura controlada de simetría asignando 4 subestados de ruido a cada uno de los 6 estados originales; el ruido cambia con una simulación bidimensional de la Regla 30, que es determinista pero se comporta como aleatoria. Con este ruido determinista, el modelo sí reprodujo el comportamiento biológico esperado: se expande desde el inóculo, ramifica hacia las hojuelas de avena, y al entrar en contacto con el alimento se fortalece y coloniza la hojuela. Evaluamos este resultado con la cantidad de moho y su borde; aunque al final cubre un 54% menos de la caja que la evolución real y su borde es un 16% mayor, logra capturar la dinámica estructural de ramificación, siendo los pequeños artefactos de ruido producto del preprocesamiento inicial. Finalmente, como el plasmodio que acaba de llegar se retira casi cinco veces más que el que lleva horas, agregamos al estado si el plasmodio es nuevo o establecido: con esta memoria, la red crece casi lo mismo que la real, un 33% de la caja, y forma una red conectada entre la avena, como se ve en la animación.</p>
+    <p class="muted">Regla aprendida: red con ruido y edad (16:128:ReLU &amp; 36:Linear, one-hot), 36 estados (9 visibles × 4 de ruido) y 113 vecinos (círculo de radio 6). Es determinista porque el ruido y la edad son parte del estado. No calculable: el vector de regla tendría 36<sup>113</sup> ≈ 7.28 × 10<sup>175</sup> entradas y la regla decimal ≈ 1.13 × 10<sup>176</sup> dígitos.</p>
     <p class="muted">Ruido + edad: reporte, subsección «Memoria de la edad del plasmodio» (tabla 11.17); artículo, tabla 10. Se retira 4.7 veces más: 34.9% contra 7.4% en pasos de 6 h. La red da un paso cada 6 h; en la animación, los cuadros entre pasos son una transición.</p>
     <p class="muted">54% menos: al final cubre 15.7% de la caja contra 34.4% real. 16% más: borde 0.498 contra 0.429 real. La coincidencia C = 0.105 es cerca del doble de la predicción sin cambio.</p>
   </aside>

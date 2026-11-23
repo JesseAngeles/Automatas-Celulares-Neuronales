@@ -132,6 +132,8 @@ En la tabla \ref{tab:langton_colores} se observa que el número de estados casi 
 	\label{tab:langton_colores}
 \end{table}
 
+Con la regla RL, la red final (rombo de radio 2, $|\mathcal{N}| = 13$, $|\mathcal{S}| = 10$) da una regla entre $10^{10^{13}}$ cuya regla decimal tiene $10^{13}$ dígitos: $56111151155611111115\ldots0000000000$.
+
 Sin embargo, reproducir la evolución de entrenamiento no implica haber aprendido la regla. Con la regla de 10 colores, una única hormiga orientada hacia la izquierda, en el centro de un espacio de $100 \times 100$ con frontera periódica, evoluciona sin errores hasta el paso 12,455, donde la hormiga se divide en dos. La hormiga gira y avanza correctamente, pero la célula que deja no cambia de color y conserva una hormiga girada, como si hubiera estado bloqueada por otra. Es decir, el autómata celular neuronal aplica la regla de colisión aprendida de los datos con dos hormigas en un patrón que nunca vio durante el entrenamiento, aunque no haya otra hormiga cerca.
 
 Con este último experimento observamos que el autómata celular neuronal puede reproducir comportamientos complejos con un número creciente de estados. El sistema tradicional pudo ser replicado con exactitud y, con hasta 10 colores (50 estados, $50^{13}$ patrones y $50^{50^{13}}$ reglas totales), las redes reprodujeron su evolución de entrenamiento, es decir, extrajeron la parte de la función de transición presente en esos datos. Sin embargo, fuera de ellos aparecen errores como la división de la hormiga, por lo que reproducir la evolución no garantiza haber extraído la función de transición en su totalidad.
