@@ -98,7 +98,7 @@ Ataca que la red no se detiene. Requiere un cambio pequeño en `scripts/main.py`
 - **Opción nueva `--retreat-weight W`.** Multiplica por *W* la pérdida de las muestras cuya célula central es
   plasmodio y cuyo siguiente estado no lo es (`CrossEntropyLoss(reduction="none")`).
 - **Default 1**, así que no cambia nada de lo anterior.
-- **Documentación.** Documentarla en `CLAUDE.md` junto a las demás opciones.
+- **Documentación.** Documentarla en la ayuda (`--help`) de `scripts/main.py` junto a las demás opciones.
 
 Corridas: *W* ∈ {2, 4, 8} sobre la mejor configuración de A, o sobre `e4_5h_9x9_da` si A no mejoró. Con 2 semillas
 son 6 redes.

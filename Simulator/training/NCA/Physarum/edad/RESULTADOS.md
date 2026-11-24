@@ -156,7 +156,7 @@ Supera a las dos referencias en los 4 casos. Comparada con la red con sesgo:
   - opciones `edad` y `retirada`
   - fases `edad` y `retirada`
   - las filas quedan en `resultados_v3.csv` y las redes en `redes/`
-- `../../../scripts/main.py`: opción `--retreat-weight` / `--retreat-from` (documentada en `CLAUDE.md`).
+- `../../../scripts/main.py`: opción `--retreat-weight` / `--retreat-from` (documentada en `main.py --help`).
 - `medir.py`: las medidas de `tabla.py` sobre las simulaciones libres de `barrido/redes/`.
   - Salidas: `bases.json`, `fase_edad.json`, `fase_retirada.json`.
 - `ideal.py`: proceso ideal con maestras de paso largo.
